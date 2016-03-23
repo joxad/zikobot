@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MusicAlarm</string>
+    <string name="action_settings">Settings</string>
+    <string name="wake_up">Gestion de mon alarme</string>
+    <string name="alarm_hint">Titre de l\'alarme</string>
+    <string name="activity_alarm_new">Nouvelle Alarme</string>
+    <string name="edit_text_error_name_alarm">Erreur sur le nom</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="MaterialButtonView">
+        <attr name="mbv_text" format="string" />
+        <attr name="mbv_text_color" format="color" />
+        <attr name="mbv_enable" format="boolean" />
+    </declare-styleable>
+
+
+</resources>

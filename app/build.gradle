@@ -1,0 +1,68 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'realm-android'
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+    dataBinding {
+        enabled = true
+    }
+    defaultConfig {
+        applicationId "com.startogamu.musicalarm"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    retrolambda {
+        jdk '/usr/lib/jvm/java-8-openjdk-amd64'
+    }
+}
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+
+    compile 'io.reactivex:rxandroid:1.0.1'
+    compile "org.parceler:parceler-api:1.0.4"
+    apt "org.parceler:parceler:1.0.4"
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+
+    compile 'com.github.joxad:android-easy-spotify:1.0.0'
+    provided "org.projectlombok:lombok:1.12.6"
+
+    compile 'com.squareup.dagger:dagger:1.2.2'
+    provided 'com.squareup.dagger:dagger-compiler:1.2.2'
+
+    compile 'com.joxad.github:recyclerview-binding:1.0.0'
+    compile 'com.f2prateek.dart:dart:2.0.0'
+    provided 'com.f2prateek.dart:dart-processor:2.0.0'
+    compile 'com.f2prateek.dart:henson:2.0.0'
+    provided 'com.f2prateek.dart:henson-processor:2.0.0'
+
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.balysv:material-ripple:1.0.2'
+
+}
