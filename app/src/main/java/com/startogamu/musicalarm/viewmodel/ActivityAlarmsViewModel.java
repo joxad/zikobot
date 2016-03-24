@@ -7,6 +7,7 @@ import android.databinding.ObservableArrayList;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.view.Henson;

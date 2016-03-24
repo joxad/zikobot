@@ -10,7 +10,7 @@ import dagger.Provides;
  * Provide the api service that will be used in
  * {@link com.startogamu.musicalarm.manager.spotify_api.SpotifyAPIManager}
  */
-@Module(complete = false, library = true)
+@Module
 public class SpotifyAPIServiceModule {
 
     @Provides

@@ -10,7 +10,7 @@ import dagger.Provides;
 /**
  *  Provide an instance of Retrofit based on url of Spotify API using {@link SpotifyAPIRetrofitProvider}
  */
-@Module(complete = false, library = true)
+@Module
 public class SpotifyAPINetworkModule {
     @Provides
     @Singleton

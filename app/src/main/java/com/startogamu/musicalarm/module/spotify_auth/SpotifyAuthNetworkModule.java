@@ -10,7 +10,7 @@ import dagger.Provides;
 /**
  * Module that will generate the retrofit class to handle the Oauth to Spotify
  */
-@Module(complete = false, library = true)
+@Module
 public class SpotifyAuthNetworkModule {
 
     @Provides

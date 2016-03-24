@@ -9,7 +9,7 @@ import dagger.Provides;
 /**
  * Provide the auth service that will be used in {@link com.startogamu.musicalarm.manager.spotify_auth.SpotifyAuthManager}
  */
-@Module(complete = false, library = true)
+@Module
 public class SpotifyAuthServiceModule {
 
     @Provides

@@ -6,7 +6,6 @@ import com.startogamu.musicalarm.module.spotify_api.SpotifyAPINetworkModule;
 import com.startogamu.musicalarm.module.spotify_api.SpotifyAPIServiceModule;
 import com.startogamu.musicalarm.module.spotify_auth.SpotifyAuthNetworkModule;
 import com.startogamu.musicalarm.module.spotify_auth.SpotifyAuthServiceModule;
-import com.startogamu.musicalarm.viewmodel.ActivityAlarmsViewModel;
 
 import javax.inject.Singleton;
 
@@ -28,9 +27,6 @@ import dagger.Provides;
                 SpotifyAuthServiceModule.class,
                 SpotifyAPINetworkModule.class,
                 SpotifyAPIServiceModule.class
-        },
-        injects = {
-                ActivityAlarmsViewModel.class,
         })
 public class AppModule {
 

@@ -7,8 +7,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
+import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
+import com.startogamu.musicalarm.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.Alarm;
+
+import javax.inject.Inject;
 
 import io.realm.Realm;
 
@@ -16,6 +20,10 @@ import io.realm.Realm;
  * Created by josh on 08/03/16.
  */
 public class ActivityAlarmViewModel extends BaseObservable implements ViewModel {
+
+    @Inject
+    SpotifyAPIManager spotifyAPIManager;
+
     private String alarmName = "";
 
 
@@ -71,6 +79,8 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     public void init(final Context context, final ActivityAlarmBinding binding) {
         this.context = context;
         realm = Realm.getDefaultInstance();
+        MusicAlarmApplication.get(context).netComponent.inject(this);
+
     }
 
     /***
