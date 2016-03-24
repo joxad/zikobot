@@ -7,7 +7,6 @@ import android.databinding.ObservableArrayList;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.view.Henson;
@@ -37,6 +36,9 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
         loadAlarms();
     }
 
+    /***
+     * Load the alarms using realm
+     */
     public void loadAlarms() {
         subscription = realm.where(Alarm.class).findAllAsync().asObservable()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -60,12 +62,12 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
     }
 
     public void addAlarm(View view) {
-
         context.startActivity(Henson.with(context)
                 .gotoAlarmActivity().alarm(null).build());
     }
 
     public ItemBinder<ItemAlarmViewModel> itemViewBinder() {
-        return new ItemBinderBase<>(BR.alarm, R.layout.item_alarm);
+        return new ItemBinderBase<>(BR.itemAlarmViewModel, R.layout.item_alarm);
     }
+
 }

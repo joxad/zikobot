@@ -36,6 +36,7 @@ public class AlarmActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        binding.toolbar.setNavigationOnClickListener(listener -> finish());
 
         if (alarm != null) {
             viewModel = new ActivityAlarmViewModel(this, binding, alarm);

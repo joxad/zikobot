@@ -3,7 +3,6 @@ package com.startogamu.musicalarm.viewmodel;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
@@ -11,6 +10,7 @@ import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.Alarm;
+import com.startogamu.musicalarm.utils.SimpleTextWatcher;
 
 import javax.inject.Inject;
 
@@ -25,25 +25,6 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     SpotifyAPIManager spotifyAPIManager;
 
     private String alarmName = "";
-
-
-    public TextWatcher nameWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            alarmName = s.toString();
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-
 
     private static String TAG = ActivityAlarmViewModel.class.getSimpleName();
     Realm realm;
@@ -111,5 +92,13 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
         return alarm;
     }
 
+    public TextWatcher nameWatcher = new SimpleTextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            alarmName = s.toString();
+        }
+
+    };
 
 }
