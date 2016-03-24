@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.manager.spotify_auth;
+package com.startogamu.musicalarm.di.manager.spotify_auth;
 
 import android.util.Base64;
 

@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
-import com.startogamu.musicalarm.manager.spotify_api.SpotifyAPIManager;
+import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.Alarm;
 
 import javax.inject.Inject;

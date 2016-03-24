@@ -1,11 +1,11 @@
-package com.startogamu.musicalarm;
+package com.startogamu.musicalarm.di.module;
 
 import android.app.Application;
 
-import com.startogamu.musicalarm.module.spotify_api.SpotifyAPINetworkModule;
-import com.startogamu.musicalarm.module.spotify_api.SpotifyAPIServiceModule;
-import com.startogamu.musicalarm.module.spotify_auth.SpotifyAuthNetworkModule;
-import com.startogamu.musicalarm.module.spotify_auth.SpotifyAuthServiceModule;
+import com.startogamu.musicalarm.di.module.spotify_api.SpotifyAPINetworkModule;
+import com.startogamu.musicalarm.di.module.spotify_api.SpotifyAPIServiceModule;
+import com.startogamu.musicalarm.di.module.spotify_auth.SpotifyAuthNetworkModule;
+import com.startogamu.musicalarm.di.module.spotify_auth.SpotifyAuthServiceModule;
 
 import javax.inject.Singleton;
 

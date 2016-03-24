@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.module.spotify_api;
+package com.startogamu.musicalarm.di.module.spotify_api;
 
 import android.app.Application;
 

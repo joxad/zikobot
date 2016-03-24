@@ -3,8 +3,9 @@ package com.startogamu.musicalarm;
 import android.app.Application;
 import android.content.Context;
 
-import com.startogamu.musicalarm.component.DaggerNetComponent;
-import com.startogamu.musicalarm.component.NetComponent;
+import com.startogamu.musicalarm.di.component.DaggerNetComponent;
+import com.startogamu.musicalarm.di.component.NetComponent;
+import com.startogamu.musicalarm.di.module.AppModule;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;

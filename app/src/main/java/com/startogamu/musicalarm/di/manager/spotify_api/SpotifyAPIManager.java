@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.manager.spotify_api;
+package com.startogamu.musicalarm.di.manager.spotify_api;
 
 import com.startogamu.musicalarm.model.SpotifyUser;
 import com.startogamu.musicalarm.network.spotify_api.SpotifyAPIService;
