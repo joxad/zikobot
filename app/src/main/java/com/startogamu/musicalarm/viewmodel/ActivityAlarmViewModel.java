@@ -72,7 +72,7 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     }
 
     @Override
-    public void destroy() {
+    public void onDestroy() {
         realm.close();
     }
 

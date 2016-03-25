@@ -5,4 +5,5 @@
     <string name="alarm_hint">Titre de l\'alarme</string>
     <string name="activity_alarm_new">Nouvelle Alarme</string>
     <string name="edit_text_error_name_alarm">Erreur sur le nom</string>
+    <string name="connect_with_spotify">Me connecter avec spotify</string>
 </resources>

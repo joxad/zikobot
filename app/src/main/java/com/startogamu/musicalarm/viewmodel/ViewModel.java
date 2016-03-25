@@ -5,5 +5,5 @@ package com.startogamu.musicalarm.viewmodel;
  */
 public interface ViewModel {
 
-    void destroy();
+    void onDestroy();
 }

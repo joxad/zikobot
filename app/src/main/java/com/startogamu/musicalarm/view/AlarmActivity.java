@@ -51,7 +51,7 @@ public class AlarmActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        viewModel.destroy();
+        viewModel.onDestroy();
         super.onDestroy();
 
     }

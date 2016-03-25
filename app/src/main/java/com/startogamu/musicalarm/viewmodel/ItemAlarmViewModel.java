@@ -36,7 +36,7 @@ public class ItemAlarmViewModel extends BaseObservable implements ViewModel {
     }
 
     @Override
-    public void destroy() {
+    public void onDestroy() {
 
     }
 
