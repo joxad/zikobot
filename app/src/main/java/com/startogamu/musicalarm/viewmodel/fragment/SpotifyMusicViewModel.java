@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
+import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyMusicBinding;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
@@ -37,7 +38,7 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
 
     public SpotifyMusicViewModel(Fragment fragment, FragmentSpotifyMusicBinding binding) {
         observableArrayList = new ObservableArrayList<>();
-
+        MusicAlarmApplication.get(fragment.getContext()).netComponent.inject(this);
         this.fragment = fragment;
         this.binding = binding;
         loadPlaylists();
