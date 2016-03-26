@@ -13,6 +13,6 @@ import rx.Observable;
  */
 public interface SpotifyAPIService {
 
-    @GET("/me")
+    @GET("me")
     Observable<SpotifyUser> getMe(@Header("Authorization") final String token);
 }

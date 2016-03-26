@@ -2,7 +2,6 @@ package com.startogamu.musicalarm.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -11,22 +10,28 @@ import lombok.Data;
  * Created by josh on 11/03/16.
  */
 @Data
-public class SpotifyUser  {
+public class SpotifyUser {
 
     @SerializedName("country")
-    public String country;
+    final String country;
     @SerializedName("display_name")
-    public Object displayName;
+    final String displayName;
     @SerializedName("href")
-    public String href;
+    final String href;
     @SerializedName("id")
-    public String id;
+    final String id;
     @SerializedName("images")
-    public List<Object> images = new ArrayList<Object>();
+    final List<SpotifyImage> images;
     @SerializedName("product")
-    public String product;
+    final String product;
     @SerializedName("type")
-    public String type;
+    final String type;
     @SerializedName("uri")
-    public String uri;
+    final String uri;
+
+    @Data
+    public class SpotifyImage {
+        @SerializedName("url")
+        final String url;
+    }
 }

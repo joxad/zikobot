@@ -9,7 +9,7 @@ import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.model.Alarm;
-import com.startogamu.musicalarm.view.Henson;
+import com.startogamu.musicalarm.view.activity.Henson;
 
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinderBase;

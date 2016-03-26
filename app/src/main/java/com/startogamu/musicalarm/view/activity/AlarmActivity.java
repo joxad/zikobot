@@ -1,9 +1,10 @@
-package com.startogamu.musicalarm.view;
+package com.startogamu.musicalarm.view.activity;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
@@ -31,11 +32,7 @@ public class AlarmActivity extends AppCompatActivity {
         Dart.inject(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_alarm);
         setSupportActionBar(binding.toolbar);
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> finish());
 
         if (alarm != null) {
@@ -46,8 +43,8 @@ public class AlarmActivity extends AppCompatActivity {
             setTitle(getString(R.string.activity_alarm_new));
         }
         binding.setActivityAlarmViewModel(viewModel);
-
     }
+
 
     @Override
     protected void onDestroy() {

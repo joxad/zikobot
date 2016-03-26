@@ -11,7 +11,7 @@ import lombok.Data;
 public class SpotifyToken {
 
     @SerializedName("access_token")
-    protected String accessToke;
+    protected String accessToken;
     @SerializedName("token_type")
     protected String tokenType;
     @SerializedName("expires_in")

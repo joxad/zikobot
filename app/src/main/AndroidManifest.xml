@@ -8,30 +8,29 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
 
         <activity
-            android:name=".view.AlarmsActivity"
+            android:name=".view.activity.AlarmsActivity"
             android:label="@string/app_name"
-            android:launchMode="singleInstance"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity
-            android:name=".view.AlarmActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleInstance"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".view.SpotifyActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleInstance"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".view.activity.AlarmActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance" />
+
+        <activity
+            android:name=".view.activity.SettingsActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance">
 
             // An intent filter that will receive the response from the authentication service
             <intent-filter>
@@ -47,6 +46,7 @@
             </intent-filter>
 
         </activity>
+        <activity android:name=".view.activity.MusicActivity" android:label="@string/activity_music_title"/>
     </application>
 
 </manifest>

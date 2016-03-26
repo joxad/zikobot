@@ -3,7 +3,7 @@ package com.startogamu.musicalarm.di.component;
 
 import com.startogamu.musicalarm.di.module.AppModule;
 import com.startogamu.musicalarm.viewmodel.ActivityAlarmViewModel;
-import com.startogamu.musicalarm.viewmodel.ActivitySpotifyViewModel;
+import com.startogamu.musicalarm.viewmodel.ActivitySettingsViewModel;
 
 import javax.inject.Singleton;
 
@@ -18,6 +18,6 @@ public interface NetComponent {
 
     void inject(ActivityAlarmViewModel activityAlarmViewModel);
 
-    void inject(ActivitySpotifyViewModel activityAlarmViewModel);
+    void inject(ActivitySettingsViewModel activityAlarmViewModel);
 
 }

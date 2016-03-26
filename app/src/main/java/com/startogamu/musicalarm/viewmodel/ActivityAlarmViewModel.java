@@ -1,8 +1,10 @@
 package com.startogamu.musicalarm.viewmodel;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.graphics.Color;
 import android.text.TextWatcher;
 import android.view.View;
 
@@ -11,6 +13,7 @@ import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.utils.SimpleTextWatcher;
+import com.startogamu.musicalarm.view.activity.Henson;
 
 import javax.inject.Inject;
 
@@ -87,6 +90,9 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     }
 
 
+    public void onMusicClick(View view) {
+        context.startActivity(Henson.with(context).gotoMusicActivity().build());
+    }
     @Bindable
     public Alarm getAlarm() {
         return alarm;

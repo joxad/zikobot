@@ -10,17 +10,18 @@ import android.databinding.BaseObservable;
 import android.util.Log;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.joxad.android_easy_spotify.SpotifyManager;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
-import com.startogamu.musicalarm.databinding.ActivitySpotifyBinding;
+import com.startogamu.musicalarm.databinding.ActivitySettingsBinding;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.di.manager.spotify_auth.SpotifyAuthManager;
 import com.startogamu.musicalarm.model.SpotifyRequestToken;
 import com.startogamu.musicalarm.model.SpotifyToken;
 import com.startogamu.musicalarm.model.SpotifyUser;
-import com.startogamu.musicalarm.view.SpotifyActivity;
+import com.startogamu.musicalarm.view.activity.SettingsActivity;
 
 import java.io.UnsupportedEncodingException;
 
@@ -29,24 +30,23 @@ import javax.inject.Inject;
 import rx.Subscriber;
 
 /***
- * {@link ActivitySpotifyViewModel}  make the link between {@link SpotifyActivity} and {@link SpotifyAPIManager}
+ * {@link ActivitySettingsViewModel}  make the link between {@link SettingsActivity} and {@link SpotifyAPIManager}
  */
-public class ActivitySpotifyViewModel extends BaseObservable implements ViewModel {
+public class ActivitySettingsViewModel extends BaseObservable implements ViewModel {
 
-    private final ActivitySpotifyBinding binding;
-    public String TAG = ActivitySpotifyViewModel.class.getSimpleName();
+    private final ActivitySettingsBinding binding;
+    public String TAG = ActivitySettingsViewModel.class.getSimpleName();
     Activity context;
 
     String accessCode;
     String accessToken;
-
 
     @Inject
     SpotifyAuthManager spotifyAuthManager;
     @Inject
     SpotifyAPIManager spotifyAPIManager;
 
-    public ActivitySpotifyViewModel(Activity context, ActivitySpotifyBinding binding) {
+    public ActivitySettingsViewModel(Activity context, ActivitySettingsBinding binding) {
         this.context = context;
         this.binding = binding;
         MusicAlarmApplication.get(context).netComponent.inject(this);
@@ -123,7 +123,8 @@ public class ActivitySpotifyViewModel extends BaseObservable implements ViewMode
                         @Override
                         public void onNext(SpotifyToken spotifyToken) {
                             Log.d(TAG, spotifyToken.toString());
-                            accessToken = spotifyToken.toString();
+                            accessToken = spotifyToken.getAccessToken();
+                            getMe(accessToken);
                         }
                     });
         } catch (UnsupportedEncodingException e) {
@@ -132,7 +133,7 @@ public class ActivitySpotifyViewModel extends BaseObservable implements ViewMode
     }
 
 
-    public void getMe() {
+    public void getMe(final String accessToken) {
         spotifyAPIManager.getMe("Bearer " + accessToken, new Subscriber<SpotifyUser>() {
             @Override
             public void onCompleted() {
@@ -146,7 +147,8 @@ public class ActivitySpotifyViewModel extends BaseObservable implements ViewMode
 
             @Override
             public void onNext(SpotifyUser spotifyUser) {
-
+                binding.tvUser.setText(spotifyUser.getDisplayName());
+                Glide.with(context).load(spotifyUser.getImages().get(0).getUrl()).into(binding.ivUser);
             }
         });
     }
@@ -155,4 +157,6 @@ public class ActivitySpotifyViewModel extends BaseObservable implements ViewMode
     public void onDestroy() {
         SpotifyManager.destroy();
     }
+
+
 }
