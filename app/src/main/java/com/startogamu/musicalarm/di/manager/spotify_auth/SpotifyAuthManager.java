@@ -11,6 +11,8 @@ import java.io.UnsupportedEncodingException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import lombok.Getter;
+import lombok.Setter;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -23,6 +25,9 @@ public class SpotifyAuthManager {
 
     private SpotifyAuthService spotifyAuthService;
 
+    @Getter
+    @Setter
+    private String code;
     /***
      * @param spotifyAuthService
      */

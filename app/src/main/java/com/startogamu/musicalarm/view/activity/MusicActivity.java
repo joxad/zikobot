@@ -1,5 +1,6 @@
 package com.startogamu.musicalarm.view.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,5 +29,11 @@ public class MusicActivity extends AppCompatActivity {
         activityMusicViewModel = new ActivityMusicViewModel(this, binding);
         binding.setActivityMusicViewModel(activityMusicViewModel);
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        activityMusicViewModel.onDestroy();
     }
 }

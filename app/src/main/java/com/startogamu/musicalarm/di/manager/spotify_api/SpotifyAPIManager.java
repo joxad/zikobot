@@ -31,6 +31,7 @@ public class SpotifyAPIManager {
                 .unsubscribeOn(Schedulers.io())
                 .subscribe(subscriber);
     }
+
     /***
      * @param token      should be : "Bearer $accessToken" provided by spotify api
      * @param subscriber

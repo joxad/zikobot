@@ -1,6 +1,6 @@
 package com.startogamu.musicalarm.viewmodel;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityMusicBinding;
 import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
+import com.startogamu.musicalarm.view.fragment.SpotifyConnectFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 
 /**
@@ -52,7 +53,12 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
                     context.getSupportFragmentManager().beginTransaction().replace(R.id.container, LocalMusicFragment.newInstance()).commit();
                     break;
                 case 1:
-                    context.getSupportFragmentManager().beginTransaction().replace(R.id.container, SpotifyMusicFragment.newInstance()).commit();
+                   // if (spotifyManager.hasAccessToken()) {
+                     if( false) {
+                        context.getSupportFragmentManager().beginTransaction().replace(R.id.container, SpotifyMusicFragment.newInstance()).commit();
+                    } else {
+                        context.getSupportFragmentManager().beginTransaction().replace(R.id.container, SpotifyConnectFragment.newInstance()).commit();
+                    }
                     break;
                 case 2:
                     break;
@@ -64,4 +70,6 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
     public void onDestroy() {
 
     }
+
+
 }

@@ -4,6 +4,7 @@ buildscript {
     repositories {
         jcenter()
         maven { url "http://dl.bintray.com/joxad/maven" }
+        maven { url "http://dl.bintray.com/pixplicity/maven" }
 
     }
     dependencies {
