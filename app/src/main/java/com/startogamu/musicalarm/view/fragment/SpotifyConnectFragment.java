@@ -42,14 +42,12 @@ public class SpotifyConnectFragment extends Fragment {
         spotifyConnectViewModel.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
+    public void onNewIntent(Intent intent) {
         spotifyConnectViewModel.onNewIntent(intent);
     }
 
     @Override
-     void onPause() {
+    public void onPause() {
         super.onDestroy();
         spotifyConnectViewModel.onDestroy();
     }
