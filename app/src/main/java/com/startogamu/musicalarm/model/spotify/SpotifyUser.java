@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.model;
+package com.startogamu.musicalarm.model.spotify;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,7 +1,8 @@
 package com.startogamu.musicalarm.network.spotify_api;
 
 
-import com.startogamu.musicalarm.model.SpotifyUser;
+import com.startogamu.musicalarm.model.spotify.SpotifyPlaylist;
+import com.startogamu.musicalarm.model.spotify.SpotifyUser;
 
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -15,4 +16,8 @@ public interface SpotifyAPIService {
 
     @GET("me")
     Observable<SpotifyUser> getMe(@Header("Authorization") final String token);
+
+    @GET("me/playlists")
+    Observable<SpotifyPlaylist> getPlaylists(@Header("Authorization") final String token);
+
 }

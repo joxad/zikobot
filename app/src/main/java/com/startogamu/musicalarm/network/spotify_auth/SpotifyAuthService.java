@@ -1,7 +1,7 @@
 package com.startogamu.musicalarm.network.spotify_auth;
 
 
-import com.startogamu.musicalarm.model.SpotifyToken;
+import com.startogamu.musicalarm.model.spotify.SpotifyToken;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
