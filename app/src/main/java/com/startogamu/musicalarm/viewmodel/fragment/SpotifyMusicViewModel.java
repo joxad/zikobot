@@ -36,6 +36,11 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
     @Inject
     SpotifyAPIManager spotifyAPIManager;
 
+    /***
+     * View model use to get the playlist of the user
+     * @param fragment
+     * @param binding
+     */
     public SpotifyMusicViewModel(Fragment fragment, FragmentSpotifyMusicBinding binding) {
         observableArrayList = new ObservableArrayList<>();
         MusicAlarmApplication.get(fragment.getContext()).netComponent.inject(this);
