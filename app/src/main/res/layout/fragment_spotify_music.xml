@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -14,11 +16,16 @@
         android:orientation="vertical">
 
         <TextView
-            android:text="fragment spotify"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="fragment spotify" />
+
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:itemViewBinder="@{spotifyMusicViewModel.itemViewBinder}"
+            app:items="@{spotifyMusicViewModel.itemViewModels}"
+            tools:listitem="@layout/item_playlist"
+            />
     </LinearLayout>
 </layout>

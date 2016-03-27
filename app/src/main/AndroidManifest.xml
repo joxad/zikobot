@@ -41,12 +41,29 @@
 
                 // this needs to match the scheme and host of the redirect uri
                 <data
-                    android:host="spotify-callback"
-                    android:scheme="music-alarm-app-login" />
+                    android:host="settings-activity"
+                    android:scheme="spotify-callback" />
             </intent-filter>
 
         </activity>
-        <activity android:name=".view.activity.MusicActivity" android:label="@string/activity_music_title"/>
+        <activity android:name=".view.activity.MusicActivity"
+            android:launchMode="singleInstance"
+            android:label="@string/activity_music_title">
+
+
+            // An intent filter that will receive the response from the authentication service
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                // this needs to match the scheme and host of the redirect uri
+                <data
+                    android:host="music-activity"
+                    android:scheme="spotify-callback" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

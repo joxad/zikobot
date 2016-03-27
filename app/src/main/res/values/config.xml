@@ -2,7 +2,8 @@
 <resources>
     <string name="api_spotify_id">ab915fed01e14e5cbb008ca9e5c5d9c8</string>
     <string name="api_spotify_secret">5065e2caef3f46178225cbd686317f5a</string>
-    <string name="api_spotify_callback">music-alarm-app-login://spotify-callback</string>
+    <string name="api_spotify_callback_settings">spotify-callback://settings-activity</string>
+    <string name="api_spotify_callback_musics">spotify-callback://music-activity</string>
     <string name="api_spotify_url">https://api.spotify.com/v1/</string>
     <string name="api_spotify_auth_url">https://accounts.spotify.com/api/</string>
 

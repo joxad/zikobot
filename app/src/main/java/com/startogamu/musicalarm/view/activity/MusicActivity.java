@@ -32,8 +32,24 @@ public class MusicActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        activityMusicViewModel.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        activityMusicViewModel.onNewIntent(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         activityMusicViewModel.onDestroy();
+    }
+
+    public void loadSpotifyMusicFragment() {
+        activityMusicViewModel.loadSpotifyMusicFragment();
     }
 }

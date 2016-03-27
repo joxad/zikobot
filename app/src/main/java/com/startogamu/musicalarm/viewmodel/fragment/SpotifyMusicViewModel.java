@@ -6,14 +6,14 @@ import android.databinding.ObservableArrayList;
 import android.support.v4.app.Fragment;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyMusicBinding;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.spotify.Item;
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylist;
-import com.startogamu.musicalarm.viewmodel.ItemAlarmViewModel;
+import com.startogamu.musicalarm.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemPlaylistViewModel;
 
@@ -38,6 +38,7 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
 
     /***
      * View model use to get the playlist of the user
+     *
      * @param fragment
      * @param binding
      */
@@ -51,7 +52,7 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
     }
 
     private void loadPlaylists() {
-        spotifyAPIManager.getPlaylist("", new Subscriber<SpotifyPlaylist>() {
+        spotifyAPIManager.getPlaylist(Prefs.getString(SpotifyPrefs.SPOTIFY_TOKEN, ""), new Subscriber<SpotifyPlaylist>() {
             @Override
             public void onCompleted() {
 

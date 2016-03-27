@@ -55,7 +55,7 @@ public class ActivitySettingsViewModel extends BaseObservable implements ViewMod
             new SpotifyManager.Builder()
                     .setContext(context)
                     .setApiKey(context.getString(R.string.api_spotify_id))
-                    .setApiCallback(context.getString(R.string.api_spotify_callback))
+                    .setApiCallback(context.getString(R.string.api_spotify_callback_settings))
                     .setConnectionType(AuthenticationResponse.Type.CODE)
                     .setScope(new String[]{"user-read-private", "streaming"})
                     .build();
@@ -105,7 +105,7 @@ public class ActivitySettingsViewModel extends BaseObservable implements ViewMod
         try {
             spotifyAuthManager.requestToken(
                     new SpotifyRequestToken("authorization_code", accessCode,
-                            context.getString(R.string.api_spotify_callback),
+                            context.getString(R.string.api_spotify_callback_settings),
                             context.getString(R.string.api_spotify_id),
                             context.getString(R.string.api_spotify_secret)),
                     new Subscriber<SpotifyToken>() {
@@ -134,7 +134,7 @@ public class ActivitySettingsViewModel extends BaseObservable implements ViewMod
 
 
     public void getMe(final String accessToken) {
-        spotifyAPIManager.getMe("Bearer " + accessToken, new Subscriber<SpotifyUser>() {
+        spotifyAPIManager.getMe(accessToken, new Subscriber<SpotifyUser>() {
             @Override
             public void onCompleted() {
 
@@ -142,7 +142,7 @@ public class ActivitySettingsViewModel extends BaseObservable implements ViewMod
 
             @Override
             public void onError(Throwable e) {
-
+                Log.e(TAG,e.getLocalizedMessage());
             }
 
             @Override

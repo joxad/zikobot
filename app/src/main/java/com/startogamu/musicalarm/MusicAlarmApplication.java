@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
 
+import com.joxad.android_easy_spotify.SpotifyManager;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.musicalarm.di.component.DaggerNetComponent;
 import com.startogamu.musicalarm.di.component.NetComponent;

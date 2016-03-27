@@ -5,10 +5,14 @@ import android.databinding.BaseObservable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import com.joxad.android_easy_spotify.SpotifyManager;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
+import com.pixplicity.easyprefs.library.Prefs;
+import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityMusicBinding;
+import com.startogamu.musicalarm.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyConnectFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
@@ -22,6 +26,9 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
     private final ActivityMusicBinding binding;
     private final AppCompatActivity context;
 
+    private SpotifyMusicFragment spotifyMusicFragment;
+    private SpotifyConnectFragment spotifyConnectFragment;
+
     /***
      * @param context
      * @param binding
@@ -29,16 +36,29 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
     public ActivityMusicViewModel(AppCompatActivity context, ActivityMusicBinding binding) {
         this.context = context;
         this.binding = binding;
-
+        try {
+            new SpotifyManager.Builder()
+                    .setContext(context)
+                    .setApiKey(context.getString(R.string.api_spotify_id))
+                    .setApiCallback(context.getString(R.string.api_spotify_callback_musics))
+                    .setConnectionType(AuthenticationResponse.Type.CODE)
+                    .setScope(new String[]{"user-read-private", "streaming"})
+                    .build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         context.getSupportFragmentManager().beginTransaction().replace(R.id.container, LocalMusicFragment.newInstance()).commit();
         createBottomNavigation(binding.bottomNavigation);
     }
 
 
+    /***
+     * @param bottomNavigationView
+     */
     public void createBottomNavigation(BottomNavigationView bottomNavigationView) {
 
         BottomNavigationItem local = new BottomNavigationItem
-                (context.getString(R.string.activity_music_local), ContextCompat.getColor(context,R.color.colorPrimary), R.drawable.ic_folder);
+                (context.getString(R.string.activity_music_local), ContextCompat.getColor(context, R.color.colorPrimary), R.drawable.ic_folder);
         BottomNavigationItem spotify = new BottomNavigationItem
                 (context.getString(R.string.activity_music_spotify), ContextCompat.getColor(context, android.R.color.holo_green_dark), R.drawable.ic_folder);
         BottomNavigationItem deezer = new BottomNavigationItem
@@ -53,11 +73,12 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
                     context.getSupportFragmentManager().beginTransaction().replace(R.id.container, LocalMusicFragment.newInstance()).commit();
                     break;
                 case 1:
-                   // if (spotifyManager.hasAccessToken()) {
-                     if( false) {
-                        context.getSupportFragmentManager().beginTransaction().replace(R.id.container, SpotifyMusicFragment.newInstance()).commit();
+                    // if (spotifyManager.hasAccessToken()) {
+                    if (!Prefs.contains(SpotifyPrefs.SPOTIFY_CODE)) {
+                        spotifyConnectFragment = SpotifyConnectFragment.newInstance();
+                        context.getSupportFragmentManager().beginTransaction().replace(R.id.container, spotifyConnectFragment).commit();
                     } else {
-                        context.getSupportFragmentManager().beginTransaction().replace(R.id.container, SpotifyConnectFragment.newInstance()).commit();
+                        loadSpotifyMusicFragment();
                     }
                     break;
                 case 2:
@@ -66,10 +87,36 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
         });
     }
 
+    /***
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (spotifyConnectFragment != null)
+            spotifyConnectFragment.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /***
+     * @param intent
+     */
+    public void onNewIntent(Intent intent) {
+        if (spotifyConnectFragment != null)
+            spotifyConnectFragment.onNewIntent(intent);
+    }
+
+    /***
+     *
+     */
     @Override
     public void onDestroy() {
-
+        if (spotifyConnectFragment != null)
+            spotifyConnectFragment.onDestroy();
     }
 
 
+    public void loadSpotifyMusicFragment() {
+        spotifyMusicFragment = SpotifyMusicFragment.newInstance();
+        context.getSupportFragmentManager().beginTransaction().replace(R.id.container, spotifyMusicFragment).commit();
+    }
 }
