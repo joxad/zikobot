@@ -8,8 +8,10 @@ import android.view.Menu;
 
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityAlarmsBinding;
+import com.startogamu.musicalarm.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.viewmodel.ActivityAlarmsViewModel;
 
 public class AlarmsActivity extends AppCompatActivity {
@@ -20,7 +22,9 @@ public class AlarmsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_alarms);
+        binding.alarmRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         setSupportActionBar(binding.toolbar);
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -39,7 +43,7 @@ public class AlarmsActivity extends AppCompatActivity {
         });
         ActivityAlarmsViewModel mainViewModel = new ActivityAlarmsViewModel(this);
         binding.setActivityAlarmsViewModel(mainViewModel);
-        binding.alarmRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

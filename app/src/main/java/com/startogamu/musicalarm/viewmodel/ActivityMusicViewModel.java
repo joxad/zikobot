@@ -110,8 +110,6 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
      */
     @Override
     public void onDestroy() {
-        if (spotifyConnectFragment != null)
-            spotifyConnectFragment.onDestroy();
     }
 
 

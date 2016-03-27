@@ -37,7 +37,8 @@ public class SpotifyAPIManager {
      * @param subscriber
      */
     public void getPlaylist(final String token, Subscriber<SpotifyPlaylist> subscriber) {
-        spotifyAPIService.getPlaylists("Bearer "+token).subscribeOn(Schedulers.io())
+        spotifyAPIService.getPlaylists("Bearer "+token)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .subscribe(subscriber);
