@@ -1,6 +1,8 @@
 package com.startogamu.musicalarm.viewmodel;
 
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -16,6 +18,8 @@ import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.utils.EXTRA;
 import com.startogamu.musicalarm.view.activity.Henson;
+
+import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -85,7 +89,12 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     public void onValidateClick(View view) {
         alarm.setName(alarmName);
         alarmManager.saveAlarm(alarm);
+        prepareAlarm();
         context.finish();
+    }
+
+    private void prepareAlarm() {
+
     }
 
 

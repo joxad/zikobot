@@ -4,10 +4,12 @@ import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
 
+import com.evernote.android.job.JobManager;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.musicalarm.di.component.DaggerNetComponent;
 import com.startogamu.musicalarm.di.component.NetComponent;
 import com.startogamu.musicalarm.di.module.AppModule;
+import com.startogamu.musicalarm.job.AlarmJobCreator;
 
 /**
  * Created by josh on 08/03/16.
@@ -27,7 +29,9 @@ public class MusicAlarmApplication extends Application {
                 .setPrefsName(getPackageName())
                 .setUseDefaultSharedPreference(true)
                 .build();
-        }
+        JobManager.create(this).addJobCreator(new AlarmJobCreator());
+
+    }
 
 
     public static MusicAlarmApplication get(Context context) {

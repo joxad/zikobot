@@ -78,5 +78,5 @@ dependencies {
         transitive = true
     }
     compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
-
+    compile 'com.evernote:android-job:1.0.3'
 }

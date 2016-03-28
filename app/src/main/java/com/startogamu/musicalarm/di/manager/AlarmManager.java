@@ -1,7 +1,12 @@
 package com.startogamu.musicalarm.di.manager;
 
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+
 import com.startogamu.musicalarm.model.Alarm;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -49,5 +54,8 @@ public class AlarmManager {
             alarm.setId(getNextKey());
         realm.copyToRealmOrUpdate(alarm);
         realm.commitTransaction();
+
     }
+
+
 }
