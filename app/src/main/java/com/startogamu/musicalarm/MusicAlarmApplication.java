@@ -11,6 +11,9 @@ import com.startogamu.musicalarm.di.component.NetComponent;
 import com.startogamu.musicalarm.di.module.AppModule;
 import com.startogamu.musicalarm.job.AlarmJobCreator;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 /**
  * Created by josh on 08/03/16.
  */
@@ -20,6 +23,8 @@ public class MusicAlarmApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        RealmConfiguration config = new RealmConfiguration.Builder(this).build();
+        Realm.setDefaultConfiguration(config);
         netComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
@@ -29,7 +34,7 @@ public class MusicAlarmApplication extends Application {
                 .setPrefsName(getPackageName())
                 .setUseDefaultSharedPreference(true)
                 .build();
-        JobManager.create(this).addJobCreator(new AlarmJobCreator());
+       // JobManager.create(this).addJobCreator(new AlarmJobCreator());
 
     }
 

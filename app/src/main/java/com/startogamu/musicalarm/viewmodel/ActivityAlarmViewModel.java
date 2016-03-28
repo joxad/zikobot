@@ -16,8 +16,11 @@ import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
 import com.startogamu.musicalarm.di.manager.AlarmManager;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.Alarm;
+import com.startogamu.musicalarm.receiver.AlarmReceiver;
 import com.startogamu.musicalarm.utils.EXTRA;
 import com.startogamu.musicalarm.view.activity.Henson;
+
+import org.parceler.Parcels;
 
 import java.util.Calendar;
 
@@ -93,8 +96,23 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
         context.finish();
     }
 
+    private android.app.AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
+
     private void prepareAlarm() {
 
+        alarmMgr = (android.app.AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra(EXTRA.ALARM, Parcels.wrap(alarm));
+        alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, alarm.getHour());
+        calendar.set(Calendar.MINUTE, alarm.getMinute());
+
+        alarmMgr.setRepeating(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000 * 60 * 20, alarmIntent);
     }
 
 

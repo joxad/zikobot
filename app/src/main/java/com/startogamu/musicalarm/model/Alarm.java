@@ -20,6 +20,7 @@ public class Alarm extends RealmObject {
 
     public Alarm() {
     }
+
     @PrimaryKey
     @Getter
     @Setter
@@ -37,15 +38,5 @@ public class Alarm extends RealmObject {
     @Setter
     private int minute;
 
-    /*
-RealmConfiguration config = new RealmConfiguration.Builder(context).build();
-Realm realm = Realm.getInstance(config);
-AtomicLong primaryKeyValue = realm.where(Foo.class).max("id").longValue();
-realm.close();
-
-// ....
-
-// Create new object
-        new Foo(primaryKeyValue.incrementAndGet());*/
 
 }

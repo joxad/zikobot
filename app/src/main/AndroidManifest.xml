@@ -46,9 +46,10 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".view.activity.MusicActivity"
-            android:launchMode="singleInstance"
-            android:label="@string/activity_music_title">
+        <activity
+            android:name=".view.activity.MusicActivity"
+            android:label="@string/activity_music_title"
+            android:launchMode="singleInstance">
 
 
             // An intent filter that will receive the response from the authentication service
@@ -64,6 +65,9 @@
                     android:scheme="spotify-callback" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".receiver.AlarmReceiver" />
+        <service android:name=".service.AlarmService" />
     </application>
 
 </manifest>

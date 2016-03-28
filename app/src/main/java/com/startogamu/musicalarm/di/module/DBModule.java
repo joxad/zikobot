@@ -19,8 +19,6 @@ public class DBModule {
     @Provides
     @Singleton
     public Realm provideRealmDB(final Application context) {
-        RealmConfiguration config = new RealmConfiguration.Builder(context).build();
-        Realm.setDefaultConfiguration(config);
         return Realm.getDefaultInstance();
     }
 }

@@ -5,4 +5,5 @@ package com.startogamu.musicalarm.utils;
  */
 public class EXTRA {
     public static final String PLAYLIST_ID = "PLAYLIST_ID";
+    public static final String ALARM = "ALARM";
 }

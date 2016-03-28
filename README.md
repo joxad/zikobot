@@ -14,8 +14,8 @@ I wanted to test different techn that are going to me amazing (or not), or which
 So this project is a opportunity to make a clean architecture of a project, which regroups DB data + WebServices + Scheduled Tasks
 
 - Create Alarms using music 
-
-
+    - Use of Android-Job to prepare to repeating Job
+    
 - Create Alarm Scheduler with different media
     - Local Music  (TODO)
     - Spotify API + SDK (SDK implemented using android-easy-spotify)
