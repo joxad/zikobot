@@ -46,6 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/alarm_hint_hour"
+                android:onClick="@{activityAlarmViewModel.onTimeClick}"
+                android:text="@{activityAlarmViewModel.selectedTime}"
                 android:textSize="32sp" />
 
             <android.support.design.widget.TextInputLayout
@@ -57,10 +59,9 @@
                     android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:addTextChangedListener="@{activityAlarmViewModel.nameWatcher}"
                     android:hint="@string/alarm_hint"
                     android:singleLine="true"
-                    android:text="@{activityAlarmViewModel.alarm.name}"
+                    android:text="@{activityAlarmViewModel.alarmName}"
                     android:textColor="@color/colorAccent" />
 
 
@@ -164,17 +165,16 @@
                 </LinearLayout>
             </com.balysv.materialripple.MaterialRippleLayout>
 
+            <com.startogamu.musicalarm.view.custom.MaterialButtonView
+                android:id="@+id/mbv_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{activityAlarmViewModel.onValidateClick}"
+                app:mbv_enable="false"
+                app:mbv_text="@string/alarm_add"
+                app:mbv_text_color="@android:color/white" />
         </LinearLayout>
 
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:onClick="@{activityAlarmViewModel.onAlarmValidated}"
-            android:src="@drawable/ic_done" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

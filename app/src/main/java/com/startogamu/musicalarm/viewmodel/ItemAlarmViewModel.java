@@ -28,6 +28,7 @@ public class ItemAlarmViewModel extends BaseObservable implements ViewModel {
 
     /***
      * Click event of an item of alarm
+     *
      * @param view
      */
     public void onItemClick(View view) {
@@ -44,5 +45,10 @@ public class ItemAlarmViewModel extends BaseObservable implements ViewModel {
     @Bindable
     public String getName() {
         return alarm.getName();
+    }
+
+    @Bindable
+    public String getAlarmTime() {
+        return String.format("%d H %02d", alarm.getHour(), alarm.getMinute());
     }
 }

@@ -19,6 +19,7 @@ public class AlarmsActivity extends AppCompatActivity {
     ActivityAlarmsBinding binding;
     private String TAG = AlarmsActivity.class.getSimpleName();
 
+    ActivityAlarmsViewModel activityAlarmsViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +42,15 @@ public class AlarmsActivity extends AppCompatActivity {
                     return true;
             }
         });
-        ActivityAlarmsViewModel mainViewModel = new ActivityAlarmsViewModel(this);
-        binding.setActivityAlarmsViewModel(mainViewModel);
+        activityAlarmsViewModel = new ActivityAlarmsViewModel(this);
+        binding.setActivityAlarmsViewModel(activityAlarmsViewModel);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        activityAlarmsViewModel.loadAlarms();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

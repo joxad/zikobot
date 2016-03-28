@@ -4,14 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
 
-import com.joxad.android_easy_spotify.SpotifyManager;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.musicalarm.di.component.DaggerNetComponent;
 import com.startogamu.musicalarm.di.component.NetComponent;
 import com.startogamu.musicalarm.di.module.AppModule;
-
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 /**
  * Created by josh on 08/03/16.
@@ -31,9 +27,7 @@ public class MusicAlarmApplication extends Application {
                 .setPrefsName(getPackageName())
                 .setUseDefaultSharedPreference(true)
                 .build();
-        RealmConfiguration config = new RealmConfiguration.Builder(this).build();
-        Realm.setDefaultConfiguration(config);
-    }
+        }
 
 
     public static MusicAlarmApplication get(Context context) {

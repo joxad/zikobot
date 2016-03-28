@@ -37,7 +37,7 @@
                 android:paddingTop="12dp"
                 android:text="@{itemAlarmViewModel.name}"
                 android:textSize="20sp"
-                tools:text="Repository Name" />
+                tools:text="Nom du réveil" />
 
             <TextView
                 android:id="@+id/tv_song"
@@ -47,9 +47,13 @@
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:paddingTop="10dp"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:drawableStart="@drawable/ic_queue_music"
+                android:drawableLeft="@drawable/ic_queue_music"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
-                tools:text="This is where the repository description will go" />
+                tools:text="Musique" />
 
             <View
                 android:layout_width="match_parent"
@@ -62,12 +66,14 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_days"
+                    android:id="@+id/tv_hour"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    tools:text="10 \nWatchers" />
+                    android:textSize="@dimen/textSizeLarge_openSource"
+                    android:text="@{itemAlarmViewModel.alarmTime}"
+                    tools:text="8 H 00" />
 
 
             </LinearLayout>

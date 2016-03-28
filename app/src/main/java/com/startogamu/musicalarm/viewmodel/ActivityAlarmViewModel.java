@@ -1,45 +1,51 @@
 package com.startogamu.musicalarm.viewmodel;
 
-import android.content.Context;
-import android.content.res.ColorStateList;
+import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.graphics.Color;
-import android.text.TextWatcher;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.android.databinding.library.baseAdapters.BR;
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
+import com.startogamu.musicalarm.di.manager.AlarmManager;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.Alarm;
-import com.startogamu.musicalarm.utils.SimpleTextWatcher;
+import com.startogamu.musicalarm.utils.EXTRA;
 import com.startogamu.musicalarm.view.activity.Henson;
 
 import javax.inject.Inject;
-
-import io.realm.Realm;
 
 /**
  * Created by josh on 08/03/16.
  */
 public class ActivityAlarmViewModel extends BaseObservable implements ViewModel {
-
+    private static String TAG = ActivityAlarmViewModel.class.getSimpleName();
+    private static final int REQUEST_CODE = 1337;
     @Inject
     SpotifyAPIManager spotifyAPIManager;
+    @Inject
+    AlarmManager alarmManager;
+    private AppCompatActivity context;
 
-    private String alarmName = "";
-
-    private static String TAG = ActivityAlarmViewModel.class.getSimpleName();
-    Realm realm;
     private Alarm alarm;
-    private Context context;
+    private String alarmName = "";
+    private String alarmSelectedTime = "";
 
     /***
      * @param context
      * @param binding
      */
-    public ActivityAlarmViewModel(final Context context, final ActivityAlarmBinding binding) {
+    public ActivityAlarmViewModel(final AppCompatActivity context, final ActivityAlarmBinding binding) {
         init(context, binding);
+        alarm = new Alarm();
+        alarm.setId(-1);
+        alarm.setHour(8);
+        alarm.setMinute(0);
+        updateSelectedTime(alarm);
     }
 
     /***
@@ -49,8 +55,11 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      * @param binding
      * @param alarm
      */
-    public ActivityAlarmViewModel(final Context context, final ActivityAlarmBinding binding, final Alarm alarm) {
+    public ActivityAlarmViewModel(final AppCompatActivity context, final ActivityAlarmBinding binding, final Alarm alarm) {
         init(context, binding);
+        this.alarm = alarm;
+        alarmName = alarm.getName();
+        updateSelectedTime(alarm);
     }
 
     /***
@@ -60,51 +69,67 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      * @param context
      * @param binding
      */
-    public void init(final Context context, final ActivityAlarmBinding binding) {
+    public void init(final AppCompatActivity context, final ActivityAlarmBinding binding) {
         this.context = context;
-        realm = Realm.getDefaultInstance();
         MusicAlarmApplication.get(context).netComponent.inject(this);
+
+        RxTextView.textChanges(binding.etName).skip(1).subscribe(charSequence -> {
+            alarmName = charSequence.toString();
+        });
 
     }
 
     /***
      * @param view
      */
-    public void onAlarmValidated(View view) {
-        createOrUpdate();
-    }
-
-    @Override
-    public void onDestroy() {
-        realm.close();
-    }
-
-    /***
-     *
-     */
-    public void createOrUpdate() {
-        realm.beginTransaction();
-        Alarm alarm = new Alarm(alarmName);
-        realm.copyToRealm(alarm);
-        realm.commitTransaction();
+    public void onValidateClick(View view) {
+        alarm.setName(alarmName);
+        alarmManager.saveAlarm(alarm);
+        context.finish();
     }
 
 
     public void onMusicClick(View view) {
-        context.startActivity(Henson.with(context).gotoMusicActivity().build());
+        context.startActivityForResult(Henson.with(context).gotoMusicActivity().build(), REQUEST_CODE);
     }
+
+
+    public void onTimeClick(View view) {
+        new TimePickerDialog(context, (view1, hourOfDay, minute) -> {
+            alarm.setHour(hourOfDay);
+            alarm.setMinute(minute);
+            updateSelectedTime(alarm);
+        }, alarm.getHour(), alarm.getMinute(), true).show();
+    }
+
+    /***
+     * @param alarm
+     */
+    private void updateSelectedTime(Alarm alarm) {
+        alarmSelectedTime = String.format("%d H %02d", alarm.getHour(), alarm.getMinute());
+        notifyPropertyChanged(BR.selectedTime);
+    }
+
     @Bindable
-    public Alarm getAlarm() {
-        return alarm;
+    public String getSelectedTime() {
+        return alarmSelectedTime;
     }
 
-    public TextWatcher nameWatcher = new SimpleTextWatcher() {
+    @Bindable
+    public String getAlarmName() {
+        return alarmName;
+    }
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            alarmName = s.toString();
+    @Override
+    public void onDestroy() {
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == AppCompatActivity.RESULT_OK) {
+                alarm.setPlaylistId(data.getStringExtra(EXTRA.PLAYLIST_ID));
+            }
         }
-
-    };
-
+    }
 }

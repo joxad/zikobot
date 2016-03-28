@@ -20,6 +20,8 @@ public class MaterialButtonView extends MaterialRippleLayout {
     @Bind(R.id.tv_button)
     TextView tvButton;
 
+    boolean enable;
+
     public MaterialButtonView(Context context) {
         super(context);
         init(null);
@@ -44,8 +46,10 @@ public class MaterialButtonView extends MaterialRippleLayout {
             tvButton.setText(a.getString(R.styleable.MaterialButtonView_mbv_text));
             tvButton.setTextColor(a.getColor(R.styleable.MaterialButtonView_mbv_text_color,
                     ContextCompat.getColor(getContext(), R.color.colorAccent)));
-
+            enable = a.getBoolean(R.styleable.MaterialButtonView_mbv_enable, true);
         }
+
+        setRippleBackground(ContextCompat.getColor(getContext(),enable? R.color.colorAccent: R.color.disable));
 
     }
 
