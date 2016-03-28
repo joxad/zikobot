@@ -17,9 +17,9 @@ So this project is a opportunity to make a clean architecture of a project, whic
 
 
 - Create Alarm Scheduler with different media
-    - Local Music  
-    - Spotify 
-    - Deezer
+    - Local Music  (TODO)
+    - Spotify API + SDK (SDK implemented using android-easy-spotify)
+    - Deezer (TODO)
     
 - Connect to Spotify Auth (done)
     - Can it be donne better (I'm sure it can be, but I am still very new to Dagger)
