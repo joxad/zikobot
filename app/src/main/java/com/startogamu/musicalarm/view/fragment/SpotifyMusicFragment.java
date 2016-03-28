@@ -49,6 +49,7 @@ public class SpotifyMusicFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_spotify_music, container, false);
         binding.rvItems.setLayoutManager(new LinearLayoutManager(getContext()));
         spotifyMusicViewModel = new SpotifyMusicViewModel(this, binding);
+        binding.setSpotifyMusicViewModel(spotifyMusicViewModel);
         return binding.getRoot();
     }
 

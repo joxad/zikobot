@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.joxad.android_easy_spotify.SpotifyManager;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentConnectSpotifyBinding;
@@ -23,7 +22,6 @@ import com.startogamu.musicalarm.model.spotify.SpotifyUser;
 import com.startogamu.musicalarm.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.view.activity.MusicActivity;
 import com.startogamu.musicalarm.view.fragment.SpotifyConnectFragment;
-import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 
 import java.io.UnsupportedEncodingException;
@@ -85,7 +83,7 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
             @Override
             public void onReceived(String code) {
                 accessCode = code;
-                Prefs.putString(SpotifyPrefs.SPOTIFY_CODE, code);
+                SpotifyPrefs.saveAccessCode(code);
                 getTokenFromCode(code);
             }
 
@@ -121,7 +119,8 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
                         public void onNext(SpotifyToken spotifyToken) {
                             Log.d(TAG, spotifyToken.toString());
                             accessToken = spotifyToken.getAccessToken();
-                            Prefs.putString(SpotifyPrefs.SPOTIFY_TOKEN, accessToken);
+                            SpotifyPrefs.saveRefreshToken(spotifyToken.getRefreshToken());
+                            SpotifyPrefs.saveAccessToken(spotifyToken.getAccessToken());
                             getMe(accessToken);
                         }
                     });
@@ -148,7 +147,7 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
 
             @Override
             public void onNext(SpotifyUser spotifyUser) {
-                ((MusicActivity)context.getActivity()).loadSpotifyMusicFragment();
+                ((MusicActivity) context.getActivity()).loadSpotifyMusicFragment();
             }
         });
     }

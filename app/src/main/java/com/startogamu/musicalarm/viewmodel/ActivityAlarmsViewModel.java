@@ -17,7 +17,6 @@ import com.startogamu.musicalarm.model.spotify.SpotifyRequestToken;
 import com.startogamu.musicalarm.model.spotify.SpotifyToken;
 import com.startogamu.musicalarm.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.view.activity.Henson;
-import com.startogamu.musicalarm.view.activity.MusicActivity;
 
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinderBase;
@@ -52,37 +51,17 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
         realm = Realm.getDefaultInstance();
         loadAlarms();
 
-        if (Prefs.contains(SpotifyPrefs.SPOTIFY_CODE)) {
+        if (Prefs.contains(SpotifyPrefs.ACCESS_CODE)) {
             try {
-                refreshAccessToken(Prefs.getString(SpotifyPrefs.SPOTIFY_CODE, ""));
+                refreshAccessToken();
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void refreshAccessToken(final String accessCode) throws UnsupportedEncodingException {
-        spotifyAuthManager.requestToken(
-                new SpotifyRequestToken("authorization_code", accessCode,
-                        context.getString(R.string.api_spotify_callback_musics),
-                        context.getString(R.string.api_spotify_id),
-                        context.getString(R.string.api_spotify_secret)),
-                new Subscriber<SpotifyToken>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, e.getLocalizedMessage());
-                    }
-
-                    @Override
-                    public void onNext(SpotifyToken spotifyToken) {
-                        Log.d(TAG, spotifyToken.toString());
-                        Prefs.putString(SpotifyPrefs.SPOTIFY_TOKEN, spotifyToken.getAccessToken());
-                    }
-                });
+    private void refreshAccessToken() throws UnsupportedEncodingException {
+        spotifyAuthManager.refreshToken(context);
     }
 
     /***

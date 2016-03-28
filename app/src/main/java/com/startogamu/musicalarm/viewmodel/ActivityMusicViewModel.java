@@ -74,7 +74,7 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
                     break;
                 case 1:
                     // if (spotifyManager.hasAccessToken()) {
-                    if (!Prefs.contains(SpotifyPrefs.SPOTIFY_CODE)) {
+                    if (!Prefs.contains(SpotifyPrefs.ACCESS_CODE)) {
                         spotifyConnectFragment = SpotifyConnectFragment.newInstance();
                         context.getSupportFragmentManager().beginTransaction().replace(R.id.container, spotifyConnectFragment).commit();
                     } else {

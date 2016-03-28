@@ -52,7 +52,7 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
     }
 
     private void loadPlaylists() {
-        spotifyAPIManager.getPlaylist(Prefs.getString(SpotifyPrefs.SPOTIFY_TOKEN, ""), new Subscriber<SpotifyPlaylist>() {
+        spotifyAPIManager.getPlaylist(Prefs.getString(SpotifyPrefs.ACCCES_TOKEN, ""), new Subscriber<SpotifyPlaylist>() {
             @Override
             public void onCompleted() {
 
