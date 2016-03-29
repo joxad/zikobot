@@ -66,7 +66,7 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
             @Override
             public void onNext(SpotifyPlaylist spotifyPlaylist) {
                 for (Item item : spotifyPlaylist.getItems()) {
-                    ItemPlaylistViewModel itemPlaylistViewModel = new ItemPlaylistViewModel(fragment.getContext(), item);
+                    ItemPlaylistViewModel itemPlaylistViewModel = new ItemPlaylistViewModel(fragment.getActivity(), item);
                     observableArrayList.add(itemPlaylistViewModel);
                 }
             }

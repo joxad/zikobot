@@ -23,8 +23,6 @@ public class MusicAlarmApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        RealmConfiguration config = new RealmConfiguration.Builder(this).build();
-        Realm.setDefaultConfiguration(config);
         netComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
@@ -34,7 +32,6 @@ public class MusicAlarmApplication extends Application {
                 .setPrefsName(getPackageName())
                 .setUseDefaultSharedPreference(true)
                 .build();
-       // JobManager.create(this).addJobCreator(new AlarmJobCreator());
 
     }
 

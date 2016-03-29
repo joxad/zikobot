@@ -79,7 +79,9 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
     }
 
     private void refreshAccessToken() throws UnsupportedEncodingException {
-        spotifyAuthManager.refreshToken(context);
+        spotifyAuthManager.refreshToken(context, () -> {
+
+        });
     }
 
 

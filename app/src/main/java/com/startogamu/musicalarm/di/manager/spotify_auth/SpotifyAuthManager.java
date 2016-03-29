@@ -65,7 +65,7 @@ public class SpotifyAuthManager {
     }
 
 
-    public void refreshToken(Context context) throws UnsupportedEncodingException {
+    public void refreshToken(Context context, Listener listener) throws UnsupportedEncodingException {
 
         SpotifyRefreshToken spotifyRefreshToken = new SpotifyRefreshToken("refresh_token", SpotifyPrefs.getRefreshToken(),
                 context.getString(R.string.api_spotify_callback_musics),
@@ -96,7 +96,12 @@ public class SpotifyAuthManager {
                     @Override
                     public void onNext(SpotifyToken spotifyToken) {
                         SpotifyPrefs.saveAccessToken(spotifyToken.getAccessToken());
+                        listener.onDone();
                     }
                 });
+    }
+
+    public interface Listener {
+        public void onDone();
     }
 }

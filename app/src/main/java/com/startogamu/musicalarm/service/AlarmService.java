@@ -6,17 +6,23 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.joxad.android_easy_spotify.SpotifyManager;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import com.startogamu.musicalarm.R;
+import com.startogamu.musicalarm.di.manager.spotify_auth.SpotifyAuthManager;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.utils.EXTRA;
 import com.startogamu.musicalarm.utils.SpotifyPrefs;
 
 import org.parceler.Parcels;
+
+import java.io.UnsupportedEncodingException;
+
+import javax.inject.Inject;
 
 /**
  * Created by josh on 28/03/16.
@@ -24,49 +30,63 @@ import org.parceler.Parcels;
 public class AlarmService extends Service {
 
 
+    private static final String TAG = AlarmService.class.getSimpleName();
     SpotifyManager spotifyManager;
+
+    @Inject
+    SpotifyAuthManager spotifyAuthManager;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //TODO do something useful
         Alarm alarm = Parcels.unwrap(intent.getParcelableExtra(EXTRA.ALARM));
         showNotification(alarm);
-        SpotifyManager.startPlayer(SpotifyPrefs.getAcccesToken(), new ConnectionStateCallback() {
-            @Override
-            public void onLoggedIn() {
+        try {
+            spotifyAuthManager.refreshToken(getApplicationContext(), () -> {
+                SpotifyManager.startPlayer(SpotifyPrefs.getAcccesToken(), new ConnectionStateCallback() {
+                    @Override
+                    public void onLoggedIn() {
+                        Log.d(TAG, "Logged in");
+                    }
 
-            }
+                    @Override
+                    public void onLoggedOut() {
+                        Log.d(TAG, "Logged out");
 
-            @Override
-            public void onLoggedOut() {
+                    }
 
-            }
+                    @Override
+                    public void onLoginFailed(Throwable throwable) {
+                        Log.d(TAG, "Logged failed");
 
-            @Override
-            public void onLoginFailed(Throwable throwable) {
+                    }
 
-            }
+                    @Override
+                    public void onTemporaryError() {
+                        Log.d(TAG, "temp error");
 
-            @Override
-            public void onTemporaryError() {
+                    }
 
-            }
+                    @Override
+                    public void onConnectionMessage(String s) {
+                        Log.d(TAG, "Connection message " + s);
 
-            @Override
-            public void onConnectionMessage(String s) {
+                    }
+                }, new PlayerNotificationCallback() {
+                    @Override
+                    public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
 
-            }
-        }, new PlayerNotificationCallback() {
-            @Override
-            public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
+                    }
 
-            }
+                    @Override
+                    public void onPlaybackError(ErrorType errorType, String s) {
 
-            @Override
-            public void onPlaybackError(ErrorType errorType, String s) {
-
-            }
-        });
+                    }
+                });
+            });
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
 
         return Service.START_NOT_STICKY;
@@ -74,6 +94,7 @@ public class AlarmService extends Service {
 
     /***
      * Alarm notification
+     *
      * @param alarm
      */
     private void showNotification(Alarm alarm) {

@@ -1,8 +1,10 @@
 package com.startogamu.musicalarm.di.manager.spotify_api;
 
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylist;
+import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.model.spotify.SpotifyUser;
 import com.startogamu.musicalarm.network.spotify_api.SpotifyAPIService;
+import com.startogamu.musicalarm.utils.SpotifyPrefs;
 
 import javax.inject.Inject;
 
@@ -26,10 +28,26 @@ public class SpotifyAPIManager {
      * @param subscriber
      */
     public void getMe(final String token, Subscriber<SpotifyUser> subscriber) {
-        spotifyAPIService.getMe("Bearer "+token).subscribeOn(Schedulers.io())
+        spotifyAPIService.getMe("Bearer " + token).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
-                .subscribe(subscriber);
+                .subscribe(new Subscriber<SpotifyUser>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        subscriber.onError(e);
+                    }
+
+                    @Override
+                    public void onNext(SpotifyUser spotifyUser) {
+                        SpotifyPrefs.saveUser(spotifyUser.getId());
+                        subscriber.onNext(spotifyUser);
+                    }
+                });
     }
 
     /***
@@ -37,12 +55,22 @@ public class SpotifyAPIManager {
      * @param subscriber
      */
     public void getPlaylist(final String token, Subscriber<SpotifyPlaylist> subscriber) {
-        spotifyAPIService.getPlaylists("Bearer "+token)
+        spotifyAPIService.getPlaylists("Bearer " + token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .subscribe(subscriber);
     }
 
+    /***
+     *
+     * @param playlistId
+     * @param subscriber
+     */
+    public void getPlaylistTracks(final String playlistId, final Subscriber<SpotifyPlaylistWithTrack> subscriber) {
+        spotifyAPIService.getPlaylistTracks("Bearer " + SpotifyPrefs.getAcccesToken(), SpotifyPrefs.getSpotifyUserId(),playlistId ).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io()).subscribe(subscriber);
+    }
 
 }

@@ -1,11 +1,13 @@
 package com.startogamu.musicalarm.viewmodel.items;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
 import com.startogamu.musicalarm.model.spotify.Item;
+import com.startogamu.musicalarm.utils.EXTRA;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 
 /**
@@ -14,11 +16,10 @@ import com.startogamu.musicalarm.viewmodel.ViewModel;
 public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
 
 
-
     private Item item;
-    private Context context;
+    private Activity context;
 
-    public ItemPlaylistViewModel(Context context, Item item) {
+    public ItemPlaylistViewModel(Activity context, Item item) {
         this.item = item;
         this.context = context;
     }
@@ -30,10 +31,14 @@ public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
 
     /***
      * Click event of an item of alarm
+     *
      * @param view
      */
     public void onItemClick(View view) {
-
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA.PLAYLIST_ID, item.getId());
+        context.setResult(Activity.RESULT_OK, intent);
+        context.finish();
     }
 
 

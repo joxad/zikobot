@@ -46,10 +46,12 @@ public class MaterialButtonView extends MaterialRippleLayout {
             tvButton.setText(a.getString(R.styleable.MaterialButtonView_mbv_text));
             tvButton.setTextColor(a.getColor(R.styleable.MaterialButtonView_mbv_text_color,
                     ContextCompat.getColor(getContext(), R.color.colorAccent)));
-            enable = a.getBoolean(R.styleable.MaterialButtonView_mbv_enable, true);
+            if (a.hasValue(R.styleable.MaterialButtonView_mbv_enable)) {
+                enable = a.getBoolean(R.styleable.MaterialButtonView_mbv_enable, true);
+                setRippleBackground(ContextCompat.getColor(getContext(), enable ? R.color.colorAccent : R.color.disable));
+            }
         }
 
-        setRippleBackground(ContextCompat.getColor(getContext(),enable? R.color.colorAccent: R.color.disable));
 
     }
 

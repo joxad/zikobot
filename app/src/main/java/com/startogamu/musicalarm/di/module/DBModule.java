@@ -2,8 +2,6 @@ package com.startogamu.musicalarm.di.module;
 
 import android.app.Application;
 
-import com.startogamu.musicalarm.di.module.spotify_api.SpotifyAPIRetrofitProvider;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -19,6 +17,8 @@ public class DBModule {
     @Provides
     @Singleton
     public Realm provideRealmDB(final Application context) {
+        RealmConfiguration config = new RealmConfiguration.Builder(context).build();
+        Realm.setDefaultConfiguration(config);
         return Realm.getDefaultInstance();
     }
 }

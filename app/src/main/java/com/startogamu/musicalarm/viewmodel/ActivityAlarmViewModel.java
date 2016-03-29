@@ -16,15 +16,22 @@ import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
 import com.startogamu.musicalarm.di.manager.AlarmManager;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.Alarm;
+import com.startogamu.musicalarm.model.AlarmTrack;
+import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistItem;
+import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.receiver.AlarmReceiver;
 import com.startogamu.musicalarm.utils.EXTRA;
 import com.startogamu.musicalarm.view.activity.Henson;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
+
+import rx.Subscriber;
 
 /**
  * Created by josh on 08/03/16.
@@ -41,6 +48,11 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     private Alarm alarm;
     private String alarmName = "";
     private String alarmSelectedTime = "";
+    private String alarmPlaylist = "";
+
+    private android.app.AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
+
 
     /***
      * @param context
@@ -96,15 +108,13 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
         context.finish();
     }
 
-    private android.app.AlarmManager alarmMgr;
-    private PendingIntent alarmIntent;
-
     private void prepareAlarm() {
 
-        alarmMgr = (android.app.AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        alarmMgr = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(EXTRA.ALARM, Parcels.wrap(alarm));
         alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        alarmMgr.cancel(alarmIntent);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -116,11 +126,17 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     }
 
 
+    /***
+     * @param view
+     */
     public void onMusicClick(View view) {
         context.startActivityForResult(Henson.with(context).gotoMusicActivity().build(), REQUEST_CODE);
     }
 
 
+    /***
+     * @param view
+     */
     public void onTimeClick(View view) {
         new TimePickerDialog(context, (view1, hourOfDay, minute) -> {
             alarm.setHour(hourOfDay);
@@ -152,10 +168,39 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
 
     }
 
+    /***
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
             if (resultCode == AppCompatActivity.RESULT_OK) {
-                alarm.setPlaylistId(data.getStringExtra(EXTRA.PLAYLIST_ID));
+                String playlistId = data.getStringExtra(EXTRA.PLAYLIST_ID);
+                alarm.setPlaylistId(playlistId);
+                spotifyAPIManager.getPlaylistTracks(playlistId, new Subscriber<SpotifyPlaylistWithTrack>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(SpotifyPlaylistWithTrack spotifyPlaylistWithTrack) {
+                        List<AlarmTrack> alarmTrackList = new ArrayList<AlarmTrack>();
+                        for (SpotifyPlaylistItem item : spotifyPlaylistWithTrack.getItems()) {
+                            AlarmTrack alarmTrack = new AlarmTrack();
+                            alarmTrack.setRef(item.getTrack().getId());
+                            alarmTrack.setType(AlarmTrack.TYPE.SPOTIFY);
+                            alarmTrackList.add(alarmTrack);
+                        }
+                        alarm.setTracks(alarmTrackList);
+                    }
+                });
             }
         }
     }
