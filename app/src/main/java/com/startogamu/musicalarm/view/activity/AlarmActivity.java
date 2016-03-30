@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 
 import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.HensonNavigable;
 import com.f2prateek.dart.InjectExtra;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
@@ -19,13 +20,13 @@ import com.startogamu.musicalarm.viewmodel.ActivityAlarmViewModel;
  */
 public class AlarmActivity extends AppCompatActivity {
 
-    private static final String EXTRA_ALARM = "ALARM";
+    private static final String EXTRA_ALARM = "ALARM_ID";
     ActivityAlarmBinding binding;
 
     ActivityAlarmViewModel viewModel;
 
     @InjectExtra
-    Alarm alarm;
+    long alarmId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +37,8 @@ public class AlarmActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> finish());
 
-        if (alarm != null) {
-            viewModel = new ActivityAlarmViewModel(this, binding, alarm);
-            setTitle(alarm.getName());
-        } else {
-            viewModel = new ActivityAlarmViewModel(this, binding);
-            setTitle(getString(R.string.activity_alarm_new));
-        }
+            viewModel = new ActivityAlarmViewModel(this, binding, alarmId);
+
         binding.setActivityAlarmViewModel(viewModel);
     }
 

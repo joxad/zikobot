@@ -38,8 +38,6 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
     Subscription subscription;
     @Inject
     SpotifyAuthManager spotifyAuthManager;
-    @Inject
-    AlarmManager alarmManager;
     private ObservableArrayList<ItemAlarmViewModel> observableArrayList;
 
     public ActivityAlarmsViewModel(Context context) {
@@ -57,7 +55,7 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
 
     public void loadAlarms() {
         observableArrayList.clear();
-        alarmManager.loadAlarms(new Subscriber<List<Alarm>>() {
+        AlarmManager.loadAlarms().subscribe(new Subscriber<List<Alarm>>() {
             @Override
             public void onCompleted() {
 
@@ -93,7 +91,7 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
 
     public void addAlarm(View view) {
         context.startActivity(Henson.with(context)
-                .gotoAlarmActivity().alarm(null).build());
+                .gotoAlarmActivity().alarmId(-1).build());
     }
 
     public ItemBinder<ItemAlarmViewModel> itemViewBinder() {

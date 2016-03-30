@@ -4,15 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
 
-import com.evernote.android.job.JobManager;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.raizlabs.android.dbflow.config.FlowManager;
 import com.startogamu.musicalarm.di.component.DaggerNetComponent;
 import com.startogamu.musicalarm.di.component.NetComponent;
 import com.startogamu.musicalarm.di.module.AppModule;
-import com.startogamu.musicalarm.job.AlarmJobCreator;
-
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 /**
  * Created by josh on 08/03/16.
@@ -23,6 +19,8 @@ public class MusicAlarmApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        FlowManager.init(this);
+
         netComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
                 .build();

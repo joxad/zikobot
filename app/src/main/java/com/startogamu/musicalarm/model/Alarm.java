@@ -1,57 +1,61 @@
 package com.startogamu.musicalarm.model;
 
-import com.startogamu.musicalarm.utils.AlarmListParcelConverter;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ModelContainer;
+import com.raizlabs.android.dbflow.annotation.OneToMany;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+import com.startogamu.musicalarm.di.db.MusicAlarmDatabase;
 
 import org.parceler.Parcel;
-import org.parceler.ParcelPropertyConverter;
 
 import java.util.List;
 
-import io.realm.AlarmRealmProxy;
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * Created by josh on 08/03/16.
  */
+@ModelContainer
+@Table(database = MusicAlarmDatabase.class)
+public class Alarm extends BaseModel {
 
+    @Getter
+    @Setter
+    @PrimaryKey(autoincrement = true)
+    public long id;
+    @Getter
+    @Setter
+    @Column
+    public String name;
+    @Getter
+    @Setter
+    @Column
+    public int hour;
+    @Getter
+    @Setter
+    @Column
+    public int minute;
+    @Getter
+    @Setter
+    @Column
+    public String playlistId;
 
-@Parcel(implementations = {AlarmRealmProxy.class},
-        value = Parcel.Serialization.BEAN,
-        analyze = {Alarm.class})
-public class Alarm extends RealmObject {
+    List<AlarmTrack> tracks;
 
-    public Alarm() {
-        alarmTracks = new RealmList<>();
+    @OneToMany(methods = {OneToMany.Method.SAVE, OneToMany.Method.DELETE}, variableName = "tracks")
+    public List<AlarmTrack> getTracks() {
+        if (tracks == null || tracks.isEmpty()) {
+            tracks = SQLite.select()
+                    .from(AlarmTrack.class)
+                    .where(AlarmTrack_Table.alarmForeignKeyContainer_id.eq(id))
+                    .queryList();
+        }
+        return tracks;
     }
 
-    @PrimaryKey
-    @Getter
-    @Setter
-    private long id;
-    @Getter
-    @Setter
-    private String name;
-    @Getter
-    @Setter
-    private String playlistId;
-    @Getter
-    private RealmList<AlarmTrack> alarmTracks;
-    @Getter
-    @Setter
-    private int hour;
-    @Getter
-    @Setter
-    private int minute;
-
-
-    @ParcelPropertyConverter(AlarmListParcelConverter.class)
-    public void setTracks(List<AlarmTrack> alarmTracks) {
-        this.alarmTracks.clear();
-        this.alarmTracks.addAll(alarmTracks);
-    }
 
 }

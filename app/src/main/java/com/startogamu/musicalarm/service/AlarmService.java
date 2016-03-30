@@ -14,14 +14,15 @@ import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
+import com.startogamu.musicalarm.di.manager.AlarmManager;
 import com.startogamu.musicalarm.di.manager.spotify_auth.SpotifyAuthManager;
 import com.startogamu.musicalarm.model.Alarm;
+import com.startogamu.musicalarm.model.AlarmTrack;
 import com.startogamu.musicalarm.utils.EXTRA;
 import com.startogamu.musicalarm.utils.SpotifyPrefs;
 
-import org.parceler.Parcels;
-
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -30,6 +31,7 @@ import javax.inject.Inject;
  */
 public class AlarmService extends Service {
 
+    Alarm alarm;
 
     private static final String TAG = AlarmService.class.getSimpleName();
     SpotifyManager spotifyManager;
@@ -41,13 +43,32 @@ public class AlarmService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         //TODO do something useful
         MusicAlarmApplication.get(this).netComponent.inject(this);
-        Alarm alarm = Parcels.unwrap(intent.getParcelableExtra(EXTRA.ALARM));
-        showNotification(alarm);
+        long alarmId = intent.getLongExtra(EXTRA.ALARM_ID,-1);
+        AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
+            AlarmService.this.alarm = alarm;
+            showNotification(alarm);
+            startPlayer();
+        });
+
+
+
+        return Service.START_STICKY;
+    }
+
+    /***
+     *
+     */
+    private void startPlayer() {
         try {
             spotifyAuthManager.refreshToken(getApplicationContext(), () -> {
                 SpotifyManager.startPlayer(SpotifyPrefs.getAcccesToken(), new ConnectionStateCallback() {
                     @Override
                     public void onLoggedIn() {
+                        ArrayList<String> uris = new ArrayList<String>();
+                        for (AlarmTrack alarmTrack: alarm.getTracks()){
+                            uris.add(alarmTrack.getRef());
+                        }
+                        SpotifyManager.play(uris);
                         Log.d(TAG, "Logged in");
                     }
 
@@ -89,9 +110,6 @@ public class AlarmService extends Service {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
-
-        return Service.START_STICKY;
     }
 
     /***

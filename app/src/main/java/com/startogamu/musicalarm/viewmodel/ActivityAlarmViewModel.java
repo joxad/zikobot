@@ -32,6 +32,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Subscriber;
+import rx.functions.Action1;
 
 /**
  * Created by josh on 08/03/16.
@@ -41,8 +42,7 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     private static final int REQUEST_CODE = 1337;
     @Inject
     SpotifyAPIManager spotifyAPIManager;
-    @Inject
-    AlarmManager alarmManager;
+
     private AppCompatActivity context;
 
     private Alarm alarm;
@@ -56,30 +56,38 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
 
 
     /***
-     * @param context
-     * @param binding
-     */
-    public ActivityAlarmViewModel(final AppCompatActivity context, final ActivityAlarmBinding binding) {
-        init(context, binding);
-        alarm = new Alarm();
-        alarm.setId(-1);
-        alarm.setHour(8);
-        alarm.setMinute(0);
-        updateSelectedTime(alarm);
-    }
-
-    /***
      * Copy the alarm from an existing one
      *
      * @param context
      * @param binding
-     * @param alarm
+     * @param alarmId
      */
-    public ActivityAlarmViewModel(final AppCompatActivity context, final ActivityAlarmBinding binding, final Alarm alarm) {
+    public ActivityAlarmViewModel(final AppCompatActivity context, final ActivityAlarmBinding binding, final long alarmId) {
         init(context, binding);
-        this.alarm = alarm;
-        alarmName = alarm.getName();
-        updateSelectedTime(alarm);
+
+        AlarmManager.getAlarmById(alarmId).subscribe(new Subscriber<Alarm>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                alarm = new Alarm();
+                alarm.setHour(8);
+                alarm.setMinute(0);
+                updateSelectedTime(alarm);
+            }
+
+            @Override
+            public void onNext(Alarm alarm) {
+                ActivityAlarmViewModel.this.alarm = alarm;
+                alarmName = alarm.getName();
+                updateSelectedTime(alarm);
+
+            }
+        });
+
     }
 
     /***
@@ -104,27 +112,44 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      */
     public void onValidateClick(View view) {
         alarm.setName(alarmName);
-        alarmManager.saveAlarm(alarm,alarmTrackList);
-        prepareAlarm();
-        context.finish();
+        AlarmManager.saveAlarm(alarm, alarmTrackList).subscribe(new Subscriber<Alarm>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Alarm alarm) {
+                prepareAlarm(alarm);
+                context.finish();
+            }
+        });
+
     }
 
     /***
      * Use this method to schedule the alarm
+     *
+     * @param alarm
      */
-    private void prepareAlarm() {
+    private void prepareAlarm(Alarm alarm) {
 
         alarmMgr = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtra(EXTRA.ALARM, Parcels.wrap(alarm));
+        intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
         alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         //canel previous alarm intent
         alarmMgr.cancel(alarmIntent);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, alarm.getHour());
-        calendar.set(Calendar.MINUTE, alarm.getMinute());
+        calendar.set(Calendar.HOUR_OF_DAY, this.alarm.getHour());
+        calendar.set(Calendar.MINUTE, this.alarm.getMinute());
 
         alarmMgr.setRepeating(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 1000 * 60, alarmIntent);// test every 60 scs

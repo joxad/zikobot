@@ -18,9 +18,10 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent intentAlarm = new Intent(context, AlarmService.class);
-        Alarm alarm = Parcels.unwrap(intent.getParcelableExtra(EXTRA.ALARM));
-        Log.d(AlarmReceiver.class.getSimpleName(), alarm.getName());
-        intentAlarm.putExtra(EXTRA.ALARM, Parcels.wrap(alarm));
+        long alarmId =intent.getLongExtra(EXTRA.ALARM_ID, -1);
+        Log.d(AlarmReceiver.class.getSimpleName(), ""+alarmId);
+        intentAlarm.putExtra(EXTRA.ALARM_ID, alarmId);
         context.startService(intentAlarm);
     }
 }
+

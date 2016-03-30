@@ -5,13 +5,17 @@ buildscript {
         jcenter()
         maven { url "http://dl.bintray.com/joxad/maven" }
         maven { url "http://dl.bintray.com/pixplicity/maven" }
+        maven { url "https://jitpack.io" }
+        mavenCentral()
+        flatDir {
+            dirs 'libs'
+        }
 
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
-        classpath "io.realm:realm-gradle-plugin:0.88.2"
 
     }
 }
@@ -20,6 +24,10 @@ allprojects {
     repositories {
         jcenter()
         maven { url "http://dl.bintray.com/joxad/maven" }
+        maven { url "https://jitpack.io" }
+        flatDir {
+            dirs 'libs'
+        }
     }
 }
 

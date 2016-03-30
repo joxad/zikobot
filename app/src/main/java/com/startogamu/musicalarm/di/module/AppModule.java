@@ -26,9 +26,7 @@ import dagger.Provides;
                 SpotifyAuthNetworkModule.class,
                 SpotifyAuthServiceModule.class,
                 SpotifyAPINetworkModule.class,
-                SpotifyAPIServiceModule.class,
-                DBModule.class
-        })
+                SpotifyAPIServiceModule.class})
 public class AppModule {
 
     Application mApplication;
