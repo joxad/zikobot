@@ -25,6 +25,7 @@ import lombok.Setter;
 public class Alarm extends RealmObject {
 
     public Alarm() {
+        alarmTracks = new RealmList<>();
     }
 
     @PrimaryKey

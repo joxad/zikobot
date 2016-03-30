@@ -1,12 +1,8 @@
 package com.startogamu.musicalarm.di.manager;
 
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-
 import com.startogamu.musicalarm.model.Alarm;
+import com.startogamu.musicalarm.model.AlarmTrack;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,11 +43,18 @@ public class AlarmManager {
 
     /***
      * @param alarm
+     * @param alarmTrackList
      */
-    public void saveAlarm(Alarm alarm) {
+    public void saveAlarm(Alarm alarm, List<AlarmTrack> alarmTrackList) {
         realm.beginTransaction();
         if (alarm.getId() == -1)
             alarm.setId(getNextKey());
+        if (alarmTrackList != null) {
+            for (AlarmTrack alarmTrack : alarmTrackList) {
+                alarmTrack = realm.copyToRealm(alarmTrack);
+                alarm.getAlarmTracks().add(alarmTrack);
+            }
+        }
         realm.copyToRealmOrUpdate(alarm);
         realm.commitTransaction();
 

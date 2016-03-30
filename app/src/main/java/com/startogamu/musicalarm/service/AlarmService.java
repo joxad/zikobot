@@ -12,6 +12,7 @@ import com.joxad.android_easy_spotify.SpotifyManager;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
+import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.di.manager.spotify_auth.SpotifyAuthManager;
 import com.startogamu.musicalarm.model.Alarm;
@@ -39,6 +40,7 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //TODO do something useful
+        MusicAlarmApplication.get(this).netComponent.inject(this);
         Alarm alarm = Parcels.unwrap(intent.getParcelableExtra(EXTRA.ALARM));
         showNotification(alarm);
         try {
@@ -89,7 +91,7 @@ public class AlarmService extends Service {
         }
 
 
-        return Service.START_NOT_STICKY;
+        return Service.START_STICKY;
     }
 
     /***

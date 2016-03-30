@@ -70,6 +70,7 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
 
             @Override
             public void onNext(List<Alarm> alarms) {
+                observableArrayList.clear();
                 for (Alarm alarm : alarms) {
                     observableArrayList.add(new ItemAlarmViewModel(context, alarm));
                 }

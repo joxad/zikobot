@@ -49,6 +49,7 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     private String alarmName = "";
     private String alarmSelectedTime = "";
     private String alarmPlaylist = "";
+    List<AlarmTrack> alarmTrackList;
 
     private android.app.AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
@@ -103,17 +104,21 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      */
     public void onValidateClick(View view) {
         alarm.setName(alarmName);
-        alarmManager.saveAlarm(alarm);
+        alarmManager.saveAlarm(alarm,alarmTrackList);
         prepareAlarm();
         context.finish();
     }
 
+    /***
+     * Use this method to schedule the alarm
+     */
     private void prepareAlarm() {
 
         alarmMgr = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(EXTRA.ALARM, Parcels.wrap(alarm));
         alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        //canel previous alarm intent
         alarmMgr.cancel(alarmIntent);
 
         Calendar calendar = Calendar.getInstance();
@@ -122,7 +127,7 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
         calendar.set(Calendar.MINUTE, alarm.getMinute());
 
         alarmMgr.setRepeating(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                1000 * 60 * 20, alarmIntent);
+                1000 * 60, alarmIntent);// test every 60 scs
     }
 
 
@@ -191,17 +196,17 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
 
                     @Override
                     public void onNext(SpotifyPlaylistWithTrack spotifyPlaylistWithTrack) {
-                        List<AlarmTrack> alarmTrackList = new ArrayList<AlarmTrack>();
+                        alarmTrackList = new ArrayList<AlarmTrack>();
                         for (SpotifyPlaylistItem item : spotifyPlaylistWithTrack.getItems()) {
                             AlarmTrack alarmTrack = new AlarmTrack();
                             alarmTrack.setRef(item.getTrack().getId());
                             alarmTrack.setType(AlarmTrack.TYPE.SPOTIFY);
                             alarmTrackList.add(alarmTrack);
                         }
-                        alarm.setTracks(alarmTrackList);
                     }
                 });
             }
         }
     }
+
 }

@@ -126,8 +126,8 @@
     <orderEntry type="library" exported="" name="retrofit-2.0.0-beta4" level="project" />
     <orderEntry type="library" exported="" name="compiler-1.0-rc5" level="project" />
     <orderEntry type="library" exported="" name="adapter-rxjava-2.0.0-beta4" level="project" />
-    <orderEntry type="library" exported="" name="henson-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="baseLibrary-1.0-rc5" level="project" />
+    <orderEntry type="library" exported="" name="henson-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="iconics-core-2.5.10" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="cat-1.0.2" level="project" />
@@ -136,8 +136,8 @@
     <orderEntry type="library" exported="" name="aboutlibraries-5.6.2" level="project" />
     <orderEntry type="library" exported="" name="dart-processor-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="dart-common-2.0.0" level="project" />
-    <orderEntry type="library" exported="" name="javapoet-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="lombok-1.12.6" level="project" />
+    <orderEntry type="library" exported="" name="javapoet-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="realm-android-library-0.88.2" level="project" />
     <orderEntry type="library" exported="" name="dagger-2.1" level="project" />
     <orderEntry type="library" exported="" name="dart-2.0.0" level="project" />
