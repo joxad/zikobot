@@ -45,7 +45,7 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
     public SpotifyMusicViewModel(SpotifyMusicFragment fragment, FragmentSpotifyMusicBinding binding) {
         userPlaylists = new ObservableArrayList<>();
         featuredPlaylists = new ObservableArrayList<>();
-        MusicAlarmApplication.get(fragment.getContext()).netComponent.inject(this);
+        MusicAlarmApplication.get(fragment.getActivity()).netComponent.inject(this);
         this.fragment = fragment;
         this.binding = binding;
         loadUserPlaylist();

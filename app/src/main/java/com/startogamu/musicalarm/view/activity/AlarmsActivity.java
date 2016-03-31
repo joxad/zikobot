@@ -8,10 +8,8 @@ import android.view.Menu;
 
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityAlarmsBinding;
-import com.startogamu.musicalarm.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.viewmodel.ActivityAlarmsViewModel;
 
 public class AlarmsActivity extends AppCompatActivity {

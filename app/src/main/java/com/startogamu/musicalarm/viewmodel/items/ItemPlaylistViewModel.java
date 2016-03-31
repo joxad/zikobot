@@ -6,6 +6,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
+import com.f2prateek.dart.henson.Bundler;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.model.spotify.Item;
 import com.startogamu.musicalarm.utils.EXTRA;
@@ -43,9 +44,11 @@ public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
      * @param view
      */
     public void onItemClick(View view) {
-        //TODO update fragment
-        fragment.add(SpotifyPlaylistTracksFragment.newInstance());
+        fragment.replace(SpotifyPlaylistTracksFragment.newInstance
+                (Bundler.create().put(EXTRA.PLAYLIST_ID, item.getId()).get()));
+
     }
+
 
     /***
      * Add directly all the playlist

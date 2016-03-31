@@ -53,7 +53,7 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        context.getSupportFragmentManager().beginTransaction().replace(R.id.container, LocalMusicFragment.newInstance()).commit();
+        context.getFragmentManager().beginTransaction().replace(R.id.container, LocalMusicFragment.newInstance()).commit();
         createBottomNavigation(binding.bottomNavigation);
     }
 
@@ -76,13 +76,13 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
         bottomNavigationView.setOnBottomNavigationItemClickListener(index -> {
             switch (index) {
                 case 0:
-                    context.getSupportFragmentManager().beginTransaction().replace(R.id.container, LocalMusicFragment.newInstance()).commit();
+                    context.getFragmentManager().beginTransaction().replace(R.id.container, LocalMusicFragment.newInstance()).commit();
                     break;
                 case 1:
                     // if (spotifyManager.hasAccessToken()) {
                     if (!Prefs.contains(SpotifyPrefs.ACCESS_CODE)) {
                         spotifyConnectFragment = SpotifyConnectFragment.newInstance();
-                        context.getSupportFragmentManager().beginTransaction().replace(R.id.container, spotifyConnectFragment).commit();
+                        context.getFragmentManager().beginTransaction().replace(R.id.container, spotifyConnectFragment).commit();
                     } else {
                         loadSpotifyMusicFragment();
                     }
@@ -121,6 +121,6 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
 
     public void loadSpotifyMusicFragment() {
         spotifyMusicFragment = SpotifyMusicFragment.newInstance();
-        context.getSupportFragmentManager().beginTransaction().replace(R.id.container, spotifyMusicFragment).commit();
+        context.getFragmentManager().beginTransaction().replace(R.id.container, spotifyMusicFragment).commit();
     }
 }

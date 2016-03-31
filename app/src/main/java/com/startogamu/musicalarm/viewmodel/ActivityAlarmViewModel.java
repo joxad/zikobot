@@ -72,7 +72,7 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
             }
             return false;
         });
-        viewPagerAdapter = new ViewPagerAdapter(context.getSupportFragmentManager(), new CharSequence[]{
+        viewPagerAdapter = new ViewPagerAdapter(context.getFragmentManager(), new CharSequence[]{
                 "Mon alarme", "Mes chansons"
         });
         binding.slidingTabLayout.setDistributeEvenly(true);

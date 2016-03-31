@@ -53,7 +53,7 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
     public SpotifyConnectViewModel(SpotifyConnectFragment fragment, FragmentConnectSpotifyBinding binding) {
         this.binding = binding;
         this.context = fragment;
-        MusicAlarmApplication.get(context.getContext()).netComponent.inject(this);
+        MusicAlarmApplication.get(context.getActivity()).netComponent.inject(this);
     }
 
     /***

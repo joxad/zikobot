@@ -1,9 +1,9 @@
 package com.startogamu.musicalarm.view.fragment;
 
+import android.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -33,18 +33,19 @@ public class SpotifyMusicFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_spotify_music, container, false);
-        binding.rvTops.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.rvItems.setLayoutManager(new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false));
+        binding.rvTops.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        binding.rvItems.setLayoutManager(new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false));
         spotifyMusicViewModel = new SpotifyMusicViewModel(this, binding);
         binding.setSpotifyMusicViewModel(spotifyMusicViewModel);
         return binding.getRoot();
     }
 
 
-    public void add(Fragment fragment) {
-        String name = fragment.getClass().getSimpleName();
-        ((MusicActivity) getActivity()).getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment, name).addToBackStack(name).commit();
+    public void replace(Fragment fragment) {
+        ((MusicActivity) getActivity()).getFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment, fragment.getClass().getSimpleName())
+                .addToBackStack(fragment.getClass().getSimpleName()).commit();
     }
 }

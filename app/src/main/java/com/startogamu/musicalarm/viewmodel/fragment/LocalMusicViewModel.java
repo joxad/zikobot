@@ -1,10 +1,9 @@
 package com.startogamu.musicalarm.viewmodel.fragment;
 
+import android.app.Fragment;
 import android.databinding.BaseObservable;
-import android.support.v4.app.Fragment;
 
 import com.startogamu.musicalarm.databinding.FragmentLocalMusicBinding;
-import com.startogamu.musicalarm.databinding.FragmentSpotifyMusicBinding;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 
 /**
