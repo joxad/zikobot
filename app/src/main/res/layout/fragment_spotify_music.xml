@@ -15,17 +15,23 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="fragment spotify" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_tops"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:itemViewBinder="@{spotifyMusicViewModel.itemTopPlaylistBinder}"
+            app:items="@{spotifyMusicViewModel.topPlaylists}"
+            tools:listitem="@layout/item_playlist"
+            />
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:itemViewBinder="@{spotifyMusicViewModel.itemViewBinder}"
-            app:items="@{spotifyMusicViewModel.itemViewModels}"
+            app:itemViewBinder="@{spotifyMusicViewModel.itemUserPlaylistsBinder}"
+            app:items="@{spotifyMusicViewModel.userPlaylists}"
             tools:listitem="@layout/item_playlist"
             />
     </LinearLayout>

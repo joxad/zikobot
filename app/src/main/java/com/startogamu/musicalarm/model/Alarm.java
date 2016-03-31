@@ -9,8 +9,6 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 import com.startogamu.musicalarm.di.db.MusicAlarmDatabase;
 
-import org.parceler.Parcel;
-
 import java.util.List;
 
 import lombok.Getter;
@@ -39,10 +37,6 @@ public class Alarm extends BaseModel {
     @Setter
     @Column
     public int minute;
-    @Getter
-    @Setter
-    @Column
-    public String playlistId;
 
     List<AlarmTrack> tracks;
 

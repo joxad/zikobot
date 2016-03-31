@@ -54,8 +54,8 @@ public class SpotifyAPIManager {
      * @param token      should be : "Bearer $accessToken" provided by spotify api
      * @param subscriber
      */
-    public void getPlaylist(final String token, Subscriber<SpotifyPlaylist> subscriber) {
-        spotifyAPIService.getPlaylists("Bearer " + token)
+    public void getUserPlaylists(final String token, Subscriber<SpotifyPlaylist> subscriber) {
+        spotifyAPIService.getUserPlaylists("Bearer " + token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())

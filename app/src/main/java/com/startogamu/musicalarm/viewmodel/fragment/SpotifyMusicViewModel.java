@@ -31,8 +31,9 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
 
     private Fragment fragment;
     private FragmentSpotifyMusicBinding binding;
-    private ObservableArrayList<ItemPlaylistViewModel> observableArrayList;
+    private ObservableArrayList<ItemPlaylistViewModel> userPlaylists;
 
+    private ObservableArrayList<ItemPlaylistViewModel> topPlaylists;
     @Inject
     SpotifyAPIManager spotifyAPIManager;
 
@@ -43,16 +44,16 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
      * @param binding
      */
     public SpotifyMusicViewModel(Fragment fragment, FragmentSpotifyMusicBinding binding) {
-        observableArrayList = new ObservableArrayList<>();
+        userPlaylists = new ObservableArrayList<>();
         MusicAlarmApplication.get(fragment.getContext()).netComponent.inject(this);
         this.fragment = fragment;
         this.binding = binding;
-        loadPlaylists();
+        loadUserPlaylist();
 
     }
 
-    private void loadPlaylists() {
-        spotifyAPIManager.getPlaylist(Prefs.getString(SpotifyPrefs.ACCCES_TOKEN, ""), new Subscriber<SpotifyPlaylist>() {
+    private void loadUserPlaylist() {
+        spotifyAPIManager.getUserPlaylists(Prefs.getString(SpotifyPrefs.ACCCES_TOKEN, ""), new Subscriber<SpotifyPlaylist>() {
             @Override
             public void onCompleted() {
 
@@ -67,19 +68,36 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
             public void onNext(SpotifyPlaylist spotifyPlaylist) {
                 for (Item item : spotifyPlaylist.getItems()) {
                     ItemPlaylistViewModel itemPlaylistViewModel = new ItemPlaylistViewModel(fragment.getActivity(), item);
-                    observableArrayList.add(itemPlaylistViewModel);
+                    userPlaylists.add(itemPlaylistViewModel);
                 }
             }
         });
     }
 
+    /***
+     * This will call spotify api to get the top plyalist
+     * and put it in the horizontal recyclerview on the top
+     */
+    public void loadTopPlaylists() {
 
-    @Bindable
-    public ObservableArrayList<ItemPlaylistViewModel> getItemViewModels() {
-        return observableArrayList;
     }
 
-    public ItemBinder<ItemPlaylistViewModel> itemViewBinder() {
+
+    @Bindable
+    public ObservableArrayList<ItemPlaylistViewModel> getUserPlaylists() {
+        return userPlaylists;
+    }
+
+    public ItemBinder<ItemPlaylistViewModel> itemTopPlaylistBinder() {
+        return new ItemBinderBase<>(BR.itemPlaylistViewModel, R.layout.item_playlist);
+    }
+
+    @Bindable
+    public ObservableArrayList<ItemPlaylistViewModel> getTopPlaylists() {
+        return topPlaylists;
+    }
+
+    public ItemBinder<ItemPlaylistViewModel> itemUserPlaylistsBinder() {
         return new ItemBinderBase<>(BR.itemPlaylistViewModel, R.layout.item_playlist);
     }
 

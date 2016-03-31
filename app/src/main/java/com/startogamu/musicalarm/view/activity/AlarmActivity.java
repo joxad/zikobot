@@ -3,16 +3,12 @@ package com.startogamu.musicalarm.view.activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 
 import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.HensonNavigable;
 import com.f2prateek.dart.InjectExtra;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
-import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.viewmodel.ActivityAlarmViewModel;
 
 /**
@@ -36,9 +32,7 @@ public class AlarmActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> finish());
-
-            viewModel = new ActivityAlarmViewModel(this, binding, alarmId);
-
+        viewModel = new ActivityAlarmViewModel(this, binding, alarmId);
         binding.setActivityAlarmViewModel(viewModel);
     }
 
@@ -46,7 +40,7 @@ public class AlarmActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        viewModel.onActivityResult(requestCode,resultCode,data);
+        viewModel.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

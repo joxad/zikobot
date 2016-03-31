@@ -22,8 +22,7 @@ import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.receiver.AlarmReceiver;
 import com.startogamu.musicalarm.utils.EXTRA;
 import com.startogamu.musicalarm.view.activity.Henson;
-
-import org.parceler.Parcels;
+import com.startogamu.musicalarm.view.adapter.ViewPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,7 +31,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Subscriber;
-import rx.functions.Action1;
 
 /**
  * Created by josh on 08/03/16.
@@ -44,16 +42,16 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     SpotifyAPIManager spotifyAPIManager;
 
     private AppCompatActivity context;
-
+    private ActivityAlarmBinding binding;
     private Alarm alarm;
     private String alarmName = "";
-    private String alarmSelectedTime = "";
-    private String alarmPlaylist = "";
+
     List<AlarmTrack> alarmTrackList;
 
     private android.app.AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
 
+    ViewPagerAdapter viewPagerAdapter;
 
     /***
      * Copy the alarm from an existing one
@@ -64,7 +62,11 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      */
     public ActivityAlarmViewModel(final AppCompatActivity context, final ActivityAlarmBinding binding, final long alarmId) {
         init(context, binding);
-
+        viewPagerAdapter = new ViewPagerAdapter(context.getSupportFragmentManager(), new CharSequence[]{
+                "Mon alarme", "Mes chansons"
+        });
+        binding.viewPager.setAdapter(viewPagerAdapter);
+        binding.slidingTabLayout.setViewPager(binding.viewPager);
         AlarmManager.getAlarmById(alarmId).subscribe(new Subscriber<Alarm>() {
             @Override
             public void onCompleted() {
@@ -76,14 +78,14 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
                 alarm = new Alarm();
                 alarm.setHour(8);
                 alarm.setMinute(0);
-                updateSelectedTime(alarm);
+
             }
 
             @Override
             public void onNext(Alarm alarm) {
                 ActivityAlarmViewModel.this.alarm = alarm;
                 alarmName = alarm.getName();
-                updateSelectedTime(alarm);
+
 
             }
         });
@@ -99,11 +101,8 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      */
     public void init(final AppCompatActivity context, final ActivityAlarmBinding binding) {
         this.context = context;
+        this.binding = binding;
         MusicAlarmApplication.get(context).netComponent.inject(this);
-
-        RxTextView.textChanges(binding.etName).skip(1).subscribe(charSequence -> {
-            alarmName = charSequence.toString();
-        });
 
     }
 
@@ -162,37 +161,6 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     public void onMusicClick(View view) {
         context.startActivityForResult(Henson.with(context).gotoMusicActivity().build(), REQUEST_CODE);
     }
-
-
-    /***
-     * @param view
-     */
-    public void onTimeClick(View view) {
-        new TimePickerDialog(context, (view1, hourOfDay, minute) -> {
-            alarm.setHour(hourOfDay);
-            alarm.setMinute(minute);
-            updateSelectedTime(alarm);
-        }, alarm.getHour(), alarm.getMinute(), true).show();
-    }
-
-    /***
-     * @param alarm
-     */
-    private void updateSelectedTime(Alarm alarm) {
-        alarmSelectedTime = String.format("%d H %02d", alarm.getHour(), alarm.getMinute());
-        notifyPropertyChanged(BR.selectedTime);
-    }
-
-    @Bindable
-    public String getSelectedTime() {
-        return alarmSelectedTime;
-    }
-
-    @Bindable
-    public String getAlarmName() {
-        return alarmName;
-    }
-
     @Override
     public void onDestroy() {
 
@@ -207,7 +175,6 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
         if (requestCode == REQUEST_CODE) {
             if (resultCode == AppCompatActivity.RESULT_OK) {
                 String playlistId = data.getStringExtra(EXTRA.PLAYLIST_ID);
-                alarm.setPlaylistId(playlistId);
                 spotifyAPIManager.getPlaylistTracks(playlistId, new Subscriber<SpotifyPlaylistWithTrack>() {
                     @Override
                     public void onCompleted() {

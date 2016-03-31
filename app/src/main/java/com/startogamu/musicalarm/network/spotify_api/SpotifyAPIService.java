@@ -20,7 +20,7 @@ public interface SpotifyAPIService {
     Observable<SpotifyUser> getMe(@Header("Authorization") final String token);
 
     @GET("me/playlists")
-    Observable<SpotifyPlaylist> getPlaylists(@Header("Authorization") final String token);
+    Observable<SpotifyPlaylist> getUserPlaylists(@Header("Authorization") final String token);
 
     @GET("users/{userId}/playlists/{playlistId}/tracks")
     Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(@Header("Authorization") final String token, @Path("userId") String userId, @Path("playlistId") final String playlistId);
