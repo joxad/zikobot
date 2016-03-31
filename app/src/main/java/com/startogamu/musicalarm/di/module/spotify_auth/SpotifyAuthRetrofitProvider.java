@@ -19,6 +19,6 @@ public class SpotifyAuthRetrofitProvider extends BaseRetrofitProfider {
      * @param context
      */
     public SpotifyAuthRetrofitProvider(Context context) {
-        super(context.getString(R.string.api_spotify_auth_url));
+        super(context.getString(R.string.api_spotify_auth_url), null);
     }
 }

@@ -53,6 +53,7 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
     }
 
     private void loadUserPlaylist() {
+        userPlaylists.clear();
         spotifyAPIManager.getUserPlaylists(Prefs.getString(SpotifyPrefs.ACCCES_TOKEN, ""), new Subscriber<SpotifyPlaylist>() {
             @Override
             public void onCompleted() {
@@ -66,6 +67,7 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
 
             @Override
             public void onNext(SpotifyPlaylist spotifyPlaylist) {
+
                 for (Item item : spotifyPlaylist.getItems()) {
                     ItemPlaylistViewModel itemPlaylistViewModel = new ItemPlaylistViewModel(fragment.getActivity(), item);
                     userPlaylists.add(itemPlaylistViewModel);
@@ -79,7 +81,26 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
      * and put it in the horizontal recyclerview on the top
      */
     public void loadTopPlaylists() {
+        topPlaylists.clear();
+        spotifyAPIManager.getFeaturedPlaylists(new Subscriber<SpotifyPlaylist>() {
+            @Override
+            public void onCompleted() {
 
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(SpotifyPlaylist spotifyPlaylistWithTrack) {
+                for (Item item : spotifyPlaylistWithTrack.getItems()) {
+                    ItemPlaylistViewModel itemPlaylistViewModel = new ItemPlaylistViewModel(fragment.getActivity(), item);
+                    topPlaylists.add(itemPlaylistViewModel);
+                }
+            }
+        });
     }
 
 
@@ -89,7 +110,7 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
     }
 
     public ItemBinder<ItemPlaylistViewModel> itemTopPlaylistBinder() {
-        return new ItemBinderBase<>(BR.itemPlaylistViewModel, R.layout.item_playlist);
+        return new ItemBinderBase<>(BR.itemPlaylistViewModel, R.layout.item_top_playlist);
     }
 
     @Bindable

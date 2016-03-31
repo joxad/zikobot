@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -12,22 +12,23 @@
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/card_view"
-        android:layout_width="match_parent"
+
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_medium">
 
         <LinearLayout
             android:id="@+id/layout_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:onClick="@{itemPlaylistViewModel.onItemClick}"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/iv_header"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="196dp"
+                android:layout_height="196dp"
                 app:imageUrl="@{itemPlaylistViewModel.imageUrl}"
                 tools:src="@drawable/ic_queue_music" />
 

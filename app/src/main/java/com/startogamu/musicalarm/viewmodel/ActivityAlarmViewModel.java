@@ -1,17 +1,14 @@
 package com.startogamu.musicalarm.viewmodel;
 
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.android.databinding.library.baseAdapters.BR;
-import com.jakewharton.rxbinding.widget.RxTextView;
 import com.startogamu.musicalarm.MusicAlarmApplication;
+import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
 import com.startogamu.musicalarm.di.manager.AlarmManager;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
@@ -62,15 +59,29 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      */
     public ActivityAlarmViewModel(final AppCompatActivity context, final ActivityAlarmBinding binding, final long alarmId) {
         init(context, binding);
+        binding.toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_delete:
+                    //TODO delete
+                    context.finish();
+                    break;
+                case R.id.action_save:
+                    //TODO save;
+                    onValidateClick();
+                    break;
+            }
+            return false;
+        });
         viewPagerAdapter = new ViewPagerAdapter(context.getSupportFragmentManager(), new CharSequence[]{
                 "Mon alarme", "Mes chansons"
         });
+        binding.slidingTabLayout.setDistributeEvenly(true);
+        binding.slidingTabLayout.setSelectedIndicatorColors(android.R.color.white);
         binding.viewPager.setAdapter(viewPagerAdapter);
         binding.slidingTabLayout.setViewPager(binding.viewPager);
         AlarmManager.getAlarmById(alarmId).subscribe(new Subscriber<Alarm>() {
             @Override
             public void onCompleted() {
-
             }
 
             @Override
@@ -85,8 +96,6 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
             public void onNext(Alarm alarm) {
                 ActivityAlarmViewModel.this.alarm = alarm;
                 alarmName = alarm.getName();
-
-
             }
         });
 
@@ -107,9 +116,9 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     }
 
     /***
-     * @param view
+     * Use this method to save the data
      */
-    public void onValidateClick(View view) {
+    public void onValidateClick() {
         alarm.setName(alarmName);
         AlarmManager.saveAlarm(alarm, alarmTrackList).subscribe(new Subscriber<Alarm>() {
             @Override
@@ -158,13 +167,10 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     /***
      * @param view
      */
-    public void onMusicClick(View view) {
+    public void onAddTrackClick(View view) {
         context.startActivityForResult(Henson.with(context).gotoMusicActivity().build(), REQUEST_CODE);
     }
-    @Override
-    public void onDestroy() {
 
-    }
 
     /***
      * @param requestCode
@@ -199,6 +205,12 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
                 });
             }
         }
+    }
+
+
+    @Override
+    public void onDestroy() {
+
     }
 
 }

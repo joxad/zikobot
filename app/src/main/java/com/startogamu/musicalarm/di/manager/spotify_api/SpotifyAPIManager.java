@@ -28,7 +28,7 @@ public class SpotifyAPIManager {
      * @param subscriber
      */
     public void getMe(final String token, Subscriber<SpotifyUser> subscriber) {
-        spotifyAPIService.getMe("Bearer " + token).subscribeOn(Schedulers.io())
+        spotifyAPIService.getMe().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<SpotifyUser>() {
@@ -55,7 +55,7 @@ public class SpotifyAPIManager {
      * @param subscriber
      */
     public void getUserPlaylists(final String token, Subscriber<SpotifyPlaylist> subscriber) {
-        spotifyAPIService.getUserPlaylists("Bearer " + token)
+        spotifyAPIService.getUserPlaylists()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
@@ -63,14 +63,21 @@ public class SpotifyAPIManager {
     }
 
     /***
-     *
      * @param playlistId
      * @param subscriber
      */
     public void getPlaylistTracks(final String playlistId, final Subscriber<SpotifyPlaylistWithTrack> subscriber) {
-        spotifyAPIService.getPlaylistTracks("Bearer " + SpotifyPrefs.getAcccesToken(), SpotifyPrefs.getSpotifyUserId(),playlistId ).subscribeOn(Schedulers.io())
+        spotifyAPIService.getPlaylistTracks(SpotifyPrefs.getSpotifyUserId(), playlistId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io()).subscribe(subscriber);
+    }
+
+
+    public void getFeaturedPlaylists(final Subscriber<SpotifyPlaylist> subscriber) {
+        spotifyAPIService.getFeaturedPlaylists().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(subscriber);
     }
 
 }

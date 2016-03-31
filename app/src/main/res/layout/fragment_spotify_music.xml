@@ -13,26 +13,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="3">
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_tops"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             app:itemViewBinder="@{spotifyMusicViewModel.itemTopPlaylistBinder}"
             app:items="@{spotifyMusicViewModel.topPlaylists}"
-            tools:listitem="@layout/item_playlist"
-            />
+            tools:listitem="@layout/item_playlist" />
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             app:itemViewBinder="@{spotifyMusicViewModel.itemUserPlaylistsBinder}"
             app:items="@{spotifyMusicViewModel.userPlaylists}"
-            tools:listitem="@layout/item_playlist"
-            />
+            tools:listitem="@layout/item_playlist" />
     </LinearLayout>
 </layout>

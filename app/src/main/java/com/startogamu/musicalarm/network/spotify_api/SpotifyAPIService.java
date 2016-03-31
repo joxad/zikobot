@@ -6,7 +6,6 @@ import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.model.spotify.SpotifyUser;
 
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -17,11 +16,15 @@ import rx.Observable;
 public interface SpotifyAPIService {
 
     @GET("me")
-    Observable<SpotifyUser> getMe(@Header("Authorization") final String token);
+    Observable<SpotifyUser> getMe();
 
     @GET("me/playlists")
-    Observable<SpotifyPlaylist> getUserPlaylists(@Header("Authorization") final String token);
+    Observable<SpotifyPlaylist> getUserPlaylists();
+
+    @GET("browse/featured-playlists")
+    Observable<SpotifyPlaylist> getFeaturedPlaylists();
 
     @GET("users/{userId}/playlists/{playlistId}/tracks")
-    Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(@Header("Authorization") final String token, @Path("userId") String userId, @Path("playlistId") final String playlistId);
+    Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(@Path("userId") String userId, @Path("playlistId") final String playlistId);
+
 }

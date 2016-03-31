@@ -50,45 +50,16 @@
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
-
-            <com.balysv.materialripple.MaterialRippleLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
-                android:onClick="@{activityAlarmViewModel.onMusicClick}"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_queue_music" />
-
-                    <TextView
-                        android:id="@+id/tv_song"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="4dp"
-                        android:hint="@string/activity_alarm_select_song" />
-
-                </LinearLayout>
-            </com.balysv.materialripple.MaterialRippleLayout>
-
-            <com.startogamu.musicalarm.view.custom.MaterialButtonView
-                android:id="@+id/mbv_add"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="@{activityAlarmViewModel.onValidateClick}"
-                app:mbv_enable="false"
-                app:mbv_text="@string/alarm_add"
-                app:mbv_text_color="@android:color/white" />
         </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:onClick="@{activityAlarmViewModel.onAddTrackClick}"
+            android:src="@drawable/ic_add" />
 
 
     </android.support.design.widget.CoordinatorLayout>

@@ -6,19 +6,23 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
+import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.model.spotify.Item;
 import com.startogamu.musicalarm.utils.EXTRA;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 
-/**
- * Created by josh on 26/03/16.
+/***
+ * ViewModel that will represent the playlist of a user on spotify
  */
 public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
-
 
     private Item item;
     private Activity context;
 
+    /***
+     * @param context
+     * @param item
+     */
     public ItemPlaylistViewModel(Activity context, Item item) {
         this.item = item;
         this.context = context;
@@ -47,6 +51,17 @@ public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
         return item.getName();
     }
 
+
+    @Bindable
+    public String getImageUrl() {
+        return item.getImages().get(0).getUrl();
+    }
+
+    @Bindable
+    public String getNbSongs() {
+        return String.format(context.getString(R.string.playlist_total_tracks),
+                item.tracks.total);
+    }
 
     @Override
     public void onDestroy() {
