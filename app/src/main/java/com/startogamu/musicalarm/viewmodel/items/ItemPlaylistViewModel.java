@@ -9,7 +9,11 @@ import android.view.View;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.model.spotify.Item;
 import com.startogamu.musicalarm.utils.EXTRA;
+import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
+import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
+
+import net.droidlabs.mvvm.recyclerview.adapter.LongClickHandler;
 
 /***
  * ViewModel that will represent the playlist of a user on spotify
@@ -17,15 +21,15 @@ import com.startogamu.musicalarm.viewmodel.ViewModel;
 public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
 
     private Item item;
-    private Activity context;
+    private SpotifyMusicFragment fragment;
 
     /***
-     * @param context
+     * @param fragment
      * @param item
      */
-    public ItemPlaylistViewModel(Activity context, Item item) {
+    public ItemPlaylistViewModel(SpotifyMusicFragment fragment, Item item) {
         this.item = item;
-        this.context = context;
+        this.fragment = fragment;
     }
 
     public void setItem(Item item) {
@@ -39,11 +43,25 @@ public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
      * @param view
      */
     public void onItemClick(View view) {
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA.PLAYLIST_ID, item.getId());
-        context.setResult(Activity.RESULT_OK, intent);
-        context.finish();
+        //TODO update fragment
+        fragment.add(SpotifyPlaylistTracksFragment.newInstance());
     }
+
+    /***
+     * Add directly all the playlist
+     *
+     * @param view
+     */
+
+    public LongClickHandler<ItemPlaylistViewModel> longClickHandler = new LongClickHandler<ItemPlaylistViewModel>() {
+        @Override
+        public void onLongClick(ItemPlaylistViewModel itemPlaylistViewModel) {
+            Intent intent = new Intent();
+            intent.putExtra(EXTRA.PLAYLIST_ID, item.getId());
+            fragment.getActivity().setResult(Activity.RESULT_OK, intent);
+            fragment.getActivity().finish();
+        }
+    };
 
 
     @Bindable
@@ -59,7 +77,7 @@ public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
 
     @Bindable
     public String getNbSongs() {
-        return String.format(context.getString(R.string.playlist_total_tracks),
+        return String.format(fragment.getString(R.string.playlist_total_tracks),
                 item.tracks.total);
     }
 

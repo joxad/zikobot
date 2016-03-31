@@ -3,17 +3,16 @@ package com.startogamu.musicalarm.viewmodel.fragment;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
-import android.support.v4.app.Fragment;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyMusicBinding;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.spotify.Item;
+import com.startogamu.musicalarm.model.spotify.SpotifyFeaturedPlaylist;
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylist;
-import com.startogamu.musicalarm.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemPlaylistViewModel;
 
@@ -29,11 +28,11 @@ import rx.Subscriber;
  */
 public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
 
-    private Fragment fragment;
+    private SpotifyMusicFragment fragment;
     private FragmentSpotifyMusicBinding binding;
     private ObservableArrayList<ItemPlaylistViewModel> userPlaylists;
 
-    private ObservableArrayList<ItemPlaylistViewModel> topPlaylists;
+    private ObservableArrayList<ItemPlaylistViewModel> featuredPlaylists;
     @Inject
     SpotifyAPIManager spotifyAPIManager;
 
@@ -43,18 +42,22 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
      * @param fragment
      * @param binding
      */
-    public SpotifyMusicViewModel(Fragment fragment, FragmentSpotifyMusicBinding binding) {
+    public SpotifyMusicViewModel(SpotifyMusicFragment fragment, FragmentSpotifyMusicBinding binding) {
         userPlaylists = new ObservableArrayList<>();
+        featuredPlaylists = new ObservableArrayList<>();
         MusicAlarmApplication.get(fragment.getContext()).netComponent.inject(this);
         this.fragment = fragment;
         this.binding = binding;
         loadUserPlaylist();
-
+        loadTopPlaylists();
     }
 
+    /***
+     * Call {@link SpotifyAPIManager} to find the current user playlists
+     */
     private void loadUserPlaylist() {
         userPlaylists.clear();
-        spotifyAPIManager.getUserPlaylists(Prefs.getString(SpotifyPrefs.ACCCES_TOKEN, ""), new Subscriber<SpotifyPlaylist>() {
+        spotifyAPIManager.getUserPlaylists(new Subscriber<SpotifyPlaylist>() {
             @Override
             public void onCompleted() {
 
@@ -69,7 +72,7 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
             public void onNext(SpotifyPlaylist spotifyPlaylist) {
 
                 for (Item item : spotifyPlaylist.getItems()) {
-                    ItemPlaylistViewModel itemPlaylistViewModel = new ItemPlaylistViewModel(fragment.getActivity(), item);
+                    ItemPlaylistViewModel itemPlaylistViewModel = new ItemPlaylistViewModel(fragment, item);
                     userPlaylists.add(itemPlaylistViewModel);
                 }
             }
@@ -81,8 +84,8 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
      * and put it in the horizontal recyclerview on the top
      */
     public void loadTopPlaylists() {
-        topPlaylists.clear();
-        spotifyAPIManager.getFeaturedPlaylists(new Subscriber<SpotifyPlaylist>() {
+        featuredPlaylists.clear();
+        spotifyAPIManager.getFeaturedPlaylists(new Subscriber<SpotifyFeaturedPlaylist>() {
             @Override
             public void onCompleted() {
 
@@ -94,10 +97,10 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
             }
 
             @Override
-            public void onNext(SpotifyPlaylist spotifyPlaylistWithTrack) {
-                for (Item item : spotifyPlaylistWithTrack.getItems()) {
-                    ItemPlaylistViewModel itemPlaylistViewModel = new ItemPlaylistViewModel(fragment.getActivity(), item);
-                    topPlaylists.add(itemPlaylistViewModel);
+            public void onNext(SpotifyFeaturedPlaylist spotifyFeaturedPlaylist) {
+                for (Item item : spotifyFeaturedPlaylist.getSpotifyPlaylist().getItems()) {
+                    ItemPlaylistViewModel itemPlaylistViewModel = new ItemPlaylistViewModel(fragment, item);
+                    featuredPlaylists.add(itemPlaylistViewModel);
                 }
             }
         });
@@ -114,8 +117,8 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
     }
 
     @Bindable
-    public ObservableArrayList<ItemPlaylistViewModel> getTopPlaylists() {
-        return topPlaylists;
+    public ObservableArrayList<ItemPlaylistViewModel> getFeaturedPlaylists() {
+        return featuredPlaylists;
     }
 
     public ItemBinder<ItemPlaylistViewModel> itemUserPlaylistsBinder() {

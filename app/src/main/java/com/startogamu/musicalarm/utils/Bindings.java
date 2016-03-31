@@ -1,6 +1,7 @@
 package com.startogamu.musicalarm.utils;
 
 import android.databinding.BindingAdapter;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -18,4 +19,5 @@ public class Bindings {
                 .placeholder(R.drawable.ic_picture_loading)
                 .into(view);
     }
+
 }

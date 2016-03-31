@@ -17,8 +17,14 @@ import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyConnectFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 
-/**
- * Created by josh on 26/03/16.
+/***
+ * {@link ActivityMusicViewModel} handle multiples fragments :
+ * <ul>
+ * <li>{@link SpotifyMusicFragment } taht show the differents playlist to the user. Can redirect to
+ * {@link com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment}</li>
+ * <li>{@link SpotifyConnectFragment} that handle the connection to spotify</li>
+ * <li>{@link LocalMusicFragment}</li>
+ * </ul>
  */
 public class ActivityMusicViewModel extends BaseObservable implements ViewModel {
 

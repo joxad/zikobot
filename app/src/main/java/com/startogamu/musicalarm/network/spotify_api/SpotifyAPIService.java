@@ -1,6 +1,7 @@
 package com.startogamu.musicalarm.network.spotify_api;
 
 
+import com.startogamu.musicalarm.model.spotify.SpotifyFeaturedPlaylist;
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylist;
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.model.spotify.SpotifyUser;
@@ -22,7 +23,7 @@ public interface SpotifyAPIService {
     Observable<SpotifyPlaylist> getUserPlaylists();
 
     @GET("browse/featured-playlists")
-    Observable<SpotifyPlaylist> getFeaturedPlaylists();
+    Observable<SpotifyFeaturedPlaylist> getFeaturedPlaylists();
 
     @GET("users/{userId}/playlists/{playlistId}/tracks")
     Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(@Path("userId") String userId, @Path("playlistId") final String playlistId);

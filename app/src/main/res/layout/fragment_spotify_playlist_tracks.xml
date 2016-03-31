@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="spotifyPlaylistTracksViewModel"
+            type="com.startogamu.musicalarm.viewmodel.fragment.SpotifyPlaylistTracksViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_items"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:itemViewBinder="@{spotifyPlaylistTracksViewModel.itemsBinder}"
+            app:items="@{spotifyPlaylistTracksViewModel.items}"
+            tools:listitem="@layout/item_playlist" />
+    </LinearLayout>
+</layout>

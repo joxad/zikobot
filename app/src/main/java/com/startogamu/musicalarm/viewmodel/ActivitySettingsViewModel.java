@@ -21,6 +21,7 @@ import com.startogamu.musicalarm.di.manager.spotify_auth.SpotifyAuthManager;
 import com.startogamu.musicalarm.model.spotify.SpotifyRequestToken;
 import com.startogamu.musicalarm.model.spotify.SpotifyToken;
 import com.startogamu.musicalarm.model.spotify.SpotifyUser;
+import com.startogamu.musicalarm.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.view.activity.SettingsActivity;
 
 import java.io.UnsupportedEncodingException;
@@ -124,7 +125,8 @@ public class ActivitySettingsViewModel extends BaseObservable implements ViewMod
                         public void onNext(SpotifyToken spotifyToken) {
                             Log.d(TAG, spotifyToken.toString());
                             accessToken = spotifyToken.getAccessToken();
-                            getMe(accessToken);
+                            SpotifyPrefs.saveAccessToken(accessToken);
+                            getMe();
                         }
                     });
         } catch (UnsupportedEncodingException e) {
@@ -133,8 +135,8 @@ public class ActivitySettingsViewModel extends BaseObservable implements ViewMod
     }
 
 
-    public void getMe(final String accessToken) {
-        spotifyAPIManager.getMe(accessToken, new Subscriber<SpotifyUser>() {
+    public void getMe() {
+        spotifyAPIManager.getMe(new Subscriber<SpotifyUser>() {
             @Override
             public void onCompleted() {
 
@@ -142,7 +144,7 @@ public class ActivitySettingsViewModel extends BaseObservable implements ViewMod
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG,e.getLocalizedMessage());
+                Log.e(TAG, e.getLocalizedMessage());
             }
 
             @Override

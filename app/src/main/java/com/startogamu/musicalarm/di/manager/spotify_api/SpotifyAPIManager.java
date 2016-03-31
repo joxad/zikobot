@@ -1,5 +1,6 @@
 package com.startogamu.musicalarm.di.manager.spotify_api;
 
+import com.startogamu.musicalarm.model.spotify.SpotifyFeaturedPlaylist;
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylist;
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.model.spotify.SpotifyUser;
@@ -24,10 +25,9 @@ public class SpotifyAPIManager {
     }
 
     /***
-     * @param token      should be : "Bearer $accessToken" provided by spotify api
      * @param subscriber
      */
-    public void getMe(final String token, Subscriber<SpotifyUser> subscriber) {
+    public void getMe( Subscriber<SpotifyUser> subscriber) {
         spotifyAPIService.getMe().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
@@ -51,10 +51,9 @@ public class SpotifyAPIManager {
     }
 
     /***
-     * @param token      should be : "Bearer $accessToken" provided by spotify api
-     * @param subscriber
+1     * @param subscriber
      */
-    public void getUserPlaylists(final String token, Subscriber<SpotifyPlaylist> subscriber) {
+    public void getUserPlaylists(Subscriber<SpotifyPlaylist> subscriber) {
         spotifyAPIService.getUserPlaylists()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -73,7 +72,7 @@ public class SpotifyAPIManager {
     }
 
 
-    public void getFeaturedPlaylists(final Subscriber<SpotifyPlaylist> subscriber) {
+    public void getFeaturedPlaylists(final Subscriber<SpotifyFeaturedPlaylist> subscriber) {
         spotifyAPIService.getFeaturedPlaylists().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())

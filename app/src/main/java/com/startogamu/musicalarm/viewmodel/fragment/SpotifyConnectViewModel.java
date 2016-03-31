@@ -121,7 +121,7 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
                             accessToken = spotifyToken.getAccessToken();
                             SpotifyPrefs.saveRefreshToken(spotifyToken.getRefreshToken());
                             SpotifyPrefs.saveAccessToken(spotifyToken.getAccessToken());
-                            getMe(accessToken);
+                            getMe();
                         }
                     });
         } catch (UnsupportedEncodingException e) {
@@ -131,10 +131,10 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
 
 
     /***
-     * @param accessToken
+     *
      */
-    public void getMe(final String accessToken) {
-        spotifyAPIManager.getMe(accessToken, new Subscriber<SpotifyUser>() {
+    public void getMe() {
+        spotifyAPIManager.getMe(new Subscriber<SpotifyUser>() {
             @Override
             public void onCompleted() {
 

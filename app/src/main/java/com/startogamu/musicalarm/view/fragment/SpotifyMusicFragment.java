@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyMusicBinding;
+import com.startogamu.musicalarm.view.activity.MusicActivity;
 import com.startogamu.musicalarm.viewmodel.fragment.SpotifyMusicViewModel;
 
 /**
@@ -41,4 +42,9 @@ public class SpotifyMusicFragment extends Fragment {
     }
 
 
+    public void add(Fragment fragment) {
+        String name = fragment.getClass().getSimpleName();
+        ((MusicActivity) getActivity()).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment, name).addToBackStack(name).commit();
+    }
 }
