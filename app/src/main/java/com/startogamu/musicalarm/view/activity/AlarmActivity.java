@@ -10,6 +10,7 @@ import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
+import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.viewmodel.ActivityAlarmViewModel;
 
 /**
@@ -23,7 +24,7 @@ public class AlarmActivity extends AppCompatActivity {
     ActivityAlarmViewModel viewModel;
 
     @InjectExtra
-    long alarmId;
+    Alarm alarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class AlarmActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> finish());
-        viewModel = new ActivityAlarmViewModel(this, binding, alarmId);
+        viewModel = new ActivityAlarmViewModel(this, binding, alarm);
         binding.setActivityAlarmViewModel(viewModel);
     }
 

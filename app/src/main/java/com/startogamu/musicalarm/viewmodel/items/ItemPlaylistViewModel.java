@@ -44,8 +44,8 @@ public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
      * @param view
      */
     public void onItemClick(View view) {
-        fragment.replace(SpotifyPlaylistTracksFragment.newInstance
-                (Bundler.create().put(EXTRA.PLAYLIST_ID, item.getId()).get()));
+        fragment.replaceFragment(SpotifyPlaylistTracksFragment.newInstance
+                (Bundler.create().put(EXTRA.PLAYLIST_ID, item.getId()).get()),true);
 
     }
 

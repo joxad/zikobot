@@ -92,7 +92,7 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
 
     public void addAlarm(View view) {
         context.startActivity(Henson.with(context)
-                .gotoAlarmActivity().alarmId(-1).build());
+                .gotoAlarmActivity().alarm(new Alarm()).build());
     }
 
     public ItemBinder<ItemAlarmViewModel> itemViewBinder() {

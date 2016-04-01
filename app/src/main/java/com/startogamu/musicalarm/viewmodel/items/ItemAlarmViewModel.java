@@ -34,7 +34,7 @@ public class ItemAlarmViewModel extends BaseObservable implements ViewModel {
      */
     public void onItemClick(View view) {
         context.startActivity(Henson.with(context)
-                .gotoAlarmActivity().alarmId(alarm.getId()).build());
+                .gotoAlarmActivity().alarm(alarm).build());
     }
 
     @Override

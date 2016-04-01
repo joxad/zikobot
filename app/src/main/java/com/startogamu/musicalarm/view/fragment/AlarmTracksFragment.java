@@ -8,9 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.f2prateek.dart.henson.Bundler;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentAlarmTracksBinding;
+import com.startogamu.musicalarm.model.Alarm;
+import com.startogamu.musicalarm.utils.EXTRA;
 import com.startogamu.musicalarm.viewmodel.fragment.AlarmTracksViewModel;
+
+import org.parceler.Parcels;
 
 /**
  * Created by josh on 31/03/16.
@@ -25,9 +30,12 @@ public class AlarmTracksFragment extends Fragment {
 
     /***
      * @return
+     * @param alarm
      */
-    public static AlarmTracksFragment newInstance() {
+    public static AlarmTracksFragment newInstance(Alarm alarm) {
         AlarmTracksFragment fragment = new AlarmTracksFragment();
+       fragment.setArguments(Bundler.create().put(EXTRA.ALARM, Parcels.wrap(alarm)).get());
+
         return fragment;
     }
 

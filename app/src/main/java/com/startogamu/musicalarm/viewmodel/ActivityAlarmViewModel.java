@@ -58,10 +58,20 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      *
      * @param context
      * @param binding
-     * @param alarmId
+     * @param alarm
      */
-    public ActivityAlarmViewModel(final AppCompatActivity context, final ActivityAlarmBinding binding, final long alarmId) {
-        init(context, binding);
+    public ActivityAlarmViewModel(final AppCompatActivity context, final ActivityAlarmBinding binding, Alarm alarm) {
+        this.alarm = alarm;
+        this.context = context;
+        this.binding = binding;
+        MusicAlarmApplication.get(context).netComponent.inject(this);
+        initViews();
+
+
+
+    }
+
+    private void initViews() {
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_delete:
@@ -77,48 +87,19 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
         });
         viewPagerAdapter = new ViewPagerAdapter(context.getFragmentManager(),
                 new Fragment[]{
-                        AlarmInfoFragment.newInstance(),
-                        AlarmTracksFragment.newInstance()
+                        AlarmInfoFragment.newInstance(alarm),
+                        AlarmTracksFragment.newInstance(alarm)
                 },
                 new CharSequence[]{
                         "Mon alarme", "Mes chansons"
                 });
+
         binding.slidingTabLayout.setDistributeEvenly(true);
         binding.slidingTabLayout.setSelectedIndicatorColors(android.R.color.white);
         binding.viewPager.setAdapter(viewPagerAdapter);
         binding.slidingTabLayout.setViewPager(binding.viewPager);
-        AlarmManager.getAlarmById(alarmId).subscribe(new Subscriber<Alarm>() {
-            @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-               // alarm = Alarm.builder().hour(8).minute(0).build();
-            }
-
-            @Override
-            public void onNext(Alarm alarm) {
-                ActivityAlarmViewModel.this.alarm = alarm;
-                alarmName = alarm.getName();
-            }
-        });
-
     }
 
-    /***
-     * Init of the context and the DB
-     * Create the observables methods of the views
-     *
-     * @param context
-     * @param binding
-     */
-    public void init(final AppCompatActivity context, final ActivityAlarmBinding binding) {
-        this.context = context;
-        this.binding = binding;
-        MusicAlarmApplication.get(context).netComponent.inject(this);
-
-    }
 
     /***
      * Use this method to save the data
@@ -202,7 +183,7 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
                     public void onNext(SpotifyPlaylistWithTrack spotifyPlaylistWithTrack) {
                         alarmTrackList = new ArrayList<AlarmTrack>();
                         for (SpotifyPlaylistItem item : spotifyPlaylistWithTrack.getItems()) {
-                           // alarmTrackList.add(AlarmTrack.builder().ref(item.getTrack().getId())
+                           // alarmTrackList.addFragment(AlarmTrack.builder().ref(item.getTrack().getId())
                                    // .type(AlarmTrack.TYPE.SPOTIFY).build());
                         }
                     }

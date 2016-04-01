@@ -14,7 +14,7 @@ import com.startogamu.musicalarm.viewmodel.ActivityMusicViewModel;
  * Created by josh on 26/03/16.
  */
 @HensonNavigable
-public class MusicActivity extends AppCompatActivity {
+public class MusicActivity extends BaseActivity {
 
     ActivityMusicBinding binding;
     ActivityMusicViewModel activityMusicViewModel;
@@ -26,7 +26,7 @@ public class MusicActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        binding.toolbar.setNavigationOnClickListener(listener -> finish());
+        binding.toolbar.setNavigationOnClickListener(listener -> onBackPressed());
         activityMusicViewModel = new ActivityMusicViewModel(this, binding);
         binding.setActivityMusicViewModel(activityMusicViewModel);
 
@@ -52,5 +52,14 @@ public class MusicActivity extends AppCompatActivity {
 
     public void loadSpotifyMusicFragment() {
         activityMusicViewModel.loadSpotifyMusicFragment();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            this.finish();
+        } else {
+            getFragmentManager().popBackStack();
+        }
     }
 }

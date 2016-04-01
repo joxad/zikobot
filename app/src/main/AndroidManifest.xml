@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.startogamu.musicalarm">
     <!-- Permission to start Alarm on device reboot -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".MusicAlarmApplication"
@@ -14,6 +14,7 @@
 
         <activity
             android:name=".view.activity.AlarmsActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:launchMode="singleInstance">
             <intent-filter>
@@ -26,12 +27,16 @@
 
         <activity
             android:name=".view.activity.AlarmActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
+
             android:launchMode="singleInstance" />
 
         <activity
             android:name=".view.activity.SettingsActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
+
             android:launchMode="singleInstance">
 
             // An intent filter that will receive the response from the authentication service
@@ -50,7 +55,9 @@
         </activity>
         <activity
             android:name=".view.activity.MusicActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/activity_music_title"
+
             android:launchMode="singleInstance">
 
 
@@ -68,18 +75,19 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receiver.AlarmReceiver" >
+        <receiver android:name=".receiver.AlarmReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
 
         </receiver>
 
         <!-- Will not be called unless the application explicitly enables it -->
-        <receiver android:name=".DeviceBootReceiver"
+        <receiver
+            android:name=".receiver.DeviceBootReceiver"
             android:enabled="false">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         <service android:name=".service.AlarmService" />
