@@ -24,6 +24,7 @@ public class MusicActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_music);
         setSupportActionBar(binding.toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> finish());
         activityMusicViewModel = new ActivityMusicViewModel(this, binding);

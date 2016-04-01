@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.viewmodel;
+package com.startogamu.musicalarm.viewmodel.items;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.view.activity.Henson;
+import com.startogamu.musicalarm.viewmodel.ViewModel;
 
 /**
  * Created by josh on 09/03/16.

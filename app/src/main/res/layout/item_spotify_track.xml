@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -11,53 +11,55 @@
             type="com.startogamu.musicalarm.viewmodel.items.ItemSpotifyTrackViewModel" />
     </data>
 
-    <android.support.v7.widget.CardView
+    <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="4dp"
-        card_view:cardCornerRadius="2dp">
+        android:layout_margin="@dimen/activity_horizontal_margin">
 
         <LinearLayout
             android:id="@+id/layout_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackground"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/item_icon_size"
+                android:layout_height="@dimen/item_icon_size"
+                tools:src="@drawable/ic_picture_loading"
+                app:imageUrl="@{itemSpotifyTrackViewModel.imageUrl}"
+                />
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:paddingTop="12dp"
-                android:textSize="20sp"
-                tools:text="Nom du réveil" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_song"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_queue_music"
-                android:drawablePadding="4dp"
-                android:drawableStart="@drawable/ic_queue_music"
-                android:gravity="center_vertical"
-                android:paddingBottom="12dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:paddingTop="10dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="14sp"
-                tools:text="Musique" />
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{itemSpotifyTrackViewModel.name}"
+                    android:textSize="20sp"
+                    tools:text="Nom de la musique" />
 
-
+                <TextView
+                    android:id="@+id/tv_artist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_queue_music"
+                    android:drawablePadding="4dp"
+                    android:drawableStart="@drawable/ic_queue_music"
+                    android:gravity="center_vertical"
+                    android:text="@{itemSpotifyTrackViewModel.artistName}"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    tools:text="Artiste" />
+            </LinearLayout>
         </LinearLayout>
-
-    </android.support.v7.widget.CardView>
+    </com.balysv.materialripple.MaterialRippleLayout>
 
 </layout>

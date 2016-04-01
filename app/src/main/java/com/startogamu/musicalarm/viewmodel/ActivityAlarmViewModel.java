@@ -1,5 +1,6 @@
 package com.startogamu.musicalarm.viewmodel;
 
+import android.app.Fragment;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,8 @@ import com.startogamu.musicalarm.receiver.AlarmReceiver;
 import com.startogamu.musicalarm.utils.EXTRA;
 import com.startogamu.musicalarm.view.activity.Henson;
 import com.startogamu.musicalarm.view.adapter.ViewPagerAdapter;
+import com.startogamu.musicalarm.view.fragment.AlarmInfoFragment;
+import com.startogamu.musicalarm.view.fragment.AlarmTracksFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -72,9 +75,14 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
             }
             return false;
         });
-        viewPagerAdapter = new ViewPagerAdapter(context.getFragmentManager(), new CharSequence[]{
-                "Mon alarme", "Mes chansons"
-        });
+        viewPagerAdapter = new ViewPagerAdapter(context.getFragmentManager(),
+                new Fragment[]{
+                        AlarmInfoFragment.newInstance(),
+                        AlarmTracksFragment.newInstance()
+                },
+                new CharSequence[]{
+                        "Mon alarme", "Mes chansons"
+                });
         binding.slidingTabLayout.setDistributeEvenly(true);
         binding.slidingTabLayout.setSelectedIndicatorColors(android.R.color.white);
         binding.viewPager.setAdapter(viewPagerAdapter);
@@ -86,10 +94,7 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
 
             @Override
             public void onError(Throwable e) {
-                alarm = new Alarm();
-                alarm.setHour(8);
-                alarm.setMinute(0);
-
+               // alarm = Alarm.builder().hour(8).minute(0).build();
             }
 
             @Override
@@ -119,6 +124,7 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      * Use this method to save the data
      */
     public void onValidateClick() {
+
         alarm.setName(alarmName);
         AlarmManager.saveAlarm(alarm, alarmTrackList).subscribe(new Subscriber<Alarm>() {
             @Override
@@ -196,10 +202,8 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
                     public void onNext(SpotifyPlaylistWithTrack spotifyPlaylistWithTrack) {
                         alarmTrackList = new ArrayList<AlarmTrack>();
                         for (SpotifyPlaylistItem item : spotifyPlaylistWithTrack.getItems()) {
-                            AlarmTrack alarmTrack = new AlarmTrack();
-                            alarmTrack.setRef(item.getTrack().getId());
-                            alarmTrack.setType(AlarmTrack.TYPE.SPOTIFY);
-                            alarmTrackList.add(alarmTrack);
+                           // alarmTrackList.add(AlarmTrack.builder().ref(item.getTrack().getId())
+                                   // .type(AlarmTrack.TYPE.SPOTIFY).build());
                         }
                     }
                 });

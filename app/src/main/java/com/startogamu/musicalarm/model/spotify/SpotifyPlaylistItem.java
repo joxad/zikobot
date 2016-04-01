@@ -10,9 +10,6 @@ import lombok.Data;
 @Data
 public class SpotifyPlaylistItem {
 
-    @SerializedName("name")
-    public String name;
-
     @SerializedName("track")
     public SpotifyTrack track;
 }

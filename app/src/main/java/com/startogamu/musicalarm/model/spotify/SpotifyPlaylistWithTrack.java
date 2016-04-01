@@ -15,6 +15,4 @@ public class SpotifyPlaylistWithTrack {
     @SerializedName("items")
     public ArrayList<SpotifyPlaylistItem> items;
 
-    @SerializedName("name")
-    public String name;
 }

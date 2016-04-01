@@ -26,8 +26,8 @@
 
             <ImageView
                 android:id="@+id/iv_header"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="@dimen/item_icon_size"
+                android:layout_height="@dimen/item_icon_size"
                 app:imageUrl="@{itemPlaylistViewModel.imageUrl}"
                 tools:src="@drawable/ic_queue_music" />
 

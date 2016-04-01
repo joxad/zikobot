@@ -1,5 +1,8 @@
 package com.startogamu.musicalarm.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -11,28 +14,52 @@ import com.startogamu.musicalarm.di.db.MusicAlarmDatabase;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Builder;
 
 /**
  * Created by josh on 29/03/16.
  */
 @Table(database = MusicAlarmDatabase.class)
-public class AlarmTrack extends BaseModel {
+public class AlarmTrack extends BaseModel implements Parcelable {
 
-    @Getter
-    @Setter
     @PrimaryKey(autoincrement = true)
-    public long id;
     @Getter
     @Setter
+    protected long id;
+
     @Column
-    public String ref;
     @Getter
     @Setter
+    protected String ref;
+
     @Column
-    public int type;
+    @Getter
+    @Setter
+    protected int type;
 
     @ForeignKey(saveForeignKeyModel = false)
     public ForeignKeyContainer<Alarm> alarmForeignKeyContainer;
+
+    public AlarmTrack() {
+    }
+
+    protected AlarmTrack(Parcel in) {
+        id = in.readLong();
+        ref = in.readString();
+        type = in.readInt();
+    }
+
+    public static final Creator<AlarmTrack> CREATOR = new Creator<AlarmTrack>() {
+        @Override
+        public AlarmTrack createFromParcel(Parcel in) {
+            return new AlarmTrack(in);
+        }
+
+        @Override
+        public AlarmTrack[] newArray(int size) {
+            return new AlarmTrack[size];
+        }
+    };
 
     public void associateAlarm(Alarm alarm) {
         alarmForeignKeyContainer = FlowManager.getContainerAdapter(Alarm.class).toForeignKeyContainer(alarm);
@@ -40,6 +67,18 @@ public class AlarmTrack extends BaseModel {
 
     public ForeignKeyContainer<Alarm> getAlarmForeignKeyContainer() {
         return alarmForeignKeyContainer;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(ref);
+        dest.writeInt(type);
     }
 
     public static class TYPE {

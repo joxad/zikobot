@@ -53,7 +53,7 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        context.getFragmentManager().beginTransaction().replace(R.id.container, LocalMusicFragment.newInstance()).commit();
+        context.getFragmentManager().beginTransaction().replace(R.id.container, LocalMusicFragment.newInstance()).addToBackStack(LocalMusicFragment.TAG).commit();
         createBottomNavigation(binding.bottomNavigation);
     }
 

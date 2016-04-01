@@ -12,6 +12,7 @@ import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBindin
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistItem;
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistWithTrack;
+import com.startogamu.musicalarm.model.spotify.SpotifyTrack;
 import com.startogamu.musicalarm.utils.EXTRA;
 import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
 import com.startogamu.musicalarm.viewmodel.RecyclerViewViewModel;
@@ -48,7 +49,7 @@ public class SpotifyPlaylistTracksViewModel extends BaseObservable implements Re
     }
 
     private void loadTracks(String playlistId) {
-
+        trackViewModels.clear();
         spotifyAPIManager.getPlaylistTracks(playlistId, new Subscriber<SpotifyPlaylistWithTrack>() {
             @Override
             public void onCompleted() {
@@ -62,8 +63,8 @@ public class SpotifyPlaylistTracksViewModel extends BaseObservable implements Re
 
             @Override
             public void onNext(SpotifyPlaylistWithTrack spotifyPlaylistWithTrack) {
-                for (SpotifyPlaylistItem track : spotifyPlaylistWithTrack.getItems()) {
-                    trackViewModels.add(new ItemSpotifyTrackViewModel(fragment, binding));
+                for (SpotifyPlaylistItem playlistItem : spotifyPlaylistWithTrack.getItems()) {
+                    trackViewModels.add(new ItemSpotifyTrackViewModel(fragment, playlistItem.track));
                 }
             }
         });

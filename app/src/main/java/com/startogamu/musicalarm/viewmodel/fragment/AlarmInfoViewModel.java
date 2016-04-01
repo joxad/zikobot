@@ -1,7 +1,9 @@
 package com.startogamu.musicalarm.viewmodel.fragment;
 
+import android.app.TimePickerDialog;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.util.Log;
 import android.view.View;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -35,11 +37,12 @@ public class AlarmInfoViewModel extends BaseObservable implements ViewModel {
      * @param view
      */
     public void onTimeClick(View view) {
-      /*  new TimePickerDialog(context, (view1, hourOfDay, minute) -> {
-            alarm.setHour(hourOfDay);
+        new TimePickerDialog(context.getActivity(), (view1, hourOfDay, minute) -> {
+            Log.d("test", "test");
+         /*   alarm.setHour(hourOfDay);
             alarm.setMinute(minute);
-            updateSelectedTime(alarm);
-        }, alarm.getHour(), alarm.getMinute(), true).show();*/
+            updateSelectedTime(alarm);*/
+        }, 8/*alarm.getHour()*/, 0/* alarm.getMinute()*/, true).show();
     }
 
     /***

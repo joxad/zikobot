@@ -7,7 +7,7 @@
 
         <variable
             name="itemAlarmViewModel"
-            type="com.startogamu.musicalarm.viewmodel.ItemAlarmViewModel" />
+            type="com.startogamu.musicalarm.viewmodel.items.ItemAlarmViewModel" />
     </data>
 
     <android.support.v7.widget.CardView

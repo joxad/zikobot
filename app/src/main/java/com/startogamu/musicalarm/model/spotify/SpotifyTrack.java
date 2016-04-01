@@ -2,6 +2,9 @@ package com.startogamu.musicalarm.model.spotify;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import lombok.Data;
 
 /**
@@ -13,4 +16,12 @@ public class SpotifyTrack {
     private String id;
     @SerializedName("name")
     private String name;
+    @SerializedName("album")
+    private SpotifyAlbum album;
+    @SerializedName("artists")
+    private ArrayList<SpotifyArtist> artists;
+    @SerializedName("type")
+    private String type;
+    @SerializedName("duration_ms")
+    private long duration;
 }
