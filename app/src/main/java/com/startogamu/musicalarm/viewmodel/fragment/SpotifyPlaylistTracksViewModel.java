@@ -1,5 +1,7 @@
 package com.startogamu.musicalarm.viewmodel.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
@@ -10,6 +12,7 @@ import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBinding;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
+import com.startogamu.musicalarm.model.AlarmTrack;
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistItem;
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.model.spotify.SpotifyTrack;
@@ -20,6 +23,8 @@ import com.startogamu.musicalarm.viewmodel.items.ItemSpotifyTrackViewModel;
 
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinderBase;
+
+import org.parceler.Parcels;
 
 import javax.inject.Inject;
 
@@ -85,5 +90,23 @@ public class SpotifyPlaylistTracksViewModel extends BaseObservable implements Re
     @Override
     public ItemBinder<ItemSpotifyTrackViewModel> getItemsBinder() {
         return new ItemBinderBase<>(BR.itemSpotifyTrackViewModel, R.layout.item_spotify_track);
+    }
+
+    /***
+     * Selection of a track
+     *
+     * @param track
+     */
+    public void selectTrack(SpotifyTrack track) {
+        AlarmTrack alarmTrack = new AlarmTrack();
+        alarmTrack.setType(AlarmTrack.TYPE.SPOTIFY);
+        alarmTrack.setRef(track.getId());
+        alarmTrack.setImageUrl(track.getAlbum().getImages().get(0).url);
+        alarmTrack.setArtistName(track.getArtists().get(0).getName());
+        alarmTrack.setName(track.getName());
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA.TRACK, Parcels.wrap(alarmTrack));
+        fragment.getActivity().setResult(Activity.RESULT_OK, intent);
+        fragment.getActivity().finish();
     }
 }

@@ -21,7 +21,7 @@ import lombok.Setter;
  */
 @Table(database = MusicAlarmDatabase.class)
 @Parcel
-public class AlarmTrack extends BaseModel  {
+public class AlarmTrack extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     @Getter
@@ -31,12 +31,25 @@ public class AlarmTrack extends BaseModel  {
     @Column
     @Getter
     @Setter
-    protected String ref;
-
+    protected String name;
     @Column
     @Getter
     @Setter
     protected int type;
+    @Column
+    @Getter
+    @Setter
+    protected String ref;
+    @Column
+    @Getter
+    @Setter
+    protected String imageUrl;
+
+    @Column
+    @Getter
+    @Setter
+    protected String artistName;
+
     @Transient
     @ForeignKey(saveForeignKeyModel = false)
     public ForeignKeyContainer<Alarm> alarmForeignKeyContainer;

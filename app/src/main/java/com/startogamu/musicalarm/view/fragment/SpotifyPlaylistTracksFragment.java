@@ -14,12 +14,13 @@ import com.f2prateek.dart.InjectExtra;
 import com.f2prateek.dart.henson.Bundler;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBinding;
+import com.startogamu.musicalarm.model.spotify.SpotifyTrack;
 import com.startogamu.musicalarm.viewmodel.fragment.SpotifyPlaylistTracksViewModel;
 
 /**
  * Created by josh on 31/03/16.
  */
-public class SpotifyPlaylistTracksFragment extends Fragment {
+public class SpotifyPlaylistTracksFragment extends BaseFragment {
 
     public final static String TAG = SpotifyPlaylistTracksFragment.class.getSimpleName();
 
@@ -38,6 +39,7 @@ public class SpotifyPlaylistTracksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_spotify_playlist_tracks, container, false);
         binding.rvItems.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         spotifyPlaylistTracksViewModel = new SpotifyPlaylistTracksViewModel(this, binding);
         binding.setSpotifyPlaylistTracksViewModel(spotifyPlaylistTracksViewModel);
 
@@ -45,4 +47,7 @@ public class SpotifyPlaylistTracksFragment extends Fragment {
     }
 
 
+    public void selectTrack(SpotifyTrack track) {
+        spotifyPlaylistTracksViewModel.selectTrack(track);
+    }
 }

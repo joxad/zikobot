@@ -3,7 +3,7 @@ package com.startogamu.musicalarm.view.activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 
 import com.f2prateek.dart.HensonNavigable;
 import com.startogamu.musicalarm.R;
@@ -61,5 +61,11 @@ public class MusicActivity extends BaseActivity {
         } else {
             getFragmentManager().popBackStack();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_music, menu);
+        return true;
     }
 }

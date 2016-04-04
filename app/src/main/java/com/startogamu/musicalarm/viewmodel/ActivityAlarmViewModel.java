@@ -15,16 +15,16 @@ import com.startogamu.musicalarm.di.manager.AlarmManager;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.model.AlarmTrack;
-import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistItem;
-import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.receiver.AlarmReceiver;
 import com.startogamu.musicalarm.utils.EXTRA;
+import com.startogamu.musicalarm.utils.REQUEST;
 import com.startogamu.musicalarm.view.activity.Henson;
 import com.startogamu.musicalarm.view.adapter.ViewPagerAdapter;
 import com.startogamu.musicalarm.view.fragment.AlarmInfoFragment;
 import com.startogamu.musicalarm.view.fragment.AlarmTracksFragment;
 
-import java.util.ArrayList;
+import org.parceler.Parcels;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -37,16 +37,15 @@ import rx.Subscriber;
  */
 public class ActivityAlarmViewModel extends BaseObservable implements ViewModel {
     private static String TAG = ActivityAlarmViewModel.class.getSimpleName();
-    private static final int REQUEST_CODE = 1337;
+
     @Inject
     SpotifyAPIManager spotifyAPIManager;
 
     private AppCompatActivity context;
     private ActivityAlarmBinding binding;
     private Alarm alarm;
-    private String alarmName = "";
-
-    List<AlarmTrack> alarmTrackList;
+    AlarmTracksFragment alarmTracksFragment;
+    AlarmInfoFragment alarmInfoFragment;
 
     private android.app.AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
@@ -66,12 +65,11 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
         this.binding = binding;
         MusicAlarmApplication.get(context).netComponent.inject(this);
         initViews();
-
-
-
     }
 
     private void initViews() {
+        alarmInfoFragment = AlarmInfoFragment.newInstance(alarm);
+        alarmTracksFragment = AlarmTracksFragment.newInstance(alarm);
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_delete:
@@ -87,8 +85,8 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
         });
         viewPagerAdapter = new ViewPagerAdapter(context.getFragmentManager(),
                 new Fragment[]{
-                        AlarmInfoFragment.newInstance(alarm),
-                        AlarmTracksFragment.newInstance(alarm)
+                        alarmInfoFragment,
+                        alarmTracksFragment
                 },
                 new CharSequence[]{
                         "Mon alarme", "Mes chansons"
@@ -105,9 +103,7 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      * Use this method to save the data
      */
     public void onValidateClick() {
-
-        alarm.setName(alarmName);
-        AlarmManager.saveAlarm(alarm, alarmTrackList).subscribe(new Subscriber<Alarm>() {
+        AlarmManager.saveAlarm(alarmInfoFragment.getAlarm(), alarmTracksFragment.getTracks()).subscribe(new Subscriber<Alarm>() {
             @Override
             public void onCompleted() {
 
@@ -138,14 +134,11 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
         alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        //canel previous alarm intent
         alarmMgr.cancel(alarmIntent);
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, this.alarm.getHour());
         calendar.set(Calendar.MINUTE, this.alarm.getMinute());
-
         alarmMgr.setRepeating(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 1000 * 60, alarmIntent);// test every 60 scs
     }
@@ -155,7 +148,7 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      * @param view
      */
     public void onAddTrackClick(View view) {
-        context.startActivityForResult(Henson.with(context).gotoMusicActivity().build(), REQUEST_CODE);
+        context.startActivityForResult(Henson.with(context).gotoMusicActivity().build(), REQUEST.CODE_TRACK);
     }
 
 
@@ -165,29 +158,13 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      * @param data
      */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE) {
+        //TODO manage the type of data in the intent => list of alarm track/playlist/etc..
+        if (requestCode == REQUEST.CODE_TRACK) {
             if (resultCode == AppCompatActivity.RESULT_OK) {
-                String playlistId = data.getStringExtra(EXTRA.PLAYLIST_ID);
-                spotifyAPIManager.getPlaylistTracks(playlistId, new Subscriber<SpotifyPlaylistWithTrack>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
+                AlarmTrack alarmTrack = Parcels.unwrap(data.getParcelableExtra(EXTRA.TRACK));
+                alarmTracksFragment.add(alarmTrack);
 
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(SpotifyPlaylistWithTrack spotifyPlaylistWithTrack) {
-                        alarmTrackList = new ArrayList<AlarmTrack>();
-                        for (SpotifyPlaylistItem item : spotifyPlaylistWithTrack.getItems()) {
-                           // alarmTrackList.addFragment(AlarmTrack.builder().ref(item.getTrack().getId())
-                                   // .type(AlarmTrack.TYPE.SPOTIFY).build());
-                        }
-                    }
-                });
             }
         }
     }

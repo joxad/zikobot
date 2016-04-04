@@ -14,6 +14,7 @@
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/card_view"
         android:layout_width="match_parent"
+        android:onClick="@{itemSpotifyTrackViewModel.onTrackClicked}"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin">
 

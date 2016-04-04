@@ -10,19 +10,15 @@
             type="com.startogamu.musicalarm.viewmodel.items.ItemAlarmViewModel" />
     </data>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
+    <com.balysv.materialripple.MaterialRippleLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="4dp"
-        card_view:cardCornerRadius="2dp">
+        android:layout_margin="@dimen/activity_horizontal_margin">
 
         <LinearLayout
             android:id="@+id/layout_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackground"
             android:onClick="@{itemAlarmViewModel.onItemClick}"
             android:orientation="vertical">
 
@@ -43,14 +39,14 @@
                 android:id="@+id/tv_song"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_queue_music"
+                android:drawablePadding="4dp"
+                android:drawableStart="@drawable/ic_queue_music"
+                android:gravity="center_vertical"
                 android:paddingBottom="12dp"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:paddingTop="10dp"
-                android:drawablePadding="4dp"
-                android:gravity="center_vertical"
-                android:drawableStart="@drawable/ic_queue_music"
-                android:drawableLeft="@drawable/ic_queue_music"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
                 tools:text="Musique" />
@@ -71,8 +67,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="@dimen/textSizeLarge_openSource"
                     android:text="@{itemAlarmViewModel.alarmTime}"
+                    android:textSize="@dimen/textSizeLarge_openSource"
                     tools:text="8 H 00" />
 
 
@@ -80,6 +76,6 @@
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </com.balysv.materialripple.MaterialRippleLayout>
 
 </layout>

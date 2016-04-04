@@ -2,6 +2,7 @@ package com.startogamu.musicalarm.viewmodel.items;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.view.View;
 
 import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBinding;
 import com.startogamu.musicalarm.model.spotify.SpotifyTrack;
@@ -35,6 +36,10 @@ public class ItemSpotifyTrackViewModel extends BaseObservable implements ViewMod
         notifyChange();
     }
 
+
+    public void onTrackClicked(View view) {
+        fragment.selectTrack(track);
+    }
 
     @Bindable
     public String getName() {

@@ -53,7 +53,7 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        context.replaceFragment(LocalMusicFragment.newInstance(),false);
+        context.replaceFragment(LocalMusicFragment.newInstance(), false);
         createBottomNavigation(binding.bottomNavigation);
     }
 
@@ -76,13 +76,13 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
         bottomNavigationView.setOnBottomNavigationItemClickListener(index -> {
             switch (index) {
                 case 0:
-                    context.replaceFragment(LocalMusicFragment.newInstance(),false);
+                    context.replaceFragment(LocalMusicFragment.newInstance(), false);
                     break;
                 case 1:
                     // if (spotifyManager.hasAccessToken()) {
                     if (!Prefs.contains(SpotifyPrefs.ACCESS_CODE)) {
                         spotifyConnectFragment = SpotifyConnectFragment.newInstance();
-                        context.replaceFragment(spotifyConnectFragment,false);
+                        context.replaceFragment(spotifyConnectFragment, false);
                     } else {
                         loadSpotifyMusicFragment();
                     }
@@ -107,7 +107,7 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
      * @param intent
      */
     public void onNewIntent(Intent intent) {
-        if (spotifyConnectFragment != null)
+        if (spotifyConnectFragment != null && !spotifyConnectFragment.isDetached())
             spotifyConnectFragment.onNewIntent(intent);
     }
 
@@ -123,6 +123,6 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
      */
     public void loadSpotifyMusicFragment() {
         spotifyMusicFragment = SpotifyMusicFragment.newInstance();
-        context.replaceFragment(spotifyMusicFragment,false);
+        context.replaceFragment(spotifyMusicFragment, false);
     }
 }
