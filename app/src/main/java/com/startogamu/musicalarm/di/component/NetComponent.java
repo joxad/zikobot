@@ -6,6 +6,7 @@ import com.startogamu.musicalarm.service.AlarmService;
 import com.startogamu.musicalarm.viewmodel.ActivityAlarmViewModel;
 import com.startogamu.musicalarm.viewmodel.ActivityAlarmsViewModel;
 import com.startogamu.musicalarm.viewmodel.ActivitySettingsViewModel;
+import com.startogamu.musicalarm.viewmodel.fragment.AlarmTracksViewModel;
 import com.startogamu.musicalarm.viewmodel.fragment.SpotifyConnectViewModel;
 import com.startogamu.musicalarm.viewmodel.fragment.SpotifyMusicViewModel;
 import com.startogamu.musicalarm.viewmodel.fragment.SpotifyPlaylistTracksViewModel;
@@ -34,4 +35,6 @@ public interface NetComponent {
     void inject(AlarmService alarmService);
 
     void inject(SpotifyPlaylistTracksViewModel spotifyPlaylistTracksViewModel);
+
+    void inject(AlarmTracksViewModel alarmTracksViewModel);
 }

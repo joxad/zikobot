@@ -10,7 +10,7 @@
             type="com.startogamu.musicalarm.viewmodel.fragment.AlarmTracksViewModel" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -23,5 +23,11 @@
             app:items="@{alarmTracksViewModel.alarmTracks}"
             tools:listitem="@layout/item_playlist" />
 
-    </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:onClick="@{alarmTracksViewModel.onPlayClick}"
+            android:src="@drawable/ic_play_arrow" />
+    </RelativeLayout>
 </layout>

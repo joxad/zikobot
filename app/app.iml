@@ -88,7 +88,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.evernote/android-job/1.0.3/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.Raizlabs.DBFlow/dbflow/3.0.0-beta5/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.armcha/LuseenBottomNavigation/1.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.joxad/android-easy-spotify/1.0.2/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.joxad/android-easy-spotify/1.0.3/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.jakewharton.rxbinding/rxbinding/0.4.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.joxad.github/recyclerview-binding/1.0.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.mikepenz/aboutlibraries/5.6.2/jars" />
@@ -164,9 +164,9 @@
     <orderEntry type="library" exported="" name="rxjava-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="library-3.3.0" level="project" />
     <orderEntry type="library" exported="" name="logging-interceptor-3.0.1" level="project" />
-    <orderEntry type="library" exported="" name="android-easy-spotify-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="rxbinding-0.4.0" level="project" />
     <orderEntry type="library" exported="" name="support-v13-23.2.1" level="project" />
     <orderEntry type="library" exported="" name="dart-annotations-2.0.0" level="project" />
+    <orderEntry type="library" exported="" name="android-easy-spotify-1.0.3" level="project" />
   </component>
 </module>

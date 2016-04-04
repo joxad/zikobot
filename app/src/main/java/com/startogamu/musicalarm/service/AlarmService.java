@@ -6,12 +6,13 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.joxad.android_easy_spotify.SpotifyManager;
-import com.spotify.sdk.android.player.ConnectionStateCallback;
-import com.spotify.sdk.android.player.PlayerNotificationCallback;
-import com.spotify.sdk.android.player.PlayerState;
+import com.spotify.sdk.android.player.Config;
+import com.spotify.sdk.android.player.Player;
+import com.spotify.sdk.android.player.Spotify;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.di.manager.AlarmManager;
@@ -43,13 +44,12 @@ public class AlarmService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         //TODO do something useful
         MusicAlarmApplication.get(this).netComponent.inject(this);
-        long alarmId = intent.getLongExtra(EXTRA.ALARM_ID,-1);
+        long alarmId = intent.getLongExtra(EXTRA.ALARM_ID, -1);
         AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
             AlarmService.this.alarm = alarm;
             showNotification(alarm);
             startPlayer();
         });
-
 
 
         return Service.START_STICKY;
@@ -61,51 +61,25 @@ public class AlarmService extends Service {
     private void startPlayer() {
         try {
             spotifyAuthManager.refreshToken(getApplicationContext(), () -> {
-                SpotifyManager.startPlayer(SpotifyPrefs.getAcccesToken(), new ConnectionStateCallback() {
+                Config playerConfig = new Config(AlarmService.this.getApplicationContext(), SpotifyPrefs.getAcccesToken(), getString(R.string.api_spotify_id));
+
+                Spotify.getPlayer(playerConfig, AlarmService.this.getApplicationContext(), new Player.InitializationObserver() {
                     @Override
-                    public void onLoggedIn() {
+                    public void onInitialized(Player pl) {
                         ArrayList<String> uris = new ArrayList<String>();
-                        for (AlarmTrack alarmTrack: alarm.getTracks()){
+                        for (AlarmTrack alarmTrack : alarm.getTracks()) {
                             uris.add(alarmTrack.getRef());
                         }
-                        SpotifyManager.play(uris);
-                        Log.d(TAG, "Logged in");
+                        pl.play(uris);
                     }
 
                     @Override
-                    public void onLoggedOut() {
-                        Log.d(TAG, "Logged out");
-
-                    }
-
-                    @Override
-                    public void onLoginFailed(Throwable throwable) {
-                        Log.d(TAG, "Logged failed");
-
-                    }
-
-                    @Override
-                    public void onTemporaryError() {
-                        Log.d(TAG, "temp error");
-
-                    }
-
-                    @Override
-                    public void onConnectionMessage(String s) {
-                        Log.d(TAG, "Connection message " + s);
-
-                    }
-                }, new PlayerNotificationCallback() {
-                    @Override
-                    public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
-
-                    }
-
-                    @Override
-                    public void onPlaybackError(ErrorType errorType, String s) {
+                    public void onError(Throwable throwable) {
+                        Log.e(SpotifyManager.class.getSimpleName(), "Could not initialize player: " + throwable.getMessage());
 
                     }
                 });
+
             });
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

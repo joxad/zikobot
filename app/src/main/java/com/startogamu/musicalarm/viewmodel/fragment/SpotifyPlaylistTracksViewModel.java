@@ -100,7 +100,7 @@ public class SpotifyPlaylistTracksViewModel extends BaseObservable implements Re
     public void selectTrack(SpotifyTrack track) {
         AlarmTrack alarmTrack = new AlarmTrack();
         alarmTrack.setType(AlarmTrack.TYPE.SPOTIFY);
-        alarmTrack.setRef(track.getId());
+        alarmTrack.setRef("spotify:track:" + track.getId());
         alarmTrack.setImageUrl(track.getAlbum().getImages().get(0).url);
         alarmTrack.setArtistName(track.getArtists().get(0).getName());
         alarmTrack.setName(track.getName());
