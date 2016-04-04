@@ -95,6 +95,7 @@ public class AlarmService extends Service {
 
         Notification n = new Notification.Builder(this)
                 .setContentTitle(alarm.getName())
+                //.addAction(new Notification.Action.Builder(new I))
                 .setContentText(String.format("%d H %2d", alarm.getHour(), alarm.getMinute()))
                 .setSmallIcon(R.drawable.ic_queue_music)
                 .setAutoCancel(false)

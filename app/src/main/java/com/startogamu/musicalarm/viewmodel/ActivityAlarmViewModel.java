@@ -140,7 +140,7 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
         calendar.set(Calendar.HOUR_OF_DAY, this.alarm.getHour());
         calendar.set(Calendar.MINUTE, this.alarm.getMinute());
         alarmMgr.setRepeating(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                1000 * 60, alarmIntent);// test every 60 scs
+                1000 * 15 * 60, alarmIntent);// test every 60 scs
     }
 
 
