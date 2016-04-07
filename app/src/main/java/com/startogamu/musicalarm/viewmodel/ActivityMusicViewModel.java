@@ -1,6 +1,7 @@
 package com.startogamu.musicalarm.viewmodel;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.BaseObservable;
 import android.support.v4.content.ContextCompat;
 
@@ -10,6 +11,7 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.startogamu.musicalarm.R;
+import com.startogamu.musicalarm.core.utils.REQUEST;
 import com.startogamu.musicalarm.databinding.ActivityMusicBinding;
 import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.view.activity.BaseActivity;
@@ -34,7 +36,7 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
 
     private SpotifyMusicFragment spotifyMusicFragment;
     private SpotifyConnectFragment spotifyConnectFragment;
-
+    private LocalMusicFragment localMusicFragment;
     /***
      * @param context
      * @param binding
@@ -53,7 +55,8 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        context.replaceFragment(LocalMusicFragment.newInstance(), false);
+        localMusicFragment = LocalMusicFragment.newInstance();
+        context.replaceFragment(localMusicFragment, false);
         createBottomNavigation(binding.bottomNavigation);
     }
 
@@ -76,7 +79,7 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
         bottomNavigationView.setOnBottomNavigationItemClickListener(index -> {
             switch (index) {
                 case 0:
-                    context.replaceFragment(LocalMusicFragment.newInstance(), false);
+                    context.replaceFragment(localMusicFragment, false);
                     break;
                 case 1:
                     // if (spotifyManager.hasAccessToken()) {
@@ -124,5 +127,15 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
     public void loadSpotifyMusicFragment() {
         spotifyMusicFragment = SpotifyMusicFragment.newInstance();
         context.replaceFragment(spotifyMusicFragment, false);
+    }
+
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (localMusicFragment == null || localMusicFragment.isDetached())
+            return;
+        switch (requestCode){
+            case REQUEST.PERMISSION_STORAGE:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                localMusicFragment.loadMusic();
+        }
     }
 }

@@ -39,6 +39,12 @@ public class MusicActivity extends BaseActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        activityMusicViewModel.onRequestPermissionResult(requestCode,permissions,grantResults);
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         activityMusicViewModel.onNewIntent(intent);

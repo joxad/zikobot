@@ -46,7 +46,7 @@ dependencies {
     apt "org.parceler:parceler:1.0.4"
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 
-    compile 'com.github.joxad:android-easy-spotify:1.0.3'
+    compile 'com.github.joxad:android-easy-spotify:1.0.4'
     apt "org.projectlombok:lombok:1.12.6"
     provided "org.projectlombok:lombok:1.12.6"
 
