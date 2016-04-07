@@ -18,7 +18,6 @@ import com.startogamu.musicalarm.viewmodel.ActivityAlarmViewModel;
  */
 public class AlarmActivity extends AppCompatActivity {
 
-    private static final String EXTRA_ALARM = "ALARM_ID";
     ActivityAlarmBinding binding;
 
     ActivityAlarmViewModel viewModel;
@@ -29,12 +28,11 @@ public class AlarmActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Dart.inject(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_alarm);
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> finish());
-        viewModel = new ActivityAlarmViewModel(this, binding, alarm);
+        viewModel = new ActivityAlarmViewModel(this, binding);
         binding.setActivityAlarmViewModel(viewModel);
     }
 

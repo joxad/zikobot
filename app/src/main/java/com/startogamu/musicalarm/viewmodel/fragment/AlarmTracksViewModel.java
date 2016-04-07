@@ -18,6 +18,7 @@ import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentAlarmTracksBinding;
 import com.startogamu.musicalarm.di.manager.AlarmManager;
+import com.startogamu.musicalarm.di.manager.PlayerMusicManager;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.model.AlarmTrack;
@@ -49,10 +50,12 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
     AlarmTracksFragment context;
     @Inject
     SpotifyAPIManager spotifyAPIManager;
+    PlayerMusicManager playerMusicManager;
     /***
      * The observable list of tracks selected for this alarm
      */
     private ObservableArrayList<ItemTrackViewModel> tracks = new ObservableArrayList<>();
+    Alarm alarm;
 
     /***
      * @param context
@@ -74,52 +77,20 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
      * @param alarm
      */
     public void setAlarm(Alarm alarm) {
+        this.alarm = alarm;
         for (AlarmTrack alarmTrack : alarm.getTracks()) {
             ItemTrackViewModel itemTrackViewModel = new ItemTrackViewModel(context, binding);
             itemTrackViewModel.setAlarmTrack(alarmTrack);
             tracks.add(itemTrackViewModel);
         }
+        playerMusicManager = new PlayerMusicManager(mediaPlayer, alarm);
 
     }
 
 
     public void onPlayClick(View view) {
+        playerMusicManager.startAlarm();
 
-
-        Config playerConfig = new Config(context.getActivity(), SpotifyPrefs.getAcccesToken(), context.getString(R.string.api_spotify_id));
-
-        for (AlarmTrack alarmTrack : getTracks()) {
-            if (alarmTrack.getType() == AlarmTrack.TYPE.LOCAL) {
-                try {
-                    mediaPlayer.setDataSource(alarmTrack.getRef());
-                    mediaPlayer.prepare();
-                    mediaPlayer.setOnCompletionListener(mp -> {
-
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                mediaPlayer.start();
-
-            }
-        }
-        Spotify.getPlayer(playerConfig, context, new Player.InitializationObserver() {
-            @Override
-            public void onInitialized(Player pl) {
-                ArrayList<String> uris = new ArrayList<String>();
-                for (AlarmTrack alarmTrack : getTracks()) {
-                    if (alarmTrack.getType() == AlarmTrack.TYPE.SPOTIFY)
-                        uris.add(alarmTrack.getRef());
-                }
-                pl.play(uris);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                Log.e(SpotifyManager.class.getSimpleName(), "Could not initialize player: " + throwable.getMessage());
-
-            }
-        });
     }
 
     public void onDestroy() {

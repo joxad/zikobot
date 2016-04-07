@@ -6,7 +6,7 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.startogamu.musicalarm.model.Alarm;
-import com.startogamu.musicalarm.view.activity.Henson;
+import com.startogamu.musicalarm.view.Henson;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 
 /**

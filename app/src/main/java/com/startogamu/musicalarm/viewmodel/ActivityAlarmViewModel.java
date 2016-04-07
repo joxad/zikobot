@@ -8,6 +8,8 @@ import android.databinding.BaseObservable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.InjectExtra;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
@@ -18,7 +20,8 @@ import com.startogamu.musicalarm.model.AlarmTrack;
 import com.startogamu.musicalarm.core.receiver.AlarmReceiver;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.core.utils.REQUEST;
-import com.startogamu.musicalarm.view.activity.Henson;
+import com.startogamu.musicalarm.view.Henson;
+import com.startogamu.musicalarm.view.activity.AlarmActivity;
 import com.startogamu.musicalarm.view.adapter.ViewPagerAdapter;
 import com.startogamu.musicalarm.view.fragment.AlarmInfoFragment;
 import com.startogamu.musicalarm.view.fragment.AlarmTracksFragment;
@@ -40,9 +43,8 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     @Inject
     SpotifyAPIManager spotifyAPIManager;
 
-    private AppCompatActivity context;
+    private AlarmActivity context;
     private ActivityAlarmBinding binding;
-    private Alarm alarm;
     AlarmTracksFragment alarmTracksFragment;
     AlarmInfoFragment alarmInfoFragment;
 
@@ -51,17 +53,18 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
 
     ViewPagerAdapter viewPagerAdapter;
 
+    @InjectExtra
+    Alarm alarm;
     /***
      * Copy the alarm from an existing one
      *
      * @param context
      * @param binding
-     * @param alarm
      */
-    public ActivityAlarmViewModel(final AppCompatActivity context, final ActivityAlarmBinding binding, Alarm alarm) {
-        this.alarm = alarm;
+    public ActivityAlarmViewModel(final AlarmActivity context, final ActivityAlarmBinding binding) {
         this.context = context;
         this.binding = binding;
+        Dart.inject(this, context);
         MusicAlarmApplication.get(context).netComponent.inject(this);
         initViews();
     }

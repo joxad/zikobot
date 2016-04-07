@@ -1,11 +1,17 @@
 package com.startogamu.musicalarm.di.manager;
 
+import android.media.MediaPlayer;
+import android.util.Log;
+
 import com.joxad.android_easy_spotify.SpotifyPlayerManager;
+import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
+import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.model.AlarmTrack;
 
-import java.util.ArrayList;
+import java.io.IOException;
 
 /**
  * {@link PlayerMusicManager} will handle the change of track according to the type of alarm track that is used
@@ -13,30 +19,75 @@ import java.util.ArrayList;
  */
 public class PlayerMusicManager {
 
-    SpotifyPlayerManager spotifyPlayerManager;
+    private static final String TAG = PlayerMusicManager.class.getSimpleName();
+    private final Alarm alarm;
+    MediaPlayer mediaPlayer;
+    int currentSong = 0;
+    boolean spotifyPlayer = false;
+
+    public PlayerMusicManager(MediaPlayer mediaPlayer, Alarm alarm) {
+        this.mediaPlayer = mediaPlayer;
+        this.alarm = alarm;
+        setListener();
+        /*
+        SpotifyPlayerManager.startPlayer(SpotifyPrefs.getAcccesToken(), new Player.InitializationObserver() {
+            @Override
+            public void onInitialized(Player player) {
+                spotifyPlayer = true;
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                spotifyPlayer = false;
+            }
+        });*/
+    }
+
 
     /***
-     *
      * @param alarmTrack
      */
     public void playAlarmTrack(final AlarmTrack alarmTrack) {
-        switch (alarmTrack.getType()){
+        switch (alarmTrack.getType()) {
             case AlarmTrack.TYPE.LOCAL:
+                try {
+                    mediaPlayer.setDataSource(alarmTrack.getRef());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case AlarmTrack.TYPE.SPOTIFY:
-                SpotifyPlayerManager.play(alarmTrack.getRef());
+                if (spotifyPlayer)
+                    SpotifyPlayerManager.play(alarmTrack.getRef());
+                break;
         }
 
     }
 
 
     public void setListener() {
+        mediaPlayer.setOnCompletionListener(mp -> {
+            playNextSong();
+        });
         SpotifyPlayerManager.setPlayerNotificationCallback(new PlayerNotificationCallback() {
             @Override
             public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
                 if (eventType == EventType.PAUSE) {
-
+                    Log.d(TAG, "PAUSE");
                 }
+                if (eventType == EventType.PLAY) {
+                    Log.d(TAG, "PLAY");
+                }
+                if (eventType == EventType.TRACK_CHANGED) {
+                    Log.d(TAG, "TRACK_CHANGED");
+                }
+                if (eventType == EventType.SKIP_NEXT) {
+                    Log.d(TAG, "SKIP_NEXT");
+                }
+                if (eventType == EventType.SKIP_PREV) {
+                    Log.d(TAG, "SKIP_PREV");
+                }
+                Log.d(TAG, String.format("Player state : current duration %d total duration %s", playerState.positionInMs, playerState.durationInMs));
             }
 
             @Override
@@ -46,5 +97,17 @@ public class PlayerMusicManager {
         });
     }
 
+    /***
+     *
+     */
+    private void playNextSong() {
+        currentSong++;
+        playAlarmTrack(alarm.getTracks().get(currentSong));
+    }
 
+
+    public void startAlarm() {
+        currentSong = 0;
+        playAlarmTrack(alarm.getTracks().get(currentSong));
+    }
 }

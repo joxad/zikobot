@@ -14,7 +14,7 @@ import com.startogamu.musicalarm.di.manager.AlarmManager;
 import com.startogamu.musicalarm.di.manager.spotify_auth.SpotifyAuthManager;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
-import com.startogamu.musicalarm.view.activity.Henson;
+import com.startogamu.musicalarm.view.Henson;
 import com.startogamu.musicalarm.viewmodel.items.ItemAlarmViewModel;
 
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;

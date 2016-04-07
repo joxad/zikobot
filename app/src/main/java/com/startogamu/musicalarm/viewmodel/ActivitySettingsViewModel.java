@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.joxad.android_easy_spotify.SpotifyManager;
+import com.joxad.android_easy_spotify.Type;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
@@ -56,9 +57,6 @@ public class ActivitySettingsViewModel extends BaseObservable implements ViewMod
             new SpotifyManager.Builder()
                     .setContext(context)
                     .setApiKey(context.getString(R.string.api_spotify_id))
-                    .setApiCallback(context.getString(R.string.api_spotify_callback_settings))
-                    .setConnectionType(AuthenticationResponse.Type.CODE)
-                    .setScope(new String[]{"user-read-private", "streaming"})
                     .build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,7 +86,7 @@ public class ActivitySettingsViewModel extends BaseObservable implements ViewMod
      */
     public void onButtonConnectClick(View view) {
 
-        SpotifyManager.loginWithBrowser(new SpotifyManager.OAuthListener() {
+        SpotifyManager.loginWithBrowser(Type.CODE, context.getString(R.string.api_spotify_callback_settings), new String[]{"user-read-private", "streaming"}, new SpotifyManager.OAuthListener() {
             @Override
             public void onReceived(String code) {
                 accessCode = code;

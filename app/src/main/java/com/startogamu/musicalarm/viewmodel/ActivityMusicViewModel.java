@@ -47,10 +47,6 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
         try {
             new SpotifyManager.Builder()
                     .setContext(context)
-                    .setApiKey(context.getString(R.string.api_spotify_id))
-                    .setApiCallback(context.getString(R.string.api_spotify_callback_musics))
-                    .setConnectionType(AuthenticationResponse.Type.CODE)
-                    .setScope(new String[]{"user-read-private", "streaming"})
                     .build();
         } catch (Exception e) {
             e.printStackTrace();

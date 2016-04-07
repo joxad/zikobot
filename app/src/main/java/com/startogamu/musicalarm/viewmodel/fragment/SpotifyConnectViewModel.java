@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.joxad.android_easy_spotify.SpotifyManager;
+import com.joxad.android_easy_spotify.Type;
+import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentConnectSpotifyBinding;
@@ -79,19 +81,20 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
      */
     public void onButtonConnectClick(View view) {
 
-        SpotifyManager.loginWithBrowser(new SpotifyManager.OAuthListener() {
-            @Override
-            public void onReceived(String code) {
-                accessCode = code;
-                SpotifyPrefs.saveAccessCode(code);
-                getTokenFromCode(code);
-            }
+        SpotifyManager.loginWithBrowser(Type.CODE, context.getString(R.string.api_spotify_callback_musics),
+                new String[]{"user-read-private", "streaming"}, new SpotifyManager.OAuthListener() {
+                    @Override
+                    public void onReceived(String code) {
+                        accessCode = code;
+                        SpotifyPrefs.saveAccessCode(code);
+                        getTokenFromCode(code);
+                    }
 
-            @Override
-            public void onError(String error) {
-                Log.d(TAG, error);
-            }
-        });
+                    @Override
+                    public void onError(String error) {
+                        Log.d(TAG, error);
+                    }
+                });
     }
 
 
