@@ -5,7 +5,7 @@ import com.startogamu.musicalarm.model.spotify.SpotifyPlaylist;
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.model.spotify.SpotifyUser;
 import com.startogamu.musicalarm.network.spotify_api.SpotifyAPIService;
-import com.startogamu.musicalarm.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 
 import javax.inject.Inject;
 

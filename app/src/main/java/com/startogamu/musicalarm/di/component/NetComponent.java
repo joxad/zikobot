@@ -2,7 +2,11 @@ package com.startogamu.musicalarm.di.component;
 
 
 import com.startogamu.musicalarm.di.module.AppModule;
-import com.startogamu.musicalarm.service.AlarmService;
+import com.startogamu.musicalarm.core.service.AlarmService;
+import com.startogamu.musicalarm.di.module.spotify_api.SpotifyAPINetworkModule;
+import com.startogamu.musicalarm.di.module.spotify_api.SpotifyAPIServiceModule;
+import com.startogamu.musicalarm.di.module.spotify_auth.SpotifyAuthNetworkModule;
+import com.startogamu.musicalarm.di.module.spotify_auth.SpotifyAuthServiceModule;
 import com.startogamu.musicalarm.viewmodel.ActivityAlarmViewModel;
 import com.startogamu.musicalarm.viewmodel.ActivityAlarmsViewModel;
 import com.startogamu.musicalarm.viewmodel.ActivitySettingsViewModel;
@@ -19,7 +23,11 @@ import dagger.Component;
  * Created by josh on 24/03/16.
  */
 @Singleton
-@Component(modules = {AppModule.class})
+@Component(modules = {AppModule.class,
+        SpotifyAuthNetworkModule.class,
+        SpotifyAuthServiceModule.class,
+        SpotifyAPINetworkModule.class,
+        SpotifyAPIServiceModule.class})
 public interface NetComponent {
 
     void inject(ActivityAlarmsViewModel activityAlarmsViewModel);

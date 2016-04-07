@@ -16,7 +16,7 @@ import com.startogamu.musicalarm.model.AlarmTrack;
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistItem;
 import com.startogamu.musicalarm.model.spotify.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.model.spotify.SpotifyTrack;
-import com.startogamu.musicalarm.utils.EXTRA;
+import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
 import com.startogamu.musicalarm.viewmodel.RecyclerViewViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemSpotifyTrackViewModel;

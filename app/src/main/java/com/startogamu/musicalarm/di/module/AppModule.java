@@ -21,12 +21,7 @@ import dagger.Provides;
  * <li> {@link SpotifyAPIServiceModule}: Export the WS methods of spotify API </li>
  * </ul>
  */
-@Module(
-        includes = {
-                SpotifyAuthNetworkModule.class,
-                SpotifyAuthServiceModule.class,
-                SpotifyAPINetworkModule.class,
-                SpotifyAPIServiceModule.class})
+@Module
 public class AppModule {
 
     Application mApplication;

@@ -21,7 +21,7 @@ import com.startogamu.musicalarm.di.manager.spotify_auth.SpotifyAuthManager;
 import com.startogamu.musicalarm.model.spotify.SpotifyRequestToken;
 import com.startogamu.musicalarm.model.spotify.SpotifyToken;
 import com.startogamu.musicalarm.model.spotify.SpotifyUser;
-import com.startogamu.musicalarm.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.view.activity.SettingsActivity;
 
 import java.io.UnsupportedEncodingException;

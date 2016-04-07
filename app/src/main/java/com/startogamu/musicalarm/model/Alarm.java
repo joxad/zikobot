@@ -8,8 +8,8 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
-import com.startogamu.musicalarm.di.db.MusicAlarmDatabase;
-import com.startogamu.musicalarm.utils.ItemListTrackConverter;
+import com.startogamu.musicalarm.core.db.MusicAlarmDatabase;
+import com.startogamu.musicalarm.core.utils.ItemListTrackConverter;
 
 import org.parceler.Parcel;
 import org.parceler.ParcelPropertyConverter;

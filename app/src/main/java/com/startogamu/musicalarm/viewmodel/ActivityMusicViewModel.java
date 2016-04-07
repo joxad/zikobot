@@ -11,7 +11,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityMusicBinding;
-import com.startogamu.musicalarm.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.view.activity.BaseActivity;
 import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyConnectFragment;

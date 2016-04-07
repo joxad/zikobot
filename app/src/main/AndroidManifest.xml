@@ -3,6 +3,7 @@
     package="com.startogamu.musicalarm">
     <!-- Permission to start Alarm on device reboot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MusicAlarmApplication"
@@ -74,7 +75,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receiver.AlarmReceiver">
+        <receiver android:name=".core.receiver.AlarmReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -83,13 +84,13 @@
 
         <!-- Will not be called unless the application explicitly enables it -->
         <receiver
-            android:name=".receiver.DeviceBootReceiver"
+            android:name=".core.receiver.DeviceBootReceiver"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <service android:name=".service.AlarmService" />
+        <service android:name=".core.service.AlarmService" />
     </application>
 
 </manifest>

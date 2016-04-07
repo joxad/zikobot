@@ -18,7 +18,7 @@ import com.startogamu.musicalarm.di.manager.AlarmManager;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.model.AlarmTrack;
-import com.startogamu.musicalarm.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.view.fragment.AlarmTracksFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemTrackViewModel;

@@ -15,9 +15,9 @@ import com.startogamu.musicalarm.di.manager.AlarmManager;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.model.AlarmTrack;
-import com.startogamu.musicalarm.receiver.AlarmReceiver;
-import com.startogamu.musicalarm.utils.EXTRA;
-import com.startogamu.musicalarm.utils.REQUEST;
+import com.startogamu.musicalarm.core.receiver.AlarmReceiver;
+import com.startogamu.musicalarm.core.utils.EXTRA;
+import com.startogamu.musicalarm.core.utils.REQUEST;
 import com.startogamu.musicalarm.view.activity.Henson;
 import com.startogamu.musicalarm.view.adapter.ViewPagerAdapter;
 import com.startogamu.musicalarm.view.fragment.AlarmInfoFragment;
@@ -26,7 +26,6 @@ import com.startogamu.musicalarm.view.fragment.AlarmTracksFragment;
 import org.parceler.Parcels;
 
 import java.util.Calendar;
-import java.util.List;
 
 import javax.inject.Inject;
 

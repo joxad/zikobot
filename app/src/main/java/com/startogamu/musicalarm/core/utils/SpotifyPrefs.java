@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.utils;
+package com.startogamu.musicalarm.core.utils;
 
 import com.pixplicity.easyprefs.library.Prefs;
 

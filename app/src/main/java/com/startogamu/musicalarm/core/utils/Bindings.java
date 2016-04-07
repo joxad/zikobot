@@ -1,7 +1,6 @@
-package com.startogamu.musicalarm.utils;
+package com.startogamu.musicalarm.core.utils;
 
 import android.databinding.BindingAdapter;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;

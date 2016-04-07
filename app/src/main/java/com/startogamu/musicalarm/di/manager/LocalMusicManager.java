@@ -11,18 +11,23 @@ import com.startogamu.musicalarm.model.LocalTrack;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import rx.Observable;
 import rx.Subscriber;
 
 /**
  * Created by Josh on 06/04/2016.
  */
+@Singleton
 public class LocalMusicManager {
 
     private static final String TAG = LocalMusicManager.class.getSimpleName();
     ContentResolver contentResolver;
 
-    public LocalMusicManager(    ContentResolver contentResolver) {
+    @Inject
+    public LocalMusicManager(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
     }
 

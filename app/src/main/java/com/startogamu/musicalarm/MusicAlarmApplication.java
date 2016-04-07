@@ -6,6 +6,8 @@ import android.content.ContextWrapper;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.startogamu.musicalarm.di.component.ContentComponent;
+import com.startogamu.musicalarm.di.component.DaggerContentComponent;
 import com.startogamu.musicalarm.di.component.DaggerNetComponent;
 import com.startogamu.musicalarm.di.component.NetComponent;
 import com.startogamu.musicalarm.di.module.AppModule;
@@ -15,14 +17,19 @@ import com.startogamu.musicalarm.di.module.AppModule;
  */
 public class MusicAlarmApplication extends Application {
     public NetComponent netComponent;
+    public ContentComponent contentComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         FlowManager.init(this);
 
+        AppModule appModule = new AppModule(this);
         netComponent = DaggerNetComponent.builder()
-                .appModule(new AppModule(this))
+                .appModule(appModule)
+                .build();
+        contentComponent = DaggerContentComponent.builder()
+                .appModule(appModule)
                 .build();
         new Prefs.Builder()
                 .setContext(this)
@@ -37,8 +44,6 @@ public class MusicAlarmApplication extends Application {
     public static MusicAlarmApplication get(Context context) {
         return (MusicAlarmApplication) context.getApplicationContext();
     }
-
-
 
 
 }

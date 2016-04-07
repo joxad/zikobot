@@ -140,8 +140,8 @@
     <orderEntry type="library" exported="" name="fastadapter-1.2.9" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-23.2.1" level="project" />
     <orderEntry type="library" exported="" name="aboutlibraries-5.6.2" level="project" />
-    <orderEntry type="library" exported="" name="dart-processor-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="dart-common-2.0.0" level="project" />
+    <orderEntry type="library" exported="" name="dart-processor-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="javapoet-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="lombok-1.12.6" level="project" />
     <orderEntry type="library" exported="" name="dagger-2.1" level="project" />

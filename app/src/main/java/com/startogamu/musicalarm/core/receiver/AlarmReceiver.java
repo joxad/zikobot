@@ -1,15 +1,12 @@
-package com.startogamu.musicalarm.receiver;
+package com.startogamu.musicalarm.core.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.startogamu.musicalarm.model.Alarm;
-import com.startogamu.musicalarm.service.AlarmService;
-import com.startogamu.musicalarm.utils.EXTRA;
-
-import org.parceler.Parcels;
+import com.startogamu.musicalarm.core.service.AlarmService;
+import com.startogamu.musicalarm.core.utils.EXTRA;
 
 /**
  * Created by josh on 28/03/16.

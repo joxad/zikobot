@@ -8,7 +8,7 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 import com.raizlabs.android.dbflow.structure.container.ForeignKeyContainer;
-import com.startogamu.musicalarm.di.db.MusicAlarmDatabase;
+import com.startogamu.musicalarm.core.db.MusicAlarmDatabase;
 
 import org.parceler.Parcel;
 import org.parceler.Transient;

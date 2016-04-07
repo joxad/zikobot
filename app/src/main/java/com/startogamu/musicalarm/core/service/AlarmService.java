@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.service;
+package com.startogamu.musicalarm.core.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -6,7 +6,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.joxad.android_easy_spotify.SpotifyManager;
@@ -19,8 +18,8 @@ import com.startogamu.musicalarm.di.manager.AlarmManager;
 import com.startogamu.musicalarm.di.manager.spotify_auth.SpotifyAuthManager;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.model.AlarmTrack;
-import com.startogamu.musicalarm.utils.EXTRA;
-import com.startogamu.musicalarm.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.EXTRA;
+import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;

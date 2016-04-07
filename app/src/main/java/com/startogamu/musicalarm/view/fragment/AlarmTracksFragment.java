@@ -14,7 +14,7 @@ import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentAlarmTracksBinding;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.model.AlarmTrack;
-import com.startogamu.musicalarm.utils.EXTRA;
+import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.viewmodel.fragment.AlarmTracksViewModel;
 
 import org.parceler.Parcels;

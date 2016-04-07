@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.di.db;
+package com.startogamu.musicalarm.core.db;
 
 import com.raizlabs.android.dbflow.annotation.Database;
 

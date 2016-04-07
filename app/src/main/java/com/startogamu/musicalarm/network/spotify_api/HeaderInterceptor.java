@@ -1,6 +1,6 @@
 package com.startogamu.musicalarm.network.spotify_api;
 
-import com.startogamu.musicalarm.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 
 import java.io.IOException;
 

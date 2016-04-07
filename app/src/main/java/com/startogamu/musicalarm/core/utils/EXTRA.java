@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.utils;
+package com.startogamu.musicalarm.core.utils;
 
 /**
  * Created by josh on 28/03/16.
