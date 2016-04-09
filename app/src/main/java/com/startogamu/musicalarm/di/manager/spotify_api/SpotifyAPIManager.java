@@ -9,6 +9,7 @@ import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -27,7 +28,7 @@ public class SpotifyAPIManager {
     /***
      * @param subscriber
      */
-    public void getMe( Subscriber<SpotifyUser> subscriber) {
+    public void getMe(Subscriber<SpotifyUser> subscriber) {
         spotifyAPIService.getMe().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
@@ -51,14 +52,13 @@ public class SpotifyAPIManager {
     }
 
     /***
-1     * @param subscriber
+     * 1     *
      */
-    public void getUserPlaylists(Subscriber<SpotifyPlaylist> subscriber) {
-        spotifyAPIService.getUserPlaylists()
+    public Observable<SpotifyPlaylist> getUserPlaylists() {
+        return spotifyAPIService.getUserPlaylists()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(subscriber);
+                .unsubscribeOn(Schedulers.io());
     }
 
     /***
@@ -72,11 +72,10 @@ public class SpotifyAPIManager {
     }
 
 
-    public void getFeaturedPlaylists(final Subscriber<SpotifyFeaturedPlaylist> subscriber) {
-        spotifyAPIService.getFeaturedPlaylists().subscribeOn(Schedulers.io())
+    public Observable<SpotifyFeaturedPlaylist> getFeaturedPlaylists() {
+        return spotifyAPIService.getFeaturedPlaylists().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(subscriber);
+                .unsubscribeOn(Schedulers.io());
     }
 
 }

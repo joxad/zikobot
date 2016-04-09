@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
+import com.joxad.android_easy_spotify.Scope;
 import com.joxad.android_easy_spotify.SpotifyManager;
 import com.joxad.android_easy_spotify.Type;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -58,6 +59,7 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
         MusicAlarmApplication.get(context.getActivity()).netComponent.inject(this);
     }
 
+
     /***
      * Manage the result code of Spotify
      *
@@ -80,9 +82,8 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
      * @param view
      */
     public void onButtonConnectClick(View view) {
-
-        SpotifyManager.loginWithBrowser(Type.CODE, context.getString(R.string.api_spotify_callback_musics),
-                new String[]{"user-read-private", "streaming"}, new SpotifyManager.OAuthListener() {
+        SpotifyManager.loginWithBrowser(context.getActivity(), Type.CODE, R.string.api_spotify_callback_musics,
+                new String[]{Scope.USER_READ_PRIVATE, Scope.STREAMING}, new SpotifyManager.OAuthListener() {
                     @Override
                     public void onReceived(String code) {
                         accessCode = code;
@@ -157,7 +158,7 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
 
     @Override
     public void onDestroy() {
-        SpotifyManager.destroy();
+
     }
 
 

@@ -42,4 +42,10 @@ public class SpotifyMusicFragment extends BaseFragment {
         return binding.getRoot();
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        spotifyMusicViewModel.onDestroy();
+    }
 }

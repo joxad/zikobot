@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -32,6 +33,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import lombok.Getter;
 import rx.Subscriber;
 
 /**
@@ -42,7 +44,10 @@ public class LocalMusicViewModel extends BaseObservable implements RecyclerViewV
     private static final String TAG = LocalMusicViewModel.class.getSimpleName();
     private LocalMusicFragment fragment;
     private FragmentLocalMusicBinding binding;
-    private ObservableArrayList<ItemLocalTrackViewModel> localTrackViewModels= new ObservableArrayList<>();
+    private final ObservableArrayList<ItemLocalTrackViewModel> localTrackViewModels= new ObservableArrayList<>();
+    public final ObservableBoolean showProgress = new ObservableBoolean(true);
+
+    public final ObservableBoolean showNoResult = new ObservableBoolean(false);
 
     @Inject
     LocalMusicManager localMusicManager;
@@ -82,8 +87,13 @@ public class LocalMusicViewModel extends BaseObservable implements RecyclerViewV
             @Override
             public void onNext(List<LocalTrack> localTracks) {
                 Log.d(TAG,""+localTracks.size());
+                showProgress.set(false);
+
                 for (LocalTrack localTrack : localTracks) {
                     localTrackViewModels.add(new ItemLocalTrackViewModel(fragment ,localTrack));
+                }
+                if (localTrackViewModels.isEmpty()) {
+                    showProgress.set(true);
                 }
             }
         });

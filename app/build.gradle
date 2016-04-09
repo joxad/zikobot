@@ -2,6 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def jdk_dir = properties.getProperty('jdk.dir')
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -26,59 +31,57 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     retrolambda {
-        jdk '/usr/lib/jvm/java-8-openjdk-amd64'
+        jdk jdk_dir
     }
 }
-
-def dbflow_version = "3.0.0-beta5"
-
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:design:23.2.1'
-    compile 'com.android.support:cardview-v7:23.2.1'
-    compile 'com.android.support:recyclerview-v7:23.2.1'
 
-    compile 'io.reactivex:rxandroid:1.0.1'
-    compile "org.parceler:parceler-api:1.0.4"
-    apt "org.parceler:parceler:1.0.4"
-    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 
-    compile 'com.github.joxad:android-easy-spotify:1.0.4'
-    apt "org.projectlombok:lombok:1.12.6"
-    provided "org.projectlombok:lombok:1.12.6"
+    apt libs.daggerCompiler
+    apt libs.parceler
+    apt libs.dbFlowProc
 
-    apt 'com.google.dagger:dagger-compiler:2.1'
-    compile 'com.google.dagger:dagger:2.1'
-    provided 'javax.annotation:jsr250-api:1.0'
+    compile libs.appCompat
+    compile libs.butterKnife
+    compile libs.dagger
+    compile libs.dart
+    compile libs.dbFlowCore
+    compile libs.dbFlow
+    compile libs.design
+    compile libs.gson
+    compile libs.glide
+    compile libs.henson
+    compile libs.easySpotify
+    compile libs.materialRipple
+    compile libs.okHttpInterceptor
+    compile libs.parcelerApi
 
-    compile 'com.joxad.github:recyclerview-binding:1.0.0'
-    compile 'com.f2prateek.dart:dart:2.0.0'
-    provided 'com.f2prateek.dart:dart-processor:2.0.0'
-    compile 'com.f2prateek.dart:henson:2.0.0'
-    provided 'com.f2prateek.dart:henson-processor:2.0.0'
+    compile libs.recyclerView
+    compile libs.recyclerViewDataBinding
+    compile libs.retrofit
+    compile libs.retrofitConverterGson
+    compile libs.retrofitAdapterRxJava
+    compile libs.rxAndroid
+    compile libs.rxBinding
+    compile libs.support
 
-    compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.balysv:material-ripple:1.0.2'
 
-    compile 'com.google.code.gson:gson:2.5'
-    compile "com.squareup.retrofit2:retrofit:2.0.0-beta4"
-    compile "com.squareup.retrofit2:converter-gson:2.0.0-beta4"
-    compile "com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4"
-    compile "com.squareup.okhttp3:logging-interceptor:3.0.1"
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.android.support:support-v13:23.2.1'
+    provided libs.dartProc
+    provided libs.hensonProc
+    provided libs.lombok
+    provided libs.javaxAnnotation
+
+
     compile 'com.github.armcha:LuseenBottomNavigation:1.1'
     compile('com.mikepenz:aboutlibraries:5.6.2@aar') {
         transitive = true
     }
     compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
-    compile 'com.evernote:android-job:1.0.3'
-    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+
     compile 'com.sothree.slidinguppanel:library:3.3.0'
+    compile 'com.github.ybq:Android-SpinKit:1.0.2'
 
 }
+

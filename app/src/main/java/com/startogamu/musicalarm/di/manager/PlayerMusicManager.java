@@ -1,5 +1,6 @@
 package com.startogamu.musicalarm.di.manager;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.util.Log;
 
@@ -25,12 +26,12 @@ public class PlayerMusicManager {
     int currentSong = 0;
     boolean spotifyPlayer = false;
 
-    public PlayerMusicManager(MediaPlayer mediaPlayer, Alarm alarm) {
+    public PlayerMusicManager(Context context, MediaPlayer mediaPlayer, Alarm alarm) {
         this.mediaPlayer = mediaPlayer;
         this.alarm = alarm;
         setListener();
-        /*
-        SpotifyPlayerManager.startPlayer(SpotifyPrefs.getAcccesToken(), new Player.InitializationObserver() {
+
+        SpotifyPlayerManager.startPlayer(context, SpotifyPrefs.getAcccesToken(), new Player.InitializationObserver() {
             @Override
             public void onInitialized(Player player) {
                 spotifyPlayer = true;
@@ -40,36 +41,7 @@ public class PlayerMusicManager {
             public void onError(Throwable throwable) {
                 spotifyPlayer = false;
             }
-        });*/
-    }
-
-
-    /***
-     * @param alarmTrack
-     */
-    public void playAlarmTrack(final AlarmTrack alarmTrack) {
-        switch (alarmTrack.getType()) {
-            case AlarmTrack.TYPE.LOCAL:
-                try {
-                    mediaPlayer.setDataSource(alarmTrack.getRef());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case AlarmTrack.TYPE.SPOTIFY:
-                if (spotifyPlayer)
-                    SpotifyPlayerManager.play(alarmTrack.getRef());
-                break;
-        }
-
-    }
-
-
-    public void setListener() {
-        mediaPlayer.setOnCompletionListener(mp -> {
-            playNextSong();
-        });
-        SpotifyPlayerManager.setPlayerNotificationCallback(new PlayerNotificationCallback() {
+        }, new PlayerNotificationCallback() {
             @Override
             public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
                 if (eventType == EventType.PAUSE) {
@@ -94,7 +66,38 @@ public class PlayerMusicManager {
             public void onPlaybackError(ErrorType errorType, String s) {
 
             }
+        }, null);
+    }
+
+
+    /***
+     * @param alarmTrack
+     */
+    public void playAlarmTrack(final AlarmTrack alarmTrack) {
+        switch (alarmTrack.getType()) {
+            case AlarmTrack.TYPE.LOCAL:
+                try {
+                    mediaPlayer.setDataSource(alarmTrack.getRef());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case AlarmTrack.TYPE.SPOTIFY:
+                if (spotifyPlayer)
+                    SpotifyPlayerManager.play(alarmTrack.getRef());
+                break;
+        }
+
+    }
+
+    /***
+     * Add listener on both spotify player and normal player in order to go to the next song
+     */
+    public void setListener() {
+        mediaPlayer.setOnCompletionListener(mp -> {
+            playNextSong();
         });
+
     }
 
     /***

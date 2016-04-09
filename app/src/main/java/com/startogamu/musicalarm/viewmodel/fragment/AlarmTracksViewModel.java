@@ -5,15 +5,9 @@ import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.joxad.android_easy_spotify.SpotifyManager;
-import com.spotify.sdk.android.player.Config;
-import com.spotify.sdk.android.player.Player;
-import com.spotify.sdk.android.player.Spotify;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentAlarmTracksBinding;
@@ -22,7 +16,6 @@ import com.startogamu.musicalarm.di.manager.PlayerMusicManager;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.model.AlarmTrack;
-import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.view.fragment.AlarmTracksFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemTrackViewModel;
@@ -30,7 +23,6 @@ import com.startogamu.musicalarm.viewmodel.items.ItemTrackViewModel;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinderBase;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -47,7 +39,7 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
     private final FragmentAlarmTracksBinding binding;
     private final MediaPlayer mediaPlayer;
     public String TAG = AlarmTracksViewModel.class.getSimpleName();
-    AlarmTracksFragment context;
+    AlarmTracksFragment alarmTracksFragment;
     @Inject
     SpotifyAPIManager spotifyAPIManager;
     PlayerMusicManager playerMusicManager;
@@ -63,7 +55,7 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
      */
     public AlarmTracksViewModel(AlarmTracksFragment context, FragmentAlarmTracksBinding binding) {
         MusicAlarmApplication.get(context.getActivity()).netComponent.inject(this);
-        this.context = context;
+        this.alarmTracksFragment = context;
 
         this.binding = binding;
 
@@ -79,11 +71,11 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
     public void setAlarm(Alarm alarm) {
         this.alarm = alarm;
         for (AlarmTrack alarmTrack : alarm.getTracks()) {
-            ItemTrackViewModel itemTrackViewModel = new ItemTrackViewModel(context, binding);
+            ItemTrackViewModel itemTrackViewModel = new ItemTrackViewModel(alarmTracksFragment, binding);
             itemTrackViewModel.setAlarmTrack(alarmTrack);
             tracks.add(itemTrackViewModel);
         }
-        playerMusicManager = new PlayerMusicManager(mediaPlayer, alarm);
+        playerMusicManager = new PlayerMusicManager(alarmTracksFragment.getActivity(),mediaPlayer, alarm);
 
     }
 
@@ -110,7 +102,7 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
      * @param alarmTrack
      */
     public void add(AlarmTrack alarmTrack) {
-        ItemTrackViewModel itemTrackViewModel = new ItemTrackViewModel(context, binding);
+        ItemTrackViewModel itemTrackViewModel = new ItemTrackViewModel(alarmTracksFragment, binding);
         itemTrackViewModel.setAlarmTrack(alarmTrack);
         tracks.add(itemTrackViewModel);
         notifyPropertyChanged(BR.alarmTracksViewModel);

@@ -5,6 +5,15 @@
 
     <data>
 
+        <import
+            alias="v"
+            type="android.view.View" />
+
+        <import
+            alias="color"
+            type="com.startogamu.musicalarm.core.utils.Colors" />
+
+
         <variable
             name="itemPlaylistViewModel"
             type="com.startogamu.musicalarm.viewmodel.items.ItemPlaylistViewModel" />
@@ -14,7 +23,7 @@
             type="com.startogamu.musicalarm.viewmodel.fragment.SpotifyMusicViewModel" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -23,7 +32,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_tops"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/spotify_playlist_height_margin"
             app:itemViewBinder="@{spotifyMusicViewModel.itemTopPlaylistBinder}"
             app:items="@{spotifyMusicViewModel.featuredPlaylists}"
             app:longClickHandler="@{itemPlaylistViewModel.longClickHandler}"
@@ -34,8 +43,20 @@
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/rv_tops"
             app:itemViewBinder="@{spotifyMusicViewModel.itemUserPlaylistsBinder}"
             app:items="@{spotifyMusicViewModel.userPlaylists}"
             tools:listitem="@layout/item_playlist" />
-    </LinearLayout>
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            style="@style/SpinKitView.ChasingDots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:visibility="@{spotifyMusicViewModel.showProgress ? v.VISIBLE : v.GONE}"
+            app:SpinKit_Color="@color/colorAccent" />
+
+
+    </RelativeLayout>
 </layout>

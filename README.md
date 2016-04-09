@@ -7,6 +7,11 @@ This project is an open-source alarm using Spotify SDK + Databinding + Dagger 2
 
 You will need Java 8 and at least version 1.5.1 of AndroidStudio
 
+In the file local.properties, you will need to add the location of your java 8 installation, in order
+to make retrolambda working
+
+jdk.dir=/usr/lib/jvm/java-8-openjdk-amd64
+
 # Goals
 
 This project is an open source alarm which will be on the PlayStore.

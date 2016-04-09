@@ -13,6 +13,9 @@ import com.startogamu.musicalarm.databinding.ActivityAlarmsBinding;
 import com.startogamu.musicalarm.view.Henson;
 import com.startogamu.musicalarm.viewmodel.ActivityAlarmsViewModel;
 
+/***
+ * List the alarms
+ */
 public class AlarmsActivity extends AppCompatActivity {
 
     ActivityAlarmsBinding binding;

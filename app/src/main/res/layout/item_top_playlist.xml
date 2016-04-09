@@ -28,7 +28,7 @@
             <ImageView
                 android:id="@+id/iv_header"
                 android:layout_width="196dp"
-                android:layout_height="196dp"
+                android:layout_height="@dimen/spotify_playlist_height"
                 app:imageUrl="@{itemPlaylistViewModel.imageUrl}"
                 tools:src="@drawable/ic_queue_music" />
 

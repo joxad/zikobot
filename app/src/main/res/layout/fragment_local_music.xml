@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import
+            alias="v"
+            type="android.view.View" />
 
         <variable
             name="localMusicViewModel"
             type="com.startogamu.musicalarm.viewmodel.fragment.LocalMusicViewModel" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -23,5 +27,14 @@
             app:itemViewBinder="@{localMusicViewModel.itemsBinder}"
             app:items="@{localMusicViewModel.items}"
             tools:listitem="@layout/item_local_track" />
-    </LinearLayout>
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            style="@style/SpinKitView.ChasingDots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:visibility="@{localMusicViewModel.showProgress ? v.VISIBLE : v.GONE}"
+            app:SpinKit_Color="@color/colorAccent" />
+    </RelativeLayout>
 </layout>
