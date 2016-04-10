@@ -14,6 +14,7 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.Spotify;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
+import com.startogamu.musicalarm.core.notification.MusicNotification;
 import com.startogamu.musicalarm.di.manager.AlarmManager;
 import com.startogamu.musicalarm.di.manager.spotify_auth.SpotifyAuthManager;
 import com.startogamu.musicalarm.model.Alarm;
@@ -39,6 +40,13 @@ public class AlarmService extends Service {
     @Inject
     SpotifyAuthManager spotifyAuthManager;
 
+    /***
+     *
+     * @param intent
+     * @param flags
+     * @param startId
+     * @return
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //TODO do something useful
@@ -46,11 +54,9 @@ public class AlarmService extends Service {
         long alarmId = intent.getLongExtra(EXTRA.ALARM_ID, -1);
         AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
             AlarmService.this.alarm = alarm;
-            showNotification(alarm);
+            MusicNotification.show(alarm.getName());
             startPlayer();
         });
-
-
         return Service.START_STICKY;
     }
 
@@ -85,27 +91,6 @@ public class AlarmService extends Service {
         }
     }
 
-    /***
-     * Alarm notification
-     *
-     * @param alarm
-     */
-    private void showNotification(Alarm alarm) {
-
-        Notification n = new Notification.Builder(this)
-                .setContentTitle(alarm.getName())
-                //.addAction(new Notification.Action.Builder(new I))
-                .setContentText(String.format("%d H %2d", alarm.getHour(), alarm.getMinute()))
-                .setSmallIcon(R.drawable.ic_queue_music)
-                .setAutoCancel(false)
-                .build();
-
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        notificationManager.notify(0, n);
-    }
 
     @Nullable
     @Override
