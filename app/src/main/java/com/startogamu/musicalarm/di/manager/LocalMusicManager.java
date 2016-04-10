@@ -92,9 +92,10 @@ public class LocalMusicManager {
             if (cursor.moveToFirst()) {
                 path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
                 // do whatever you need to do
+                cursor.close();
             }
-            cursor.close();
         }
+
         return path;
     }
 }

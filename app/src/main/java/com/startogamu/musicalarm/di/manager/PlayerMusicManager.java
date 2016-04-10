@@ -1,18 +1,21 @@
 package com.startogamu.musicalarm.di.manager;
 
+import android.content.ComponentName;
 import android.content.Context;
-import android.media.MediaPlayer;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.net.Uri;
+import android.os.IBinder;
 import android.util.Log;
 
 import com.joxad.android_easy_spotify.SpotifyPlayerManager;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
+import com.startogamu.musicalarm.core.service.MediaPlayerService;
 import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.model.AlarmTrack;
-
-import java.io.IOException;
 
 /**
  * {@link PlayerMusicManager} will handle the change of track according to the type of alarm track that is used
@@ -21,16 +24,42 @@ import java.io.IOException;
 public class PlayerMusicManager {
 
     private static final String TAG = PlayerMusicManager.class.getSimpleName();
-    private final Alarm alarm;
-    MediaPlayer mediaPlayer;
+    private Alarm alarm = null;
     int currentSong = 0;
     boolean spotifyPlayer = false;
 
-    public PlayerMusicManager(Context context, MediaPlayer mediaPlayer, Alarm alarm) {
-        this.mediaPlayer = mediaPlayer;
-        this.alarm = alarm;
-        setListener();
 
+    private MediaPlayerService mediaPlayerService;
+    private boolean mediaPlayerServiceBound = false;
+    //connect to the service
+    private Intent playIntent;
+
+
+    private ServiceConnection musicConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MediaPlayerService.MediaPlayerServiceBinder binder = (MediaPlayerService.MediaPlayerServiceBinder) service;
+            //get service
+            mediaPlayerService = binder.getService();
+            mediaPlayerService.setOnCompletionListener(mp -> playNextSong());
+            //pass list
+            mediaPlayerServiceBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mediaPlayerServiceBound = false;
+        }
+    };
+
+
+    public PlayerMusicManager(Context context) {
+        initMediaPlayer(context);
+        initSpotifyPlayer(context);
+    }
+
+    private void initSpotifyPlayer(Context context) {
         SpotifyPlayerManager.startPlayer(context, SpotifyPrefs.getAcccesToken(), new Player.InitializationObserver() {
             @Override
             public void onInitialized(Player player) {
@@ -70,17 +99,22 @@ public class PlayerMusicManager {
     }
 
 
+    public void initMediaPlayer(Context context) {
+        if (playIntent == null) {
+            playIntent = new Intent(context, MediaPlayerService.class);
+            context.bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+            context.startService(playIntent);
+        }
+    }
+
     /***
      * @param alarmTrack
      */
     public void playAlarmTrack(final AlarmTrack alarmTrack) {
         switch (alarmTrack.getType()) {
             case AlarmTrack.TYPE.LOCAL:
-                try {
-                    mediaPlayer.setDataSource(alarmTrack.getRef());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                //TODO call media player service
+                mediaPlayerService.playSong(Uri.parse(alarmTrack.getRef()));
                 break;
             case AlarmTrack.TYPE.SPOTIFY:
                 if (spotifyPlayer)
@@ -90,27 +124,22 @@ public class PlayerMusicManager {
 
     }
 
-    /***
-     * Add listener on both spotify player and normal player in order to go to the next song
-     */
-    public void setListener() {
-        mediaPlayer.setOnCompletionListener(mp -> {
-            playNextSong();
-        });
-
-    }
 
     /***
      *
      */
     private void playNextSong() {
         currentSong++;
-        playAlarmTrack(alarm.getTracks().get(currentSong));
+        if (alarm.getTracks().size() > currentSong)
+            playAlarmTrack(alarm.getTracks().get(currentSong));
     }
 
 
-    public void startAlarm() {
+    public void startAlarm(Alarm alarm) {
         currentSong = 0;
-        playAlarmTrack(alarm.getTracks().get(currentSong));
+        this.alarm = alarm;
+        playAlarmTrack(this.alarm.getTracks().get(currentSong));
     }
+
+
 }

@@ -8,5 +8,7 @@
     <dimen name="item_icon_size">64dp</dimen>
     <dimen name="spotify_playlist_height">196dp</dimen>
     <dimen name="spotify_playlist_height_margin">204dp</dimen>
+    <dimen name="icon_size">24dp</dimen>
+    <dimen name="icon_medium">48dp</dimen>
 
 </resources>

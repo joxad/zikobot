@@ -3,8 +3,6 @@ package com.startogamu.musicalarm.viewmodel.fragment;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -37,7 +35,6 @@ import javax.inject.Inject;
 public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
 
     private final FragmentAlarmTracksBinding binding;
-    private final MediaPlayer mediaPlayer;
     public String TAG = AlarmTracksViewModel.class.getSimpleName();
     AlarmTracksFragment alarmTracksFragment;
     @Inject
@@ -59,8 +56,6 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
 
         this.binding = binding;
 
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 
     /***
@@ -75,13 +70,12 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
             itemTrackViewModel.setAlarmTrack(alarmTrack);
             tracks.add(itemTrackViewModel);
         }
-        playerMusicManager = new PlayerMusicManager(alarmTracksFragment.getActivity(),mediaPlayer, alarm);
-
+        playerMusicManager = new PlayerMusicManager(alarmTracksFragment.getActivity());
     }
 
 
     public void onPlayClick(View view) {
-        playerMusicManager.startAlarm();
+        playerMusicManager.startAlarm(alarm);
 
     }
 
