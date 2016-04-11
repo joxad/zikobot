@@ -1,5 +1,6 @@
 package com.startogamu.musicalarm.di.manager;
 
+import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -17,10 +18,14 @@ import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.model.Alarm;
 import com.startogamu.musicalarm.model.AlarmTrack;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * {@link PlayerMusicManager} will handle the change of track according to the type of alarm track that is used
  * If a spotify track is finished and the next one is a local one, it is his job to deal with it
  */
+@Singleton
 public class PlayerMusicManager {
 
     private static final String TAG = PlayerMusicManager.class.getSimpleName();
@@ -53,8 +58,7 @@ public class PlayerMusicManager {
         }
     };
 
-
-    public PlayerMusicManager(Context context) {
+    public PlayerMusicManager(Application context) {
         initMediaPlayer(context);
         initSpotifyPlayer(context);
     }

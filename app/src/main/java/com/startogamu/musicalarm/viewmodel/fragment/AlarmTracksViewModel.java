@@ -6,6 +6,7 @@ import android.databinding.ObservableArrayList;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.spotify.sdk.android.player.Player;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentAlarmTracksBinding;
@@ -46,6 +47,7 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
     private ObservableArrayList<ItemTrackViewModel> tracks = new ObservableArrayList<>();
     Alarm alarm;
 
+
     /***
      * @param context
      * @param binding
@@ -70,7 +72,6 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
             itemTrackViewModel.setAlarmTrack(alarmTrack);
             tracks.add(itemTrackViewModel);
         }
-        playerMusicManager = new PlayerMusicManager(alarmTracksFragment.getActivity());
     }
 
 

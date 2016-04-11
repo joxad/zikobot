@@ -10,6 +10,7 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 import com.startogamu.musicalarm.di.component.ContentComponent;
 import com.startogamu.musicalarm.di.component.DaggerContentComponent;
 import com.startogamu.musicalarm.di.component.DaggerNetComponent;
+
 import com.startogamu.musicalarm.di.component.NetComponent;
 import com.startogamu.musicalarm.di.module.AppModule;
 
@@ -32,6 +33,8 @@ public class MusicAlarmApplication extends Application {
         contentComponent = DaggerContentComponent.builder()
                 .appModule(appModule)
                 .build();
+
+        //playerComponent = Da.builder().appModule(appModule).build();
         new Prefs.Builder()
                 .setContext(this)
                 .setMode(ContextWrapper.MODE_PRIVATE)
