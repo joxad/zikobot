@@ -6,14 +6,13 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.raizlabs.android.dbflow.converter.BooleanConverter;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyMusicBinding;
 import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
-import com.startogamu.musicalarm.model.spotify.Item;
-import com.startogamu.musicalarm.model.spotify.SpotifyFeaturedPlaylist;
-import com.startogamu.musicalarm.model.spotify.SpotifyPlaylist;
+import com.startogamu.musicalarm.module.spotify_api.object.Item;
+import com.startogamu.musicalarm.module.spotify_api.object.SpotifyFeaturedPlaylist;
+import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylist;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemPlaylistViewModel;
@@ -25,9 +24,7 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Observer;
-import rx.Subscriber;
 import rx.Subscription;
-import rx.functions.Func2;
 
 /**
  * Created by josh on 26/03/16.

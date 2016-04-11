@@ -12,7 +12,6 @@ import com.startogamu.musicalarm.di.component.DaggerContentComponent;
 import com.startogamu.musicalarm.di.component.DaggerNetComponent;
 
 import com.startogamu.musicalarm.di.component.NetComponent;
-import com.startogamu.musicalarm.di.module.AppModule;
 
 /**
  * Created by josh on 08/03/16.

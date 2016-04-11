@@ -1,6 +1,5 @@
 package com.startogamu.musicalarm.view.fragment;
 
-import android.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,13 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
-import com.f2prateek.dart.henson.Bundler;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBinding;
-import com.startogamu.musicalarm.model.LocalTrack;
-import com.startogamu.musicalarm.model.spotify.SpotifyTrack;
+import com.startogamu.musicalarm.module.spotify_api.object.SpotifyTrack;
 import com.startogamu.musicalarm.viewmodel.fragment.SpotifyPlaylistTracksViewModel;
 
 /**

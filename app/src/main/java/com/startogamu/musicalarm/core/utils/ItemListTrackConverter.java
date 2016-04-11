@@ -2,7 +2,7 @@ package com.startogamu.musicalarm.core.utils;
 
 import android.os.Parcel;
 
-import com.startogamu.musicalarm.model.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.AlarmTrack;
 
 import org.parceler.Parcels;
 import org.parceler.converter.ArrayListParcelConverter;

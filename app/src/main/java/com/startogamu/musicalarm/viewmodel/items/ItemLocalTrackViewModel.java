@@ -2,19 +2,12 @@ package com.startogamu.musicalarm.viewmodel.items;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.View;
 
-import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBinding;
-import com.startogamu.musicalarm.model.LocalTrack;
-import com.startogamu.musicalarm.model.spotify.SpotifyTrack;
+import com.startogamu.musicalarm.module.alarm.LocalTrack;
 import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
-import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
-import com.startogamu.musicalarm.viewmodel.fragment.LocalMusicViewModel;
 
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 /***

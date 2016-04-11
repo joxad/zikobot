@@ -4,11 +4,9 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.startogamu.musicalarm.databinding.FragmentAlarmTracksBinding;
-import com.startogamu.musicalarm.model.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.AlarmTrack;
 import com.startogamu.musicalarm.view.fragment.AlarmTracksFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
-
-import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
 

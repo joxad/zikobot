@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.f2prateek.dart.henson.Bundler;
 import com.startogamu.musicalarm.R;
-import com.startogamu.musicalarm.model.spotify.Item;
+import com.startogamu.musicalarm.module.spotify_api.object.Item;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;

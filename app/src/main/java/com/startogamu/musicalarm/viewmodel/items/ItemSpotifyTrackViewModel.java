@@ -5,7 +5,7 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBinding;
-import com.startogamu.musicalarm.model.spotify.SpotifyTrack;
+import com.startogamu.musicalarm.module.spotify_api.object.SpotifyTrack;
 import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 

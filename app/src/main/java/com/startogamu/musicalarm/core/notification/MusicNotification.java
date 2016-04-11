@@ -6,8 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 
 import com.startogamu.musicalarm.R;
-import com.startogamu.musicalarm.model.Alarm;
-import com.startogamu.musicalarm.model.AlarmTrack;
 
 /**
  * Created by josh on 10/04/16.

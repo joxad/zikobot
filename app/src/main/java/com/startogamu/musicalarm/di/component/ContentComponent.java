@@ -1,6 +1,5 @@
 package com.startogamu.musicalarm.di.component;
 
-import com.startogamu.musicalarm.di.module.AppModule;
 import com.startogamu.musicalarm.di.module.ContentResolverModule;
 import com.startogamu.musicalarm.viewmodel.fragment.LocalMusicViewModel;
 

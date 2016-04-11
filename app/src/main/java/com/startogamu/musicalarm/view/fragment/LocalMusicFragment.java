@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.databinding.FragmentLocalMusicBinding;
-import com.startogamu.musicalarm.model.AlarmTrack;
-import com.startogamu.musicalarm.model.LocalTrack;
+import com.startogamu.musicalarm.module.alarm.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.LocalTrack;
 import com.startogamu.musicalarm.viewmodel.fragment.LocalMusicViewModel;
 
 import org.parceler.Parcels;

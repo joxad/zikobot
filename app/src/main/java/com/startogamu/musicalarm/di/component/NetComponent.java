@@ -1,7 +1,6 @@
 package com.startogamu.musicalarm.di.component;
 
 
-import com.startogamu.musicalarm.di.module.AppModule;
 import com.startogamu.musicalarm.core.service.AlarmService;
 import com.startogamu.musicalarm.di.module.spotify_api.SpotifyAPINetworkModule;
 import com.startogamu.musicalarm.di.module.spotify_api.SpotifyAPIServiceModule;

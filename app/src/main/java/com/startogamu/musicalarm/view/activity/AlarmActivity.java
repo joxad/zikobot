@@ -6,11 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 
-import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
-import com.startogamu.musicalarm.model.Alarm;
+import com.startogamu.musicalarm.module.alarm.Alarm;
 import com.startogamu.musicalarm.viewmodel.ActivityAlarmViewModel;
 
 /**

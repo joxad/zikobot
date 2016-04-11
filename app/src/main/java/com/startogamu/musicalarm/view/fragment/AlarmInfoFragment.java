@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.f2prateek.dart.henson.Bundler;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentAlarmInfoBinding;
-import com.startogamu.musicalarm.model.Alarm;
+import com.startogamu.musicalarm.module.alarm.Alarm;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.viewmodel.fragment.AlarmInfoViewModel;
 

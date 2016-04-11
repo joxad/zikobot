@@ -1,7 +1,5 @@
 package com.startogamu.musicalarm.core.service;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -15,10 +13,10 @@ import com.spotify.sdk.android.player.Spotify;
 import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.notification.MusicNotification;
-import com.startogamu.musicalarm.di.manager.AlarmManager;
+import com.startogamu.musicalarm.module.alarm.AlarmManager;
 import com.startogamu.musicalarm.di.manager.spotify_auth.SpotifyAuthManager;
-import com.startogamu.musicalarm.model.Alarm;
-import com.startogamu.musicalarm.model.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.Alarm;
+import com.startogamu.musicalarm.module.alarm.AlarmTrack;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 
