@@ -5,6 +5,7 @@ import com.startogamu.musicalarm.module.spotify_api.SpotifyApiBaseComponent;
 import com.startogamu.musicalarm.module.spotify_api.SpotifyApiModule;
 import com.startogamu.musicalarm.module.spotify_auth.SpotifyAuthBaseComponent;
 import com.startogamu.musicalarm.module.spotify_auth.SpotifyAuthModule;
+import com.startogamu.musicalarm.viewmodel.ActivityAlarmsViewModel;
 import com.startogamu.musicalarm.viewmodel.ActivitySettingsViewModel;
 import com.startogamu.musicalarm.viewmodel.fragment.SpotifyConnectViewModel;
 
@@ -22,6 +23,8 @@ public interface SpotifyAuthComponent extends SpotifyAuthBaseComponent {
     void inject(SpotifyConnectViewModel spotifyConnectViewModel);
 
     void inject(ActivitySettingsViewModel activitySettingsViewModel);
+
+    void inject(ActivityAlarmsViewModel activityAlarmsViewModel);
 
     //inject
 }

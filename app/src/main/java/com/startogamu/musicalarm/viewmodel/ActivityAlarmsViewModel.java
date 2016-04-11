@@ -12,6 +12,7 @@ import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 import com.startogamu.musicalarm.module.alarm.Alarm;
 import com.startogamu.musicalarm.module.alarm.AlarmManager;
+import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.module.spotify_auth.manager.SpotifyAuthManager;
 import com.startogamu.musicalarm.view.Henson;
 import com.startogamu.musicalarm.viewmodel.items.ItemAlarmViewModel;
@@ -39,6 +40,7 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
 
     public ActivityAlarmsViewModel(Context context) {
         this.context = context;
+        Injector.INSTANCE.spotifyAuth().inject(this);
         itemsVM = new ObservableArrayList<>();
         if (Prefs.contains(SpotifyPrefs.ACCESS_CODE)) {
             try {
