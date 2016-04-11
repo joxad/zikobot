@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.module.spotifyauth.manager;
+package com.startogamu.musicalarm.module.spotify_auth.manager;
 
 import android.content.Context;
 import android.util.Base64;
@@ -6,10 +6,10 @@ import android.util.Base64;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 
-import com.startogamu.musicalarm.module.spotifyauth.object.SpotifyRefreshToken;
-import com.startogamu.musicalarm.module.spotifyauth.object.SpotifyRequestToken;
-import com.startogamu.musicalarm.module.spotifyauth.object.SpotifyToken;
-import com.startogamu.musicalarm.module.spotifyauth.resource.SpotifyAuthService;
+import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyRefreshToken;
+import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyRequestToken;
+import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyToken;
+import com.startogamu.musicalarm.module.spotify_auth.resource.SpotifyAuthService;
 
 import java.io.UnsupportedEncodingException;
 

@@ -13,20 +13,18 @@ import android.view.View;
 import com.joxad.android_easy_spotify.Scope;
 import com.joxad.android_easy_spotify.SpotifyManager;
 import com.joxad.android_easy_spotify.Type;
-import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
-import com.startogamu.musicalarm.databinding.FragmentConnectSpotifyBinding;
-import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
-import com.startogamu.musicalarm.di.manager.spotify_auth.SpotifyAuthManager;
-import com.startogamu.musicalarm.model.spotify.SpotifyUser;
 import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.databinding.FragmentConnectSpotifyBinding;
+import com.startogamu.musicalarm.module.component.Injector;
+import com.startogamu.musicalarm.module.spotify_api.object.SpotifyUser;
+import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyRequestToken;
+import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyToken;
 import com.startogamu.musicalarm.view.activity.MusicActivity;
 import com.startogamu.musicalarm.view.fragment.SpotifyConnectFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 
 import java.io.UnsupportedEncodingException;
-
-import javax.inject.Inject;
 
 import rx.Subscriber;
 
@@ -41,10 +39,6 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
 
     String accessToken;
     String accessCode;
-    @Inject
-    SpotifyAuthManager spotifyAuthManager;
-    @Inject
-    SpotifyAPIManager spotifyAPIManager;
 
     /***
      * @param fragment
@@ -53,7 +47,8 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
     public SpotifyConnectViewModel(SpotifyConnectFragment fragment, FragmentConnectSpotifyBinding binding) {
         this.binding = binding;
         this.context = fragment;
-        MusicAlarmApplication.get(context.getActivity()).netComponent.inject(this);
+        Injector.INSTANCE.spotifyApi().inject(this);
+        Injector.INSTANCE.spotifyAuth().inject(this);
     }
 
 
@@ -101,12 +96,11 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
      */
     private void getTokenFromCode(final String accessCode) {
         try {
-            spotifyAuthManager.requestToken(
+            Injector.INSTANCE.spotifyAuth().manager().requestToken(
                     new SpotifyRequestToken("authorization_code", accessCode,
                             context.getString(R.string.api_spotify_callback_musics),
                             context.getString(R.string.api_spotify_id),
-                            context.getString(R.string.api_spotify_secret)),
-                    new Subscriber<SpotifyToken>() {
+                            context.getString(R.string.api_spotify_secret))).subscribe(new Subscriber<SpotifyToken>() {
                         @Override
                         public void onCompleted() {
                         }
@@ -135,7 +129,7 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
      *
      */
     public void getMe() {
-        spotifyAPIManager.getMe(new Subscriber<SpotifyUser>() {
+        Injector.INSTANCE.spotifyApi().manager().getMe().subscribe(new Subscriber<SpotifyUser>() {
             @Override
             public void onCompleted() {
 

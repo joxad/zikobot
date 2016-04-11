@@ -11,7 +11,6 @@ import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentAlarmTracksBinding;
 import com.startogamu.musicalarm.module.alarm.AlarmManager;
 import com.startogamu.musicalarm.module.alarm.PlayerMusicManager;
-import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.module.alarm.Alarm;
 import com.startogamu.musicalarm.module.alarm.AlarmTrack;
 import com.startogamu.musicalarm.view.fragment.AlarmTracksFragment;
@@ -37,8 +36,7 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
     private final FragmentAlarmTracksBinding binding;
     public String TAG = AlarmTracksViewModel.class.getSimpleName();
     AlarmTracksFragment alarmTracksFragment;
-    @Inject
-    SpotifyAPIManager spotifyAPIManager;
+
     PlayerMusicManager playerMusicManager;
     /***
      * The observable list of tracks selected for this alarm
@@ -52,7 +50,6 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
      * @param binding
      */
     public AlarmTracksViewModel(AlarmTracksFragment context, FragmentAlarmTracksBinding binding) {
-        MusicAlarmApplication.get(context.getActivity()).netComponent.inject(this);
         this.alarmTracksFragment = context;
 
         this.binding = binding;

@@ -10,15 +10,15 @@ import com.joxad.android_easy_spotify.SpotifyManager;
 import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.Spotify;
-import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.notification.MusicNotification;
 import com.startogamu.musicalarm.module.alarm.AlarmManager;
-import com.startogamu.musicalarm.di.manager.spotify_auth.SpotifyAuthManager;
+
 import com.startogamu.musicalarm.module.alarm.Alarm;
 import com.startogamu.musicalarm.module.alarm.AlarmTrack;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.module.spotify_auth.manager.SpotifyAuthManager;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -48,7 +48,6 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //TODO do something useful
-        MusicAlarmApplication.get(this).netComponent.inject(this);
         long alarmId = intent.getLongExtra(EXTRA.ALARM_ID, -1);
         AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
             AlarmService.this.alarm = alarm;

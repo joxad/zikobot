@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.module.spotifyauth.object;
+package com.startogamu.musicalarm.module.spotify_auth.object;
 
 import com.google.gson.annotations.SerializedName;
 

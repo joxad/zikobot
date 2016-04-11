@@ -2,10 +2,11 @@ package com.startogamu.musicalarm.module.spotify_api;
 
 import android.content.Context;
 
-import com.phoceis.kioskcultura_core.R;
-import com.phoceis.kioskcultura_core.module.retrofit.RetrofitBaseModule;
-import com.phoceis.kioskcultura_core.module.spotify_api.manager.SpotifyApiManager;
-import com.phoceis.kioskcultura_core.module.spotify_api.resource.SpotifyApiInterceptor;
+
+import com.startogamu.musicalarm.R;
+import com.startogamu.musicalarm.module.retrofit.RetrofitBaseModule;
+import com.startogamu.musicalarm.module.spotify_api.manager.SpotifyApiManager;
+import com.startogamu.musicalarm.module.spotify_api.resource.SpotifyApiInterceptor;
 
 import javax.inject.Singleton;
 

@@ -8,15 +8,14 @@ import android.databinding.ObservableArrayList;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.henson.Bundler;
-import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
+import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBinding;
-import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.module.alarm.AlarmTrack;
+import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylistItem;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyTrack;
-import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
 import com.startogamu.musicalarm.viewmodel.RecyclerViewViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemSpotifyTrackViewModel;
@@ -25,8 +24,6 @@ import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinderBase;
 
 import org.parceler.Parcels;
-
-import javax.inject.Inject;
 
 import rx.Subscriber;
 
@@ -41,21 +38,20 @@ public class SpotifyPlaylistTracksViewModel extends BaseObservable implements Re
     private FragmentSpotifyPlaylistTracksBinding binding;
 
     String playlistId;
-    @Inject
-    SpotifyAPIManager spotifyAPIManager;
 
     public SpotifyPlaylistTracksViewModel(SpotifyPlaylistTracksFragment fragment, FragmentSpotifyPlaylistTracksBinding binding) {
         playlistId = Bundler.of(fragment.getArguments()).get().getString(EXTRA.PLAYLIST_ID);
-        MusicAlarmApplication.get(fragment.getActivity()).netComponent.inject(this);
         this.trackViewModels = new ObservableArrayList<>();
         this.fragment = fragment;
         this.binding = binding;
+        Injector.INSTANCE.spotifyApi().inject(this);
+
         loadTracks(playlistId);
     }
 
     private void loadTracks(String playlistId) {
         trackViewModels.clear();
-        spotifyAPIManager.getPlaylistTracks(playlistId, new Subscriber<SpotifyPlaylistWithTrack>() {
+        Injector.INSTANCE.spotifyApi().manager().getPlaylistTracks(playlistId).subscribe(new Subscriber<SpotifyPlaylistWithTrack>() {
             @Override
             public void onCompleted() {
 

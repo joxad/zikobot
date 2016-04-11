@@ -1,6 +1,6 @@
 package com.startogamu.musicalarm.module.spotify_api.resource;
 
-import com.phoceis.kioskcultura_core.utils.AppPrefs;
+import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class SpotifyApiInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request original = chain.request();
         Request.Builder requestBuilder = original.newBuilder()
-                .header("Authorization", "Bearer " + AppPrefs.getSpotifyApiToken())
+                .header("Authorization", "Bearer " + SpotifyPrefs.getAcccesToken())
                 .method(original.method(), original.body());
 
         Request request = requestBuilder.build();

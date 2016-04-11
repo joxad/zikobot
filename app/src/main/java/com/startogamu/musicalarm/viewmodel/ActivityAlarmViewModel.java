@@ -14,7 +14,6 @@ import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
 import com.startogamu.musicalarm.module.alarm.AlarmManager;
-import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
 import com.startogamu.musicalarm.module.alarm.Alarm;
 import com.startogamu.musicalarm.module.alarm.AlarmTrack;
 import com.startogamu.musicalarm.core.receiver.AlarmReceiver;
@@ -40,8 +39,6 @@ import rx.Subscriber;
 public class ActivityAlarmViewModel extends BaseObservable implements ViewModel {
     private static String TAG = ActivityAlarmViewModel.class.getSimpleName();
 
-    @Inject
-    SpotifyAPIManager spotifyAPIManager;
 
     private AlarmActivity context;
     private ActivityAlarmBinding binding;
@@ -65,7 +62,6 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
         this.context = context;
         this.binding = binding;
         Dart.inject(this, context);
-        MusicAlarmApplication.get(context).netComponent.inject(this);
         initViews();
     }
 

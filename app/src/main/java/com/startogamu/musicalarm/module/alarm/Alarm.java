@@ -10,7 +10,6 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 import com.startogamu.musicalarm.core.db.MusicAlarmDatabase;
 import com.startogamu.musicalarm.core.utils.ItemListTrackConverter;
-import com.startogamu.musicalarm.model.AlarmTrack_Table;
 
 import org.parceler.Parcel;
 import org.parceler.ParcelPropertyConverter;

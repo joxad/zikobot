@@ -27,7 +27,7 @@ public class Item {
     public String id;
     @SerializedName("images")
     @Expose
-    public List<com.startogamu.musicalarm.model.spotify.Image> images = new ArrayList<com.startogamu.musicalarm.model.spotify.Image>();
+    public List<Image> images = new ArrayList<Image>();
     @SerializedName("name")
     @Expose
     public String name;

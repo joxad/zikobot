@@ -1,6 +1,10 @@
 package com.startogamu.musicalarm.core.utils;
 
+import android.content.Context;
+import android.content.ContextWrapper;
+
 import com.pixplicity.easyprefs.library.Prefs;
+import com.startogamu.musicalarm.MusicAlarmApplication;
 
 /***
  *
@@ -53,5 +57,14 @@ public class SpotifyPrefs {
 
     public static String getSpotifyUserId() {
         return Prefs.getString(SPOTIFY_USER_ID, "");
+    }
+
+    public static void init(Context context) {
+        new Prefs.Builder()
+                .setContext(context)
+                .setMode(ContextWrapper.MODE_PRIVATE)
+                .setPrefsName(context.getPackageName())
+                .setUseDefaultSharedPreference(true)
+                .build();
     }
 }

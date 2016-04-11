@@ -8,12 +8,11 @@ import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.pixplicity.easyprefs.library.Prefs;
-import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
-import com.startogamu.musicalarm.module.alarm.AlarmManager;
-import com.startogamu.musicalarm.di.manager.spotify_auth.SpotifyAuthManager;
-import com.startogamu.musicalarm.module.alarm.Alarm;
 import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.module.alarm.Alarm;
+import com.startogamu.musicalarm.module.alarm.AlarmManager;
+import com.startogamu.musicalarm.module.spotify_auth.manager.SpotifyAuthManager;
 import com.startogamu.musicalarm.view.Henson;
 import com.startogamu.musicalarm.viewmodel.items.ItemAlarmViewModel;
 
@@ -22,8 +21,6 @@ import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinderBase;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.Subscription;
@@ -37,14 +34,12 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
     private final Context context;
 
     Subscription subscription;
-    @Inject
     SpotifyAuthManager spotifyAuthManager;
-    private ObservableArrayList<ItemAlarmViewModel> observableArrayList;
+    private ObservableArrayList<ItemAlarmViewModel> itemsVM;
 
     public ActivityAlarmsViewModel(Context context) {
         this.context = context;
-        MusicAlarmApplication.get(context).netComponent.inject(this);
-        observableArrayList = new ObservableArrayList<>();
+        itemsVM = new ObservableArrayList<>();
         if (Prefs.contains(SpotifyPrefs.ACCESS_CODE)) {
             try {
                 refreshAccessToken();
@@ -55,7 +50,7 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
     }
 
     public void loadAlarms() {
-        observableArrayList.clear();
+        itemsVM.clear();
         AlarmManager.loadAlarms().subscribe(new Subscriber<List<Alarm>>() {
             @Override
             public void onCompleted() {
@@ -69,9 +64,9 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
 
             @Override
             public void onNext(List<Alarm> alarms) {
-                observableArrayList.clear();
+                itemsVM.clear();
                 for (Alarm alarm : alarms) {
-                    observableArrayList.add(new ItemAlarmViewModel(context, alarm));
+                    itemsVM.add(new ItemAlarmViewModel(context, alarm));
                 }
 
             }
@@ -87,7 +82,7 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
 
     @Bindable
     public ObservableArrayList<ItemAlarmViewModel> getItemViewModels() {
-        return observableArrayList;
+        return itemsVM;
     }
 
     public void addAlarm(View view) {

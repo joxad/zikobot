@@ -2,7 +2,6 @@
 package com.startogamu.musicalarm.module.spotify_api.object;
 
 import com.google.gson.annotations.SerializedName;
-import com.startogamu.musicalarm.model.spotify.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ public class SpotifyAlbum {
     private String id;
 
     @SerializedName("images")
-    public List<com.startogamu.musicalarm.model.spotify.Image> images = new ArrayList<com.startogamu.musicalarm.model.spotify.Image>();
+    public List<Image> images = new ArrayList<Image>();
 
     @SerializedName("limit")
     public Integer limit;

@@ -1,10 +1,7 @@
 package com.startogamu.musicalarm.module.alarm;
 
 import android.content.ContentUris;
-import android.database.Cursor;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.util.Log;
 
 import lombok.Data;
 

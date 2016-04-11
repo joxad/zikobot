@@ -63,13 +63,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/jni" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/jni" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/assets" type="java-test-resource" />
@@ -77,6 +70,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/jni" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/blame" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/builds" />
@@ -129,72 +129,72 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="butterknife-7.0.1" level="project" />
-    <orderEntry type="library" exported="" name="okio-1.6.0" level="project" />
-    <orderEntry type="library" exported="" name="commons-io-2.4" level="project" />
-    <orderEntry type="library" exported="" name="juniversalchardet-1.0.3" level="project" />
-    <orderEntry type="library" exported="" name="antlr4-4.5" level="project" />
-    <orderEntry type="library" exported="" name="spotify-auth-1.0.0-beta12" level="project" />
-    <orderEntry type="library" exported="" name="material-ripple-1.0.2" level="project" />
-    <orderEntry type="library" exported="" name="recyclerview-binding-1.0.0" level="project" />
-    <orderEntry type="library" exported="" name="recyclerview-v7-23.3.0" level="project" />
-    <orderEntry type="library" exported="" name="antlr4-annotations-4.5" level="project" />
-    <orderEntry type="library" exported="" name="antlr4-runtime-4.5" level="project" />
-    <orderEntry type="library" exported="" name="org.abego.treelayout.core-1.0.1" level="project" />
-    <orderEntry type="library" exported="" name="library-1.0-rc5" level="project" />
-    <orderEntry type="library" exported="" name="dbflow-3.0.0-beta5" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-23.3.0" level="project" />
+    <orderEntry type="library" exported="" name="converter-gson-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-23.3.0" level="project" />
-    <orderEntry type="library" exported="" name="animated-vector-drawable-23.3.0" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-23.3.0" level="project" />
-    <orderEntry type="library" exported="" name="parceler-api-1.0.4" level="project" />
-    <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="juniversalchardet-1.0.3" level="project" />
+    <orderEntry type="library" exported="" name="kotlin-stdlib-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="javapoet-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="dagger-2.1" level="project" />
+    <orderEntry type="library" exported="" name="rxjava-1.1.1" level="project" />
+    <orderEntry type="library" exported="" name="rxandroid-1.1.0" level="project" />
+    <orderEntry type="library" exported="" name="henson-processor-2.0.0" level="project" />
+    <orderEntry type="library" exported="" name="compilerCommon-2.0.0" level="project" />
+    <orderEntry type="library" exported="" name="dart-common-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="spotify-player-1.0.0-beta12" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-23.3.0" level="project" />
+    <orderEntry type="library" exported="" name="cardview-v7-23.2.1" level="project" />
+    <orderEntry type="library" exported="" name="antlr4-annotations-4.5" level="project" />
+    <orderEntry type="library" exported="" name="antlr4-4.5" level="project" />
+    <orderEntry type="library" exported="" name="dbflow-3.0.0-beta5" level="project" />
+    <orderEntry type="library" exported="" name="kotlin-runtime-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="jsr250-api-1.0" level="project" />
+    <orderEntry type="library" exported="" name="baseLibrary-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="adapters-1.0-rc5" level="project" />
-    <orderEntry type="library" exported="" name="henson-2.0.0" level="project" />
-    <orderEntry type="library" exported="" name="dbflow-core-3.0.0-beta5" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
+    <orderEntry type="library" exported="" name="adapter-rxjava-2.0.1" level="project" />
+    <orderEntry type="library" exported="" name="logging-interceptor-3.0.0" level="project" />
+    <orderEntry type="library" exported="" name="library-1.0-rc5" level="project" />
+    <orderEntry type="library" exported="" name="animated-vector-drawable-23.3.0" level="project" />
+    <orderEntry type="library" exported="" name="guava-17.0" level="project" />
+    <orderEntry type="library" exported="" name="dart-annotations-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="iconics-core-2.5.10" level="project" />
     <orderEntry type="library" exported="" name="retrofit-2.0.1" level="project" />
-    <orderEntry type="library" exported="" name="rxandroid-1.1.0" level="project" />
-    <orderEntry type="library" exported="" name="converter-gson-2.0.1" level="project" />
-    <orderEntry type="library" exported="" name="kotlin-stdlib-1.0.0" level="project" />
-    <orderEntry type="library" exported="" name="fastadapter-1.2.9" level="project" />
-    <orderEntry type="library" exported="" name="Android-SpinKit-1.0.2" level="project" />
-    <orderEntry type="library" exported="" name="aboutlibraries-5.6.2" level="project" />
-    <orderEntry type="library" exported="" name="cardview-v7-23.2.1" level="project" />
-    <orderEntry type="library" exported="" name="dart-processor-2.0.0" level="project" />
-    <orderEntry type="library" exported="" name="dart-common-2.0.0" level="project" />
-    <orderEntry type="library" exported="" name="support-v13-23.3.0" level="project" />
-    <orderEntry type="library" exported="" name="lombok-1.12.6" level="project" />
-    <orderEntry type="library" exported="" name="javapoet-1.0.0" level="project" />
-    <orderEntry type="library" exported="" name="commons-codec-1.10" level="project" />
-    <orderEntry type="library" exported="" name="dagger-2.1" level="project" />
-    <orderEntry type="library" exported="" name="dart-2.0.0" level="project" />
-    <orderEntry type="library" exported="" name="gson-2.6.1" level="project" />
-    <orderEntry type="library" exported="" name="compiler-2.0.0" level="project" />
-    <orderEntry type="library" exported="" name="library-1.8.1" level="project" />
-    <orderEntry type="library" exported="" name="antlr-runtime-3.5.2" level="project" />
-    <orderEntry type="library" exported="" name="baseLibrary-2.0.0" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-23.3.0" level="project" />
-    <orderEntry type="library" exported="" name="jsr250-api-1.0" level="project" />
-    <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
-    <orderEntry type="library" exported="" name="LuseenBottomNavigation-1.1" level="project" />
-    <orderEntry type="library" exported="" name="henson-processor-2.0.0" level="project" />
-    <orderEntry type="library" exported="" name="adapter-rxjava-2.0.1" level="project" />
-    <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
-    <orderEntry type="library" exported="" name="guava-17.0" level="project" />
-    <orderEntry type="library" exported="" name="rxjava-1.1.1" level="project" />
-    <orderEntry type="library" exported="" name="design-23.3.0" level="project" />
-    <orderEntry type="library" exported="" name="compilerCommon-2.0.0" level="project" />
-    <orderEntry type="library" exported="" name="library-3.3.0" level="project" />
-    <orderEntry type="library" exported="" name="logging-interceptor-3.0.0" level="project" />
-    <orderEntry type="library" exported="" name="rxbinding-0.4.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
-    <orderEntry type="library" exported="" name="ST4-4.0.8" level="project" />
-    <orderEntry type="library" exported="" name="okhttp-3.2.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
-    <orderEntry type="library" exported="" name="kotlin-runtime-1.0.0" level="project" />
-    <orderEntry type="library" exported="" name="dart-annotations-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="android-easy-spotify-1.0.6" level="project" />
+    <orderEntry type="library" exported="" name="recyclerview-binding-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="LuseenBottomNavigation-1.1" level="project" />
+    <orderEntry type="library" exported="" name="org.abego.treelayout.core-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="library-3.3.0" level="project" />
+    <orderEntry type="library" exported="" name="dart-processor-2.0.0" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-3.2.0" level="project" />
+    <orderEntry type="library" exported="" name="Android-SpinKit-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="library-1.8.1" level="project" />
+    <orderEntry type="library" exported="" name="dbflow-core-3.0.0-beta5" level="project" />
+    <orderEntry type="library" exported="" name="support-v13-23.3.0" level="project" />
+    <orderEntry type="library" exported="" name="commons-io-2.4" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-23.3.0" level="project" />
+    <orderEntry type="library" exported="" name="henson-2.0.0" level="project" />
+    <orderEntry type="library" exported="" name="okio-1.6.0" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.6.1" level="project" />
+    <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="dart-2.0.0" level="project" />
+    <orderEntry type="library" exported="" name="compiler-2.0.0" level="project" />
+    <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
+    <orderEntry type="library" exported="" name="spotify-auth-1.0.0-beta12" level="project" />
+    <orderEntry type="library" exported="" name="recyclerview-v7-23.3.0" level="project" />
+    <orderEntry type="library" exported="" name="material-ripple-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="design-23.3.0" level="project" />
+    <orderEntry type="library" exported="" name="butterknife-7.0.1" level="project" />
+    <orderEntry type="library" exported="" name="antlr-runtime-3.5.2" level="project" />
+    <orderEntry type="library" exported="" name="antlr4-runtime-4.5" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" exported="" name="fastadapter-1.2.9" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-23.3.0" level="project" />
+    <orderEntry type="library" exported="" name="rxbinding-0.4.0" level="project" />
+    <orderEntry type="library" exported="" name="commons-codec-1.10" level="project" />
+    <orderEntry type="library" exported="" name="parceler-api-1.0.4" level="project" />
+    <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
+    <orderEntry type="library" exported="" name="aboutlibraries-5.6.2" level="project" />
+    <orderEntry type="library" exported="" name="ST4-4.0.8" level="project" />
+    <orderEntry type="library" exported="" name="lombok-1.12.6" level="project" />
   </component>
 </module>

@@ -6,10 +6,9 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyMusicBinding;
-import com.startogamu.musicalarm.di.manager.spotify_api.SpotifyAPIManager;
+import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.module.spotify_api.object.Item;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyFeaturedPlaylist;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylist;
@@ -19,8 +18,6 @@ import com.startogamu.musicalarm.viewmodel.items.ItemPlaylistViewModel;
 
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinderBase;
-
-import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Observer;
@@ -36,8 +33,6 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
     private ObservableArrayList<ItemPlaylistViewModel> userPlaylists;
 
     private ObservableArrayList<ItemPlaylistViewModel> featuredPlaylists;
-    @Inject
-    SpotifyAPIManager spotifyAPIManager;
     public final ObservableBoolean showProgress = new ObservableBoolean(true);
 
     Observable<SpotifyPlaylist> playlistObservable;
@@ -53,7 +48,6 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
     public SpotifyMusicViewModel(SpotifyMusicFragment fragment, FragmentSpotifyMusicBinding binding) {
         userPlaylists = new ObservableArrayList<>();
         featuredPlaylists = new ObservableArrayList<>();
-        MusicAlarmApplication.get(fragment.getActivity()).netComponent.inject(this);
         this.fragment = fragment;
         this.binding = binding;
         loadUserPlaylist();
@@ -98,11 +92,11 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
     }
 
     /***
-     * Call {@link SpotifyAPIManager} to find the current user playlists
+     * Call {@link com.startogamu.musicalarm.module.spotify_api.manager.SpotifyApiManager} to find the current user playlists
      */
     private void loadUserPlaylist() {
         userPlaylists.clear();
-        playlistObservable = spotifyAPIManager.getUserPlaylists();
+       playlistObservable =Injector.INSTANCE.spotifyApi().manager().getUserPlaylists();
     }
 
     /***
@@ -111,7 +105,7 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
      */
     public void loadTopPlaylists() {
         featuredPlaylists.clear();
-        featuredPlaylistObservable = spotifyAPIManager.getFeaturedPlaylists();
+        featuredPlaylistObservable = Injector.INSTANCE.spotifyApi().manager().getFeaturedPlaylists();
     }
 
 

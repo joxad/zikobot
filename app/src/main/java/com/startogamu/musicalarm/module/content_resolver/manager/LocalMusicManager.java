@@ -1,10 +1,12 @@
-package com.startogamu.musicalarm.module.alarm;
+package com.startogamu.musicalarm.module.content_resolver.manager;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
+
+import com.startogamu.musicalarm.module.alarm.LocalTrack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +26,14 @@ public class LocalMusicManager {
     private static final String TAG = LocalMusicManager.class.getSimpleName();
     ContentResolver contentResolver;
 
-    @Inject
     public LocalMusicManager(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
     }
 
+    /***
+     *
+     * @return
+     */
     public Observable<List<LocalTrack>> getLocalTracks() {
 
         return Observable.create(new Observable.OnSubscribe<List<LocalTrack>>() {
@@ -78,6 +83,11 @@ public class LocalMusicManager {
 
     }
 
+    /***
+     *
+     * @param localTrack
+     * @return
+     */
     public String findAlbumArt(LocalTrack localTrack) {
         Cursor cursor = contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM_ART},
