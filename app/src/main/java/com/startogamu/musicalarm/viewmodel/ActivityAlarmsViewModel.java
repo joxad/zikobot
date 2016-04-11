@@ -34,8 +34,6 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
     private static final String TAG = ActivityAlarmsViewModel.class.getSimpleName();
     private final Context context;
 
-    Subscription subscription;
-    SpotifyAuthManager spotifyAuthManager;
     private ObservableArrayList<ItemAlarmViewModel> itemsVM;
 
     public ActivityAlarmsViewModel(Context context) {
@@ -76,7 +74,7 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
     }
 
     private void refreshAccessToken() throws UnsupportedEncodingException {
-        spotifyAuthManager.refreshToken(context, () -> {
+        Injector.INSTANCE.spotifyAuth().manager().refreshToken(context, () -> {
 
         });
     }
