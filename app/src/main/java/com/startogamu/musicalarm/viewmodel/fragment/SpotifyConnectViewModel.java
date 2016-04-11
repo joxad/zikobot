@@ -142,6 +142,7 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
 
             @Override
             public void onNext(SpotifyUser spotifyUser) {
+                SpotifyPrefs.userId(spotifyUser.id);
                 ((MusicActivity) context.getActivity()).loadSpotifyMusicFragment();
             }
         });

@@ -44,13 +44,6 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
     public ActivityMusicViewModel(BaseActivity context, ActivityMusicBinding binding) {
         this.context = context;
         this.binding = binding;
-        try {
-            new SpotifyManager.Builder()
-                    .setContext(context)
-                    .build();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         localMusicFragment = LocalMusicFragment.newInstance();
         context.replaceFragment(localMusicFragment, false);
         createBottomNavigation(binding.bottomNavigation);

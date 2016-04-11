@@ -13,7 +13,6 @@ import javax.inject.Singleton;
 
 import retrofit2.Retrofit;
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -59,7 +58,7 @@ public class SpotifyApiManager {
      * @param playlistId
      */
     public Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(final String playlistId) {
-        return spotifyAPIService.getPlaylistTracks(SpotifyPrefs.getSpotifyUserId(), playlistId).subscribeOn(Schedulers.io())
+        return spotifyAPIService.getPlaylistTracks(SpotifyPrefs.spotifyYserId(), playlistId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }

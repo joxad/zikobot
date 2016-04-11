@@ -51,11 +51,11 @@ public class SpotifyPrefs {
         return Prefs.getString(ACCCES_TOKEN, "");
     }
 
-    public static void saveUser(String id) {
+    public static void userId(String id) {
         Prefs.putString(SPOTIFY_USER_ID, id);
     }
 
-    public static String getSpotifyUserId() {
+    public static String spotifyYserId() {
         return Prefs.getString(SPOTIFY_USER_ID, "");
     }
 
