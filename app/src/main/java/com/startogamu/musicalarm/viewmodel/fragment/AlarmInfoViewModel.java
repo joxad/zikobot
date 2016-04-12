@@ -9,7 +9,7 @@ import android.view.View;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.startogamu.musicalarm.BR;
 import com.startogamu.musicalarm.databinding.FragmentAlarmInfoBinding;
-import com.startogamu.musicalarm.module.alarm.Alarm;
+import com.startogamu.musicalarm.module.alarm.object.Alarm;
 import com.startogamu.musicalarm.view.fragment.AlarmInfoFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 

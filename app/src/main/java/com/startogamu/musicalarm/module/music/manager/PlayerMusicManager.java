@@ -1,6 +1,5 @@
-package com.startogamu.musicalarm.module.alarm;
+package com.startogamu.musicalarm.module.music.manager;
 
-import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +13,9 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import com.startogamu.musicalarm.core.service.MediaPlayerService;
-import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.AppPrefs;
+import com.startogamu.musicalarm.module.alarm.object.Alarm;
+import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
 
 import javax.inject.Singleton;
 
@@ -26,6 +27,7 @@ import javax.inject.Singleton;
 public class PlayerMusicManager {
 
     private static final String TAG = PlayerMusicManager.class.getSimpleName();
+    private final Context context;
     private Alarm alarm = null;
     int currentSong = 0;
     boolean spotifyPlayer = false;
@@ -36,7 +38,25 @@ public class PlayerMusicManager {
     //connect to the service
     private Intent playIntent;
 
+    /***
+     * @param context
+     */
+    public PlayerMusicManager(Context context) {
+        this.context = context;
+        initMediaPlayer(context);
+        initSpotifyPlayer(context);
+    }
 
+    /***
+     * Method called when the token is updated for spotify
+     */
+    public void refreshAccessTokenPlayer() {
+        initSpotifyPlayer(context);
+    }
+
+    /***
+     * service connexion that will handle the binding with the {@link MediaPlayerService} service
+     */
     private ServiceConnection musicConnection = new ServiceConnection() {
 
         @Override
@@ -55,13 +75,13 @@ public class PlayerMusicManager {
         }
     };
 
-    public PlayerMusicManager(Application context) {
-        initMediaPlayer(context);
-        initSpotifyPlayer(context);
-    }
-
+    /***
+     * Initialize the SpotifyPlayer according to the data found with accesstoken
+     *
+     * @param context
+     */
     private void initSpotifyPlayer(Context context) {
-        SpotifyPlayerManager.startPlayer(context, SpotifyPrefs.getAcccesToken(), new Player.InitializationObserver() {
+        SpotifyPlayerManager.startPlayer(context, AppPrefs.getAcccesToken(), new Player.InitializationObserver() {
             @Override
             public void onInitialized(Player player) {
                 spotifyPlayer = true;

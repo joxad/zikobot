@@ -14,7 +14,7 @@ import com.joxad.android_easy_spotify.Scope;
 import com.joxad.android_easy_spotify.SpotifyManager;
 import com.joxad.android_easy_spotify.Type;
 import com.startogamu.musicalarm.R;
-import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.databinding.FragmentConnectSpotifyBinding;
 import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyUser;
@@ -79,7 +79,7 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
                     @Override
                     public void onReceived(String code) {
                         accessCode = code;
-                        SpotifyPrefs.saveAccessCode(code);
+                        AppPrefs.saveAccessCode(code);
                         getTokenFromCode(code);
                     }
 
@@ -114,8 +114,8 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
                         public void onNext(SpotifyToken spotifyToken) {
                             Log.d(TAG, spotifyToken.toString());
                             accessToken = spotifyToken.getAccessToken();
-                            SpotifyPrefs.saveRefreshToken(spotifyToken.getRefreshToken());
-                            SpotifyPrefs.saveAccessToken(spotifyToken.getAccessToken());
+                            AppPrefs.saveRefreshToken(spotifyToken.getRefreshToken());
+                            AppPrefs.saveAccessToken(spotifyToken.getAccessToken());
                             getMe();
                         }
                     });
@@ -142,7 +142,7 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
 
             @Override
             public void onNext(SpotifyUser spotifyUser) {
-                SpotifyPrefs.userId(spotifyUser.id);
+                AppPrefs.userId(spotifyUser.id);
                 ((MusicActivity) context.getActivity()).loadSpotifyMusicFragment();
             }
         });

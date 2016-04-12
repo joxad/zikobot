@@ -5,15 +5,13 @@ import android.content.pm.PackageManager;
 import android.databinding.BaseObservable;
 import android.support.v4.content.ContextCompat;
 
-import com.joxad.android_easy_spotify.SpotifyManager;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
-import com.spotify.sdk.android.authentication.AuthenticationResponse;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.REQUEST;
 import com.startogamu.musicalarm.databinding.ActivityMusicBinding;
-import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.view.activity.BaseActivity;
 import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyConnectFragment;
@@ -72,7 +70,7 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
                     break;
                 case 1:
                     // if (spotifyManager.hasAccessToken()) {
-                    if (!Prefs.contains(SpotifyPrefs.ACCESS_CODE)) {
+                    if (!Prefs.contains(AppPrefs.ACCESS_CODE)) {
                         spotifyConnectFragment = SpotifyConnectFragment.newInstance();
                         context.replaceFragment(spotifyConnectFragment, false);
                     } else {

@@ -11,7 +11,7 @@ import com.f2prateek.dart.henson.Bundler;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBinding;
-import com.startogamu.musicalarm.module.alarm.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
 import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylistItem;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylistWithTrack;

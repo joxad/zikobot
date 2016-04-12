@@ -1,12 +1,9 @@
 package com.startogamu.musicalarm.module.content_resolver;
 
-import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.Context;
 
 import com.startogamu.musicalarm.module.content_resolver.manager.LocalMusicManager;
-import com.startogamu.musicalarm.module.retrofit.RetrofitBaseModule;
-import com.startogamu.musicalarm.module.spotify_auth.manager.SpotifyAuthManager;
 
 import javax.inject.Singleton;
 
@@ -21,8 +18,6 @@ public class ContentResolverModule  {
         this.contentResolver = context.getContentResolver();
         this.localMusicManager = new LocalMusicManager(contentResolver);
     }
-
-
 
 
     @Provides

@@ -6,12 +6,11 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.startogamu.musicalarm.module.alarm.LocalTrack;
+import com.startogamu.musicalarm.module.alarm.object.LocalTrack;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.Observable;

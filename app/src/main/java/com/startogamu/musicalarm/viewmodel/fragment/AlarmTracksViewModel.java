@@ -6,13 +6,12 @@ import android.databinding.ObservableArrayList;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentAlarmTracksBinding;
-import com.startogamu.musicalarm.module.alarm.AlarmManager;
-import com.startogamu.musicalarm.module.alarm.PlayerMusicManager;
-import com.startogamu.musicalarm.module.alarm.Alarm;
-import com.startogamu.musicalarm.module.alarm.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
+import com.startogamu.musicalarm.module.alarm.object.Alarm;
+import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
+import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.view.fragment.AlarmTracksFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemTrackViewModel;
@@ -37,7 +36,6 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
     public String TAG = AlarmTracksViewModel.class.getSimpleName();
     AlarmTracksFragment alarmTracksFragment;
 
-    PlayerMusicManager playerMusicManager;
     /***
      * The observable list of tracks selected for this alarm
      */
@@ -51,8 +49,8 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
      */
     public AlarmTracksViewModel(AlarmTracksFragment context, FragmentAlarmTracksBinding binding) {
         this.alarmTracksFragment = context;
-
         this.binding = binding;
+        Injector.INSTANCE.playerComponent().init(this);
 
     }
 
@@ -72,7 +70,7 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
 
 
     public void onPlayClick(View view) {
-        playerMusicManager.startAlarm(alarm);
+        Injector.INSTANCE.playerComponent().manager().startAlarm(alarm);
 
     }
 

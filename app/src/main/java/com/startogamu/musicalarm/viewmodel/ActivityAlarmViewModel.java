@@ -10,12 +10,11 @@ import android.view.View;
 
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
-import com.startogamu.musicalarm.MusicAlarmApplication;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
-import com.startogamu.musicalarm.module.alarm.AlarmManager;
-import com.startogamu.musicalarm.module.alarm.Alarm;
-import com.startogamu.musicalarm.module.alarm.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
+import com.startogamu.musicalarm.module.alarm.object.Alarm;
+import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
 import com.startogamu.musicalarm.core.receiver.AlarmReceiver;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.core.utils.REQUEST;
@@ -28,8 +27,6 @@ import com.startogamu.musicalarm.view.fragment.AlarmTracksFragment;
 import org.parceler.Parcels;
 
 import java.util.Calendar;
-
-import javax.inject.Inject;
 
 import rx.Subscriber;
 

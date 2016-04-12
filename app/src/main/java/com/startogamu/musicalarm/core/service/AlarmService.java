@@ -12,12 +12,12 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.Spotify;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.notification.MusicNotification;
-import com.startogamu.musicalarm.module.alarm.AlarmManager;
+import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
 
-import com.startogamu.musicalarm.module.alarm.Alarm;
-import com.startogamu.musicalarm.module.alarm.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.object.Alarm;
+import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
 import com.startogamu.musicalarm.core.utils.EXTRA;
-import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.module.spotify_auth.manager.SpotifyAuthManager;
 
 import java.io.UnsupportedEncodingException;
@@ -63,7 +63,7 @@ public class AlarmService extends Service {
     private void startPlayer() {
         try {
             spotifyAuthManager.refreshToken(getApplicationContext(), () -> {
-                Config playerConfig = new Config(AlarmService.this.getApplicationContext(), SpotifyPrefs.getAcccesToken(), getString(R.string.api_spotify_id));
+                Config playerConfig = new Config(AlarmService.this.getApplicationContext(), AppPrefs.getAcccesToken(), getString(R.string.api_spotify_id));
 
                 Spotify.getPlayer(playerConfig, AlarmService.this.getApplicationContext(), new Player.InitializationObserver() {
                     @Override

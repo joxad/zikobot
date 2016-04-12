@@ -15,7 +15,7 @@ import com.joxad.android_easy_spotify.Scope;
 import com.joxad.android_easy_spotify.SpotifyManager;
 import com.joxad.android_easy_spotify.Type;
 import com.startogamu.musicalarm.R;
-import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.databinding.ActivitySettingsBinding;
 import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyUser;
@@ -107,7 +107,7 @@ public class ActivitySettingsViewModel extends BaseObservable implements ViewMod
                         public void onNext(SpotifyToken spotifyToken) {
                             Log.d(TAG, spotifyToken.toString());
                             accessToken = spotifyToken.getAccessToken();
-                            SpotifyPrefs.saveAccessToken(accessToken);
+                            AppPrefs.saveAccessToken(accessToken);
                             getMe();
                         }
                     });

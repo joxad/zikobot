@@ -9,7 +9,7 @@ import com.startogamu.musicalarm.MusicAlarmApplication;
 /***
  *
  */
-public class SpotifyPrefs {
+public class AppPrefs {
 
     /***
      *

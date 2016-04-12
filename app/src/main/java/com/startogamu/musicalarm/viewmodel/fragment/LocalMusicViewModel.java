@@ -16,8 +16,7 @@ import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.REQUEST;
 import com.startogamu.musicalarm.databinding.FragmentLocalMusicBinding;
 import com.startogamu.musicalarm.module.component.Injector;
-import com.startogamu.musicalarm.module.content_resolver.manager.LocalMusicManager;
-import com.startogamu.musicalarm.module.alarm.LocalTrack;
+import com.startogamu.musicalarm.module.alarm.object.LocalTrack;
 import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
 import com.startogamu.musicalarm.viewmodel.RecyclerViewViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemLocalTrackViewModel;
@@ -26,8 +25,6 @@ import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
 import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinderBase;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import rx.Subscriber;
 

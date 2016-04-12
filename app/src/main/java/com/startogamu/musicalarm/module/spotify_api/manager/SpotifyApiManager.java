@@ -2,7 +2,7 @@ package com.startogamu.musicalarm.module.spotify_api.manager;
 
 import android.content.Context;
 
-import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyFeaturedPlaylist;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylist;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylistWithTrack;
@@ -58,7 +58,7 @@ public class SpotifyApiManager {
      * @param playlistId
      */
     public Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(final String playlistId) {
-        return spotifyAPIService.getPlaylistTracks(SpotifyPrefs.spotifyYserId(), playlistId).subscribeOn(Schedulers.io())
+        return spotifyAPIService.getPlaylistTracks(AppPrefs.spotifyYserId(), playlistId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }

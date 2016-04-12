@@ -1,6 +1,9 @@
-package com.startogamu.musicalarm.module.alarm;
+package com.startogamu.musicalarm.module.alarm.manager;
 
 import com.raizlabs.android.dbflow.sql.language.Select;
+import com.startogamu.musicalarm.module.alarm.object.Alarm;
+import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.object.Alarm_Table;
 
 import java.util.List;
 

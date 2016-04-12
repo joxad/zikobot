@@ -1,6 +1,6 @@
 package com.startogamu.musicalarm.network.spotify_api;
 
-import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.AppPrefs;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class HeaderInterceptor implements Interceptor {
             return chain.proceed(originalRequest);
         }
         Request request = originalRequest.newBuilder()
-                .header("Authorization", "Bearer " + SpotifyPrefs.getAcccesToken())
+                .header("Authorization", "Bearer " + AppPrefs.getAcccesToken())
                 .build();
         return chain.proceed(request);
     }

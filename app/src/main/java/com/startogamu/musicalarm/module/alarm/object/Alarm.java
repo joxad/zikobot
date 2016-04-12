@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.module.alarm;
+package com.startogamu.musicalarm.module.alarm.object;
 
 
 import com.raizlabs.android.dbflow.annotation.Column;
@@ -26,7 +26,7 @@ import lombok.Setter;
 @ModelContainer
 @Table(database = MusicAlarmDatabase.class)
 @Parcel
-public class Alarm extends BaseModel  {
+public class Alarm extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     @Getter
@@ -52,12 +52,18 @@ public class Alarm extends BaseModel  {
     @ParcelPropertyConverter(ItemListTrackConverter.class)
     protected List<AlarmTrack> tracks = new ArrayList<>();
 
-
+    /***
+     * Default constructor =>  8 00 am
+     */
     public Alarm() {
         hour = 8;
         minute = 0;
     }
 
+    /****
+     *
+     * @return
+     */
     @OneToMany(methods = {OneToMany.Method.SAVE, OneToMany.Method.DELETE}, variableName = "tracks")
     public List<AlarmTrack> getTracks() {
         if (tracks == null || tracks.isEmpty()) {

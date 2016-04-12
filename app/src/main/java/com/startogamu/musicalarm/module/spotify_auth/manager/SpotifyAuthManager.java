@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Base64;
 
 import com.startogamu.musicalarm.R;
-import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
+import com.startogamu.musicalarm.core.utils.AppPrefs;
 
 import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyRefreshToken;
 import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyRequestToken;
@@ -21,6 +21,9 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+/****
+ * {@link SpotifyAuthManager} will handle the connexion to the auth api of spotify
+ */
 @Singleton
 public class SpotifyAuthManager {
     SpotifyAuthService spotifyAuthService;
@@ -47,7 +50,7 @@ public class SpotifyAuthManager {
 
     public void refreshToken(Context context, Listener listener) throws UnsupportedEncodingException {
 
-        SpotifyRefreshToken spotifyRefreshToken = new SpotifyRefreshToken("refresh_token", SpotifyPrefs.getRefreshToken(),
+        SpotifyRefreshToken spotifyRefreshToken = new SpotifyRefreshToken("refresh_token", AppPrefs.getRefreshToken(),
                 context.getString(R.string.api_spotify_callback_musics),
                 context.getString(R.string.api_spotify_id),
                 context.getString(R.string.api_spotify_secret));
@@ -75,7 +78,7 @@ public class SpotifyAuthManager {
 
                     @Override
                     public void onNext(SpotifyToken spotifyToken) {
-                        SpotifyPrefs.saveAccessToken(spotifyToken.getAccessToken());
+                        AppPrefs.saveAccessToken(spotifyToken.getAccessToken());
                         listener.onDone();
                     }
                 });

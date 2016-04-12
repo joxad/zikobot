@@ -4,7 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
-import com.startogamu.musicalarm.module.alarm.LocalTrack;
+import com.startogamu.musicalarm.module.alarm.object.LocalTrack;
 import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 

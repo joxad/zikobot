@@ -9,7 +9,7 @@ import android.view.Menu;
 import com.f2prateek.dart.InjectExtra;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
-import com.startogamu.musicalarm.module.alarm.Alarm;
+import com.startogamu.musicalarm.module.alarm.object.Alarm;
 import com.startogamu.musicalarm.viewmodel.ActivityAlarmViewModel;
 
 /**

@@ -9,11 +9,8 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * @author Fabien Baron
- * @company Phoceis
- * @email fbaron@phoceis.com
- * @date 07/04/2016
+/***
+ *
  */
 @Data
 public class SpotifyAuthInterceptor implements Interceptor {

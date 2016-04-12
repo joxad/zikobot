@@ -9,11 +9,10 @@ import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.musicalarm.R;
-import com.startogamu.musicalarm.core.utils.SpotifyPrefs;
-import com.startogamu.musicalarm.module.alarm.Alarm;
-import com.startogamu.musicalarm.module.alarm.AlarmManager;
+import com.startogamu.musicalarm.core.utils.AppPrefs;
+import com.startogamu.musicalarm.module.alarm.object.Alarm;
+import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
 import com.startogamu.musicalarm.module.component.Injector;
-import com.startogamu.musicalarm.module.spotify_auth.manager.SpotifyAuthManager;
 import com.startogamu.musicalarm.view.Henson;
 import com.startogamu.musicalarm.viewmodel.items.ItemAlarmViewModel;
 
@@ -24,7 +23,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import rx.Subscriber;
-import rx.Subscription;
 
 /**
  * Created by josh on 09/03/16.
@@ -40,7 +38,7 @@ public class ActivityAlarmsViewModel extends BaseObservable implements ViewModel
         this.context = context;
         Injector.INSTANCE.spotifyAuth().inject(this);
         itemsVM = new ObservableArrayList<>();
-        if (Prefs.contains(SpotifyPrefs.ACCESS_CODE)) {
+        if (Prefs.contains(AppPrefs.ACCESS_CODE)) {
             try {
                 refreshAccessToken();
             } catch (UnsupportedEncodingException e) {
