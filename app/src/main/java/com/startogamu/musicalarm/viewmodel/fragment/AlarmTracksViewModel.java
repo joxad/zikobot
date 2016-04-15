@@ -16,12 +16,9 @@ import com.startogamu.musicalarm.view.fragment.AlarmTracksFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemTrackViewModel;
 
-import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
-import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinderBase;
-
 import java.util.ArrayList;
 
-import javax.inject.Inject;
+import me.tatarka.bindingcollectionadapter.ItemView;
 
 /**
  * Created by josh on 31/03/16.
@@ -83,9 +80,7 @@ public class AlarmTracksViewModel extends BaseObservable implements ViewModel {
         return tracks;
     }
 
-    public ItemBinder<ItemTrackViewModel> itemTracksBinder() {
-        return new ItemBinderBase<>(BR.itemTrackViewModel, R.layout.item_track);
-    }
+    public ItemView itemTracksBinder = ItemView.of(BR.itemTrackViewModel, R.layout.item_track);
 
     /**
      * @param alarmTrack

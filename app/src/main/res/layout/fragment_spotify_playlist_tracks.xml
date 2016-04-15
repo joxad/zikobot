@@ -20,7 +20,7 @@
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:itemViewBinder="@{spotifyPlaylistTracksViewModel.itemsBinder}"
+            app:itemView="@{spotifyPlaylistTracksViewModel.itemsBinder}"
             app:items="@{spotifyPlaylistTracksViewModel.items}"
             tools:listitem="@layout/item_playlist" />
     </LinearLayout>

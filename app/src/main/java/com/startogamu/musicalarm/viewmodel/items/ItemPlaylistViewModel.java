@@ -14,7 +14,6 @@ import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 
-import net.droidlabs.mvvm.recyclerview.adapter.LongClickHandler;
 
 /***
  * ViewModel that will represent the playlist of a user on spotify
@@ -49,22 +48,6 @@ public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
 
     }
 
-
-    /***
-     * Add directly all the playlist
-     *
-     * @param view
-     */
-
-    public LongClickHandler<ItemPlaylistViewModel> longClickHandler = new LongClickHandler<ItemPlaylistViewModel>() {
-        @Override
-        public void onLongClick(ItemPlaylistViewModel itemPlaylistViewModel) {
-            Intent intent = new Intent();
-            intent.putExtra(EXTRA.PLAYLIST_ID, item.getId());
-            fragment.getActivity().setResult(Activity.RESULT_OK, intent);
-            fragment.getActivity().finish();
-        }
-    };
 
 
     @Bindable

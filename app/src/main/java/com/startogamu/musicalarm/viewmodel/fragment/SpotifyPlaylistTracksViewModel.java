@@ -17,25 +17,31 @@ import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylistItem;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyTrack;
 import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
-import com.startogamu.musicalarm.viewmodel.RecyclerViewViewModel;
+import com.startogamu.musicalarm.viewmodel.ViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemSpotifyTrackViewModel;
-
-import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
-import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinderBase;
 
 import org.parceler.Parcels;
 
+import me.tatarka.bindingcollectionadapter.ItemView;
 import rx.Subscriber;
 
 
 /***
  * {@link SpotifyPlaylistTracksViewModel} will call the apimanager to get the tracks of the playlist
  */
-public class SpotifyPlaylistTracksViewModel extends BaseObservable implements RecyclerViewViewModel<ItemSpotifyTrackViewModel> {
+public class SpotifyPlaylistTracksViewModel extends BaseObservable implements ViewModel {
 
     private ObservableArrayList<ItemSpotifyTrackViewModel> trackViewModels;
     private SpotifyPlaylistTracksFragment fragment;
     private FragmentSpotifyPlaylistTracksBinding binding;
+
+    @Bindable
+    public ObservableArrayList<ItemSpotifyTrackViewModel> getItems() {
+        return trackViewModels;
+    }
+
+    public ItemView itemsBinder = ItemView.of(BR.itemSpotifyTrackViewModel, R.layout.item_spotify_track);
+
 
     String playlistId;
 
@@ -76,17 +82,6 @@ public class SpotifyPlaylistTracksViewModel extends BaseObservable implements Re
 
     }
 
-
-    @Bindable
-    @Override
-    public ObservableArrayList<ItemSpotifyTrackViewModel> getItems() {
-        return trackViewModels;
-    }
-
-    @Override
-    public ItemBinder<ItemSpotifyTrackViewModel> getItemsBinder() {
-        return new ItemBinderBase<>(BR.itemSpotifyTrackViewModel, R.layout.item_spotify_track);
-    }
 
     /***
      * Selection of a track

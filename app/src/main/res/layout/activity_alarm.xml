@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="activityAlarmViewModel"
-            type="com.startogamu.musicalarm.viewmodel.ActivityAlarmViewModel" />
+            name="activityAlarmVM"
+            type="com.startogamu.musicalarm.viewmodel.ActivityAlarmVM" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:onClick="@{activityAlarmViewModel.onAddTrackClick}"
+            android:onClick="@{activityAlarmVM.onAddTrackClick}"
             android:src="@drawable/ic_add" />
 
 

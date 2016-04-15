@@ -50,6 +50,8 @@ dependencies {
     compile libs.dbFlowCore
     compile libs.dbFlow
     compile libs.design
+    compile libs.easyPrefs
+    compile libs.easyDataBinding
     compile libs.gson
     compile libs.glide
     compile libs.henson
@@ -78,7 +80,6 @@ dependencies {
     compile('com.mikepenz:aboutlibraries:5.6.2@aar') {
         transitive = true
     }
-    compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
 
     compile 'com.sothree.slidinguppanel:library:3.3.0'
     compile 'com.github.ybq:Android-SpinKit:1.0.2'

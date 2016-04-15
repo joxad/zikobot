@@ -24,7 +24,7 @@
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:itemViewBinder="@{localMusicViewModel.itemsBinder}"
+            app:itemView="@{localMusicViewModel.itemView}"
             app:items="@{localMusicViewModel.items}"
             tools:listitem="@layout/item_local_track" />
 

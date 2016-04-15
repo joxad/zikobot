@@ -33,9 +33,8 @@
             android:id="@+id/rv_tops"
             android:layout_width="match_parent"
             android:layout_height="@dimen/spotify_playlist_height_margin"
-            app:itemViewBinder="@{spotifyMusicViewModel.itemTopPlaylistBinder}"
+            app:itemView="@{spotifyMusicViewModel.itemTopPlaylistBinder}"
             app:items="@{spotifyMusicViewModel.featuredPlaylists}"
-            app:longClickHandler="@{itemPlaylistViewModel.longClickHandler}"
             tools:listitem="@layout/item_top_playlist" />
 
 
@@ -44,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/rv_tops"
-            app:itemViewBinder="@{spotifyMusicViewModel.itemUserPlaylistsBinder}"
+            app:itemView="@{spotifyMusicViewModel.itemUserPlaylistsBinder}"
             app:items="@{spotifyMusicViewModel.userPlaylists}"
             tools:listitem="@layout/item_playlist" />
 

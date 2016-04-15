@@ -14,7 +14,7 @@ import com.startogamu.musicalarm.viewmodel.ActivityMusicViewModel;
  * Created by josh on 26/03/16.
  */
 @HensonNavigable
-public class MusicActivity extends BaseActivity {
+public class ActivityMusic extends BaseActivity {
 
     ActivityMusicBinding binding;
     ActivityMusicViewModel activityMusicViewModel;

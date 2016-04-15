@@ -1,5 +1,6 @@
 package com.startogamu.musicalarm.module.component;
 
+import com.startogamu.musicalarm.core.service.AlarmService;
 import com.startogamu.musicalarm.module.music.PlayerBaseComponent;
 import com.startogamu.musicalarm.module.music.PlayerModule;
 import com.startogamu.musicalarm.viewmodel.fragment.AlarmTracksViewModel;
@@ -16,4 +17,6 @@ import dagger.Component;
 @Component(modules = PlayerModule.class)
 public interface PlayerComponent extends PlayerBaseComponent{
     void init(AlarmTracksViewModel alarmTracksViewModel);
+
+    void inject(AlarmService alarmService);
 }

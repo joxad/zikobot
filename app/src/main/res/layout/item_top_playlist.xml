@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="itemPlaylistViewModel"
+            name="topPlayViewModel"
             type="com.startogamu.musicalarm.viewmodel.items.ItemPlaylistViewModel" />
     </data>
 
@@ -22,14 +22,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:onClick="@{itemPlaylistViewModel.onItemClick}"
+            android:onClick="@{topPlayViewModel.onItemClick}"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/iv_header"
                 android:layout_width="196dp"
                 android:layout_height="@dimen/spotify_playlist_height"
-                app:imageUrl="@{itemPlaylistViewModel.imageUrl}"
+                app:imageUrl="@{topPlayViewModel.imageUrl}"
                 tools:src="@drawable/ic_queue_music" />
 
             <LinearLayout
@@ -41,14 +41,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{itemPlaylistViewModel.name}"
+                    android:text="@{topPlayViewModel.name}"
                     android:textSize="@dimen/textSizeLarge_openSource"
                     tools:text="Ma playlist trop cool" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{itemPlaylistViewModel.nbSongs}"
+                    android:text="@{topPlayViewModel.nbSongs}"
                     tools:text="3 chansons" />
             </LinearLayout>
         </LinearLayout>

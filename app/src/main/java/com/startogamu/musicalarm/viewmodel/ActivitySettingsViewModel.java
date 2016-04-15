@@ -21,14 +21,14 @@ import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyUser;
 import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyRequestToken;
 import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyToken;
-import com.startogamu.musicalarm.view.activity.SettingsActivity;
+import com.startogamu.musicalarm.view.activity.ActivitySettings;
 
 import java.io.UnsupportedEncodingException;
 
 import rx.Subscriber;
 
 /***
- * {@link ActivitySettingsViewModel}  make the link between {@link SettingsActivity} and {@link com.startogamu.musicalarm.module.spotify_api.manager.SpotifyApiManager}
+ * {@link ActivitySettingsViewModel}  make the link between {@link ActivitySettings} and {@link com.startogamu.musicalarm.module.spotify_api.manager.SpotifyApiManager}
  */
 public class ActivitySettingsViewModel extends BaseObservable implements ViewModel {
 

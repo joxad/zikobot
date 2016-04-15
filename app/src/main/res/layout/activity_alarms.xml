@@ -4,9 +4,12 @@
 
     <data>
 
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+
+
         <variable
-            name="activityAlarmsViewModel"
-            type="com.startogamu.musicalarm.viewmodel.ActivityAlarmsViewModel" />
+            name="activityAlarmsVM"
+            type="com.startogamu.musicalarm.viewmodel.ActivityAlarmsVM" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -47,8 +50,9 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:scrollbars="vertical"
-                app:itemViewBinder="@{activityAlarmsViewModel.itemViewBinder}"
-                app:items="@{activityAlarmsViewModel.itemViewModels}"
+                app:itemView="@{activityAlarmsVM.itemViewBinder}"
+                app:items="@{activityAlarmsVM.itemViewModels}"
+                app:layoutManager="@{LayoutManagers.linear()}"
                 tools:listitem="@layout/item_alarm" />
 
         </RelativeLayout>
@@ -59,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:onClick="@{activityAlarmsViewModel.addAlarm}"
+            android:onClick="@{activityAlarmsVM.addAlarm}"
             android:src="@drawable/ic_add" />
 
     </android.support.design.widget.CoordinatorLayout>

@@ -20,7 +20,7 @@ import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyUser;
 import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyRequestToken;
 import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyToken;
-import com.startogamu.musicalarm.view.activity.MusicActivity;
+import com.startogamu.musicalarm.view.activity.ActivityMusic;
 import com.startogamu.musicalarm.view.fragment.SpotifyConnectFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 
@@ -143,7 +143,7 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
             @Override
             public void onNext(SpotifyUser spotifyUser) {
                 AppPrefs.userId(spotifyUser.id);
-                ((MusicActivity) context.getActivity()).loadSpotifyMusicFragment();
+                ((ActivityMusic) context.getActivity()).loadSpotifyMusicFragment();
             }
         });
     }

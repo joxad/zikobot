@@ -14,7 +14,7 @@ import com.startogamu.musicalarm.viewmodel.ActivitySettingsViewModel;
  * Created by josh on 25/03/16.
  */
 @HensonNavigable
-public class SettingsActivity extends AppCompatActivity {
+public class ActivitySettings extends AppCompatActivity {
 
 
     ActivitySettingsBinding binding;

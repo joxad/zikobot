@@ -16,9 +16,7 @@ import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemPlaylistViewModel;
 
-import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinder;
-import net.droidlabs.mvvm.recyclerview.adapter.binder.ItemBinderBase;
-
+import me.tatarka.bindingcollectionadapter.ItemView;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -38,6 +36,9 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
     Observable<SpotifyPlaylist> playlistObservable;
     Observable<SpotifyFeaturedPlaylist> featuredPlaylistObservable;
     Subscription wsWatcherSubscription;
+
+    public ItemView itemTopPlaylistBinder = ItemView.of(BR.topPlayViewModel, R.layout.item_top_playlist);
+    public ItemView itemUserPlaylistsBinder = ItemView.of(BR.playlistViewModel, R.layout.item_playlist);
 
     /***
      * View model use to get the playlist of the user
@@ -96,7 +97,7 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
      */
     private void loadUserPlaylist() {
         userPlaylists.clear();
-       playlistObservable =Injector.INSTANCE.spotifyApi().manager().getUserPlaylists();
+        playlistObservable = Injector.INSTANCE.spotifyApi().manager().getUserPlaylists();
     }
 
     /***
@@ -114,17 +115,10 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
         return userPlaylists;
     }
 
-    public ItemBinder<ItemPlaylistViewModel> itemTopPlaylistBinder() {
-        return new ItemBinderBase<>(BR.itemPlaylistViewModel, R.layout.item_top_playlist);
-    }
 
     @Bindable
     public ObservableArrayList<ItemPlaylistViewModel> getFeaturedPlaylists() {
         return featuredPlaylists;
-    }
-
-    public ItemBinder<ItemPlaylistViewModel> itemUserPlaylistsBinder() {
-        return new ItemBinderBase<>(BR.itemPlaylistViewModel, R.layout.item_playlist);
     }
 
     @Override

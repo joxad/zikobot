@@ -30,7 +30,6 @@ public class PlayerMusicManager {
     private final Context context;
     private Alarm alarm = null;
     int currentSong = 0;
-    boolean spotifyPlayer = false;
 
 
     private MediaPlayerService mediaPlayerService;
@@ -51,7 +50,7 @@ public class PlayerMusicManager {
      * Method called when the token is updated for spotify
      */
     public void refreshAccessTokenPlayer() {
-        initSpotifyPlayer(context);
+        SpotifyPlayerManager.updateToken(AppPrefs.getAccessToken());
     }
 
     /***
@@ -76,20 +75,33 @@ public class PlayerMusicManager {
     };
 
     /***
+     *
+     * @param context
+     */
+    public void initMediaPlayer(Context context) {
+        if (playIntent == null) {
+            playIntent = new Intent(context, MediaPlayerService.class);
+            context.bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+            context.startService(playIntent);
+        }
+    }
+
+    /***
      * Initialize the SpotifyPlayer according to the data found with accesstoken
      *
      * @param context
      */
     private void initSpotifyPlayer(Context context) {
-        SpotifyPlayerManager.startPlayer(context, AppPrefs.getAcccesToken(), new Player.InitializationObserver() {
+
+        SpotifyPlayerManager.startPlayer(context, AppPrefs.getAccessToken(), new Player.InitializationObserver() {
             @Override
             public void onInitialized(Player player) {
-                spotifyPlayer = true;
+
             }
 
             @Override
             public void onError(Throwable throwable) {
-                spotifyPlayer = false;
+
             }
         }, new PlayerNotificationCallback() {
             @Override
@@ -120,13 +132,6 @@ public class PlayerMusicManager {
     }
 
 
-    public void initMediaPlayer(Context context) {
-        if (playIntent == null) {
-            playIntent = new Intent(context, MediaPlayerService.class);
-            context.bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-            context.startService(playIntent);
-        }
-    }
 
     /***
      * @param alarmTrack
@@ -138,7 +143,7 @@ public class PlayerMusicManager {
                 mediaPlayerService.playSong(Uri.parse(alarmTrack.getRef()));
                 break;
             case AlarmTrack.TYPE.SPOTIFY:
-                if (spotifyPlayer)
+
                     SpotifyPlayerManager.play(alarmTrack.getRef());
                 break;
         }

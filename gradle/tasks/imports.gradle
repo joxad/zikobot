@@ -2,10 +2,12 @@
 ext {
     butterKnifeVersion = "7.0.1"
     cropVersion = "1.0.16"
-    daggerVersion = "2.1"
+    daggerVersion = "2.2"
     dartVersion = "2.0.0"
     dbFlowVersion = "3.0.0-beta5"
-    easySpotifyVersion = "1.0.6"
+    easyDataBindingVersion = "0.3.4"
+    easyPrefsVersion = "1.8.1"
+    easySpotifyVersion = "1.0.8"
     gcmVersion = "8.4.0"
     glideVersion = "3.7.0"
     gsonVersion = "2.5"
@@ -16,7 +18,7 @@ ext {
     parcelerVersion = "1.0.4"
     picassoVersion = "2.5.2"
     retrofitVersion = "2.0.1"
-    rvDataBindingVersion = "1.0.0"
+    rvDataBindingVersion = "1.1.0"
     rxVersion = "1.0.1"
     rxBindingVersion = "0.4.0"
     supportLibraryVersion = "23.3.0"
@@ -33,6 +35,8 @@ ext {
             dbFlowCore             : "com.github.Raizlabs.DBFlow:dbflow-core:$dbFlowVersion",
             dbFlow                 : "com.github.Raizlabs.DBFlow:dbflow:$dbFlowVersion",
             design                 : "com.android.support:design:$supportLibraryVersion",
+            easyDataBinding        : "com.joxad.easydatabinding:lib:$easyDataBindingVersion",
+            easyPrefs              : "com.pixplicity.easyprefs:library:$easyPrefsVersion@aar",
             easySpotify            : "com.github.joxad:android-easy-spotify:$easySpotifyVersion",
             glide                  : "com.github.bumptech.glide:glide:$glideVersion",
             gson                   : "com.google.code.gson:gson:$gsonVersion",
@@ -48,7 +52,8 @@ ext {
             parcelerApi            : "org.parceler:parceler-api:$parcelerVersion",// use compile
             picasso                : "com.squareup.picasso:picasso:$picassoVersion",
             recyclerView           : "com.android.support:recyclerview-v7:$supportLibraryVersion",
-            recyclerViewDataBinding: "com.joxad.github:recyclerview-binding:$rvDataBindingVersion",
+            recyclerViewAdapter    : "me.tatarka.bindingcollectionadapter:bindingcollectionadapter:$rvDataBindingVersion",
+            recyclerViewDataBinding: "me.tatarka.bindingcollectionadapter:bindingcollectionadapter-recyclerview:$rvDataBindingVersion",
             retrofit               : "com.squareup.retrofit2:retrofit:$retrofitVersion",
             retrofitAdapterRxJava  : "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion",
             retrofitConverterGson  : "com.squareup.retrofit2:converter-gson:$retrofitVersion",

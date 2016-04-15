@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.joxad.android_easy_spotify.SpotifyManager;
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.startogamu.musicalarm.core.notification.MusicNotification;
 import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.module.component.Injector;
 
@@ -23,7 +24,7 @@ public class MusicAlarmApplication extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        MusicNotification.init(this);
         Injector.INSTANCE.initSpotifyApi(this);
         Injector.INSTANCE.initSpotifyAuth(this);
         Injector.INSTANCE.initContentResolver(this);

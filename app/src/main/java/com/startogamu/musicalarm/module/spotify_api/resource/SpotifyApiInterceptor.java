@@ -20,7 +20,7 @@ public class SpotifyApiInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request original = chain.request();
         Request.Builder requestBuilder = original.newBuilder()
-                .header("Authorization", "Bearer " + AppPrefs.getAcccesToken())
+                .header("Authorization", "Bearer " + AppPrefs.getAccessToken())
                 .method(original.method(), original.body());
 
         Request request = requestBuilder.build();

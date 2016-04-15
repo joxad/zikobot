@@ -4,22 +4,25 @@ import android.app.Fragment;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.BaseObservable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
+import com.joxad.easydatabinding.activity.ActivityBaseVM;
+import com.joxad.easydatabinding.activity.IResult;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.startogamu.musicalarm.R;
+import com.startogamu.musicalarm.core.receiver.AlarmReceiver;
+import com.startogamu.musicalarm.core.utils.EXTRA;
+import com.startogamu.musicalarm.core.utils.REQUEST;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
 import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
 import com.startogamu.musicalarm.module.alarm.object.Alarm;
 import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
-import com.startogamu.musicalarm.core.receiver.AlarmReceiver;
-import com.startogamu.musicalarm.core.utils.EXTRA;
-import com.startogamu.musicalarm.core.utils.REQUEST;
+import com.startogamu.musicalarm.module.alarm.object.Alarm_Table;
 import com.startogamu.musicalarm.view.Henson;
-import com.startogamu.musicalarm.view.activity.AlarmActivity;
+import com.startogamu.musicalarm.view.activity.ActivityAlarm;
 import com.startogamu.musicalarm.view.adapter.ViewPagerAdapter;
 import com.startogamu.musicalarm.view.fragment.AlarmInfoFragment;
 import com.startogamu.musicalarm.view.fragment.AlarmTracksFragment;
@@ -33,12 +36,9 @@ import rx.Subscriber;
 /**
  * Created by josh on 08/03/16.
  */
-public class ActivityAlarmViewModel extends BaseObservable implements ViewModel {
-    private static String TAG = ActivityAlarmViewModel.class.getSimpleName();
+public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarmBinding> implements IResult {
+    private static String TAG = ActivityAlarmVM.class.getSimpleName();
 
-
-    private AlarmActivity context;
-    private ActivityAlarmBinding binding;
     AlarmTracksFragment alarmTracksFragment;
     AlarmInfoFragment alarmInfoFragment;
 
@@ -49,36 +49,45 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
 
     @InjectExtra
     Alarm alarm;
+
     /***
-     * Copy the alarm from an existing one
-     *
-     * @param context
+     * @param activity
      * @param binding
      */
-    public ActivityAlarmViewModel(final AlarmActivity context, final ActivityAlarmBinding binding) {
-        this.context = context;
-        this.binding = binding;
-        Dart.inject(this, context);
-        initViews();
+    public ActivityAlarmVM(ActivityAlarm activity, ActivityAlarmBinding binding) {
+        super(activity, binding);
     }
 
-    private void initViews() {
-        alarmInfoFragment = AlarmInfoFragment.newInstance(alarm);
-        alarmTracksFragment = AlarmTracksFragment.newInstance(alarm);
+
+    @Override
+    public void init() {
+        Dart.inject(this, activity);
+        activity.setSupportActionBar(binding.toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        binding.toolbar.setNavigationOnClickListener(listener -> activity.finish());
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_delete:
-                    //TODO delete
-                    context.finish();
+                    delete();
                     break;
                 case R.id.action_save:
-                    //TODO save;
-                    onValidateClick();
+                    save();
                     break;
             }
             return false;
         });
-        viewPagerAdapter = new ViewPagerAdapter(context.getFragmentManager(),
+        initViews();
+    }
+
+
+    /***
+     *
+     */
+    private void initViews() {
+        alarmInfoFragment = AlarmInfoFragment.newInstance(alarm);
+        alarmTracksFragment = AlarmTracksFragment.newInstance(alarm);
+
+        viewPagerAdapter = new ViewPagerAdapter(activity.getFragmentManager(),
                 new Fragment[]{
                         alarmInfoFragment,
                         alarmTracksFragment
@@ -97,7 +106,7 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
     /***
      * Use this method to save the data
      */
-    public void onValidateClick() {
+    public void save() {
         AlarmManager.saveAlarm(alarmInfoFragment.getAlarm(), alarmTracksFragment.getTracks()).subscribe(new Subscriber<Alarm>() {
             @Override
             public void onCompleted() {
@@ -112,12 +121,18 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
             @Override
             public void onNext(Alarm alarm) {
                 prepareAlarm(alarm);
-                context.finish();
+                activity.finish();
             }
         });
 
     }
-
+    /***
+     * Delete the alarm
+     */
+    private void delete() {
+        SQLite.delete(Alarm.class).where(Alarm_Table.id.is(alarm.getId())).query();
+        activity.finish();
+    }
     /***
      * Use this method to schedule the alarm
      *
@@ -125,10 +140,10 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      */
     private void prepareAlarm(Alarm alarm) {
 
-        alarmMgr = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmReceiver.class);
+        alarmMgr = (android.app.AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(activity, AlarmReceiver.class);
         intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
-        alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        alarmIntent = PendingIntent.getBroadcast(activity, 0, intent, 0);
         alarmMgr.cancel(alarmIntent);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -143,7 +158,7 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
      * @param view
      */
     public void onAddTrackClick(View view) {
-        context.startActivityForResult(Henson.with(context).gotoMusicActivity().build(), REQUEST.CODE_TRACK);
+        activity.startActivityForResult(Henson.with(activity).gotoActivityMusic().build(), REQUEST.CODE_TRACK);
     }
 
 
@@ -156,18 +171,16 @@ public class ActivityAlarmViewModel extends BaseObservable implements ViewModel 
         //TODO manage the type of data in the intent => list of alarm track/playlist/etc..
         if (requestCode == REQUEST.CODE_TRACK) {
             if (resultCode == AppCompatActivity.RESULT_OK) {
-
                 AlarmTrack alarmTrack = Parcels.unwrap(data.getParcelableExtra(EXTRA.TRACK));
                 alarmTracksFragment.add(alarmTrack);
-
             }
         }
     }
 
-
     @Override
-    public void onDestroy() {
+    public void destroy() {
 
     }
+
 
 }

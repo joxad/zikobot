@@ -4,10 +4,9 @@ import android.content.Context;
 import android.content.ContextWrapper;
 
 import com.pixplicity.easyprefs.library.Prefs;
-import com.startogamu.musicalarm.MusicAlarmApplication;
 
 /***
- *
+ * {@link AppPrefs} will handle the prefs of the application using {@link Prefs}
  */
 public class AppPrefs {
 
@@ -19,7 +18,7 @@ public class AppPrefs {
     /***
      *
      */
-    public static final String ACCCES_TOKEN = "ACCCES_TOKEN";
+    public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 
     /***
      *
@@ -44,11 +43,11 @@ public class AppPrefs {
     }
 
     public static void saveAccessToken(String accessToken) {
-        Prefs.putString(ACCCES_TOKEN, accessToken);
+        Prefs.putString(ACCESS_TOKEN, accessToken);
     }
 
-    public static String getAcccesToken() {
-        return Prefs.getString(ACCCES_TOKEN, "");
+    public static String getAccessToken() {
+        return Prefs.getString(ACCESS_TOKEN, "");
     }
 
     public static void userId(String id) {
