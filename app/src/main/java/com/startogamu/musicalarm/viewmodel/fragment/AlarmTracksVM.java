@@ -37,7 +37,7 @@ public class AlarmTracksVM extends FragmentBaseVM<AlarmTracksFragment, FragmentA
      * The observable list of tracks selected for this alarm
      */
     public ObservableArrayList<ItemTrackViewModel> tracks;
-    public ItemView itemTracksBinder = ItemView.of(BR.itemTrackViewModel, R.layout.item_track);
+    public ItemView itemView = ItemView.of(BR.itemTrackViewModel, R.layout.item_track);
 
     Alarm alarm;
 
@@ -92,7 +92,7 @@ public class AlarmTracksVM extends FragmentBaseVM<AlarmTracksFragment, FragmentA
         alarm.getTracks().add(alarmTrack);
     }
 
-    public List<AlarmTrack> getTracks() {
+    public List<AlarmTrack> getAlarmTracks() {
         return alarm.getTracks();
     }
 }

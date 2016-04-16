@@ -5,6 +5,9 @@
 
     <data>
 
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+
+
         <variable
             name="alarmTracksVM"
             type="com.startogamu.musicalarm.viewmodel.fragment.AlarmTracksVM" />
@@ -19,7 +22,8 @@
             android:id="@+id/rv_tracks"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:itemView="@{alarmTracksVM.itemTracksBinder}"
+            app:layoutManager="@{LayoutManagers.linear()}"
+            app:itemView="@{alarmTracksVM.itemView}"
             app:items="@{alarmTracksVM.tracks}"
             tools:listitem="@layout/item_playlist" />
 

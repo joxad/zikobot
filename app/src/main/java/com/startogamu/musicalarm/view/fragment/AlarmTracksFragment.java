@@ -50,6 +50,6 @@ public class AlarmTracksFragment extends FragmentBase<FragmentAlarmTracksBinding
     }
 
     public List<AlarmTrack> getTracks() {
-        return vm.getTracks();
+        return vm.getAlarmTracks();
     }
 }
