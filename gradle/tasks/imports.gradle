@@ -5,7 +5,7 @@ ext {
     daggerVersion = "2.2"
     dartVersion = "2.0.0"
     dbFlowVersion = "3.0.0-beta5"
-    easyDataBindingVersion = "0.3.4"
+    easyDataBindingVersion = "0.3.6"
     easyPrefsVersion = "1.8.1"
     easySpotifyVersion = "1.0.8"
     gcmVersion = "8.4.0"

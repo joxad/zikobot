@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="alarmTracksViewModel"
-            type="com.startogamu.musicalarm.viewmodel.fragment.AlarmTracksViewModel" />
+            name="alarmTracksVM"
+            type="com.startogamu.musicalarm.viewmodel.fragment.AlarmTracksVM" />
     </data>
 
     <RelativeLayout
@@ -19,15 +19,15 @@
             android:id="@+id/rv_tracks"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:itemView="@{alarmTracksViewModel.itemTracksBinder}"
-            app:items="@{alarmTracksViewModel.alarmTracks}"
+            app:itemView="@{alarmTracksVM.itemTracksBinder}"
+            app:items="@{alarmTracksVM.tracks}"
             tools:listitem="@layout/item_playlist" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:onClick="@{alarmTracksViewModel.onPlayClick}"
+            android:onClick="@{alarmTracksVM.onPlayClick}"
             android:src="@drawable/ic_play_arrow" />
     </RelativeLayout>
 </layout>

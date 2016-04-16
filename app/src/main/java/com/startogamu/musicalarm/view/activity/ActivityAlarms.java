@@ -27,7 +27,7 @@ public class ActivityAlarms extends ActivityBase<ActivityAlarmsBinding, Activity
 
     @Override
     public int data() {
-        return BR.activityAlarmsViewModel;
+        return BR.activityAlarmsVM;
     }
 
     @Override

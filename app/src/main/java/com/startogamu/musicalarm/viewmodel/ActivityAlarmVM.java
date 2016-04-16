@@ -1,9 +1,9 @@
 package com.startogamu.musicalarm.viewmodel;
 
-import android.app.Fragment;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -87,7 +87,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         alarmInfoFragment = AlarmInfoFragment.newInstance(alarm);
         alarmTracksFragment = AlarmTracksFragment.newInstance(alarm);
 
-        viewPagerAdapter = new ViewPagerAdapter(activity.getFragmentManager(),
+        viewPagerAdapter = new ViewPagerAdapter(activity.getSupportFragmentManager(),
                 new Fragment[]{
                         alarmInfoFragment,
                         alarmTracksFragment

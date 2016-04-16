@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="alarmInfoViewModel"
-            type="com.startogamu.musicalarm.viewmodel.fragment.AlarmInfoViewModel" />
+            name="alarmInfoVM"
+            type="com.startogamu.musicalarm.viewmodel.fragment.AlarmInfoVM" />
     </data>
 
     <LinearLayout
@@ -24,8 +24,8 @@
                 android:id="@+id/tv_hour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{alarmInfoViewModel.onTimeClick}"
-                android:text="@{alarmInfoViewModel.selectedTime}"
+                android:onClick="@{alarmInfoVM.onTimeClick}"
+                android:text="@{alarmInfoVM.selectedTime}"
                 android:textSize="32sp"
                 tools:text="8 H 20" />
 
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/alarm_hint"
                 android:singleLine="true"
-                android:text="@{alarmInfoViewModel.alarmName}"
+                android:text="@{alarmInfoVM.alarmName}"
                 android:textColor="@color/colorAccent" />
 
 
