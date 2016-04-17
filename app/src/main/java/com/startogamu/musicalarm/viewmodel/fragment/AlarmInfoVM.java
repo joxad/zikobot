@@ -21,7 +21,7 @@ import lombok.Getter;
  */
 public class AlarmInfoVM extends FragmentBaseVM<AlarmInfoFragment, FragmentAlarmInfoBinding> {
     public ObservableString selectedTime;
-    public ObservableString alarmName;
+    public String alarmName;
 
     @Getter
     Alarm alarm;
@@ -36,19 +36,18 @@ public class AlarmInfoVM extends FragmentBaseVM<AlarmInfoFragment, FragmentAlarm
 
     @Override
     public void init() {
-        alarmName = new ObservableString();
         selectedTime = new ObservableString();
         initModel();
 
         RxTextView.textChanges(binding.etName).skip(1).subscribe(charSequence -> {
-            alarmName.set(charSequence.toString());
-            alarm.setName(alarmName.get());
+            alarmName = charSequence.toString();
+            alarm.setName(alarmName);
         });
     }
 
     private void initModel() {
         alarm = Parcels.unwrap(Dart.get(fragment.getArguments(), EXTRA.ALARM));
-        alarmName.set(alarm.getName());
+        alarmName = alarm.getName();
         updateSelectedTime(alarm);
     }
 
