@@ -48,7 +48,7 @@ public class MusicNotification {
                 .addAction(R.drawable.ic_pause, "Pause", intentPause)
                 .addAction(R.drawable.ic_next, "Next", intentNext)
                 .addAction(R.drawable.ic_clear, "Clear", intentClear)
-                .setAutoCancel(false).build();
+                .setOngoing(true).build();
 
         notificationManager.notify(0, notification);
     }

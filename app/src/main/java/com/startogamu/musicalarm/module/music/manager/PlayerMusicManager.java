@@ -172,7 +172,7 @@ public class PlayerMusicManager {
 
 
     public void stop() {
-        SpotifyPlayerManager.shutdown();
+        SpotifyPlayerManager.destroy();
 
     }
 

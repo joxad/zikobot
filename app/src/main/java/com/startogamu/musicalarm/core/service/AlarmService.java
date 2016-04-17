@@ -2,6 +2,7 @@ package com.startogamu.musicalarm.core.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
@@ -43,7 +44,16 @@ public class AlarmService extends Service {
 
         stopReceiver = new StopReceiver(() -> stop());
 
+        registerReceiver(stopReceiver, new IntentFilter(StopReceiver.TAG));
         return Service.START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        if (stopReceiver != null) {
+            unregisterReceiver(stopReceiver);
+        }
+        super.onDestroy();
     }
 
     /***
@@ -59,6 +69,7 @@ public class AlarmService extends Service {
             e.printStackTrace();
         }
     }
+
 
     /**
      * @param alarm
