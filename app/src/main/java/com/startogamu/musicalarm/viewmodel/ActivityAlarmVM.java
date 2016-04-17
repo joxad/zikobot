@@ -126,6 +126,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         });
 
     }
+
     /***
      * Delete the alarm
      */
@@ -133,6 +134,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         SQLite.delete(Alarm.class).where(Alarm_Table.id.is(alarm.getId())).query();
         activity.finish();
     }
+
     /***
      * Use this method to schedule the alarm
      *
@@ -150,7 +152,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         calendar.set(Calendar.HOUR_OF_DAY, this.alarm.getHour());
         calendar.set(Calendar.MINUTE, this.alarm.getMinute());
         alarmMgr.setRepeating(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                1000 * 15 * 60, alarmIntent);// test every 60 scs
+                1000 * 60 * 60 * 24, alarmIntent);// test every 60 scs
     }
 
 

@@ -63,7 +63,7 @@ public class PlayerMusicManager {
             MediaPlayerService.MediaPlayerServiceBinder binder = (MediaPlayerService.MediaPlayerServiceBinder) service;
             //get service
             mediaPlayerService = binder.getService();
-            mediaPlayerService.setOnCompletionListener(mp -> playNextSong());
+            mediaPlayerService.setOnCompletionListener(mp -> next());
             //pass list
             mediaPlayerServiceBound = true;
         }
@@ -121,6 +121,9 @@ public class PlayerMusicManager {
                 if (eventType == EventType.SKIP_PREV) {
                     Log.d(TAG, "SKIP_PREV");
                 }
+                if (eventType == EventType.TRACK_END) {
+                    Log.d(TAG, "TRACK END");
+                }
                 Log.d(TAG, String.format("Player state : current duration %d total duration %s", playerState.positionInMs, playerState.durationInMs));
             }
 
@@ -154,7 +157,7 @@ public class PlayerMusicManager {
     /***
      *
      */
-    private void playNextSong() {
+    public void next() {
         currentSong++;
         if (alarm.getTracks().size() > currentSong)
             playAlarmTrack(alarm.getTracks().get(currentSong));
@@ -167,5 +170,10 @@ public class PlayerMusicManager {
         playAlarmTrack(this.alarm.getTracks().get(currentSong));
     }
 
+
+    public void stop() {
+        SpotifyPlayerManager.shutdown();
+
+    }
 
 }

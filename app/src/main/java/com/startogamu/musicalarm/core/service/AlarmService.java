@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.startogamu.musicalarm.core.notification.MusicNotification;
+import com.startogamu.musicalarm.core.receiver.StopReceiver;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
 import com.startogamu.musicalarm.module.alarm.object.Alarm;
@@ -21,9 +22,9 @@ public class AlarmService extends Service {
     Alarm alarm;
 
     private static final String TAG = AlarmService.class.getSimpleName();
+    private StopReceiver stopReceiver;
 
     /***
-     *
      * @param intent
      * @param flags
      * @param startId
@@ -39,6 +40,9 @@ public class AlarmService extends Service {
             MusicNotification.show(alarm.getName());
             refreshToken();
         });
+
+        stopReceiver = new StopReceiver(() -> stop());
+
         return Service.START_STICKY;
     }
 
@@ -56,13 +60,23 @@ public class AlarmService extends Service {
         }
     }
 
-
+    /**
+     * @param alarm
+     */
     private void startAlarm(Alarm alarm) {
         Injector.INSTANCE.playerComponent().manager().startAlarm(alarm);
     }
 
+    /***
+     *
+     */
+    private void stop() {
+        Injector.INSTANCE.playerComponent().manager().stop();
+    }
 
-
+    private void next() {
+        Injector.INSTANCE.playerComponent().manager().next();
+    }
 
     @Nullable
     @Override
