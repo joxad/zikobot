@@ -22,7 +22,7 @@ public class StopReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         MusicNotification.cancel();
-
+        listener.onCall();
     }
 
     public interface Listener {

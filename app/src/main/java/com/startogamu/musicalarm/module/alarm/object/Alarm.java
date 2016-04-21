@@ -49,6 +49,8 @@ public class Alarm extends BaseModel {
     @Setter
     protected int active;
 
+    @Column
+    protected byte[] days = new byte[6];
     @ParcelPropertyConverter(ItemListTrackConverter.class)
     protected List<AlarmTrack> tracks = new ArrayList<>();
 
@@ -61,7 +63,6 @@ public class Alarm extends BaseModel {
     }
 
     /****
-     *
      * @return
      */
     @OneToMany(methods = {OneToMany.Method.SAVE, OneToMany.Method.DELETE}, variableName = "tracks")
@@ -76,4 +77,16 @@ public class Alarm extends BaseModel {
     }
 
 
+    public boolean isDayActive(int day) {
+        return days[day] == 1;
+    }
+
+    public void activeDay(int day){
+        days[day] = 1;
+    }
+
+
+    public void unactiveDay(int day){
+        days[day] = 0;
+    }
 }

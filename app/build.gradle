@@ -40,8 +40,8 @@ dependencies {
 
 
     apt libs.daggerCompiler
-    apt libs.parceler
     apt libs.dbFlowProc
+    apt libs.parceler
 
     compile libs.appCompat
     compile libs.butterKnife
@@ -59,7 +59,6 @@ dependencies {
     compile libs.materialRipple
     compile libs.okHttpInterceptor
     compile libs.parcelerApi
-
     compile libs.recyclerView
     compile libs.recyclerViewDataBinding
     compile libs.retrofit

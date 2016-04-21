@@ -40,7 +40,7 @@ public class MusicNotification {
 
         Intent clearIntent = new Intent();
         clearIntent.setAction(StopReceiver.TAG);
-        intentClear = PendingIntent.getBroadcast(context, REQUEST.NOTIFICATION_CLEAR, clearIntent, PendingIntent.FLAG_ONE_SHOT);
+        intentClear = PendingIntent.getBroadcast(context, REQUEST.NOTIFICATION_CLEAR, clearIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification notification = new Notification.Builder(context)
                 .setContentTitle(title)
