@@ -3,6 +3,7 @@ package com.startogamu.musicalarm.viewmodel.fragment;
 import android.databinding.BaseObservable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
+import android.support.design.widget.Snackbar;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.startogamu.musicalarm.R;
@@ -53,8 +54,10 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
             for (Item playlist : spotifyPlaylist.getItems()) {
                 userPlaylists.add(new ItemPlaylistViewModel(fragment, playlist));
             }
+            showProgress.set(false);
         }, throwable -> {
-
+            showProgress.set(false);
+            Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
         });
     }
 

@@ -1,5 +1,6 @@
 package com.startogamu.musicalarm.view.activity;
 
+import android.os.Bundle;
 import android.view.Menu;
 
 import com.f2prateek.dart.InjectExtra;
@@ -30,7 +31,7 @@ public class ActivityAlarm extends ActivityBase<ActivityAlarmBinding, ActivityAl
     }
 
     @Override
-    public ActivityAlarmVM baseActivityVM(ActivityAlarmBinding binding) {
+    public ActivityAlarmVM baseActivityVM(ActivityAlarmBinding binding, Bundle savedInstanceState) {
         return new ActivityAlarmVM(this, binding);
     }
 
@@ -41,9 +42,5 @@ public class ActivityAlarm extends ActivityBase<ActivityAlarmBinding, ActivityAl
         return true;
     }
 
-    @Override
-    protected void onDestroy() {
-        vm.destroy();
-        super.onDestroy();
-    }
+
 }

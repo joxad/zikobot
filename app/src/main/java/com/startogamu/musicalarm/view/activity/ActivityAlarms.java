@@ -1,5 +1,6 @@
 package com.startogamu.musicalarm.view.activity;
 
+import android.os.Bundle;
 import android.view.Menu;
 
 import com.joxad.easydatabinding.activity.ActivityBase;
@@ -36,7 +37,7 @@ public class ActivityAlarms extends ActivityBase<ActivityAlarmsBinding, Activity
     }
 
     @Override
-    public ActivityAlarmsVM baseActivityVM(ActivityAlarmsBinding binding) {
-        return new ActivityAlarmsVM(this, binding);
+    public ActivityAlarmsVM baseActivityVM(ActivityAlarmsBinding binding, Bundle savedInstanceState) {
+        return  new ActivityAlarmsVM(this, binding);
     }
 }
