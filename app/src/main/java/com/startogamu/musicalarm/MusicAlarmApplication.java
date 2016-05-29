@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.joxad.android_easy_spotify.SpotifyManager;
+import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.startogamu.musicalarm.core.notification.MusicNotification;
 import com.startogamu.musicalarm.core.utils.AppPrefs;
@@ -17,7 +18,7 @@ public class MusicAlarmApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        FlowManager.init(this);
+        FlowManager.init(new FlowConfig.Builder(this).build());
         AppPrefs.init(this);
         try {
             new SpotifyManager.Builder().setContext(this).setApiKey(R.string.api_spotify_id).build();
