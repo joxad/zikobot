@@ -22,4 +22,5 @@
     <string name="about">A propos</string>
     <string name="alarm_add">Valider</string>
     <string name="playlist_total_tracks">%d chansons</string>
+    <string name="repeat">Répéter</string>
 </resources>

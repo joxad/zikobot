@@ -9,61 +9,90 @@
             type="com.startogamu.musicalarm.viewmodel.fragment.AlarmInfoVM" />
     </data>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="@dimen/activity_vertical_margin">
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/margin_medium">
 
-            <TextView
-                android:id="@+id/tv_hour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{alarmInfoVM.onTimeClick}"
-                android:text="@{alarmInfoVM.selectedTime}"
-                android:textSize="32sp"
-                tools:text="8 H 20" />
-
-            <Switch
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:checked="true"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </RelativeLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/til_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/et_name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/alarm_hint"
-                android:singleLine="true"
-                android:text="@{alarmInfoVM.alarmName}"
-                android:textColor="@color/colorAccent" />
+
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/margin_medium">
 
 
-        </android.support.design.widget.TextInputLayout>
+                    <Switch
+                        android:id="@+id/sw_activated"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:checked="true" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/til_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@id/sw_activated"
+                        android:layout_toStartOf="@id/sw_activated">
+
+                        <EditText
+                            android:id="@+id/et_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/alarm_hint"
+                            android:singleLine="true"
+                            android:text="@{alarmInfoVM.alarmName}"
+                            android:textColor="@color/colorAccent" />
+
+                    </android.support.design.widget.TextInputLayout>
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:onClick="@{alarmInfoVM.onTimeClick}"
+                    android:text="@{alarmInfoVM.selectedTime}"
+                    android:textSize="32sp"
+                    tools:text="8 H 20" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:text="@string/repeat"
+                android:textAllCaps="true" />
 
             <LinearLayout
                 android:layout_width="match_parent"

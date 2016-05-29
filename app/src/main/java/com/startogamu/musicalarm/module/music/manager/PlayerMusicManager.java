@@ -75,7 +75,6 @@ public class PlayerMusicManager {
     };
 
     /***
-     *
      * @param context
      */
     public void initMediaPlayer(Context context) {
@@ -135,7 +134,6 @@ public class PlayerMusicManager {
     }
 
 
-
     /***
      * @param alarmTrack
      */
@@ -147,7 +145,7 @@ public class PlayerMusicManager {
                 break;
             case AlarmTrack.TYPE.SPOTIFY:
 
-                    SpotifyPlayerManager.play(alarmTrack.getRef());
+                SpotifyPlayerManager.play(alarmTrack.getRef());
                 break;
         }
 
