@@ -46,7 +46,7 @@ public class AlarmInfoVM extends FragmentBaseVM<AlarmInfoFragment, FragmentAlarm
             alarmName = charSequence.toString();
             alarm.setName(alarmName);
         });
-        RxCompoundButton.checkedChanges(binding.cbMonday).subscribe(aBoolean -> {
+      /*  RxCompoundButton.checkedChanges(binding.cbMonday).subscribe(aBoolean -> {
             alarm.activeDay(Calendar.MONDAY);
         });
         RxCompoundButton.checkedChanges(binding.cbTuesday).subscribe(aBoolean -> {
@@ -67,7 +67,7 @@ public class AlarmInfoVM extends FragmentBaseVM<AlarmInfoFragment, FragmentAlarm
         });
         RxCompoundButton.checkedChanges(binding.cbSunday).subscribe(aBoolean -> {
             alarm.activeDay(Calendar.SUNDAY);
-        });
+        });*/
     }
 
     private void initModel() {

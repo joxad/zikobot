@@ -35,7 +35,6 @@ public class SpotifyMusicFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_spotify_music, container, false);
-        binding.rvTops.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         binding.rvItems.setLayoutManager(new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false));
         spotifyMusicViewModel = new SpotifyMusicViewModel(this, binding);
         binding.setSpotifyMusicViewModel(spotifyMusicViewModel);

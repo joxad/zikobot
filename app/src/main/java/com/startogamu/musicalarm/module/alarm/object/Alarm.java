@@ -49,8 +49,8 @@ public class Alarm extends BaseModel {
     @Setter
     protected int active;
 
-    @Column
-    protected byte[] days = new byte[6];
+ //   @Column
+    protected byte[] days = new byte[7];
     @ParcelPropertyConverter(ItemListTrackConverter.class)
     protected List<AlarmTrack> tracks = new ArrayList<>();
 
@@ -78,7 +78,7 @@ public class Alarm extends BaseModel {
 
 
     public boolean isDayActive(int day) {
-        return days[day] == 1;
+        return true;
     }
 
     public void activeDay(int day){

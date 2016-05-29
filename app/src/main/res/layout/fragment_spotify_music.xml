@@ -30,19 +30,9 @@
 
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_tops"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/spotify_playlist_height_margin"
-            app:itemView="@{spotifyMusicViewModel.itemTopPlaylistBinder}"
-            app:items="@{spotifyMusicViewModel.featuredPlaylists}"
-            tools:listitem="@layout/item_top_playlist" />
-
-
-        <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rv_tops"
             app:itemView="@{spotifyMusicViewModel.itemUserPlaylistsBinder}"
             app:items="@{spotifyMusicViewModel.userPlaylists}"
             tools:listitem="@layout/item_playlist" />

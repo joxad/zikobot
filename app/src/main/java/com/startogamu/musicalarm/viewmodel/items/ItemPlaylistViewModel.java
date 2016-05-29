@@ -1,15 +1,13 @@
 package com.startogamu.musicalarm.viewmodel.items;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
 import com.f2prateek.dart.henson.Bundler;
 import com.startogamu.musicalarm.R;
-import com.startogamu.musicalarm.module.spotify_api.object.Item;
 import com.startogamu.musicalarm.core.utils.EXTRA;
+import com.startogamu.musicalarm.module.spotify_api.object.Item;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
 import com.startogamu.musicalarm.viewmodel.ViewModel;
@@ -44,10 +42,9 @@ public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
      */
     public void onItemClick(View view) {
         fragment.replaceFragment(SpotifyPlaylistTracksFragment.newInstance
-                (Bundler.create().put(EXTRA.PLAYLIST_ID, item.getId()).get()),true);
+                (Bundler.create().put(EXTRA.PLAYLIST_ID, item.getId()).get()), true);
 
     }
-
 
 
     @Bindable
@@ -58,7 +55,9 @@ public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
 
     @Bindable
     public String getImageUrl() {
-        return item.getImages().get(0).getUrl();
+        if (item.getImages() != null && item.getImages().size() > 0)
+            return item.getImages().get(0).getUrl();
+        return "";
     }
 
     @Bindable
