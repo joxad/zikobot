@@ -1,52 +1,43 @@
-package com.startogamu.musicalarm.viewmodel;
+package com.startogamu.musicalarm.viewmodel.activity;
 
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.easydatabinding.activity.IResult;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.receiver.AlarmReceiver;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.core.utils.REQUEST;
-import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
-import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
+import com.startogamu.musicalarm.databinding.ActivityAlarm2Binding;
 import com.startogamu.musicalarm.module.alarm.object.Alarm;
 import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
-import com.startogamu.musicalarm.module.alarm.object.Alarm_Table;
 import com.startogamu.musicalarm.view.Henson;
-import com.startogamu.musicalarm.view.activity.ActivityAlarm;
-import com.startogamu.musicalarm.view.adapter.ViewPagerAdapter;
-import com.startogamu.musicalarm.view.fragment.AlarmInfoFragment;
-import com.startogamu.musicalarm.view.fragment.AlarmTracksFragment;
+import com.startogamu.musicalarm.view.activity.ActivityAlarm2;
+import com.startogamu.musicalarm.viewmodel.base.AlarmVM;
 
 import org.parceler.Parcels;
 
 import java.util.Calendar;
 
-import rx.Subscriber;
-
 /**
- * Created by josh on 08/03/16.
+ * Created by josh on 29/05/16.
  */
-public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarmBinding> implements IResult {
-    private static String TAG = ActivityAlarmVM.class.getSimpleName();
-
-    AlarmTracksFragment alarmTracksFragment;
-    AlarmInfoFragment alarmInfoFragment;
+public class ActivityAlarm2VM extends ActivityBaseVM<ActivityAlarm2, ActivityAlarm2Binding> implements IResult {
+    private static String TAG = ActivityAlarm2VM.class.getSimpleName();
 
     private android.app.AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
 
-    ViewPagerAdapter viewPagerAdapter;
-
+    public AlarmVM alarmVM;
     @InjectExtra
     Alarm alarm;
 
@@ -54,10 +45,9 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * @param activity
      * @param binding
      */
-    public ActivityAlarmVM(ActivityAlarm activity, ActivityAlarmBinding binding) {
+    public ActivityAlarm2VM(ActivityAlarm2 activity, ActivityAlarm2Binding binding) {
         super(activity, binding);
     }
-
 
     @Override
     public void init() {
@@ -76,30 +66,37 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
             }
             return false;
         });
+
+
         initViews();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        alarmVM.refreshTracks();
+    }
 
     /***
      *
      */
     private void initViews() {
-        alarmInfoFragment = AlarmInfoFragment.newInstance(alarm);
-        alarmTracksFragment = AlarmTracksFragment.newInstance(alarm);
+        alarmVM = new AlarmVM(activity, alarm);
+        alarmVM.initBinding(binding.viewAlarm);
+        ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
 
-        viewPagerAdapter = new ViewPagerAdapter(activity.getSupportFragmentManager(),
-                new Fragment[]{
-                        alarmInfoFragment,
-                        alarmTracksFragment
-                },
-                new CharSequence[]{
-                        "Mon alarme", "Mes chansons"
-                });
-
-        binding.slidingTabLayout.setDistributeEvenly(true);
-        binding.slidingTabLayout.setSelectedIndicatorColors(android.R.color.white);
-        binding.viewPager.setAdapter(viewPagerAdapter);
-        binding.slidingTabLayout.setViewPager(binding.viewPager);
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                alarmVM.removeTrack(viewHolder.getAdapterPosition());
+            }
+        });
+        swipeToDismissTouchHelper.attachToRecyclerView(binding.viewAlarm.rvTracks);
     }
 
 
@@ -107,31 +104,18 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * Use this method to save the data
      */
     public void save() {
-        AlarmManager.saveAlarm(alarmInfoFragment.getAlarm(), alarmTracksFragment.getTracks()).subscribe(new Subscriber<Alarm>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(Alarm alarm) {
-                prepareAlarm(alarm);
-                activity.finish();
-            }
+        alarmVM.save().subscribe(alarm1 -> {
+            prepareAlarm(alarm1);
+        }, throwable -> {
+            Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
         });
-
     }
 
     /***
      * Delete the alarm
      */
     private void delete() {
-        SQLite.delete(Alarm.class).where(Alarm_Table.id.is(alarm.getId())).query();
+        alarmVM.delete();
         activity.finish();
     }
 
@@ -141,7 +125,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * @param alarm
      */
     private void prepareAlarm(Alarm alarm) {
-
         alarmMgr = (android.app.AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(activity, AlarmReceiver.class);
         intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
@@ -153,6 +136,8 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         calendar.set(Calendar.MINUTE, this.alarm.getMinute());
         alarmMgr.setRepeating(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 1000 * 60 * 60 * 24, alarmIntent);// test every 60 scs
+
+        activity.finish();
     }
 
 
@@ -174,10 +159,11 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         if (requestCode == REQUEST.CODE_TRACK) {
             if (resultCode == AppCompatActivity.RESULT_OK) {
                 AlarmTrack alarmTrack = Parcels.unwrap(data.getParcelableExtra(EXTRA.TRACK));
-                alarmTracksFragment.add(alarmTrack);
+                alarmVM.addTrack(alarmTrack);
             }
         }
     }
+
 
     @Override
     public void destroy() {

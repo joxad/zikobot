@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name=".view.activity.ActivityAlarm"
+            android:name=".view.activity.ActivityAlarm2"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:launchMode="singleInstance"

@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.joxad.android_easy_spotify.Scope;
 import com.joxad.android_easy_spotify.SpotifyManager;
 import com.joxad.android_easy_spotify.Type;
+import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.databinding.ActivitySettingsBinding;
@@ -30,7 +31,7 @@ import rx.Subscriber;
 /***
  * {@link ActivitySettingsViewModel}  make the link between {@link ActivitySettings} and {@link com.startogamu.musicalarm.module.spotify_api.manager.SpotifyApiManager}
  */
-public class ActivitySettingsViewModel extends BaseObservable implements ViewModel {
+public class ActivitySettingsViewModel extends BaseObservable implements IVM {
 
     private final ActivitySettingsBinding binding;
     public String TAG = ActivitySettingsViewModel.class.getSimpleName();
@@ -138,9 +139,12 @@ public class ActivitySettingsViewModel extends BaseObservable implements ViewMod
     }
 
     @Override
-    public void onDestroy() {
+    public void init() {
 
     }
 
+    @Override
+    public void destroy() {
 
+    }
 }

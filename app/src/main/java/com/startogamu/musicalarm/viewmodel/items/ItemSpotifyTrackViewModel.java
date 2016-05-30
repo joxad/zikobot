@@ -4,17 +4,17 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
+import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBinding;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyTrack;
 import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
-import com.startogamu.musicalarm.viewmodel.ViewModel;
 
 import java.util.concurrent.TimeUnit;
 
 /***
  *
  */
-public class ItemSpotifyTrackViewModel extends BaseObservable implements ViewModel {
+public class ItemSpotifyTrackViewModel extends BaseObservable implements IVM {
 
     private SpotifyTrack track;
 
@@ -67,7 +67,12 @@ public class ItemSpotifyTrackViewModel extends BaseObservable implements ViewMod
     }
 
     @Override
-    public void onDestroy() {
+    public void init() {
+
+    }
+
+    @Override
+    public void destroy() {
 
     }
 }

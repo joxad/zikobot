@@ -5,18 +5,18 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.f2prateek.dart.henson.Bundler;
+import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.module.spotify_api.object.Item;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
-import com.startogamu.musicalarm.viewmodel.ViewModel;
 
 
 /***
  * ViewModel that will represent the playlist of a user on spotify
  */
-public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
+public class ItemPlaylistViewModel extends BaseObservable implements IVM {
 
     private Item item;
     private SpotifyMusicFragment fragment;
@@ -28,6 +28,12 @@ public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
     public ItemPlaylistViewModel(SpotifyMusicFragment fragment, Item item) {
         this.item = item;
         this.fragment = fragment;
+    }
+
+
+    @Override
+    public void init() {
+
     }
 
     public void setItem(Item item) {
@@ -66,8 +72,9 @@ public class ItemPlaylistViewModel extends BaseObservable implements ViewModel {
                 item.tracks.total);
     }
 
+
     @Override
-    public void onDestroy() {
+    public void destroy() {
 
     }
 }

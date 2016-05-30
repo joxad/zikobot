@@ -13,6 +13,7 @@ import android.view.View;
 import com.joxad.android_easy_spotify.Scope;
 import com.joxad.android_easy_spotify.SpotifyManager;
 import com.joxad.android_easy_spotify.Type;
+import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.databinding.FragmentConnectSpotifyBinding;
@@ -22,7 +23,6 @@ import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyRequestToken;
 import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyToken;
 import com.startogamu.musicalarm.view.activity.ActivityMusic;
 import com.startogamu.musicalarm.view.fragment.SpotifyConnectFragment;
-import com.startogamu.musicalarm.viewmodel.ViewModel;
 
 import java.io.UnsupportedEncodingException;
 
@@ -31,7 +31,7 @@ import rx.Subscriber;
 /***
  * {@link SpotifyConnectViewModel}  make the link between {@link SpotifyConnectFragment} and {@link SpotifyManager}
  */
-public class SpotifyConnectViewModel extends BaseObservable implements ViewModel {
+public class SpotifyConnectViewModel extends BaseObservable implements IVM {
 
     public String TAG = SpotifyConnectViewModel.class.getSimpleName();
     SpotifyConnectFragment context;
@@ -148,10 +148,15 @@ public class SpotifyConnectViewModel extends BaseObservable implements ViewModel
         });
     }
 
+
+
     @Override
-    public void onDestroy() {
+    public void init() {
 
     }
 
+    @Override
+    public void destroy() {
 
+    }
 }

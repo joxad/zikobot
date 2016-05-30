@@ -1,8 +1,10 @@
 package com.startogamu.musicalarm.module.alarm.manager;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.startogamu.musicalarm.module.alarm.object.Alarm;
 import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.object.AlarmTrack_Table;
 import com.startogamu.musicalarm.module.alarm.object.Alarm_Table;
 
 import java.util.List;
@@ -23,6 +25,7 @@ public class AlarmManager {
      * @return
      */
     public static Observable<Alarm> getAlarmById(final long id) {
+
         return Observable.create(new Observable.OnSubscribe<Alarm>() {
             @Override
             public void call(Subscriber<? super Alarm> subscriber) {
@@ -33,6 +36,8 @@ public class AlarmManager {
             }
         });
     }
+
+
 
     /**
      * Create an observable on dbflow
@@ -60,6 +65,7 @@ public class AlarmManager {
             @Override
             public void call(Subscriber<? super Alarm> subscriber) {
                 alarm.save();
+                SQLite.delete().from(AlarmTrack.class).where(AlarmTrack_Table.alarmForeignKeyContainer_id.eq(alarm.getId())).query();
                 for (AlarmTrack alarmTrack : alarmTrackList) {
                     alarmTrack.associateAlarm(alarm);
                     alarmTrack.save();
@@ -70,5 +76,8 @@ public class AlarmManager {
 
     }
 
+    public static void deleteAlarm(Alarm alarm) {
+        SQLite.delete(Alarm.class).where(Alarm_Table.id.is(alarm.getId())).query();
+    }
 
 }

@@ -8,6 +8,7 @@ import android.databinding.ObservableArrayList;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.henson.Bundler;
+import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBinding;
@@ -17,7 +18,6 @@ import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylistItem;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyTrack;
 import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
-import com.startogamu.musicalarm.viewmodel.ViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemSpotifyTrackViewModel;
 
 import org.parceler.Parcels;
@@ -29,7 +29,7 @@ import rx.Subscriber;
 /***
  * {@link SpotifyPlaylistTracksViewModel} will call the apimanager to get the tracks of the playlist
  */
-public class SpotifyPlaylistTracksViewModel extends BaseObservable implements ViewModel {
+public class SpotifyPlaylistTracksViewModel extends BaseObservable implements IVM {
 
     private ObservableArrayList<ItemSpotifyTrackViewModel> trackViewModels;
     private SpotifyPlaylistTracksFragment fragment;
@@ -77,11 +77,6 @@ public class SpotifyPlaylistTracksViewModel extends BaseObservable implements Vi
         });
     }
 
-    @Override
-    public void onDestroy() {
-
-    }
-
 
     /***
      * Selection of a track
@@ -99,5 +94,15 @@ public class SpotifyPlaylistTracksViewModel extends BaseObservable implements Vi
         intent.putExtra(EXTRA.TRACK, Parcels.wrap(alarmTrack));
         fragment.getActivity().setResult(Activity.RESULT_OK, intent);
         fragment.getActivity().finish();
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void destroy() {
+
     }
 }

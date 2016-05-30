@@ -7,14 +7,14 @@ import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.musicalarm.BR;
 import com.startogamu.musicalarm.R;
-import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
+import com.startogamu.musicalarm.databinding.ActivityAlarm2Binding;
 import com.startogamu.musicalarm.module.alarm.object.Alarm;
-import com.startogamu.musicalarm.viewmodel.ActivityAlarmVM;
+import com.startogamu.musicalarm.viewmodel.activity.ActivityAlarm2VM;
 
 /**
- * Created by josh on 08/03/16.
+ * Created by josh on 29/05/16.
  */
-public class ActivityAlarm extends ActivityBase<ActivityAlarmBinding, ActivityAlarmVM> {
+public class ActivityAlarm2 extends ActivityBase<ActivityAlarm2Binding, ActivityAlarm2VM>{
 
 
     @InjectExtra
@@ -22,17 +22,17 @@ public class ActivityAlarm extends ActivityBase<ActivityAlarmBinding, ActivityAl
 
     @Override
     public int data() {
-        return BR.activityAlarmVM;
+        return BR.activityAlarmVM2;
     }
 
     @Override
     public int layoutResources() {
-        return R.layout.activity_alarm;
+        return R.layout.activity_alarm_2;
     }
 
     @Override
-    public ActivityAlarmVM baseActivityVM(ActivityAlarmBinding binding, Bundle savedInstanceState) {
-        return new ActivityAlarmVM(this, binding);
+    public ActivityAlarm2VM baseActivityVM(ActivityAlarm2Binding binding, Bundle savedInstanceState) {
+        return new ActivityAlarm2VM(this, binding);
     }
 
 
@@ -41,6 +41,5 @@ public class ActivityAlarm extends ActivityBase<ActivityAlarmBinding, ActivityAl
         getMenuInflater().inflate(R.menu.menu_alarm, menu);
         return true;
     }
-
 
 }

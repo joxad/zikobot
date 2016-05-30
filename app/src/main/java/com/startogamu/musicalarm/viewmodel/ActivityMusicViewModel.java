@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.databinding.BaseObservable;
 import android.support.v4.content.ContextCompat;
 
+import com.joxad.easydatabinding.base.IVM;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -26,7 +27,7 @@ import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
  * <li>{@link LocalMusicFragment}</li>
  * </ul>
  */
-public class ActivityMusicViewModel extends BaseObservable implements ViewModel {
+public class ActivityMusicViewModel extends BaseObservable implements IVM {
 
 
     private final ActivityMusicBinding binding;
@@ -104,13 +105,6 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
     /***
      *
      */
-    @Override
-    public void onDestroy() {
-    }
-
-    /***
-     *
-     */
     public void loadSpotifyMusicFragment() {
         spotifyMusicFragment = SpotifyMusicFragment.newInstance();
         context.replaceFragment(spotifyMusicFragment, false);
@@ -124,5 +118,15 @@ public class ActivityMusicViewModel extends BaseObservable implements ViewModel 
                 if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 localMusicFragment.loadMusic();
         }
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void destroy() {
+
     }
 }

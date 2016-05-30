@@ -12,13 +12,13 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.REQUEST;
 import com.startogamu.musicalarm.databinding.FragmentLocalMusicBinding;
 import com.startogamu.musicalarm.module.alarm.object.LocalTrack;
 import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
-import com.startogamu.musicalarm.viewmodel.ViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemLocalTrackViewModel;
 
 import java.util.List;
@@ -29,7 +29,7 @@ import rx.Subscriber;
 /**
  * Created by josh on 26/03/16.
  */
-public class LocalMusicViewModel extends BaseObservable implements ViewModel {
+public class LocalMusicViewModel extends BaseObservable implements IVM {
 
     private static final String TAG = LocalMusicViewModel.class.getSimpleName();
     private LocalMusicFragment fragment;
@@ -47,22 +47,9 @@ public class LocalMusicViewModel extends BaseObservable implements ViewModel {
     public ItemView itemView = ItemView.of(BR.itemLocalTrackViewModel, R.layout.item_local_track);
 
     public LocalMusicViewModel(LocalMusicFragment fragment, FragmentLocalMusicBinding binding) {
-
         this.fragment = fragment;
         this.binding = binding;
-        Injector.INSTANCE.contentResolverComponent().init(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(fragment.getActivity(), new String[]{
-                        Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE);
-            } else {
-                loadLocalMusic();
-            }
-        } else {
-            loadLocalMusic();
-            // continue with your code
-        }
-
+        init();
     }
 
     public void loadLocalMusic() {
@@ -95,7 +82,24 @@ public class LocalMusicViewModel extends BaseObservable implements ViewModel {
 
 
     @Override
-    public void onDestroy() {
+    public void init() {
+        Injector.INSTANCE.contentResolverComponent().init(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(fragment.getActivity(), new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE);
+            } else {
+                loadLocalMusic();
+            }
+        } else {
+            loadLocalMusic();
+            // continue with your code
+        }
+
+    }
+
+    @Override
+    public void destroy() {
 
     }
 }

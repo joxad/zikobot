@@ -4,16 +4,16 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
+import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.musicalarm.module.alarm.object.LocalTrack;
 import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
-import com.startogamu.musicalarm.viewmodel.ViewModel;
 
 import java.util.concurrent.TimeUnit;
 
 /***
  *
  */
-public class ItemLocalTrackViewModel extends BaseObservable implements ViewModel {
+public class ItemLocalTrackViewModel extends BaseObservable implements IVM {
 
     private LocalTrack track;
 
@@ -28,6 +28,10 @@ public class ItemLocalTrackViewModel extends BaseObservable implements ViewModel
         this.track = track;
     }
 
+    @Override
+    public void init() {
+
+    }
 
     public void setTrack(LocalTrack track) {
         this.track = track;
@@ -67,8 +71,9 @@ public class ItemLocalTrackViewModel extends BaseObservable implements ViewModel
         return null;
     }
 
+
     @Override
-    public void onDestroy() {
+    public void destroy() {
 
     }
 }

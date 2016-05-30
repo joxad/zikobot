@@ -6,12 +6,12 @@ import android.databinding.ObservableBoolean;
 import android.support.design.widget.Snackbar;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyMusicBinding;
 import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.module.spotify_api.object.Item;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
-import com.startogamu.musicalarm.viewmodel.ViewModel;
 import com.startogamu.musicalarm.viewmodel.items.ItemPlaylistViewModel;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -20,7 +20,7 @@ import rx.Subscription;
 /**
  * Created by josh on 26/03/16.
  */
-public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
+public class SpotifyMusicViewModel extends BaseObservable implements IVM {
 
     private SpotifyMusicFragment fragment;
     private FragmentSpotifyMusicBinding binding;
@@ -62,7 +62,12 @@ public class SpotifyMusicViewModel extends BaseObservable implements ViewModel {
     }
 
     @Override
-    public void onDestroy() {
+    public void init() {
+
+    }
+
+    @Override
+    public void destroy() {
         if (wsWatcherSubscription != null && !wsWatcherSubscription.isUnsubscribed())
             wsWatcherSubscription.unsubscribe();
     }

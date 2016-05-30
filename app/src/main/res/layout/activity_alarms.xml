@@ -41,8 +41,8 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:scrollbars="vertical"
-            app:itemView="@{activityAlarmsVM.itemViewBinder}"
-            app:items="@{activityAlarmsVM.itemViewModels}"
+            app:itemView="@{activityAlarmsVM.itemView}"
+            app:items="@{activityAlarmsVM.itemsVM}"
             app:layoutManager="@{LayoutManagers.linear()}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/item_alarm" />

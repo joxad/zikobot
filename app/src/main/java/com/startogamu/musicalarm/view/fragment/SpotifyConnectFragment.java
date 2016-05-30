@@ -49,6 +49,6 @@ public class SpotifyConnectFragment extends Fragment {
     @Override
     public void onPause() {
         super.onDestroy();
-        spotifyConnectViewModel.onDestroy();
+        spotifyConnectViewModel.destroy();
     }
 }

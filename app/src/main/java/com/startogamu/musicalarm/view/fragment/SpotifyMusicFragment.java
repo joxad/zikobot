@@ -45,6 +45,6 @@ public class SpotifyMusicFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        spotifyMusicViewModel.onDestroy();
+        spotifyMusicViewModel.destroy();
     }
 }

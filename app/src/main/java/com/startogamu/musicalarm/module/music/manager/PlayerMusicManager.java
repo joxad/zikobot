@@ -170,8 +170,8 @@ public class PlayerMusicManager {
 
 
     public void stop() {
-        SpotifyPlayerManager.destroy();
-
+        SpotifyPlayerManager.pause();
+        SpotifyPlayerManager.clear();
     }
 
 }

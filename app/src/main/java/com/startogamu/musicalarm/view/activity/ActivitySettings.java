@@ -44,7 +44,7 @@ public class ActivitySettings extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        activitySettingsViewModel.onDestroy();
+        activitySettingsViewModel.destroy();
     }
 
 }

@@ -53,7 +53,7 @@ public class ActivityMusic extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        activityMusicViewModel.onDestroy();
+        activityMusicViewModel.destroy();
     }
 
     public void loadSpotifyMusicFragment() {

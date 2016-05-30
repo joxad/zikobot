@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+
         <variable
-            name="alarmInfoVM"
-            type="com.startogamu.musicalarm.viewmodel.fragment.AlarmInfoVM" />
+            name="alarmVM"
+            type="com.startogamu.musicalarm.viewmodel.base.AlarmVM" />
     </data>
 
 
@@ -27,6 +30,7 @@
 
                 android:orientation="vertical">
 
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -41,38 +45,38 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:checked="true" />
+                        android:checked="@{alarmVM.activated}" />
 
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/til_name"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_hour"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/sw_activated"
-                        android:layout_toStartOf="@id/sw_activated">
-
-                        <EditText
-                            android:id="@+id/et_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/alarm_hint"
-                            android:singleLine="true"
-                            android:text="@{alarmInfoVM.alarmName}"
-                            android:textColor="@color/colorAccent" />
-
-                    </android.support.design.widget.TextInputLayout>
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="16dp"
+                        android:onClick="@{alarmVM.onTimeClick}"
+                        android:text="@{alarmVM.alarmTime}"
+                        android:textSize="36sp"
+                        tools:text="8 H 20" />
                 </RelativeLayout>
 
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/til_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tv_hour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:onClick="@{alarmInfoVM.onTimeClick}"
-                    android:text="@{alarmInfoVM.selectedTime}"
-                    android:textSize="32sp"
-                    tools:text="8 H 20" />
+                    <EditText
+                        android:id="@+id/et_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:hint="@string/alarm_hint"
+                        android:singleLine="true"
+                        android:text="@{alarmVM.alarmName}"
+                        android:textColor="@color/colorAccent" />
+
+                </android.support.design.widget.TextInputLayout>
+
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -93,6 +97,7 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:text="@string/repeat"
                 android:textAllCaps="true" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -155,5 +160,28 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:text="@string/tracks"
+                android:textAllCaps="true" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_tracks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemView="@{alarmVM.itemView}"
+                app:items="@{alarmVM.tracksVms}"
+                app:layoutManager="@{LayoutManagers.linear()}"
+                tools:listitem="@layout/item_track" />
+
+        </LinearLayout>
     </LinearLayout>
 </layout>

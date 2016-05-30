@@ -1,7 +1,8 @@
 package com.startogamu.musicalarm.viewmodel;
 
-import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -17,7 +18,7 @@ import com.startogamu.musicalarm.module.alarm.object.Alarm;
 import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.view.Henson;
 import com.startogamu.musicalarm.view.activity.ActivityAlarms;
-import com.startogamu.musicalarm.viewmodel.items.ItemAlarmVM;
+import com.startogamu.musicalarm.viewmodel.base.AlarmVM;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -32,9 +33,9 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
 
     private static final String TAG = ActivityAlarmsVM.class.getSimpleName();
 
-    private ObservableArrayList<ItemAlarmVM> itemsVM;
+    public ObservableArrayList<AlarmVM> itemsVM;
 
-    public ItemView itemViewBinder = ItemView.of(BR.itemAlarmVM, R.layout.item_alarm);
+    public ItemView itemView = ItemView.of(BR.itemAlarmVM, R.layout.item_alarm);
 
     /***
      * @param activity
@@ -72,6 +73,23 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
             }
         }
 
+        ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                // callback for drag-n-drop, false to skip this feature
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                itemsVM.get(viewHolder.getAdapterPosition()).delete();
+                itemsVM.remove(viewHolder.getAdapterPosition());
+
+            }
+        });
+        swipeToDismissTouchHelper.attachToRecyclerView(binding.alarmRecyclerView);
+
     }
 
     @Override
@@ -99,7 +117,7 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
             public void onNext(List<Alarm> alarms) {
                 itemsVM.clear();
                 for (Alarm alarm : alarms) {
-                    itemsVM.add(new ItemAlarmVM(activity, alarm));
+                    itemsVM.add(new AlarmVM(activity, alarm));
                 }
 
             }
@@ -113,14 +131,9 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
     }
 
 
-    @Bindable
-    public ObservableArrayList<ItemAlarmVM> getItemViewModels() {
-        return itemsVM;
-    }
-
     public void addAlarm(View view) {
         activity.startActivity(Henson.with(activity)
-                .gotoActivityAlarm().alarm(new Alarm()).build());
+                .gotoActivityAlarm2().alarm(new Alarm()).build());
     }
 
 
