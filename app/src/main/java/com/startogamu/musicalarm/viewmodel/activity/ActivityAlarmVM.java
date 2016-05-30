@@ -17,25 +17,22 @@ import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.receiver.AlarmReceiver;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.core.utils.REQUEST;
-import com.startogamu.musicalarm.databinding.ActivityAlarm2Binding;
+import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
 import com.startogamu.musicalarm.module.alarm.object.Alarm;
 import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
 import com.startogamu.musicalarm.view.Henson;
-import com.startogamu.musicalarm.view.activity.ActivityAlarm2;
+import com.startogamu.musicalarm.view.activity.ActivityAlarm;
 import com.startogamu.musicalarm.viewmodel.base.AlarmVM;
 
 import org.parceler.Parcels;
 
 import java.util.Calendar;
-import java.util.Date;
-
-import picker.ugurtekbas.com.Picker.TimeChangedListener;
 
 /**
  * Created by josh on 29/05/16.
  */
-public class ActivityAlarm2VM extends ActivityBaseVM<ActivityAlarm2, ActivityAlarm2Binding> implements IResult {
-    private static String TAG = ActivityAlarm2VM.class.getSimpleName();
+public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarmBinding> implements IResult {
+    private static String TAG = ActivityAlarmVM.class.getSimpleName();
 
     private android.app.AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
@@ -48,7 +45,7 @@ public class ActivityAlarm2VM extends ActivityBaseVM<ActivityAlarm2, ActivityAla
      * @param activity
      * @param binding
      */
-    public ActivityAlarm2VM(ActivityAlarm2 activity, ActivityAlarm2Binding binding) {
+    public ActivityAlarmVM(ActivityAlarm activity, ActivityAlarmBinding binding) {
         super(activity, binding);
     }
 

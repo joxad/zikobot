@@ -65,7 +65,7 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
             }
         });
         itemsVM = new ObservableArrayList<>();
-        if (Prefs.contains(AppPrefs.ACCESS_CODE)) {
+        if (Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
             try {
                 refreshAccessToken();
             } catch (UnsupportedEncodingException e) {
@@ -133,7 +133,7 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
 
     public void addAlarm(View view) {
         activity.startActivity(Henson.with(activity)
-                .gotoActivityAlarm2().alarm(new Alarm()).build());
+                .gotoActivityAlarm().alarm(new Alarm()).build());
     }
 
 

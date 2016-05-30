@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="activityAlarmVM2"
-            type="com.startogamu.musicalarm.viewmodel.activity.ActivityAlarm2VM" />
+            name="activityAlarmVM"
+            type="com.startogamu.musicalarm.viewmodel.activity.ActivityAlarmVM" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -37,7 +37,7 @@
             <include
                 android:id="@+id/view_alarm"
                 layout="@layout/view_alarm"
-                app:alarmVM="@{activityAlarmVM2.alarmVM}" />
+                app:alarmVM="@{activityAlarmVM.alarmVM}" />
 
         </android.support.v4.widget.NestedScrollView>
 
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:onClick="@{activityAlarmVM2.onAddTrackClick}"
+            android:onClick="@{activityAlarmVM.onAddTrackClick}"
             android:src="@drawable/ic_add" />
 
 

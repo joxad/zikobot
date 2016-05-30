@@ -185,7 +185,7 @@ public class AlarmVM extends BaseVM<Alarm> {
      */
     public void onItemClick(View view) {
         context.startActivity(Henson.with(context)
-                .gotoActivityAlarm2().alarm(model).build());
+                .gotoActivityAlarm().alarm(model).build());
     }
 
 

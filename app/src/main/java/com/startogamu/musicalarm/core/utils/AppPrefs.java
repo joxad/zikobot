@@ -13,12 +13,12 @@ public class AppPrefs {
     /***
      *
      */
-    public static final String ACCESS_CODE = "ACCESS_CODE";
+    public static final String SPOTIFY_ACCESS_CODE = "SPOTIFY_ACCESS_CODE";
 
     /***
      *
      */
-    public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+    public static final String SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN";
 
     /***
      *
@@ -35,19 +35,19 @@ public class AppPrefs {
     }
 
     public static void saveAccessCode(final String code) {
-        Prefs.putString(ACCESS_CODE, code);
+        Prefs.putString(SPOTIFY_ACCESS_CODE, code);
     }
 
-    public static String getAccessCode() {
-        return Prefs.getString(ACCESS_CODE, "");
+    public static String getSpotifyAccessCode() {
+        return Prefs.getString(SPOTIFY_ACCESS_CODE, "");
     }
 
     public static void saveAccessToken(String accessToken) {
-        Prefs.putString(ACCESS_TOKEN, accessToken);
+        Prefs.putString(SPOTIFY_ACCESS_TOKEN, accessToken);
     }
 
-    public static String getAccessToken() {
-        return Prefs.getString(ACCESS_TOKEN, "");
+    public static String getSpotifyAccessToken() {
+        return Prefs.getString(SPOTIFY_ACCESS_TOKEN, "");
     }
 
     public static void userId(String id) {

@@ -50,7 +50,7 @@ public class PlayerMusicManager {
      * Method called when the token is updated for spotify
      */
     public void refreshAccessTokenPlayer() {
-        SpotifyPlayerManager.updateToken(AppPrefs.getAccessToken());
+        SpotifyPlayerManager.updateToken(AppPrefs.getSpotifyAccessToken());
     }
 
     /***
@@ -92,7 +92,7 @@ public class PlayerMusicManager {
      */
     private void initSpotifyPlayer(Context context) {
 
-        SpotifyPlayerManager.startPlayer(context, AppPrefs.getAccessToken(), new Player.InitializationObserver() {
+        SpotifyPlayerManager.startPlayer(context, AppPrefs.getSpotifyAccessToken(), new Player.InitializationObserver() {
             @Override
             public void onInitialized(Player player) {
 

@@ -7,14 +7,14 @@ import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.musicalarm.BR;
 import com.startogamu.musicalarm.R;
-import com.startogamu.musicalarm.databinding.ActivityAlarm2Binding;
+import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
 import com.startogamu.musicalarm.module.alarm.object.Alarm;
-import com.startogamu.musicalarm.viewmodel.activity.ActivityAlarm2VM;
+import com.startogamu.musicalarm.viewmodel.activity.ActivityAlarmVM;
 
 /**
  * Created by josh on 29/05/16.
  */
-public class ActivityAlarm2 extends ActivityBase<ActivityAlarm2Binding, ActivityAlarm2VM>{
+public class ActivityAlarm extends ActivityBase<ActivityAlarmBinding, ActivityAlarmVM>{
 
 
     @InjectExtra
@@ -22,17 +22,17 @@ public class ActivityAlarm2 extends ActivityBase<ActivityAlarm2Binding, Activity
 
     @Override
     public int data() {
-        return BR.activityAlarmVM2;
+        return BR.activityAlarmVM;
     }
 
     @Override
     public int layoutResources() {
-        return R.layout.activity_alarm_2;
+        return R.layout.activity_alarm;
     }
 
     @Override
-    public ActivityAlarm2VM baseActivityVM(ActivityAlarm2Binding binding, Bundle savedInstanceState) {
-        return new ActivityAlarm2VM(this, binding);
+    public ActivityAlarmVM baseActivityVM(ActivityAlarmBinding binding, Bundle savedInstanceState) {
+        return new ActivityAlarmVM(this, binding);
     }
 
 

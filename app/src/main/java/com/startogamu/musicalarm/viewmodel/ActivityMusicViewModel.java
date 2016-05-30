@@ -10,10 +10,11 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.musicalarm.R;
+import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.core.utils.REQUEST;
 import com.startogamu.musicalarm.databinding.ActivityMusicBinding;
-import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.view.activity.BaseActivity;
+import com.startogamu.musicalarm.view.fragment.DeezerFragment;
 import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyConnectFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
@@ -36,6 +37,7 @@ public class ActivityMusicViewModel extends BaseObservable implements IVM {
     private SpotifyMusicFragment spotifyMusicFragment;
     private SpotifyConnectFragment spotifyConnectFragment;
     private LocalMusicFragment localMusicFragment;
+
     /***
      * @param context
      * @param binding
@@ -57,9 +59,9 @@ public class ActivityMusicViewModel extends BaseObservable implements IVM {
         BottomNavigationItem local = new BottomNavigationItem
                 (context.getString(R.string.activity_music_local), ContextCompat.getColor(context, R.color.colorPrimary), R.drawable.ic_folder);
         BottomNavigationItem spotify = new BottomNavigationItem
-                (context.getString(R.string.activity_music_spotify), ContextCompat.getColor(context, android.R.color.holo_green_dark), R.drawable.ic_folder);
+                (context.getString(R.string.activity_music_spotify), ContextCompat.getColor(context, android.R.color.holo_green_dark), R.drawable.logo_spotify);
         BottomNavigationItem deezer = new BottomNavigationItem
-                (context.getString(R.string.activity_music_deezer), ContextCompat.getColor(context, android.R.color.holo_orange_dark), R.drawable.ic_folder);
+                (context.getString(R.string.activity_music_deezer), ContextCompat.getColor(context, android.R.color.holo_orange_dark), R.drawable.logo_deezer);
 
         bottomNavigationView.addTab(local);
         bottomNavigationView.addTab(spotify);
@@ -71,7 +73,7 @@ public class ActivityMusicViewModel extends BaseObservable implements IVM {
                     break;
                 case 1:
                     // if (spotifyManager.hasAccessToken()) {
-                    if (!Prefs.contains(AppPrefs.ACCESS_CODE)) {
+                    if (!Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
                         spotifyConnectFragment = SpotifyConnectFragment.newInstance();
                         context.replaceFragment(spotifyConnectFragment, false);
                     } else {
@@ -79,6 +81,7 @@ public class ActivityMusicViewModel extends BaseObservable implements IVM {
                     }
                     break;
                 case 2:
+                    context.replaceFragment(DeezerFragment.newInstance(), false);
                     break;
             }
         });
@@ -113,10 +116,10 @@ public class ActivityMusicViewModel extends BaseObservable implements IVM {
     public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
         if (localMusicFragment == null || localMusicFragment.isDetached())
             return;
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST.PERMISSION_STORAGE:
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                localMusicFragment.loadMusic();
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    localMusicFragment.loadMusic();
         }
     }
 

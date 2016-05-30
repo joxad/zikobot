@@ -1,6 +1,5 @@
 package com.startogamu.musicalarm.view.fragment;
 
-import android.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyMusicBinding;
-import com.startogamu.musicalarm.view.activity.BaseActivity;
 import com.startogamu.musicalarm.viewmodel.fragment.SpotifyMusicViewModel;
 
 /**

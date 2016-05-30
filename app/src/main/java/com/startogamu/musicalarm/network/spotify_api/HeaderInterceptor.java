@@ -20,7 +20,7 @@ public class HeaderInterceptor implements Interceptor {
             return chain.proceed(originalRequest);
         }
         Request request = originalRequest.newBuilder()
-                .header("Authorization", "Bearer " + AppPrefs.getAccessToken())
+                .header("Authorization", "Bearer " + AppPrefs.getSpotifyAccessToken())
                 .build();
         return chain.proceed(request);
     }
