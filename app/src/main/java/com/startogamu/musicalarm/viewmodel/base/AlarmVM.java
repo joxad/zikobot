@@ -1,9 +1,9 @@
 package com.startogamu.musicalarm.viewmodel.base;
 
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.util.Log;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -28,7 +28,6 @@ public class AlarmVM extends BaseVM<Alarm> {
     ViewAlarmBinding binding;
 
 
-
     public String alarmName;
 
     public ObservableArrayList<TrackVM> tracksVms;
@@ -47,6 +46,7 @@ public class AlarmVM extends BaseVM<Alarm> {
     public void destroy() {
 
     }
+
     @Override
     public void init() {
         tracksVms = new ObservableArrayList<>();
@@ -85,6 +85,12 @@ public class AlarmVM extends BaseVM<Alarm> {
         RxCompoundButton.checkedChanges(binding.cbSunday).subscribe(aBoolean -> {
             model.activeDay(Calendar.SUNDAY);
         });
+
+    }
+
+    private void updateTimeSelected(int currentHour, int currentMin) {
+        model.setMinute(currentMin);
+        model.setHour(currentHour);
     }
 
     /**
@@ -93,8 +99,11 @@ public class AlarmVM extends BaseVM<Alarm> {
     private void initModel() {
         alarmName = model.getName();
         updateSelectedDays();
-        updateSelectedTime();
         refreshTracks();
+        Calendar alarmDate = Calendar.getInstance();
+        alarmDate.set(Calendar.HOUR, model.getHour());
+        alarmDate.set(Calendar.MINUTE, model.getMinute());
+        binding.timePicker.setFirstTime(alarmDate.getTime());
     }
 
     /***
@@ -110,24 +119,6 @@ public class AlarmVM extends BaseVM<Alarm> {
         binding.cbSunday.setChecked(model.isDayActive(Calendar.SUNDAY));
     }
 
-
-    /***
-     * @param view
-     */
-    public void onTimeClick(View view) {
-        new TimePickerDialog(context, (view1, hourOfDay, minute) -> {
-            model.setHour(hourOfDay);
-            model.setMinute(minute);
-            updateSelectedTime();
-        }, model.getHour(), model.getMinute(), true).show();
-    }
-
-    /***
-     * @param
-     */
-    private void updateSelectedTime() {
-        notifyPropertyChanged(BR.alarmVM);
-    }
 
     /***
      * TRACK MANAGEMENT
@@ -155,14 +146,12 @@ public class AlarmVM extends BaseVM<Alarm> {
 
 
     /***
-     *
      * @param adapterPosition
      */
     public void removeTrack(int adapterPosition) {
         tracksVms.remove(adapterPosition);
         model.getTracks().remove(adapterPosition);
     }
-
 
 
     /***
@@ -181,6 +170,10 @@ public class AlarmVM extends BaseVM<Alarm> {
      */
     public rx.Observable<Alarm> save() {
 
+        int hour = binding.timePicker.getCurrentHour();
+        int min = binding.timePicker.getCurrentMin();
+        Log.d(AlarmVM.class.getSimpleName(), "hours " + hour + "minu" + min);
+        updateTimeSelected(hour, min);
         return AlarmManager.saveAlarm(model, model.getTracks());
     }
 
@@ -196,9 +189,6 @@ public class AlarmVM extends BaseVM<Alarm> {
     }
 
 
-
-
-
     @Bindable
     public String getName() {
         return model.getName();
@@ -206,7 +196,7 @@ public class AlarmVM extends BaseVM<Alarm> {
 
     @Bindable
     public String getAlarmTime() {
-        return String.format("%d H %02d", model.getHour(), model.getMinute());
+        return String.format("%d : %02d", model.getHour(), model.getMinute());
     }
 
     @Bindable

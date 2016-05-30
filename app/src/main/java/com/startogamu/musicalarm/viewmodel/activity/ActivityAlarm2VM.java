@@ -27,6 +27,9 @@ import com.startogamu.musicalarm.viewmodel.base.AlarmVM;
 import org.parceler.Parcels;
 
 import java.util.Calendar;
+import java.util.Date;
+
+import picker.ugurtekbas.com.Picker.TimeChangedListener;
 
 /**
  * Created by josh on 29/05/16.
@@ -97,6 +100,7 @@ public class ActivityAlarm2VM extends ActivityBaseVM<ActivityAlarm2, ActivityAla
             }
         });
         swipeToDismissTouchHelper.attachToRecyclerView(binding.viewAlarm.rvTracks);
+
     }
 
 

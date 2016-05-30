@@ -50,6 +50,7 @@ dependencies {
     compile libs.dbFlowCore
     compile libs.dbFlow
     compile libs.design
+    compile libs.dialogTimePicker
     compile libs.easyPrefs
     compile libs.easyDataBinding
     compile libs.gson

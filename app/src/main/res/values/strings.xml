@@ -24,4 +24,5 @@
     <string name="playlist_total_tracks">%d chansons</string>
     <string name="repeat">Répéter</string>
     <string name="tracks">Musique</string>
+    <string name="stop">Arrêter</string>
 </resources>

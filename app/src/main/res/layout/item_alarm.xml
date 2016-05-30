@@ -52,9 +52,8 @@
                         android:text="@{itemAlarmVM.alarmTime}"
                         android:textAllCaps="true"
                         android:textColor="@color/colorAccent"
-                        android:textSize="30sp"
-                        android:textStyle="bold"
-                        tools:text="8 H 00" />
+                        android:textSize="40sp"
+                        tools:text="8 : 00" />
 
 
                     <TextView

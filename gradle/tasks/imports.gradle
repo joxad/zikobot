@@ -6,6 +6,7 @@ ext {
     daggerVersion = "2.2"
     dartVersion = "2.0.0"
     dbFlowVersion = "3.0.0-beta6"
+    dialerTPVersion = "4386944980"
     easyDataBindingVersion = "0.4.5"
     easyGcmVersion = "1.0.4"
     easyPrefsVersion = "1.8.1"
@@ -50,6 +51,7 @@ ext {
             dbFlowCore             : "com.github.Raizlabs.DBFlow:dbflow-core:$dbFlowVersion",
             dbFlowProc             : "com.github.Raizlabs.DBFlow:dbflow-processor:$dbFlowVersion", //use provided
             design                 : "com.android.support:design:$supportLibraryVersion",
+            dialogTimePicker       : "com.github.ugurtekbas:dialTimePicker:$dialerTPVersion",
             easyDataBinding        : "com.joxad.easydatabinding:lib:$easyDataBindingVersion",
             easyGcm                : "com.github.joxad:android-easy-gcm:$easyGcmVersion",
             easyPrefs              : "com.pixplicity.easyprefs:library:$easyPrefsVersion@aar",

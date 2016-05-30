@@ -91,18 +91,19 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.databinding/adapters/1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.databinding/library/1.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.3.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.4.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/design/23.3.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.3.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v13/23.3.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.3.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.4.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.balysv/material-ripple/1.0.2/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.Raizlabs.DBFlow/dbflow/3.0.0-beta6/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.armcha/LuseenBottomNavigation/1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.joxad/android-easy-spotify/1.1.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.ugurtekbas/dialTimePicker/4386944980/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.ybq/Android-SpinKit/1.0.2/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.jakewharton.rxbinding/rxbinding/0.4.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.joxad.easydatabinding/lib/0.4.5/jars" />
@@ -142,16 +143,13 @@
     <orderEntry type="library" exported="" name="recyclerview-v7-23.3.0" level="project" />
     <orderEntry type="library" exported="" name="baseLibrary-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="lib-0.4.5" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="dbflow-3.0.0-beta6" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-23.3.0" level="project" />
-    <orderEntry type="library" exported="" name="support-vector-drawable-23.3.0" level="project" />
-    <orderEntry type="library" exported="" name="animated-vector-drawable-23.3.0" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-23.3.0" level="project" />
     <orderEntry type="library" exported="" name="spotify-player-1.0.0-beta12" level="project" />
     <orderEntry type="library" exported="" name="henson-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="iconics-core-2.5.10" level="project" />
-    <orderEntry type="library" exported="" name="dbflow-core-3.0.0-beta6" level="project" />
     <orderEntry type="library" exported="" name="retrofit-2.0.1" level="project" />
+    <orderEntry type="library" exported="" name="dbflow-core-3.0.0-beta6" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="converter-gson-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="fastadapter-1.2.9" level="project" />
@@ -159,25 +157,29 @@
     <orderEntry type="library" exported="" name="aboutlibraries-5.6.2" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-23.2.1" level="project" />
     <orderEntry type="library" exported="" name="android-easy-spotify-1.1.1" level="project" />
-    <orderEntry type="library" exported="" name="dart-processor-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="dart-common-2.0.0" level="project" />
+    <orderEntry type="library" exported="" name="dart-processor-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="library-1.1" level="project" />
     <orderEntry type="library" exported="" name="support-v13-23.3.0" level="project" />
-    <orderEntry type="library" exported="" name="lombok-1.12.6" level="project" />
     <orderEntry type="library" exported="" name="javapoet-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="lombok-1.12.6" level="project" />
     <orderEntry type="library" exported="" name="dagger-2.2" level="project" />
     <orderEntry type="library" exported="" name="dart-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.6.1" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="library-1.8.1" level="project" />
+    <orderEntry type="library" exported="" name="animated-vector-drawable-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="adapters-1.1" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-23.3.0" level="project" />
     <orderEntry type="library" exported="" name="jsr250-api-1.0" level="project" />
+    <orderEntry type="library" exported="" name="support-vector-drawable-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
     <orderEntry type="library" exported="" name="LuseenBottomNavigation-1.1" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="parceler-api-1.1.1" level="project" />
+    <orderEntry type="library" exported="" name="dialTimePicker-4386944980" level="project" />
     <orderEntry type="library" exported="" name="henson-processor-2.0.0" level="project" />
-    <orderEntry type="library" exported="" name="adapter-rxjava-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
+    <orderEntry type="library" exported="" name="adapter-rxjava-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="bindingcollectionadapter-recyclerview-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="rxjava-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="design-23.3.0" level="project" />
