@@ -21,15 +21,11 @@ android {
         applicationId "com.startogamu.musicalarm"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode buildVersionCode()
+        versionName VERSION_NAME
+
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+
     signingConfigs {
         release {
             storeFile file(keystore_file)
@@ -38,10 +34,36 @@ android {
             keyPassword key_password
         }
     }
+    buildTypes {
+        debug {
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    output.outputFile = new File(output.outputFile.parent,
+                            output.outputFile.name.replace("app-debug", APP_NAME + "-" + VERSION_NAME)
+                    )
+                }
+            }
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    output.outputFile = new File(output.outputFile.parent,
+                            output.outputFile.name.replace("app-release", APP_NAME + "-" + VERSION_NAME)
+                    )
+                }
+            }
+        }
+
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+
     retrolambda {
         jdk jdk_dir
     }
