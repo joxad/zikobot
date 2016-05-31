@@ -32,14 +32,20 @@
                 android:orientation="horizontal"
                 android:padding="@dimen/margin_medium">
 
-                <!-- or with some attributes in xml -->
+                <TimePicker
+                    android:id="@+id/time_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+                <!-- or with some attributes in xml
                 <com.startogamu.musicalarm.view.custom.Picker
                     android:id="@+id/time_picker"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_centerInParent="true"
+                    android:visibility="gone"
                     app:hourFormat="false"
-                    app:textColor="#000000" />
+                    app:textColor="#000000" />-->
             </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout

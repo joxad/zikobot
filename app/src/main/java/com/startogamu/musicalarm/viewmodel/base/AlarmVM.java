@@ -86,6 +86,7 @@ public class AlarmVM extends BaseVM<Alarm> {
             model.activeDay(Calendar.SUNDAY);
         });
 
+
     }
 
     private void updateTimeSelected(int currentHour, int currentMin) {
@@ -100,10 +101,25 @@ public class AlarmVM extends BaseVM<Alarm> {
         alarmName = model.getName();
         updateSelectedDays();
         refreshTracks();
+        initHour();
+
+    }
+
+    private void initHour() {
         Calendar alarmDate = Calendar.getInstance();
         alarmDate.set(Calendar.HOUR, model.getHour());
         alarmDate.set(Calendar.MINUTE, model.getMinute());
-        binding.timePicker.setFirstTime(alarmDate.getTime());
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+            binding.timePicker.setMinute(model.getMinute());
+            binding.timePicker.setHour(model.getHour());
+
+        } else {
+            binding.timePicker.setCurrentHour(Integer.valueOf(model.getHour()));
+            binding.timePicker.setCurrentMinute(Integer.valueOf(model.getMinute()));
+
+        }
     }
 
     /***
@@ -169,9 +185,19 @@ public class AlarmVM extends BaseVM<Alarm> {
      * @return
      */
     public rx.Observable<Alarm> save() {
+        int min = 0;
 
-        int hour = binding.timePicker.getCurrentHour();
-        int min = binding.timePicker.getCurrentMin();
+        int hour = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            hour = binding.timePicker.getHour();
+            min = binding.timePicker.getMinute();
+
+        } else {
+            hour = binding.timePicker.getCurrentHour();
+            min = binding.timePicker.getCurrentMinute();
+
+        }
+
         Log.d(AlarmVM.class.getSimpleName(), "hours " + hour + "minu" + min);
         updateTimeSelected(hour, min);
         return AlarmManager.saveAlarm(model, model.getTracks());
@@ -199,6 +225,10 @@ public class AlarmVM extends BaseVM<Alarm> {
         return String.format("%d : %02d", model.getHour(), model.getMinute());
     }
 
+    public void updateStatus(boolean activated) {
+        model.setActive(activated? 1 : 0);
+        save();
+    }
     @Bindable
     public boolean isActivated() {
         return model.getActive() == 1;

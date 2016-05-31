@@ -6,6 +6,10 @@ apply plugin: 'me.tatarka.retrolambda'
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def jdk_dir = properties.getProperty('jdk.dir')
+def keystore_file = properties.getProperty('keystore.file')
+def file_password = properties.getProperty('file.password')
+def key_alias = properties.getProperty('keystore.alias')
+def key_password = properties.getProperty('keystore.password')
 
 android {
     compileSdkVersion 23
@@ -24,6 +28,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file(keystore_file)
+            storePassword file_password
+            keyAlias key_alias
+            keyPassword key_password
         }
     }
     compileOptions {
@@ -75,6 +87,7 @@ dependencies {
     provided libs.lombok
     provided libs.javaxAnnotation
 
+    compile 'com.wdullaer:materialdatetimepicker:2.3.0'
 
     compile 'com.github.armcha:LuseenBottomNavigation:1.1'
     compile('com.mikepenz:aboutlibraries:5.6.2@aar') {

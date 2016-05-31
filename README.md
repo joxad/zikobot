@@ -1,6 +1,7 @@
+<img width="1040" height="500" src="/images/light_playstore.png" />
+
 # musicalarm-spotify-mvvm
 This project is an open-source alarm using Spotify SDK + Databinding + Dagger 2
-
 
 
 # How to Install
@@ -22,7 +23,7 @@ So this project is a opportunity to make a clean architecture of a project, whic
     - Use of Android-Job to prepare to repeating Job
     
 - Create Alarm Scheduler with different media
-    - Local Music  (TODO)
+    - Local Music 
     - Spotify API + SDK (SDK implemented using android-easy-spotify)
     - Deezer (TODO)
     
