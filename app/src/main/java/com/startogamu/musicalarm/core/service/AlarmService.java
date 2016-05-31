@@ -12,6 +12,7 @@ import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
 import com.startogamu.musicalarm.module.alarm.object.Alarm;
 import com.startogamu.musicalarm.module.component.Injector;
+import com.startogamu.musicalarm.view.Henson;
 
 import java.io.UnsupportedEncodingException;
 
@@ -33,6 +34,7 @@ public class AlarmService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         Injector.INSTANCE.spotifyAuth().inject(this);
         Injector.INSTANCE.playerComponent().inject(this);
         long alarmId = intent.getLongExtra(EXTRA.ALARM_ID, -1);
@@ -40,10 +42,11 @@ public class AlarmService extends Service {
             AlarmService.this.alarm = alarm;
             MusicNotification.show(alarm.getName());
             refreshToken();
+            startActivity(Henson.with(getBaseContext()).gotoActivityWakeUp().alarm(alarm).build().addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+
         });
 
-        stopReceiver = new StopReceiver(() -> stop());
-
+        stopReceiver = new StopReceiver(this::stop);
         registerReceiver(stopReceiver, new IntentFilter(StopReceiver.TAG));
         return Service.START_STICKY;
     }
@@ -83,10 +86,6 @@ public class AlarmService extends Service {
      */
     private void stop() {
         Injector.INSTANCE.playerComponent().manager().stop();
-    }
-
-    private void next() {
-        Injector.INSTANCE.playerComponent().manager().next();
     }
 
     @Nullable

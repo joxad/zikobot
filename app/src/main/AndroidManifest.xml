@@ -4,7 +4,10 @@
     <!-- Permission to start Alarm on device reboot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <application
         android:name=".MusicAlarmApplication"
         android:allowBackup="true"
@@ -75,12 +78,15 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".view.activity.ActivityWakeUp" />
+
         <receiver android:name=".core.receiver.AlarmReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
 
         </receiver>
+
 
         <!-- Will not be called unless the application explicitly enables it -->
         <receiver

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="activityWakeUpVM"
+            type="com.startogamu.musicalarm.viewmodel.activity.ActivityWakeUpVM" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <com.cleveroad.audiovisualization.GLAudioVisualizationView
+            android:id="@+id/visualizer_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:av_backgroundColor="@color/colorPrimaryDark"
+            app:av_bubblesPerLayer="16"
+            app:av_bubblesRandomizeSizes="true"
+            app:av_bubblesSize="18dp"
+            app:av_layersCount="4"
+            app:av_wavesCount="7"
+            app:av_wavesFooterHeight="72dp"
+            app:av_wavesHeight="48dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_disk" />
+
+
+    </RelativeLayout>
+</layout>

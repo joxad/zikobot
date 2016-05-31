@@ -11,6 +11,7 @@ import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.musicalarm.R;
+import com.startogamu.musicalarm.databinding.ItemAlarmBinding;
 import com.startogamu.musicalarm.databinding.ViewAlarmBinding;
 import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
 import com.startogamu.musicalarm.module.alarm.object.Alarm;
@@ -20,6 +21,7 @@ import com.startogamu.musicalarm.view.Henson;
 import java.util.Calendar;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
+import rx.functions.Action1;
 
 /**
  * Created by josh on 29/05/16.
@@ -55,7 +57,7 @@ public class AlarmVM extends BaseVM<Alarm> {
     /***
      * @param binding
      */
-    public void initBinding(ViewAlarmBinding binding) {
+    public void initViewAlarmBinding(ViewAlarmBinding binding) {
         this.binding = binding;
         initModel();
 
@@ -64,29 +66,34 @@ public class AlarmVM extends BaseVM<Alarm> {
             model.setName(alarmName);
         });
         RxCompoundButton.checkedChanges(binding.cbMonday).subscribe(aBoolean -> {
-            model.activeDay(Calendar.MONDAY);
+            model.activeDay(Calendar.MONDAY, aBoolean);
         });
         RxCompoundButton.checkedChanges(binding.cbTuesday).subscribe(aBoolean -> {
-            model.activeDay(Calendar.TUESDAY);
+            model.activeDay(Calendar.TUESDAY, aBoolean);
         });
         RxCompoundButton.checkedChanges(binding.cbWednesday).subscribe(aBoolean -> {
-            model.activeDay(Calendar.WEDNESDAY);
+            model.activeDay(Calendar.WEDNESDAY, aBoolean);
         });
         RxCompoundButton.checkedChanges(binding.cbThursday).subscribe(aBoolean -> {
-            model.activeDay(Calendar.THURSDAY);
+            model.activeDay(Calendar.THURSDAY, aBoolean);
         });
         RxCompoundButton.checkedChanges(binding.cbFriday).subscribe(aBoolean -> {
-            model.activeDay(Calendar.FRIDAY);
+            model.activeDay(Calendar.FRIDAY, aBoolean);
         });
 
         RxCompoundButton.checkedChanges(binding.cbSaturday).subscribe(aBoolean -> {
-            model.activeDay(Calendar.SATURDAY);
+            model.activeDay(Calendar.SATURDAY, aBoolean);
         });
         RxCompoundButton.checkedChanges(binding.cbSunday).subscribe(aBoolean -> {
-            model.activeDay(Calendar.SUNDAY);
+            model.activeDay(Calendar.SUNDAY, aBoolean);
         });
+    }
 
 
+    public void initItemAlarmBinding(ItemAlarmBinding binding) {
+        RxCompoundButton.checkedChanges(binding.swActivated).subscribe(status -> {
+            updateStatus(status);
+        });
     }
 
     private void updateTimeSelected(int currentHour, int currentMin) {
@@ -226,9 +233,10 @@ public class AlarmVM extends BaseVM<Alarm> {
     }
 
     public void updateStatus(boolean activated) {
-        model.setActive(activated? 1 : 0);
-        save();
+        model.setActive(activated ? 1 : 0);
+        model.save();
     }
+
     @Bindable
     public boolean isActivated() {
         return model.getActive() == 1;

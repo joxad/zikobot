@@ -49,8 +49,10 @@ public class Alarm extends BaseModel {
     @Setter
     protected int active;
 
-    //   @Column
-    protected byte[] days = new byte[8];
+    @Column
+    @Getter
+    @Setter
+    protected String days = "-0000000";
     @ParcelPropertyConverter(ItemListTrackConverter.class)
     protected List<AlarmTrack> tracks = new ArrayList<>();
 
@@ -78,17 +80,20 @@ public class Alarm extends BaseModel {
     }
 
 
-
     public boolean isDayActive(int day) {
-        return true;
+        StringBuilder daysBuilder = new StringBuilder(days);
+        char dayStatus = daysBuilder.charAt(day);
+        return dayStatus == '1';
     }
 
-    public void activeDay(int day) {
-        days[day] = 1;
+    public void activeDay(int day, Boolean aBoolean) {
+        replaceChar(aBoolean ? '1' : '0', day);
     }
 
-
-    public void unactiveDay(int day) {
-        days[day] = 0;
+    public void replaceChar(char c, int index) {
+        StringBuilder daysBuilder = new StringBuilder(days);
+        daysBuilder.setCharAt(index, c);
+        days = daysBuilder.toString();
     }
+
 }

@@ -1,5 +1,6 @@
 package com.startogamu.musicalarm.viewmodel.activity;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +24,6 @@ import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
 import com.startogamu.musicalarm.view.Henson;
 import com.startogamu.musicalarm.view.activity.ActivityAlarm;
 import com.startogamu.musicalarm.viewmodel.base.AlarmVM;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 
 import org.parceler.Parcels;
 
@@ -53,6 +53,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     @Override
     public void init() {
         Dart.inject(this, activity);
+        alarmMgr = (android.app.AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> activity.finish());
@@ -84,7 +85,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      */
     private void initViews() {
         alarmVM = new AlarmVM(activity, alarm);
-        alarmVM.initBinding(binding.viewAlarm);
+        alarmVM.initViewAlarmBinding(binding.viewAlarm);
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -128,7 +129,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * @param alarm
      */
     private void prepareAlarm(Alarm alarm) {
-        alarmMgr = (android.app.AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(activity, AlarmReceiver.class);
         intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
         alarmIntent = PendingIntent.getBroadcast(activity, 0, intent, 0);
@@ -137,8 +137,9 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, this.alarm.getHour());
         calendar.set(Calendar.MINUTE, this.alarm.getMinute());
+        calendar.set(Calendar.MILLISECOND, 0);
         alarmMgr.setRepeating(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                1000 * 60 * 60 * 24, alarmIntent);// test every 60 scs
+                AlarmManager.INTERVAL_DAY, alarmIntent);// test every 60 scs
 
         activity.finish();
     }

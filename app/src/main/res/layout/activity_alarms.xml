@@ -45,6 +45,8 @@
             app:items="@{activityAlarmsVM.itemsVM}"
             app:layoutManager="@{LayoutManagers.linear()}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+            app:adapter='@{"com.startogamu.musicalarm.view.adapter.AlarmAdapter"}'
             tools:listitem="@layout/item_alarm" />
 
 
