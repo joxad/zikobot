@@ -19,14 +19,14 @@
             android:id="@+id/visualizer_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:av_backgroundColor="@color/colorPrimaryDark"
             app:av_bubblesPerLayer="16"
             app:av_bubblesRandomizeSizes="true"
-            app:av_bubblesSize="18dp"
+            app:av_bubblesSize="25dp"
             app:av_layersCount="4"
+            app:av_wavesColors="@array/waves"
             app:av_wavesCount="7"
             app:av_wavesFooterHeight="72dp"
-            app:av_wavesHeight="48dp" />
+            app:av_wavesHeight="36dp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -34,6 +34,13 @@
             android:layout_centerInParent="true"
             android:src="@drawable/ic_disk" />
 
-
+        <com.startogamu.musicalarm.view.custom.MaterialButtonView
+            android:layout_width="match_parent"
+            app:mrl_rippleBackground="@color/colorAccent"
+            android:layout_height="wrap_content"
+            app:mbv_text_color="@android:color/black"
+            android:onClick="@{activityWakeUpVM.stop}"
+            android:layout_alignParentBottom="true"
+            app:mbv_text="@string/stop" />
     </RelativeLayout>
 </layout>

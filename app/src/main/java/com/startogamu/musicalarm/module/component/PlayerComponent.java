@@ -4,6 +4,7 @@ import com.startogamu.musicalarm.core.receiver.StopReceiver;
 import com.startogamu.musicalarm.core.service.AlarmService;
 import com.startogamu.musicalarm.module.music.PlayerBaseComponent;
 import com.startogamu.musicalarm.module.music.PlayerModule;
+import com.startogamu.musicalarm.viewmodel.activity.ActivityWakeUpVM;
 
 import javax.inject.Singleton;
 
@@ -16,7 +17,7 @@ import dagger.Component;
 @Component(modules = PlayerModule.class)
 public interface PlayerComponent extends PlayerBaseComponent{
 
-    void inject(AlarmService alarmService);
+    void inject(ActivityWakeUpVM alarmService);
 
     void inject(StopReceiver stopReceiver);
 }

@@ -35,13 +35,10 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Injector.INSTANCE.spotifyAuth().inject(this);
-        Injector.INSTANCE.playerComponent().inject(this);
         long alarmId = intent.getLongExtra(EXTRA.ALARM_ID, -1);
         AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
             AlarmService.this.alarm = alarm;
             MusicNotification.show(alarm.getName());
-            refreshToken();
             startActivity(Henson.with(getBaseContext()).gotoActivityWakeUp().alarm(alarm).build().addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
         });
@@ -59,27 +56,6 @@ public class AlarmService extends Service {
         super.onDestroy();
     }
 
-    /***
-     * We refresh the token of spotify to be sure
-     */
-    private void refreshToken() {
-        try {
-            Injector.INSTANCE.spotifyAuth().manager().refreshToken(getApplicationContext(), () -> {
-                Injector.INSTANCE.playerComponent().manager().refreshAccessTokenPlayer();
-                startAlarm(alarm);
-            });
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    /**
-     * @param alarm
-     */
-    private void startAlarm(Alarm alarm) {
-        Injector.INSTANCE.playerComponent().manager().startAlarm(alarm);
-    }
 
     /***
      *
