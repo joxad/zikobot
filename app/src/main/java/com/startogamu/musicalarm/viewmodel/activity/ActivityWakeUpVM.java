@@ -1,5 +1,7 @@
 package com.startogamu.musicalarm.viewmodel.activity;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 
 import com.cleveroad.audiovisualization.AudioVisualization;
@@ -45,6 +47,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         super.onResume();
         binding.visualizerView.onResume();
     }
+    Handler handler = new Handler(Looper.getMainLooper());
 
     /***
      * We refresh the token of spotify to be sure
@@ -54,9 +57,11 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
             Injector.INSTANCE.spotifyAuth().manager().refreshToken(activity, () -> {
                 Injector.INSTANCE.playerComponent().manager().refreshAccessTokenPlayer();
                 startAlarm(alarm);
+                handler.postDelayed(() -> {
 
-                VisualizerDbmHandler vizualizerHandler = DbmHandler.Factory.newVisualizerHandler(activity, 0);
-                binding.visualizerView.linkTo(vizualizerHandler);
+                    VisualizerDbmHandler vizualizerHandler = DbmHandler.Factory.newVisualizerHandler(activity, 0);
+                    binding.visualizerView.linkTo(vizualizerHandler);
+                }, 500);
             });
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

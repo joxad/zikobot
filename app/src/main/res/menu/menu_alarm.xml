@@ -5,10 +5,16 @@
 
 
     <item
+        android:id="@+id/action_play"
+        android:icon="@drawable/ic_play_arrow"
+        android:orderInCategory="50"
+        android:showAsAction="always"
+        android:title="@string/play" />
+    <item
         android:id="@+id/action_save"
         android:icon="@drawable/ic_done"
-        android:title="@string/about"
         android:orderInCategory="100"
+        android:title="@string/about"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_delete"

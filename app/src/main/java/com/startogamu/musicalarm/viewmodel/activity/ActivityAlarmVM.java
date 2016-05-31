@@ -65,6 +65,9 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
                 case R.id.action_save:
                     save();
                     break;
+                case R.id.action_play:
+                    activity.startActivity(Henson.with(activity).gotoActivityWakeUp().alarm(alarm).build());
+                    break;
             }
             return false;
         });

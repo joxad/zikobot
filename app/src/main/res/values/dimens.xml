@@ -10,5 +10,7 @@
     <dimen name="spotify_playlist_height_margin">204dp</dimen>
     <dimen name="icon_size">24dp</dimen>
     <dimen name="icon_medium">48dp</dimen>
-
+    <dimen name="bubble_size">25dp</dimen>
+    <dimen name="wave_height">60dp</dimen>
+    <dimen name="footer_height">170dp</dimen>
 </resources>

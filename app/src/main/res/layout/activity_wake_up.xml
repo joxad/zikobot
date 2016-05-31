@@ -20,13 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:av_bubblesPerLayer="16"
+            app:av_backgroundColor="@color/colorPrimaryLight"
             app:av_bubblesRandomizeSizes="true"
-            app:av_bubblesSize="25dp"
+            app:av_bubblesSize="@dimen/bubble_size"
             app:av_layersCount="4"
             app:av_wavesColors="@array/waves"
             app:av_wavesCount="7"
-            app:av_wavesFooterHeight="72dp"
-            app:av_wavesHeight="36dp" />
+            app:av_wavesFooterHeight="@dimen/footer_height"
+            app:av_wavesHeight="@dimen/wave_height" />
 
         <ImageView
             android:layout_width="wrap_content"
