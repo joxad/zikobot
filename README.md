@@ -11,8 +11,11 @@ You will need Java 8 and at least version 1.5.1 of AndroidStudio
 In the file local.properties, you will need to add the location of your java 8 installation, in order
 to make retrolambda working
 
-jdk.dir=/usr/lib/jvm/java-8-openjdk-amd64
+local.properties
 
+```groovy
+jdk.dir=/usr/lib/jvm/java-8-openjdk-amd64
+```
 # Goals
 
 This project is an open source alarm which will be on the PlayStore.
@@ -39,3 +42,8 @@ In order to test MVVM on Android
 - Rx 
 - Realm (it seems it is a new DB that is going better, so need to test that)
 - Retrofit
+
+# Contributing 
+
+
+Feel free to contribute to this project :) Pull request are welcome !
