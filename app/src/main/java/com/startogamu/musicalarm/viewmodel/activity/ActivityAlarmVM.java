@@ -59,6 +59,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         alarmMgr = (android.app.AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
         activity.setSupportActionBar(binding.toolbar);
         activity.setTitle(alarm.getName());
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> activity.finish());
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
