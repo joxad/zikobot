@@ -7,6 +7,8 @@ buildscript {
         maven { url "http://dl.bintray.com/pixplicity/maven" }
         maven { url "http://dl.bintray.com/glomadrian/maven" }
         maven { url "https://jitpack.io" }
+        maven { url 'https://github.com/FireZenk/maven-repo/raw/master/'}
+
         mavenCentral()
         flatDir {
             dirs 'libs'
@@ -27,6 +29,8 @@ allprojects {
         maven { url "http://dl.bintray.com/joxad/maven" }
         maven { url "http://dl.bintray.com/pixplicity/maven" }
         maven { url "https://jitpack.io" }
+        maven { url 'https://github.com/FireZenk/maven-repo/raw/master/'}
+
         flatDir {
             dirs 'libs'
         }

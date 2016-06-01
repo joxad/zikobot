@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import com.startogamu.musicalarm.databinding.ItemAlarmBinding;
 import com.startogamu.musicalarm.viewmodel.base.AlarmVM;
 
@@ -26,6 +27,6 @@ public class AlarmAdapter<T> extends BindingRecyclerViewAdapter<AlarmVM> {
     @Override
     public void onBindBinding(ViewDataBinding binding, int bindingVariable, @LayoutRes int layoutId, int position, AlarmVM item) {
         super.onBindBinding(binding, bindingVariable, layoutId, position, item);
-        item.initItemAlarmBinding((ItemAlarmBinding) binding);
+       RxCompoundButton.checkedChanges( ((ItemAlarmBinding) binding).swActivated).subscribe(item::updateStatus);
     }
 }

@@ -79,6 +79,7 @@ dependencies {
 
     compile libs.appCompat
     compile libs.butterKnife
+    compile libs.circleIV
     compile libs.dagger
     compile libs.dart
     compile libs.dbFlowCore
@@ -108,10 +109,7 @@ dependencies {
     provided libs.hensonProc
     provided libs.lombok
     provided libs.javaxAnnotation
-
-    compile 'com.cleveroad:audiovisualization:0.9.3'
-
-
+    compile 'com.github.claucookie.miniequalizer:library:1.0.0'
     compile 'com.github.armcha:LuseenBottomNavigation:1.1'
     compile('com.mikepenz:aboutlibraries:5.6.2@aar') {
         transitive = true

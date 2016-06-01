@@ -7,41 +7,73 @@
         <variable
             name="activityWakeUpVM"
             type="com.startogamu.musicalarm.viewmodel.activity.ActivityWakeUpVM" />
+
+
+        <variable
+            name="alarmTrackVM"
+            type="com.startogamu.musicalarm.viewmodel.base.TrackVM" />
+
+        <variable
+            name="alarmVM"
+            type="com.startogamu.musicalarm.viewmodel.base.AlarmVM" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-
-        <com.cleveroad.audiovisualization.GLAudioVisualizationView
-            android:id="@+id/visualizer_view"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:av_bubblesPerLayer="16"
-            app:av_backgroundColor="@color/colorPrimaryLight"
-            app:av_bubblesRandomizeSizes="true"
-            app:av_bubblesSize="@dimen/bubble_size"
-            app:av_layersCount="4"
-            app:av_wavesColors="@array/waves"
-            app:av_wavesCount="7"
-            app:av_wavesFooterHeight="@dimen/footer_height"
-            app:av_wavesHeight="@dimen/wave_height" />
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-        <ImageView
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_disk" />
+            android:layout_centerInParent="true">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_disk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:src="@drawable/ic_disk" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_song"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_music_wave"
+                app:imageUrl="@{alarmTrackVM.imageUrl}" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_player"
+            android:layout_centerHorizontal="true"
+            android:text="@{alarmTrackVM.name}"
+            android:textColor="@color/colorAccent" />
 
         <com.startogamu.musicalarm.view.custom.MaterialButtonView
             android:layout_width="match_parent"
-            app:mrl_rippleBackground="@color/colorAccent"
             android:layout_height="wrap_content"
-            app:mbv_text_color="@android:color/black"
-            android:onClick="@{activityWakeUpVM.stop}"
             android:layout_alignParentBottom="true"
-            app:mbv_text="@string/stop" />
+            android:onClick="@{activityWakeUpVM.stop}"
+            app:mbv_text="@string/stop"
+            app:mbv_text_color="@android:color/black"
+            app:mrl_rippleBackground="@android:color/transparent" />
     </RelativeLayout>
 </layout>

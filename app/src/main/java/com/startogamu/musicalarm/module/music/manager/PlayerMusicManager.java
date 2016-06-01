@@ -172,6 +172,7 @@ public class PlayerMusicManager {
     public void stop() {
         SpotifyPlayerManager.pause();
         SpotifyPlayerManager.clear();
+        mediaPlayerService.stop();
     }
 
 }

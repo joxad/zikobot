@@ -10,4 +10,14 @@
     <color name="divider">#B6B6B6</color>
     <color name="disable">#565656</color>
 
+
+
+    <!-- A light Holo shade of blue -->
+    <color name="blue_light">#ff33b5e5</color>
+    <!-- A light Holo shade of gray -->
+    <color name="gray_light">#33999999</color>
+    <!-- A light Holo shade of green -->
+    <color name="green_light">#ff99cc00</color>
+    <!-- A light Holo shade of red -->
+    <color name="red_light">#ffff4444</color>
 </resources>

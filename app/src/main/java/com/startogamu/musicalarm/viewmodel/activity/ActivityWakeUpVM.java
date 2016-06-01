@@ -1,19 +1,18 @@
 package com.startogamu.musicalarm.viewmodel.activity;
 
-import android.os.Handler;
-import android.os.Looper;
+import android.animation.Animator;
 import android.view.View;
 
-import com.cleveroad.audiovisualization.AudioVisualization;
-import com.cleveroad.audiovisualization.DbmHandler;
-import com.cleveroad.audiovisualization.VisualizerDbmHandler;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
+import com.startogamu.musicalarm.core.utils.AnimationEndListener;
 import com.startogamu.musicalarm.databinding.ActivityWakeUpBinding;
 import com.startogamu.musicalarm.module.alarm.object.Alarm;
 import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.view.activity.ActivityWakeUp;
+import com.startogamu.musicalarm.viewmodel.base.AlarmVM;
+import com.startogamu.musicalarm.viewmodel.base.TrackVM;
 
 import java.io.UnsupportedEncodingException;
 
@@ -22,8 +21,17 @@ import java.io.UnsupportedEncodingException;
  */
 public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWakeUpBinding> {
 
+
+    private static final int ROTATION = 2;
+    private static final int DELAY = 10;//MS
     @InjectExtra
     Alarm alarm;
+
+
+    int rotation = ROTATION;
+    public AlarmVM alarmVM;
+    public TrackVM trackVM;
+
     /***
      * @param activity
      * @param binding
@@ -34,20 +42,24 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
 
     @Override
     public void init() {
-
+        Dart.inject(this, activity);
         Injector.INSTANCE.spotifyAuth().inject(this);
         Injector.INSTANCE.playerComponent().inject(this);
-        Dart.inject(this,activity);
-        //TODO add information
+        activity.setSupportActionBar(binding.toolbar);
+        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        activity.setTitle(alarm.getName());
+        alarmVM = new AlarmVM(activity, alarm);
+        binding.setAlarmVM(alarmVM);
+        trackVM = new TrackVM(activity, alarm.getTracks().get(0));
+        binding.setAlarmTrackVM(trackVM);
         refreshToken();
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
-        binding.visualizerView.onResume();
     }
-    Handler handler = new Handler(Looper.getMainLooper());
 
     /***
      * We refresh the token of spotify to be sure
@@ -57,11 +69,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
             Injector.INSTANCE.spotifyAuth().manager().refreshToken(activity, () -> {
                 Injector.INSTANCE.playerComponent().manager().refreshAccessTokenPlayer();
                 startAlarm(alarm);
-                handler.postDelayed(() -> {
 
-                    VisualizerDbmHandler vizualizerHandler = DbmHandler.Factory.newVisualizerHandler(activity, 0);
-                    binding.visualizerView.linkTo(vizualizerHandler);
-                }, 500);
             });
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -73,16 +81,37 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      */
     private void startAlarm(Alarm alarm) {
         Injector.INSTANCE.playerComponent().manager().startAlarm(alarm);
+        rotateCD();
     }
 
-    public void stop(View view){
+    /**
+     *
+     */
+    private void rotateCD() {
+        binding.rlPlayer.animate().rotationBy(rotation).setDuration(50).setListener(new AnimationEndListener() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                rotateCD();
+            }
+        });
+    }
+
+    public void stop(View view) {
         Injector.INSTANCE.playerComponent().manager().stop();
+        activity.finish();
+    }
+
+
+    @Override
+    protected boolean onBackPressed() {
+        stop(null);
+        return super.onBackPressed();
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        binding.visualizerView.onPause();
     }
 
     @Override

@@ -8,10 +8,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
+import com.jakewharton.rxbinding.widget.RxCompoundButton;
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.easydatabinding.activity.IResult;
 import com.startogamu.musicalarm.R;
@@ -56,6 +59,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         alarmMgr = (android.app.AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        activity.setTitle(alarm.getName());
         binding.toolbar.setNavigationOnClickListener(listener -> activity.finish());
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -88,7 +92,8 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      */
     private void initViews() {
         alarmVM = new AlarmVM(activity, alarm);
-        alarmVM.initViewAlarmBinding(binding.viewAlarm);
+
+        initAlarmVM();
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -106,11 +111,87 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
     }
 
+    private void initAlarmVM() {
+        alarmVM.initModel();
+
+        initHour();
+        initSelectedDays();
+        RxTextView.textChanges(binding.viewAlarm.etName).skip(1).subscribe(charSequence -> {
+            alarmVM.updateName(charSequence);
+        });
+        RxCompoundButton.checkedChanges(binding.viewAlarm.cbMonday).subscribe(aBoolean -> {
+            alarmVM.activeDay(Calendar.MONDAY, aBoolean);
+        });
+        RxCompoundButton.checkedChanges(binding.viewAlarm.cbTuesday).subscribe(aBoolean -> {
+            alarmVM.activeDay(Calendar.TUESDAY, aBoolean);
+        });
+        RxCompoundButton.checkedChanges(binding.viewAlarm.cbWednesday).subscribe(aBoolean -> {
+            alarmVM.activeDay(Calendar.WEDNESDAY, aBoolean);
+        });
+        RxCompoundButton.checkedChanges(binding.viewAlarm.cbThursday).subscribe(aBoolean -> {
+            alarmVM.activeDay(Calendar.THURSDAY, aBoolean);
+        });
+        RxCompoundButton.checkedChanges(binding.viewAlarm.cbFriday).subscribe(aBoolean -> {
+            alarmVM.activeDay(Calendar.FRIDAY, aBoolean);
+        });
+
+        RxCompoundButton.checkedChanges(binding.viewAlarm.cbSaturday).subscribe(aBoolean -> {
+            alarmVM.activeDay(Calendar.SATURDAY, aBoolean);
+        });
+        RxCompoundButton.checkedChanges(binding.viewAlarm.cbSunday).subscribe(aBoolean -> {
+            alarmVM.activeDay(Calendar.SUNDAY, aBoolean);
+        });
+
+    }
+
+    private void initHour() {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+            binding.viewAlarm.timePicker.setMinute(alarmVM.getMinute());
+            binding.viewAlarm.timePicker.setHour(alarmVM.getHour());
+
+        } else {
+            binding.viewAlarm.timePicker.setCurrentHour(Integer.valueOf(alarmVM.getHour()));
+            binding.viewAlarm.timePicker.setCurrentMinute(Integer.valueOf(alarmVM.getMinute()));
+
+        }
+    }
+
+    /***
+     * Check the activated days
+     */
+    private void initSelectedDays() {
+        binding.viewAlarm.cbMonday.setChecked(alarmVM.isDayActive(Calendar.MONDAY));
+        binding.viewAlarm.cbTuesday.setChecked(alarmVM.isDayActive(Calendar.TUESDAY));
+        binding.viewAlarm.cbWednesday.setChecked(alarmVM.isDayActive(Calendar.WEDNESDAY));
+        binding.viewAlarm.cbThursday.setChecked(alarmVM.isDayActive(Calendar.THURSDAY));
+        binding.viewAlarm.cbFriday.setChecked(alarmVM.isDayActive(Calendar.FRIDAY));
+        binding.viewAlarm.cbSaturday.setChecked(alarmVM.isDayActive(Calendar.SATURDAY));
+        binding.viewAlarm.cbSunday.setChecked(alarmVM.isDayActive(Calendar.SUNDAY));
+    }
+
 
     /***
      * Use this method to save the data
      */
     public void save() {
+
+        int min = 0;
+
+        int hour = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            hour = binding.viewAlarm.timePicker.getHour();
+            min = binding.viewAlarm.timePicker.getMinute();
+
+        } else {
+            hour = binding.viewAlarm.timePicker.getCurrentHour();
+            min = binding.viewAlarm.timePicker.getCurrentMinute();
+
+        }
+        Log.d(AlarmVM.class.getSimpleName(), "hours " + hour + "minu" + min);
+        alarmVM.updateTimeSelected(hour, min);
+
         alarmVM.save().subscribe(alarm1 -> {
             prepareAlarm(alarm1);
         }, throwable -> {

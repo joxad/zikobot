@@ -60,6 +60,10 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         mediaPlayer.setOnCompletionListener(onCompletionListener);
     }
 
+    public void stop() {
+        mediaPlayer.stop();
+    }
+
     public class MediaPlayerServiceBinder extends Binder {
         public MediaPlayerService getService() {
             return MediaPlayerService.this;
