@@ -27,4 +27,5 @@
     <string name="stop">Arrêter</string>
     <string name="deezer_coming_soon">Coming soon...</string>
     <string name="play">Jouer l\'alarm</string>
+    <string name="action_add_all">Tout ajouter</string>
 </resources>

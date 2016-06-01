@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.BaseObservable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.joxad.easydatabinding.base.IVM;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
@@ -48,6 +50,15 @@ public class ActivityMusicViewModel extends BaseObservable implements IVM {
         localMusicFragment = LocalMusicFragment.newInstance();
         context.replaceFragment(localMusicFragment, false);
         createBottomNavigation(binding.bottomNavigation);
+        binding.toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_add_all:
+                    //TODO
+                    break;
+            }
+
+            return false;
+        });
     }
 
 
