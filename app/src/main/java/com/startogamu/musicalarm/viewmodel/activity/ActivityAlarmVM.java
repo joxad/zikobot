@@ -58,7 +58,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         Dart.inject(this, activity);
         alarmMgr = (android.app.AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
         activity.setSupportActionBar(binding.toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         activity.setTitle(alarm.getName());
         binding.toolbar.setNavigationOnClickListener(listener -> activity.finish());
         binding.toolbar.setOnMenuItemClickListener(item -> {

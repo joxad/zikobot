@@ -46,7 +46,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         Injector.INSTANCE.spotifyAuth().inject(this);
         Injector.INSTANCE.playerComponent().inject(this);
         activity.setSupportActionBar(binding.toolbar);
-        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         activity.setTitle(alarm.getName());
         alarmVM = new AlarmVM(activity, alarm);
         binding.setAlarmVM(alarmVM);
