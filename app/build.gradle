@@ -114,6 +114,9 @@ dependencies {
     compile('com.mikepenz:aboutlibraries:5.6.2@aar') {
         transitive = true
     }
+
+    compile 'com.github.ugurtekbas:fadingIndicator:623a5c62ff'
+
     compile 'com.github.ybq:Android-SpinKit:1.0.2'
     //https://openclassrooms.com/courses/bruits-et-nombres-aleatoires-coherents
 

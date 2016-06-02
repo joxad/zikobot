@@ -10,6 +10,8 @@ import com.pixplicity.easyprefs.library.Prefs;
  */
 public class AppPrefs {
 
+
+    public static final String FIRST_START = "FIRST_START";
     /***
      *
      */
@@ -25,6 +27,15 @@ public class AppPrefs {
      */
     public static final String REFRESH_TOKEN = "REFRESH_TOKEN";
     private static final String SPOTIFY_USER_ID = "SPOTIFY_USER_ID";
+
+
+    public static boolean isFirstStart() {
+        return Prefs.getBoolean(FIRST_START, false);
+    }
+
+    public static void saveFirstStart(final boolean state) {
+        Prefs.putBoolean(FIRST_START, state);
+    }
 
     public static void saveRefreshToken(final String refreshToken) {
         Prefs.putString(REFRESH_TOKEN, refreshToken);

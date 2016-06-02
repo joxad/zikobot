@@ -47,6 +47,9 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
 
     @Override
     public void init() {
+        if (!AppPrefs.isFirstStart()){
+            activity.startActivity(Henson.with(activity).gotoActivityFirstStart().build());
+        }
         Injector.INSTANCE.spotifyAuth().inject(this);
         activity.setSupportActionBar(binding.toolbar);
         binding.toolbar.setOnMenuItemClickListener(item -> {

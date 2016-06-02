@@ -85,7 +85,7 @@
 
         </receiver>
 
-
+        <activity android:name=".view.activity.ActivityFirstStart" />
         <!-- Will not be called unless the application explicitly enables it -->
         <receiver
             android:name=".core.receiver.DeviceBootReceiver"

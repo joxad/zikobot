@@ -28,4 +28,7 @@
     <string name="deezer_coming_soon">Coming soon...</string>
     <string name="play">Jouer l\'alarm</string>
     <string name="action_add_all">Tout ajouter</string>
+    <string name="view_pager_1">1</string>
+    <string name="view_pager_2">2</string>
+    <string name="view_pager_3">3</string>
 </resources>
