@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -46,24 +48,11 @@ public class LocalMusicFragment extends Fragment {
         return binding.getRoot();
     }
 
-    /***
-     * We create an alarm track using the localtrack model
-     * @param track
-     */
-    public void selectTrack(LocalTrack track) {
-        AlarmTrack alarmTrack = new AlarmTrack();
-        alarmTrack.setType(AlarmTrack.TYPE.LOCAL);
-        alarmTrack.setRef(track.getData());
-        alarmTrack.setImageUrl(track.getArtPath());
-        alarmTrack.setArtistName(track.getArtist());
-        alarmTrack.setName(track.getTitle());
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA.TRACK, Parcels.wrap(alarmTrack));
-        getActivity().setResult(Activity.RESULT_OK, intent);
-        getActivity().finish();
-    }
+
 
     public void loadMusic() {
         localMusicViewModel.loadLocalMusic();
     }
+
+
 }

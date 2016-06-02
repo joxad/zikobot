@@ -7,10 +7,13 @@ import android.view.View;
 import com.f2prateek.dart.henson.Bundler;
 import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.musicalarm.R;
+import com.startogamu.musicalarm.core.event.SelectItemPlaylistEvent;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.module.spotify_api.object.Item;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
-import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
+import com.startogamu.musicalarm.view.fragment.FragmentSpotifyPlaylistTracks;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 /***
@@ -47,9 +50,7 @@ public class ItemPlaylistViewModel extends BaseObservable implements IVM {
      * @param view
      */
     public void onItemClick(View view) {
-        fragment.replaceFragment(SpotifyPlaylistTracksFragment.newInstance
-                (Bundler.create().put(EXTRA.PLAYLIST_ID, item.getId()).get()), true);
-
+        EventBus.getDefault().post(new SelectItemPlaylistEvent(item));
     }
 
 

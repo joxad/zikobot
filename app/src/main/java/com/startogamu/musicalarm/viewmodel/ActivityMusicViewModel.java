@@ -2,57 +2,85 @@ package com.startogamu.musicalarm.viewmodel;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.databinding.BaseObservable;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
-import com.joxad.easydatabinding.base.IVM;
+import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.InjectExtra;
+import com.f2prateek.dart.henson.Bundler;
+import com.joxad.easydatabinding.activity.ActivityBaseVM;
+import com.joxad.easydatabinding.activity.INewIntent;
+import com.joxad.easydatabinding.activity.IPermission;
+import com.joxad.easydatabinding.activity.IResult;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.musicalarm.R;
+import com.startogamu.musicalarm.core.event.RemoveLocalTrackEvent;
+import com.startogamu.musicalarm.core.event.RemoveTrackEvent;
+import com.startogamu.musicalarm.core.event.SelectItemPlaylistEvent;
+import com.startogamu.musicalarm.core.event.SelectLocalTrackEvent;
+import com.startogamu.musicalarm.core.event.SelectPlaylistEvent;
+import com.startogamu.musicalarm.core.event.SelectTrackEvent;
 import com.startogamu.musicalarm.core.utils.AppPrefs;
+import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.core.utils.REQUEST;
 import com.startogamu.musicalarm.databinding.ActivityMusicBinding;
-import com.startogamu.musicalarm.view.activity.BaseActivity;
+import com.startogamu.musicalarm.module.alarm.manager.AlarmTrackManager;
+import com.startogamu.musicalarm.module.alarm.object.Alarm;
+import com.startogamu.musicalarm.view.activity.ActivityMusic;
 import com.startogamu.musicalarm.view.fragment.DeezerFragment;
+import com.startogamu.musicalarm.view.fragment.FragmentSpotifyPlaylistTracks;
 import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyConnectFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /***
  * {@link ActivityMusicViewModel} handle multiples fragments :
  * <ul>
  * <li>{@link SpotifyMusicFragment } taht show the differents playlist to the user. Can redirect to
- * {@link com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment}</li>
+ * {@link FragmentSpotifyPlaylistTracks}</li>
  * <li>{@link SpotifyConnectFragment} that handle the connection to spotify</li>
  * <li>{@link LocalMusicFragment}</li>
  * </ul>
  */
-public class ActivityMusicViewModel extends BaseObservable implements IVM {
+public class ActivityMusicViewModel extends ActivityBaseVM<ActivityMusic, ActivityMusicBinding> implements IResult, INewIntent, IPermission {
 
-
-    private final ActivityMusicBinding binding;
-    private final BaseActivity context;
 
     private SpotifyMusicFragment spotifyMusicFragment;
     private SpotifyConnectFragment spotifyConnectFragment;
     private LocalMusicFragment localMusicFragment;
 
+    @InjectExtra
+    Alarm alarm;
+
     /***
-     * @param context
+     * @param activity
      * @param binding
      */
-    public ActivityMusicViewModel(BaseActivity context, ActivityMusicBinding binding) {
-        this.context = context;
-        this.binding = binding;
+    public ActivityMusicViewModel(ActivityMusic activity, ActivityMusicBinding binding) {
+        super(activity, binding);
+    }
+
+    @Override
+    public void init() {
+        EventBus.getDefault().register(this);
+        Dart.inject(this, activity);
+
+        AlarmTrackManager.init(alarm);
+        activity.setSupportActionBar(binding.toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        binding.toolbar.setNavigationOnClickListener(listener -> onBackPressed());
         localMusicFragment = LocalMusicFragment.newInstance();
-        context.replaceFragment(localMusicFragment, false);
+        activity.replaceFragment(localMusicFragment, false);
         createBottomNavigation(binding.bottomNavigation);
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_add_all:
-
-                    //TODO
+                    EventBus.getDefault().post(new SelectPlaylistEvent());
                     break;
             }
 
@@ -60,18 +88,17 @@ public class ActivityMusicViewModel extends BaseObservable implements IVM {
         });
     }
 
-
     /***
      * @param bottomNavigationView
      */
     public void createBottomNavigation(BottomNavigationView bottomNavigationView) {
 
         BottomNavigationItem local = new BottomNavigationItem
-                (context.getString(R.string.activity_music_local), ContextCompat.getColor(context, R.color.colorPrimary), R.drawable.ic_folder);
+                (activity.getString(R.string.activity_music_local), ContextCompat.getColor(activity, R.color.colorPrimary), R.drawable.ic_folder);
         BottomNavigationItem spotify = new BottomNavigationItem
-                (context.getString(R.string.activity_music_spotify), ContextCompat.getColor(context, android.R.color.holo_green_dark), R.drawable.logo_spotify);
+                (activity.getString(R.string.activity_music_spotify), ContextCompat.getColor(activity, android.R.color.holo_green_dark), R.drawable.logo_spotify);
         BottomNavigationItem deezer = new BottomNavigationItem
-                (context.getString(R.string.activity_music_deezer), ContextCompat.getColor(context, android.R.color.holo_orange_dark), R.drawable.logo_deezer);
+                (activity.getString(R.string.activity_music_deezer), ContextCompat.getColor(activity, android.R.color.holo_orange_dark), R.drawable.logo_deezer);
 
         bottomNavigationView.addTab(local);
         bottomNavigationView.addTab(spotify);
@@ -79,19 +106,19 @@ public class ActivityMusicViewModel extends BaseObservable implements IVM {
         bottomNavigationView.setOnBottomNavigationItemClickListener(index -> {
             switch (index) {
                 case 0:
-                    context.replaceFragment(localMusicFragment, false);
+                    activity.replaceFragment(localMusicFragment, false);
                     break;
                 case 1:
                     // if (spotifyManager.hasAccessToken()) {
                     if (!Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
                         spotifyConnectFragment = SpotifyConnectFragment.newInstance();
-                        context.replaceFragment(spotifyConnectFragment, false);
+                        activity.replaceFragment(spotifyConnectFragment, false);
                     } else {
                         loadSpotifyMusicFragment();
                     }
                     break;
                 case 2:
-                    context.replaceFragment(DeezerFragment.newInstance(), false);
+                    activity.replaceFragment(DeezerFragment.newInstance(), false);
                     break;
             }
         });
@@ -102,6 +129,7 @@ public class ActivityMusicViewModel extends BaseObservable implements IVM {
      * @param resultCode
      * @param data
      */
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (spotifyConnectFragment != null)
             spotifyConnectFragment.onActivityResult(requestCode, resultCode, data);
@@ -110,6 +138,7 @@ public class ActivityMusicViewModel extends BaseObservable implements IVM {
     /***
      * @param intent
      */
+    @Override
     public void onNewIntent(Intent intent) {
         if (spotifyConnectFragment != null && !spotifyConnectFragment.isDetached())
             spotifyConnectFragment.onNewIntent(intent);
@@ -120,10 +149,11 @@ public class ActivityMusicViewModel extends BaseObservable implements IVM {
      */
     public void loadSpotifyMusicFragment() {
         spotifyMusicFragment = SpotifyMusicFragment.newInstance();
-        context.replaceFragment(spotifyMusicFragment, false);
+        activity.replaceFragment(spotifyMusicFragment, false);
     }
 
-    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (localMusicFragment == null || localMusicFragment.isDetached())
             return;
         switch (requestCode) {
@@ -133,13 +163,39 @@ public class ActivityMusicViewModel extends BaseObservable implements IVM {
         }
     }
 
-    @Override
-    public void init() {
 
+    @Subscribe
+    public void onEvent(SelectItemPlaylistEvent selectItemPlaylistEvent) {
+        activity.replaceFragment(FragmentSpotifyPlaylistTracks.newInstance
+                (Bundler.create().put(EXTRA.PLAYLIST_ID, selectItemPlaylistEvent.getItem().getId()).get()), true);
     }
+
+    @Subscribe
+    public void onEvent(RemoveLocalTrackEvent removeLocalTrackEvent) {
+        AlarmTrackManager.selectTrack(removeLocalTrackEvent.getTrack());
+    }
+
+
+    @Subscribe
+    public void onEvent(RemoveTrackEvent selectTrackEvent) {
+        AlarmTrackManager.removeTrack(selectTrackEvent.getTrack());
+    }
+
+    @Subscribe
+    public void onEvent(SelectLocalTrackEvent selectTrackEvent) {
+        AlarmTrackManager.selectTrack(selectTrackEvent.getTrack());
+    }
+
+
+    @Subscribe
+    public void onEvent(SelectTrackEvent selectTrackEvent) {
+        AlarmTrackManager.selectTrack(selectTrackEvent.getTrack());
+    }
+
+
 
     @Override
     public void destroy() {
-
+        EventBus.getDefault().unregister(this);
     }
 }

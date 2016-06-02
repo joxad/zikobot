@@ -28,6 +28,13 @@
             app:items="@{localMusicViewModel.items}"
             tools:listitem="@layout/item_local_track" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/no_music"
+            android:visibility="@{localMusicViewModel.showNoResult ? v.VISIBLE : v.GONE}" />
+
         <com.github.ybq.android.spinkit.SpinKitView
             style="@style/SpinKitView.ChasingDots"
             android:layout_width="wrap_content"

@@ -80,4 +80,6 @@ public class AlarmManager {
         SQLite.delete(Alarm.class).where(Alarm_Table.id.is(alarm.getId())).query();
     }
 
+
+
 }

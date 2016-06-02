@@ -88,6 +88,7 @@ dependencies {
     compile libs.dialogTimePicker
     compile libs.easyPrefs
     compile libs.easyDataBinding
+    compile libs.eventBus
     compile libs.gson
     compile libs.glide
     compile libs.henson
@@ -109,13 +110,13 @@ dependencies {
     provided libs.hensonProc
     provided libs.lombok
     provided libs.javaxAnnotation
-    compile 'com.github.claucookie.miniequalizer:library:1.0.0'
+
     compile 'com.github.armcha:LuseenBottomNavigation:1.1'
     compile('com.mikepenz:aboutlibraries:5.6.2@aar') {
         transitive = true
     }
 
-    compile 'com.github.ugurtekbas:fadingIndicator:623a5c62ff'
+    compile 'com.github.paolorotolo:appintro:4.0.0'
 
     compile 'com.github.ybq:Android-SpinKit:1.0.2'
     //https://openclassrooms.com/courses/bruits-et-nombres-aleatoires-coherents

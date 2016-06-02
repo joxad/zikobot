@@ -25,4 +25,6 @@ public class SpotifyTrack {
     private String type;
     @SerializedName("duration_ms")
     private long duration;
+
+
 }

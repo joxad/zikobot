@@ -51,5 +51,14 @@
         </RelativeLayout>
 
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_validate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:layout_marginBottom="48dp"
+            android:src="@drawable/ic_done" />
+
     </android.support.design.widget.CoordinatorLayout>
 </layout>

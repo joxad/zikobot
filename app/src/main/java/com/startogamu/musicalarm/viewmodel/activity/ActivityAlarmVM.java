@@ -30,6 +30,7 @@ import com.startogamu.musicalarm.viewmodel.base.AlarmVM;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -233,7 +234,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * @param view
      */
     public void onAddTrackClick(View view) {
-        activity.startActivityForResult(Henson.with(activity).gotoActivityMusic().build(), REQUEST.CODE_TRACK);
+        activity.startActivityForResult(Henson.with(activity).gotoActivityMusic().alarm(alarm).build(), REQUEST.CODE_TRACK);
     }
 
 
@@ -244,12 +245,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //TODO manage the type of data in the intent => list of alarm track/playlist/etc..
-        if (requestCode == REQUEST.CODE_TRACK) {
-            if (resultCode == AppCompatActivity.RESULT_OK) {
-                AlarmTrack alarmTrack = Parcels.unwrap(data.getParcelableExtra(EXTRA.TRACK));
-                alarmVM.addTrack(alarmTrack);
-            }
-        }
+
     }
 
 

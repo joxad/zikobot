@@ -1,13 +1,19 @@
 package com.startogamu.musicalarm.viewmodel.items;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.ObservableBoolean;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.IVM;
-import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBinding;
+import com.startogamu.musicalarm.core.event.RemoveLocalTrackEvent;
+import com.startogamu.musicalarm.core.event.RemoveTrackEvent;
+import com.startogamu.musicalarm.core.event.SelectLocalTrackEvent;
+import com.startogamu.musicalarm.core.event.SelectTrackEvent;
 import com.startogamu.musicalarm.module.spotify_api.object.SpotifyTrack;
-import com.startogamu.musicalarm.view.fragment.SpotifyPlaylistTracksFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,17 +22,18 @@ import java.util.concurrent.TimeUnit;
  */
 public class ItemSpotifyTrackViewModel extends BaseObservable implements IVM {
 
+    private final Context context;
     private SpotifyTrack track;
 
-    private SpotifyPlaylistTracksFragment fragment;
-    private FragmentSpotifyPlaylistTracksBinding binding;
+    @Bindable
+    public boolean isChecked;
 
     /***
-     * @param fragment
+     * @param
      * @param track
      */
-    public ItemSpotifyTrackViewModel(SpotifyPlaylistTracksFragment fragment, SpotifyTrack track) {
-        this.fragment = fragment;
+    public ItemSpotifyTrackViewModel(Context context, SpotifyTrack track) {
+        this.context = context;
         this.track = track;
     }
 
@@ -38,7 +45,15 @@ public class ItemSpotifyTrackViewModel extends BaseObservable implements IVM {
 
 
     public void onTrackClicked(View view) {
-        fragment.selectTrack(track);
+        isChecked = !isChecked;
+        if (isChecked) {
+            EventBus.getDefault().post(new SelectTrackEvent(track));
+        } else {
+            EventBus.getDefault().post(new RemoveTrackEvent(track));
+
+        }
+        notifyChange();
+
     }
 
     @Bindable
@@ -66,6 +81,7 @@ public class ItemSpotifyTrackViewModel extends BaseObservable implements IVM {
         );
     }
 
+
     @Override
     public void init() {
 
@@ -73,6 +89,12 @@ public class ItemSpotifyTrackViewModel extends BaseObservable implements IVM {
 
     @Override
     public void destroy() {
+
+    }
+
+    public void select() {
+        isChecked = !isChecked;
+        notifyChange();
 
     }
 }

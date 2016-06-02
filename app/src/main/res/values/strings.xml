@@ -28,7 +28,9 @@
     <string name="deezer_coming_soon">Coming soon...</string>
     <string name="play">Jouer l\'alarm</string>
     <string name="action_add_all">Tout ajouter</string>
-    <string name="view_pager_1">1</string>
-    <string name="view_pager_2">2</string>
-    <string name="view_pager_3">3</string>
+    <string name="view_pager_1">MusicAlarm vous réveille avec la musique de votre choix</string>
+    <string name="view_pager_2">Connectez vous à votre compte Spotify ou Deezer</string>
+    <string name="view_pager_3">Ajoutez vos musiques et playlists favorites</string>
+    <string name="Pass">Passer</string>
+    <string name="no_music">Désolé je n\'ai trouvé aucune musique sur ton téléphone</string>
 </resources>

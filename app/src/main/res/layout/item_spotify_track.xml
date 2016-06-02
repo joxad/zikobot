@@ -31,33 +31,50 @@
                 app:imageUrl="@{itemSpotifyTrackViewModel.imageUrl}"
                 tools:src="@drawable/ic_picture_loading" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tv_title"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{itemSpotifyTrackViewModel.name}"
-                    android:textSize="20sp"
-                    tools:text="Nom de la musique" />
+                    android:layout_margin="@dimen/margin_medium"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_artist"
-                    android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{itemSpotifyTrackViewModel.name}"
+                        android:textSize="20sp"
+                        tools:text="Nom de la musique" />
+
+                    <TextView
+                        android:id="@+id/tv_artist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_queue_music"
+                        android:drawablePadding="4dp"
+                        android:drawableStart="@drawable/ic_queue_music"
+                        android:gravity="center_vertical"
+                        android:text="@{itemSpotifyTrackViewModel.artistName}"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp"
+                        tools:text="Artiste" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/cb_added"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_queue_music"
-                    android:drawablePadding="4dp"
-                    android:drawableStart="@drawable/ic_queue_music"
-                    android:gravity="center_vertical"
-                    android:text="@{itemSpotifyTrackViewModel.artistName}"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="14sp"
-                    tools:text="Artiste" />
-            </LinearLayout>
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="end|center_vertical"
+                    android:onClick="@{itemSpotifyTrackViewModel.onTrackClicked}"
+                    android:checked="@{itemSpotifyTrackViewModel.isChecked}" />
+            </RelativeLayout>
+
         </LinearLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
 

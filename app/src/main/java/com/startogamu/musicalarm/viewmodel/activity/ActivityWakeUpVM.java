@@ -47,6 +47,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         Injector.INSTANCE.playerComponent().inject(this);
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        binding.toolbar.setNavigationOnClickListener(listener -> onBackPressed());
         activity.setTitle(alarm.getName());
         alarmVM = new AlarmVM(activity, alarm);
         binding.setAlarmVM(alarmVM);

@@ -14,12 +14,17 @@ import android.util.Log;
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.musicalarm.R;
+import com.startogamu.musicalarm.core.event.SelectLocalTrackEvent;
+import com.startogamu.musicalarm.core.event.SelectTrackEvent;
 import com.startogamu.musicalarm.core.utils.REQUEST;
 import com.startogamu.musicalarm.databinding.FragmentLocalMusicBinding;
+import com.startogamu.musicalarm.module.alarm.manager.AlarmTrackManager;
 import com.startogamu.musicalarm.module.alarm.object.LocalTrack;
 import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
 import com.startogamu.musicalarm.viewmodel.items.ItemLocalTrackViewModel;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -74,11 +79,13 @@ public class LocalMusicViewModel extends BaseObservable implements IVM {
                     localTrackViewModels.add(new ItemLocalTrackViewModel(fragment, localTrack));
                 }
                 if (localTrackViewModels.isEmpty()) {
-                    showProgress.set(true);
+                    showProgress.set(false);
+                    showNoResult.set(true);
                 }
             }
         });
     }
+
 
 
     @Override

@@ -1,63 +1,45 @@
 package com.startogamu.musicalarm.view.activity;
 
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.Menu;
 
 import com.f2prateek.dart.HensonNavigable;
+import com.f2prateek.dart.InjectExtra;
+import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityMusicBinding;
+import com.startogamu.musicalarm.BR;
+import com.startogamu.musicalarm.module.alarm.object.Alarm;
 import com.startogamu.musicalarm.viewmodel.ActivityMusicViewModel;
 
 /**
  * Created by josh on 26/03/16.
  */
-@HensonNavigable
-public class ActivityMusic extends BaseActivity {
+public class ActivityMusic extends ActivityBase<ActivityMusicBinding, ActivityMusicViewModel> {
 
-    ActivityMusicBinding binding;
-    ActivityMusicViewModel activityMusicViewModel;
+    @InjectExtra
+    Alarm alarm;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_music);
-        setSupportActionBar(binding.toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        binding.toolbar.setNavigationOnClickListener(listener -> onBackPressed());
-        activityMusicViewModel = new ActivityMusicViewModel(this, binding);
-        binding.setActivityMusicViewModel(activityMusicViewModel);
-
+    public int data() {
+        return BR.activityMusicViewModel;
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        activityMusicViewModel.onActivityResult(requestCode, resultCode, data);
+    public int layoutResources() {
+        return R.layout.activity_music;
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        activityMusicViewModel.onRequestPermissionResult(requestCode,permissions,grantResults);
+    public ActivityMusicViewModel baseActivityVM(ActivityMusicBinding binding, Bundle savedInstanceState) {
+        return new ActivityMusicViewModel(this,binding);
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        activityMusicViewModel.onNewIntent(intent);
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        activityMusicViewModel.destroy();
-    }
 
     public void loadSpotifyMusicFragment() {
-        activityMusicViewModel.loadSpotifyMusicFragment();
+        vm.loadSpotifyMusicFragment();
     }
 
     @Override
@@ -69,9 +51,19 @@ public class ActivityMusic extends BaseActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_music, menu);
-        return true;
+
+    public void addFragment(Fragment fragment, boolean withBackstack) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.add(R.id.container, fragment);
+        if (withBackstack) transaction.addToBackStack(fragment.getClass().getSimpleName());
+        transaction.commit();
     }
+
+    public void replaceFragment(Fragment fragment, boolean withBackstack) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        if (withBackstack) transaction.addToBackStack(fragment.getClass().getSimpleName());
+        transaction.commit();
+    }
+
 }

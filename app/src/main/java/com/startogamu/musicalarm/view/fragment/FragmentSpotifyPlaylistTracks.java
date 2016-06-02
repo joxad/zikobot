@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,15 +18,15 @@ import com.startogamu.musicalarm.viewmodel.fragment.SpotifyPlaylistTracksViewMod
 /**
  * Created by josh on 31/03/16.
  */
-public class SpotifyPlaylistTracksFragment extends BaseFragment {
+public class FragmentSpotifyPlaylistTracks extends BaseFragment {
 
-    public final static String TAG = SpotifyPlaylistTracksFragment.class.getSimpleName();
+    public final static String TAG = FragmentSpotifyPlaylistTracks.class.getSimpleName();
 
     FragmentSpotifyPlaylistTracksBinding binding;
     private SpotifyPlaylistTracksViewModel spotifyPlaylistTracksViewModel;
 
-    public static SpotifyPlaylistTracksFragment newInstance(Bundle bundle) {
-        SpotifyPlaylistTracksFragment fragment = new SpotifyPlaylistTracksFragment();
+    public static FragmentSpotifyPlaylistTracks newInstance(Bundle bundle) {
+        FragmentSpotifyPlaylistTracks fragment = new FragmentSpotifyPlaylistTracks();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -38,15 +40,18 @@ public class SpotifyPlaylistTracksFragment extends BaseFragment {
 
         spotifyPlaylistTracksViewModel = new SpotifyPlaylistTracksViewModel(this, binding);
         binding.setSpotifyPlaylistTracksViewModel(spotifyPlaylistTracksViewModel);
+        setHasOptionsMenu(true);
 
         return binding.getRoot();
     }
 
 
-    public void selectTrack(SpotifyTrack track) {
-        spotifyPlaylistTracksViewModel.selectTrack(track);
-    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_music, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
 
 

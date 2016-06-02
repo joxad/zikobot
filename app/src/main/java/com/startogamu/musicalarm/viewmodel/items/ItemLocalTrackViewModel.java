@@ -5,8 +5,12 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.IVM;
+import com.startogamu.musicalarm.core.event.RemoveLocalTrackEvent;
+import com.startogamu.musicalarm.core.event.SelectLocalTrackEvent;
 import com.startogamu.musicalarm.module.alarm.object.LocalTrack;
 import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +19,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class ItemLocalTrackViewModel extends BaseObservable implements IVM {
 
+    public boolean isChecked = false;
     private LocalTrack track;
 
     private LocalMusicFragment fragment;
@@ -40,7 +45,13 @@ public class ItemLocalTrackViewModel extends BaseObservable implements IVM {
 
 
     public void onTrackClicked(View view) {
-        fragment.selectTrack(track);
+        isChecked = !isChecked;
+        if (isChecked) {
+            EventBus.getDefault().post(new SelectLocalTrackEvent(track));
+        } else {
+            EventBus.getDefault().post(new RemoveLocalTrackEvent(track));
+
+        }
     }
 
     @Bindable
@@ -65,8 +76,8 @@ public class ItemLocalTrackViewModel extends BaseObservable implements IVM {
 
     @Bindable
     public String getImagePath() {
-        if(track.getArtPath() != null) {
-            return  track.getArtPath();
+        if (track.getArtPath() != null) {
+            return track.getArtPath();
         }
         return null;
     }
