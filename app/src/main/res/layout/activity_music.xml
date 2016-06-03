@@ -7,7 +7,7 @@
 
         <variable
             name="activityMusicVM"
-            type="com.startogamu.musicalarm.viewmodel.ActivityMusicVM" />
+            type="com.startogamu.musicalarm.viewmodel.activity.ActivityMusicVM" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout

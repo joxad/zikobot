@@ -1,6 +1,8 @@
 package com.startogamu.musicalarm.viewmodel.base;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.musicalarm.R;
+import com.startogamu.musicalarm.core.receiver.AlarmReceiver;
+import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
 import com.startogamu.musicalarm.module.alarm.model.Alarm;
 import com.startogamu.musicalarm.module.alarm.model.AlarmTrack;
@@ -99,7 +103,13 @@ public class AlarmVM extends BaseVM<Alarm> {
      */
 
     public void delete() {
+        android.app.AlarmManager alarmMgr = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
         AlarmManager.deleteAlarm(model);
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra(EXTRA.ALARM_ID, model.getId());
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        alarmMgr.cancel(alarmIntent);
     }
 
 
@@ -165,5 +175,8 @@ public class AlarmVM extends BaseVM<Alarm> {
         return model.isDayActive(day);
     }
 
+    public boolean hasTracks() {
+        return tracksVms.size()>0;
+    }
 
 }

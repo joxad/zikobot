@@ -33,10 +33,10 @@ public class Mock {
         return items;
     }
 
-    public static Collection<? extends TrackVM> tracks(Context context) {
+    public static Collection<? extends TrackVM> tracks(Context context, int number) {
 
         ArrayList<TrackVM> items = new ArrayList<>();
-        while (items.size() < 10) {
+        while (items.size() < number) {
             items.add(new TrackVM(context, track(context)));
         }
         return items;

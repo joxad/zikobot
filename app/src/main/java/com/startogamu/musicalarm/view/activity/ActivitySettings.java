@@ -1,16 +1,13 @@
 package com.startogamu.musicalarm.view.activity;
 
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.f2prateek.dart.HensonNavigable;
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.musicalarm.BR;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivitySettingsBinding;
-import com.startogamu.musicalarm.viewmodel.ActivitySettingsVM;
+import com.startogamu.musicalarm.viewmodel.activity.ActivitySettingsVM;
 
 /**
  * Created by josh on 25/03/16.

@@ -1,6 +1,7 @@
-package com.startogamu.musicalarm.viewmodel;
+package com.startogamu.musicalarm.viewmodel.activity;
 
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
@@ -21,10 +22,9 @@ import com.startogamu.musicalarm.view.activity.ActivityAlarms;
 import com.startogamu.musicalarm.viewmodel.base.AlarmVM;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
-import rx.Subscriber;
+import rx.functions.Action1;
 
 /**
  * Created by josh on 09/03/16.
@@ -33,6 +33,7 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
 
     private static final String TAG = ActivityAlarmsVM.class.getSimpleName();
 
+    public ObservableBoolean showTuto;
     public ObservableArrayList<AlarmVM> itemsVM;
 
     public ItemView itemView = ItemView.of(BR.itemAlarmVM, R.layout.item_alarm);
@@ -44,6 +45,7 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
      */
     public ActivityAlarmsVM(ActivityAlarms activity, ActivityAlarmsBinding binding) {
         super(activity, binding);
+        Injector.INSTANCE.spotifyAuth().inject(this);
     }
 
     @Override
@@ -51,10 +53,9 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
         if (!AppPrefs.isFirstStart()) {
             activity.startActivity(Henson.with(activity).gotoActivityFirstStart().build());
         }
-        Injector.INSTANCE.spotifyAuth().inject(this);
         initToolbar();
-
         itemsVM = new ObservableArrayList<>();
+        showTuto = new ObservableBoolean(false);
         if (Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
             try {
                 refreshAccessToken();
@@ -109,6 +110,7 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
     @Override
     protected void onResume() {
         super.onResume();
+        showTuto.set(false);
         loadAlarms();
     }
 
@@ -116,25 +118,16 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
      *
      */
     public void loadAlarms() {
-        AlarmManager.loadAlarms().subscribe(new Subscriber<List<Alarm>>() {
-            @Override
-            public void onCompleted() {
-
+        AlarmManager.loadAlarms().subscribe(alarms -> {
+            itemsVM.clear();
+            for (Alarm alarm : alarms) {
+                itemsVM.add(new AlarmVM(activity, alarm));
             }
-
-            @Override
-            public void onError(Throwable e) {
-
+            if (alarms.size()==0) {
+                showTuto.set(true);
             }
-
-            @Override
-            public void onNext(List<Alarm> alarms) {
-                itemsVM.clear();
-                for (Alarm alarm : alarms) {
-                    itemsVM.add(new AlarmVM(activity, alarm));
-                }
-
-            }
+        }, throwable -> {
+            showTuto.set(true);
         });
     }
 

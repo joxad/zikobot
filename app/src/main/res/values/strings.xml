@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MusicAlarm</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Mes Options</string>
     <string name="wake_up">Gestion de mon alarme</string>
     <string name="alarm_hint">Libellé de l\'alarme</string>
     <string name="activity_alarm_new">Nouvelle Alarme</string>
@@ -34,4 +34,7 @@
     <string name="Pass">Passer</string>
     <string name="no_music">Désolé je n\'ai trouvé aucune musique sur ton téléphone</string>
     <string name="loading">Chargement..</string>
+    <string name="tuto">Cliquer pour ajouter des alarmes</string>
+    <string name="Spotify">Spotify</string>
+    <string name="add_tracks">Ajoutez des chansons</string>
 </resources>

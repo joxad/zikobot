@@ -8,7 +8,7 @@ import com.startogamu.musicalarm.BR;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityAlarmsBinding;
 import com.startogamu.musicalarm.view.Henson;
-import com.startogamu.musicalarm.viewmodel.ActivityAlarmsVM;
+import com.startogamu.musicalarm.viewmodel.activity.ActivityAlarmsVM;
 
 /***
  * List the alarms

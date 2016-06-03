@@ -7,6 +7,7 @@ import com.startogamu.musicalarm.module.alarm.model.AlarmTrack;
 import com.startogamu.musicalarm.module.alarm.model.AlarmTrack_Table;
 import com.startogamu.musicalarm.module.alarm.model.Alarm_Table;
 
+import java.util.Calendar;
 import java.util.List;
 
 import rx.Observable;
@@ -30,13 +31,13 @@ public class AlarmManager {
             @Override
             public void call(Subscriber<? super Alarm> subscriber) {
                 Alarm alarm = new Select().from(Alarm.class).where(Alarm_Table.id.eq(id)).querySingle();
+                assert alarm != null;
                 alarm.getTracks();
                 if (subscriber.isUnsubscribed()) return;
                 subscriber.onNext(alarm);
             }
         });
     }
-
 
 
     /**
@@ -81,5 +82,15 @@ public class AlarmManager {
     }
 
 
+    public static boolean canStart(Alarm alarm) {
 
+        boolean alarmOk, hourOk, minuteOk, dayOk = false;
+        Calendar calendar = Calendar.getInstance();
+
+        alarmOk = alarm.getActive() == 1;
+        dayOk = alarm.isDayActive(calendar.get(Calendar.DAY_OF_WEEK));
+        hourOk = alarm.getHour() == calendar.get(Calendar.HOUR);
+        minuteOk = alarm.getHour() == calendar.get(Calendar.MINUTE);
+        return alarmOk && dayOk && hourOk && minuteOk;
+    }
 }

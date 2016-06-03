@@ -2,7 +2,7 @@ package com.startogamu.musicalarm.module.component;
 
 import com.startogamu.musicalarm.module.spotify_api.SpotifyApiBaseComponent;
 import com.startogamu.musicalarm.module.spotify_api.SpotifyApiModule;
-import com.startogamu.musicalarm.viewmodel.ActivitySettingsVM;
+import com.startogamu.musicalarm.viewmodel.activity.ActivitySettingsVM;
 import com.startogamu.musicalarm.viewmodel.fragment.SpotifyConnectViewModel;
 import com.startogamu.musicalarm.viewmodel.fragment.SpotifyPlaylistTracksViewModel;
 

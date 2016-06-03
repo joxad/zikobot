@@ -2,6 +2,7 @@ package com.startogamu.musicalarm.viewmodel.fragment;
 
 import android.databinding.BaseObservable;
 import android.databinding.ObservableArrayList;
+import android.support.design.widget.Snackbar;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.henson.Bundler;
@@ -59,7 +60,7 @@ public class SpotifyPlaylistTracksViewModel extends BaseObservable implements IV
 
     private void loadTracks(String playlistId) {
         items.clear();
-        items.addAll(Mock.tracks(fragment.getContext()));
+        items.addAll(Mock.tracks(fragment.getContext(), 10));
         Injector.INSTANCE.spotifyApi().manager().getPlaylistTracks(playlistId).subscribe(spotifyPlaylistWithTrack -> {
             items.clear();
             spotifyPlaylist = spotifyPlaylistWithTrack;
@@ -67,7 +68,7 @@ public class SpotifyPlaylistTracksViewModel extends BaseObservable implements IV
                 items.add(new TrackVM(fragment.getContext(), AlarmTrack.from(playlistItem.track)));
             }
         }, throwable -> {
-
+            Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
         });
     }
 

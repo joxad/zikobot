@@ -18,7 +18,6 @@ import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.receiver.AlarmReceiver;
 import com.startogamu.musicalarm.core.utils.EXTRA;
-import com.startogamu.musicalarm.core.utils.REQUEST;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
 import com.startogamu.musicalarm.module.alarm.model.Alarm;
 import com.startogamu.musicalarm.view.Henson;
@@ -62,10 +61,18 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
                     delete();
                     break;
                 case R.id.action_save:
-                    save();
+                    save().subscribe(alarm1 -> {
+                        prepareAlarm(alarm1);
+                    }, throwable -> {
+                        Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
+                    });
                     break;
                 case R.id.action_play:
-                    activity.startActivity(Henson.with(activity).gotoActivityWakeUp().alarm(alarm).build());
+                    if (alarmVM.hasTracks()) {
+                        activity.startActivity(Henson.with(activity).gotoActivityWakeUp().alarm(alarm).build());
+                    } else {
+                        Snackbar.make(binding.getRoot(), R.string.add_tracks, Snackbar.LENGTH_SHORT).show();
+                    }
                     break;
             }
             return false;
@@ -170,7 +177,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     /***
      * Use this method to save the data
      */
-    public void save() {
+    public rx.Observable<Alarm> save() {
         int min = 0;
         int hour = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -185,11 +192,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         Log.d(AlarmVM.class.getSimpleName(), "hours " + hour + "minu" + min);
         alarmVM.updateTimeSelected(hour, min);
 
-        alarmVM.save().subscribe(alarm1 -> {
-            prepareAlarm(alarm1);
-        }, throwable -> {
-            Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
-        });
+        return alarmVM.save();
     }
 
     /***
@@ -226,7 +229,10 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * @param view
      */
     public void onAddTrackClick(View view) {
-        activity.startActivityForResult(Henson.with(activity).gotoActivityMusic().alarm(alarm).build(), REQUEST.CODE_TRACK);
+        save().subscribe(alarm1 -> {
+            activity.startActivity(Henson.with(activity).gotoActivityMusic().alarm(alarm1).build());
+
+        });
     }
 
 

@@ -1,10 +1,11 @@
-package com.startogamu.musicalarm.viewmodel;
+package com.startogamu.musicalarm.viewmodel.activity;
 
 /**
  * Created by josh on 25/03/16.
  */
 
 import android.content.Intent;
+import android.databinding.ObservableBoolean;
 import android.util.Log;
 import android.view.View;
 
@@ -38,12 +39,27 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
     String accessCode;
     String accessToken;
 
+    public ObservableBoolean showSpotifyConnect;
 
     public ActivitySettingsVM(ActivitySettings activity, ActivitySettingsBinding binding) {
         super(activity, binding);
         Injector.INSTANCE.spotifyApi().inject(this);
         Injector.INSTANCE.spotifyAuth().inject(this);
     }
+
+
+    @Override
+    public void init() {
+        showSpotifyConnect = new ObservableBoolean(false);
+        activity.setSupportActionBar(binding.toolbar);
+        activity.getSupportActionBar().setTitle(R.string.action_settings);
+        if (AppPrefs.getSpotifyAccessCode().equals("")) {
+            showSpotifyConnect.set(true);
+        } else {
+            getMe();
+        }
+    }
+
 
     /***
      * Manage the result code of Spotify
@@ -74,6 +90,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
             @Override
             public void onReceived(String code) {
                 accessCode = code;
+                AppPrefs.saveAccessCode(accessCode);
                 getTokenFromCode();
             }
 
@@ -133,13 +150,11 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
             public void onNext(SpotifyUser spotifyUser) {
                 binding.tvUser.setText(spotifyUser.getDisplayName());
                 Glide.with(activity).load(spotifyUser.getImages().get(0).getUrl()).into(binding.ivUser);
+                AppPrefs.userId(spotifyUser.getId());
+                showSpotifyConnect.set(false);
+
             }
         });
-    }
-
-    @Override
-    public void init() {
-
     }
 
     @Override

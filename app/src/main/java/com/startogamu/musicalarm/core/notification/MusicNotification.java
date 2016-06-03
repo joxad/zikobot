@@ -40,7 +40,7 @@ public class MusicNotification {
                 .setContentTitle(title)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .addAction(R.drawable.ic_clear, context.getString(R.string.stop), intentClear)
-                .setOngoing(true).build();
+                .build();
 
         notificationManager.notify(0, notification);
     }

@@ -35,15 +35,16 @@ public class AlarmService extends Service {
 
         long alarmId = intent.getLongExtra(EXTRA.ALARM_ID, -1);
         AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
-            AlarmService.this.alarm = alarm;
-            MusicNotification.show(alarm.getName());
-            startActivity(Henson.with(getBaseContext()).gotoActivityWakeUp().alarm(alarm).build().addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-
+            if (AlarmManager.canStart(alarm)) {
+                AlarmService.this.alarm = alarm;
+                MusicNotification.show(alarm.getName());
+                startActivity(Henson.with(getBaseContext()).gotoActivityWakeUp().alarm(alarm).build().addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
         });
 
         stopReceiver = new StopReceiver(this::stop);
         registerReceiver(stopReceiver, new IntentFilter(StopReceiver.TAG));
-        return Service.START_STICKY;
+        return Service.START_NOT_STICKY;
     }
 
     @Override

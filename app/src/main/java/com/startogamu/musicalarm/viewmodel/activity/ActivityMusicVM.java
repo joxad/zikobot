@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.viewmodel;
+package com.startogamu.musicalarm.viewmodel.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,8 +35,6 @@ import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import rx.functions.Action1;
 
 /***
  * {@link ActivityMusicVM} handle multiples fragments :

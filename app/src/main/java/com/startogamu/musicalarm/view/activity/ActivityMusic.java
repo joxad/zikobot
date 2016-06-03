@@ -10,7 +10,7 @@ import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityMusicBinding;
 import com.startogamu.musicalarm.BR;
 import com.startogamu.musicalarm.module.alarm.model.Alarm;
-import com.startogamu.musicalarm.viewmodel.ActivityMusicVM;
+import com.startogamu.musicalarm.viewmodel.activity.ActivityMusicVM;
 
 /**
  * Created by josh on 26/03/16.
