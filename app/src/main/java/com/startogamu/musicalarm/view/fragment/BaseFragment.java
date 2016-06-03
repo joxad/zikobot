@@ -1,6 +1,6 @@
 package com.startogamu.musicalarm.view.fragment;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 
 import com.startogamu.musicalarm.view.activity.BaseActivity;
 

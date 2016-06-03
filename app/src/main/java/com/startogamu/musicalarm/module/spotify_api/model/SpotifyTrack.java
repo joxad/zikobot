@@ -1,8 +1,6 @@
-package com.startogamu.musicalarm.module.spotify_api.object;
+package com.startogamu.musicalarm.module.spotify_api.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.startogamu.musicalarm.module.spotify_api.object.SpotifyAlbum;
-import com.startogamu.musicalarm.module.spotify_api.object.SpotifyArtist;
 
 import java.util.ArrayList;
 

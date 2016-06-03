@@ -18,9 +18,9 @@ import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.databinding.FragmentConnectSpotifyBinding;
 import com.startogamu.musicalarm.module.component.Injector;
-import com.startogamu.musicalarm.module.spotify_api.object.SpotifyUser;
-import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyRequestToken;
-import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyToken;
+import com.startogamu.musicalarm.module.spotify_api.model.SpotifyUser;
+import com.startogamu.musicalarm.module.spotify_auth.model.SpotifyRequestToken;
+import com.startogamu.musicalarm.module.spotify_auth.model.SpotifyToken;
 import com.startogamu.musicalarm.view.activity.ActivityMusic;
 import com.startogamu.musicalarm.view.fragment.SpotifyConnectFragment;
 

@@ -8,7 +8,7 @@ import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.musicalarm.BR;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
-import com.startogamu.musicalarm.module.alarm.object.Alarm;
+import com.startogamu.musicalarm.module.alarm.model.Alarm;
 import com.startogamu.musicalarm.viewmodel.activity.ActivityAlarmVM;
 
 /**

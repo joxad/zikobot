@@ -10,7 +10,7 @@ import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyMusicBinding;
 import com.startogamu.musicalarm.module.component.Injector;
-import com.startogamu.musicalarm.module.spotify_api.object.Item;
+import com.startogamu.musicalarm.module.spotify_api.model.Item;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 import com.startogamu.musicalarm.viewmodel.items.ItemPlaylistViewModel;
 

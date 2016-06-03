@@ -1,10 +1,10 @@
 package com.startogamu.musicalarm.network.spotify_api;
 
 
-import com.startogamu.musicalarm.module.spotify_api.object.SpotifyFeaturedPlaylist;
-import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylist;
-import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylistWithTrack;
-import com.startogamu.musicalarm.module.spotify_api.object.SpotifyUser;
+import com.startogamu.musicalarm.module.spotify_api.model.SpotifyFeaturedPlaylist;
+import com.startogamu.musicalarm.module.spotify_api.model.SpotifyPlaylist;
+import com.startogamu.musicalarm.module.spotify_api.model.SpotifyPlaylistWithTrack;
+import com.startogamu.musicalarm.module.spotify_api.model.SpotifyUser;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;

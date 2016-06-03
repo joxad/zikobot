@@ -10,11 +10,9 @@ import com.startogamu.musicalarm.core.notification.MusicNotification;
 import com.startogamu.musicalarm.core.receiver.StopReceiver;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
-import com.startogamu.musicalarm.module.alarm.object.Alarm;
+import com.startogamu.musicalarm.module.alarm.model.Alarm;
 import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.view.Henson;
-
-import java.io.UnsupportedEncodingException;
 
 /**
  * Created by josh on 28/03/16.

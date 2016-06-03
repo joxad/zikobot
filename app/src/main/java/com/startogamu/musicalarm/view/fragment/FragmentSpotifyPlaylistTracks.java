@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBinding;
-import com.startogamu.musicalarm.module.spotify_api.object.SpotifyTrack;
 import com.startogamu.musicalarm.viewmodel.fragment.SpotifyPlaylistTracksViewModel;
 
 /**

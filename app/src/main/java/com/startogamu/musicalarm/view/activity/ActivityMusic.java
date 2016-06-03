@@ -1,29 +1,28 @@
 package com.startogamu.musicalarm.view.activity;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 
-import com.f2prateek.dart.HensonNavigable;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.databinding.ActivityMusicBinding;
 import com.startogamu.musicalarm.BR;
-import com.startogamu.musicalarm.module.alarm.object.Alarm;
-import com.startogamu.musicalarm.viewmodel.ActivityMusicViewModel;
+import com.startogamu.musicalarm.module.alarm.model.Alarm;
+import com.startogamu.musicalarm.viewmodel.ActivityMusicVM;
 
 /**
  * Created by josh on 26/03/16.
  */
-public class ActivityMusic extends ActivityBase<ActivityMusicBinding, ActivityMusicViewModel> {
+public class ActivityMusic extends ActivityBase<ActivityMusicBinding, ActivityMusicVM> {
 
     @InjectExtra
     Alarm alarm;
 
     @Override
     public int data() {
-        return BR.activityMusicViewModel;
+        return BR.activityMusicVM;
     }
 
     @Override
@@ -32,8 +31,8 @@ public class ActivityMusic extends ActivityBase<ActivityMusicBinding, ActivityMu
     }
 
     @Override
-    public ActivityMusicViewModel baseActivityVM(ActivityMusicBinding binding, Bundle savedInstanceState) {
-        return new ActivityMusicViewModel(this,binding);
+    public ActivityMusicVM baseActivityVM(ActivityMusicBinding binding, Bundle savedInstanceState) {
+        return new ActivityMusicVM(this,binding);
     }
 
 
@@ -44,7 +43,7 @@ public class ActivityMusic extends ActivityBase<ActivityMusicBinding, ActivityMu
 
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() == 0) {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             this.finish();
         } else {
             getFragmentManager().popBackStack();
@@ -53,14 +52,14 @@ public class ActivityMusic extends ActivityBase<ActivityMusicBinding, ActivityMu
 
 
     public void addFragment(Fragment fragment, boolean withBackstack) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.container, fragment);
         if (withBackstack) transaction.addToBackStack(fragment.getClass().getSimpleName());
         transaction.commit();
     }
 
     public void replaceFragment(Fragment fragment, boolean withBackstack) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         if (withBackstack) transaction.addToBackStack(fragment.getClass().getSimpleName());
         transaction.commit();

@@ -14,7 +14,7 @@ import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.databinding.ActivityAlarmsBinding;
 import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
-import com.startogamu.musicalarm.module.alarm.object.Alarm;
+import com.startogamu.musicalarm.module.alarm.model.Alarm;
 import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.view.Henson;
 import com.startogamu.musicalarm.view.activity.ActivityAlarms;
@@ -36,6 +36,7 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
     public ObservableArrayList<AlarmVM> itemsVM;
 
     public ItemView itemView = ItemView.of(BR.itemAlarmVM, R.layout.item_alarm);
+    ItemTouchHelper swipeToDismissTouchHelper;
 
     /***
      * @param activity
@@ -47,10 +48,46 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
 
     @Override
     public void init() {
-        if (!AppPrefs.isFirstStart()){
+        if (!AppPrefs.isFirstStart()) {
             activity.startActivity(Henson.with(activity).gotoActivityFirstStart().build());
         }
         Injector.INSTANCE.spotifyAuth().inject(this);
+        initToolbar();
+
+        itemsVM = new ObservableArrayList<>();
+        if (Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
+            try {
+                refreshAccessToken();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+        createSwipeToDismiss();
+        swipeToDismissTouchHelper.attachToRecyclerView(binding.alarmRecyclerView);
+    }
+
+    private void createSwipeToDismiss() {
+        swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                // callback for drag-n-drop, false to skip this feature
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                itemsVM.get(viewHolder.getAdapterPosition()).delete();
+                itemsVM.remove(viewHolder.getAdapterPosition());
+
+            }
+        });
+    }
+
+    /***
+     *
+     */
+    private void initToolbar() {
         activity.setSupportActionBar(binding.toolbar);
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -67,32 +104,6 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
                     return true;
             }
         });
-        itemsVM = new ObservableArrayList<>();
-        if (Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
-            try {
-                refreshAccessToken();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
-
-        ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                // callback for drag-n-drop, false to skip this feature
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                itemsVM.get(viewHolder.getAdapterPosition()).delete();
-                itemsVM.remove(viewHolder.getAdapterPosition());
-
-            }
-        });
-        swipeToDismissTouchHelper.attachToRecyclerView(binding.alarmRecyclerView);
-
     }
 
     @Override
@@ -138,7 +149,6 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
         activity.startActivity(Henson.with(activity)
                 .gotoActivityAlarm().alarm(new Alarm()).build());
     }
-
 
 
     @Override

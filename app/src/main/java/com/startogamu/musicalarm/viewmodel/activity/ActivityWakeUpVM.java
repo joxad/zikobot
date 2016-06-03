@@ -8,7 +8,7 @@ import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.musicalarm.core.utils.AnimationEndListener;
 import com.startogamu.musicalarm.databinding.ActivityWakeUpBinding;
-import com.startogamu.musicalarm.module.alarm.object.Alarm;
+import com.startogamu.musicalarm.module.alarm.model.Alarm;
 import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.view.activity.ActivityWakeUp;
 import com.startogamu.musicalarm.viewmodel.base.AlarmVM;

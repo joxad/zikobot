@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.startogamu.musicalarm.module.alarm.object.LocalTrack;
+import com.startogamu.musicalarm.module.alarm.model.LocalTrack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,6 @@ public class LocalMusicManager {
     }
 
     /***
-     *
      * @return
      */
     public Observable<List<LocalTrack>> getLocalTracks() {
@@ -45,9 +44,12 @@ public class LocalMusicManager {
                         MediaStore.Audio.Media.IS_MUSIC + " = 1", null, null);
                 if (cur == null) {
                     Log.e(TAG, "Failed to retrieve music: cursor is null :-(");
+                    subscriber.onError(new Throwable("Failed to retrieve music: cursor is null :-("));
                     return;
                 }
                 if (!cur.moveToFirst()) {
+                    subscriber.onError(new Throwable("No results. :( Add some tracks!"));
+
                     Log.e(TAG, "Failed to move cursor to first row (no query results).");
                     return;
                 }
@@ -83,7 +85,6 @@ public class LocalMusicManager {
     }
 
     /***
-     *
      * @param localTrack
      * @return
      */

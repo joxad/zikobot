@@ -7,8 +7,8 @@
 
 
         <variable
-            name="itemSpotifyTrackViewModel"
-            type="com.startogamu.musicalarm.viewmodel.items.ItemSpotifyTrackViewModel" />
+            name="trackVM"
+            type="com.startogamu.musicalarm.viewmodel.base.TrackVM" />
     </data>
 
     <com.balysv.materialripple.MaterialRippleLayout
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:onClick="@{itemSpotifyTrackViewModel.onTrackClicked}">
+        android:onClick="@{trackVM.onTrackClicked}">
 
         <LinearLayout
             android:id="@+id/layout_content"
@@ -28,7 +28,7 @@
             <ImageView
                 android:layout_width="@dimen/item_icon_size"
                 android:layout_height="@dimen/item_icon_size"
-                app:imageUrl="@{itemSpotifyTrackViewModel.imageUrl}"
+                app:imageUrl="@{trackVM.imageUrl}"
                 tools:src="@drawable/ic_picture_loading" />
 
             <RelativeLayout
@@ -45,7 +45,7 @@
                         android:id="@+id/tv_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{itemSpotifyTrackViewModel.name}"
+                        android:text="@{trackVM.name}"
                         android:textSize="20sp"
                         tools:text="Nom de la musique" />
 
@@ -57,7 +57,7 @@
                         android:drawablePadding="4dp"
                         android:drawableStart="@drawable/ic_queue_music"
                         android:gravity="center_vertical"
-                        android:text="@{itemSpotifyTrackViewModel.artistName}"
+                        android:text="@{trackVM.artistName}"
                         android:textColor="@color/colorPrimary"
                         android:textSize="14sp"
                         tools:text="Artiste" />
@@ -71,8 +71,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="end|center_vertical"
-                    android:onClick="@{itemSpotifyTrackViewModel.onTrackClicked}"
-                    android:checked="@{itemSpotifyTrackViewModel.isChecked}" />
+                    android:onClick="@{trackVM.onTrackClicked}"
+                    android:checked="@{trackVM.isChecked}" />
             </RelativeLayout>
 
         </LinearLayout>

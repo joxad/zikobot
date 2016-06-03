@@ -1,7 +1,7 @@
 package com.startogamu.musicalarm.view.activity;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.startogamu.musicalarm.R;
@@ -12,14 +12,14 @@ import com.startogamu.musicalarm.R;
 public class BaseActivity extends AppCompatActivity {
 
     public void addFragment(Fragment fragment, boolean withBackstack) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.container, fragment);
         if (withBackstack) transaction.addToBackStack(fragment.getClass().getSimpleName());
         transaction.commit();
     }
 
     public void replaceFragment(Fragment fragment, boolean withBackstack) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         if (withBackstack) transaction.addToBackStack(fragment.getClass().getSimpleName());
         transaction.commit();

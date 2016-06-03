@@ -5,13 +5,15 @@
 
     <data>
 
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+
         <import
             alias="v"
             type="android.view.View" />
 
         <variable
-            name="localMusicViewModel"
-            type="com.startogamu.musicalarm.viewmodel.fragment.LocalMusicViewModel" />
+            name="fragmentLocalVM"
+            type="com.startogamu.musicalarm.viewmodel.fragment.FragmentLocalVM" />
     </data>
 
     <RelativeLayout
@@ -24,24 +26,18 @@
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:itemView="@{localMusicViewModel.itemView}"
-            app:items="@{localMusicViewModel.items}"
-            tools:listitem="@layout/item_local_track" />
+            app:itemView="@{fragmentLocalVM.itemView}"
+            app:items="@{fragmentLocalVM.items}"
+            app:layoutManager="@{LayoutManagers.linear()}"
+            tools:listitem="@layout/item_alarm_track" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/no_music"
-            android:visibility="@{localMusicViewModel.showNoResult ? v.VISIBLE : v.GONE}" />
+            android:visibility="@{fragmentLocalVM.showNoResult ? v.VISIBLE : v.GONE}" />
 
-        <com.github.ybq.android.spinkit.SpinKitView
-            style="@style/SpinKitView.ChasingDots"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:visibility="@{localMusicViewModel.showProgress ? v.VISIBLE : v.GONE}"
-            app:SpinKit_Color="@color/colorAccent" />
+
     </RelativeLayout>
 </layout>

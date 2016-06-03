@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
@@ -16,27 +15,22 @@ import com.f2prateek.dart.InjectExtra;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.easydatabinding.activity.IResult;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.receiver.AlarmReceiver;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.core.utils.REQUEST;
 import com.startogamu.musicalarm.databinding.ActivityAlarmBinding;
-import com.startogamu.musicalarm.module.alarm.object.Alarm;
-import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.model.Alarm;
 import com.startogamu.musicalarm.view.Henson;
 import com.startogamu.musicalarm.view.activity.ActivityAlarm;
 import com.startogamu.musicalarm.viewmodel.base.AlarmVM;
 
-import org.parceler.Parcels;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
  * Created by josh on 29/05/16.
  */
-public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarmBinding> implements IResult {
+public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarmBinding> {
     private static String TAG = ActivityAlarmVM.class.getSimpleName();
 
     private android.app.AlarmManager alarmMgr;
@@ -61,7 +55,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         activity.setSupportActionBar(binding.toolbar);
         activity.setTitle(alarm.getName());
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        binding.toolbar.setNavigationOnClickListener(listener -> activity.finish());
+        binding.toolbar.setNavigationOnClickListener(listener -> activity.onBackPressed());
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_delete:
@@ -177,9 +171,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * Use this method to save the data
      */
     public void save() {
-
         int min = 0;
-
         int hour = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             hour = binding.viewAlarm.timePicker.getHour();
@@ -235,17 +227,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      */
     public void onAddTrackClick(View view) {
         activity.startActivityForResult(Henson.with(activity).gotoActivityMusic().alarm(alarm).build(), REQUEST.CODE_TRACK);
-    }
-
-
-    /***
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //TODO manage the type of data in the intent => list of alarm track/playlist/etc..
-
     }
 
 

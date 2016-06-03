@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.module.alarm.object;
+package com.startogamu.musicalarm.module.alarm.model;
 
 
 import com.raizlabs.android.dbflow.annotation.Column;
@@ -71,12 +71,11 @@ public class Alarm extends BaseModel {
      */
     @OneToMany(methods = {OneToMany.Method.SAVE, OneToMany.Method.DELETE}, variableName = "tracks")
     public List<AlarmTrack> getTracks() {
-        if (tracks == null || tracks.isEmpty()) {
-            tracks = SQLite.select()
-                    .from(AlarmTrack.class)
-                    .where(AlarmTrack_Table.alarmForeignKeyContainer_id.eq(id))
-                    .queryList();
-        }
+        tracks = SQLite.select()
+                .from(AlarmTrack.class)
+                .where(AlarmTrack_Table.alarmForeignKeyContainer_id.eq(id))
+                .queryList();
+
         return tracks;
     }
 

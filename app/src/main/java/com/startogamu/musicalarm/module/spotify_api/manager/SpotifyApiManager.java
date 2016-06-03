@@ -3,10 +3,10 @@ package com.startogamu.musicalarm.module.spotify_api.manager;
 import android.content.Context;
 
 import com.startogamu.musicalarm.core.utils.AppPrefs;
-import com.startogamu.musicalarm.module.spotify_api.object.SpotifyFeaturedPlaylist;
-import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylist;
-import com.startogamu.musicalarm.module.spotify_api.object.SpotifyPlaylistWithTrack;
-import com.startogamu.musicalarm.module.spotify_api.object.SpotifyUser;
+import com.startogamu.musicalarm.module.spotify_api.model.SpotifyFeaturedPlaylist;
+import com.startogamu.musicalarm.module.spotify_api.model.SpotifyPlaylist;
+import com.startogamu.musicalarm.module.spotify_api.model.SpotifyPlaylistWithTrack;
+import com.startogamu.musicalarm.module.spotify_api.model.SpotifyUser;
 import com.startogamu.musicalarm.module.spotify_api.resource.SpotifyAPIService;
 
 import javax.inject.Singleton;

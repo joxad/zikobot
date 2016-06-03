@@ -14,8 +14,8 @@ import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import com.startogamu.musicalarm.core.service.MediaPlayerService;
 import com.startogamu.musicalarm.core.utils.AppPrefs;
-import com.startogamu.musicalarm.module.alarm.object.Alarm;
-import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.model.Alarm;
+import com.startogamu.musicalarm.module.alarm.model.AlarmTrack;
 
 import javax.inject.Singleton;
 

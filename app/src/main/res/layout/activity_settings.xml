@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="activitySettingsViewModel"
-            type="com.startogamu.musicalarm.viewmodel.ActivitySettingsViewModel" />
+            name="activitySettingsVM"
+            type="com.startogamu.musicalarm.viewmodel.ActivitySettingsVM" />
     </data>
 
 
@@ -46,7 +46,7 @@
             <com.startogamu.musicalarm.view.custom.MaterialButtonView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="@{activitySettingsViewModel.onButtonConnectClick}"
+                android:onClick="@{activitySettingsVM.onButtonConnectClick}"
                 app:mbv_text="@string/connect_with_spotify"
                 app:mbv_text_color="@android:color/white"
                 app:mrl_rippleBackground="@android:color/holo_green_dark" />

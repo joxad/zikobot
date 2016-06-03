@@ -4,9 +4,7 @@ package com.startogamu.musicalarm.viewmodel;
  * Created by josh on 25/03/16.
  */
 
-import android.app.Activity;
 import android.content.Intent;
-import android.databinding.BaseObservable;
 import android.util.Log;
 import android.view.View;
 
@@ -14,14 +12,16 @@ import com.bumptech.glide.Glide;
 import com.joxad.android_easy_spotify.Scope;
 import com.joxad.android_easy_spotify.SpotifyManager;
 import com.joxad.android_easy_spotify.Type;
-import com.joxad.easydatabinding.base.IVM;
+import com.joxad.easydatabinding.activity.ActivityBaseVM;
+import com.joxad.easydatabinding.activity.INewIntent;
+import com.joxad.easydatabinding.activity.IResult;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.databinding.ActivitySettingsBinding;
 import com.startogamu.musicalarm.module.component.Injector;
-import com.startogamu.musicalarm.module.spotify_api.object.SpotifyUser;
-import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyRequestToken;
-import com.startogamu.musicalarm.module.spotify_auth.object.SpotifyToken;
+import com.startogamu.musicalarm.module.spotify_api.model.SpotifyUser;
+import com.startogamu.musicalarm.module.spotify_auth.model.SpotifyRequestToken;
+import com.startogamu.musicalarm.module.spotify_auth.model.SpotifyToken;
 import com.startogamu.musicalarm.view.activity.ActivitySettings;
 
 import java.io.UnsupportedEncodingException;
@@ -29,21 +29,18 @@ import java.io.UnsupportedEncodingException;
 import rx.Subscriber;
 
 /***
- * {@link ActivitySettingsViewModel}  make the link between {@link ActivitySettings} and {@link com.startogamu.musicalarm.module.spotify_api.manager.SpotifyApiManager}
+ * {@link ActivitySettingsVM}  make the link between {@link ActivitySettings} and {@link com.startogamu.musicalarm.module.spotify_api.manager.SpotifyApiManager}
  */
-public class ActivitySettingsViewModel extends BaseObservable implements IVM {
+public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, ActivitySettingsBinding> implements IResult, INewIntent {
 
-    private final ActivitySettingsBinding binding;
-    public String TAG = ActivitySettingsViewModel.class.getSimpleName();
-    Activity context;
+    public String TAG = ActivitySettingsVM.class.getSimpleName();
 
     String accessCode;
     String accessToken;
 
 
-    public ActivitySettingsViewModel(Activity context, ActivitySettingsBinding binding) {
-        this.context = context;
-        this.binding = binding;
+    public ActivitySettingsVM(ActivitySettings activity, ActivitySettingsBinding binding) {
+        super(activity, binding);
         Injector.INSTANCE.spotifyApi().inject(this);
         Injector.INSTANCE.spotifyAuth().inject(this);
     }
@@ -55,6 +52,7 @@ public class ActivitySettingsViewModel extends BaseObservable implements IVM {
      * @param resultCode
      * @param data
      */
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         SpotifyManager.onActivityResult(requestCode, resultCode, data);
     }
@@ -62,6 +60,7 @@ public class ActivitySettingsViewModel extends BaseObservable implements IVM {
     /***
      * @param intent
      */
+    @Override
     public void onNewIntent(Intent intent) {
         SpotifyManager.onNewIntent(intent);
     }
@@ -71,7 +70,7 @@ public class ActivitySettingsViewModel extends BaseObservable implements IVM {
      */
     public void onButtonConnectClick(View view) {
 
-        SpotifyManager.loginWithBrowser(context, Type.CODE, R.string.api_spotify_callback_settings, new String[]{Scope.USER_READ_PRIVATE, Scope.STREAMING}, new SpotifyManager.OAuthListener() {
+        SpotifyManager.loginWithBrowser(activity, Type.CODE, R.string.api_spotify_callback_settings, new String[]{Scope.USER_READ_PRIVATE, Scope.STREAMING}, new SpotifyManager.OAuthListener() {
             @Override
             public void onReceived(String code) {
                 accessCode = code;
@@ -89,9 +88,9 @@ public class ActivitySettingsViewModel extends BaseObservable implements IVM {
         try {
             Injector.INSTANCE.spotifyAuth().manager().requestToken(
                     new SpotifyRequestToken("authorization_code", accessCode,
-                            context.getString(R.string.api_spotify_callback_settings),
-                            context.getString(R.string.api_spotify_id),
-                            context.getString(R.string.api_spotify_secret))).subscribe(
+                            activity.getString(R.string.api_spotify_callback_settings),
+                            activity.getString(R.string.api_spotify_id),
+                            activity.getString(R.string.api_spotify_secret))).subscribe(
                     new Subscriber<SpotifyToken>() {
                         @Override
                         public void onCompleted() {
@@ -133,7 +132,7 @@ public class ActivitySettingsViewModel extends BaseObservable implements IVM {
             @Override
             public void onNext(SpotifyUser spotifyUser) {
                 binding.tvUser.setText(spotifyUser.getDisplayName());
-                Glide.with(context).load(spotifyUser.getImages().get(0).getUrl()).into(binding.ivUser);
+                Glide.with(activity).load(spotifyUser.getImages().get(0).getUrl()).into(binding.ivUser);
             }
         });
     }

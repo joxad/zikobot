@@ -2,14 +2,19 @@ package com.startogamu.musicalarm.viewmodel.base;
 
 import android.content.Context;
 import android.databinding.Bindable;
+import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
-import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.manager.AlarmTrackManager;
+import com.startogamu.musicalarm.module.alarm.model.AlarmTrack;
 
 /**
  * Created by josh on 30/05/16.
  */
 public class TrackVM extends BaseVM<AlarmTrack> {
+
+    public boolean isChecked = false;
+
     /***
      * @param context
      * @param model
@@ -20,7 +25,6 @@ public class TrackVM extends BaseVM<AlarmTrack> {
 
     @Override
     public void init() {
-
     }
 
     @Override
@@ -36,5 +40,29 @@ public class TrackVM extends BaseVM<AlarmTrack> {
     @Bindable
     public String getName() {
         return model.getName();
+    }
+
+    @Bindable
+    public String getArtistName() {
+        return model.getArtistName();
+    }
+
+
+    public void onTrackClicked(View view) {
+        isChecked = !isChecked;
+        if (isChecked) {
+            AlarmTrackManager.selectTrack(model);
+        } else {
+            AlarmTrackManager.removeTrack(model);
+
+        }
+        notifyChange();
+    }
+
+    public void select() {
+        isChecked = !isChecked;
+        AlarmTrackManager.selectTrack(model);
+        notifyChange();
+
     }
 }

@@ -4,14 +4,11 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
-import com.f2prateek.dart.henson.Bundler;
 import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.event.SelectItemPlaylistEvent;
-import com.startogamu.musicalarm.core.utils.EXTRA;
-import com.startogamu.musicalarm.module.spotify_api.object.Item;
+import com.startogamu.musicalarm.module.spotify_api.model.Item;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
-import com.startogamu.musicalarm.view.fragment.FragmentSpotifyPlaylistTracks;
 
 import org.greenrobot.eventbus.EventBus;
 

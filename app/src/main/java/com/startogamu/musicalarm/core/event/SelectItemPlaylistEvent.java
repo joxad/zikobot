@@ -1,6 +1,6 @@
 package com.startogamu.musicalarm.core.event;
 
-import com.startogamu.musicalarm.module.spotify_api.object.Item;
+import com.startogamu.musicalarm.module.spotify_api.model.Item;
 
 import lombok.Data;
 

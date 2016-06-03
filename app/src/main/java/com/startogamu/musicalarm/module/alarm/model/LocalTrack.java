@@ -1,4 +1,4 @@
-package com.startogamu.musicalarm.module.alarm.object;
+package com.startogamu.musicalarm.module.alarm.model;
 
 import android.content.ContentUris;
 import android.net.Uri;

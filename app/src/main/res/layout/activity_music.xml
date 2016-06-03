@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="activityMusicViewModel"
-            type="com.startogamu.musicalarm.viewmodel.ActivityMusicViewModel" />
+            name="activityMusicVM"
+            type="com.startogamu.musicalarm.viewmodel.ActivityMusicVM" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -39,7 +39,7 @@
             <com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView
                 android:id="@+id/bottomNavigation"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="?actionBarSize"
                 android:layout_alignParentBottom="true" />
 
             <FrameLayout
@@ -56,8 +56,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:layout_marginBottom="48dp"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:onClick="@{activityMusicVM.onFabAddClicked}"
+            android:layout_marginBottom="72dp"
             android:src="@drawable/ic_done" />
 
     </android.support.design.widget.CoordinatorLayout>

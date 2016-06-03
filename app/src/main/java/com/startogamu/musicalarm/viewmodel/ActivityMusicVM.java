@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
@@ -16,43 +17,42 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.musicalarm.R;
-import com.startogamu.musicalarm.core.event.RemoveLocalTrackEvent;
-import com.startogamu.musicalarm.core.event.RemoveTrackEvent;
+import com.startogamu.musicalarm.core.event.SelectAllTracks;
 import com.startogamu.musicalarm.core.event.SelectItemPlaylistEvent;
-import com.startogamu.musicalarm.core.event.SelectLocalTrackEvent;
-import com.startogamu.musicalarm.core.event.SelectPlaylistEvent;
-import com.startogamu.musicalarm.core.event.SelectTrackEvent;
 import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.core.utils.REQUEST;
 import com.startogamu.musicalarm.databinding.ActivityMusicBinding;
+import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
 import com.startogamu.musicalarm.module.alarm.manager.AlarmTrackManager;
-import com.startogamu.musicalarm.module.alarm.object.Alarm;
+import com.startogamu.musicalarm.module.alarm.model.Alarm;
 import com.startogamu.musicalarm.view.activity.ActivityMusic;
 import com.startogamu.musicalarm.view.fragment.DeezerFragment;
+import com.startogamu.musicalarm.view.fragment.FragmentLocalMusic;
 import com.startogamu.musicalarm.view.fragment.FragmentSpotifyPlaylistTracks;
-import com.startogamu.musicalarm.view.fragment.LocalMusicFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyConnectFragment;
 import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import rx.functions.Action1;
+
 /***
- * {@link ActivityMusicViewModel} handle multiples fragments :
+ * {@link ActivityMusicVM} handle multiples fragments :
  * <ul>
  * <li>{@link SpotifyMusicFragment } taht show the differents playlist to the user. Can redirect to
  * {@link FragmentSpotifyPlaylistTracks}</li>
  * <li>{@link SpotifyConnectFragment} that handle the connection to spotify</li>
- * <li>{@link LocalMusicFragment}</li>
+ * <li>{@link FragmentLocalMusic}</li>
  * </ul>
  */
-public class ActivityMusicViewModel extends ActivityBaseVM<ActivityMusic, ActivityMusicBinding> implements IResult, INewIntent, IPermission {
+public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusicBinding> implements IResult, INewIntent, IPermission {
 
 
     private SpotifyMusicFragment spotifyMusicFragment;
     private SpotifyConnectFragment spotifyConnectFragment;
-    private LocalMusicFragment localMusicFragment;
+    private FragmentLocalMusic fragmentLocalMusic;
 
     @InjectExtra
     Alarm alarm;
@@ -61,7 +61,7 @@ public class ActivityMusicViewModel extends ActivityBaseVM<ActivityMusic, Activi
      * @param activity
      * @param binding
      */
-    public ActivityMusicViewModel(ActivityMusic activity, ActivityMusicBinding binding) {
+    public ActivityMusicVM(ActivityMusic activity, ActivityMusicBinding binding) {
         super(activity, binding);
     }
 
@@ -73,14 +73,14 @@ public class ActivityMusicViewModel extends ActivityBaseVM<ActivityMusic, Activi
         AlarmTrackManager.init(alarm);
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        binding.toolbar.setNavigationOnClickListener(listener -> onBackPressed());
-        localMusicFragment = LocalMusicFragment.newInstance();
-        activity.replaceFragment(localMusicFragment, false);
+        binding.toolbar.setNavigationOnClickListener(listener -> activity.onBackPressed());
+        fragmentLocalMusic = FragmentLocalMusic.newInstance();
+        activity.replaceFragment(fragmentLocalMusic, false);
         createBottomNavigation(binding.bottomNavigation);
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_add_all:
-                    EventBus.getDefault().post(new SelectPlaylistEvent());
+                    EventBus.getDefault().post(new SelectAllTracks());
                     break;
             }
 
@@ -106,7 +106,7 @@ public class ActivityMusicViewModel extends ActivityBaseVM<ActivityMusic, Activi
         bottomNavigationView.setOnBottomNavigationItemClickListener(index -> {
             switch (index) {
                 case 0:
-                    activity.replaceFragment(localMusicFragment, false);
+                    activity.replaceFragment(fragmentLocalMusic, false);
                     break;
                 case 1:
                     // if (spotifyManager.hasAccessToken()) {
@@ -154,12 +154,12 @@ public class ActivityMusicViewModel extends ActivityBaseVM<ActivityMusic, Activi
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (localMusicFragment == null || localMusicFragment.isDetached())
+        if (fragmentLocalMusic == null || fragmentLocalMusic.isDetached())
             return;
         switch (requestCode) {
             case REQUEST.PERMISSION_STORAGE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    localMusicFragment.loadMusic();
+                    fragmentLocalMusic.loadMusic();
         }
     }
 
@@ -170,29 +170,12 @@ public class ActivityMusicViewModel extends ActivityBaseVM<ActivityMusic, Activi
                 (Bundler.create().put(EXTRA.PLAYLIST_ID, selectItemPlaylistEvent.getItem().getId()).get()), true);
     }
 
-    @Subscribe
-    public void onEvent(RemoveLocalTrackEvent removeLocalTrackEvent) {
-        AlarmTrackManager.selectTrack(removeLocalTrackEvent.getTrack());
+
+    public void onFabAddClicked(View view) {
+        AlarmManager.saveAlarm(alarm, AlarmTrackManager.tracks()).subscribe(alarm1 -> {
+            activity.finish();
+        });
     }
-
-
-    @Subscribe
-    public void onEvent(RemoveTrackEvent selectTrackEvent) {
-        AlarmTrackManager.removeTrack(selectTrackEvent.getTrack());
-    }
-
-    @Subscribe
-    public void onEvent(SelectLocalTrackEvent selectTrackEvent) {
-        AlarmTrackManager.selectTrack(selectTrackEvent.getTrack());
-    }
-
-
-    @Subscribe
-    public void onEvent(SelectTrackEvent selectTrackEvent) {
-        AlarmTrackManager.selectTrack(selectTrackEvent.getTrack());
-    }
-
-
 
     @Override
     public void destroy() {

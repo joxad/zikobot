@@ -9,8 +9,8 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.module.alarm.manager.AlarmManager;
-import com.startogamu.musicalarm.module.alarm.object.Alarm;
-import com.startogamu.musicalarm.module.alarm.object.AlarmTrack;
+import com.startogamu.musicalarm.module.alarm.model.Alarm;
+import com.startogamu.musicalarm.module.alarm.model.AlarmTrack;
 import com.startogamu.musicalarm.view.Henson;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -90,8 +90,7 @@ public class AlarmVM extends BaseVM<Alarm> {
      */
     public void removeTrack(int adapterPosition) {
         tracksVms.remove(adapterPosition);
-        model.getTracks().remove(adapterPosition);
-        save();
+        model.getTracks().get(adapterPosition).delete();
     }
 
 
