@@ -46,7 +46,7 @@ public class ActivityMusic extends ActivityBase<ActivityMusicBinding, ActivityMu
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             this.finish();
         } else {
-            getFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStack();
         }
     }
 
