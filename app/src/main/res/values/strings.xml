@@ -33,4 +33,5 @@
     <string name="view_pager_3">Ajoutez vos musiques et playlists favorites</string>
     <string name="Pass">Passer</string>
     <string name="no_music">Désolé je n\'ai trouvé aucune musique sur ton téléphone</string>
+    <string name="loading">Chargement..</string>
 </resources>

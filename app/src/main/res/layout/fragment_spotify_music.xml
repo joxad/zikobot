@@ -14,6 +14,8 @@
             type="com.startogamu.musicalarm.core.utils.Colors" />
 
 
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+
         <variable
             name="itemPlaylistViewModel"
             type="com.startogamu.musicalarm.viewmodel.items.ItemPlaylistViewModel" />
@@ -35,17 +37,8 @@
             android:layout_height="wrap_content"
             app:itemView="@{spotifyMusicViewModel.itemUserPlaylistsBinder}"
             app:items="@{spotifyMusicViewModel.userPlaylists}"
+            app:layoutManager="@{LayoutManagers.linear()}"
             tools:listitem="@layout/item_playlist" />
-
-        <com.github.ybq.android.spinkit.SpinKitView
-            style="@style/SpinKitView.ChasingDots"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:visibility="@{spotifyMusicViewModel.showProgress ? v.VISIBLE : v.GONE}"
-            app:SpinKit_Color="@color/colorAccent" />
-
 
     </RelativeLayout>
 </layout>

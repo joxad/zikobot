@@ -1,14 +1,13 @@
 package com.startogamu.musicalarm.viewmodel.items;
 
-import android.databinding.BaseObservable;
+import android.content.Context;
 import android.databinding.Bindable;
 import android.view.View;
 
-import com.joxad.easydatabinding.base.IVM;
+import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.musicalarm.R;
 import com.startogamu.musicalarm.core.event.SelectItemPlaylistEvent;
 import com.startogamu.musicalarm.module.spotify_api.model.Item;
-import com.startogamu.musicalarm.view.fragment.SpotifyMusicFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -16,20 +15,16 @@ import org.greenrobot.eventbus.EventBus;
 /***
  * ViewModel that will represent the playlist of a user on spotify
  */
-public class ItemPlaylistViewModel extends BaseObservable implements IVM {
+public class ItemPlaylistViewModel extends BaseVM<Item> {
 
-    private Item item;
-    private SpotifyMusicFragment fragment;
 
     /***
-     * @param fragment
-     * @param item
+     * @param context
+     * @param model
      */
-    public ItemPlaylistViewModel(SpotifyMusicFragment fragment, Item item) {
-        this.item = item;
-        this.fragment = fragment;
+    public ItemPlaylistViewModel(Context context, Item model) {
+        super(context, model);
     }
-
 
     @Override
     public void init() {
@@ -37,7 +32,7 @@ public class ItemPlaylistViewModel extends BaseObservable implements IVM {
     }
 
     public void setItem(Item item) {
-        this.item = item;
+        this.model = item;
         notifyChange();
     }
 
@@ -47,27 +42,27 @@ public class ItemPlaylistViewModel extends BaseObservable implements IVM {
      * @param view
      */
     public void onItemClick(View view) {
-        EventBus.getDefault().post(new SelectItemPlaylistEvent(item));
+        EventBus.getDefault().post(new SelectItemPlaylistEvent(model));
     }
 
 
     @Bindable
     public String getName() {
-        return item.getName();
+        return model.getName();
     }
 
 
     @Bindable
     public String getImageUrl() {
-        if (item.getImages() != null && item.getImages().size() > 0)
-            return item.getImages().get(0).getUrl();
+        if (model.getImages() != null && model.getImages().size() > 0)
+            return model.getImages().get(0).getUrl();
         return "";
     }
 
     @Bindable
     public String getNbSongs() {
-        return String.format(fragment.getString(R.string.playlist_total_tracks),
-                item.tracks.total);
+        return String.format(context.getString(R.string.playlist_total_tracks),
+                model.tracks.total);
     }
 
 

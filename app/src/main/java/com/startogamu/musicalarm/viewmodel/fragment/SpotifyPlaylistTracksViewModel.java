@@ -12,6 +12,7 @@ import com.startogamu.musicalarm.core.utils.EXTRA;
 import com.startogamu.musicalarm.databinding.FragmentSpotifyPlaylistTracksBinding;
 import com.startogamu.musicalarm.module.alarm.model.AlarmTrack;
 import com.startogamu.musicalarm.module.component.Injector;
+import com.startogamu.musicalarm.module.mock.Mock;
 import com.startogamu.musicalarm.module.spotify_api.model.SpotifyPlaylistItem;
 import com.startogamu.musicalarm.module.spotify_api.model.SpotifyPlaylistWithTrack;
 import com.startogamu.musicalarm.view.fragment.FragmentSpotifyPlaylistTracks;
@@ -58,7 +59,9 @@ public class SpotifyPlaylistTracksViewModel extends BaseObservable implements IV
 
     private void loadTracks(String playlistId) {
         items.clear();
+        items.addAll(Mock.tracks(fragment.getContext()));
         Injector.INSTANCE.spotifyApi().manager().getPlaylistTracks(playlistId).subscribe(spotifyPlaylistWithTrack -> {
+            items.clear();
             spotifyPlaylist = spotifyPlaylistWithTrack;
             for (SpotifyPlaylistItem playlistItem : spotifyPlaylistWithTrack.getItems()) {
                 items.add(new TrackVM(fragment.getContext(), AlarmTrack.from(playlistItem.track)));
