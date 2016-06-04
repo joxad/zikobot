@@ -6,6 +6,7 @@ package com.startogamu.musicalarm.viewmodel.activity;
 
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
@@ -23,6 +24,7 @@ import com.startogamu.musicalarm.module.component.Injector;
 import com.startogamu.musicalarm.module.spotify_api.model.SpotifyUser;
 import com.startogamu.musicalarm.module.spotify_auth.model.SpotifyRequestToken;
 import com.startogamu.musicalarm.module.spotify_auth.model.SpotifyToken;
+import com.startogamu.musicalarm.view.activity.ActivityMusic;
 import com.startogamu.musicalarm.view.activity.ActivitySettings;
 
 import java.io.UnsupportedEncodingException;
@@ -125,6 +127,8 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
                             Log.d(TAG, spotifyToken.toString());
                             accessToken = spotifyToken.getAccessToken();
                             AppPrefs.saveAccessToken(accessToken);
+                            AppPrefs.saveRefreshToken(spotifyToken.getRefreshToken());
+
                             getMe();
                         }
                     });
@@ -156,6 +160,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
             }
         });
     }
+
 
     @Override
     public void destroy() {

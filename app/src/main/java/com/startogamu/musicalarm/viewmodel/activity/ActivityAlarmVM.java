@@ -63,6 +63,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
                 case R.id.action_save:
                     save().subscribe(alarm1 -> {
                         prepareAlarm(alarm1);
+                        activity.finish();
                     }, throwable -> {
                         Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
                     });
@@ -217,11 +218,10 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, this.alarm.getHour());
         calendar.set(Calendar.MINUTE, this.alarm.getMinute());
+        calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         alarmMgr.setRepeating(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, alarmIntent);// test every 60 scs
-
-        activity.finish();
     }
 
 

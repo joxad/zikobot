@@ -51,8 +51,10 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         activity.setTitle(alarm.getName());
         alarmVM = new AlarmVM(activity, alarm);
         binding.setAlarmVM(alarmVM);
-        trackVM = new TrackVM(activity, alarm.getTracks().get(0));
-        binding.setAlarmTrackVM(trackVM);
+        if (!alarm.getTracks().isEmpty()) {
+            trackVM = new TrackVM(activity, alarm.getTracks().get(0));
+            binding.setAlarmTrackVM(trackVM);
+        }
         refreshToken();
 
     }
@@ -97,6 +99,10 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         });
     }
 
+    /***
+     *
+     * @param view
+     */
     public void stop(View view) {
         Injector.INSTANCE.playerComponent().manager().stop();
         activity.finish();
