@@ -82,6 +82,11 @@ public class AlarmManager {
     }
 
 
+    /***
+     *
+     * @param alarm
+     * @return
+     */
     public static boolean canStart(Alarm alarm) {
 
         boolean alarmOk, hourOk, minuteOk, dayOk = false;
@@ -90,7 +95,7 @@ public class AlarmManager {
         alarmOk = alarm.getActive() == 1;
         dayOk = alarm.isDayActive(calendar.get(Calendar.DAY_OF_WEEK));
         hourOk = alarm.getHour() == calendar.get(Calendar.HOUR);
-        minuteOk = alarm.getHour() == calendar.get(Calendar.MINUTE);
+        minuteOk = alarm.getMinute() == calendar.get(Calendar.MINUTE);
         return alarmOk && dayOk && hourOk && minuteOk;
     }
 }

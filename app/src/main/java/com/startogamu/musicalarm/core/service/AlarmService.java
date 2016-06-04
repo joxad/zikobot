@@ -32,7 +32,7 @@ public class AlarmService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        MusicNotification.show("Alarm starting");
         long alarmId = intent.getLongExtra(EXTRA.ALARM_ID, -1);
         AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
             if (AlarmManager.canStart(alarm)) {
