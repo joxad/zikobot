@@ -42,7 +42,7 @@ public class Mock {
         return items;
     }
 
-    private static AlarmTrack track(Context context) {
+    public static AlarmTrack track(Context context) {
         AlarmTrack alarmTrack = new AlarmTrack();
         alarmTrack.setName(context.getString(R.string.loading));
         return alarmTrack;

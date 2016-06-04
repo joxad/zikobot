@@ -37,17 +37,59 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_margin="@dimen/margin_medium"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/avatar_size"
+                    android:layout_height="@dimen/avatar_size"
+                    android:layout_centerInParent="true"
+                    app:imageUrl="@{alarmTrackVM.imageUrl}" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:text="@{alarmTrackVM.artistName}"
+                    android:textColor="@color/colorAccent"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:text="@{alarmTrackVM.name}"
+                    android:textColor="@color/colorAccent"
+                    />
+                </LinearLayout>
+            </LinearLayout>
+            </android.support.v7.widget.CardView>
+
 
             <RelativeLayout
                 android:id="@+id/rl_player"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_disk"
@@ -56,28 +98,20 @@
 
                     android:src="@drawable/ic_disk" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_song"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_music_wave"
-                    app:imageUrl="@{alarmTrackVM.imageUrl}" />
+
+
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{alarmTrackVM.name}"
-                android:textColor="@color/colorAccent" />
 
             <com.startogamu.musicalarm.view.custom.MaterialButtonView
                 android:layout_width="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:onClick="@{activityWakeUpVM.stop}"
                 app:mbv_text="@string/stop"
-                app:mbv_text_color="@android:color/black"
-                app:mrl_rippleBackground="@android:color/transparent" />
-        </LinearLayout>
+                app:mbv_text_color="@android:color/white"
+                app:mrl_rippleBackground="@color/colorAccent" />
+        </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
 </layout>

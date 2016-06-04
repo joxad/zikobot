@@ -47,6 +47,10 @@ public class TrackVM extends BaseVM<AlarmTrack> {
         return model.getArtistName();
     }
 
+    @Bindable
+    public String getInfos() {
+        return String.format("%s - %s", model.getName(), model.getArtistName());
+    }
 
     public void onTrackClicked(View view) {
         isChecked = !isChecked;
@@ -64,5 +68,10 @@ public class TrackVM extends BaseVM<AlarmTrack> {
         AlarmTrackManager.selectTrack(model);
         notifyChange();
 
+    }
+
+    public void updateTrack(AlarmTrack track) {
+        this.model = track;
+        notifyChange();
     }
 }

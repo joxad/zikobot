@@ -12,10 +12,13 @@ import com.joxad.android_easy_spotify.SpotifyPlayerManager;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
+import com.startogamu.musicalarm.core.event.TrackChangeEvent;
 import com.startogamu.musicalarm.core.service.MediaPlayerService;
 import com.startogamu.musicalarm.core.utils.AppPrefs;
 import com.startogamu.musicalarm.module.alarm.model.Alarm;
 import com.startogamu.musicalarm.module.alarm.model.AlarmTrack;
+
+import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Singleton;
 
@@ -36,6 +39,7 @@ public class PlayerMusicManager {
     private boolean mediaPlayerServiceBound = false;
     //connect to the service
     private Intent playIntent;
+    private boolean enable = false;
 
     /***
      * @param context
@@ -63,7 +67,9 @@ public class PlayerMusicManager {
             MediaPlayerService.MediaPlayerServiceBinder binder = (MediaPlayerService.MediaPlayerServiceBinder) service;
             //get service
             mediaPlayerService = binder.getService();
-            mediaPlayerService.setOnCompletionListener(mp -> next());
+            mediaPlayerService.setOnCompletionListener(mp -> {
+                if (enable) next();
+            });
             //pass list
             mediaPlayerServiceBound = true;
         }
@@ -122,8 +128,11 @@ public class PlayerMusicManager {
                 }
                 if (eventType == EventType.TRACK_END) {
                     Log.d(TAG, "TRACK END");
+
                 }
-                Log.d(TAG, String.format("Player state : current duration %d total duration %s", playerState.positionInMs, playerState.durationInMs));
+                if ( playerState.positionInMs >=playerState.durationInMs  && playerState.durationInMs >0)
+                    next();
+                Log.d(TAG, String.format("Player state %s - activeDevice %s : current duration %d total duration %s", playerState.trackUri, playerState.activeDevice, playerState.positionInMs, playerState.durationInMs));
             }
 
             @Override
@@ -138,13 +147,12 @@ public class PlayerMusicManager {
      * @param alarmTrack
      */
     public void playAlarmTrack(final AlarmTrack alarmTrack) {
+        EventBus.getDefault().post(new TrackChangeEvent(alarmTrack));
         switch (alarmTrack.getType()) {
             case AlarmTrack.TYPE.LOCAL:
-                //TODO call media player service
                 mediaPlayerService.playSong(Uri.parse(alarmTrack.getRef()));
                 break;
             case AlarmTrack.TYPE.SPOTIFY:
-
                 SpotifyPlayerManager.play(alarmTrack.getRef());
                 break;
         }
@@ -163,6 +171,7 @@ public class PlayerMusicManager {
 
 
     public void startAlarm(Alarm alarm) {
+        enable = true;
         currentSong = 0;
         this.alarm = alarm;
         playAlarmTrack(this.alarm.getTracks().get(currentSong));
@@ -170,9 +179,11 @@ public class PlayerMusicManager {
 
 
     public void stop() {
+        enable = false;
         SpotifyPlayerManager.pause();
-        SpotifyPlayerManager.clear();
         mediaPlayerService.stop();
+        currentSong = 0;
+
     }
 
 }

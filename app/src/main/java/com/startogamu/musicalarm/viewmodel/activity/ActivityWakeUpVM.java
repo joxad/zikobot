@@ -3,16 +3,22 @@ package com.startogamu.musicalarm.viewmodel.activity;
 import android.animation.Animator;
 import android.view.View;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
+import com.startogamu.musicalarm.core.event.TrackChangeEvent;
 import com.startogamu.musicalarm.core.utils.AnimationEndListener;
 import com.startogamu.musicalarm.databinding.ActivityWakeUpBinding;
 import com.startogamu.musicalarm.module.alarm.model.Alarm;
 import com.startogamu.musicalarm.module.component.Injector;
+import com.startogamu.musicalarm.module.mock.Mock;
 import com.startogamu.musicalarm.view.activity.ActivityWakeUp;
 import com.startogamu.musicalarm.viewmodel.base.AlarmVM;
 import com.startogamu.musicalarm.viewmodel.base.TrackVM;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.UnsupportedEncodingException;
 
@@ -38,25 +44,32 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      */
     public ActivityWakeUpVM(ActivityWakeUp activity, ActivityWakeUpBinding binding) {
         super(activity, binding);
+        Injector.INSTANCE.spotifyAuth().inject(this);
+        Injector.INSTANCE.playerComponent().inject(this);
+
     }
 
     @Override
     public void init() {
+        EventBus.getDefault().register(this);
         Dart.inject(this, activity);
-        Injector.INSTANCE.spotifyAuth().inject(this);
-        Injector.INSTANCE.playerComponent().inject(this);
-        activity.setSupportActionBar(binding.toolbar);
+       activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> onBackPressed());
         activity.setTitle(alarm.getName());
         alarmVM = new AlarmVM(activity, alarm);
         binding.setAlarmVM(alarmVM);
         if (!alarm.getTracks().isEmpty()) {
-            trackVM = new TrackVM(activity, alarm.getTracks().get(0));
+            trackVM = new TrackVM(activity, Mock.track(activity));
             binding.setAlarmTrackVM(trackVM);
         }
         refreshToken();
 
+    }
+
+    @Subscribe
+    public void onReceived(TrackChangeEvent trackChangeEvent) {
+        trackVM.updateTrack(trackChangeEvent.getTrack());
     }
 
     @Override
@@ -119,6 +132,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     @Override
     protected void onPause() {
         super.onPause();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
