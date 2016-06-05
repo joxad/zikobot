@@ -14,4 +14,5 @@
     <dimen name="wave_height">60dp</dimen>
     <dimen name="footer_height">170dp</dimen>
     <dimen name="avatar_size">80dp</dimen>
+    <dimen name="zikobot_size_mini">50dp</dimen>
 </resources>

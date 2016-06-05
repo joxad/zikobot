@@ -6,6 +6,9 @@
         <attr name="mbv_text_color" format="color" />
         <attr name="mbv_enable" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="ZikobotMessageView">
+        <attr name="zmv_message" format="string" />
+    </declare-styleable>
 
 
 </resources>

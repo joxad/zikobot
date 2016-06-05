@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
+
         tools:bindingContext=".core.MainActivity">
 
 
@@ -53,26 +54,17 @@
             tools:listitem="@layout/item_alarm" />
 
 
-        <LinearLayout
+        <com.startogamu.zikobot.view.custom.ZikobotMessageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="72dp"
-            android:orientation="horizontal"
-            android:visibility="@{activityAlarmsVM.showTuto ? v.VISIBLE :  v.GONE}">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tuto" />
-
-            <ImageView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:rotation="30"
-                android:src="@drawable/ic_arrow" />
-        </LinearLayout>
+            app:zmv_message="@string/tuto"
+            android:visibility="@{activityAlarmsVM.showTuto ? v.VISIBLE :  v.GONE}"
+        android:layout_gravity="bottom|end"
+            android:onClick="@{activityAlarmsVM.addAlarm}"
+            android:layout_marginBottom="60dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

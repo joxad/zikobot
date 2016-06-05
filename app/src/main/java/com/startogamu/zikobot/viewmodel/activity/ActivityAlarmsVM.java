@@ -89,6 +89,7 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
      */
     private void initToolbar() {
         activity.setSupportActionBar(binding.toolbar);
+        activity.getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_settings:
@@ -98,6 +99,7 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
                     new LibsBuilder()
                             .withAboutAppName(activity.getString(R.string.about))
                             .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                            .withActivityTitle(activity.getString(R.string.about))
                             .start(activity);
                     return true;
                 default:
