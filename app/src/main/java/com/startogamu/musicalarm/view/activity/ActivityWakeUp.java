@@ -31,4 +31,10 @@ public class ActivityWakeUp extends ActivityBase<ActivityWakeUpBinding, Activity
     public ActivityWakeUpVM baseActivityVM(ActivityWakeUpBinding binding, Bundle savedInstanceState) {
         return new ActivityWakeUpVM(this, binding);
     }
+
+    @Override
+    protected void onDestroy() {
+        vm.destroy();
+        super.onDestroy();
+    }
 }

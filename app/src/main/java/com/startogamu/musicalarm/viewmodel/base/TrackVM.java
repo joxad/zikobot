@@ -70,6 +70,10 @@ public class TrackVM extends BaseVM<AlarmTrack> {
 
     }
 
+    /**
+     * {@link }
+     * @param track
+     */
     public void updateTrack(AlarmTrack track) {
         this.model = track;
         notifyChange();

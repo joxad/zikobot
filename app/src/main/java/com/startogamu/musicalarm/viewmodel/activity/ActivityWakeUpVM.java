@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.cleveroad.audiovisualization.DbmHandler;
+import com.cleveroad.audiovisualization.VisualizerDbmHandler;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -64,7 +66,9 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
             binding.setAlarmTrackVM(trackVM);
         }
         refreshToken();
-
+// set audio visualization handler. This will REPLACE previously set speech recognizer handler
+        VisualizerDbmHandler vizualizerHandler = DbmHandler.Factory.newVisualizerHandler(activity, 0);
+        binding.visualizerView.linkTo(vizualizerHandler);
     }
 
     @Subscribe
@@ -75,6 +79,8 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     @Override
     protected void onResume() {
         super.onResume();
+        binding.visualizerView.onResume();
+
     }
 
     /***
@@ -132,11 +138,12 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     @Override
     protected void onPause() {
         super.onPause();
+        binding.visualizerView.onPause();
         EventBus.getDefault().unregister(this);
     }
 
     @Override
     public void destroy() {
-
+    binding.visualizerView.release();
     }
 }
