@@ -6,7 +6,7 @@
 
         <variable
             name="spotifyConnectViewModel"
-            type="com.startogamu.musicalarm.viewmodel.fragment.SpotifyConnectViewModel" />
+            type="com.startogamu.zikobot.viewmodel.fragment.SpotifyConnectViewModel" />
     </data>
 
     <LinearLayout
@@ -18,10 +18,10 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:bindingContext="com.startogamu.musicalarm.view.activity.ActivityMusic">
+        tools:bindingContext="com.startogamu.zikobot.view.activity.ActivityMusic">
 
 
-        <com.startogamu.musicalarm.view.custom.MaterialButtonView
+        <com.startogamu.zikobot.view.custom.MaterialButtonView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{spotifyConnectViewModel.onButtonConnectClick}"

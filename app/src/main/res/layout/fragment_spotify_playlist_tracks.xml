@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers"/>
 
         <variable
-            name="spotifyPlaylistTracksViewModel"
-            type="com.startogamu.musicalarm.viewmodel.fragment.SpotifyPlaylistTracksViewModel" />
+            name="fragmentSpotifyPlaylistVM"
+            type="com.startogamu.zikobot.viewmodel.fragment.FragmentSpotifyPlaylistVM" />
     </data>
 
     <LinearLayout
@@ -20,8 +21,9 @@
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:itemView="@{spotifyPlaylistTracksViewModel.itemsBinder}"
-            app:items="@{spotifyPlaylistTracksViewModel.items}"
+            app:layoutManager="@{LayoutManagers.linear()}"
+            app:itemView="@{fragmentSpotifyPlaylistVM.itemsBinder}"
+            app:items="@{fragmentSpotifyPlaylistVM.items}"
             tools:listitem="@layout/item_playlist" />
     </LinearLayout>
 </layout>

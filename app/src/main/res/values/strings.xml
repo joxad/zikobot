@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">MusicAlarm</string>
+    <string name="app_name">ZikoBot</string>
+
     <string name="action_settings">Mes Options</string>
     <string name="wake_up">Gestion de mon alarme</string>
     <string name="alarm_hint">Libellé de l\'alarme</string>
@@ -9,13 +10,13 @@
     <string name="activity_alarm_select_song">Choisissez votre chanson</string>
     <string name="alarm_hint_hour">Sélectionner l\'heure</string>
     <string name="activity_music_title">Choix de la musique</string>
-    <string name="monday">L</string>
-    <string name="tuesday">M</string>
-    <string name="wednesday">M</string>
-    <string name="thursday">J</string>
-    <string name="friday">V</string>
-    <string name="saturday">S</string>
-    <string name="sunday">D</string>
+    <string name="monday">LUN</string>
+    <string name="tuesday">MAR</string>
+    <string name="wednesday">MER</string>
+    <string name="thursday">JEU</string>
+    <string name="friday">VEN</string>
+    <string name="saturday">SAM</string>
+    <string name="sunday">DIM</string>
     <string name="activity_music_local">Fichiers locaux</string>
     <string name="activity_music_spotify">Spotify</string>
     <string name="activity_music_deezer">Deezer</string>
@@ -28,13 +29,20 @@
     <string name="deezer_coming_soon">Coming soon...</string>
     <string name="play">Jouer l\'alarm</string>
     <string name="action_add_all">Tout ajouter</string>
-    <string name="view_pager_1">MusicAlarm vous réveille avec la musique de votre choix</string>
-    <string name="view_pager_2">Connectez vous à votre compte Spotify ou Deezer</string>
-    <string name="view_pager_3">Ajoutez vos musiques et playlists favorites</string>
+    <string name="view_pager_1">Je peux actuellement vous réveiller en musique, mais bientôt je pourrais faire bien plus!</string>
+    <string name="view_pager_2">J\'aurai besoin que tu te connectes à ton compte Spotify® ou Deezer® (Nécessite un compte premium)</string>
+    <string name="view_pager_3">J\'ai besoin de ta permission pour accéder à tes musiques locales, et je pourrai te réveiller avec :) (</string>
+
+    <string name="view_pager_1_title">Enchanté, je suis Zikobot, votre assistant musical!</string>
+    <string name="view_pager_2_title">Associez vos comptes musicaux</string>
+    <string name="view_pager_3_title">Pas de compte? Aucun souci pour moi!</string>
+
     <string name="Pass">Passer</string>
     <string name="no_music">Désolé je n\'ai trouvé aucune musique sur ton téléphone</string>
     <string name="loading">Chargement..</string>
     <string name="tuto">Cliquer pour ajouter des alarmes</string>
     <string name="Spotify">Spotify</string>
     <string name="add_tracks">Ajoutez des chansons</string>
+    <string name="done">Valider</string>
+    <string name="skip">Passer</string>
 </resources>

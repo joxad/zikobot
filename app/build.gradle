@@ -18,7 +18,7 @@ android {
         enabled = true
     }
     defaultConfig {
-        applicationId "com.startogamu.musicalarm"
+        applicationId "com.startogamu.zikobot"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode buildVersionCode()

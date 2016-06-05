@@ -7,7 +7,7 @@
 
         <variable
             name="topPlayViewModel"
-            type="com.startogamu.musicalarm.viewmodel.items.ItemPlaylistViewModel" />
+            type="com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel" />
     </data>
 
     <com.balysv.materialripple.MaterialRippleLayout

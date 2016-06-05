@@ -7,14 +7,14 @@
 
         <variable
             name="activityMusicVM"
-            type="com.startogamu.musicalarm.viewmodel.activity.ActivityMusicVM" />
+            type="com.startogamu.zikobot.viewmodel.activity.ActivityMusicVM" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:bindingContext="com.startogamu.musicalarm.view.activity.ActivityMusic">
+        tools:bindingContext="com.startogamu.zikobot.view.activity.ActivityMusic">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"

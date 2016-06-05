@@ -11,18 +11,18 @@
 
         <import
             alias="color"
-            type="com.startogamu.musicalarm.core.utils.Colors" />
+            type="com.startogamu.zikobot.core.utils.Colors" />
 
 
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
 
         <variable
             name="itemPlaylistViewModel"
-            type="com.startogamu.musicalarm.viewmodel.items.ItemPlaylistViewModel" />
+            type="com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel" />
 
         <variable
             name="spotifyMusicViewModel"
-            type="com.startogamu.musicalarm.viewmodel.fragment.SpotifyMusicViewModel" />
+            type="com.startogamu.zikobot.viewmodel.fragment.SpotifyMusicViewModel" />
     </data>
 
     <RelativeLayout

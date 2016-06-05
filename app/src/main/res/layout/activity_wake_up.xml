@@ -6,16 +6,16 @@
 
         <variable
             name="activityWakeUpVM"
-            type="com.startogamu.musicalarm.viewmodel.activity.ActivityWakeUpVM" />
+            type="com.startogamu.zikobot.viewmodel.activity.ActivityWakeUpVM" />
 
 
         <variable
             name="alarmTrackVM"
-            type="com.startogamu.musicalarm.viewmodel.base.TrackVM" />
+            type="com.startogamu.zikobot.viewmodel.base.TrackVM" />
 
         <variable
             name="alarmVM"
-            type="com.startogamu.musicalarm.viewmodel.base.AlarmVM" />
+            type="com.startogamu.zikobot.viewmodel.base.AlarmVM" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -104,7 +104,7 @@
             </RelativeLayout>
 
 
-            <com.startogamu.musicalarm.view.custom.MaterialButtonView
+            <com.startogamu.zikobot.view.custom.MaterialButtonView
                 android:layout_width="match_parent"
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:layout_height="wrap_content"
