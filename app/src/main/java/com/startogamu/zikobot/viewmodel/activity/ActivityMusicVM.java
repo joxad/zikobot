@@ -26,6 +26,7 @@ import com.startogamu.zikobot.databinding.ActivityMusicBinding;
 import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
 import com.startogamu.zikobot.module.alarm.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
+import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.activity.ActivityMusic;
 import com.startogamu.zikobot.view.fragment.DeezerFragment;
 import com.startogamu.zikobot.view.fragment.FragmentLocalMusic;
@@ -164,8 +165,9 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
 
     @Subscribe
     public void onEvent(SelectItemPlaylistEvent selectItemPlaylistEvent) {
+        Item item = selectItemPlaylistEvent.getItem();
         activity.replaceFragment(FragmentSpotifyPlaylistTracks.newInstance
-                (Bundler.create().put(EXTRA.PLAYLIST_ID, selectItemPlaylistEvent.getItem().getId()).get()), true);
+                (Bundler.create().put(EXTRA.PLAYLIST_ID, item.getId()).put(EXTRA.PLAYLIST_TRACKS_TOTAL, item.getTracks().total).get()), true);
     }
 
 

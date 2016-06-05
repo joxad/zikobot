@@ -31,7 +31,11 @@ public class AlarmManager {
             @Override
             public void call(Subscriber<? super Alarm> subscriber) {
                 Alarm alarm = new Select().from(Alarm.class).where(Alarm_Table.id.eq(id)).querySingle();
-                assert alarm != null;
+
+                if (alarm == null) {
+                    subscriber.onError(new Throwable("No alarm"));
+                    return;
+                }
                 alarm.getTracks();
                 if (subscriber.isUnsubscribed()) return;
                 subscriber.onNext(alarm);

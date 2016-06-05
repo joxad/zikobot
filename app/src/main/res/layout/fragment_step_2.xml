@@ -16,6 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
+            android:textSize="20sp"
             android:text="@string/view_pager_2_title" />
     </android.support.v7.widget.CardView>
 

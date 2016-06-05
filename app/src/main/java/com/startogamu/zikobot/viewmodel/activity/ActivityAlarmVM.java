@@ -9,9 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
+import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -25,6 +27,8 @@ import com.startogamu.zikobot.view.activity.ActivityAlarm;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
 
 import java.util.Calendar;
+
+import rx.functions.Action1;
 
 /**
  * Created by josh on 29/05/16.
@@ -61,12 +65,18 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
                     delete();
                     break;
                 case R.id.action_save:
-                    save().subscribe(alarm1 -> {
-                        prepareAlarm(alarm1);
-                        activity.finish();
-                    }, throwable -> {
-                        Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
-                    });
+                    if (alarmVM.hasTracks()) {
+                        save().subscribe(alarm1 -> {
+                            prepareAlarm(alarm1);
+                            activity.finish();
+                        }, throwable -> {
+                            Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
+                        });
+                    } else {
+                        Snackbar.make(binding.getRoot(), R.string.add_tracks, Snackbar.LENGTH_SHORT).show();
+
+                    }
+
                     break;
                 case R.id.action_play:
                     if (alarmVM.hasTracks()) {
@@ -125,30 +135,31 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         RxTextView.textChanges(binding.viewAlarm.etName).skip(1).subscribe(charSequence -> {
             alarmVM.updateName(charSequence);
         });
-        RxCompoundButton.checkedChanges(binding.viewAlarm.cbMonday).subscribe(aBoolean -> {
-            alarmVM.activeDay(Calendar.MONDAY, aBoolean);
-        });
-        RxCompoundButton.checkedChanges(binding.viewAlarm.cbTuesday).subscribe(aBoolean -> {
-            alarmVM.activeDay(Calendar.TUESDAY, aBoolean);
-        });
-        RxCompoundButton.checkedChanges(binding.viewAlarm.cbWednesday).subscribe(aBoolean -> {
-            alarmVM.activeDay(Calendar.WEDNESDAY, aBoolean);
-        });
-        RxCompoundButton.checkedChanges(binding.viewAlarm.cbThursday).subscribe(aBoolean -> {
-            alarmVM.activeDay(Calendar.THURSDAY, aBoolean);
-        });
-        RxCompoundButton.checkedChanges(binding.viewAlarm.cbFriday).subscribe(aBoolean -> {
-            alarmVM.activeDay(Calendar.FRIDAY, aBoolean);
+
+        RxView.clicks(binding.viewAlarm.cbMonday).subscribe(aVoid -> {
+           alarmVM.handleTextClickDay(binding.viewAlarm.cbMonday, Calendar.MONDAY);
         });
 
-        RxCompoundButton.checkedChanges(binding.viewAlarm.cbSaturday).subscribe(aBoolean -> {
-            alarmVM.activeDay(Calendar.SATURDAY, aBoolean);
+        RxView.clicks(binding.viewAlarm.cbTuesday).subscribe(aVoid -> {
+            alarmVM.handleTextClickDay(binding.viewAlarm.cbTuesday, Calendar.TUESDAY);
         });
-        RxCompoundButton.checkedChanges(binding.viewAlarm.cbSunday).subscribe(aBoolean -> {
-            alarmVM.activeDay(Calendar.SUNDAY, aBoolean);
+        RxView.clicks(binding.viewAlarm.cbWednesday).subscribe(aVoid -> {
+            alarmVM.handleTextClickDay(binding.viewAlarm.cbWednesday, Calendar.WEDNESDAY);
         });
-
+        RxView.clicks(binding.viewAlarm.cbThursday).subscribe(aVoid -> {
+            alarmVM.handleTextClickDay(binding.viewAlarm.cbThursday, Calendar.THURSDAY);
+        });
+        RxView.clicks(binding.viewAlarm.cbFriday).subscribe(aVoid -> {
+            alarmVM.handleTextClickDay(binding.viewAlarm.cbFriday, Calendar.FRIDAY);
+        });
+        RxView.clicks(binding.viewAlarm.cbSaturday).subscribe(aVoid -> {
+            alarmVM.handleTextClickDay(binding.viewAlarm.cbSaturday, Calendar.SATURDAY);
+        });
+        RxView.clicks(binding.viewAlarm.cbSunday).subscribe(aVoid -> {
+            alarmVM.handleTextClickDay(binding.viewAlarm.cbSunday, Calendar.SUNDAY);
+        });
     }
+
 
     private void initHour() {
 
@@ -168,13 +179,13 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * Check the activated days
      */
     private void initSelectedDays() {
-        binding.viewAlarm.cbMonday.setChecked(alarmVM.isDayActive(Calendar.MONDAY));
-        binding.viewAlarm.cbTuesday.setChecked(alarmVM.isDayActive(Calendar.TUESDAY));
-        binding.viewAlarm.cbWednesday.setChecked(alarmVM.isDayActive(Calendar.WEDNESDAY));
-        binding.viewAlarm.cbThursday.setChecked(alarmVM.isDayActive(Calendar.THURSDAY));
-        binding.viewAlarm.cbFriday.setChecked(alarmVM.isDayActive(Calendar.FRIDAY));
-        binding.viewAlarm.cbSaturday.setChecked(alarmVM.isDayActive(Calendar.SATURDAY));
-        binding.viewAlarm.cbSunday.setChecked(alarmVM.isDayActive(Calendar.SUNDAY));
+        binding.viewAlarm.cbMonday.setSelected(alarmVM.isDayActive(Calendar.MONDAY));
+        binding.viewAlarm.cbTuesday.setSelected(alarmVM.isDayActive(Calendar.TUESDAY));
+        binding.viewAlarm.cbWednesday.setSelected(alarmVM.isDayActive(Calendar.WEDNESDAY));
+        binding.viewAlarm.cbThursday.setSelected(alarmVM.isDayActive(Calendar.THURSDAY));
+        binding.viewAlarm.cbFriday.setSelected(alarmVM.isDayActive(Calendar.FRIDAY));
+        binding.viewAlarm.cbSaturday.setSelected(alarmVM.isDayActive(Calendar.SATURDAY));
+        binding.viewAlarm.cbSunday.setSelected(alarmVM.isDayActive(Calendar.SUNDAY));
     }
 
 

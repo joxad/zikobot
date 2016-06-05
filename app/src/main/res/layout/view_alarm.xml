@@ -70,11 +70,16 @@
         </LinearLayout>
 
 
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            app:contentPadding="@dimen/margin_medium">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/margin_medium"
+
             android:orientation="vertical">
 
             <RelativeLayout
@@ -91,6 +96,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginLeft="@dimen/margin_medium"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:text="@string/repeat"
@@ -100,74 +106,89 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_medium"
                 android:gravity="center"
-android:layout_marginTop="@dimen/margin_medium"
-                android:weightSum="4">
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="horizontal"
+                android:weightSum="7">
 
-                <CheckBox
+                <TextView
                     android:id="@+id/cb_monday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_days"
                     android:enabled="@{alarmVM.repeated}"
                     android:text="@string/monday" />
 
-                <CheckBox
+                <TextView
                     android:id="@+id/cb_tuesday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-
+                    android:textColor="@color/text_color_days"
                     android:enabled="@{alarmVM.repeated}"
                     android:text="@string/tuesday" />
 
-                <CheckBox
+                <TextView
                     android:id="@+id/cb_wednesday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_days"
 
                     android:enabled="@{alarmVM.repeated}"
                     android:text="@string/wednesday" />
 
-                <CheckBox
+                <TextView
                     android:id="@+id/cb_thursday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/text_color_days"
                     android:layout_height="wrap_content"
                     android:enabled="@{alarmVM.repeated}"
                     android:text="@string/thursday" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:gravity="center"
-                android:weightSum="4">
-
-
-                <CheckBox
+                <TextView
                     android:id="@+id/cb_friday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:enabled="@{alarmVM.repeated}"
+                    android:textColor="@color/text_color_days"
+
                     android:text="@string/friday" />
 
-                <CheckBox
+                <TextView
                     android:id="@+id/cb_saturday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:enabled="@{alarmVM.repeated}"
+                    android:textColor="@color/text_color_days"
                     android:text="@string/saturday" />
 
-                <CheckBox
+                <TextView
                     android:id="@+id/cb_sunday"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:enabled="@{alarmVM.repeated}"
+                    android:textColor="@color/text_color_days"
                     android:text="@string/sunday" />
-            </LinearLayout>
 
         </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -178,6 +199,7 @@ android:layout_marginTop="@dimen/margin_medium"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_medium"
                 android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:text="@string/tracks"
                 android:textAllCaps="true" />
 
@@ -191,5 +213,6 @@ android:layout_marginTop="@dimen/margin_medium"
                 tools:listitem="@layout/item_track" />
 
         </LinearLayout>
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 </layout>

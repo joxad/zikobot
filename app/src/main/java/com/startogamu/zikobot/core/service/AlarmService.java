@@ -32,11 +32,15 @@ public class AlarmService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        MusicNotification.show("Alarm starting");
+
         long alarmId = intent.getLongExtra(EXTRA.ALARM_ID, -1);
         AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
             if (AlarmManager.canStart(alarm)) {
                 AlarmService.this.alarm = alarm;
+                if (alarm.getRepeated()==0) {
+                    alarm.setActive(0);
+                    alarm.save();
+                }
                 MusicNotification.show(alarm.getName());
                 startActivity(Henson.with(getBaseContext()).gotoActivityWakeUp().alarm(alarm).build().addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.view.View;
+import android.widget.TextView;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.base.BaseVM;
@@ -173,9 +174,23 @@ public class AlarmVM extends BaseVM<Alarm> {
         model.setName(alarmName);
     }
 
+    /***
+     *
+     * @param textView
+     * @param day
+     */
+    public void handleTextClickDay(TextView textView, int day) {
+        boolean status =!model.isDayActive(day);
+        textView.setSelected(status);
+        activeDay(day, status);
+    }
+
     public void activeDay(int day, Boolean aBoolean) {
         model.activeDay(day, aBoolean);
+        notifyChange();
     }
+
+
 
     public int getMinute() {
         return model.getMinute();
