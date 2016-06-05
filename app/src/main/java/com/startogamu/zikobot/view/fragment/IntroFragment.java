@@ -20,10 +20,6 @@ import butterknife.Bind;
  */
 public class IntroFragment extends Fragment{
 
-
-    @Bind(R.id.cv_header)
-    CardView cvHeader;
-
     @Bind(R.id.iv_intro)
     RelativeLayout rl_image;
     public static IntroFragment newInstance(@LayoutRes int layoutRes) {
