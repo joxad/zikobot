@@ -51,8 +51,9 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     @Override
     public void init() {
         EventBus.getDefault().register(this);
+        refreshToken();
         Dart.inject(this, activity);
-       activity.setSupportActionBar(binding.toolbar);
+        activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> onBackPressed());
         activity.setTitle(alarm.getName());
@@ -62,8 +63,8 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
             trackVM = new TrackVM(activity, Mock.track(activity));
             binding.setAlarmTrackVM(trackVM);
         }
-        refreshToken();
 
+        startAlarm(alarm);
     }
 
     @Subscribe
@@ -84,7 +85,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         try {
             Injector.INSTANCE.spotifyAuth().manager().refreshToken(activity, () -> {
                 Injector.INSTANCE.playerComponent().manager().refreshAccessTokenPlayer();
-                startAlarm(alarm);
+
 
             });
         } catch (UnsupportedEncodingException e) {
@@ -113,7 +114,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     }
 
     /***
-     *
      * @param view
      */
     public void stop(View view) {
