@@ -12,4 +12,5 @@ public class EXTRA {
     public static final String LAYOUT = "LAYOUT";
     public static final java.lang.String TAG = "TAG";
     public static final String PLAYLIST_TRACKS_TOTAL = "TRACK_NUMBER";
+    public static final String LOCAL_ARTIST = "LOCAL_ARTIST";
 }

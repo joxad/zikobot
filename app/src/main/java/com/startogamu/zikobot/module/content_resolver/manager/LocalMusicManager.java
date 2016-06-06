@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.startogamu.zikobot.module.alarm.model.LocalTrack;
+import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
+import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
+import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class LocalMusicManager {
     public LocalMusicManager(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
     }
+
 
     /***
      * @return
@@ -84,26 +87,122 @@ public class LocalMusicManager {
 
     }
 
+
     /***
-     * @param localTrack
      * @return
      */
-    public String findAlbumArt(LocalTrack localTrack) {
-        Cursor cursor = contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
-                new String[]{MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM_ART},
-                MediaStore.Audio.Albums._ID + "=?",
-                new String[]{String.valueOf(localTrack.getAlbum())},
-                null);
+    public Observable<List<LocalArtist>> getLocalArtists() {
 
-        String path = null;
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
-                // do whatever you need to do
+        return Observable.create(new Observable.OnSubscribe<List<LocalArtist>>() {
+            @Override
+            public void call(Subscriber<? super List<LocalArtist>> subscriber) {
+
+                String[] projection = new String[]{
+                        MediaStore.Audio.Artists._ID,
+                        MediaStore.Audio.Artists.ARTIST,
+                        MediaStore.Audio.Artists.NUMBER_OF_ALBUMS,
+                        MediaStore.Audio.Artists.NUMBER_OF_TRACKS,
+                        MediaStore.Audio.Artists.ARTIST_KEY};
+                String selection = null;
+                String[] selectionArgs = null;
+                String sortOrder = MediaStore.Audio.Media.ARTIST + " ASC";
+                Cursor cursor = contentResolver.query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
+
+                if (cursor == null) {
+                    Log.e(TAG, "Failed to retrieve music: cursor is null :-(");
+                    subscriber.onError(new Throwable("Failed to retrieve music: cursor is null :-("));
+                    return;
+                }
+                if (!cursor.moveToFirst()) {
+                    subscriber.onError(new Throwable("No results. :( Add some tracks!"));
+
+                    Log.e(TAG, "Failed to move cursor to first row (no query results).");
+                    return;
+                }
+
+                ArrayList<LocalArtist> artists = new ArrayList<>();
+
+                do {
+                    Log.i(TAG, "ID: " + cursor.getString(0) + " Title: " + cursor.getString(1));
+                    artists.add(new LocalArtist(cursor.getLong(0),cursor.getString(1), cursor.getInt(2)));
+                } while (cursor.moveToNext());
+                Log.i(TAG, "Done querying media. MusicRetriever is ready.");
+                subscriber.onNext(artists);
                 cursor.close();
             }
+        });
+
+    }
+
+    /***
+     *
+     * @return
+     */
+    public Observable<List<LocalAlbum>> getLocalAlbums() {
+
+        return Observable.create(new Observable.OnSubscribe<List<LocalAlbum>>() {
+            @Override
+            public void call(Subscriber<? super List<LocalAlbum>> subscriber) {
+
+                String[] projection = new String[]{
+                        MediaStore.Audio.Albums._ID,
+                        MediaStore.Audio.Albums.ALBUM,
+                        MediaStore.Audio.Albums.ARTIST,
+                        MediaStore.Audio.Albums.ALBUM_ART,
+                        MediaStore.Audio.Albums.NUMBER_OF_SONGS};
+                String selection = null;
+                String[] selectionArgs = null;
+                String sortOrder = MediaStore.Audio.Media.ALBUM + " ASC";
+                Cursor cursor = contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
+
+                if (cursor == null) {
+                    Log.e(TAG, "Failed to retrieve music: cursor is null :-(");
+                    subscriber.onError(new Throwable("Failed to retrieve music: cursor is null :-("));
+                    return;
+                }
+                if (!cursor.moveToFirst()) {
+                    subscriber.onError(new Throwable("No results. :( Add some tracks!"));
+                    Log.e(TAG, "Failed to move cursor to first row (no query results).");
+                    return;
+                }
+
+                ArrayList<LocalAlbum> albums = new ArrayList<>();
+
+                do {
+                    Log.i(TAG, "ID: " + cursor.getString(0) + " Title: " + cursor.getString(1));
+                    albums.add(new LocalAlbum(cursor.getString(1), cursor.getString(2),cursor.getString(3), cursor.getInt(4)));
+                } while (cursor.moveToNext());
+                Log.i(TAG, "Done querying media. MusicRetriever is ready.");
+                subscriber.onNext(albums);
+                cursor.close();
+            }
+        });
+
+    }
+
+        /***
+         * @param localTrack
+         * @return
+         */
+        public String findAlbumArt(LocalTrack localTrack) {
+            Cursor cursor = contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+                    new String[]{MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM_ART},
+                    MediaStore.Audio.Albums._ID + "=?",
+                    new String[]{String.valueOf(localTrack.getAlbum())},
+                    null);
+
+            String path = null;
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
+                    // do whatever you need to do
+                    cursor.close();
+                }
+            }
+
+            return path;
         }
 
-        return path;
-    }
+
+
 }

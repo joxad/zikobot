@@ -64,5 +64,6 @@
     <string name="Spotify">Spotify</string>
     <string name="add_tracks">J\'ai besoin que tu ajoutes des chansons pour lancer l\'alarme</string>
     <string name="permission_local">J\'ai besoin de ta permission pour accéder à ta musique :)</string>
+    <string name="album">album(s)</string>
 
 </resources>

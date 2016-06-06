@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.alarm.model;
+package com.startogamu.zikobot.module.content_resolver.model;
 
 import android.content.ContentUris;
 import android.net.Uri;

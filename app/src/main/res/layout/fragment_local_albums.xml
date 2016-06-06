@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+
+        <import
+            alias="v"
+            type="android.view.View" />
+
+        <variable
+            name="fragmentLocalAlbumsVM"
+            type="com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalAlbumsVM" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:itemView="@{fragmentLocalAlbumsVM.itemView}"
+            app:items="@{fragmentLocalAlbumsVM.items}"
+            app:layoutManager="@{LayoutManagers.linear()}"
+            tools:listitem="@layout/item_artist" />
+
+        <com.startogamu.zikobot.view.custom.ZikobotMessageView
+            android:id="@+id/zmv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="@{fragmentLocalAlbumsVM.showZmvMessage ? v.VISIBLE : v.GONE}"
+            />
+
+    </RelativeLayout>
+</layout>

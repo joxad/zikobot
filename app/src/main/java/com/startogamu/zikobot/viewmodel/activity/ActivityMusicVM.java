@@ -17,6 +17,7 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.LocalArtistSelectEvent;
 import com.startogamu.zikobot.core.event.SelectAllTracks;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
 import com.startogamu.zikobot.core.utils.AppPrefs;
@@ -26,6 +27,7 @@ import com.startogamu.zikobot.databinding.ActivityMusicBinding;
 import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
 import com.startogamu.zikobot.module.alarm.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
+import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.activity.ActivityMusic;
 import com.startogamu.zikobot.view.fragment.DeezerFragment;
@@ -33,9 +35,12 @@ import com.startogamu.zikobot.view.fragment.FragmentLocalMusic;
 import com.startogamu.zikobot.view.fragment.FragmentSpotifyPlaylistTracks;
 import com.startogamu.zikobot.view.fragment.SpotifyConnectFragment;
 import com.startogamu.zikobot.view.fragment.SpotifyMusicFragment;
+import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
+import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.parceler.Parcels;
 
 /***
  * {@link ActivityMusicVM} handle multiples fragments :
@@ -51,7 +56,7 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
 
     private SpotifyMusicFragment spotifyMusicFragment;
     private SpotifyConnectFragment spotifyConnectFragment;
-    private FragmentLocalMusic fragmentLocalMusic;
+    private FragmentLocalArtists fragmentLocalArtists;
 
     @InjectExtra
     Alarm alarm;
@@ -73,8 +78,8 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> activity.onBackPressed());
-        fragmentLocalMusic = FragmentLocalMusic.newInstance();
-        activity.replaceFragment(fragmentLocalMusic, false);
+        fragmentLocalArtists = FragmentLocalArtists.newInstance();
+        activity.replaceFragment(fragmentLocalArtists, false);
         createBottomNavigation(binding.bottomNavigation);
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -105,7 +110,7 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
         bottomNavigationView.setOnBottomNavigationItemClickListener(index -> {
             switch (index) {
                 case 0:
-                    activity.replaceFragment(fragmentLocalMusic, false);
+                    activity.replaceFragment(fragmentLocalArtists, false);
                     break;
                 case 1:
                     // if (spotifyManager.hasAccessToken()) {
@@ -153,14 +158,14 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (fragmentLocalMusic == null || fragmentLocalMusic.isDetached())
+        if (fragmentLocalArtists == null || fragmentLocalArtists.isDetached())
             return;
         switch (requestCode) {
             case REQUEST.PERMISSION_STORAGE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    fragmentLocalMusic.loadMusic();
+                    fragmentLocalArtists.loadMusic();
                 else {
-                    fragmentLocalMusic.permissionDenied();
+                    fragmentLocalArtists.permissionDenied();
                 }
         }
     }
@@ -169,8 +174,13 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
     @Subscribe
     public void onEvent(SelectItemPlaylistEvent selectItemPlaylistEvent) {
         Item item = selectItemPlaylistEvent.getItem();
-        activity.replaceFragment(FragmentSpotifyPlaylistTracks.newInstance
-                (Bundler.create().put(EXTRA.PLAYLIST_ID, item.getId()).put(EXTRA.PLAYLIST_TRACKS_TOTAL, item.getTracks().total).get()), true);
+        activity.replaceFragment(FragmentSpotifyPlaylistTracks.newInstance(item), true);
+    }
+
+    @Subscribe
+    public void onEvent(LocalArtistSelectEvent localArtistSelectEvent) {
+        LocalArtist item = localArtistSelectEvent.getLocalArtist();
+        activity.replaceFragment(FragmentLocalAlbums.newInstance(item), true);
     }
 
 

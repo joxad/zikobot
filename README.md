@@ -1,8 +1,18 @@
 <img width="1040" height="500" src="/images/light_playstore.png" />
 
-# musicalarm-spotify-mvvm
+# Zikobot
+
 This project is an open-source alarm using Spotify SDK + Databinding + Dagger 2
 
+Link on the GooglePlay : https://play.google.com/apps/testing/com.startogamu.zikobot
+
+# ToDo
+
+https://trello.com/b/KY74S25F/zikobot
+
+# Current Version
+
+1.0.0-RC3
 
 # How to Install
 
@@ -44,6 +54,5 @@ In order to test MVVM on Android
 - Retrofit
 
 # Contributing 
-
 
 Feel free to contribute to this project :) Pull request are welcome !

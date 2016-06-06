@@ -9,10 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.f2prateek.dart.henson.Bundler;
 import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentSpotifyPlaylistTracksBinding;
+import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.viewmodel.fragment.FragmentSpotifyPlaylistVM;
+
+import org.parceler.Parcels;
 
 /**
  * Created by josh on 31/03/16.
@@ -21,9 +26,9 @@ public class FragmentSpotifyPlaylistTracks extends FragmentBase<FragmentSpotifyP
 
     public final static String TAG = FragmentSpotifyPlaylistTracks.class.getSimpleName();
 
-    public static FragmentSpotifyPlaylistTracks newInstance(Bundle bundle) {
+    public static FragmentSpotifyPlaylistTracks newInstance(Item item) {
         FragmentSpotifyPlaylistTracks fragment = new FragmentSpotifyPlaylistTracks();
-        fragment.setArguments(bundle);
+        fragment.setArguments( Bundler.create().put(EXTRA.PLAYLIST_ID, item.getId()).put(EXTRA.PLAYLIST_TRACKS_TOTAL, item.getTracks().total).get());
         return fragment;
     }
 

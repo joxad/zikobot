@@ -3,12 +3,14 @@ package com.startogamu.zikobot;
 import android.app.Application;
 import android.content.Context;
 
+import com.crashlytics.android.Crashlytics;
 import com.joxad.android_easy_spotify.SpotifyManager;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.startogamu.zikobot.core.notification.MusicNotification;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.component.Injector;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * {@link ZikobotApp} is used to initiate our Dagger classes + {@link FlowManager} + {@link AppPrefs} + {@link SpotifyManager}
@@ -18,6 +20,7 @@ public class ZikobotApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         FlowManager.init(new FlowConfig.Builder(this).build());
         AppPrefs.init(this);
         try {
