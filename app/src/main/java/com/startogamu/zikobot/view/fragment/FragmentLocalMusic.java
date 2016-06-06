@@ -37,4 +37,8 @@ public class FragmentLocalMusic extends FragmentBase<FragmentLocalMusicBinding, 
     public void loadMusic() {
         vm.loadLocalMusic();
     }
+
+    public void permissionDenied() {
+        vm.permissionDenied();
+    }
 }

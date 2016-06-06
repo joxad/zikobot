@@ -2,12 +2,14 @@ package com.startogamu.zikobot.viewmodel.fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
@@ -31,7 +33,9 @@ public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, Fragment
     public ObservableArrayList<TrackVM> items;
     public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_alarm_track);
 
-    public ObservableBoolean showNoResult;
+    public ObservableBoolean showZmvMessage;
+
+    public String zmvMessage;
 
     /***
      * @param fragment
@@ -44,19 +48,14 @@ public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, Fragment
 
     @Override
     public void init() {
-        showNoResult = new ObservableBoolean(false);
+        showZmvMessage = new ObservableBoolean(false);
+        zmvMessage = "";
         items = new ObservableArrayList<>();
         Injector.INSTANCE.contentResolverComponent().init(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(fragment.getActivity(), new String[]{
-                        Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE);
-            } else {
+                askPermission();
+             } else {
                 loadLocalMusic();
             }
         } else {
@@ -65,6 +64,18 @@ public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, Fragment
         }
     }
 
+    /***
+     * Method to ask storage perm
+     */
+    private void askPermission() {
+        ActivityCompat.requestPermissions(fragment.getActivity(), new String[]{
+                Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE);
+
+    }
+
+    /***
+     * Load the local music
+     */
     public void loadLocalMusic() {
         Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks().subscribe(localTracks -> {
             Log.d(TAG, "" + localTracks.size());
@@ -72,11 +83,23 @@ public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, Fragment
                 items.add(new TrackVM(fragment.getContext(), AlarmTrack.from(localTrack)));
             }
             if (localTracks.isEmpty()) {
-                showNoResult.set(true);
+                updateMessage(fragment.getString(R.string.no_music));
             }
         }, throwable -> {
-            showNoResult.set(true);
+            updateMessage(fragment.getString(R.string.no_music));
+
         });
+    }
+
+    /***
+     * Update t
+     *
+     * @param string
+     */
+    private void updateMessage(String string) {
+        showZmvMessage.set(true);
+        zmvMessage = string;
+        binding.zmv.setZmvMessage(zmvMessage);
     }
 
 
@@ -84,4 +107,10 @@ public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, Fragment
     public void destroy() {
 
     }
+
+    public void permissionDenied() {
+        updateMessage(fragment.getString(R.string.permission_local));
+        binding.zmv.setOnClickListener(v -> askPermission());
+    }
+
 }

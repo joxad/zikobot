@@ -49,7 +49,7 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
 
     @Override
     public void init() {
-        if (!AppPrefs.isFirstStart()) {
+        if (AppPrefs.isFirstStart()) {
             activity.startActivity(Henson.with(activity).gotoActivityFirstStart().build());
         }
         initToolbar();

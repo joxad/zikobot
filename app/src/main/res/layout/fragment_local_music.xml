@@ -31,13 +31,13 @@
             app:layoutManager="@{LayoutManagers.linear()}"
             tools:listitem="@layout/item_alarm_track" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.startogamu.zikobot.view.custom.ZikobotMessageView
+            android:id="@+id/zmv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/no_music"
-            android:visibility="@{fragmentLocalVM.showNoResult ? v.VISIBLE : v.GONE}" />
-
+            android:visibility="@{fragmentLocalVM.showZmvMessage ? v.VISIBLE : v.GONE}"
+            />
 
     </RelativeLayout>
 </layout>

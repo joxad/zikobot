@@ -159,6 +159,9 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
             case REQUEST.PERMISSION_STORAGE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     fragmentLocalMusic.loadMusic();
+                else {
+                    fragmentLocalMusic.permissionDenied();
+                }
         }
     }
 
