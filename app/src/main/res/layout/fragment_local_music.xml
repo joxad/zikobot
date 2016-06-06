@@ -13,7 +13,7 @@
 
         <variable
             name="fragmentLocalVM"
-            type="com.startogamu.zikobot.viewmodel.fragment.FragmentLocalVM" />
+            type="com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalVM" />
     </data>
 
     <RelativeLayout

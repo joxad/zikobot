@@ -2,7 +2,7 @@ package com.startogamu.zikobot.module.component;
 
 import com.startogamu.zikobot.module.content_resolver.ContentResolverBaseComponent;
 import com.startogamu.zikobot.module.content_resolver.ContentResolverModule;
-import com.startogamu.zikobot.viewmodel.fragment.FragmentLocalVM;
+import com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalVM;
 import com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalAlbumsVM;
 import com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalArtistVM;
 

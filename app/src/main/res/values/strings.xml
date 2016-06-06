@@ -54,7 +54,7 @@
     <string name="activity_music_deezer">Deezer</string>
     <string name="alarm_add">Valider</string>
     <string name="playlist_total_tracks">%d chansons</string>
-    <string name="tracks">Musique</string>
+    <string name="tracks">chanson(s)</string>
 
     <string name="deezer_coming_soon">Coming soon...</string>
     <string name="play">Jouer l\'alarme</string>

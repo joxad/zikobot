@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
-import com.f2prateek.dart.henson.Bundler;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
@@ -17,30 +16,30 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.core.event.LocalArtistSelectEvent;
 import com.startogamu.zikobot.core.event.SelectAllTracks;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.ActivityMusicBinding;
 import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
 import com.startogamu.zikobot.module.alarm.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
+import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.activity.ActivityMusic;
 import com.startogamu.zikobot.view.fragment.DeezerFragment;
-import com.startogamu.zikobot.view.fragment.FragmentLocalMusic;
 import com.startogamu.zikobot.view.fragment.FragmentSpotifyPlaylistTracks;
 import com.startogamu.zikobot.view.fragment.SpotifyConnectFragment;
 import com.startogamu.zikobot.view.fragment.SpotifyMusicFragment;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
+import com.startogamu.zikobot.view.fragment.local.FragmentLocalMusic;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.parceler.Parcels;
 
 /***
  * {@link ActivityMusicVM} handle multiples fragments :
@@ -181,6 +180,12 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
     public void onEvent(LocalArtistSelectEvent localArtistSelectEvent) {
         LocalArtist item = localArtistSelectEvent.getLocalArtist();
         activity.replaceFragment(FragmentLocalAlbums.newInstance(item), true);
+    }
+
+    @Subscribe
+    public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
+        LocalAlbum item = localAlbumSelectEvent.getModel();
+        activity.replaceFragment(FragmentLocalMusic.newInstance(item), true);
     }
 
 

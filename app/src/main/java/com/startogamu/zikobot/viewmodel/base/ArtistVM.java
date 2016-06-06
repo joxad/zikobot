@@ -35,7 +35,6 @@ public class ArtistVM extends BaseVM<LocalArtist> {
     }
 
     public void onClick(View view){
-        //TODO sendevent
         EventBus.getDefault().post(new LocalArtistSelectEvent(model));
     }
 

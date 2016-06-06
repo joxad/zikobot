@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.fragment;
+package com.startogamu.zikobot.viewmodel.fragment.local;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -10,14 +10,18 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.FragmentLocalMusicBinding;
 import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
+import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
 import com.startogamu.zikobot.module.component.Injector;
-import com.startogamu.zikobot.view.fragment.FragmentLocalMusic;
+import com.startogamu.zikobot.view.fragment.local.FragmentLocalMusic;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -27,6 +31,9 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, FragmentLocalMusicBinding> {
 
+
+    @InjectExtra(EXTRA.LOCAL_ALBUM)
+    LocalAlbum localAlbum;
     private static final String TAG = FragmentLocalVM.class.getSimpleName();
     public ObservableArrayList<TrackVM> items;
     public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_alarm_track);
@@ -46,6 +53,7 @@ public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, Fragment
 
     @Override
     public void init() {
+        Dart.inject(this, fragment.getArguments());
         showZmvMessage = new ObservableBoolean(false);
         zmvMessage = "";
         items = new ObservableArrayList<>();
@@ -75,7 +83,7 @@ public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, Fragment
      * Load the local music
      */
     public void loadLocalMusic() {
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks().subscribe(localTracks -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(localAlbum.getId()).subscribe(localTracks -> {
             Log.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 items.add(new TrackVM(fragment.getContext(), AlarmTrack.from(localTrack)));

@@ -1,16 +1,41 @@
 package com.startogamu.zikobot.module.content_resolver.model;
 
-import lombok.Data;
+import org.parceler.Parcel;
+
+import lombok.Getter;
 
 /**
  * Created by josh on 06/06/16.
  */
-@Data
+@Parcel
 public class LocalAlbum {
 
-    private final String name;
-    private final String artist;
-    private final String data;
-    private final int nbTracks;
+    @Getter
+    private long id;
+    @Getter
+    private String name;
+    @Getter
+    private String artist;
+    @Getter
+    private String image;
+    @Getter
+    private int nbTracks;
 
+    public LocalAlbum() {}
+
+    /***
+     *
+     * @param id
+     * @param name
+     * @param artist
+     * @param image
+     * @param nbTracks
+     */
+    public LocalAlbum(long id, String name, String artist, String image, int nbTracks) {
+        this.id = id;
+        this.name = name;
+        this.artist = artist;
+        this.image = image;
+        this.nbTracks = nbTracks;
+    }
 }

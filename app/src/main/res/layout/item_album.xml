@@ -27,6 +27,7 @@
             <ImageView
                 android:layout_width="@dimen/item_icon_size"
                 android:layout_height="@dimen/item_icon_size"
+                app:imageUrl="@{albumVM.imageUrl}"
                 tools:src="@drawable/ic_picture_loading" />
 
             <RelativeLayout

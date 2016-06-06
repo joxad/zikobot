@@ -9,9 +9,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.FragmentLocalAlbumsBinding;
 import com.startogamu.zikobot.databinding.FragmentLocalArtistsBinding;
@@ -30,6 +33,9 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, FragmentLocalAlbumsBinding>{
 
+
+    @InjectExtra(EXTRA.LOCAL_ARTIST)
+    LocalArtist localArtist;
 
     private static final String TAG = FragmentLocalAlbumsVM.class.getSimpleName();
     public ObservableBoolean showZmvMessage;
@@ -50,6 +56,8 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
 
     @Override
     public void init() {
+
+        Dart.inject(this,fragment.getArguments());
         items = new ObservableArrayList<>();
         showZmvMessage = new ObservableBoolean(false);
         zmvMessage = "";
@@ -70,7 +78,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
      * Load the local music
      */
     public void loadLocalMusic() {
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums().subscribe(localAlbums -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(localArtist.getName()).subscribe(localAlbums -> {
             Log.d(TAG, "" + localAlbums.size());
             for (LocalAlbum localAlbum : localAlbums) {
                 items.add(new AlbumVM(fragment.getContext(), localAlbum));
