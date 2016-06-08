@@ -21,8 +21,8 @@
             type="com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel" />
 
         <variable
-            name="spotifyMusicViewModel"
-            type="com.startogamu.zikobot.viewmodel.fragment.SpotifyMusicViewModel" />
+            name="fragmentTracksVM"
+            type="com.startogamu.zikobot.viewmodel.fragment.spotify.FragmentTracksVM" />
     </data>
 
     <RelativeLayout
@@ -35,8 +35,8 @@
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:itemView="@{spotifyMusicViewModel.itemUserPlaylistsBinder}"
-            app:items="@{spotifyMusicViewModel.userPlaylists}"
+            app:itemView="@{fragmentTracksVM.itemUserPlaylistsBinder}"
+            app:items="@{fragmentTracksVM.userPlaylists}"
             app:layoutManager="@{LayoutManagers.linear()}"
             tools:listitem="@layout/item_playlist" />
 

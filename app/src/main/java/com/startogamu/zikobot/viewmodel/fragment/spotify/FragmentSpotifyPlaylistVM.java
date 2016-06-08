@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.fragment;
+package com.startogamu.zikobot.viewmodel.fragment.spotify;
 
 import android.databinding.ObservableArrayList;
 import android.support.design.widget.Snackbar;
@@ -14,7 +14,7 @@ import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylistItem;
-import com.startogamu.zikobot.view.fragment.FragmentSpotifyPlaylistTracks;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylistTracks;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;

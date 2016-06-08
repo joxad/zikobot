@@ -31,10 +31,10 @@ import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.activity.ActivityMusic;
-import com.startogamu.zikobot.view.fragment.DeezerFragment;
-import com.startogamu.zikobot.view.fragment.FragmentSpotifyPlaylistTracks;
-import com.startogamu.zikobot.view.fragment.SpotifyConnectFragment;
-import com.startogamu.zikobot.view.fragment.SpotifyMusicFragment;
+import com.startogamu.zikobot.view.fragment.deezer.DeezerFragment;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyConnect;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylistTracks;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyTracks;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalMusic;
@@ -42,22 +42,20 @@ import com.startogamu.zikobot.view.fragment.local.FragmentLocalMusic;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
-
 /***
  * {@link ActivityMusicVM} handle multiples fragments :
  * <ul>
- * <li>{@link SpotifyMusicFragment } taht show the differents playlist to the user. Can redirect to
+ * <li>{@link FragmentSpotifyTracks } taht show the differents playlist to the user. Can redirect to
  * {@link FragmentSpotifyPlaylistTracks}</li>
- * <li>{@link SpotifyConnectFragment} that handle the connection to spotify</li>
+ * <li>{@link FragmentSpotifyConnect} that handle the connection to spotify</li>
  * <li>{@link FragmentLocalMusic}</li>
  * </ul>
  */
 public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusicBinding> implements IResult, INewIntent, IPermission {
 
 
-    private SpotifyMusicFragment spotifyMusicFragment;
-    private SpotifyConnectFragment spotifyConnectFragment;
+    private FragmentSpotifyTracks fragmentSpotifyTracks;
+    private FragmentSpotifyConnect fragmentSpotifyConnect;
     private FragmentLocalArtists fragmentLocalArtists;
 
     @InjectExtra
@@ -117,8 +115,8 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
                 case 1:
                     // if (spotifyManager.hasAccessToken()) {
                     if (!Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
-                        spotifyConnectFragment = SpotifyConnectFragment.newInstance();
-                        activity.replaceFragment(spotifyConnectFragment, false);
+                        fragmentSpotifyConnect = FragmentSpotifyConnect.newInstance();
+                        activity.replaceFragment(fragmentSpotifyConnect, false);
                     } else {
                         loadSpotifyMusicFragment();
                     }
@@ -137,8 +135,8 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (spotifyConnectFragment != null)
-            spotifyConnectFragment.onActivityResult(requestCode, resultCode, data);
+        if (fragmentSpotifyConnect != null)
+            fragmentSpotifyConnect.onActivityResult(requestCode, resultCode, data);
     }
 
     /***
@@ -146,16 +144,16 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
      */
     @Override
     public void onNewIntent(Intent intent) {
-        if (spotifyConnectFragment != null && !spotifyConnectFragment.isDetached())
-            spotifyConnectFragment.onNewIntent(intent);
+        if (fragmentSpotifyConnect != null && !fragmentSpotifyConnect.isDetached())
+            fragmentSpotifyConnect.onNewIntent(intent);
     }
 
     /***
      *
      */
     public void loadSpotifyMusicFragment() {
-        spotifyMusicFragment = SpotifyMusicFragment.newInstance();
-        activity.replaceFragment(spotifyMusicFragment, false);
+        fragmentSpotifyTracks = FragmentSpotifyTracks.newInstance();
+        activity.replaceFragment(fragmentSpotifyTracks, false);
     }
 
     @Override

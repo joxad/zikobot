@@ -1,13 +1,12 @@
-package com.startogamu.zikobot.viewmodel.fragment;
+package com.startogamu.zikobot.viewmodel.fragment.menu;
 
 import android.support.design.widget.NavigationView;
-import android.view.MenuItem;
 
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.databinding.FragmentMenuBinding;
 import com.startogamu.zikobot.view.Henson;
-import com.startogamu.zikobot.view.fragment.FragmentMenu;
+import com.startogamu.zikobot.view.fragment.menu.FragmentMenu;
 
 /**
  * Created by josh on 08/06/16.

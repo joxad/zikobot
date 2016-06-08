@@ -6,37 +6,31 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.MenuItem;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.f2prateek.dart.Dart;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.joxad.easydatabinding.activity.IResult;
-import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.core.event.LocalArtistSelectEvent;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
 import com.startogamu.zikobot.core.fragmentmanager.FragmentManager;
 import com.startogamu.zikobot.core.fragmentmanager.IFragmentManager;
-import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.activity.ActivityMain;
-import com.startogamu.zikobot.view.fragment.DeezerFragment;
-import com.startogamu.zikobot.view.fragment.FragmentMenu;
-import com.startogamu.zikobot.view.fragment.FragmentSpotifyPlaylistTracks;
-import com.startogamu.zikobot.view.fragment.SpotifyConnectFragment;
-import com.startogamu.zikobot.view.fragment.SpotifyMusicFragment;
+import com.startogamu.zikobot.view.fragment.menu.FragmentMenu;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyConnect;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylistTracks;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyTracks;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalMusic;
@@ -49,8 +43,8 @@ import org.greenrobot.eventbus.Subscribe;
  */
 public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBinding> implements IResult, IPermission, INewIntent, IFragmentManager {
 
-    private SpotifyMusicFragment spotifyMusicFragment;
-    private SpotifyConnectFragment spotifyConnectFragment;
+    private FragmentSpotifyTracks fragmentSpotifyTracks;
+    private FragmentSpotifyConnect fragmentSpotifyConnect;
     private FragmentLocalArtists fragmentLocalArtists;
     private FragmentLocalAlbums fragmentLocalAlbums;
     private FragmentLocalMusic fragmentLocalMusic;
@@ -90,8 +84,8 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                         break;
                     case 1:
                         /*if (!Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
-                            spotifyConnectFragment = SpotifyConnectFragment.newInstance();
-                            replaceFragment(spotifyConnectFragment, false);
+                            fragmentSpotifyConnect = FragmentSpotifyConnect.newInstance();
+                            replaceFragment(fragmentSpotifyConnect, false);
                         } else {
                             loadSpotifyMusicFragment();
                         }*/
@@ -166,8 +160,8 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (spotifyConnectFragment != null)
-            spotifyConnectFragment.onActivityResult(requestCode, resultCode, data);
+        if (fragmentSpotifyConnect != null)
+            fragmentSpotifyConnect.onActivityResult(requestCode, resultCode, data);
     }
 
     /***
@@ -175,16 +169,16 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      */
     @Override
     public void onNewIntent(Intent intent) {
-        if (spotifyConnectFragment != null && !spotifyConnectFragment.isDetached())
-            spotifyConnectFragment.onNewIntent(intent);
+        if (fragmentSpotifyConnect != null && !fragmentSpotifyConnect.isDetached())
+            fragmentSpotifyConnect.onNewIntent(intent);
     }
 
     /***
      *
      */
     public void loadSpotifyMusicFragment() {
-        spotifyMusicFragment = SpotifyMusicFragment.newInstance();
-        replaceFragment(spotifyMusicFragment, false);
+        fragmentSpotifyTracks = FragmentSpotifyTracks.newInstance();
+        replaceFragment(fragmentSpotifyTracks, false);
     }
 
     @Override

@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="spotifyConnectViewModel"
-            type="com.startogamu.zikobot.viewmodel.fragment.SpotifyConnectViewModel" />
+            name="fragmentConnectVM"
+            type="com.startogamu.zikobot.viewmodel.fragment.spotify.FragmentConnectVM" />
     </data>
 
     <LinearLayout
@@ -24,7 +24,7 @@
         <com.startogamu.zikobot.view.custom.MaterialButtonView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{spotifyConnectViewModel.onButtonConnectClick}"
+            android:onClick="@{fragmentConnectVM.onButtonConnectClick}"
             app:mbv_text="@string/connect_with_spotify"
             app:mbv_text_color="@android:color/white"
             app:mrl_rippleBackground="@android:color/holo_green_dark" />

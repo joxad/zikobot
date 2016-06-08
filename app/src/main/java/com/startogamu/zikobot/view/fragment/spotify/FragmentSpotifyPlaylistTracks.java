@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.view.fragment;
+package com.startogamu.zikobot.view.fragment.spotify;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,9 +15,7 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentSpotifyPlaylistTracksBinding;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
-import com.startogamu.zikobot.viewmodel.fragment.FragmentSpotifyPlaylistVM;
-
-import org.parceler.Parcels;
+import com.startogamu.zikobot.viewmodel.fragment.spotify.FragmentSpotifyPlaylistVM;
 
 /**
  * Created by josh on 31/03/16.

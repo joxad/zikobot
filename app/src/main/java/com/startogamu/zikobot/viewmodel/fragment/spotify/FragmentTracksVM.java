@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.fragment;
+package com.startogamu.zikobot.viewmodel.fragment.spotify;
 
 import android.databinding.ObservableArrayList;
 import android.support.design.widget.Snackbar;
@@ -6,11 +6,11 @@ import android.support.design.widget.Snackbar;
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.databinding.FragmentSpotifyMusicBinding;
+import com.startogamu.zikobot.databinding.FragmentSpotifyTracksBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
-import com.startogamu.zikobot.view.fragment.SpotifyMusicFragment;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyTracks;
 import com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -19,7 +19,7 @@ import rx.Subscription;
 /**
  * Created by josh on 26/03/16.
  */
-public class SpotifyMusicViewModel extends FragmentBaseVM<SpotifyMusicFragment, FragmentSpotifyMusicBinding> {
+public class FragmentTracksVM extends FragmentBaseVM<FragmentSpotifyTracks, FragmentSpotifyTracksBinding> {
 
     public ObservableArrayList<ItemPlaylistViewModel> userPlaylists;
 
@@ -33,7 +33,7 @@ public class SpotifyMusicViewModel extends FragmentBaseVM<SpotifyMusicFragment, 
      * @param fragment
      * @param binding
      */
-    public SpotifyMusicViewModel(SpotifyMusicFragment fragment, FragmentSpotifyMusicBinding binding) {
+    public FragmentTracksVM(FragmentSpotifyTracks fragment, FragmentSpotifyTracksBinding binding) {
         super(fragment, binding);
     }
 

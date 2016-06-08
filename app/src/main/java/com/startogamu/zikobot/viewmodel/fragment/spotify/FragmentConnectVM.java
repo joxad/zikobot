@@ -1,11 +1,10 @@
-package com.startogamu.zikobot.viewmodel.fragment;
+package com.startogamu.zikobot.viewmodel.fragment.spotify;
 
 /**
  * Created by josh on 26/03/16.
  */
 
 import android.content.Intent;
-import android.databinding.BaseObservable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +12,8 @@ import android.view.View;
 import com.joxad.android_easy_spotify.Scope;
 import com.joxad.android_easy_spotify.SpotifyManager;
 import com.joxad.android_easy_spotify.Type;
-import com.joxad.easydatabinding.base.IVM;
+import com.joxad.easydatabinding.activity.IResult;
+import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentConnectSpotifyBinding;
@@ -22,20 +22,18 @@ import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
 import com.startogamu.zikobot.module.spotify_auth.model.SpotifyRequestToken;
 import com.startogamu.zikobot.module.spotify_auth.model.SpotifyToken;
 import com.startogamu.zikobot.view.activity.ActivityMusic;
-import com.startogamu.zikobot.view.fragment.SpotifyConnectFragment;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyConnect;
 
 import java.io.UnsupportedEncodingException;
 
 import rx.Subscriber;
 
 /***
- * {@link SpotifyConnectViewModel}  make the link between {@link SpotifyConnectFragment} and {@link SpotifyManager}
+ * {@link FragmentConnectVM}  make the link between {@link FragmentSpotifyConnect} and {@link SpotifyManager}
  */
-public class SpotifyConnectViewModel extends BaseObservable implements IVM {
+public class FragmentConnectVM extends FragmentBaseVM<FragmentSpotifyConnect, FragmentConnectSpotifyBinding> implements IResult {
 
-    public String TAG = SpotifyConnectViewModel.class.getSimpleName();
-    SpotifyConnectFragment context;
-    private FragmentConnectSpotifyBinding binding;
+    public String TAG = FragmentConnectVM.class.getSimpleName();
 
     String accessToken;
     String accessCode;
@@ -44,13 +42,18 @@ public class SpotifyConnectViewModel extends BaseObservable implements IVM {
      * @param fragment
      * @param binding
      */
-    public SpotifyConnectViewModel(SpotifyConnectFragment fragment, FragmentConnectSpotifyBinding binding) {
-        this.binding = binding;
-        this.context = fragment;
+    public FragmentConnectVM(FragmentSpotifyConnect fragment, FragmentConnectSpotifyBinding binding) {
+        super(fragment, binding);
+
         Injector.INSTANCE.spotifyApi().inject(this);
         Injector.INSTANCE.spotifyAuth().inject(this);
     }
 
+
+    @Override
+    public void init() {
+
+    }
 
     /***
      * Manage the result code of Spotify
@@ -59,6 +62,7 @@ public class SpotifyConnectViewModel extends BaseObservable implements IVM {
      * @param resultCode
      * @param data
      */
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         SpotifyManager.onActivityResult(requestCode, resultCode, data);
     }
@@ -74,7 +78,7 @@ public class SpotifyConnectViewModel extends BaseObservable implements IVM {
      * @param view
      */
     public void onButtonConnectClick(View view) {
-        SpotifyManager.loginWithBrowser(context.getActivity(), Type.CODE, R.string.api_spotify_callback_musics,
+        SpotifyManager.loginWithBrowser(fragment.getActivity(), Type.CODE, R.string.api_spotify_callback_musics,
                 new String[]{Scope.USER_READ_PRIVATE, Scope.STREAMING}, new SpotifyManager.OAuthListener() {
                     @Override
                     public void onReceived(String code) {
@@ -98,27 +102,27 @@ public class SpotifyConnectViewModel extends BaseObservable implements IVM {
         try {
             Injector.INSTANCE.spotifyAuth().manager().requestToken(
                     new SpotifyRequestToken("authorization_code", accessCode,
-                            context.getString(R.string.api_spotify_callback_musics),
-                            context.getString(R.string.api_spotify_id),
-                            context.getString(R.string.api_spotify_secret))).subscribe(new Subscriber<SpotifyToken>() {
-                        @Override
-                        public void onCompleted() {
-                        }
+                            fragment.getString(R.string.api_spotify_callback_musics),
+                            fragment.getString(R.string.api_spotify_id),
+                            fragment.getString(R.string.api_spotify_secret))).subscribe(new Subscriber<SpotifyToken>() {
+                @Override
+                public void onCompleted() {
+                }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.d(TAG, e.getLocalizedMessage());
-                        }
+                @Override
+                public void onError(Throwable e) {
+                    Log.d(TAG, e.getLocalizedMessage());
+                }
 
-                        @Override
-                        public void onNext(SpotifyToken spotifyToken) {
-                            Log.d(TAG, spotifyToken.toString());
-                            accessToken = spotifyToken.getAccessToken();
-                            AppPrefs.saveRefreshToken(spotifyToken.getRefreshToken());
-                            AppPrefs.saveAccessToken(spotifyToken.getAccessToken());
-                            getMe();
-                        }
-                    });
+                @Override
+                public void onNext(SpotifyToken spotifyToken) {
+                    Log.d(TAG, spotifyToken.toString());
+                    accessToken = spotifyToken.getAccessToken();
+                    AppPrefs.saveRefreshToken(spotifyToken.getRefreshToken());
+                    AppPrefs.saveAccessToken(spotifyToken.getAccessToken());
+                    getMe();
+                }
+            });
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -143,16 +147,10 @@ public class SpotifyConnectViewModel extends BaseObservable implements IVM {
             @Override
             public void onNext(SpotifyUser spotifyUser) {
                 AppPrefs.userId(spotifyUser.id);
-                ((ActivityMusic) context.getActivity()).loadSpotifyMusicFragment();
+                //TODO check
+                ((ActivityMusic) fragment.getActivity()).loadSpotifyMusicFragment();
             }
         });
-    }
-
-
-
-    @Override
-    public void init() {
-
     }
 
     @Override

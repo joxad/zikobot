@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.view.fragment;
+package com.startogamu.zikobot.view.fragment.deezer;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
