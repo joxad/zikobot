@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="api_spotify_id">ab915fed01e14e5cbb008ca9e5c5d9c8</string>
-    <string name="api_spotify_secret">5065e2caef3f46178225cbd686317f5a</string>
     <string name="api_spotify_callback_settings">spotify-callback://settings-activity</string>
     <string name="api_spotify_callback_musics">spotify-callback://music-activity</string>
     <string name="spotify_base_api_url">https://api.spotify.com/v1/</string>

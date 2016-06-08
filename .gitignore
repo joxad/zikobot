@@ -33,3 +33,6 @@ proguard/
 
 # Crashlytics files
 crashlytics.properties
+/app/src/main/res/values/spotify_config.xml
+Supprimerait app/fabric.properties
+Supprimerait app/keystore.jks

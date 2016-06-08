@@ -4,6 +4,7 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -22,13 +23,12 @@ import com.startogamu.zikobot.view.activity.ActivityAlarms;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
 
 import java.io.UnsupportedEncodingException;
-
 import me.tatarka.bindingcollectionadapter.ItemView;
 
 /**
  * Created by josh on 09/03/16.
  */
-public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAlarmsBinding> {
+public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAlarmsBinding>  {
 
     private static final String TAG = ActivityAlarmsVM.class.getSimpleName();
 
@@ -52,7 +52,7 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
         if (AppPrefs.isFirstStart()) {
             activity.startActivity(Henson.with(activity).gotoActivityFirstStart().build());
         }
-        initToolbar();
+       initToolbar();
         itemsVM = new ObservableArrayList<>();
         showTuto = new ObservableBoolean(false);
         if (Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
@@ -124,7 +124,7 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
             for (Alarm alarm : alarms) {
                 itemsVM.add(new AlarmVM(activity, alarm));
             }
-            if (alarms.size()==0) {
+            if (alarms.size() == 0) {
                 showTuto.set(true);
             }
         }, throwable -> {
@@ -149,4 +149,5 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
     public void destroy() {
 
     }
+
 }
