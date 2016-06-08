@@ -17,7 +17,7 @@ public class BottomViewBehavior extends CoordinatorLayout.Behavior<BottomNavigat
 
     public BottomViewBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.toolbarHeight = ViewUtils.getToolbarHeight(context);
+        this.toolbarHeight = ViewUtils.getToolbarHeight(context)*2;
     }
 
     @Override

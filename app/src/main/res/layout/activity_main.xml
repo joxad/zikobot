@@ -64,9 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             app:layout_anchor="@id/container"
-            app:layout_anchorGravity="bottom|end"
-            android:layout_margin="-24dp"
-            app:layout_behavior="com.startogamu.zikobot.core.utils.BottomViewBehavior" />
+            app:layout_anchorGravity="bottom|end" />
 
 
     </android.support.design.widget.CoordinatorLayout>
