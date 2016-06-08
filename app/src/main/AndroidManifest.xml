@@ -19,12 +19,21 @@
         android:theme="@style/AppTheme.NoActionBar">
 
         <activity android:name=".view.activity.ActivityMain">
+            // An intent filter that will receive the response from the authentication service
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
+                // this needs to match the scheme and host of the redirect uri
+                <data
+                    android:host="settings-activity"
+                    android:scheme="spotify-callback" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.activity.ActivityAlarms"

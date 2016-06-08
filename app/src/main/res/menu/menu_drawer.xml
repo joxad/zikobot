@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <group android:checkableBehavior="single">
+
+            <item
+                android:id="@+id/local"
+                android:checked="false"
+                android:icon="@drawable/ic_folder"
+                android:title="@string/activity_music_local" />
+
+            <item
+                android:id="@+id/spotify"
+                android:checked="false"
+                android:icon="@drawable/logo_spotify"
+                android:title="@string/activity_music_spotify" />
+
+            <item
+                android:id="@+id/deezer"
+                android:checked="false"
+                android:icon="@drawable/logo_deezer"
+                android:title="@string/activity_music_deezer" />
+
+        </group>
+    </menu>

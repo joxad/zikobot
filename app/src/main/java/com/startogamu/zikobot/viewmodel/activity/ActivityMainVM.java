@@ -2,9 +2,14 @@ package com.startogamu.zikobot.viewmodel.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Gravity;
+import android.view.MenuItem;
 
 import com.f2prateek.dart.Dart;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -12,7 +17,6 @@ import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.joxad.easydatabinding.activity.IResult;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
-import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
@@ -28,6 +32,7 @@ import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.view.fragment.DeezerFragment;
+import com.startogamu.zikobot.view.fragment.FragmentMenu;
 import com.startogamu.zikobot.view.fragment.FragmentSpotifyPlaylistTracks;
 import com.startogamu.zikobot.view.fragment.SpotifyConnectFragment;
 import com.startogamu.zikobot.view.fragment.SpotifyMusicFragment;
@@ -46,6 +51,9 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     private SpotifyMusicFragment spotifyMusicFragment;
     private SpotifyConnectFragment spotifyConnectFragment;
     private FragmentLocalArtists fragmentLocalArtists;
+    private FragmentLocalAlbums fragmentLocalAlbums;
+    private FragmentLocalMusic fragmentLocalMusic;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
 
     /***
      * @param activity
@@ -57,15 +65,90 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     public void init() {
-
-        createBottomNavigation(binding.bottomNavigation);
         EventBus.getDefault().register(this);
-        Dart.inject(this, activity);
-        activity.setSupportActionBar(binding.toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        binding.toolbar.setNavigationOnClickListener(listener -> activity.onBackPressed());
+        initDrawer();
+        initFragments();
+        initTabLayout();
+
+    }
+
+    /***
+     * Will contains the filters (artist/album/tracks)
+     */
+    private void initTabLayout() {
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Par Artiste"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Par Album"));
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Par Track"));
+
+        binding.tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        replaceFragment(fragmentLocalArtists, false);
+                        break;
+                    case 1:
+                        /*if (!Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
+                            spotifyConnectFragment = SpotifyConnectFragment.newInstance();
+                            replaceFragment(spotifyConnectFragment, false);
+                        } else {
+                            loadSpotifyMusicFragment();
+                        }*/
+                        if (fragmentLocalAlbums == null){
+                            fragmentLocalAlbums  = FragmentLocalAlbums.newInstance(null);
+                        }
+                        replaceFragment(fragmentLocalAlbums, false);
+                        break;
+                    case 2:
+                        if (fragmentLocalMusic == null){
+                            fragmentLocalMusic  = FragmentLocalMusic.newInstance(null);
+                        }
+                        replaceFragment(fragmentLocalMusic, false);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    /***
+     *
+     */
+    private void initFragments() {
         fragmentLocalArtists = FragmentLocalArtists.newInstance();
         replaceFragment(fragmentLocalArtists, false);
+    }
+
+    /***
+     * Init the menu drawer layout that will contains the other way to play music
+     */
+    private void initDrawer() {
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_menu, FragmentMenu.newInstance()).commit();
+        activity.setSupportActionBar(binding.toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        activity.getSupportActionBar().setHomeButtonEnabled(true);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(activity, binding.drawerLayout,
+                R.string.drawer_open, R.string.drawer_close);
+        binding.drawerLayout.setScrimColor(Color.TRANSPARENT);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        actionBarDrawerToggle.setToolbarNavigationClickListener(v -> {
+            if (binding.drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                binding.drawerLayout.openDrawer(Gravity.LEFT);
+            } else {
+                binding.drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+        binding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
     }
 
 
@@ -74,43 +157,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         EventBus.getDefault().unregister(this);
     }
 
-    /***
-     * @param bottomNavigationView
-     */
-    public void createBottomNavigation(BottomNavigationView bottomNavigationView) {
-
-        BottomNavigationItem local = new BottomNavigationItem
-                (activity.getString(R.string.activity_music_local), ContextCompat.getColor(activity, R.color.colorPrimary), R.drawable.ic_folder);
-        BottomNavigationItem spotify = new BottomNavigationItem
-                (activity.getString(R.string.activity_music_spotify), ContextCompat.getColor(activity, android.R.color.holo_green_dark), R.drawable.logo_spotify);
-        BottomNavigationItem deezer = new BottomNavigationItem
-                (activity.getString(R.string.activity_music_deezer), ContextCompat.getColor(activity, android.R.color.holo_orange_dark), R.drawable.logo_deezer);
-
-        bottomNavigationView.addTab(local);
-        bottomNavigationView.addTab(spotify);
-        bottomNavigationView.addTab(deezer);
-
-        bottomNavigationView.setOnBottomNavigationItemClickListener(index -> {
-            switch (index) {
-                case 0:
-                    replaceFragment(fragmentLocalArtists, false);
-                    break;
-                case 1:
-                    // if (spotifyManager.hasAccessToken()) {
-                    if (!Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
-                        spotifyConnectFragment = SpotifyConnectFragment.newInstance();
-                        replaceFragment(spotifyConnectFragment, false);
-                    } else {
-                        loadSpotifyMusicFragment();
-                    }
-                    break;
-                case 2:
-                    replaceFragment(DeezerFragment.newInstance(), false);
-                    break;
-            }
-        });
-
-    }
 
     /***
      * @param requestCode
@@ -155,7 +201,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     }
 
 
-
     @Override
     public void addFragment(Fragment fragment, boolean withBackstack) {
         FragmentManager.addFragment(activity, fragment, withBackstack);
@@ -189,4 +234,15 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         replaceFragment(FragmentLocalMusic.newInstance(item), true);
     }
 
+
+    public void onPostCreate() {
+        actionBarDrawerToggle.syncState();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return false;
+    }
 }

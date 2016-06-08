@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -31,7 +32,7 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, FragmentLocalMusicBinding> {
 
-
+    @Nullable
     @InjectExtra(EXTRA.LOCAL_ALBUM)
     LocalAlbum localAlbum;
     private static final String TAG = FragmentLocalVM.class.getSimpleName();
@@ -61,7 +62,7 @@ public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, Fragment
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 askPermission();
-             } else {
+            } else {
                 loadLocalMusic();
             }
         } else {
@@ -83,7 +84,7 @@ public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, Fragment
      * Load the local music
      */
     public void loadLocalMusic() {
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(localAlbum.getId()).subscribe(localTracks -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(localAlbum != null ? localAlbum.getId() : -1).subscribe(localTracks -> {
             Log.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 items.add(new TrackVM(fragment.getContext(), AlarmTrack.from(localTrack)));
@@ -98,6 +99,7 @@ public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, Fragment
 
         });
     }
+
     /***
      * Update t
      *
@@ -113,8 +115,6 @@ public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, Fragment
         updateMessage(fragment.getString(R.string.permission_local));
         binding.zmv.setOnClickListener(v -> askPermission());
     }
-
-
 
 
     @Override

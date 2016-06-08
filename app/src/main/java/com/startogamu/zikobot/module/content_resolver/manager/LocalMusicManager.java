@@ -33,6 +33,8 @@ public class LocalMusicManager {
 
 
     /***
+     * Give a list of tracks according to an album
+     * @param album -1 if you want all the tracks
      * @return
      */
     public Observable<List<LocalTrack>> getLocalTracks(@Nullable final long album) {
@@ -190,9 +192,6 @@ public class LocalMusicManager {
                 int albumColumn = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM);
                 int artColumn = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
                 int nbTrackColumn = cursor.getColumnIndex(MediaStore.Audio.Albums.NUMBER_OF_SONGS);
-                int albumKeyColumn = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_KEY);
-
-
                 ArrayList<LocalAlbum> albums = new ArrayList<>();
 
                 do {

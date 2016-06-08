@@ -1,6 +1,7 @@
 package com.startogamu.zikobot.view.activity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.zikobot.BR;
@@ -25,5 +26,20 @@ public class ActivityMain  extends ActivityBase<ActivityMainBinding, ActivityMai
     @Override
     public ActivityMainVM baseActivityVM(ActivityMainBinding binding, Bundle savedInstanceState) {
         return new ActivityMainVM(this, binding);
+    }
+
+
+    @Override
+    public void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        vm.onPostCreate();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if ( vm.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

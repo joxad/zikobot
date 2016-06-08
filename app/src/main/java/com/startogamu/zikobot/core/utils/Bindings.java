@@ -11,7 +11,7 @@ import com.startogamu.zikobot.R;
  */
 public class Bindings {
 
-    @BindingAdapter({"app:imageUrl"})
+    @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {
         Glide.with(view.getContext())
                 .load(imageUrl)

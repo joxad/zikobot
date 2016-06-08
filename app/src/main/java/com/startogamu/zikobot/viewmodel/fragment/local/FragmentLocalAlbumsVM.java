@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -33,7 +34,7 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, FragmentLocalAlbumsBinding>{
 
-
+    @Nullable
     @InjectExtra(EXTRA.LOCAL_ARTIST)
     LocalArtist localArtist;
 
@@ -78,7 +79,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
      * Load the local music
      */
     public void loadLocalMusic() {
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(localArtist.getName()).subscribe(localAlbums -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(localArtist != null ? localArtist.getName() : null).subscribe(localAlbums -> {
             Log.d(TAG, "" + localAlbums.size());
             for (LocalAlbum localAlbum : localAlbums) {
                 items.add(new AlbumVM(fragment.getContext(), localAlbum));
