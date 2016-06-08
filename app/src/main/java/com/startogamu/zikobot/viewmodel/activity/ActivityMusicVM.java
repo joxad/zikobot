@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -40,6 +41,8 @@ import com.startogamu.zikobot.view.fragment.local.FragmentLocalMusic;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import me.tatarka.bindingcollectionadapter.ItemView;
 
 /***
  * {@link ActivityMusicVM} handle multiples fragments :
@@ -185,7 +188,7 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
     @Subscribe
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
         LocalAlbum item = localAlbumSelectEvent.getModel();
-        activity.replaceFragment(FragmentLocalMusic.newInstance(item), true);
+        activity.replaceFragment(FragmentLocalMusic.newInstance(item, BR.trackVM, R.layout.item_alarm_track), true);
     }
 
 

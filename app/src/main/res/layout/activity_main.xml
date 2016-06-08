@@ -70,6 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:behavior_peekHeight="@dimen/actionBarSize"
+                android:background="@color/colorPrimaryLight"
                 app:layout_behavior="@string/bottom_sheet_behavior" />
 
 

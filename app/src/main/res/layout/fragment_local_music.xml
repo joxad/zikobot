@@ -29,7 +29,9 @@
             app:itemView="@{fragmentLocalVM.itemView}"
             app:items="@{fragmentLocalVM.items}"
             app:layoutManager="@{LayoutManagers.linear()}"
-            tools:listitem="@layout/item_alarm_track" />
+            tools:listitem="@layout/item_alarm_track"
+            android:paddingBottom="@dimen/actionBarSize"
+            android:clipToPadding="false"/>
 
         <com.startogamu.zikobot.view.custom.ZikobotMessageView
             android:id="@+id/zmv"

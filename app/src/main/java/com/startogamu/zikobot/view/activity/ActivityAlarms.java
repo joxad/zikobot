@@ -3,6 +3,7 @@ package com.startogamu.zikobot.view.activity;
 import android.os.Bundle;
 import android.view.Menu;
 
+import com.f2prateek.dart.HensonNavigable;
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
@@ -13,6 +14,7 @@ import com.startogamu.zikobot.viewmodel.activity.ActivityAlarmsVM;
 /***
  * List the alarms
  */
+@HensonNavigable
 public class ActivityAlarms extends ActivityBase<ActivityAlarmsBinding, ActivityAlarmsVM> {
 
     private String TAG = ActivityAlarms.class.getSimpleName();

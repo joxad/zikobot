@@ -30,14 +30,13 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 /**
  * Created by josh on 26/03/16.
  */
-public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, FragmentLocalMusicBinding> {
+public abstract class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, FragmentLocalMusicBinding> {
 
     @Nullable
     @InjectExtra(EXTRA.LOCAL_ALBUM)
     LocalAlbum localAlbum;
     private static final String TAG = FragmentLocalVM.class.getSimpleName();
     public ObservableArrayList<TrackVM> items;
-    public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_alarm_track);
 
     public ObservableBoolean showZmvMessage;
 
@@ -122,5 +121,6 @@ public class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, Fragment
 
     }
 
+    public abstract ItemView getItemView();
 
 }

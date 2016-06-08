@@ -3,22 +3,26 @@
         <group android:checkableBehavior="single">
 
             <item
-                android:id="@+id/local"
+                android:id="@+id/menu_local"
                 android:checked="false"
                 android:icon="@drawable/ic_folder"
                 android:title="@string/activity_music_local" />
 
             <item
-                android:id="@+id/spotify"
+                android:id="@+id/menu_spotify"
                 android:checked="false"
                 android:icon="@drawable/logo_spotify"
                 android:title="@string/activity_music_spotify" />
 
             <item
-                android:id="@+id/deezer"
+                android:id="@+id/menu_deezer"
                 android:checked="false"
                 android:icon="@drawable/logo_deezer"
                 android:title="@string/activity_music_deezer" />
-
+            <item
+                android:id="@+id/menu_alarm"
+                android:checked="false"
+                android:icon="@drawable/ic_alarm"
+                android:title="@string/alarms" />
         </group>
     </menu>

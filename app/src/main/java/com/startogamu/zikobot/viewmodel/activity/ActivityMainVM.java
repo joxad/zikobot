@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.MenuItem;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.Dart;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.easydatabinding.activity.INewIntent;
@@ -101,7 +102,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                         break;
                     case 2:
                         if (fragmentLocalMusic == null){
-                            fragmentLocalMusic  = FragmentLocalMusic.newInstance(null);
+                            fragmentLocalMusic  = FragmentLocalMusic.newInstance(null, BR.trackVM, R.layout.item_track);
                         }
                         replaceFragment(fragmentLocalMusic, false);
                         break;
@@ -231,7 +232,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     @Subscribe
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
         LocalAlbum item = localAlbumSelectEvent.getModel();
-        replaceFragment(FragmentLocalMusic.newInstance(item), true);
+        replaceFragment(FragmentLocalMusic.newInstance(item,BR.trackVM, R.layout.item_track), true);
     }
 
 

@@ -67,5 +67,6 @@
     <string name="album">album(s)</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="alarms">Alarmes</string>
 
 </resources>

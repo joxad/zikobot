@@ -14,4 +14,5 @@ public class EXTRA {
     public static final String PLAYLIST_TRACKS_TOTAL = "TRACK_NUMBER";
     public static final String LOCAL_ARTIST = "LOCAL_ARTIST";
     public static final String LOCAL_ALBUM = "LOCAL_ALBUM";
+    public static final String DATA_VM = "DATAVM";
 }
