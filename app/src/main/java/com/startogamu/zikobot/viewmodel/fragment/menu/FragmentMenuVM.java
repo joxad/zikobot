@@ -1,12 +1,15 @@
 package com.startogamu.zikobot.viewmodel.fragment.menu;
 
-import android.support.design.widget.NavigationView;
-
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.EventMenuDrawerAbout;
+import com.startogamu.zikobot.core.event.EventMenuDrawerAlarms;
+import com.startogamu.zikobot.core.event.EventMenuDrawerLocal;
 import com.startogamu.zikobot.databinding.FragmentMenuBinding;
 import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.fragment.menu.FragmentMenu;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by josh on 08/06/16.
@@ -22,15 +25,28 @@ public class FragmentMenuVM extends FragmentBaseVM<FragmentMenu, FragmentMenuBin
 
     @Override
     public void init() {
-        binding.navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) item -> {
-            switch (item.getItemId()){
+        binding.navigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.menu_local:
+                    EventBus.getDefault().post(new EventMenuDrawerLocal());
+                    return true;
                 case R.id.menu_alarm:
-                    fragment.startActivity(Henson.with(fragment.getContext()).gotoActivityAlarms().build());
+                    EventBus.getDefault().post(new EventMenuDrawerAlarms());
+                    return true;
+                case R.id.action_settings:
+                    fragment.getContext().startActivity(Henson.with(fragment.getContext()).gotoActivitySettings().build());
+                    return true;
+                case R.id.action_about:
+                    EventBus.getDefault().post(new EventMenuDrawerAbout());
                     return true;
             }
             return false;
 
         });
+
+/*
+
+    */
     }
 
     @Override

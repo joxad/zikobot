@@ -9,5 +9,11 @@ public interface IFragmentManager {
 
     public void addFragment(Fragment fragment, boolean withBackstack);
 
-    public void replaceFragment(Fragment fragment, boolean withBackstack);
+    /***
+     *
+     * @param fragment
+     * @param clearBackstack
+     * @param withBackstack
+     */
+    public void replaceFragment(Fragment fragment, boolean clearBackstack,boolean withBackstack);
 }

@@ -57,7 +57,7 @@ public class ActivityMusic extends ActivityBase<ActivityMusicBinding, ActivityMu
     }
 
     @Override
-    public void replaceFragment(Fragment fragment, boolean withBackstack) {
-        FragmentManager.replaceFragment(this, fragment, withBackstack);
+    public void replaceFragment(Fragment fragment, boolean clearBackStack,boolean withBackstack) {
+        FragmentManager.replaceFragment(this, fragment, clearBackStack, withBackstack);
     }
 }

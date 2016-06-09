@@ -18,8 +18,22 @@ public class FragmentManager {
         transaction.commit();
     }
 
-    public static void replaceFragment(FragmentActivity activity, Fragment fragment, boolean withBackstack) {
-        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+    /***
+     *
+     * @param activity
+     * @param fragment
+     * @param clearBackStack
+     * @param withBackstack
+     */
+    public static void replaceFragment(FragmentActivity activity, Fragment fragment, boolean clearBackStack, boolean withBackstack) {
+        android.support.v4.app.FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
+        if (clearBackStack){
+            while (supportFragmentManager.getBackStackEntryCount() > 0){
+                supportFragmentManager.popBackStackImmediate();
+            }
+        }
+        FragmentTransaction transaction = supportFragmentManager.beginTransaction();
+
         transaction.replace(R.id.container, fragment);
         if (withBackstack) transaction.addToBackStack(fragment.getClass().getSimpleName());
         transaction.commit();

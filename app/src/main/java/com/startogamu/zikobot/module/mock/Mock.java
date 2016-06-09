@@ -42,9 +42,21 @@ public class Mock {
         return items;
     }
 
+    /**
+     *
+     * @param context
+     * @return
+     */
     public static AlarmTrack track(Context context) {
         AlarmTrack alarmTrack = new AlarmTrack();
         alarmTrack.setName(context.getString(R.string.loading));
+        return alarmTrack;
+    }
+
+    public static AlarmTrack trackPlayer(Context context) {
+        AlarmTrack alarmTrack = new AlarmTrack();
+        alarmTrack.setName(context.getString(R.string.activity_alarm_select_song));
+        alarmTrack.setArtistName("");
         return alarmTrack;
     }
 }

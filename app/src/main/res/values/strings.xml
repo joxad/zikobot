@@ -21,7 +21,7 @@
     <string name="action_settings">Mes Options</string>
     <string name="about">A propos</string>
 
-    <!--> ActivityAlarms<-->
+    <!--> FragmentAlarms<-->
 
 
     <!--> ActivityAlarm <-->

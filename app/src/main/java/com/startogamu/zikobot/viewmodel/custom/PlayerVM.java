@@ -6,6 +6,8 @@ import android.databinding.Bindable;
 
 import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.zikobot.core.event.TrackChangeEvent;
+import com.startogamu.zikobot.core.event.player.EventPlayTrack;
+import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -28,13 +30,13 @@ public class PlayerVM extends BaseObservable implements IVM {
     @Override
     public void init() {
         EventBus.getDefault().register(this);
+        trackVM = new TrackVM(context, Mock.trackPlayer(context));
     }
 
     @Subscribe
-    public void onReceive(TrackChangeEvent changeEvent) {
-
-
+    public void onReceive(EventPlayTrack changeEvent) {
         trackVM.updateTrack(changeEvent.getTrack());
+        notifyChange();
     }
     @Override
     public void destroy() {

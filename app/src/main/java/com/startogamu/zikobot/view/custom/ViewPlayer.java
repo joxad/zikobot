@@ -6,8 +6,10 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 
+import com.spotify.sdk.android.player.Player;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.databinding.ViewPlayerBinding;
+import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
 /**
  * Created by josh on 08/06/16.
@@ -38,5 +40,8 @@ public class ViewPlayer extends RelativeLayout {
         binding = DataBindingUtil.inflate(inflater, R.layout.view_player, this, true);
     }
 
+    public void setPlayerVM(PlayerVM playerVM){
+        binding.setPlayerVM(playerVM);
+    }
 
 }

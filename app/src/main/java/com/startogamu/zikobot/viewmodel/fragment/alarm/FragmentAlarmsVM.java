@@ -1,25 +1,22 @@
-package com.startogamu.zikobot.viewmodel.activity;
+package com.startogamu.zikobot.viewmodel.fragment.alarm;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.mikepenz.aboutlibraries.Libs;
-import com.mikepenz.aboutlibraries.LibsBuilder;
+import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.databinding.ActivityAlarmsBinding;
+import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
 import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.view.Henson;
-import com.startogamu.zikobot.view.activity.ActivityAlarms;
+import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
 
 import java.io.UnsupportedEncodingException;
@@ -28,9 +25,9 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 /**
  * Created by josh on 09/03/16.
  */
-public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAlarmsBinding>  {
+public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAlarmsBinding> {
 
-    private static final String TAG = ActivityAlarmsVM.class.getSimpleName();
+    private static final String TAG = FragmentAlarmsVM.class.getSimpleName();
 
     public ObservableBoolean showTuto;
     public ObservableArrayList<AlarmVM> itemsVM;
@@ -42,17 +39,13 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
      * @param activity
      * @param binding
      */
-    public ActivityAlarmsVM(ActivityAlarms activity, ActivityAlarmsBinding binding) {
+    public FragmentAlarmsVM(FragmentAlarms activity, FragmentAlarmsBinding binding) {
         super(activity, binding);
         Injector.INSTANCE.spotifyAuth().inject(this);
     }
 
     @Override
     public void init() {
-        if (AppPrefs.isFirstStart()) {
-            activity.startActivity(Henson.with(activity).gotoActivityFirstStart().build());
-        }
-       initToolbar();
         itemsVM = new ObservableArrayList<>();
         showTuto = new ObservableBoolean(false);
         if (Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
@@ -84,30 +77,6 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
         });
     }
 
-    /***
-     *
-     */
-    private void initToolbar() {
-        activity.setSupportActionBar(binding.toolbar);
-        activity.getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-        binding.toolbar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.action_settings:
-                    activity.goToSettingsActivity();
-                    return true;
-                case R.id.action_about:
-                    new LibsBuilder()
-                            .withAboutAppName(activity.getString(R.string.about))
-                            .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
-                            .withActivityTitle(activity.getString(R.string.about))
-                            .start(activity);
-                    return true;
-                default:
-                    return true;
-            }
-        });
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -122,7 +91,7 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
         AlarmManager.loadAlarms().subscribe(alarms -> {
             itemsVM.clear();
             for (Alarm alarm : alarms) {
-                itemsVM.add(new AlarmVM(activity, alarm));
+                itemsVM.add(new AlarmVM(fragment.getContext(), alarm));
             }
             if (alarms.size() == 0) {
                 showTuto.set(true);
@@ -133,14 +102,14 @@ public class ActivityAlarmsVM extends ActivityBaseVM<ActivityAlarms, ActivityAla
     }
 
     private void refreshAccessToken() throws UnsupportedEncodingException {
-        Injector.INSTANCE.spotifyAuth().manager().refreshToken(activity, () -> {
+        Injector.INSTANCE.spotifyAuth().manager().refreshToken(fragment.getContext(), () -> {
 
         });
     }
 
 
     public void addAlarm(View view) {
-        activity.startActivity(Henson.with(activity)
+        fragment.getActivity().startActivity(Henson.with(fragment.getContext())
                 .gotoActivityAlarm().alarm(new Alarm()).build());
     }
 

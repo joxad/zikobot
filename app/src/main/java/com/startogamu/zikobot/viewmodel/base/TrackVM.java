@@ -5,8 +5,11 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
+import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.module.alarm.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by josh on 30/05/16.
@@ -61,6 +64,14 @@ public class TrackVM extends BaseVM<AlarmTrack> {
 
         }
         notifyChange();
+    }
+
+    /***
+     * Event called when we want to play a song
+     * @param view
+     */
+    public void onTrackPlay(View view) {
+        EventBus.getDefault().post(new EventPlayTrack(model));
     }
 
     public void select() {
