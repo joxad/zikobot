@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
@@ -17,17 +16,19 @@ import com.joxad.easydatabinding.activity.IPermission;
 import com.joxad.easydatabinding.activity.IResult;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsSupportFragment;
-import com.spotify.sdk.android.player.Player;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.EventMenuDrawerAbout;
-import com.startogamu.zikobot.core.event.EventMenuDrawerAlarms;
-import com.startogamu.zikobot.core.event.EventMenuDrawerLocal;
+import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAbout;
+import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAlarms;
+import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerLocal;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.core.event.LocalArtistSelectEvent;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
-import com.startogamu.zikobot.core.event.player.EventPlayTrack;
+import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerSpotify;
 import com.startogamu.zikobot.core.fragmentmanager.FragmentManager;
 import com.startogamu.zikobot.core.fragmentmanager.IFragmentManager;
+import com.startogamu.zikobot.core.fragmentmanager.TabLayoutManager;
+import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
@@ -79,117 +80,12 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         initPlayerVM();
     }
 
-    private void initPlayerVM() {
-        playerVM =new PlayerVM(activity);
-        binding.viewPlayer.setPlayerVM(playerVM);
-    }
 
     private void initToolbar() {
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-
-    }
-    /***
-     * Will contains the filters (artist/album/tracks)
-     */
-    private void initTabLayoutTracks() {
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Par Artiste"));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Par Album"));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Par Track"));
-
-        binding.tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        replaceFragment(fragmentLocalArtists,false, false);
-                        break;
-                    case 1:
-                        /*if (!Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
-                            fragmentSpotifyConnect = FragmentSpotifyConnect.newInstance();
-                            replaceFragment(fragmentSpotifyConnect, false);
-                        } else {
-                            loadSpotifyMusicFragment();
-                        }*/
-                        if (fragmentLocalAlbums == null){
-                            fragmentLocalAlbums  = FragmentLocalAlbums.newInstance(null);
-                        }
-                        replaceFragment(fragmentLocalAlbums, false,false);
-                        break;
-                    case 2:
-                        if (fragmentLocalMusic == null){
-                            fragmentLocalMusic  = FragmentLocalMusic.newInstance(null, BR.trackVM, R.layout.item_track);
-                        }
-                        replaceFragment(fragmentLocalMusic, false,false);
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-    }
-    /***
-     * Will contains the filters (artist/album/tracks)
-     */
-    private void initTabLayoutAlarms() {
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Réveil"));
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Veilleuse"));
-
-        binding.tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        replaceFragment(fragmentLocalArtists,false, false);
-                        break;
-                    case 1:
-                        /*if (!Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
-                            fragmentSpotifyConnect = FragmentSpotifyConnect.newInstance();
-                            replaceFragment(fragmentSpotifyConnect, false);
-                        } else {
-                            loadSpotifyMusicFragment();
-                        }*/
-                        if (fragmentLocalAlbums == null){
-                            fragmentLocalAlbums  = FragmentLocalAlbums.newInstance(null);
-                        }
-                        replaceFragment(fragmentLocalAlbums,false, false);
-                        break;
-                    case 2:
-                        if (fragmentLocalMusic == null){
-                            fragmentLocalMusic  = FragmentLocalMusic.newInstance(null, BR.trackVM, R.layout.item_track);
-                        }
-                        replaceFragment(fragmentLocalMusic,false, false);
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
     }
 
-    /***
-     *
-     */
-    private void initFragments() {
-        fragmentLocalArtists = FragmentLocalArtists.newInstance();
-        replaceFragment(fragmentLocalArtists,false, false);
-    }
 
     /***
      * Init the menu drawer layout that will contains the other way to play music
@@ -214,6 +110,86 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     }
 
+    /***
+     * Will contains the filters (artist/album/tracks)
+     */
+    private void initTabLayoutAlarms() {
+        TabLayoutManager.initTabLayoutAlarms(activity, binding.tabLayout, tab -> {
+            if (!Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
+                fragmentSpotifyConnect = FragmentSpotifyConnect.newInstance();
+                replaceFragment(fragmentSpotifyConnect, true, false);
+            } else {
+                switch (tab.getPosition()) {
+//TODO
+                }
+            }
+        });
+    }
+
+    /***
+     *
+     */
+    private void initFragments() {
+        fragmentLocalArtists = FragmentLocalArtists.newInstance();
+        replaceFragment(fragmentLocalArtists, false, false);
+    }
+
+    /***
+     * Will contains the filters (artist/album/tracks)
+     */
+    private void initTabLayoutTracks() {
+        TabLayoutManager.initTabLayoutLocalTracks(activity, binding.tabLayout, tab -> {
+            switch (tab.getPosition()) {
+                case 0:
+                    replaceFragment(fragmentLocalArtists, false, false);
+                    break;
+                case 1:
+
+                    if (fragmentLocalAlbums == null) {
+                        fragmentLocalAlbums = FragmentLocalAlbums.newInstance(null);
+                    }
+                    replaceFragment(fragmentLocalAlbums, false, false);
+                    break;
+                case 2:
+                    if (fragmentLocalMusic == null) {
+                        fragmentLocalMusic = FragmentLocalMusic.newInstance(null, BR.trackVM, R.layout.item_track);
+                    }
+                    replaceFragment(fragmentLocalMusic, false, false);
+                    break;
+            }
+        });
+    }
+
+    private void initTabLayoutSpotifyTracks() {
+        TabLayoutManager.initTabLayoutSpotifyTracks(activity, binding.tabLayout, tab -> {
+            switch (tab.getPosition()) {
+                case 0:
+                    replaceFragment(fragmentLocalArtists, false, false);
+                    break;
+                case 1:
+
+                    if (fragmentLocalAlbums == null) {
+                        fragmentLocalAlbums = FragmentLocalAlbums.newInstance(null);
+                    }
+                    replaceFragment(fragmentLocalAlbums, false, false);
+                    break;
+                case 2:
+                    if (fragmentLocalMusic == null) {
+                        fragmentLocalMusic = FragmentLocalMusic.newInstance(null, BR.trackVM, R.layout.item_track);
+                    }
+                    replaceFragment(fragmentLocalMusic, false, false);
+                    break;
+            }
+        });
+    }
+
+    /***
+     *
+     */
+    private void initPlayerVM() {
+        playerVM = new PlayerVM(activity);
+        binding.viewPlayer.setPlayerVM(playerVM);
+    }
 
     @Override
     public void destroy() {
@@ -241,13 +217,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
             fragmentSpotifyConnect.onNewIntent(intent);
     }
 
-    /***
-     *
-     */
-    public void loadSpotifyMusicFragment() {
-        fragmentSpotifyTracks = FragmentSpotifyTracks.newInstance();
-        replaceFragment(fragmentSpotifyTracks,false, false);
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -270,56 +239,70 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     }
 
     @Override
-    public void replaceFragment(Fragment fragment, boolean clearBackStack,boolean addToBackstack) {
-        FragmentManager.replaceFragment(activity, fragment, clearBackStack,addToBackstack);
+    public void replaceFragment(Fragment fragment, boolean clearBackStack, boolean addToBackstack) {
+        FragmentManager.replaceFragment(activity, fragment, clearBackStack, addToBackstack);
     }
-
 
     /***
      * EVENTS
      */
-
     @Subscribe
-    public void onEvent(EventMenuDrawerLocal eventMenuDrawerAbout){
-        binding.tabLayout.removeAllTabs();
+    public void onEvent(EventMenuDrawerLocal eventMenuDrawerAbout) {
         initTabLayoutTracks();
-        replaceFragment(fragmentLocalArtists,true, false);
+        replaceFragment(fragmentLocalArtists, true, false);
+        closeDrawer();
     }
 
-
-
     @Subscribe
-    public void onEvent(EventMenuDrawerAbout eventMenuDrawerAbout){
+    public void onEvent(EventMenuDrawerAbout eventMenuDrawerAbout) {
         LibsSupportFragment aboutFragment = new LibsBuilder()
                 .supportFragment();
-        replaceFragment(aboutFragment,true,false);
+        replaceFragment(aboutFragment, true, false);
+        closeDrawer();
     }
 
     @Subscribe
-    public void onEvent(EventMenuDrawerAlarms eventMenuDrawerAlarms){
-        //TODO update tab
-        binding.tabLayout.removeAllTabs();
+    public void onEvent(EventMenuDrawerAlarms eventMenuDrawerAlarms) {
         initTabLayoutAlarms();
-        replaceFragment(FragmentAlarms.newInstance(),true,false);
+        replaceFragment(FragmentAlarms.newInstance(), true, false);
+        closeDrawer();
+    }
+
+    @Subscribe
+    public void onEvent(EventMenuDrawerSpotify eventMenuDrawerAlarms) {
+        initTabLayoutSpotifyTracks();
+        if (!Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
+            fragmentSpotifyConnect = FragmentSpotifyConnect.newInstance();
+            replaceFragment(fragmentSpotifyConnect, true, false);
+        } else {
+            fragmentSpotifyTracks = FragmentSpotifyTracks.newInstance();
+            replaceFragment(fragmentSpotifyTracks, true, false);
+        }
+
+        closeDrawer();
     }
 
 
     @Subscribe
     public void onEvent(SelectItemPlaylistEvent selectItemPlaylistEvent) {
         Item item = selectItemPlaylistEvent.getItem();
-        replaceFragment(FragmentSpotifyPlaylistTracks.newInstance(item),false, true);
+        replaceFragment(FragmentSpotifyPlaylistTracks.newInstance(item), false, true);
     }
 
     @Subscribe
     public void onEvent(LocalArtistSelectEvent localArtistSelectEvent) {
         LocalArtist item = localArtistSelectEvent.getLocalArtist();
-        replaceFragment(FragmentLocalAlbums.newInstance(item), false,true);
+        replaceFragment(FragmentLocalAlbums.newInstance(item), false, true);
     }
 
     @Subscribe
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
         LocalAlbum item = localAlbumSelectEvent.getModel();
-        replaceFragment(FragmentLocalMusic.newInstance(item,BR.trackVM, R.layout.item_track), false,true);
+        replaceFragment(FragmentLocalMusic.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
+    }
+
+    public void closeDrawer() {
+        binding.drawerLayout.closeDrawers();
     }
 
     public void onPostCreate() {
