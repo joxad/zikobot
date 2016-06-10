@@ -6,11 +6,11 @@ import android.support.design.widget.Snackbar;
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.databinding.FragmentSpotifyTracksBinding;
+import com.startogamu.zikobot.databinding.FragmentSpotifyPlaylistsBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
-import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyTracks;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
 import com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -19,13 +19,13 @@ import rx.Subscription;
 /**
  * Created by josh on 26/03/16.
  */
-public class FragmentTracksVM extends FragmentBaseVM<FragmentSpotifyTracks, FragmentSpotifyTracksBinding> {
+public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPlaylists, FragmentSpotifyPlaylistsBinding> {
 
     public ObservableArrayList<ItemPlaylistViewModel> userPlaylists;
 
     Subscription wsWatcherSubscription;
 
-    public ItemView itemUserPlaylistsBinder = ItemView.of(BR.playlistViewModel, R.layout.item_playlist);
+    public ItemView itemPlaylist = ItemView.of(BR.playlistVM, R.layout.item_playlist);
 
     /***
      * View model use to get the playlist of the user
@@ -33,7 +33,7 @@ public class FragmentTracksVM extends FragmentBaseVM<FragmentSpotifyTracks, Frag
      * @param fragment
      * @param binding
      */
-    public FragmentTracksVM(FragmentSpotifyTracks fragment, FragmentSpotifyTracksBinding binding) {
+    public FragmentSpotifyPlaylistsVM(FragmentSpotifyPlaylists fragment, FragmentSpotifyPlaylistsBinding binding) {
         super(fragment, binding);
     }
 

@@ -14,16 +14,13 @@ import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.joxad.easydatabinding.activity.IResult;
-import com.mikepenz.aboutlibraries.LibsBuilder;
-import com.mikepenz.aboutlibraries.ui.LibsSupportFragment;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAbout;
-import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAlarms;
-import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerLocal;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.core.event.LocalArtistSelectEvent;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
+import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAlarms;
+import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerLocal;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerSpotify;
 import com.startogamu.zikobot.core.fragmentmanager.FragmentManager;
 import com.startogamu.zikobot.core.fragmentmanager.IFragmentManager;
@@ -35,14 +32,15 @@ import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.activity.ActivityMain;
+import com.startogamu.zikobot.view.fragment.FragmentWebView;
 import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
-import com.startogamu.zikobot.view.fragment.menu.FragmentMenu;
-import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyConnect;
-import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylistTracks;
-import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyTracks;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalMusic;
+import com.startogamu.zikobot.view.fragment.menu.FragmentMenu;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyConnect;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylistTracks;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,7 +51,7 @@ import org.greenrobot.eventbus.Subscribe;
  */
 public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBinding> implements IResult, IPermission, INewIntent, IFragmentManager {
 
-    private FragmentSpotifyTracks fragmentSpotifyTracks;
+    private FragmentSpotifyPlaylists fragmentSpotifyPlaylists;
     private FragmentSpotifyConnect fragmentSpotifyConnect;
     private FragmentLocalArtists fragmentLocalArtists;
     private FragmentLocalAlbums fragmentLocalAlbums;
@@ -115,13 +113,10 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      */
     private void initTabLayoutAlarms() {
         TabLayoutManager.initTabLayoutAlarms(activity, binding.tabLayout, tab -> {
-            if (!Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
-                fragmentSpotifyConnect = FragmentSpotifyConnect.newInstance();
-                replaceFragment(fragmentSpotifyConnect, true, false);
-            } else {
-                switch (tab.getPosition()) {
-//TODO
-                }
+            switch (tab.getPosition()){
+                case 0:
+                    replaceFragment(FragmentAlarms.newInstance(),true,false);
+                    break;
             }
         });
     }
@@ -162,23 +157,14 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     private void initTabLayoutSpotifyTracks() {
         TabLayoutManager.initTabLayoutSpotifyTracks(activity, binding.tabLayout, tab -> {
-            switch (tab.getPosition()) {
-                case 0:
-                    replaceFragment(fragmentLocalArtists, false, false);
-                    break;
-                case 1:
+            if (!Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
+                fragmentSpotifyConnect = FragmentSpotifyConnect.newInstance();
+               // https://accounts.spotify.com/authorize/?client_id=%s&amp;response_type=code&amp;redirect_uri=%sFcallback&amp;scope=ùs&amp;state=%s
+                 //FragmentWebView.newInstance(String.format(activity.getString(R.string.spotify_web_view),activity.getString(R.string.api_spotify_id),activity.getString(R.string.api_spotify_callback_musics));
+                replaceFragment(fragmentSpotifyConnect, true, false);
+            } else {
 
-                    if (fragmentLocalAlbums == null) {
-                        fragmentLocalAlbums = FragmentLocalAlbums.newInstance(null);
-                    }
-                    replaceFragment(fragmentLocalAlbums, false, false);
-                    break;
-                case 2:
-                    if (fragmentLocalMusic == null) {
-                        fragmentLocalMusic = FragmentLocalMusic.newInstance(null, BR.trackVM, R.layout.item_track);
-                    }
-                    replaceFragment(fragmentLocalMusic, false, false);
-                    break;
+                replaceFragment(FragmentSpotifyPlaylists.newInstance(),true, false);
             }
         });
     }
@@ -254,14 +240,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     }
 
     @Subscribe
-    public void onEvent(EventMenuDrawerAbout eventMenuDrawerAbout) {
-        LibsSupportFragment aboutFragment = new LibsBuilder()
-                .supportFragment();
-        replaceFragment(aboutFragment, true, false);
-        closeDrawer();
-    }
-
-    @Subscribe
     public void onEvent(EventMenuDrawerAlarms eventMenuDrawerAlarms) {
         initTabLayoutAlarms();
         replaceFragment(FragmentAlarms.newInstance(), true, false);
@@ -275,8 +253,8 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
             fragmentSpotifyConnect = FragmentSpotifyConnect.newInstance();
             replaceFragment(fragmentSpotifyConnect, true, false);
         } else {
-            fragmentSpotifyTracks = FragmentSpotifyTracks.newInstance();
-            replaceFragment(fragmentSpotifyTracks, true, false);
+            fragmentSpotifyPlaylists = FragmentSpotifyPlaylists.newInstance();
+            replaceFragment(fragmentSpotifyPlaylists, true, false);
         }
 
         closeDrawer();

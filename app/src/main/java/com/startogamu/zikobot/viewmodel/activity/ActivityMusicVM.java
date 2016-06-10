@@ -35,7 +35,7 @@ import com.startogamu.zikobot.view.activity.ActivityMusic;
 import com.startogamu.zikobot.view.fragment.deezer.DeezerFragment;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyConnect;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylistTracks;
-import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyTracks;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalMusic;
@@ -46,7 +46,7 @@ import org.greenrobot.eventbus.Subscribe;
 /***
  * {@link ActivityMusicVM} handle multiples fragments :
  * <ul>
- * <li>{@link FragmentSpotifyTracks } taht show the differents playlist to the user. Can redirect to
+ * <li>{@link FragmentSpotifyPlaylists } taht show the differents playlist to the user. Can redirect to
  * {@link FragmentSpotifyPlaylistTracks}</li>
  * <li>{@link FragmentSpotifyConnect} that handle the connection to spotify</li>
  * <li>{@link FragmentLocalMusic}</li>
@@ -55,7 +55,7 @@ import org.greenrobot.eventbus.Subscribe;
 public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusicBinding> implements IResult, INewIntent, IPermission {
 
 
-    private FragmentSpotifyTracks fragmentSpotifyTracks;
+    private FragmentSpotifyPlaylists fragmentSpotifyPlaylists;
     private FragmentSpotifyConnect fragmentSpotifyConnect;
     private FragmentLocalArtists fragmentLocalArtists;
 
@@ -156,8 +156,8 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
      *
      */
     public void loadSpotifyMusicFragment() {
-        fragmentSpotifyTracks = FragmentSpotifyTracks.newInstance();
-        activity.replaceFragment(fragmentSpotifyTracks, false,false);
+        fragmentSpotifyPlaylists = FragmentSpotifyPlaylists.newInstance();
+        activity.replaceFragment(fragmentSpotifyPlaylists, false,false);
     }
 
     @Override

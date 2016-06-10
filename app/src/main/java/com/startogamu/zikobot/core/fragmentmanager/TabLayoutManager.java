@@ -66,8 +66,6 @@ public class TabLayoutManager {
     public static void initTabLayoutSpotifyTracks(Context context, TabLayout tabLayout, SimpleTabSelectedListener simpleTabSelectedListener) {
         tabLayout.removeAllTabs();
         tabLayout.addTab(tabLayout.newTab().setText("Par playlist"));
-        tabLayout.addTab(tabLayout.newTab().setText("Par Album"));
-        tabLayout.addTab(tabLayout.newTab().setText("Par Track"));
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

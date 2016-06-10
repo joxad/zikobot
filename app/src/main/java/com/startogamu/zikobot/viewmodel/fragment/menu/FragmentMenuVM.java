@@ -1,8 +1,9 @@
 package com.startogamu.zikobot.viewmodel.fragment.menu;
 
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAbout;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAlarms;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerLocal;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerSpotify;
@@ -26,6 +27,7 @@ public class FragmentMenuVM extends FragmentBaseVM<FragmentMenu, FragmentMenuBin
 
     @Override
     public void init() {
+        binding.navigationView.setCheckedItem(R.id.menu_local);
         binding.navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_local:
@@ -41,7 +43,10 @@ public class FragmentMenuVM extends FragmentBaseVM<FragmentMenu, FragmentMenuBin
                     fragment.getContext().startActivity(Henson.with(fragment.getContext()).gotoActivitySettings().build());
                     return false;
                 case R.id.action_about:
-                    EventBus.getDefault().post(new EventMenuDrawerAbout());
+                    new LibsBuilder()
+                            .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                            .withAboutAppName(fragment.getString(R.string.about))
+                            .start(fragment.getActivity());
                     return false;
             }
 
