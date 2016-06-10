@@ -19,9 +19,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_play_arrow" />
+            android:layout_centerVertical="true"
+            android:onClick="@{playerVM.onPlayPauseClicked}"
+            app:imageRes="@{playerVM.imageState}" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,6 +32,7 @@
             android:layout_toStartOf="@id/iv_play"
             android:orientation="horizontal">
 
+
             <ImageView
                 android:layout_width="@dimen/playerHeight"
                 android:layout_height="@dimen/playerHeight"
@@ -39,8 +41,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
                 android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/margin_medium"
                 android:orientation="vertical">
 
                 <TextView

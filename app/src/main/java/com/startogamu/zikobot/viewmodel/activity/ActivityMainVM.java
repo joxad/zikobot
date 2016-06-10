@@ -20,6 +20,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.EventFabClicked;
 import com.startogamu.zikobot.core.event.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
@@ -234,5 +235,13 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
             return false;
         }
         return super.onBackPressed();
+    }
+
+    /***
+     *
+     * @param view
+     */
+    public void fabClicked(View view){
+        EventBus.getDefault().post(new EventFabClicked());
     }
 }

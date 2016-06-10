@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
@@ -20,7 +21,7 @@ import org.greenrobot.eventbus.Subscribe;
  */
 public class PlayerVM extends BaseObservable implements IVM {
 
-
+    @Bindable
     public boolean isPlaying = false;
     private final Context context;
     public TrackVM trackVM;
@@ -40,10 +41,15 @@ public class PlayerVM extends BaseObservable implements IVM {
     @Subscribe
     public void onReceive(EventPlayTrack changeEvent) {
         trackVM.updateTrack(changeEvent.getTrack());
+        isPlaying = true;
+        notifyChange();
         Injector.INSTANCE.playerComponent().manager().playAlarmTrack(changeEvent.getTrack());
         notifyChange();
     }
 
+    /***
+     * @param view
+     */
     public void onPlayPauseClicked(View view) {
         isPlaying = !isPlaying;
         if (isPlaying) {
@@ -76,7 +82,7 @@ public class PlayerVM extends BaseObservable implements IVM {
     }
 
     @Bindable
-    public int getImage() {
+    public int getImageState() {
         if (isPlaying) {
             return R.drawable.ic_pause;
         } else {

@@ -10,6 +10,7 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.EventFabClicked;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
 import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
@@ -18,6 +19,9 @@ import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.UnsupportedEncodingException;
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -80,8 +84,15 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     @Override
     protected void onResume() {
         super.onResume();
+        EventBus.getDefault().register(this);
         showTuto.set(false);
         loadAlarms();
+    }
+
+    @Override
+    protected void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
     }
 
     /***
@@ -108,6 +119,10 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     }
 
 
+    @Subscribe
+    public void onEvent(EventFabClicked eventFabClicked) {
+        addAlarm(null);
+    }
     public void addAlarm(View view) {
         fragment.getActivity().startActivity(Henson.with(fragment.getContext())
                 .gotoActivityAlarm().alarm(new Alarm()).build());

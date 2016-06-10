@@ -66,6 +66,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_add"
+            android:onClick="@{activityMainVM.fabClicked}"
             android:visibility="@{activityMainVM.fabVisible ? v.VISIBLE: v.GONE}"
             app:layout_anchor="@id/toolbar"
             app:layout_anchorGravity="bottom|right|end" />
