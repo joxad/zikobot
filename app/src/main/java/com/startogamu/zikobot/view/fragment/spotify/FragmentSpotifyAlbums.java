@@ -26,7 +26,7 @@ public class FragmentSpotifyAlbums extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View viewGroup = inflater.inflate(R.layout.fragment_spotify_albums, container);
+        View viewGroup = inflater.inflate(R.layout.fragment_spotify_albums, container,false);
         return viewGroup;
     }
 }

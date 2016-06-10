@@ -5,6 +5,7 @@ import com.startogamu.zikobot.module.spotify_api.SpotifyApiBaseComponent;
 import com.startogamu.zikobot.module.spotify_api.SpotifyApiModule;
 import com.startogamu.zikobot.module.spotify_auth.SpotifyAuthBaseComponent;
 import com.startogamu.zikobot.module.spotify_auth.SpotifyAuthModule;
+import com.startogamu.zikobot.viewmodel.activity.ActivityMainVM;
 import com.startogamu.zikobot.viewmodel.fragment.alarm.FragmentAlarmsVM;
 import com.startogamu.zikobot.viewmodel.activity.ActivitySettingsVM;
 import com.startogamu.zikobot.viewmodel.activity.ActivityWakeUpVM;
@@ -28,6 +29,8 @@ public interface SpotifyAuthComponent extends SpotifyAuthBaseComponent {
     void inject(FragmentAlarmsVM fragmentAlarmsVM);
 
     void inject(ActivityWakeUpVM activityWakeUpVM);
+
+    void inject(ActivityMainVM activityMainVM);
 
     //inject
 }

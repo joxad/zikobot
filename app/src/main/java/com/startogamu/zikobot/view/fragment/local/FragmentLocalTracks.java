@@ -54,12 +54,4 @@ public class FragmentLocalTracks extends FragmentBase<FragmentLocalTracksBinding
             }
         };
     }
-
-    public void loadMusic() {
-        vm.loadLocalMusic();
-    }
-
-    public void permissionDenied() {
-        vm.permissionDenied();
-    }
 }

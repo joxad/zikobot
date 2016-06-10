@@ -40,24 +40,11 @@
         <com.startogamu.zikobot.view.custom.ZikobotMessageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="60dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp"
+            android:layout_centerInParent="true"
             android:onClick="@{fragmentAlarmsVM.addAlarm}"
             android:visibility="@{fragmentAlarmsVM.showTuto ? v.VISIBLE :  v.GONE}"
             app:zmv_message="@string/tuto" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/fab_margin"
-            android:onClick="@{fragmentAlarmsVM.addAlarm}"
-            android:src="@drawable/ic_add" />
 
     </RelativeLayout>
 </layout>

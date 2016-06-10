@@ -22,9 +22,6 @@ import rx.Subscription;
 public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPlaylists, FragmentSpotifyPlaylistsBinding> {
 
     public ObservableArrayList<ItemPlaylistViewModel> userPlaylists;
-
-    Subscription wsWatcherSubscription;
-
     public ItemView itemPlaylist = ItemView.of(BR.playlistVM, R.layout.item_playlist);
 
     /***
@@ -67,7 +64,6 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
 
     @Override
     public void destroy() {
-        if (wsWatcherSubscription != null && !wsWatcherSubscription.isUnsubscribed())
-            wsWatcherSubscription.unsubscribe();
+
     }
 }

@@ -28,16 +28,18 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 /***
  * {@link FragmentSpotifyTracksVM} will call the apimanager to get the tracks of the playlist
  */
-public class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpotifyTracks, FragmentSpotifyTracksBinding> {
+public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpotifyTracks, FragmentSpotifyTracksBinding> {
 
     public ObservableArrayList<TrackVM> items;
 
 
-    public ItemView itemsBinder = ItemView.of(BR.trackVM, R.layout.item_alarm_track);
+    public abstract ItemView getItemView();
+
 
     @Nullable
     @InjectExtra(EXTRA.PLAYLIST_ID)
     String playlistId;
+    @Nullable
     @InjectExtra(EXTRA.PLAYLIST_TRACKS_TOTAL)
     int tracksNumber = 0;
 

@@ -176,7 +176,7 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
     @Subscribe
     public void onEvent(SelectItemPlaylistEvent selectItemPlaylistEvent) {
         Item item = selectItemPlaylistEvent.getItem();
-        activity.replaceFragment(FragmentSpotifyTracks.newInstance(item), false, true);
+        activity.replaceFragment(FragmentSpotifyTracks.newInstance(item, BR.trackVM, R.layout.item_alarm_track), false, true);
     }
 
     @Subscribe

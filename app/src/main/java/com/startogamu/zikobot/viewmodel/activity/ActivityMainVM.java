@@ -1,6 +1,7 @@
 package com.startogamu.zikobot.viewmodel.activity;
 
 import android.content.Intent;
+import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,12 +23,15 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
+import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
 import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by josh on 08/06/16.
@@ -39,6 +43,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     public PlayerVM playerVM;
     private Drawer drawer;
+    public ObservableBoolean fabVisible;
 
     /***
      * @param activity
@@ -46,14 +51,26 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      */
     public ActivityMainVM(ActivityMain activity, ActivityMainBinding binding) {
         super(activity, binding);
+        Injector.INSTANCE.spotifyAuth().inject(this);
     }
 
     @Override
     public void init() {
+        fabVisible = new ObservableBoolean(false);
+        initSpotify();
         initNavigationManager();
         initToolbar();
         initDrawer();
         initPlayerVM();
+    }
+
+    private void initSpotify() {
+        try {
+            Injector.INSTANCE.spotifyAuth().manager().refreshToken(activity, () -> {
+            });
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initNavigationManager() {
@@ -70,8 +87,8 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     protected void onPause() {
-        super.onPause();
         navigationManager.unsubscribe();
+        super.onPause();
     }
 
     private void initToolbar() {
@@ -80,18 +97,22 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         activity.getSupportActionBar().setHomeButtonEnabled(true);
     }
 
+    protected ProfileDrawerItem itemSpotify;
+
     /***
      * Init the menu drawer layout that will contains the other way to play music
      */
     private void initDrawer() {
         ProfileDrawerItem itemLocal = new ProfileDrawerItem().withName(activity.getString(R.string.activity_music_local))
-                .withIcon(ContextCompat.getDrawable(activity, R.drawable.ic_folder));
-        ProfileDrawerItem itemSpotify = null;
+                .withIcon(ContextCompat.getDrawable(activity, R.drawable.shape_album));
+
+
         if (AppPrefs.spotifyUser() != null && !AppPrefs.spotifyUser().equals("")) {
+
             SpotifyUser spotifyUser = AppPrefs.spotifyUser();
             itemSpotify = new ProfileDrawerItem()
                     .withName(spotifyUser.getDisplayName())
-                    .withIcon(spotifyUser.getImages().get(0).getUrl());
+                    .withIcon(R.drawable.logo_spotify);
         }
 
 
@@ -111,6 +132,11 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                             activity.startActivity(Henson.with(activity).gotoActivitySettings().build());
                             return true;
                         }
+                        if (itemSpotify != null) {
+                            if (profile.getIdentifier() == itemSpotify.getIdentifier()) {
+                                navigationManager.showSpotifys();
+                            }
+                        }
                         return false;
                     }
 
@@ -126,9 +152,9 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
         if (itemSpotify != null)
             accountHeader.addProfiles(itemSpotify);
-        PrimaryDrawerItem music = new PrimaryDrawerItem().withName(R.string.drawer_filter_music).withIcon(R.drawable.ic_music_wave);
-        PrimaryDrawerItem alarm = new PrimaryDrawerItem().withName(R.string.drawer_alarms).withIcon(R.drawable.ic_alarm);
-        PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about);
+        PrimaryDrawerItem music = new PrimaryDrawerItem().withName(R.string.drawer_filter_music).withIcon(R.drawable.ic_music_wave).withSelectedIcon(R.drawable.ic_music_wave_selected);
+        PrimaryDrawerItem alarm = new PrimaryDrawerItem().withName(R.string.drawer_alarms).withIcon(R.drawable.ic_alarm).withSelectedIcon(R.drawable.ic_alarm_selected);
+        PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withSelectable(false);
 
         drawer = new DrawerBuilder()
                 .withActivity(activity)
@@ -142,6 +168,8 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                 navigationManager.showAlarms();
             } else if (drawerItem.getIdentifier() == music.getIdentifier()) {
                 navigationManager.showLocals();
+            } else if (drawerItem.getIdentifier() == about.getIdentifier()) {
+                navigationManager.showAbout();
             }
             return false;
         });

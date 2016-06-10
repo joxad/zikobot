@@ -11,6 +11,8 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.joxad.easydatabinding.activity.IResult;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAlarms;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerLocal;
@@ -62,10 +64,17 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
     }
 
     public void showLocals() {
+        current = Account.local;
         initTabLayoutTracks();
         replaceFragment(FragmentLocalPlaylists.newInstance(), true, false);
     }
 
+
+    public void showSpotifys() {
+        current = Account.spotify;
+        initTabLayoutTracks();
+        replaceFragment(FragmentSpotifyPlaylists.newInstance(), true, false);
+    }
 
     public void showAlarms() {
         initTabLayoutAlarms();
@@ -73,11 +82,20 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
     }
 
 
+    public void showAbout() {
+        new LibsBuilder()
+                .withAboutAppName(activity.getString(R.string.about))
+                .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                .start(activity);
+    }
+
     /***
      * EVENTS
      */
+
+
     @Subscribe
-    public void onEvent(EventMenuDrawerLocal eventMenuDrawerAbout) {
+    public void onEvent(EventMenuDrawerLocal eventMenuDrawerLocal) {
         initTabLayoutTracks();
         replaceFragment(FragmentLocalArtists.newInstance(), true, false);
     }
@@ -92,7 +110,7 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
     @Subscribe
     public void onEvent(SelectItemPlaylistEvent selectItemPlaylistEvent) {
         Item item = selectItemPlaylistEvent.getItem();
-        replaceFragment(FragmentSpotifyTracks.newInstance(item), false, true);
+        replaceFragment(FragmentSpotifyTracks.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
     }
 
     @Subscribe
@@ -128,6 +146,7 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
                     break;
             }
         });
+        activityMainVM.fabVisible.set(true);
     }
 
     /***
@@ -173,7 +192,7 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
                             fragment = FragmentLocalTracks.newInstance(null, BR.trackVM, R.layout.item_track);
                             break;
                         case spotify:
-                            fragment = FragmentSpotifyTracks.newInstance(null);
+                            fragment = FragmentSpotifyTracks.newInstance(null, BR.trackVM, R.layout.item_track);
                             break;
                     }
                     break;
@@ -181,6 +200,7 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
             replaceFragment(fragment, false, false);
 
         });
+        activityMainVM.fabVisible.set(false);
     }
 
 
@@ -196,7 +216,7 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     EventBus.getDefault().post(new EventPermission(REQUEST.PERMISSION_STORAGE, true));
                 } else {
-                    replaceFragment(FragmentPermission.newInstance(activity.getString(R.string.permission_local)), false, true);
+                    replaceFragment(FragmentPermission.newInstance(activity.getString(R.string.permission_local)), false, false);
                 }
         }
     }
@@ -216,7 +236,7 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
 
     @Override
     public void replaceFragment(Fragment fragment, boolean clearBackStack, boolean addToBackstack) {
-        handler.post(() -> FragmentManager.replaceFragment(activity, fragment, clearBackStack, addToBackstack));
+        FragmentManager.replaceFragment(activity, fragment, clearBackStack, addToBackstack);
     }
 
 }

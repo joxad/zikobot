@@ -4,6 +4,7 @@ import com.startogamu.zikobot.core.receiver.StopReceiver;
 import com.startogamu.zikobot.module.music.PlayerBaseComponent;
 import com.startogamu.zikobot.module.music.PlayerModule;
 import com.startogamu.zikobot.viewmodel.activity.ActivityWakeUpVM;
+import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
 import javax.inject.Singleton;
 
@@ -19,4 +20,6 @@ public interface PlayerComponent extends PlayerBaseComponent{
     void inject(ActivityWakeUpVM alarmService);
 
     void inject(StopReceiver stopReceiver);
+
+    void inject(PlayerVM playerVM);
 }

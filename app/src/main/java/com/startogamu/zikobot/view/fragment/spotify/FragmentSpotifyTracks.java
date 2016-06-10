@@ -1,6 +1,7 @@
 package com.startogamu.zikobot.view.fragment.spotify;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +18,8 @@ import com.startogamu.zikobot.databinding.FragmentSpotifyTracksBinding;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.viewmodel.fragment.spotify.FragmentSpotifyTracksVM;
 
+import me.tatarka.bindingcollectionadapter.ItemView;
+
 /**
  * Created by josh on 31/03/16.
  */
@@ -24,9 +27,18 @@ public class FragmentSpotifyTracks extends FragmentBase<FragmentSpotifyTracksBin
 
     public final static String TAG = FragmentSpotifyTracks.class.getSimpleName();
 
-    public static FragmentSpotifyTracks newInstance(Item item) {
+    public static FragmentSpotifyTracks newInstance(Item item, int dataVm, @LayoutRes int layout) {
         FragmentSpotifyTracks fragment = new FragmentSpotifyTracks();
-        fragment.setArguments( Bundler.create().put(EXTRA.PLAYLIST_ID, item.getId()).put(EXTRA.PLAYLIST_TRACKS_TOTAL, item.getTracks().total).get());
+
+        Bundler bundler = Bundler.create()
+                .put(EXTRA.DATA_VM, dataVm)
+                .put(EXTRA.LAYOUT, layout);
+        if (item != null) {
+            bundler.put(EXTRA.PLAYLIST_ID, item.getId())
+                    .put(EXTRA.PLAYLIST_TRACKS_TOTAL, item.getTracks().total);
+
+        }
+        fragment.setArguments(bundler.get());
         return fragment;
     }
 
@@ -50,7 +62,12 @@ public class FragmentSpotifyTracks extends FragmentBase<FragmentSpotifyTracksBin
 
     @Override
     public FragmentSpotifyTracksVM baseFragmentVM(FragmentSpotifyTracksBinding binding) {
-        return new FragmentSpotifyTracksVM(this, binding);
+        return new FragmentSpotifyTracksVM(this, binding) {
+            @Override
+            public ItemView getItemView() {
+                return ItemView.of(fragment.getArguments().getInt(EXTRA.DATA_VM), getArguments().getInt(EXTRA.LAYOUT));
+            }
+        };
     }
 
 
@@ -59,7 +76,6 @@ public class FragmentSpotifyTracks extends FragmentBase<FragmentSpotifyTracksBin
         inflater.inflate(R.menu.menu_music, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
 
 
 }

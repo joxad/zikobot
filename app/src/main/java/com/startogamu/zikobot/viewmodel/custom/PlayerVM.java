@@ -3,10 +3,12 @@ package com.startogamu.zikobot.viewmodel.custom;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.view.View;
 
 import com.joxad.easydatabinding.base.IVM;
-import com.startogamu.zikobot.core.event.TrackChangeEvent;
+import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
+import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
@@ -19,6 +21,7 @@ import org.greenrobot.eventbus.Subscribe;
 public class PlayerVM extends BaseObservable implements IVM {
 
 
+    public boolean isPlaying = false;
     private final Context context;
     public TrackVM trackVM;
 
@@ -30,14 +33,27 @@ public class PlayerVM extends BaseObservable implements IVM {
     @Override
     public void init() {
         EventBus.getDefault().register(this);
+        Injector.INSTANCE.playerComponent().inject(this);
         trackVM = new TrackVM(context, Mock.trackPlayer(context));
     }
 
     @Subscribe
     public void onReceive(EventPlayTrack changeEvent) {
         trackVM.updateTrack(changeEvent.getTrack());
+        Injector.INSTANCE.playerComponent().manager().playAlarmTrack(changeEvent.getTrack());
         notifyChange();
     }
+
+    public void onPlayPauseClicked(View view) {
+        isPlaying = !isPlaying;
+        if (isPlaying) {
+            Injector.INSTANCE.playerComponent().manager().resume();
+        } else {
+            Injector.INSTANCE.playerComponent().manager().pause();
+        }
+        notifyChange();
+    }
+
     @Override
     public void destroy() {
         EventBus.getDefault().unregister(this);
@@ -57,6 +73,15 @@ public class PlayerVM extends BaseObservable implements IVM {
     @Bindable
     public String getArtistName() {
         return trackVM.getArtistName();
+    }
+
+    @Bindable
+    public int getImage() {
+        if (isPlaying) {
+            return R.drawable.ic_pause;
+        } else {
+            return R.drawable.ic_play_arrow;
+        }
     }
 
 }

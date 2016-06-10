@@ -97,7 +97,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      * @param alarm
      */
     private void startAlarm(Alarm alarm) {
-        Injector.INSTANCE.playerComponent().manager().startAlarm(alarm);
+        Injector.INSTANCE.playerComponent().manager().startTracks(alarm);
         rotateCD();
     }
 
