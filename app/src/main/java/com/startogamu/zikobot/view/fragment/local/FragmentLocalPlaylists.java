@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.view.fragment.spotify;
+package com.startogamu.zikobot.view.fragment.local;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,13 +12,13 @@ import com.startogamu.zikobot.R;
 /**
  * Created by josh on 09/06/16.
  */
-public class FragmentSpotifyAlbums extends Fragment {
+public class FragmentLocalPlaylists extends Fragment {
 
-    public static FragmentSpotifyAlbums newInstance() {
+    public static FragmentLocalPlaylists newInstance() {
 
         Bundle args = new Bundle();
 
-        FragmentSpotifyAlbums fragment = new FragmentSpotifyAlbums();
+        FragmentLocalPlaylists fragment = new FragmentLocalPlaylists();
         fragment.setArguments(args);
         return fragment;
     }
@@ -26,7 +26,7 @@ public class FragmentSpotifyAlbums extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View viewGroup = inflater.inflate(R.layout.fragment_spotify_albums, container);
+        View viewGroup = inflater.inflate(R.layout.fragment_local_playlists, container, false);
         return viewGroup;
     }
 }

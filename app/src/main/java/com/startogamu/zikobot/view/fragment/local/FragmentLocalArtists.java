@@ -20,6 +20,7 @@ public class FragmentLocalArtists extends FragmentBase<FragmentLocalArtistsBindi
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public int data() {
         return BR.fragmentLocalArtistVM;
@@ -35,11 +36,6 @@ public class FragmentLocalArtists extends FragmentBase<FragmentLocalArtistsBindi
         return new FragmentLocalArtistVM(this, binding);
     }
 
-    public void loadMusic() {
-        vm.loadLocalMusic();
-    }
 
-    public void permissionDenied() {
-        vm.permissionDenied();
-    }
+
 }

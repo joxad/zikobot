@@ -12,13 +12,13 @@ import com.startogamu.zikobot.R;
 /**
  * Created by josh on 09/06/16.
  */
-public class FragmentSpotifyAlbums extends Fragment {
+public class FragmentSpotifyArtists extends Fragment {
 
-    public static FragmentSpotifyAlbums newInstance() {
+    public static FragmentSpotifyArtists newInstance() {
 
         Bundle args = new Bundle();
 
-        FragmentSpotifyAlbums fragment = new FragmentSpotifyAlbums();
+        FragmentSpotifyArtists fragment = new FragmentSpotifyArtists();
         fragment.setArguments(args);
         return fragment;
     }
@@ -26,7 +26,7 @@ public class FragmentSpotifyAlbums extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View viewGroup = inflater.inflate(R.layout.fragment_spotify_albums, container);
+        View viewGroup = inflater.inflate(R.layout.fragment_spotify_artists, container,false);
         return viewGroup;
     }
 }

@@ -10,19 +10,18 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.REQUEST;
-import com.startogamu.zikobot.databinding.FragmentLocalMusicBinding;
+import com.startogamu.zikobot.databinding.FragmentLocalTracksBinding;
 import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
+import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
-import com.startogamu.zikobot.module.component.Injector;
-import com.startogamu.zikobot.view.fragment.local.FragmentLocalMusic;
+import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -30,12 +29,12 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 /**
  * Created by josh on 26/03/16.
  */
-public abstract class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic, FragmentLocalMusicBinding> {
+public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocalTracks, FragmentLocalTracksBinding> {
 
     @Nullable
     @InjectExtra(EXTRA.LOCAL_ALBUM)
     LocalAlbum localAlbum;
-    private static final String TAG = FragmentLocalVM.class.getSimpleName();
+    private static final String TAG = FragmentLocalTracksVM.class.getSimpleName();
     public ObservableArrayList<TrackVM> items;
 
     public ObservableBoolean showZmvMessage;
@@ -46,7 +45,7 @@ public abstract class FragmentLocalVM extends FragmentBaseVM<FragmentLocalMusic,
      * @param fragment
      * @param binding
      */
-    public FragmentLocalVM(FragmentLocalMusic fragment, FragmentLocalMusicBinding binding) {
+    public FragmentLocalTracksVM(FragmentLocalTracks fragment, FragmentLocalTracksBinding binding) {
         super(fragment, binding);
     }
 

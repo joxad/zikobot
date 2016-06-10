@@ -51,7 +51,7 @@ public class SpotifyAuthManager {
     public void refreshToken(Context context, Listener listener) throws UnsupportedEncodingException {
 
         SpotifyRefreshToken spotifyRefreshToken = new SpotifyRefreshToken("refresh_token", AppPrefs.getRefreshToken(),
-                context.getString(R.string.api_spotify_callback_musics),
+                context.getString(R.string.api_spotify_callback_main),
                 context.getString(R.string.api_spotify_id),
                 context.getString(R.string.api_spotify_secret));
         String header = "Basic ";

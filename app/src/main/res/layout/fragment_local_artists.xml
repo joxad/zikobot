@@ -31,13 +31,7 @@
             app:layoutManager="@{LayoutManagers.linear()}"
             tools:listitem="@layout/item_artist" />
 
-        <com.startogamu.zikobot.view.custom.ZikobotMessageView
-            android:id="@+id/zmv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="@{fragmentLocalArtistVM.showZmvMessage ? v.VISIBLE : v.GONE}"
-            />
+
 
     </RelativeLayout>
 </layout>

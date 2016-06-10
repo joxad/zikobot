@@ -56,7 +56,7 @@
     <string name="playlist_total_tracks">%d chansons</string>
     <string name="tracks">chanson(s)</string>
 
-    <string name="deezer_coming_soon">Coming soon...</string>
+    <string name="coming_soon">Coming soon...</string>
     <string name="play">Jouer l\'alarme</string>
     <string name="action_add_all">Tout ajouter</string>
 
@@ -65,8 +65,4 @@
     <string name="add_tracks">J\'ai besoin que tu ajoutes des chansons pour lancer l\'alarme</string>
     <string name="permission_local">J\'ai besoin de ta permission pour accéder à ta musique :)</string>
     <string name="album">album(s)</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
-    <string name="alarms">Alarmes</string>
-
 </resources>

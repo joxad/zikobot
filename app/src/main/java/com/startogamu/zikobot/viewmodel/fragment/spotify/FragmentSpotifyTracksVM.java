@@ -1,20 +1,22 @@
 package com.startogamu.zikobot.viewmodel.fragment.spotify;
 
 import android.databinding.ObservableArrayList;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.f2prateek.dart.henson.Bundler;
+import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.SelectAllTracks;
 import com.startogamu.zikobot.core.utils.EXTRA;
-import com.startogamu.zikobot.databinding.FragmentSpotifyPlaylistTracksBinding;
+import com.startogamu.zikobot.databinding.FragmentSpotifyTracksBinding;
 import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylistItem;
-import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylistTracks;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyTracks;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,21 +26,24 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 
 
 /***
- * {@link FragmentSpotifyPlaylistVM} will call the apimanager to get the tracks of the playlist
+ * {@link FragmentSpotifyTracksVM} will call the apimanager to get the tracks of the playlist
  */
-public class FragmentSpotifyPlaylistVM extends FragmentBaseVM<FragmentSpotifyPlaylistTracks, FragmentSpotifyPlaylistTracksBinding>{
+public class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpotifyTracks, FragmentSpotifyTracksBinding> {
 
     public ObservableArrayList<TrackVM> items;
 
 
     public ItemView itemsBinder = ItemView.of(BR.trackVM, R.layout.item_alarm_track);
 
+    @Nullable
+    @InjectExtra(EXTRA.PLAYLIST_ID)
     String playlistId;
-    int tracksNumber=0;
-    public FragmentSpotifyPlaylistVM(FragmentSpotifyPlaylistTracks fragment, FragmentSpotifyPlaylistTracksBinding binding) {
-        super(fragment,binding);
-        playlistId = Bundler.of(fragment.getArguments()).get().getString(EXTRA.PLAYLIST_ID);
-        tracksNumber = Bundler.of(fragment.getArguments()).get().getInt(EXTRA.PLAYLIST_TRACKS_TOTAL);
+    @InjectExtra(EXTRA.PLAYLIST_TRACKS_TOTAL)
+    int tracksNumber = 0;
+
+    public FragmentSpotifyTracksVM(FragmentSpotifyTracks fragment, FragmentSpotifyTracksBinding binding) {
+        super(fragment, binding);
+        Dart.inject(this, fragment.getArguments());
         this.items = new ObservableArrayList<>();
         this.fragment = fragment;
         this.binding = binding;
@@ -48,15 +53,13 @@ public class FragmentSpotifyPlaylistVM extends FragmentBaseVM<FragmentSpotifyPla
         loadTracks(playlistId);
     }
 
-
     @Override
     public void init() {
-
     }
-
 
     /***
      * FInd the list of track from the playlist
+     *
      * @param playlistId
      */
     private void loadTracks(String playlistId) {
@@ -83,7 +86,6 @@ public class FragmentSpotifyPlaylistVM extends FragmentBaseVM<FragmentSpotifyPla
     protected void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
-
     }
 
     @Override

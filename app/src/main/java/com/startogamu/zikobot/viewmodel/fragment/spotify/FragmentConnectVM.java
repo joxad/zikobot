@@ -15,6 +15,7 @@ import com.joxad.android_easy_spotify.Type;
 import com.joxad.easydatabinding.activity.IResult;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.connect.EventSpotifyConnect;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentConnectSpotifyBinding;
 import com.startogamu.zikobot.module.component.Injector;
@@ -23,6 +24,8 @@ import com.startogamu.zikobot.module.spotify_auth.model.SpotifyRequestToken;
 import com.startogamu.zikobot.module.spotify_auth.model.SpotifyToken;
 import com.startogamu.zikobot.view.activity.ActivityMusic;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyConnect;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.UnsupportedEncodingException;
 
@@ -78,7 +81,7 @@ public class FragmentConnectVM extends FragmentBaseVM<FragmentSpotifyConnect, Fr
      * @param view
      */
     public void onButtonConnectClick(View view) {
-        SpotifyManager.loginWithBrowser(fragment.getActivity(), Type.CODE, R.string.api_spotify_callback_musics,
+        SpotifyManager.loginWithBrowser(fragment.getActivity(), Type.CODE, R.string.api_spotify_callback_main,
                 new String[]{Scope.USER_READ_PRIVATE, Scope.STREAMING}, new SpotifyManager.OAuthListener() {
                     @Override
                     public void onReceived(String code) {
@@ -102,7 +105,7 @@ public class FragmentConnectVM extends FragmentBaseVM<FragmentSpotifyConnect, Fr
         try {
             Injector.INSTANCE.spotifyAuth().manager().requestToken(
                     new SpotifyRequestToken("authorization_code", accessCode,
-                            fragment.getString(R.string.api_spotify_callback_musics),
+                            fragment.getString(R.string.api_spotify_callback_main),
                             fragment.getString(R.string.api_spotify_id),
                             fragment.getString(R.string.api_spotify_secret))).subscribe(new Subscriber<SpotifyToken>() {
                 @Override
@@ -146,9 +149,8 @@ public class FragmentConnectVM extends FragmentBaseVM<FragmentSpotifyConnect, Fr
 
             @Override
             public void onNext(SpotifyUser spotifyUser) {
-                AppPrefs.userId(spotifyUser.id);
-                //TODO check
-                ((ActivityMusic) fragment.getActivity()).loadSpotifyMusicFragment();
+                AppPrefs.spotifyUser(spotifyUser);
+                EventBus.getDefault().post(new EventSpotifyConnect(spotifyUser));
             }
         });
     }

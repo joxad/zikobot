@@ -12,8 +12,8 @@
             type="android.view.View" />
 
         <variable
-            name="fragmentLocalVM"
-            type="com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalVM" />
+            name="fragmentLocalTracksVM"
+            type="com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalTracksVM" />
     </data>
 
     <RelativeLayout
@@ -26,8 +26,8 @@
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:itemView="@{fragmentLocalVM.itemView}"
-            app:items="@{fragmentLocalVM.items}"
+            app:itemView="@{fragmentLocalTracksVM.itemView}"
+            app:items="@{fragmentLocalTracksVM.items}"
             app:layoutManager="@{LayoutManagers.linear()}"
             tools:listitem="@layout/item_alarm_track"
             android:paddingBottom="@dimen/actionBarSize"
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="@{fragmentLocalVM.showZmvMessage ? v.VISIBLE : v.GONE}"
+            android:visibility="@{fragmentLocalTracksVM.showZmvMessage ? v.VISIBLE : v.GONE}"
             />
 
     </RelativeLayout>

@@ -7,8 +7,8 @@
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers"/>
 
         <variable
-            name="fragmentSpotifyPlaylistVM"
-            type="com.startogamu.zikobot.viewmodel.fragment.spotify.FragmentSpotifyPlaylistVM" />
+            name="fragmentSpotifyTracksVM"
+            type="com.startogamu.zikobot.viewmodel.fragment.spotify.FragmentSpotifyTracksVM" />
     </data>
 
     <LinearLayout
@@ -22,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="@{LayoutManagers.linear()}"
-            app:itemView="@{fragmentSpotifyPlaylistVM.itemsBinder}"
-            app:items="@{fragmentSpotifyPlaylistVM.items}"
+            app:itemView="@{fragmentSpotifyTracksVM.itemsBinder}"
+            app:items="@{fragmentSpotifyTracksVM.items}"
             tools:listitem="@layout/item_playlist" />
     </LinearLayout>
 </layout>

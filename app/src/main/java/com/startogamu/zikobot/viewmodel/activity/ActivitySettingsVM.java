@@ -152,7 +152,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
             public void onNext(SpotifyUser spotifyUser) {
                 binding.tvUser.setText(spotifyUser.getDisplayName());
                 Glide.with(activity).load(spotifyUser.getImages().get(0).getUrl()).into(binding.ivUser);
-                AppPrefs.userId(spotifyUser.getId());
+                AppPrefs.spotifyUser(spotifyUser);
                 showSpotifyConnect.set(false);
 
             }

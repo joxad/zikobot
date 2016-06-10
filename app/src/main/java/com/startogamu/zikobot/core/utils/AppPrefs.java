@@ -3,13 +3,16 @@ package com.startogamu.zikobot.core.utils;
 import android.content.Context;
 import android.content.ContextWrapper;
 
+import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
 
 /***
  * {@link AppPrefs} will handle the prefs of the application using {@link Prefs}
  */
 public class AppPrefs {
 
+    static Gson gson = new Gson();
 
     public static final String FIRST_START = "FIRST_START";
     /***
@@ -26,7 +29,7 @@ public class AppPrefs {
      *
      */
     public static final String REFRESH_TOKEN = "REFRESH_TOKEN";
-    private static final String SPOTIFY_USER_ID = "SPOTIFY_USER_ID";
+    private static final String SPOTIFY_USER = "SPOTIFY_USER";
 
 
     public static boolean isFirstStart() {
@@ -61,12 +64,13 @@ public class AppPrefs {
         return Prefs.getString(SPOTIFY_ACCESS_TOKEN, "");
     }
 
-    public static void userId(String id) {
-        Prefs.putString(SPOTIFY_USER_ID, id);
+    public static void spotifyUser(SpotifyUser spotifyUser) {
+        Prefs.putString(SPOTIFY_USER, gson.toJson(spotifyUser));
     }
 
-    public static String spotifyYserId() {
-        return Prefs.getString(SPOTIFY_USER_ID, "");
+    public static SpotifyUser spotifyUser() {
+        String user = Prefs.getString(SPOTIFY_USER, "");
+        return gson.fromJson(user, SpotifyUser.class);
     }
 
     public static void init(Context context) {
