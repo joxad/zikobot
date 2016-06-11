@@ -64,8 +64,7 @@
             android:name=".view.activity.ActivityMusic"
             android:configChanges="orientation|screenSize"
             android:label="@string/activity_music_title"
-            android:launchMode="singleInstance">
-        </activity>
+            android:launchMode="singleInstance"></activity>
 
         <activity
             android:name=".view.activity.ActivityWakeUp"

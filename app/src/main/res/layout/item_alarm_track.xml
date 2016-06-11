@@ -71,8 +71,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="end|center_vertical"
-                    android:onClick="@{trackVM.onTrackClicked}"
-                    android:checked="@{trackVM.isChecked}" />
+                    android:checked="@{trackVM.isChecked}"
+                    android:onClick="@{trackVM.onTrackClicked}" />
             </RelativeLayout>
 
         </LinearLayout>

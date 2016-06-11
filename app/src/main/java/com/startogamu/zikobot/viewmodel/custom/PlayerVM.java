@@ -3,12 +3,14 @@ package com.startogamu.zikobot.viewmodel.custom;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.ObservableArrayList;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
+import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
@@ -20,6 +22,9 @@ import org.greenrobot.eventbus.Subscribe;
  * Created by josh on 08/06/16.
  */
 public class PlayerVM extends BaseObservable implements IVM {
+
+    public ObservableArrayList<AlarmTrack> tracks;
+
 
     @Bindable
     public boolean isPlaying = false;
@@ -36,6 +41,7 @@ public class PlayerVM extends BaseObservable implements IVM {
         EventBus.getDefault().register(this);
         Injector.INSTANCE.playerComponent().inject(this);
         trackVM = new TrackVM(context, Mock.trackPlayer(context));
+        tracks = new ObservableArrayList<>();
     }
 
     @Subscribe

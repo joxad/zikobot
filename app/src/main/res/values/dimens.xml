@@ -17,4 +17,5 @@
     <dimen name="zikobot_size_mini">50dp</dimen>
     <dimen name="actionBarSize">48dp</dimen>
     <dimen name="playerHeight">60dp</dimen>
+    <dimen name="image_card_height_large">120dp</dimen>
 </resources>

@@ -1,25 +1,30 @@
-package com.startogamu.zikobot.core.event;
+package com.startogamu.zikobot.core.fragmentmanager;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.bumptech.glide.Glide;
 import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.joxad.easydatabinding.activity.IResult;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
+import com.startogamu.zikobot.core.event.LocalArtistSelectEvent;
+import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAlarms;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerLocal;
+import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
+import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.event.permission.EventPermission;
-import com.startogamu.zikobot.core.fragmentmanager.FragmentManager;
-import com.startogamu.zikobot.core.fragmentmanager.IFragmentManager;
-import com.startogamu.zikobot.core.fragmentmanager.TabLayoutManager;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
@@ -57,6 +62,7 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
     private final ActivityMainVM activityMainVM;
     private final ActivityMain activity;
     private final ActivityMainBinding binding;
+    private final android.support.v4.app.FragmentManager supportFragmentManager;
 
     public void init() {
         initTabLayoutTracks();
@@ -118,6 +124,7 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
         LocalArtist item = localArtistSelectEvent.getLocalArtist();
         replaceFragment(FragmentLocalAlbums.newInstance(item), false, true);
     }
+
 
     @Subscribe
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
@@ -226,7 +233,6 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
 
     }
 
-
     @Override
     public void addFragment(Fragment fragment, boolean withBackstack) {
         FragmentManager.addFragment(activity, fragment, withBackstack);
@@ -238,5 +244,44 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
     public void replaceFragment(Fragment fragment, boolean clearBackStack, boolean addToBackstack) {
         FragmentManager.replaceFragment(activity, fragment, clearBackStack, addToBackstack);
     }
+
+
+    private void updateToolbar(String name, @Nullable String image) {
+        binding.mainCollapsing.setTitle(name);
+        if (image == null) {
+            binding.ivToolbar.setVisibility(View.GONE);
+            binding.title.setText(name);
+        } else {
+            binding.title.setText("");
+
+            binding.ivToolbar.setVisibility(View.VISIBLE);
+            Glide.with(activity).load(image).into(binding.ivToolbar);
+        }
+    }
+
+
+    public void showTabLayout() {
+        activityMainVM.tabLayoutVisible.set(true);
+    }
+
+    public void hideTabLayout() {
+        activityMainVM.tabLayoutVisible.set(false);
+    }
+
+
+    @Subscribe
+    public void onEvent(EventCollapseToolbar eventCollapseToolbar) {
+        updateToolbar(eventCollapseToolbar.getName(), eventCollapseToolbar.getImageUrl());
+    }
+
+    @Subscribe
+    public void onEvent(EventTabBars eventTabBars) {
+        if (eventTabBars.isVisible()) {
+            showTabLayout();
+        } else {
+            hideTabLayout();
+        }
+    }
+
 
 }

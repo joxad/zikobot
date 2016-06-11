@@ -60,7 +60,7 @@ public class LocalMusicManager {
                 if (album != -1) {
                     selection += " AND " + MediaStore.Audio.Media.ALBUM_ID + "='" + album + "'";
                 }
-                String sortOrder = MediaStore.Audio.Media.TRACK + " ASC";
+                String sortOrder = MediaStore.Audio.Media.TITLE + " ASC" ;
                 Cursor cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
 
                 if (cursor == null) {
@@ -120,8 +120,7 @@ public class LocalMusicManager {
                         MediaStore.Audio.Artists._ID,
                         MediaStore.Audio.Artists.ARTIST,
                         MediaStore.Audio.Artists.NUMBER_OF_ALBUMS,
-                        MediaStore.Audio.Artists.NUMBER_OF_TRACKS,
-                        MediaStore.Audio.Artists.ARTIST_KEY};
+                        MediaStore.Audio.Artists.NUMBER_OF_TRACKS};
                 String selection = null;
                 String[] selectionArgs = null;
                 String sortOrder = MediaStore.Audio.Media.ARTIST + " ASC";
@@ -145,9 +144,18 @@ public class LocalMusicManager {
                     Log.i(TAG, "ID: " + cursor.getString(0) + " Title: " + cursor.getString(1));
                     artists.add(new LocalArtist(cursor.getLong(0), cursor.getString(1), cursor.getInt(2)));
                 } while (cursor.moveToNext());
-                Log.i(TAG, "Done querying media. MusicRetriever is ready.");
-                subscriber.onNext(artists);
+
+
                 cursor.close();
+                Log.i(TAG, "Done querying media. MusicRetriever is ready.");
+
+                for (LocalArtist localArtist : artists) {
+
+                    localArtist.setImage(findAlbumArtByArtist(localArtist.getName()));
+                }
+
+
+                subscriber.onNext(artists);
             }
         });
 
@@ -196,7 +204,8 @@ public class LocalMusicManager {
 
                 do {
                     Log.i(TAG, "ID: " + cursor.getString(0) + " Title: " + cursor.getString(1));
-                    albums.add(new LocalAlbum(cursor.getLong(albumId), cursor.getString(albumColumn), cursor.getString(artistColumn), cursor.getString(artColumn), cursor.getInt(nbTrackColumn)));
+                    albums.add(new LocalAlbum(cursor.getLong(albumId), cursor.getString(albumColumn), cursor.getString(artistColumn),
+                            cursor.getString(artColumn), cursor.getInt(nbTrackColumn)));
                 } while (cursor.moveToNext());
                 Log.i(TAG, "Done querying media. MusicRetriever is ready.");
 
@@ -231,5 +240,29 @@ public class LocalMusicManager {
         return path;
     }
 
+
+
+    /***
+     * @param albumId
+     * @return
+     */
+    public String findAlbumArtByArtist(String artistName) {
+        Cursor cursor = contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+                new String[]{MediaStore.Audio.Albums.ARTIST, MediaStore.Audio.Albums.ALBUM_ART},
+                MediaStore.Audio.Albums.ARTIST + "=?",
+                new String[]{artistName},
+                null);
+
+        String path = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
+                // do whatever you need to do
+                cursor.close();
+            }
+        }
+
+        return path;
+    }
 
 }

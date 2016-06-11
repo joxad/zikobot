@@ -131,7 +131,7 @@ public class PlayerMusicManager {
                     Log.d(TAG, "TRACK END");
 
                 }
-                if ( playerState.positionInMs >=playerState.durationInMs  && playerState.durationInMs >0 && pauseToHandle)
+                if (playerState.positionInMs >= playerState.durationInMs && playerState.durationInMs > 0 && pauseToHandle)
                     next();
                 Log.d(TAG, String.format("Player state %s - activeDevice %s : current duration %d total duration %s", playerState.trackUri, playerState.activeDevice, playerState.positionInMs, playerState.durationInMs));
             }
@@ -146,6 +146,7 @@ public class PlayerMusicManager {
 
     Handler handler = new Handler();
     private boolean pauseToHandle = true;
+
     /***
      * @param alarmTrack
      */
@@ -156,7 +157,7 @@ public class PlayerMusicManager {
                 pauseToHandle = false;
                 SpotifyPlayerManager.pause();
                 SpotifyPlayerManager.clear();
-                handler.postDelayed(() -> pauseToHandle =true,500);
+                handler.postDelayed(() -> pauseToHandle = true, 500);
                 mediaPlayerService.playSong(Uri.parse(alarmTrack.getRef()));
                 break;
             case AlarmTrack.TYPE.SPOTIFY:
@@ -178,7 +179,6 @@ public class PlayerMusicManager {
     }
 
 
-
     public void startTracks(Alarm alarm) {
         enable = true;
         currentSong = 0;
@@ -195,13 +195,16 @@ public class PlayerMusicManager {
 
     }
 
+    /***
+     *
+     */
     public void resume() {
         mediaPlayerService.resume();
         SpotifyPlayerManager.resume();
     }
 
     public void pause() {
-        mediaPlayerService.stop();
+        mediaPlayerService.pause();
         SpotifyPlayerManager.pause();
     }
 }

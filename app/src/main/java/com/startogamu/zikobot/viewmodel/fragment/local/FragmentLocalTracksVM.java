@@ -14,6 +14,8 @@ import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
+import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.FragmentLocalTracksBinding;
@@ -23,6 +25,8 @@ import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
+
+import org.greenrobot.eventbus.EventBus;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -66,6 +70,18 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
         } else {
             loadLocalMusic();
             // continue with your code
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (localAlbum != null) {
+            EventBus.getDefault().post(new EventCollapseToolbar(localAlbum.getName(), localAlbum.getImage()));
+            EventBus.getDefault().post(new EventTabBars(false, TAG));
+        } else {
+            EventBus.getDefault().post(new EventCollapseToolbar(null, null));
+            EventBus.getDefault().post(new EventTabBars(true, TAG));
         }
     }
 

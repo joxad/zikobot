@@ -15,30 +15,31 @@ import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
+import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.FragmentLocalAlbumsBinding;
-import com.startogamu.zikobot.databinding.FragmentLocalArtistsBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
-import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.viewmodel.base.AlbumVM;
-import com.startogamu.zikobot.viewmodel.base.ArtistVM;
+
+import org.greenrobot.eventbus.EventBus;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
 /**
  * Created by josh on 06/06/16.
  */
-public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, FragmentLocalAlbumsBinding>{
+public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, FragmentLocalAlbumsBinding> {
 
     @Nullable
     @InjectExtra(EXTRA.LOCAL_ARTIST)
     LocalArtist localArtist;
 
-    private static final String TAG = FragmentLocalAlbumsVM.class.getSimpleName();
+    public static final String TAG = "FragmentLocalAlbumsVM";
     public ObservableBoolean showZmvMessage;
 
     public String zmvMessage;
@@ -58,7 +59,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
     @Override
     public void init() {
 
-        Dart.inject(this,fragment.getArguments());
+        Dart.inject(this, fragment.getArguments());
         items = new ObservableArrayList<>();
         showZmvMessage = new ObservableBoolean(false);
         zmvMessage = "";
@@ -75,6 +76,19 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
         }
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (localArtist != null) {
+            EventBus.getDefault().post(new EventCollapseToolbar(localArtist.getName(), localArtist.getImage()));
+            EventBus.getDefault().post(new EventTabBars(false, TAG));
+        } else {
+            EventBus.getDefault().post(new EventCollapseToolbar(null, null));
+            EventBus.getDefault().post(new EventTabBars(true, TAG));
+        }
+    }
+
     /***
      * Load the local music
      */
@@ -86,8 +100,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
             }
             if (localAlbums.isEmpty()) {
                 updateMessage(fragment.getString(R.string.no_music));
-            }
-            else {
+            } else {
                 showZmvMessage.set(false);
             }
         }, throwable -> {
@@ -95,6 +108,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
 
         });
     }
+
     /***
      * Update t
      *

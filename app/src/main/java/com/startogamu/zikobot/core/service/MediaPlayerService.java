@@ -17,6 +17,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
 
     MediaPlayer mediaPlayer;
     private final IBinder musicBind = new MediaPlayerServiceBinder();
+    private int currentPosition;
 
 
     @Override
@@ -59,11 +60,20 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         mediaPlayer.setOnCompletionListener(onCompletionListener);
     }
 
+
+    /***
+     *
+     */
+    public void pause() {
+        currentPosition = mediaPlayer.getCurrentPosition();
+        stop();
+    }
     public void stop() {
         mediaPlayer.stop();
     }
 
     public void resume() {
+        mediaPlayer.seekTo(currentPosition);
         mediaPlayer.start();
     }
 

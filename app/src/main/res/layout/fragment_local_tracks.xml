@@ -26,20 +26,19 @@
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/actionBarSize"
             app:itemView="@{fragmentLocalTracksVM.itemView}"
             app:items="@{fragmentLocalTracksVM.items}"
             app:layoutManager="@{LayoutManagers.linear()}"
-            tools:listitem="@layout/item_alarm_track"
-            android:paddingBottom="@dimen/actionBarSize"
-            android:clipToPadding="false"/>
+            tools:listitem="@layout/item_alarm_track" />
 
         <com.startogamu.zikobot.view.custom.ZikobotMessageView
             android:id="@+id/zmv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="@{fragmentLocalTracksVM.showZmvMessage ? v.VISIBLE : v.GONE}"
-            />
+            android:visibility="@{fragmentLocalTracksVM.showZmvMessage ? v.VISIBLE : v.GONE}" />
 
     </RelativeLayout>
 </layout>

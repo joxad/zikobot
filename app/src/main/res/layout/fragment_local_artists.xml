@@ -26,11 +26,12 @@
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/actionBarSize"
             app:itemView="@{fragmentLocalArtistVM.itemView}"
             app:items="@{fragmentLocalArtistVM.items}"
-            app:layoutManager="@{LayoutManagers.linear()}"
+            app:layoutManager="@{LayoutManagers.grid(2)}"
             tools:listitem="@layout/item_artist" />
-
 
 
     </RelativeLayout>

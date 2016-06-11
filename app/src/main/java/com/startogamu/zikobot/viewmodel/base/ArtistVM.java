@@ -48,4 +48,9 @@ public class ArtistVM extends BaseVM<LocalArtist> {
     public String getNbAlbums() {
         return String.format("%d %s", model.getNbAlbums(), context.getString(R.string.album));
     }
+
+    @Bindable
+    public String getImageUrl() {
+        return model.getImage();
+    }
 }

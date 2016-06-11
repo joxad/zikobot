@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers"/>
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
 
         <variable
             name="fragmentSpotifyTracksVM"
@@ -21,9 +22,11 @@
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="@{LayoutManagers.linear()}"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/actionBarSize"
             app:itemView="@{fragmentSpotifyTracksVM.itemView}"
             app:items="@{fragmentSpotifyTracksVM.items}"
+            app:layoutManager="@{LayoutManagers.linear()}"
             tools:listitem="@layout/item_playlist" />
     </LinearLayout>
 </layout>
