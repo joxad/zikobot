@@ -65,15 +65,14 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
      *
      */
     public void pause() {
-        currentPosition = mediaPlayer.getCurrentPosition();
-        stop();
+        mediaPlayer.pause();
     }
+
     public void stop() {
         mediaPlayer.stop();
     }
 
     public void resume() {
-        mediaPlayer.seekTo(currentPosition);
         mediaPlayer.start();
     }
 

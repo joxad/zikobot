@@ -11,6 +11,8 @@ import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventFabClicked;
+import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
+import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
 import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
@@ -85,6 +87,9 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
+
+        EventBus.getDefault().post(new EventCollapseToolbar(fragment.getString(R.string.drawer_alarms), null));
+        EventBus.getDefault().post(new EventTabBars(false, TAG));
         showTuto.set(false);
         loadAlarms();
     }

@@ -84,7 +84,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
             EventBus.getDefault().post(new EventCollapseToolbar(localArtist.getName(), localArtist.getImage()));
             EventBus.getDefault().post(new EventTabBars(false, TAG));
         } else {
-            EventBus.getDefault().post(new EventCollapseToolbar(null, null));
+            EventBus.getDefault().post(new EventCollapseToolbar(fragment.getString(R.string.activity_music_title), null));
             EventBus.getDefault().post(new EventTabBars(true, TAG));
         }
     }

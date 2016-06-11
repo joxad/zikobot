@@ -186,7 +186,9 @@ public class PlayerMusicManager {
         playAlarmTrack(this.alarm.getTracks().get(currentSong));
     }
 
-
+    /***
+     * Stop all the players
+     */
     public void stop() {
         enable = false;
         SpotifyPlayerManager.pause();
@@ -203,6 +205,9 @@ public class PlayerMusicManager {
         SpotifyPlayerManager.resume();
     }
 
+    /**
+     * pause all the players
+     */
     public void pause() {
         mediaPlayerService.pause();
         SpotifyPlayerManager.pause();
