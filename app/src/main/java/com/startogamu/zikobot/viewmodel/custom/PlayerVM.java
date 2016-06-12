@@ -61,6 +61,7 @@ public class PlayerVM extends BaseObservable implements IVM {
 
     @Subscribe
     public void onReceive(EventAddTrackToPlayer eventAddTrackToPlayer) {
+        trackVMs.clear();
         trackVMs.addAll(eventAddTrackToPlayer.getItems());
         ArrayList<Track> tracks = new ArrayList<>();
         for (TrackVM trackVM : trackVMs){
