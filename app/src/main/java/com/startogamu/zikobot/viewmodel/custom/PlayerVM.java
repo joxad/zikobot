@@ -67,6 +67,7 @@ public class PlayerVM extends BaseObservable implements IVM {
             tracks.add(trackVM.getModel());
         }
         isPlaying = true;
+        trackVM = trackVMs.get(0);
         Injector.INSTANCE.playerComponent().manager().playTracks(tracks);
         notifyChange();
     }

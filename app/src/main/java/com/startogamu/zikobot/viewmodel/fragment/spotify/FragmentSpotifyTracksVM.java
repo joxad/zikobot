@@ -10,6 +10,8 @@ import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.core.event.SelectAllTracks;
 import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentSpotifyTracksBinding;
 import com.startogamu.zikobot.module.alarm.model.Track;
@@ -79,7 +81,6 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-
         if (playlist != null) {
             EventBus.getDefault().post(new EventCollapseToolbar(playlist.getName(), playlist.getImages().get(0).getUrl()));
             EventBus.getDefault().post(new EventTabBars(false, TAG));
@@ -91,10 +92,15 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
         }
     }
 
+
+    @Subscribe
+    public void onEvent(EventPlayListClicked eventPlayTrack){
+        EventBus.getDefault().post(new EventAddTrackToPlayer(items));
+    }
     @Override
     protected void onPause() {
-        super.onPause();
         EventBus.getDefault().unregister(this);
+        super.onPause();
     }
 
     @Override
