@@ -17,6 +17,7 @@ import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
+import com.startogamu.zikobot.core.event.permission.EventPermission;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.FragmentLocalAlbumsBinding;
@@ -27,6 +28,7 @@ import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.viewmodel.base.AlbumVM;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -80,13 +82,25 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
     @Override
     protected void onResume() {
         super.onResume();
+        EventBus.getDefault().register(this);
         if (localArtist != null) {
             EventBus.getDefault().post(new EventCollapseToolbar(localArtist.getName(), localArtist.getImage()));
             EventBus.getDefault().post(new EventTabBars(false, TAG));
         } else {
-            EventBus.getDefault().post(new EventCollapseToolbar(fragment.getString(R.string.activity_music_title), null));
+            EventBus.getDefault().post(new EventCollapseToolbar(null, null));
             EventBus.getDefault().post(new EventTabBars(true, TAG));
         }
+    }
+
+    @Override
+    protected void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
+    }
+    @Subscribe
+    public void onEvent(EventPermission eventPermission) {
+        if( eventPermission.isGranted() && eventPermission.getPermission()== REQUEST.PERMISSION_STORAGE)
+            loadLocalMusic();
     }
 
     /***
@@ -118,11 +132,6 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
         showZmvMessage.set(true);
         zmvMessage = string;
         binding.zmv.setZmvMessage(zmvMessage);
-    }
-
-    public void permissionDenied() {
-        updateMessage(fragment.getString(R.string.permission_local));
-        binding.zmv.setOnClickListener(v -> askPermission());
     }
 
     /***

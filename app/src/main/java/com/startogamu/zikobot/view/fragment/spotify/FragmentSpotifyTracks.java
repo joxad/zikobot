@@ -18,6 +18,8 @@ import com.startogamu.zikobot.databinding.FragmentSpotifyTracksBinding;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.viewmodel.fragment.spotify.FragmentSpotifyTracksVM;
 
+import org.parceler.Parcels;
+
 import me.tatarka.bindingcollectionadapter.ItemView;
 
 /**
@@ -34,20 +36,11 @@ public class FragmentSpotifyTracks extends FragmentBase<FragmentSpotifyTracksBin
                 .put(EXTRA.DATA_VM, dataVm)
                 .put(EXTRA.LAYOUT, layout);
         if (item != null) {
-            bundler.put(EXTRA.PLAYLIST_ID, item.getId())
-                    .put(EXTRA.PLAYLIST_TRACKS_TOTAL, item.getTracks().total);
+            bundler.put(EXTRA.PLAYLIST, Parcels.wrap(item));
 
         }
         fragment.setArguments(bundler.get());
         return fragment;
-    }
-
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

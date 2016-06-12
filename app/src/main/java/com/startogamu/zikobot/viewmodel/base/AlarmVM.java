@@ -153,7 +153,7 @@ public class AlarmVM extends BaseVM<Alarm> {
         String am= "AM";
         String pm = "PM";
         String after =am;
-        if (model.getHour() > 12) {
+        if (model.getHour() >= 12) {
             after = pm;
         }
         return after;

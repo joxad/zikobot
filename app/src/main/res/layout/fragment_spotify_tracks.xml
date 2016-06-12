@@ -18,15 +18,16 @@
         android:orientation="vertical">
 
 
-        <android.support.v7.widget.RecyclerView
+        <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:layoutAnimation="@anim/grid_animation"
             android:paddingBottom="@dimen/actionBarSize"
             app:itemView="@{fragmentSpotifyTracksVM.itemView}"
             app:items="@{fragmentSpotifyTracksVM.items}"
-            app:layoutManager="@{LayoutManagers.linear()}"
+            app:layoutManager="@{LayoutManagers.grid(1)}"
             tools:listitem="@layout/item_playlist" />
     </LinearLayout>
 </layout>

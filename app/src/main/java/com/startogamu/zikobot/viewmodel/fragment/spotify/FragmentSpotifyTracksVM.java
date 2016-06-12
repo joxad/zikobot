@@ -4,17 +4,18 @@ import android.databinding.ObservableArrayList;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
-import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.SelectAllTracks;
+import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
+import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentSpotifyTracksBinding;
 import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
+import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylistItem;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyTracks;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
@@ -30,6 +31,7 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpotifyTracks, FragmentSpotifyTracksBinding> {
 
+    private static final String TAG = FragmentSpotifyTracksVM.class.getSimpleName();
     public ObservableArrayList<TrackVM> items;
 
 
@@ -37,11 +39,8 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
 
 
     @Nullable
-    @InjectExtra(EXTRA.PLAYLIST_ID)
-    String playlistId;
-    @Nullable
-    @InjectExtra(EXTRA.PLAYLIST_TRACKS_TOTAL)
-    int tracksNumber = 0;
+    @InjectExtra(EXTRA.PLAYLIST)
+    Item playlist;
 
     public FragmentSpotifyTracksVM(FragmentSpotifyTracks fragment, FragmentSpotifyTracksBinding binding) {
         super(fragment, binding);
@@ -52,7 +51,7 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
         EventBus.getDefault().register(this);
         Injector.INSTANCE.spotifyApi().inject(this);
 
-        loadTracks(playlistId);
+        loadTracks(playlist);
     }
 
     @Override
@@ -62,12 +61,12 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
     /***
      * FInd the list of track from the playlist
      *
-     * @param playlistId
+     * @param playlist
      */
-    private void loadTracks(String playlistId) {
+    private void loadTracks(Item playlist) {
         items.clear();
-        items.addAll(Mock.tracks(fragment.getContext(), tracksNumber));
-        Injector.INSTANCE.spotifyApi().manager().getPlaylistTracks(playlistId).subscribe(spotifyPlaylistWithTrack -> {
+        items.addAll(Mock.tracks(fragment.getContext(), playlist.tracks.getTotal()));
+        Injector.INSTANCE.spotifyApi().manager().getPlaylistTracks(playlist.getId()).subscribe(spotifyPlaylistWithTrack -> {
             items.clear();
             for (SpotifyPlaylistItem playlistItem : spotifyPlaylistWithTrack.getItems()) {
                 items.add(new TrackVM(fragment.getContext(), AlarmTrack.from(playlistItem.track)));
@@ -81,6 +80,18 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
     public void onEvent(SelectAllTracks selectAllTracks) {
         for (TrackVM trackVM : items) {
             trackVM.select();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (playlist != null) {
+            EventBus.getDefault().post(new EventCollapseToolbar(playlist.getName(), playlist.getImages().get(0).getUrl()));
+            EventBus.getDefault().post(new EventTabBars(false, TAG));
+        } else {
+            EventBus.getDefault().post(new EventCollapseToolbar(null, null));
+            EventBus.getDefault().post(new EventTabBars(true, TAG));
         }
     }
 

@@ -49,7 +49,7 @@
     <string name="connect_with_spotify">Me connecter avec spotify</string>
 
     <string name="wake_up">Gestion de mon alarme</string>
-    <string name="activity_music_local">Fichiers locaux</string>
+    <string name="activity_music_local">Ma bibliothèque musicale</string>
     <string name="activity_music_spotify">Spotify</string>
     <string name="activity_music_deezer">Deezer</string>
     <string name="alarm_add">Valider</string>

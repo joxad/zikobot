@@ -22,11 +22,12 @@
         android:orientation="vertical">
 
 
-        <android.support.v7.widget.RecyclerView
+        <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:layoutAnimation="@anim/grid_animation"
             android:paddingBottom="@dimen/actionBarSize"
             app:itemView="@{fragmentLocalAlbumsVM.itemView}"
             app:items="@{fragmentLocalAlbumsVM.items}"

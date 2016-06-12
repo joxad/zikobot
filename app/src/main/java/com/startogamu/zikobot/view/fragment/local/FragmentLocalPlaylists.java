@@ -39,7 +39,7 @@ public class FragmentLocalPlaylists extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        EventBus.getDefault().post(new EventCollapseToolbar(getString(R.string.activity_music_title), null));
+        EventBus.getDefault().post(new EventCollapseToolbar(null, null));
         EventBus.getDefault().post(new EventTabBars(true, TAG));
 
     }

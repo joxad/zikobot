@@ -77,8 +77,8 @@ public class FragmentLocalArtistVM extends FragmentBaseVM<FragmentLocalArtists, 
 
     @Override
     protected void onPause() {
-        super.onPause();
         EventBus.getDefault().unregister(this);
+        super.onPause();
     }
 
     /***

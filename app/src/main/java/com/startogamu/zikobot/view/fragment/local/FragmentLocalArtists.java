@@ -44,7 +44,7 @@ public class FragmentLocalArtists extends FragmentBase<FragmentLocalArtistsBindi
 
     @Override
     public void onResume() {
-        EventBus.getDefault().post(new EventCollapseToolbar(getString(R.string.drawer_filter_music), null));
+        EventBus.getDefault().post(new EventCollapseToolbar(null, null));
         EventBus.getDefault().post(new EventTabBars(true, TAG));
         super.onResume();
     }

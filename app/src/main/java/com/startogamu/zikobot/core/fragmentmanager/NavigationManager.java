@@ -255,7 +255,7 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
             binding.title.setText("");
 
             binding.ivToolbar.setVisibility(View.VISIBLE);
-            Glide.with(activity).load(image).into(binding.ivToolbar);
+            Glide.with(activity).load(image).placeholder(R.drawable.ic_vinyl).into(binding.ivToolbar);
         }
     }
 
@@ -271,7 +271,14 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
 
     @Subscribe
     public void onEvent(EventCollapseToolbar eventCollapseToolbar) {
-        updateToolbar(eventCollapseToolbar.getName(), eventCollapseToolbar.getImageUrl());
+        String title = "";
+        if (eventCollapseToolbar.getName() == null)
+            title = activity.getString(R.string.drawer_filter_music);
+        else {
+            title = eventCollapseToolbar.getName();
+        }
+
+        updateToolbar(title, eventCollapseToolbar.getImageUrl());
     }
 
     @Subscribe

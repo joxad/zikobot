@@ -7,10 +7,13 @@ import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import lombok.Data;
 
 @Generated("org.jsonschema2pojo")
 @Data
+@Parcel
 public class Item {
 
     @SerializedName("collaborative")
@@ -49,5 +52,7 @@ public class Item {
     @SerializedName("uri")
     @Expose
     public String uri;
+
+    public Item(){}
 
 }

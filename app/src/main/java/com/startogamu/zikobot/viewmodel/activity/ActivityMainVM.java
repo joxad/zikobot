@@ -45,6 +45,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     public PlayerVM playerVM;
     private Drawer drawer;
     public ObservableBoolean fabVisible, tabLayoutVisible;
+    private AccountHeader accountHeader;
 
     /***
      * @param activity
@@ -84,7 +85,18 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     protected void onResume() {
         super.onResume();
         navigationManager.subscribe();
-
+//Add spotify only once
+        if (itemSpotify == null) {
+            if (AppPrefs.spotifyUser() != null && !AppPrefs.spotifyUser().equals("")) {
+                SpotifyUser spotifyUser = AppPrefs.spotifyUser();
+                itemSpotify = new ProfileDrawerItem()
+                        .withName(spotifyUser.getDisplayName())
+                        .withIcon(R.drawable.logo_spotify);
+            }
+            if (itemSpotify != null) {
+                accountHeader.addProfiles(itemSpotify);
+            }
+        }
     }
 
     @Override
@@ -108,15 +120,10 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     private void initDrawer() {
         ProfileDrawerItem itemLocal = new ProfileDrawerItem().withName(activity.getString(R.string.activity_music_local))
                 .withIcon(ContextCompat.getDrawable(activity, R.drawable.shape_album));
-        if (AppPrefs.spotifyUser() != null && !AppPrefs.spotifyUser().equals("")) {
-            SpotifyUser spotifyUser = AppPrefs.spotifyUser();
-            itemSpotify = new ProfileDrawerItem()
-                    .withName(spotifyUser.getDisplayName())
-                    .withIcon(R.drawable.logo_spotify);
-        }
+
         ProfileDrawerItem itemAddAccount = new ProfileDrawerItem().withName(activity.getString(R.string.drawer_account_add))
                 .withIcon(ContextCompat.getDrawable(activity, R.drawable.ic_add));
-        AccountHeader accountHeader = new AccountHeaderBuilder()
+        accountHeader = new AccountHeaderBuilder()
                 .withActivity(activity)
                 .withHeaderBackground(R.drawable.header)
                 .withCurrentProfileHiddenInList(true)
@@ -147,9 +154,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                 .withOnAccountHeaderListener((view, profile, currentProfile) -> false)
                 .build();
 
-
-        if (itemSpotify != null)
-            accountHeader.addProfiles(itemSpotify);
         PrimaryDrawerItem music = new PrimaryDrawerItem().withName(R.string.drawer_filter_music).withIcon(R.drawable.ic_music_wave).withSelectedIcon(R.drawable.ic_music_wave_selected);
         PrimaryDrawerItem alarm = new PrimaryDrawerItem().withName(R.string.drawer_alarms).withIcon(R.drawable.ic_alarm).withSelectedIcon(R.drawable.ic_alarm_selected);
         PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withSelectable(false);
@@ -176,6 +180,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         drawer.setActionBarDrawerToggle(actionBarDrawerToggle);
     }
+
 
     /***
      *
@@ -234,10 +239,9 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     }
 
     /***
-     *
      * @param view
      */
-    public void fabClicked(View view){
+    public void fabClicked(View view) {
         EventBus.getDefault().post(new EventFabClicked());
     }
 }

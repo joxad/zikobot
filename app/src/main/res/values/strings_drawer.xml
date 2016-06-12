@@ -11,6 +11,6 @@
     <string name="drawer_close">Close</string>
     <string name="drawer_alarms">Mes alarmes</string>
     <string name="drawer_account_add">Ajoute un compte</string>
-    <string name="drawer_filter_music">Musique</string>
+    <string name="drawer_filter_music">Ma musique</string>
 
 </resources>

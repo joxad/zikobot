@@ -22,16 +22,18 @@
         android:orientation="vertical">
 
 
-        <android.support.v7.widget.RecyclerView
+        <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:layoutAnimation="@anim/grid_animation"
             android:paddingBottom="@dimen/actionBarSize"
             app:itemView="@{fragmentLocalTracksVM.itemView}"
             app:items="@{fragmentLocalTracksVM.items}"
-            app:layoutManager="@{LayoutManagers.linear()}"
+            app:layoutManager="@{LayoutManagers.grid(1)}"
             tools:listitem="@layout/item_alarm_track" />
+
 
         <com.startogamu.zikobot.view.custom.ZikobotMessageView
             android:id="@+id/zmv"
