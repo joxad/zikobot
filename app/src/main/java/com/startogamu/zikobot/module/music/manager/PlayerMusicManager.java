@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.databinding.ObservableArrayList;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
@@ -14,11 +13,13 @@ import com.joxad.android_easy_spotify.SpotifyPlayerManager;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
+import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.TrackChangeEvent;
 import com.startogamu.zikobot.core.service.MediaPlayerService;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
 import com.startogamu.zikobot.module.alarm.model.Track;
+import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -38,14 +39,11 @@ public class PlayerMusicManager {
     private final Context context;
     private Alarm alarm = null;
     int currentSong = 0;
-
-
-    private ArrayList<Track> tracks = new ArrayList<>();
+    private ArrayList<TrackVM> tracks = new ArrayList<>();
     private MediaPlayerService mediaPlayerService;
     private boolean mediaPlayerServiceBound = false;
     //connect to the service
     private Intent playIntent;
-    private boolean enable = false;
 
     /***
      * @param context
@@ -74,7 +72,7 @@ public class PlayerMusicManager {
             //get service
             mediaPlayerService = binder.getService();
             mediaPlayerService.setOnCompletionListener(mp -> {
-                if (enable) next();
+                next();
             });
             //pass list
             mediaPlayerServiceBound = true;
@@ -156,6 +154,14 @@ public class PlayerMusicManager {
      * @param track
      */
     public void playTrack(final Track track) {
+        int i = 0;
+        for (TrackVM t : tracks) {
+            if (t.getModel().getRef().equals(track.getRef())) {
+                currentSong = i;
+                break;
+            }
+            i++;
+        }
         EventBus.getDefault().post(new TrackChangeEvent(track));
         switch (track.getType()) {
             case Track.TYPE.LOCAL:
@@ -179,37 +185,44 @@ public class PlayerMusicManager {
      */
     public void next() {
         currentSong++;
-        if (alarm.getTracks().size() > currentSong)
-            playTrack(alarm.getTracks().get(currentSong));
+        if (tracks.size() > currentSong)
+            playTrack(tracks.get(currentSong).getModel());
     }
 
 
+    /***
+     * @param tracks
+     */
     public void playTracks(ArrayList<Track> tracks) {
-        this.tracks.addAll(tracks);
-        currentSong=0;
+        this.tracks.clear();
+        for (Track track : tracks) {
+            this.tracks.add(new TrackVM(context, track));
+        }
+        currentSong = 0;
         playTrack(tracks.get(currentSong));
+
     }
 
     /***
      * @param alarm
      */
     public void startAlarm(Alarm alarm) {
-        enable = true;
         currentSong = 0;
         this.alarm = alarm;
         this.tracks.clear();
-        this.tracks.addAll(alarm.getTracks());
+        for (Track track : alarm.getTracks()) {
+            this.tracks.add(new TrackVM(context, track));
+        }
         if (alarm.getRandomTrack() == 1) {
             Collections.shuffle(tracks);
         }
-        playTrack(tracks.get(currentSong));
+        playTrack(tracks.get(currentSong).getModel());
     }
 
     /***
      * Stop all the players
      */
     public void stop() {
-        enable = false;
         SpotifyPlayerManager.pause();
         mediaPlayerService.stop();
         currentSong = 0;
@@ -232,4 +245,29 @@ public class PlayerMusicManager {
         SpotifyPlayerManager.pause();
     }
 
+
+    public String getCurrentImage() {
+        if (tracks.isEmpty()) {
+            return "";
+        }
+        return tracks.get(currentSong).getImageUrl();
+    }
+
+    public String getCurrentTrackName() {
+        if (tracks.isEmpty()) {
+            return context.getString(R.string.activity_alarm_select_song);
+        }
+        return tracks.get(currentSong).getName();
+    }
+
+    public String getCurrentArtisteName() {
+        if (tracks.isEmpty()) {
+            return context.getString(R.string.activity_alarm_select_song);
+        }
+        return tracks.get(currentSong).getArtistName();
+    }
+
+    public ArrayList<TrackVM> trackVMs() {
+        return tracks;
+    }
 }
