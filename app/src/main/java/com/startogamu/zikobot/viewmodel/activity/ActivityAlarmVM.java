@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
@@ -27,8 +26,6 @@ import com.startogamu.zikobot.view.activity.ActivityAlarm;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
 
 import java.util.Calendar;
-
-import rx.functions.Action1;
 
 /**
  * Created by josh on 29/05/16.
@@ -126,18 +123,22 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
     private void initAlarmVM() {
         alarmVM.initModel();
-        binding.viewAlarm.swRepeat.setChecked(alarm.getRepeated()==1);
+        binding.viewAlarm.swRepeat.setChecked(alarm.getRepeated() == 1);
+        binding.viewAlarm.swRandom.setChecked(alarm.getRandomTrack() == 1);
         initHour();
         initSelectedDays();
         RxCompoundButton.checkedChanges(binding.viewAlarm.swRepeat).subscribe(aBoolean -> {
-           alarmVM.updateRepeated(aBoolean);
+            alarmVM.updateRepeated(aBoolean);
+        });
+        RxCompoundButton.checkedChanges(binding.viewAlarm.swRandom).subscribe(aBoolean -> {
+            alarmVM.updateRandom(aBoolean);
         });
         RxTextView.textChanges(binding.viewAlarm.etName).skip(1).subscribe(charSequence -> {
             alarmVM.updateName(charSequence);
         });
 
         RxView.clicks(binding.viewAlarm.cbMonday).subscribe(aVoid -> {
-           alarmVM.handleTextClickDay(binding.viewAlarm.cbMonday, Calendar.MONDAY);
+            alarmVM.handleTextClickDay(binding.viewAlarm.cbMonday, Calendar.MONDAY);
         });
 
         RxView.clicks(binding.viewAlarm.cbTuesday).subscribe(aVoid -> {
@@ -230,8 +231,8 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         alarmMgr.cancel(alarmIntent);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        if (calendar.get(Calendar.HOUR_OF_DAY) > alarm.getHour()){
-            calendar.set(Calendar.DAY_OF_YEAR,calendar.get(Calendar.DAY_OF_YEAR)+1);
+        if (calendar.get(Calendar.HOUR_OF_DAY) > alarm.getHour()) {
+            calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + 1);
         }
         calendar.set(Calendar.HOUR_OF_DAY, this.alarm.getHour());
         calendar.set(Calendar.MINUTE, this.alarm.getMinute());

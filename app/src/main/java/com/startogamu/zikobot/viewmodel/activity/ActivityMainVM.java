@@ -58,6 +58,9 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     public void init() {
+        if (AppPrefs.isFirstStart()) {
+            activity.startActivity(Henson.with(activity).gotoActivityFirstStart().build());
+        }
         fabVisible = new ObservableBoolean(false);
         tabLayoutVisible = new ObservableBoolean(true);
         initSpotify();

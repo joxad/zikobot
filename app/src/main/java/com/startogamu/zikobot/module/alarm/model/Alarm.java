@@ -58,8 +58,13 @@ public class Alarm extends BaseModel {
     @Getter
     @Setter
     protected String days = "-0000000";
+
+    @Column
+    @Getter
+    @Setter
+    protected int randomTrack;
     @ParcelPropertyConverter(ItemListTrackConverter.class)
-    protected List<AlarmTrack> tracks = new ArrayList<>();
+    protected List<Track> tracks = new ArrayList<>();
 
     /***
      * Default constructor =>  8 00 am
@@ -75,10 +80,10 @@ public class Alarm extends BaseModel {
      * @return
      */
     @OneToMany(methods = {OneToMany.Method.SAVE, OneToMany.Method.DELETE}, variableName = "tracks")
-    public List<AlarmTrack> getTracks() {
+    public List<Track> getTracks() {
         tracks = SQLite.select()
-                .from(AlarmTrack.class)
-                .where(AlarmTrack_Table.alarmForeignKeyContainer_id.eq(id))
+                .from(Track.class)
+                .where(Track_Table.alarmForeignKeyContainer_id.eq(id))
                 .queryList();
 
         return tracks;

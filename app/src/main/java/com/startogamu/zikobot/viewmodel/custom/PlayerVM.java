@@ -6,11 +6,10 @@ import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.view.View;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
-import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
+import com.startogamu.zikobot.module.alarm.model.Track;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
@@ -23,7 +22,7 @@ import org.greenrobot.eventbus.Subscribe;
  */
 public class PlayerVM extends BaseObservable implements IVM {
 
-    public ObservableArrayList<AlarmTrack> tracks;
+    public ObservableArrayList<Track> tracks;
 
 
     @Bindable
@@ -49,7 +48,7 @@ public class PlayerVM extends BaseObservable implements IVM {
         trackVM.updateTrack(changeEvent.getTrack());
         isPlaying = true;
         notifyChange();
-        Injector.INSTANCE.playerComponent().manager().playAlarmTrack(changeEvent.getTrack());
+        Injector.INSTANCE.playerComponent().manager().playTrack(changeEvent.getTrack());
         notifyChange();
     }
 

@@ -15,7 +15,7 @@ import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
-import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
+import com.startogamu.zikobot.module.alarm.model.Track;
 import com.startogamu.zikobot.view.Henson;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -71,10 +71,10 @@ public class AlarmVM extends BaseVM<Alarm> {
     /**
      * Add track
      *
-     * @param alarmTrack
+     * @param track
      */
-    public void addTrack(AlarmTrack alarmTrack) {
-        model.getTracks().add(alarmTrack);
+    public void addTrack(Track track) {
+        model.getTracks().add(track);
         save();
     }
 
@@ -83,8 +83,8 @@ public class AlarmVM extends BaseVM<Alarm> {
      */
     public void refreshTracks() {
         tracksVms.clear();
-        for (AlarmTrack alarmTrack : model.getTracks()) {
-            TrackVM itemTrackViewModel = new TrackVM(context, alarmTrack);
+        for (Track track : model.getTracks()) {
+            TrackVM itemTrackViewModel = new TrackVM(context, track);
             tracksVms.add(itemTrackViewModel);
         }
     }
@@ -210,6 +210,12 @@ public class AlarmVM extends BaseVM<Alarm> {
 
     public void updateRepeated(boolean checked) {
         model.setRepeated(checked? 1 : 0);
+        notifyChange();
+    }
+
+
+    public void updateRandom(boolean checked) {
+        model.setRandomTrack(checked? 1 : 0);
         notifyChange();
     }
 

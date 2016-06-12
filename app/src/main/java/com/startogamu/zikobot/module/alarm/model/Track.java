@@ -21,9 +21,9 @@ import lombok.Setter;
 /**
  * Created by josh on 29/03/16.
  */
-@Table(database = MusicAlarmDatabase.class)
+@Table(database = MusicAlarmDatabase.class, name = "AlarmTrack")
 @Parcel
-public class AlarmTrack extends BaseModel {
+public class Track extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     @Getter
@@ -56,28 +56,28 @@ public class AlarmTrack extends BaseModel {
     @ForeignKey(saveForeignKeyModel = false)
     public ForeignKeyContainer<Alarm> alarmForeignKeyContainer;
 
-    public AlarmTrack() {
+    public Track() {
     }
 
 
-    public static AlarmTrack from(LocalTrack localTrack) {
-        AlarmTrack alarmTrack = new AlarmTrack();
-        alarmTrack.setType(AlarmTrack.TYPE.LOCAL);
-        alarmTrack.setRef(localTrack.getData());
-        alarmTrack.setImageUrl(localTrack.getArtPath());
-        alarmTrack.setArtistName(localTrack.getArtist());
-        alarmTrack.setName(localTrack.getTitle());
-        return alarmTrack;
+    public static Track from(LocalTrack localTrack) {
+        Track track = new Track();
+        track.setType(Track.TYPE.LOCAL);
+        track.setRef(localTrack.getData());
+        track.setImageUrl(localTrack.getArtPath());
+        track.setArtistName(localTrack.getArtist());
+        track.setName(localTrack.getTitle());
+        return track;
     }
 
-    public static AlarmTrack from(SpotifyTrack spotifyTrack) {
-        AlarmTrack alarmTrack = new AlarmTrack();
-        alarmTrack.setType(AlarmTrack.TYPE.SPOTIFY);
-        alarmTrack.setRef("spotify:track:" + spotifyTrack.getId());
-        alarmTrack.setImageUrl(spotifyTrack.getAlbum().getImages().get(0).url);
-        alarmTrack.setArtistName(spotifyTrack.getArtists().get(0).getName());
-        alarmTrack.setName(spotifyTrack.getName());
-        return alarmTrack;
+    public static Track from(SpotifyTrack spotifyTrack) {
+        Track track = new Track();
+        track.setType(Track.TYPE.SPOTIFY);
+        track.setRef("spotify:track:" + spotifyTrack.getId());
+        track.setImageUrl(spotifyTrack.getAlbum().getImages().get(0).url);
+        track.setArtistName(spotifyTrack.getArtists().get(0).getName());
+        track.setName(spotifyTrack.getName());
+        return track;
     }
 
     public void associateAlarm(Alarm alarm) {

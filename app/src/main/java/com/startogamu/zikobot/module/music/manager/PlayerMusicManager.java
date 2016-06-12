@@ -17,9 +17,12 @@ import com.startogamu.zikobot.core.event.TrackChangeEvent;
 import com.startogamu.zikobot.core.service.MediaPlayerService;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
-import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
+import com.startogamu.zikobot.module.alarm.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.inject.Singleton;
 
@@ -36,6 +39,7 @@ public class PlayerMusicManager {
     int currentSong = 0;
 
 
+    private ArrayList<Track> tracks = new ArrayList<>();
     private MediaPlayerService mediaPlayerService;
     private boolean mediaPlayerServiceBound = false;
     //connect to the service
@@ -148,21 +152,21 @@ public class PlayerMusicManager {
     private boolean pauseToHandle = true;
 
     /***
-     * @param alarmTrack
+     * @param track
      */
-    public void playAlarmTrack(final AlarmTrack alarmTrack) {
-        EventBus.getDefault().post(new TrackChangeEvent(alarmTrack));
-        switch (alarmTrack.getType()) {
-            case AlarmTrack.TYPE.LOCAL:
+    public void playTrack(final Track track) {
+        EventBus.getDefault().post(new TrackChangeEvent(track));
+        switch (track.getType()) {
+            case Track.TYPE.LOCAL:
                 pauseToHandle = false;
                 SpotifyPlayerManager.pause();
                 SpotifyPlayerManager.clear();
                 handler.postDelayed(() -> pauseToHandle = true, 500);
-                mediaPlayerService.playSong(Uri.parse(alarmTrack.getRef()));
+                mediaPlayerService.playSong(Uri.parse(track.getRef()));
                 break;
-            case AlarmTrack.TYPE.SPOTIFY:
+            case Track.TYPE.SPOTIFY:
                 mediaPlayerService.stop();
-                SpotifyPlayerManager.play(alarmTrack.getRef());
+                SpotifyPlayerManager.play(track.getRef());
                 break;
         }
 
@@ -175,15 +179,22 @@ public class PlayerMusicManager {
     public void next() {
         currentSong++;
         if (alarm.getTracks().size() > currentSong)
-            playAlarmTrack(alarm.getTracks().get(currentSong));
+            playTrack(alarm.getTracks().get(currentSong));
     }
 
-
-    public void startTracks(Alarm alarm) {
+    /***
+     * @param alarm
+     */
+    public void startAlarm(Alarm alarm) {
         enable = true;
         currentSong = 0;
         this.alarm = alarm;
-        playAlarmTrack(this.alarm.getTracks().get(currentSong));
+        this.tracks.clear();
+        this.tracks.addAll(alarm.getTracks());
+        if (alarm.getRandomTrack() == 1) {
+            Collections.shuffle(tracks);
+        }
+        playTrack(tracks.get(currentSong));
     }
 
     /***

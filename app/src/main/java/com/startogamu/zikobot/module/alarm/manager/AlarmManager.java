@@ -3,8 +3,8 @@ package com.startogamu.zikobot.module.alarm.manager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
-import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
-import com.startogamu.zikobot.module.alarm.model.AlarmTrack_Table;
+import com.startogamu.zikobot.module.alarm.model.Track;
+import com.startogamu.zikobot.module.alarm.model.Track_Table;
 import com.startogamu.zikobot.module.alarm.model.Alarm_Table;
 
 import java.util.Calendar;
@@ -63,17 +63,17 @@ public class AlarmManager {
 
     /***
      * @param alarm
-     * @param alarmTrackList
+     * @param trackList
      */
-    public static Observable<Alarm> saveAlarm(Alarm alarm, List<AlarmTrack> alarmTrackList) {
+    public static Observable<Alarm> saveAlarm(Alarm alarm, List<Track> trackList) {
         return Observable.create(new Observable.OnSubscribe<Alarm>() {
             @Override
             public void call(Subscriber<? super Alarm> subscriber) {
                 alarm.save();
-                SQLite.delete().from(AlarmTrack.class).where(AlarmTrack_Table.alarmForeignKeyContainer_id.eq(alarm.getId())).query();
-                for (AlarmTrack alarmTrack : alarmTrackList) {
-                    alarmTrack.associateAlarm(alarm);
-                    alarmTrack.save();
+                SQLite.delete().from(Track.class).where(Track_Table.alarmForeignKeyContainer_id.eq(alarm.getId())).query();
+                for (Track track : trackList) {
+                    track.associateAlarm(alarm);
+                    track.save();
                 }
                 subscriber.onNext(alarm);
             }

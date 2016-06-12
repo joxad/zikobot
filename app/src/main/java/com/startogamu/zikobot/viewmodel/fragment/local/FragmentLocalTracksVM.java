@@ -20,7 +20,7 @@ import com.startogamu.zikobot.core.event.permission.EventPermission;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.FragmentLocalTracksBinding;
-import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
+import com.startogamu.zikobot.module.alarm.model.Track;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
@@ -116,7 +116,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
         Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(localAlbum != null ? localAlbum.getId() : -1).subscribe(localTracks -> {
             Log.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
-                items.add(new TrackVM(fragment.getContext(), AlarmTrack.from(localTrack)));
+                items.add(new TrackVM(fragment.getContext(), Track.from(localTrack)));
             }
             if (localTracks.isEmpty()) {
                 updateMessage(fragment.getString(R.string.no_music));

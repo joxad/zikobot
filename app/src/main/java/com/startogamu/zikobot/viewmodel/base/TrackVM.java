@@ -7,14 +7,14 @@ import android.view.View;
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.module.alarm.manager.AlarmTrackManager;
-import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
+import com.startogamu.zikobot.module.alarm.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by josh on 30/05/16.
  */
-public class TrackVM extends BaseVM<AlarmTrack> {
+public class TrackVM extends BaseVM<Track> {
 
     public boolean isChecked = false;
 
@@ -22,7 +22,7 @@ public class TrackVM extends BaseVM<AlarmTrack> {
      * @param context
      * @param model
      */
-    public TrackVM(Context context, AlarmTrack model) {
+    public TrackVM(Context context, Track model) {
         super(context, model);
     }
 
@@ -85,7 +85,7 @@ public class TrackVM extends BaseVM<AlarmTrack> {
      * {@link }
      * @param track
      */
-    public void updateTrack(AlarmTrack track) {
+    public void updateTrack(Track track) {
         this.model = track;
         notifyChange();
     }

@@ -1,7 +1,7 @@
 package com.startogamu.zikobot.module.alarm.manager;
 
 import com.startogamu.zikobot.module.alarm.model.Alarm;
-import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
+import com.startogamu.zikobot.module.alarm.model.Track;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +11,15 @@ import java.util.List;
  */
 public class AlarmTrackManager {
 
-    private static ArrayList<AlarmTrack> alarmTracks = new ArrayList<>();
+    private static ArrayList<Track> tracks = new ArrayList<>();
 
     /***
      * Selection of a track
      *
      * @param track
      */
-    public static void selectTrack(AlarmTrack track) {
-        alarmTracks.add(track);
+    public static void selectTrack(Track track) {
+        tracks.add(track);
     }
 
 
@@ -29,17 +29,17 @@ public class AlarmTrackManager {
      *
      * @param track
      */
-    public static void removeTrack(AlarmTrack track) {
-        alarmTracks.remove(track);
+    public static void removeTrack(Track track) {
+        tracks.remove(track);
     }
 
 
     public static void init(Alarm alarm) {
-        alarmTracks.clear();
-        alarmTracks.addAll(alarm.getTracks());
+        tracks.clear();
+        tracks.addAll(alarm.getTracks());
     }
 
-    public static List<AlarmTrack> tracks() {
-        return alarmTracks;
+    public static List<Track> tracks() {
+        return tracks;
     }
 }

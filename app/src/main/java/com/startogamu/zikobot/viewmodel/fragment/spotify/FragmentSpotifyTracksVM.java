@@ -12,7 +12,7 @@ import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentSpotifyTracksBinding;
-import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
+import com.startogamu.zikobot.module.alarm.model.Track;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
@@ -33,10 +33,7 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
 
     private static final String TAG = FragmentSpotifyTracksVM.class.getSimpleName();
     public ObservableArrayList<TrackVM> items;
-
-
     public abstract ItemView getItemView();
-
 
     @Nullable
     @InjectExtra(EXTRA.PLAYLIST)
@@ -45,17 +42,12 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
     public FragmentSpotifyTracksVM(FragmentSpotifyTracks fragment, FragmentSpotifyTracksBinding binding) {
         super(fragment, binding);
         Dart.inject(this, fragment.getArguments());
-        this.items = new ObservableArrayList<>();
-        this.fragment = fragment;
-        this.binding = binding;
-        EventBus.getDefault().register(this);
         Injector.INSTANCE.spotifyApi().inject(this);
-
-        loadTracks(playlist);
     }
 
     @Override
     public void init() {
+        items = new ObservableArrayList<>();
     }
 
     /***
@@ -69,7 +61,7 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
         Injector.INSTANCE.spotifyApi().manager().getPlaylistTracks(playlist.getId()).subscribe(spotifyPlaylistWithTrack -> {
             items.clear();
             for (SpotifyPlaylistItem playlistItem : spotifyPlaylistWithTrack.getItems()) {
-                items.add(new TrackVM(fragment.getContext(), AlarmTrack.from(playlistItem.track)));
+                items.add(new TrackVM(fragment.getContext(), Track.from(playlistItem.track)));
             }
         }, throwable -> {
             Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
@@ -86,12 +78,16 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
     @Override
     protected void onResume() {
         super.onResume();
+        EventBus.getDefault().register(this);
+
         if (playlist != null) {
             EventBus.getDefault().post(new EventCollapseToolbar(playlist.getName(), playlist.getImages().get(0).getUrl()));
             EventBus.getDefault().post(new EventTabBars(false, TAG));
+            loadTracks(playlist);
         } else {
             EventBus.getDefault().post(new EventCollapseToolbar(null, null));
             EventBus.getDefault().post(new EventTabBars(true, TAG));
+
         }
     }
 

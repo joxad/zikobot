@@ -73,9 +73,7 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
 
     @Override
     public void init() {
-        if (AppPrefs.isFirstStart()) {
-            activity.startActivity(Henson.with(activity).gotoActivityFirstStart().build());
-        }
+
         EventBus.getDefault().register(this);
         Dart.inject(this, activity);
 
