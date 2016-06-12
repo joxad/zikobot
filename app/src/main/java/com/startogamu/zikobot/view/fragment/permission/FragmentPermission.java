@@ -27,10 +27,11 @@ public class FragmentPermission extends Fragment {
 
     @InjectExtra(EXTRA.MESSAGE)
     String message;
-
-    public static FragmentPermission newInstance(final String message) {
+    @InjectExtra(EXTRA.PERMISSION)
+    int permission;
+    public static FragmentPermission newInstance(final String message, final int permission) {
         FragmentPermission fragment = new FragmentPermission();
-        fragment.setArguments(Bundler.create().put(EXTRA.MESSAGE, message).get());
+        fragment.setArguments(Bundler.create().put(EXTRA.MESSAGE, message).put(EXTRA.PERMISSION, permission).get());
         return fragment;
     }
 
@@ -53,7 +54,7 @@ public class FragmentPermission extends Fragment {
      */
     private void askPermission() {
         ActivityCompat.requestPermissions(getActivity(), new String[]{
-                Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE);
+                Manifest.permission.READ_EXTERNAL_STORAGE}, permission);
 
     }
 }

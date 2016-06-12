@@ -12,6 +12,7 @@ import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.permission.EventPermission;
+import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.FragmentLocalArtistsBinding;
 import com.startogamu.zikobot.module.component.Injector;
@@ -60,26 +61,6 @@ public class FragmentLocalArtistVM extends FragmentBaseVM<FragmentLocalArtists, 
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        EventBus.getDefault().register(this);
-    }
-
-
-    @Subscribe
-    public void onEvent(EventPermission eventPermission) {
-        if (eventPermission.getPermission() == REQUEST.PERMISSION_STORAGE) {
-            if (eventPermission.isGranted())
-                loadLocalMusic();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        EventBus.getDefault().unregister(this);
-        super.onPause();
-    }
 
     /***
      * Load the local music
@@ -102,7 +83,7 @@ public class FragmentLocalArtistVM extends FragmentBaseVM<FragmentLocalArtists, 
      */
     private void askPermission() {
         ActivityCompat.requestPermissions(fragment.getActivity(), new String[]{
-                Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE);
+                Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE_ARTIST);
 
     }
 

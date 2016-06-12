@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.module.alarm.model.Track;
 import com.startogamu.zikobot.module.component.Injector;
@@ -17,13 +18,19 @@ import com.startogamu.zikobot.viewmodel.base.TrackVM;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import me.tatarka.bindingcollectionadapter.ItemView;
+import com.startogamu.zikobot.BR;
+
+import java.util.ArrayList;
+
 /**
  * Created by josh on 08/06/16.
  */
 public class PlayerVM extends BaseObservable implements IVM {
 
-    public ObservableArrayList<Track> tracks;
+    public ObservableArrayList<TrackVM> trackVMs;
 
+    public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_track);
 
     @Bindable
     public boolean isPlaying = false;
@@ -40,15 +47,27 @@ public class PlayerVM extends BaseObservable implements IVM {
         EventBus.getDefault().register(this);
         Injector.INSTANCE.playerComponent().inject(this);
         trackVM = new TrackVM(context, Mock.trackPlayer(context));
-        tracks = new ObservableArrayList<>();
+        trackVMs = new ObservableArrayList<>();
     }
 
     @Subscribe
     public void onReceive(EventPlayTrack changeEvent) {
         trackVM.updateTrack(changeEvent.getTrack());
         isPlaying = true;
-        notifyChange();
         Injector.INSTANCE.playerComponent().manager().playTrack(changeEvent.getTrack());
+        notifyChange();
+    }
+
+
+    @Subscribe
+    public void onReceive(EventAddTrackToPlayer eventAddTrackToPlayer) {
+        trackVMs.addAll(eventAddTrackToPlayer.getItems());
+        ArrayList<Track> tracks = new ArrayList<>();
+        for (TrackVM trackVM : trackVMs){
+            tracks.add(trackVM.getModel());
+        }
+        isPlaying = true;
+        Injector.INSTANCE.playerComponent().manager().playTracks(tracks);
         notifyChange();
     }
 

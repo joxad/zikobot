@@ -21,6 +21,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventFabClicked;
+import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
@@ -241,6 +242,14 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         return super.onBackPressed();
     }
 
+
+    /***
+     * Called when the play button is called in above a list of tracks
+     * @param view
+     */
+    public void onPlayListClicked(View view) {
+        EventBus.getDefault().post(new EventPlayListClicked());
+    }
     /***
      * @param view
      */

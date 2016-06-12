@@ -89,4 +89,8 @@ public class TrackVM extends BaseVM<Track> {
         this.model = track;
         notifyChange();
     }
+
+    public Track getModel() {
+        return model;
+    }
 }

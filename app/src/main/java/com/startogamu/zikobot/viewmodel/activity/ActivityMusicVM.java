@@ -163,11 +163,6 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (fragmentLocalArtists == null || fragmentLocalArtists.isDetached())
             return;
-        switch (requestCode) {
-            case REQUEST.PERMISSION_STORAGE:
-                EventBus.getDefault().post(new EventPermission(REQUEST.PERMISSION_STORAGE, grantResults[0] == PackageManager.PERMISSION_GRANTED));
-
-        }
     }
 
 

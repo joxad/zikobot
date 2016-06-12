@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.databinding.ObservableArrayList;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
@@ -182,6 +183,13 @@ public class PlayerMusicManager {
             playTrack(alarm.getTracks().get(currentSong));
     }
 
+
+    public void playTracks(ArrayList<Track> tracks) {
+        this.tracks.addAll(tracks);
+        currentSong=0;
+        playTrack(tracks.get(currentSong));
+    }
+
     /***
      * @param alarm
      */
@@ -223,4 +231,5 @@ public class PlayerMusicManager {
         mediaPlayerService.pause();
         SpotifyPlayerManager.pause();
     }
+
 }

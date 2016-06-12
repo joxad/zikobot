@@ -219,12 +219,32 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case REQUEST.PERMISSION_STORAGE:
+            case REQUEST.PERMISSION_STORAGE_ALBUM:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    EventBus.getDefault().post(new EventPermission(REQUEST.PERMISSION_STORAGE, true));
+                    replaceFragment(FragmentLocalAlbums.newInstance(null),false,true);
                 } else {
-                    replaceFragment(FragmentPermission.newInstance(activity.getString(R.string.permission_local)), false, false);
+                    replaceFragment(FragmentPermission.newInstance(activity.getString(R.string.permission_local), REQUEST.PERMISSION_STORAGE_ALBUM), false, false);
                 }
+                break;
+            case REQUEST.PERMISSION_STORAGE_ARTIST:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    replaceFragment(FragmentLocalArtists.newInstance(),false,true);
+                } else {
+                    replaceFragment(FragmentPermission.newInstance(activity.getString(R.string.permission_local), REQUEST.PERMISSION_STORAGE_ARTIST), false, false);
+                }
+                break;
+            case REQUEST.PERMISSION_STORAGE_TRACKS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    replaceFragment(FragmentLocalTracks.newInstance(null, BR.trackVM, R.layout.item_track),false,false);
+                } else {
+                    replaceFragment(FragmentPermission.newInstance(activity.getString(R.string.permission_local), REQUEST.PERMISSION_STORAGE_TRACKS), false, false);
+                }break;
+            case REQUEST.PERMISSION_STORAGE_PLAYLIST:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    replaceFragment(FragmentLocalPlaylists.newInstance(),false,true);
+                } else {
+                    replaceFragment(FragmentPermission.newInstance(activity.getString(R.string.permission_local), REQUEST.PERMISSION_STORAGE_PLAYLIST), false, false);
+                }break;
         }
     }
 
@@ -249,12 +269,11 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
     private void updateToolbar(String name, @Nullable String image) {
         binding.mainCollapsing.setTitle(name);
         if (image == null) {
-            binding.ivToolbar.setVisibility(View.GONE);
+            binding.rlToolbarImage.setVisibility(View.GONE);
             binding.title.setText(name);
         } else {
             binding.title.setText("");
-
-            binding.ivToolbar.setVisibility(View.VISIBLE);
+            binding.rlToolbarImage.setVisibility(View.VISIBLE);
             Glide.with(activity).load(image).placeholder(R.drawable.ic_vinyl).into(binding.ivToolbar);
         }
     }

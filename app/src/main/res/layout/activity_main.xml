@@ -40,14 +40,33 @@
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
-                <ImageView
-                    android:id="@+id/iv_toolbar"
+                <RelativeLayout
+                    android:id="@+id/rl_toolbar_image"
+                    app:layout_collapseMode="parallax"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
                     android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"
-                    android:visibility="gone"
-                    app:layout_collapseMode="parallax" />
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="visible"
+                        tools:src="@drawable/ic_vinyl" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:background="#99000000" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:onClick="@{activityMainVM.onPlayListClicked}"
+                        android:src="@drawable/ic_play_arrow" />
+                </RelativeLayout>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"

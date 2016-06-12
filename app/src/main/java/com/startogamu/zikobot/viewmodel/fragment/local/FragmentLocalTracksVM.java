@@ -16,7 +16,8 @@ import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
-import com.startogamu.zikobot.core.event.permission.EventPermission;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.FragmentLocalTracksBinding;
@@ -88,16 +89,16 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
         }
     }
 
+
+    @Subscribe
+    public void onEvent(EventPlayListClicked eventPlayTrack){
+        EventBus.getDefault().post(new EventAddTrackToPlayer(items));
+    }
+
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
-    }
-
-    @Subscribe
-    public void onEvent(EventPermission eventPermission) {
-        if (eventPermission.isGranted() && eventPermission.getPermission() == REQUEST.PERMISSION_STORAGE)
-            loadLocalMusic();
     }
 
     /***
@@ -105,7 +106,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
      */
     private void askPermission() {
         ActivityCompat.requestPermissions(fragment.getActivity(), new String[]{
-                Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE);
+                Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE_TRACKS);
 
     }
 
@@ -139,12 +140,6 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
         zmvMessage = string;
         binding.zmv.setZmvMessage(zmvMessage);
     }
-
-    public void permissionDenied() {
-        updateMessage(fragment.getString(R.string.permission_local));
-        binding.zmv.setOnClickListener(v -> askPermission());
-    }
-
 
     @Override
     public void destroy() {

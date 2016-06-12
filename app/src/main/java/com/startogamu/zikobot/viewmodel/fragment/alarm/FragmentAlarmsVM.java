@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
-import com.android.databinding.library.baseAdapters.BR;
+import com.startogamu.zikobot.BR;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.R;

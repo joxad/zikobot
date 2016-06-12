@@ -18,6 +18,7 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.event.permission.EventPermission;
+import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.FragmentLocalAlbumsBinding;
@@ -92,15 +93,14 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
         }
     }
 
+    @Subscribe
+    public void onEvent(EventPlayTrack eventPlayTrack){
+
+    }
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
-    }
-    @Subscribe
-    public void onEvent(EventPermission eventPermission) {
-        if( eventPermission.isGranted() && eventPermission.getPermission()== REQUEST.PERMISSION_STORAGE)
-            loadLocalMusic();
     }
 
     /***
@@ -139,7 +139,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
      */
     private void askPermission() {
         ActivityCompat.requestPermissions(fragment.getActivity(), new String[]{
-                Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE);
+                Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE_ALBUM);
 
     }
 
