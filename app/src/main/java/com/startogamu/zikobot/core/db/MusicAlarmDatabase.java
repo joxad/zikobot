@@ -11,7 +11,7 @@ public class MusicAlarmDatabase {
 
     public static final String NAME = "Music_Alarm_DB";
 
-    public static final int VERSION = 2;
+    public static final int VERSION = 3;
 
 
     @Migration(version = 2, database = MusicAlarmDatabase.class)
@@ -26,4 +26,18 @@ public class MusicAlarmDatabase {
             addColumn(SQLiteType.INTEGER, "randomTrack");
         }
     }
+    @Migration(version = 3, database = MusicAlarmDatabase.class)
+    public static class Migration3 extends AlterTableMigration<Alarm> {
+
+        public Migration3(Class<Alarm> table) {
+            super(table);
+        }
+
+        @Override
+        public void onPreMigrate() {
+            addColumn(SQLiteType.INTEGER, "volume");
+        }
+    }
+
 }
+

@@ -94,7 +94,7 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
 
 
     @Subscribe
-    public void onEvent(EventPlayListClicked eventPlayTrack){
+    public void onEvent(EventPlayListClicked eventPlayListClicked){
         EventBus.getDefault().post(new EventAddTrackToPlayer(items));
     }
     @Override

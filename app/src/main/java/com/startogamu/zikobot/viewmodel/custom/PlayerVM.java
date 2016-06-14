@@ -9,9 +9,6 @@ import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.TrackChangeEvent;
-import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
-import com.startogamu.zikobot.core.event.player.EventPlayTrack;
-import com.startogamu.zikobot.module.alarm.model.Track;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
@@ -29,8 +26,6 @@ public class PlayerVM extends BaseObservable implements IVM {
 
     public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_track);
 
-    @Bindable
-    public boolean isPlaying = false;
     private final Context context;
 
 
@@ -45,13 +40,6 @@ public class PlayerVM extends BaseObservable implements IVM {
         Injector.INSTANCE.playerComponent().inject(this);
     }
 
-    @Subscribe
-    public void onReceive(EventPlayTrack changeEvent) {
-        isPlaying = true;
-        Injector.INSTANCE.playerComponent().manager().playTrack(changeEvent.getTrack());
-        notifyChange();
-    }
-
 
     @Subscribe
     public void onReceive(TrackChangeEvent trackChangeEvent) {
@@ -59,27 +47,11 @@ public class PlayerVM extends BaseObservable implements IVM {
     }
 
 
-    @Subscribe
-    public void onReceive(EventAddTrackToPlayer eventAddTrackToPlayer) {
-        ArrayList<Track> tracks = new ArrayList<>();
-        for (TrackVM trackVM : eventAddTrackToPlayer.getItems()) {
-            tracks.add(trackVM.getModel());
-        }
-        isPlaying = true;
-        Injector.INSTANCE.playerComponent().manager().playTracks(tracks);
-        notifyChange();
-    }
-
     /***
      * @param view
      */
     public void onPlayPauseClicked(View view) {
-        isPlaying = !isPlaying;
-        if (isPlaying) {
-            Injector.INSTANCE.playerComponent().manager().resume();
-        } else {
-            Injector.INSTANCE.playerComponent().manager().pause();
-        }
+        Injector.INSTANCE.playerComponent().manager().playOrResume();
         notifyChange();
     }
 
@@ -105,8 +77,13 @@ public class PlayerVM extends BaseObservable implements IVM {
     }
 
     @Bindable
+    public boolean isPlaying() {
+        return Injector.INSTANCE.playerComponent().manager().isPlaying();
+    }
+
+    @Bindable
     public int getImageState() {
-        if (isPlaying) {
+        if (Injector.INSTANCE.playerComponent().manager().isPlaying()) {
             return R.drawable.ic_pause;
         } else {
             return R.drawable.ic_play_arrow;

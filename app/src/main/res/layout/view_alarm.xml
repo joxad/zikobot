@@ -202,8 +202,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="@dimen/margin_medium">
 
                     <Switch
                         android:id="@+id/sw_random"
@@ -221,6 +220,34 @@
                         android:text="@string/random_music" />
 
                 </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:text="@string/volume_alarm" />
+
+                    <SeekBar
+                        android:id="@+id/seek_bar_volume"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:maxHeight="8dp"
+                        android:progress="@{alarmVM.volume}"
+                        android:progressDrawable="@drawable/progress_bar"
+                        android:thumb="@drawable/thumb_volume" />
+
+
+                </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_tracks"

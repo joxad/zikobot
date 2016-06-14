@@ -71,7 +71,7 @@ public class TrackVM extends BaseVM<Track> {
      * @param view
      */
     public void onTrackPlay(View view) {
-        EventBus.getDefault().post(new EventPlayTrack(model));
+        EventBus.getDefault().post(new EventPlayTrack(this));
     }
 
     public void select() {

@@ -1,6 +1,6 @@
 package com.startogamu.zikobot.core.event.player;
 
-import com.startogamu.zikobot.module.alarm.model.Track;
+import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import lombok.Data;
 
@@ -9,5 +9,5 @@ import lombok.Data;
  */
 @Data
 public class EventPlayTrack {
-    private final Track track;
+    private final TrackVM track;
 }

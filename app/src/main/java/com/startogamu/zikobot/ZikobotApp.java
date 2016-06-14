@@ -5,11 +5,13 @@ import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
 import com.joxad.android_easy_spotify.SpotifyManager;
+import com.orhanobut.logger.Logger;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
-import com.startogamu.zikobot.core.notification.MusicNotification;
+import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.component.Injector;
+
 import io.fabric.sdk.android.Fabric;
 
 /**
@@ -28,12 +30,12 @@ public class ZikobotApp extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        MusicNotification.init(this);
+        PlayerNotification.init(this);
         Injector.INSTANCE.initSpotifyApi(this);
         Injector.INSTANCE.initSpotifyAuth(this);
         Injector.INSTANCE.initContentResolver(this);
         Injector.INSTANCE.initPlayerMusic(this);
-
+        Logger.init(ZikobotApp.class.getSimpleName());
 
     }
 

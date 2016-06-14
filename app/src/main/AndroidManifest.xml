@@ -64,7 +64,7 @@
             android:name=".view.activity.ActivityMusic"
             android:configChanges="orientation|screenSize"
             android:label="@string/activity_music_title"
-            android:launchMode="singleInstance"></activity>
+            android:launchMode="singleInstance" />
 
         <activity
             android:name=".view.activity.ActivityWakeUp"
@@ -76,6 +76,8 @@
             </intent-filter>
 
         </receiver>
+
+        <receiver android:name=".core.receiver.ClearPlayerReceiver" />
 
         <activity android:name=".view.activity.ActivityFirstStart" />
         <!-- Will not be called unless the application explicitly enables it -->

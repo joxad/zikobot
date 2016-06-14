@@ -17,8 +17,6 @@ import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
-import com.startogamu.zikobot.core.event.permission.EventPermission;
-import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.FragmentLocalAlbumsBinding;
@@ -29,7 +27,6 @@ import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.viewmodel.base.AlbumVM;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -83,7 +80,6 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
     @Override
     protected void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
         if (localArtist != null) {
             EventBus.getDefault().post(new EventCollapseToolbar(localArtist.getName(), localArtist.getImage()));
             EventBus.getDefault().post(new EventTabBars(false, TAG));
@@ -93,15 +89,6 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
         }
     }
 
-    @Subscribe
-    public void onEvent(EventPlayTrack eventPlayTrack){
-
-    }
-    @Override
-    protected void onPause() {
-        EventBus.getDefault().unregister(this);
-        super.onPause();
-    }
 
     /***
      * Load the local music

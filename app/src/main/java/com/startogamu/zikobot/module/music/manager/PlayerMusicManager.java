@@ -15,13 +15,20 @@ import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.TrackChangeEvent;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.event.player.EventPlayTrack;
+import com.startogamu.zikobot.core.event.player.EventStopPlayer;
+import com.startogamu.zikobot.core.notification.PlayerNotification;
+import com.startogamu.zikobot.core.receiver.ClearPlayerReceiver;
 import com.startogamu.zikobot.core.service.MediaPlayerService;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
 import com.startogamu.zikobot.module.alarm.model.Track;
+import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +51,9 @@ public class PlayerMusicManager {
     private boolean mediaPlayerServiceBound = false;
     //connect to the service
     private Intent playIntent;
+    private boolean isPlaying = false;
 
+    ClearPlayerReceiver clearPlayerReceiver;
     /***
      * @param context
      */
@@ -52,6 +61,7 @@ public class PlayerMusicManager {
         this.context = context;
         initMediaPlayer(context);
         initSpotifyPlayer(context);
+        EventBus.getDefault().register(this);
     }
 
     /***
@@ -153,29 +163,30 @@ public class PlayerMusicManager {
     /***
      * @param track
      */
-    public void playTrack(final Track track) {
+    private void playTrack(final TrackVM track) {
         int i = 0;
         for (TrackVM t : tracks) {
-            if (t.getModel().getRef().equals(track.getRef())) {
+            if (t.getModel().getRef().equals(track.getModel().getRef())) {
                 currentSong = i;
                 break;
             }
             i++;
         }
-        EventBus.getDefault().post(new TrackChangeEvent(track));
-        switch (track.getType()) {
+        switch (track.getModel().getType()) {
             case Track.TYPE.LOCAL:
                 pauseToHandle = false;
                 SpotifyPlayerManager.pause();
                 SpotifyPlayerManager.clear();
                 handler.postDelayed(() -> pauseToHandle = true, 500);
-                mediaPlayerService.playSong(Uri.parse(track.getRef()));
+                mediaPlayerService.playSong(Uri.parse(track.getModel().getRef()));
                 break;
             case Track.TYPE.SPOTIFY:
                 mediaPlayerService.stop();
-                SpotifyPlayerManager.play(track.getRef());
+                SpotifyPlayerManager.play(track.getModel().getRef());
                 break;
         }
+        EventBus.getDefault().post(new TrackChangeEvent(track.getModel()));
+        PlayerNotification.show(track.getModel());
 
     }
 
@@ -186,18 +197,14 @@ public class PlayerMusicManager {
     public void next() {
         currentSong++;
         if (tracks.size() > currentSong)
-            playTrack(tracks.get(currentSong).getModel());
+            playTrack(tracks.get(currentSong));
     }
 
 
     /***
-     * @param tracks
+     * @param
      */
-    public void playTracks(ArrayList<Track> tracks) {
-        this.tracks.clear();
-        for (Track track : tracks) {
-            this.tracks.add(new TrackVM(context, track));
-        }
+    public void playTracks() {
         currentSong = 0;
         playTrack(tracks.get(currentSong));
 
@@ -216,7 +223,7 @@ public class PlayerMusicManager {
         if (alarm.getRandomTrack() == 1) {
             Collections.shuffle(tracks);
         }
-        playTrack(tracks.get(currentSong).getModel());
+        playTrack(tracks.get(currentSong));
     }
 
     /***
@@ -269,5 +276,39 @@ public class PlayerMusicManager {
 
     public ArrayList<TrackVM> trackVMs() {
         return tracks;
+    }
+
+
+    @Subscribe
+    public void onReceive(EventPlayTrack eventPlayTrack) {
+        isPlaying = true;
+        playTrack(eventPlayTrack.getTrack());
+    }
+
+
+    @Subscribe
+    public void onReceive(EventAddTrackToPlayer eventAddTrackToPlayer) {
+        tracks.clear();
+        tracks.addAll(eventAddTrackToPlayer.getItems());
+        isPlaying = true;
+        playTracks();
+    }
+
+    @Subscribe
+    public void onReceive(EventStopPlayer eventStopPlayer) {
+        PlayerNotification.cancel();
+        stop();
+    }
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void playOrResume() {
+        isPlaying = !isPlaying;
+        if (isPlaying) {
+            Injector.INSTANCE.playerComponent().manager().resume();
+        } else {
+            Injector.INSTANCE.playerComponent().manager().pause();
+        }
     }
 }

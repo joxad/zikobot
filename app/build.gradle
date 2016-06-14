@@ -96,6 +96,7 @@ dependencies {
     compile libs.gson
     compile libs.glide
     compile libs.henson
+    compile libs.logger
     compile libs.easySpotify
     compile libs.materialRipple
     compile libs.okHttpInterceptor

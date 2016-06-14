@@ -63,6 +63,12 @@ public class Alarm extends BaseModel {
     @Getter
     @Setter
     protected int randomTrack;
+
+    @Column
+    @Getter
+    @Setter
+    protected int volume;
+
     @ParcelPropertyConverter(ItemListTrackConverter.class)
     protected List<Track> tracks = new ArrayList<>();
 
@@ -74,6 +80,7 @@ public class Alarm extends BaseModel {
         hour = 8;
         minute = 0;
         active = 1;
+        volume=-1;
     }
 
     /****

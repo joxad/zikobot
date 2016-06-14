@@ -142,17 +142,17 @@ public class AlarmVM extends BaseVM<Alarm> {
 
     @Bindable
     public String getAlarmTime() {
-       int hour =model.getHour();
+        int hour = model.getHour();
         if (hour >= 12)
-            hour -=12;
+            hour -= 12;
         return String.format("%02d: %02d", hour, model.getMinute());
     }
 
     @Bindable
     public String getAlarmTimeAmPm() {
-        String am= "AM";
+        String am = "AM";
         String pm = "PM";
-        String after =am;
+        String after = am;
         if (model.getHour() >= 12) {
             after = pm;
         }
@@ -175,12 +175,11 @@ public class AlarmVM extends BaseVM<Alarm> {
     }
 
     /***
-     *
      * @param textView
      * @param day
      */
     public void handleTextClickDay(TextView textView, int day) {
-        boolean status =!model.isDayActive(day);
+        boolean status = !model.isDayActive(day);
         textView.setSelected(status);
         activeDay(day, status);
     }
@@ -189,7 +188,6 @@ public class AlarmVM extends BaseVM<Alarm> {
         model.activeDay(day, aBoolean);
         notifyChange();
     }
-
 
 
     public int getMinute() {
@@ -205,22 +203,32 @@ public class AlarmVM extends BaseVM<Alarm> {
     }
 
     public boolean hasTracks() {
-        return tracksVms.size()>0;
+        return tracksVms.size() > 0;
+    }
+
+    @Bindable
+    public int getVolume() {
+        return model.getVolume();
     }
 
     public void updateRepeated(boolean checked) {
-        model.setRepeated(checked? 1 : 0);
+        model.setRepeated(checked ? 1 : 0);
         notifyChange();
     }
 
 
     public void updateRandom(boolean checked) {
-        model.setRandomTrack(checked? 1 : 0);
+        model.setRandomTrack(checked ? 1 : 0);
         notifyChange();
     }
 
     @Bindable
     public boolean isRepeated() {
         return model.getRepeated() == 1;
+    }
+
+    public void updateVolume(int progress) {
+        model.setVolume(progress);
+        notifyChange();
     }
 }

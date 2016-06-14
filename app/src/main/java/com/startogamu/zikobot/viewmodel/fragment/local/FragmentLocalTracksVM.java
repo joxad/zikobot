@@ -91,7 +91,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
 
 
     @Subscribe
-    public void onEvent(EventPlayListClicked eventPlayTrack){
+    public void onEvent(EventPlayListClicked eventPlayListClicked){
         EventBus.getDefault().post(new EventAddTrackToPlayer(items));
     }
 
