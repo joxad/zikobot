@@ -38,6 +38,7 @@ public class PlayerVM extends BaseObservable implements IVM {
     public void init() {
         EventBus.getDefault().register(this);
         Injector.INSTANCE.playerComponent().inject(this);
+
     }
 
 

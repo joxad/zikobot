@@ -31,6 +31,17 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         mediaPlayer.setOnErrorListener(this);
     }
 
+    public void playUrlSong(String url) {
+        //play
+        mediaPlayer.reset();
+        //set the data source
+        try {
+            mediaPlayer.setDataSource(url);
+        } catch (Exception e) {
+            Log.e(MediaPlayerService.class.getSimpleName(), "Error setting data source", e);
+        }
+        mediaPlayer.prepareAsync();
+    }
     //play a song
     public void playSong(Uri uri) {
         //play

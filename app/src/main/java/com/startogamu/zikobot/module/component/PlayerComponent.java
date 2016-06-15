@@ -2,6 +2,7 @@ package com.startogamu.zikobot.module.component;
 
 import com.startogamu.zikobot.module.music.PlayerBaseComponent;
 import com.startogamu.zikobot.module.music.PlayerModule;
+import com.startogamu.zikobot.viewmodel.activity.ActivityMainVM;
 import com.startogamu.zikobot.viewmodel.activity.ActivityWakeUpVM;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
@@ -19,4 +20,6 @@ public interface PlayerComponent extends PlayerBaseComponent{
     void inject(ActivityWakeUpVM alarmService);
 
     void inject(PlayerVM playerVM);
+
+    void inject(ActivityMainVM activityMainVM);
 }

@@ -311,4 +311,8 @@ public class PlayerMusicManager {
             Injector.INSTANCE.playerComponent().manager().pause();
         }
     }
+
+    public void playUrl(String s) {
+        mediaPlayerService.playUrlSong(s);
+    }
 }

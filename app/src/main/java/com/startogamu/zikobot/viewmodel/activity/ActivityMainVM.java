@@ -55,6 +55,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     public ActivityMainVM(ActivityMain activity, ActivityMainBinding binding) {
         super(activity, binding);
         Injector.INSTANCE.spotifyAuth().inject(this);
+        Injector.INSTANCE.playerComponent().inject(this);
     }
 
     @Override
@@ -162,20 +163,24 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         PrimaryDrawerItem alarm = new PrimaryDrawerItem().withName(R.string.drawer_alarms).withIcon(R.drawable.ic_alarm).withSelectedIcon(R.drawable.ic_alarm_selected);
         PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withSelectable(false);
 
+        PrimaryDrawerItem testSoundClound = new PrimaryDrawerItem().withName("SoundCloud Test");
         drawer = new DrawerBuilder()
                 .withActivity(activity)
                 .withAccountHeader(accountHeader)
                 .withToolbar(binding.toolbar)
-                .addDrawerItems(music, alarm, about)
+                .addDrawerItems(music, alarm, testSoundClound,about)
                 .build();
 
         drawer.setOnDrawerItemClickListener((view, position, drawerItem) -> {
-            if (drawerItem.getIdentifier() == alarm.getIdentifier()) {
+            long drawerId = drawerItem.getIdentifier();
+            if (drawerId == alarm.getIdentifier()) {
                 navigationManager.showAlarms();
-            } else if (drawerItem.getIdentifier() == music.getIdentifier()) {
+            } else if (drawerId == music.getIdentifier()) {
                 navigationManager.showLocals();
-            } else if (drawerItem.getIdentifier() == about.getIdentifier()) {
+            } else if (drawerId == about.getIdentifier()) {
                 navigationManager.showAbout();
+            }else if (drawerId == testSoundClound.getIdentifier()){
+                Injector.INSTANCE.playerComponent().manager().playUrl("https://api.soundcloud.com/tracks/13158665/stream?client_id="+activity.getString(R.string.soundcloud_id));
             }
             return false;
         });

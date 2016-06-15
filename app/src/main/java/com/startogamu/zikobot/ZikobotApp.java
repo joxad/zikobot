@@ -31,10 +31,7 @@ public class ZikobotApp extends Application {
             e.printStackTrace();
         }
         PlayerNotification.init(this);
-        Injector.INSTANCE.initSpotifyApi(this);
-        Injector.INSTANCE.initSpotifyAuth(this);
-        Injector.INSTANCE.initContentResolver(this);
-        Injector.INSTANCE.initPlayerMusic(this);
+        Injector.INSTANCE.init(this);
         Logger.init(ZikobotApp.class.getSimpleName());
 
     }

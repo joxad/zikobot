@@ -6,5 +6,7 @@
     <string name="spotify_base_auth_url">https://accounts.spotify.com/api/</string>
 
     <string name="spotify_web_view" formatted="false">https://accounts.spotify.com/authorize/?client_id=%s&amp;response_type=code&amp;redirect_uri=%sFcallback&amp;scope=%s</string>
+    <string name="soundcloud_base_api_url">https://api.soundcloud.com</string>
+
 
 </resources>
