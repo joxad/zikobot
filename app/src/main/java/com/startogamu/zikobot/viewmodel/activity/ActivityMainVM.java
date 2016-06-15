@@ -3,7 +3,6 @@ package com.startogamu.zikobot.viewmodel.activity;
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,20 +12,14 @@ import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.joxad.easydatabinding.activity.IResult;
 import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.startogamu.zikobot.R;
+import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.core.event.EventFabClicked;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
+import com.startogamu.zikobot.core.fragmentmanager.DrawerManager;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.component.Injector;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
 import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
@@ -42,11 +35,9 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     public ActionBarDrawerToggle actionBarDrawerToggle;
 
     public NavigationManager navigationManager;
-
+    public DrawerManager drawerManager;
     public PlayerVM playerVM;
-    private Drawer drawer;
     public ObservableBoolean fabVisible, tabLayoutVisible;
-    private AccountHeader accountHeader;
 
     /***
      * @param activity
@@ -89,19 +80,12 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     @Override
     protected void onResume() {
         super.onResume();
-        navigationManager.subscribe();
-//Add spotify only once
-        if (itemSpotify == null) {
-            if (AppPrefs.spotifyUser() != null && !AppPrefs.spotifyUser().equals("")) {
-                SpotifyUser spotifyUser = AppPrefs.spotifyUser();
-                itemSpotify = new ProfileDrawerItem()
-                        .withName(spotifyUser.getDisplayName())
-                        .withIcon(R.drawable.logo_spotify);
-            }
-            if (itemSpotify != null) {
-                accountHeader.addProfiles(itemSpotify);
-            }
+        try {
+            navigationManager.subscribe();
+        } catch (Exception e) {
+            Logger.e(e.getMessage());
         }
+        drawerManager.onResume();
     }
 
     @Override
@@ -117,77 +101,13 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
     }
 
-    protected ProfileDrawerItem itemSpotify;
 
     /***
      * Init the menu drawer layout that will contains the other way to play music
      */
     private void initDrawer() {
-        ProfileDrawerItem itemLocal = new ProfileDrawerItem().withName(activity.getString(R.string.activity_music_local))
-                .withIcon(ContextCompat.getDrawable(activity, R.drawable.shape_album));
-
-        ProfileDrawerItem itemAddAccount = new ProfileDrawerItem().withName(activity.getString(R.string.drawer_account_add))
-                .withIcon(ContextCompat.getDrawable(activity, R.drawable.ic_add));
-        accountHeader = new AccountHeaderBuilder()
-                .withActivity(activity)
-                .withHeaderBackground(R.drawable.header)
-                .withCurrentProfileHiddenInList(true)
-                .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
-                    @Override
-                    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-                        if (profile.getIdentifier() == itemLocal.getIdentifier()) {
-                            navigationManager.showLocals();
-                            return false;
-                        } else if (profile.getIdentifier() == itemAddAccount.getIdentifier()) {
-                            activity.startActivity(Henson.with(activity).gotoActivitySettings().build());
-                            return true;
-                        }
-                        if (itemSpotify != null) {
-                            if (profile.getIdentifier() == itemSpotify.getIdentifier()) {
-                                navigationManager.showSpotifys();
-                            }
-                        }
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
-                        return false;
-                    }
-                })
-                .addProfiles(itemLocal, itemAddAccount)
-                .withOnAccountHeaderListener((view, profile, currentProfile) -> false)
-                .build();
-
-        PrimaryDrawerItem music = new PrimaryDrawerItem().withName(R.string.drawer_filter_music).withIcon(R.drawable.ic_music_wave).withSelectedIcon(R.drawable.ic_music_wave_selected);
-        PrimaryDrawerItem alarm = new PrimaryDrawerItem().withName(R.string.drawer_alarms).withIcon(R.drawable.ic_alarm).withSelectedIcon(R.drawable.ic_alarm_selected);
-        PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withSelectable(false);
-
-        PrimaryDrawerItem testSoundClound = new PrimaryDrawerItem().withName("SoundCloud Test");
-        drawer = new DrawerBuilder()
-                .withActivity(activity)
-                .withAccountHeader(accountHeader)
-                .withToolbar(binding.toolbar)
-                .addDrawerItems(music, alarm, testSoundClound,about)
-                .build();
-
-        drawer.setOnDrawerItemClickListener((view, position, drawerItem) -> {
-            long drawerId = drawerItem.getIdentifier();
-            if (drawerId == alarm.getIdentifier()) {
-                navigationManager.showAlarms();
-            } else if (drawerId == music.getIdentifier()) {
-                navigationManager.showLocals();
-            } else if (drawerId == about.getIdentifier()) {
-                navigationManager.showAbout();
-            }else if (drawerId == testSoundClound.getIdentifier()){
-                Injector.INSTANCE.playerComponent().manager().playUrl("https://api.soundcloud.com/tracks/13158665/stream?client_id="+activity.getString(R.string.soundcloud_id));
-            }
-            return false;
-        });
-        actionBarDrawerToggle = new ActionBarDrawerToggle(activity, drawer.getDrawerLayout(),
-                R.string.drawer_open, R.string.drawer_close);
-        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-        drawer.setActionBarDrawerToggle(actionBarDrawerToggle);
+        drawerManager = new DrawerManager(activity, this, binding);
+        drawerManager.init();
     }
 
 
@@ -240,8 +160,9 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     protected boolean onBackPressed() {
-        if (drawer.isDrawerOpen()) {
-            drawer.closeDrawer();
+
+        if (drawerManager.isDrawerOpen()) {
+            drawerManager.closeDrawer();
             return false;
         }
         return super.onBackPressed();
@@ -250,11 +171,13 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     /***
      * Called when the play button is called in above a list of tracks
+     *
      * @param view
      */
     public void onPlayListClicked(View view) {
         EventBus.getDefault().post(new EventPlayListClicked());
     }
+
     /***
      * @param view
      */

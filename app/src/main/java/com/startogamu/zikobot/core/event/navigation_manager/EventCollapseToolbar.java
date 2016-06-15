@@ -3,7 +3,11 @@ package com.startogamu.zikobot.core.event.navigation_manager;
 import lombok.Data;
 
 /**
- * Created by josh on 11/06/16.
+ * This event is registered :
+ * {@link com.startogamu.zikobot.core.fragmentmanager.NavigationManager}
+ * and called from:
+ * {@link com.startogamu.zikobot.viewmodel.fragment.spotify.FragmentSpotifyPlaylistsVM}
+ * {@link com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists}
  */
 @Data
 public class EventCollapseToolbar {

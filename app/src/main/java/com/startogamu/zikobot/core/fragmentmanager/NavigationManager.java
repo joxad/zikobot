@@ -69,25 +69,35 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
         replaceFragment(FragmentLocalPlaylists.newInstance(), true, false);
     }
 
+    /***
+     * Show the fragment of local playlist tracks (user has to create them)
+     */
     public void showLocals() {
         current = Account.local;
         initTabLayoutTracks();
         replaceFragment(FragmentLocalPlaylists.newInstance(), true, false);
     }
 
-
+    /****
+     * filter on spotify playlists
+     */
     public void showSpotifys() {
         current = Account.spotify;
         initTabLayoutTracks();
         replaceFragment(FragmentSpotifyPlaylists.newInstance(), true, false);
     }
 
+    /***
+     * filter on the alarms
+     */
     public void showAlarms() {
         initTabLayoutAlarms();
         replaceFragment(FragmentAlarms.newInstance(), true, false);
     }
 
-
+    /***
+     * Show the libs used in the projects
+     */
     public void showAbout() {
         new LibsBuilder()
                 .withAboutAppName(activity.getString(R.string.about))
@@ -98,8 +108,6 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
     /***
      * EVENTS
      */
-
-
     @Subscribe
     public void onEvent(EventMenuDrawerLocal eventMenuDrawerLocal) {
         initTabLayoutTracks();

@@ -26,9 +26,13 @@ public class SoundCloudApiInterceptor implements Interceptor {
         Request original = chain.request();
 
         HttpUrl originalHttpUrl = original.url();
-        HttpUrl url = originalHttpUrl.newBuilder()
-                .addQueryParameter("client_id", context.getString(R.string.soundcloud_id))
-                .build();
+        HttpUrl.Builder urlBuilder = originalHttpUrl.newBuilder();
+        if (AppPrefs.getSoundCloundAccessToken().equals("")) {
+            urlBuilder.addQueryParameter("client_id", context.getString(R.string.soundcloud_id));
+        } else {
+            urlBuilder.addQueryParameter("oauth_token", AppPrefs.getSoundCloundAccessToken());
+        }
+        HttpUrl url = urlBuilder.build();
 
         Request.Builder requestBuilder = original.newBuilder()
                 .url(url)

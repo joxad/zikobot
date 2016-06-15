@@ -23,6 +23,7 @@ public enum Injector {
         initSpotifyAuth(context);
         initContentResolver(context);
         initPlayerMusic(context);
+        initSoundCloudApi(context);
     }
     public void initSpotifyApi(Context context) {
         //   spotifyApiComponent = DaggerSpotifyComponent
@@ -61,7 +62,7 @@ public enum Injector {
         return playerComponent;
     }
 
-    public SoundCloudApiComponent soundCloudApiComponent() {
+    public SoundCloudApiComponent soundCloudApi() {
         return soundCloudApiComponent;
     }
 }

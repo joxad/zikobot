@@ -6,6 +6,8 @@ import android.support.design.widget.Snackbar;
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
+import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.databinding.FragmentSpotifyPlaylistsBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
@@ -13,14 +15,16 @@ import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
 import com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel;
 
+import org.greenrobot.eventbus.EventBus;
+
 import me.tatarka.bindingcollectionadapter.ItemView;
-import rx.Subscription;
 
 /**
  * Created by josh on 26/03/16.
  */
 public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPlaylists, FragmentSpotifyPlaylistsBinding> {
 
+    private static final String TAG = "FragmentSpotifyPlaylists";
     public ObservableArrayList<ItemPlaylistViewModel> userPlaylists;
     public ItemView itemPlaylist = ItemView.of(BR.playlistVM, R.layout.item_playlist);
 
@@ -42,6 +46,10 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
     @Override
     protected void onResume() {
         super.onResume();
+
+        EventBus.getDefault().post(new EventCollapseToolbar(null, null));
+        EventBus.getDefault().post(new EventTabBars(true, TAG));
+
         loadUserPlaylist();
     }
 
