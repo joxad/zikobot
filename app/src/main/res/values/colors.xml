@@ -10,6 +10,8 @@
     <color name="divider">#B6B6B6</color>
     <color name="disable">#565656</color>
 
+    <color name="colorSpotify">#8BC34A</color>
+    <color name="colorDeezer">#ffff4444</color>
 
 
     <!-- A light Holo shade of blue -->

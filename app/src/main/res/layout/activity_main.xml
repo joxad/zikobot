@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+
+        <import
+            alias="v"
+            type="android.view.View" />
+
+        <variable
+            name="activityMainVM"
+            type="com.startogamu.zikobot.viewmodel.activity.ActivityMainVM" />
+    </data>
+
+
+    <android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/main_collapsing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/colorPrimary"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
+
+                <RelativeLayout
+                    android:id="@+id/rl_toolbar_image"
+                    app:layout_collapseMode="parallax"
+                    android:layout_width="match_parent"
+                    android:fitsSystemWindows="true"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="visible"
+                        tools:src="@drawable/ic_vinyl" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:background="#99000000" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:onClick="@{activityMainVM.onPlayListClicked}"
+                        android:src="@drawable/ic_play_arrow" />
+                </RelativeLayout>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/actionBarSize"
+                    android:minHeight="@dimen/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="text" />
+                </android.support.v7.widget.Toolbar>
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/actionBarSize"
+                android:background="@color/colorPrimary"
+                android:visibility="@{activityMainVM.tabLayoutVisible ? v.VISIBLE: v.GONE}"
+                app:tabBackground="@color/colorPrimary"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@android:color/white"
+                app:tabIndicatorHeight="6dp"
+                app:tabMaxWidth="0dp"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabTextColor="@android:color/white" />
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:onClick="@{activityMainVM.fabClicked}"
+            android:src="@drawable/ic_add"
+            android:visibility="@{activityMainVM.fabVisible ? v.VISIBLE: v.GONE}"
+            app:layout_anchor="@id/toolbar"
+            app:layout_anchorGravity="bottom|right|end" />
+
+        <include
+            android:id="@+id/view_player"
+            layout="@layout/view_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/dialog_holo_light_frame"
+            app:behavior_peekHeight="@dimen/playerHeight"
+            app:layout_behavior="@string/bottom_sheet_behavior"
+            app:playerVM="@{activityMainVM.playerVM}" />
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+</layout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

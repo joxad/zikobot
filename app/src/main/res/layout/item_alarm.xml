@@ -5,7 +5,10 @@
 
     <data>
 
-        <import type="android.view.View" alias="v"/>
+        <import
+            alias="v"
+            type="android.view.View" />
+
         <variable
             name="itemAlarmVM"
             type="com.startogamu.zikobot.viewmodel.base.AlarmVM" />
@@ -148,10 +151,10 @@
                                 android:id="@+id/tv_friday"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:textColor="@color/text_color_days"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="@string/friday" />
+                                android:text="@string/friday"
+                                android:textColor="@color/text_color_days" />
 
 
                             <TextView
@@ -159,9 +162,9 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:textColor="@color/text_color_days"
                                 android:gravity="center"
-                                android:text="@string/saturday" />
+                                android:text="@string/saturday"
+                                android:textColor="@color/text_color_days" />
 
 
                             <TextView

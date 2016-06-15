@@ -2,12 +2,9 @@ package com.startogamu.zikobot.core.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.startogamu.zikobot.core.notification.MusicNotification;
-import com.startogamu.zikobot.core.receiver.StopReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
@@ -22,7 +19,6 @@ public class AlarmService extends Service {
     Alarm alarm;
 
     private static final String TAG = AlarmService.class.getSimpleName();
-    private StopReceiver stopReceiver;
 
     /***
      * @param intent
@@ -41,23 +37,14 @@ public class AlarmService extends Service {
                     alarm.setActive(0);
                     alarm.save();
                 }
-                MusicNotification.show(alarm.getName());
                 startActivity(Henson.with(getBaseContext()).gotoActivityWakeUp().alarm(alarm).build().addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
 
-        stopReceiver = new StopReceiver(this::stop);
-        registerReceiver(stopReceiver, new IntentFilter(StopReceiver.TAG));
         return Service.START_NOT_STICKY;
     }
 
-    @Override
-    public void onDestroy() {
-        if (stopReceiver != null) {
-            unregisterReceiver(stopReceiver);
-        }
-        super.onDestroy();
-    }
+
 
 
     /***

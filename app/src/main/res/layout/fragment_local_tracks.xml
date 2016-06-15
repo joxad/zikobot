@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+
+        <import
+            alias="v"
+            type="android.view.View" />
+
+        <variable
+            name="fragmentLocalTracksVM"
+            type="com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalTracksVM" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/grid_animation"
+            android:paddingBottom="@dimen/actionBarSize"
+            app:itemView="@{fragmentLocalTracksVM.itemView}"
+            app:items="@{fragmentLocalTracksVM.items}"
+            app:layoutManager="@{LayoutManagers.grid(1)}"
+            tools:listitem="@layout/item_alarm_track" />
+
+
+        <com.startogamu.zikobot.view.custom.ZikobotMessageView
+            android:id="@+id/zmv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="@{fragmentLocalTracksVM.showZmvMessage ? v.VISIBLE : v.GONE}" />
+
+    </RelativeLayout>
+</layout>

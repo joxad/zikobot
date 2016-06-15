@@ -25,7 +25,7 @@ public interface SpotifyAPIService {
     @GET("browse/featured-playlists")
     Observable<SpotifyFeaturedPlaylist> getFeaturedPlaylists();
 
-    @GET("users/{userId}/playlists/{playlistId}/tracks")
-    Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(@Path("userId") String userId, @Path("playlistId") final String playlistId);
+    @GET("users/{spotifyUser}/playlists/{playlistId}/tracks")
+    Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(@Path("spotifyUser") String userId, @Path("playlistId") final String playlistId);
 
 }

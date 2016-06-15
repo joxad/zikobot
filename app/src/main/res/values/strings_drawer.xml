@@ -1,0 +1,16 @@
+<resources>
+
+    <string name="drawer_filter">Filtre</string>
+    <string name="drawer_filter_playlist">Playlist </string>
+    <string name="drawer_filter_album">Album </string>
+    <string name="drawer_filter_artiste">Artiste </string>
+    <string name="drawer_filter_tracks">Chanson </string>
+    <string name="drawer_filter_search">Recherche </string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="drawer_alarms">Mes alarmes</string>
+    <string name="drawer_account_add">Ajoute un compte</string>
+    <string name="drawer_filter_music">Ma musique</string>
+
+</resources>

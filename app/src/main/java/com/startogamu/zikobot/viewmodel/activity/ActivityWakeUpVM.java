@@ -1,6 +1,8 @@
 package com.startogamu.zikobot.viewmodel.activity;
 
 import android.animation.Animator;
+import android.content.Context;
+import android.media.AudioManager;
 import android.view.View;
 
 import com.f2prateek.dart.Dart;
@@ -31,6 +33,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     private static final int DELAY = 10;//MS
     @InjectExtra
     Alarm alarm;
+    AudioManager am;
 
 
     int rotation = ROTATION;
@@ -43,14 +46,20 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      */
     public ActivityWakeUpVM(ActivityWakeUp activity, ActivityWakeUpBinding binding) {
         super(activity, binding);
-        Injector.INSTANCE.spotifyAuth().inject(this);
-        Injector.INSTANCE.playerComponent().inject(this);
 
     }
 
     @Override
     public void init() {
+
+        Injector.INSTANCE.spotifyAuth().inject(this);
+        Injector.INSTANCE.playerComponent().inject(this);
         EventBus.getDefault().register(this);
+
+        am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
+
+//For Normal mode
+        am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         refreshToken();
         Dart.inject(this, activity);
         activity.setSupportActionBar(binding.toolbar);
@@ -63,6 +72,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
             trackVM = new TrackVM(activity, Mock.track(activity));
             binding.setAlarmTrackVM(trackVM);
         }
+        am.setStreamVolume(AudioManager.STREAM_MUSIC, alarm.getVolume(), alarm.getVolume());
 
         startAlarm(alarm);
     }

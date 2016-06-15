@@ -1,21 +1,22 @@
 package com.startogamu.zikobot.view.activity;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBase;
-import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.databinding.ActivityMusicBinding;
 import com.startogamu.zikobot.BR;
+import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.fragmentmanager.FragmentManager;
+import com.startogamu.zikobot.core.fragmentmanager.IFragmentManager;
+import com.startogamu.zikobot.databinding.ActivityMusicBinding;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
 import com.startogamu.zikobot.viewmodel.activity.ActivityMusicVM;
 
 /**
  * Created by josh on 26/03/16.
  */
-public class ActivityMusic extends ActivityBase<ActivityMusicBinding, ActivityMusicVM> {
+public class ActivityMusic extends ActivityBase<ActivityMusicBinding, ActivityMusicVM> implements IFragmentManager {
 
     @InjectExtra
     Alarm alarm;
@@ -32,9 +33,8 @@ public class ActivityMusic extends ActivityBase<ActivityMusicBinding, ActivityMu
 
     @Override
     public ActivityMusicVM baseActivityVM(ActivityMusicBinding binding, Bundle savedInstanceState) {
-        return new ActivityMusicVM(this,binding);
+        return new ActivityMusicVM(this, binding);
     }
-
 
 
     public void loadSpotifyMusicFragment() {
@@ -51,18 +51,13 @@ public class ActivityMusic extends ActivityBase<ActivityMusicBinding, ActivityMu
     }
 
 
+    @Override
     public void addFragment(Fragment fragment, boolean withBackstack) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.container, fragment);
-        if (withBackstack) transaction.addToBackStack(fragment.getClass().getSimpleName());
-        transaction.commit();
+        FragmentManager.addFragment(this, fragment, withBackstack);
     }
 
-    public void replaceFragment(Fragment fragment, boolean withBackstack) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        if (withBackstack) transaction.addToBackStack(fragment.getClass().getSimpleName());
-        transaction.commit();
+    @Override
+    public void replaceFragment(Fragment fragment, boolean clearBackStack,boolean withBackstack) {
+        FragmentManager.replaceFragment(this, fragment, clearBackStack, withBackstack);
     }
-
 }

@@ -96,6 +96,7 @@ dependencies {
     compile libs.gson
     compile libs.glide
     compile libs.henson
+    compile libs.logger
     compile libs.easySpotify
     compile libs.materialRipple
     compile libs.okHttpInterceptor
@@ -115,19 +116,19 @@ dependencies {
     provided libs.lombok
     provided libs.javaxAnnotation
 
-    compile 'com.github.armcha:LuseenBottomNavigation:1.1'
-    compile('com.mikepenz:aboutlibraries:5.6.2@aar') {
+    compile 'com.github.armcha:LuseenBottomNavigation:1.8.0'
+    compile('com.mikepenz:aboutlibraries:5.6.7@aar') {
         transitive = true
     }
-    compile 'com.cleveroad:audiovisualization:0.9.3'
-
     compile 'com.github.paolorotolo:appintro:4.0.0'
-
-    compile 'com.github.ybq:Android-SpinKit:1.0.2'
     //https://openclassrooms.com/courses/bruits-et-nombres-aleatoires-coherents
     compile('com.crashlytics.sdk.android:crashlytics:2.5.6@aar') {
         transitive = true;
     }
+    compile('com.mikepenz:materialdrawer:5.3.0@aar') {
+        transitive = true
+    }
+
 
 }
 

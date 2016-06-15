@@ -3,7 +3,7 @@ package com.startogamu.zikobot.module.mock;
 import android.content.Context;
 
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
+import com.startogamu.zikobot.module.alarm.model.Track;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.module.spotify_api.model.Tracks;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
@@ -42,9 +42,21 @@ public class Mock {
         return items;
     }
 
-    public static AlarmTrack track(Context context) {
-        AlarmTrack alarmTrack = new AlarmTrack();
-        alarmTrack.setName(context.getString(R.string.loading));
-        return alarmTrack;
+    /**
+     *
+     * @param context
+     * @return
+     */
+    public static Track track(Context context) {
+        Track track = new Track();
+        track.setName(context.getString(R.string.loading));
+        return track;
+    }
+
+    public static Track trackPlayer(Context context) {
+        Track track = new Track();
+        track.setName(context.getString(R.string.activity_alarm_select_song));
+        track.setArtistName("");
+        return track;
     }
 }

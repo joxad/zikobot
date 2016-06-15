@@ -15,7 +15,7 @@ import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
-import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
+import com.startogamu.zikobot.module.alarm.model.Track;
 import com.startogamu.zikobot.view.Henson;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -71,10 +71,10 @@ public class AlarmVM extends BaseVM<Alarm> {
     /**
      * Add track
      *
-     * @param alarmTrack
+     * @param track
      */
-    public void addTrack(AlarmTrack alarmTrack) {
-        model.getTracks().add(alarmTrack);
+    public void addTrack(Track track) {
+        model.getTracks().add(track);
         save();
     }
 
@@ -83,8 +83,8 @@ public class AlarmVM extends BaseVM<Alarm> {
      */
     public void refreshTracks() {
         tracksVms.clear();
-        for (AlarmTrack alarmTrack : model.getTracks()) {
-            TrackVM itemTrackViewModel = new TrackVM(context, alarmTrack);
+        for (Track track : model.getTracks()) {
+            TrackVM itemTrackViewModel = new TrackVM(context, track);
             tracksVms.add(itemTrackViewModel);
         }
     }
@@ -142,18 +142,18 @@ public class AlarmVM extends BaseVM<Alarm> {
 
     @Bindable
     public String getAlarmTime() {
-       int hour =model.getHour();
+        int hour = model.getHour();
         if (hour >= 12)
-            hour -=12;
+            hour -= 12;
         return String.format("%02d: %02d", hour, model.getMinute());
     }
 
     @Bindable
     public String getAlarmTimeAmPm() {
-        String am= "AM";
+        String am = "AM";
         String pm = "PM";
-        String after =am;
-        if (model.getHour() > 12) {
+        String after = am;
+        if (model.getHour() >= 12) {
             after = pm;
         }
         return after;
@@ -175,12 +175,11 @@ public class AlarmVM extends BaseVM<Alarm> {
     }
 
     /***
-     *
      * @param textView
      * @param day
      */
     public void handleTextClickDay(TextView textView, int day) {
-        boolean status =!model.isDayActive(day);
+        boolean status = !model.isDayActive(day);
         textView.setSelected(status);
         activeDay(day, status);
     }
@@ -189,7 +188,6 @@ public class AlarmVM extends BaseVM<Alarm> {
         model.activeDay(day, aBoolean);
         notifyChange();
     }
-
 
 
     public int getMinute() {
@@ -205,16 +203,32 @@ public class AlarmVM extends BaseVM<Alarm> {
     }
 
     public boolean hasTracks() {
-        return tracksVms.size()>0;
+        return tracksVms.size() > 0;
+    }
+
+    @Bindable
+    public int getVolume() {
+        return model.getVolume();
     }
 
     public void updateRepeated(boolean checked) {
-        model.setRepeated(checked? 1 : 0);
+        model.setRepeated(checked ? 1 : 0);
+        notifyChange();
+    }
+
+
+    public void updateRandom(boolean checked) {
+        model.setRandomTrack(checked ? 1 : 0);
         notifyChange();
     }
 
     @Bindable
     public boolean isRepeated() {
         return model.getRepeated() == 1;
+    }
+
+    public void updateVolume(int progress) {
+        model.setVolume(progress);
+        notifyChange();
     }
 }

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+
+        <variable
+            name="playerVM"
+            type="com.startogamu.zikobot.viewmodel.custom.PlayerVM" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/rl_player"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/iv_play"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:onClick="@{playerVM.onPlayPauseClicked}"
+                        android:padding="8dp"
+                        app:civ_fill_color="@color/colorAccent"
+                        app:imageRes="@{playerVM.imageState}" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/iv_play"
+                        android:layout_toStartOf="@id/iv_play"
+                        android:orientation="horizontal">
+
+
+                        <ImageView
+                            android:layout_width="@dimen/playerHeight"
+                            android:layout_height="@dimen/playerHeight"
+                            app:imageUrl="@{playerVM.trackImage}" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="@{playerVM.trackName}"
+                                android:textSize="20sp"
+                                tools:text="Wonderwall" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="@{playerVM.artistName}"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="16sp"
+                                tools:text="Oasis" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/rl_player"
+                app:itemView="@{playerVM.itemView}"
+                app:items="@{playerVM.trackVMs}"
+                app:layoutManager="@{LayoutManagers.linear()}" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>

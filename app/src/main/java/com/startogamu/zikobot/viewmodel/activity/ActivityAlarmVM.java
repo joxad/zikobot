@@ -4,12 +4,13 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.SeekBar;
 
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
@@ -20,6 +21,7 @@ import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
+import com.startogamu.zikobot.core.utils.SimpleSeekBarListener;
 import com.startogamu.zikobot.databinding.ActivityAlarmBinding;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
 import com.startogamu.zikobot.view.Henson;
@@ -27,8 +29,6 @@ import com.startogamu.zikobot.view.activity.ActivityAlarm;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
 
 import java.util.Calendar;
-
-import rx.functions.Action1;
 
 /**
  * Created by josh on 29/05/16.
@@ -42,6 +42,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     public AlarmVM alarmVM;
     @InjectExtra
     Alarm alarm;
+    private AudioManager am;
 
     /***
      * @param activity
@@ -53,6 +54,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
     @Override
     public void init() {
+        am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
         Dart.inject(this, activity);
         alarmMgr = (android.app.AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
         activity.setSupportActionBar(binding.toolbar);
@@ -126,18 +128,25 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
     private void initAlarmVM() {
         alarmVM.initModel();
-        binding.viewAlarm.swRepeat.setChecked(alarm.getRepeated()==1);
+        int max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        binding.viewAlarm.seekBarVolume.setMax(am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+        binding.viewAlarm.seekBarVolume.setProgress(alarm.getVolume() == -1 ? ((int) (max * 0.5f)) : alarm.getVolume());
+        binding.viewAlarm.swRepeat.setChecked(alarm.getRepeated() == 1);
+        binding.viewAlarm.swRandom.setChecked(alarm.getRandomTrack() == 1);
         initHour();
         initSelectedDays();
         RxCompoundButton.checkedChanges(binding.viewAlarm.swRepeat).subscribe(aBoolean -> {
-           alarmVM.updateRepeated(aBoolean);
+            alarmVM.updateRepeated(aBoolean);
+        });
+        RxCompoundButton.checkedChanges(binding.viewAlarm.swRandom).subscribe(aBoolean -> {
+            alarmVM.updateRandom(aBoolean);
         });
         RxTextView.textChanges(binding.viewAlarm.etName).skip(1).subscribe(charSequence -> {
             alarmVM.updateName(charSequence);
         });
 
         RxView.clicks(binding.viewAlarm.cbMonday).subscribe(aVoid -> {
-           alarmVM.handleTextClickDay(binding.viewAlarm.cbMonday, Calendar.MONDAY);
+            alarmVM.handleTextClickDay(binding.viewAlarm.cbMonday, Calendar.MONDAY);
         });
 
         RxView.clicks(binding.viewAlarm.cbTuesday).subscribe(aVoid -> {
@@ -157,6 +166,13 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         });
         RxView.clicks(binding.viewAlarm.cbSunday).subscribe(aVoid -> {
             alarmVM.handleTextClickDay(binding.viewAlarm.cbSunday, Calendar.SUNDAY);
+        });
+        binding.viewAlarm.seekBarVolume.setOnSeekBarChangeListener(new SimpleSeekBarListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser)
+                    alarmVM.updateVolume(progress);
+            }
         });
     }
 
@@ -230,8 +246,8 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         alarmMgr.cancel(alarmIntent);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        if (calendar.get(Calendar.HOUR_OF_DAY) > alarm.getHour()){
-            calendar.set(Calendar.DAY_OF_YEAR,calendar.get(Calendar.DAY_OF_YEAR)+1);
+        if (calendar.get(Calendar.HOUR_OF_DAY) > alarm.getHour()) {
+            calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + 1);
         }
         calendar.set(Calendar.HOUR_OF_DAY, this.alarm.getHour());
         calendar.set(Calendar.MINUTE, this.alarm.getMinute());

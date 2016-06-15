@@ -2,8 +2,6 @@
 <resources>
 
 
-
-
     <string-array name="waves">
         <item>@color/colorPrimaryDark</item>
         <item>@color/colorPrimary</item>

@@ -21,7 +21,7 @@
     <string name="action_settings">Mes Options</string>
     <string name="about">A propos</string>
 
-    <!--> ActivityAlarms<-->
+    <!--> FragmentAlarms<-->
 
 
     <!--> ActivityAlarm <-->
@@ -49,14 +49,14 @@
     <string name="connect_with_spotify">Me connecter avec spotify</string>
 
     <string name="wake_up">Gestion de mon alarme</string>
-     <string name="activity_music_local">Fichiers locaux</string>
+    <string name="activity_music_local">Ma bibliothèque musicale</string>
     <string name="activity_music_spotify">Spotify</string>
     <string name="activity_music_deezer">Deezer</string>
     <string name="alarm_add">Valider</string>
     <string name="playlist_total_tracks">%d chansons</string>
     <string name="tracks">chanson(s)</string>
 
-    <string name="deezer_coming_soon">Coming soon...</string>
+    <string name="coming_soon">Coming soon...</string>
     <string name="play">Jouer l\'alarme</string>
     <string name="action_add_all">Tout ajouter</string>
 
@@ -65,5 +65,8 @@
     <string name="add_tracks">J\'ai besoin que tu ajoutes des chansons pour lancer l\'alarme</string>
     <string name="permission_local">J\'ai besoin de ta permission pour accéder à ta musique :)</string>
     <string name="album">album(s)</string>
-
+    <string name="random_music">Mode aléatoire</string>
+    <string name="volume_alarm">Volume</string>
+    <string name="SoundCloud">SoundCloud</string>
+    <string name="connect_with_SoundCloud">Me connecter avec SoundCloud</string>
 </resources>

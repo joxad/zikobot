@@ -3,7 +3,10 @@ package com.startogamu.zikobot.core.utils;
 import android.content.Context;
 import android.content.ContextWrapper;
 
+import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.startogamu.zikobot.module.soundcloud.model.SoundCloudUser;
+import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
 
 /***
  * {@link AppPrefs} will handle the prefs of the application using {@link Prefs}
@@ -11,31 +14,18 @@ import com.pixplicity.easyprefs.library.Prefs;
 public class AppPrefs {
 
 
+    static Gson gson = new Gson();
+
     public static final String FIRST_START = "FIRST_START";
+
+
     /***
-     *
+     * SPOTIFY
      */
     public static final String SPOTIFY_ACCESS_CODE = "SPOTIFY_ACCESS_CODE";
-
-    /***
-     *
-     */
     public static final String SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN";
-
-    /***
-     *
-     */
     public static final String REFRESH_TOKEN = "REFRESH_TOKEN";
-    private static final String SPOTIFY_USER_ID = "SPOTIFY_USER_ID";
-
-
-    public static boolean isFirstStart() {
-        return Prefs.getBoolean(FIRST_START, true);
-    }
-
-    public static void saveFirstStart(final boolean state) {
-        Prefs.putBoolean(FIRST_START, state);
-    }
+    private static final String SPOTIFY_USER = "SPOTIFY_USER";
 
     public static void saveRefreshToken(final String refreshToken) {
         Prefs.putString(REFRESH_TOKEN, refreshToken);
@@ -61,14 +51,63 @@ public class AppPrefs {
         return Prefs.getString(SPOTIFY_ACCESS_TOKEN, "");
     }
 
-    public static void userId(String id) {
-        Prefs.putString(SPOTIFY_USER_ID, id);
+    public static void spotifyUser(SpotifyUser spotifyUser) {
+        Prefs.putString(SPOTIFY_USER, gson.toJson(spotifyUser));
     }
 
-    public static String spotifyYserId() {
-        return Prefs.getString(SPOTIFY_USER_ID, "");
+    public static SpotifyUser spotifyUser() {
+        String user = Prefs.getString(SPOTIFY_USER, "");
+        return gson.fromJson(user, SpotifyUser.class);
     }
 
+    /***
+     *
+     */
+    public static final String SOUNDCLOUD_ACCESS_TOKEN = "SOUNDCLOUD_ACCESS_TOKEN";
+    private static final String SOUNDCLOUD_ACCESS_CODE = "SOUNDCLOUD_ACCESS_CODE";
+    private static final String SOUNDCLOUD_USER = "SOUNDCLOUD_USER";
+
+    public static void saveSoundCloudAccessToken(String accessToken) {
+        Prefs.putString(SOUNDCLOUD_ACCESS_TOKEN, accessToken);
+    }
+
+    public static String getSoundCloundAccessToken() {
+        return Prefs.getString(SOUNDCLOUD_ACCESS_TOKEN, "");
+    }
+
+    public static void soundCloudUser(SoundCloudUser soundCloudUser) {
+        Prefs.putString(SOUNDCLOUD_USER, gson.toJson(soundCloudUser));
+    }
+
+    public static SoundCloudUser soundCloudUser() {
+        String user = Prefs.getString(SOUNDCLOUD_USER, "");
+        return gson.fromJson(user, SoundCloudUser.class);
+    }
+
+    public static void saveSoundCloudAccessCode(String code) {
+        Prefs.putString(SOUNDCLOUD_ACCESS_CODE, code);
+    }
+
+    public static String getSoundCloundAccesCode() {
+        return Prefs.getString(SOUNDCLOUD_ACCESS_CODE, "");
+    }
+
+    /*******************************************************************************************/
+
+    public static boolean isFirstStart() {
+        return Prefs.getBoolean(FIRST_START, true);
+    }
+
+    public static void saveFirstStart(final boolean state) {
+        Prefs.putBoolean(FIRST_START, state);
+    }
+
+
+    /***
+     * Init the prefs
+     *
+     * @param context
+     */
     public static void init(Context context) {
         new Prefs.Builder()
                 .setContext(context)
@@ -77,4 +116,5 @@ public class AppPrefs {
                 .setUseDefaultSharedPreference(true)
                 .build();
     }
+
 }

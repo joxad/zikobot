@@ -58,7 +58,7 @@ public class SpotifyApiManager {
      * @param playlistId
      */
     public Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(final String playlistId) {
-        return spotifyAPIService.getPlaylistTracks(AppPrefs.spotifyYserId(), playlistId).subscribeOn(Schedulers.io())
+        return spotifyAPIService.getPlaylistTracks(AppPrefs.spotifyUser().getId(), playlistId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }

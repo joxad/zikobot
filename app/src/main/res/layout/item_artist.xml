@@ -10,61 +10,77 @@
             type="com.startogamu.zikobot.viewmodel.base.ArtistVM" />
     </data>
 
-    <com.balysv.materialripple.MaterialRippleLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:onClick="@{artistVM.onClick}">
+        android:layout_margin="@dimen/activity_horizontal_margin">
 
-        <LinearLayout
-            android:id="@+id/layout_content"
+        <com.balysv.materialripple.MaterialRippleLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:onClick="@{artistVM.onClick}">
 
-            <ImageView
-                android:layout_width="@dimen/item_icon_size"
-                android:layout_height="@dimen/item_icon_size"
-                tools:src="@drawable/ic_picture_loading" />
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/image_card_height_large"
+                    android:scaleType="centerCrop"
+                    app:imageUrl="@{artistVM.imageUrl}"
+                    tools:src="@drawable/ic_picture_loading" />
 
                 <LinearLayout
+                    android:id="@+id/layout_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@{artistVM.name}"
-                        android:textSize="20sp"
-                        tools:text="Nom de l'artiste" />
 
-                    <TextView
-                        android:id="@+id/tv_artist"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_queue_music"
-                        android:drawablePadding="4dp"
-                        android:drawableStart="@drawable/ic_queue_music"
-                        android:gravity="center_vertical"
-                        android:text="@{artistVM.nbAlbums}"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        tools:text="12 albums" />
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{artistVM.name}"
+                                android:textSize="20sp"
+                                tools:text="Nom de l'artiste" />
+
+                            <TextView
+                                android:id="@+id/tv_artist"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/ic_queue_music"
+                                android:drawablePadding="4dp"
+                                android:drawableStart="@drawable/ic_queue_music"
+                                android:gravity="center_vertical"
+                                android:text="@{artistVM.nbAlbums}"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp"
+                                tools:text="12 albums" />
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+
                 </LinearLayout>
 
-
-            </RelativeLayout>
-
-        </LinearLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
+            </LinearLayout>
+        </com.balysv.materialripple.MaterialRippleLayout>
+    </android.support.v7.widget.CardView>
 
 </layout>

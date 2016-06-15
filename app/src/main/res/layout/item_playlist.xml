@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="playlistViewModel"
+            name="playlistVM"
             type="com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel" />
     </data>
 
@@ -21,14 +21,14 @@
             android:id="@+id/layout_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="@{playlistViewModel.onItemClick}"
+            android:onClick="@{playlistVM.onItemClick}"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/iv_header"
                 android:layout_width="@dimen/item_icon_size"
                 android:layout_height="@dimen/item_icon_size"
-                app:imageUrl="@{playlistViewModel.imageUrl}"
+                app:imageUrl="@{playlistVM.imageUrl}"
                 tools:src="@drawable/ic_queue_music" />
 
             <LinearLayout
@@ -41,14 +41,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{playlistViewModel.name}"
+                    android:text="@{playlistVM.name}"
                     android:textSize="@dimen/textSizeLarge_openSource"
                     tools:text="Ma playlist trop cool" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{playlistViewModel.nbSongs}"
+                    android:text="@{playlistVM.nbSongs}"
                     tools:text="3 chansons" />
             </LinearLayout>
         </LinearLayout>

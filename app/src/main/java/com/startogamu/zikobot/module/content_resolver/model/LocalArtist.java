@@ -3,12 +3,12 @@ package com.startogamu.zikobot.module.content_resolver.model;
 import org.parceler.Parcel;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by josh on 06/06/16.
  */
 @Parcel
-
 public class LocalArtist {
     @Getter
     private long id;
@@ -16,6 +16,9 @@ public class LocalArtist {
     private String name;
     @Getter
     private int nbAlbums;
+    @Getter
+    @Setter
+    private String image;
 
     public LocalArtist(){}
 
@@ -24,4 +27,6 @@ public class LocalArtist {
         this.name = name;
         this.nbAlbums = nbAlbums;
     }
+
+
 }

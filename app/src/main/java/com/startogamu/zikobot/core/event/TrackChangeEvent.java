@@ -1,6 +1,6 @@
 package com.startogamu.zikobot.core.event;
 
-import com.startogamu.zikobot.module.alarm.model.AlarmTrack;
+import com.startogamu.zikobot.module.alarm.model.Track;
 
 import lombok.Data;
 
@@ -9,5 +9,5 @@ import lombok.Data;
  */
 @Data
 public class TrackChangeEvent {
-    private final AlarmTrack track;
+    private final Track track;
 }

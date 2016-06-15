@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -20,6 +21,7 @@ import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.core.event.LocalArtistSelectEvent;
 import com.startogamu.zikobot.core.event.SelectAllTracks;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
+import com.startogamu.zikobot.core.event.permission.EventPermission;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.ActivityMusicBinding;
@@ -29,14 +31,15 @@ import com.startogamu.zikobot.module.alarm.model.Alarm;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
+import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityMusic;
-import com.startogamu.zikobot.view.fragment.DeezerFragment;
-import com.startogamu.zikobot.view.fragment.FragmentSpotifyPlaylistTracks;
-import com.startogamu.zikobot.view.fragment.SpotifyConnectFragment;
-import com.startogamu.zikobot.view.fragment.SpotifyMusicFragment;
+import com.startogamu.zikobot.view.fragment.deezer.DeezerFragment;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
-import com.startogamu.zikobot.view.fragment.local.FragmentLocalMusic;
+import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyConnect;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyTracks;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,17 +47,17 @@ import org.greenrobot.eventbus.Subscribe;
 /***
  * {@link ActivityMusicVM} handle multiples fragments :
  * <ul>
- * <li>{@link SpotifyMusicFragment } taht show the differents playlist to the user. Can redirect to
- * {@link FragmentSpotifyPlaylistTracks}</li>
- * <li>{@link SpotifyConnectFragment} that handle the connection to spotify</li>
- * <li>{@link FragmentLocalMusic}</li>
+ * <li>{@link FragmentSpotifyPlaylists } taht show the differents playlist to the user. Can redirect to
+ * {@link FragmentSpotifyTracks}</li>
+ * <li>{@link FragmentSpotifyConnect} that handle the connection to spotify</li>
+ * <li>{@link FragmentLocalTracks}</li>
  * </ul>
  */
 public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusicBinding> implements IResult, INewIntent, IPermission {
 
 
-    private SpotifyMusicFragment spotifyMusicFragment;
-    private SpotifyConnectFragment spotifyConnectFragment;
+    private FragmentSpotifyPlaylists fragmentSpotifyPlaylists;
+    private FragmentSpotifyConnect fragmentSpotifyConnect;
     private FragmentLocalArtists fragmentLocalArtists;
 
     @InjectExtra
@@ -70,6 +73,7 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
 
     @Override
     public void init() {
+
         EventBus.getDefault().register(this);
         Dart.inject(this, activity);
 
@@ -78,7 +82,7 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> activity.onBackPressed());
         fragmentLocalArtists = FragmentLocalArtists.newInstance();
-        activity.replaceFragment(fragmentLocalArtists, false);
+        activity.replaceFragment(fragmentLocalArtists, false, false);
         createBottomNavigation(binding.bottomNavigation);
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -109,19 +113,19 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
         bottomNavigationView.setOnBottomNavigationItemClickListener(index -> {
             switch (index) {
                 case 0:
-                    activity.replaceFragment(fragmentLocalArtists, false);
+                    activity.replaceFragment(fragmentLocalArtists, false, false);
                     break;
                 case 1:
                     // if (spotifyManager.hasAccessToken()) {
                     if (!Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
-                        spotifyConnectFragment = SpotifyConnectFragment.newInstance();
-                        activity.replaceFragment(spotifyConnectFragment, false);
+                        fragmentSpotifyConnect = FragmentSpotifyConnect.newInstance();
+                        activity.replaceFragment(fragmentSpotifyConnect, false, false);
                     } else {
                         loadSpotifyMusicFragment();
                     }
                     break;
                 case 2:
-                    activity.replaceFragment(DeezerFragment.newInstance(), false);
+                    activity.replaceFragment(DeezerFragment.newInstance(), false, false);
                     break;
             }
         });
@@ -134,8 +138,8 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (spotifyConnectFragment != null)
-            spotifyConnectFragment.onActivityResult(requestCode, resultCode, data);
+        if (fragmentSpotifyConnect != null)
+            fragmentSpotifyConnect.onActivityResult(requestCode, resultCode, data);
     }
 
     /***
@@ -143,49 +147,41 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
      */
     @Override
     public void onNewIntent(Intent intent) {
-        if (spotifyConnectFragment != null && !spotifyConnectFragment.isDetached())
-            spotifyConnectFragment.onNewIntent(intent);
+        if (fragmentSpotifyConnect != null && !fragmentSpotifyConnect.isDetached())
+            fragmentSpotifyConnect.onNewIntent(intent);
     }
 
     /***
      *
      */
     public void loadSpotifyMusicFragment() {
-        spotifyMusicFragment = SpotifyMusicFragment.newInstance();
-        activity.replaceFragment(spotifyMusicFragment, false);
+        fragmentSpotifyPlaylists = FragmentSpotifyPlaylists.newInstance();
+        activity.replaceFragment(fragmentSpotifyPlaylists, false, false);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (fragmentLocalArtists == null || fragmentLocalArtists.isDetached())
             return;
-        switch (requestCode) {
-            case REQUEST.PERMISSION_STORAGE:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    fragmentLocalArtists.loadMusic();
-                else {
-                    fragmentLocalArtists.permissionDenied();
-                }
-        }
     }
 
 
     @Subscribe
     public void onEvent(SelectItemPlaylistEvent selectItemPlaylistEvent) {
         Item item = selectItemPlaylistEvent.getItem();
-        activity.replaceFragment(FragmentSpotifyPlaylistTracks.newInstance(item), true);
+        activity.replaceFragment(FragmentSpotifyTracks.newInstance(item, BR.trackVM, R.layout.item_alarm_track), false, true);
     }
 
     @Subscribe
     public void onEvent(LocalArtistSelectEvent localArtistSelectEvent) {
         LocalArtist item = localArtistSelectEvent.getLocalArtist();
-        activity.replaceFragment(FragmentLocalAlbums.newInstance(item), true);
+        activity.replaceFragment(FragmentLocalAlbums.newInstance(item), false, true);
     }
 
     @Subscribe
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
         LocalAlbum item = localAlbumSelectEvent.getModel();
-        activity.replaceFragment(FragmentLocalMusic.newInstance(item), true);
+        activity.replaceFragment(FragmentLocalTracks.newInstance(item, BR.trackVM, R.layout.item_alarm_track), false, true);
     }
 
 
