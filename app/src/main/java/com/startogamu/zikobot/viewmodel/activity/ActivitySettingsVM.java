@@ -4,6 +4,7 @@ package com.startogamu.zikobot.viewmodel.activity;
  * Created by josh on 25/03/16.
  */
 
+import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.util.Log;
 import android.view.View;
@@ -31,9 +32,6 @@ import rx.Subscriber;
 public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, ActivitySettingsBinding> {
 
     public String TAG = ActivitySettingsVM.class.getSimpleName();
-
-    String accessCode;
-    String accessToken;
 
     public ObservableBoolean showSpotifyConnect;
 
@@ -68,22 +66,16 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         String apiKey = activity.getString(R.string.api_spotify_id);
         String redirect_uri = activity.getString(R.string.api_spotify_callback_web_view);
         String baseUrl = activity.getString(R.string.spotify_web_view);
-        FragmentWebView fragmentWebView = FragmentWebView.newInstance(String.format(baseUrl, apiKey, redirect_uri, Scope.USER_READ_PRIVATE+"%20"+Scope.STREAMING));
+        FragmentWebView fragmentWebView = FragmentWebView.newInstance(String.format(baseUrl, apiKey, redirect_uri, Scope.USER_READ_PRIVATE + "%20" + Scope.STREAMING));
+        fragmentWebView.setIntentListener(intent -> {
+            fragmentWebView.dismiss();
+            String code = intent.getData().getQueryParameter("code");
+            AppPrefs.saveAccessCode(code);
+            getTokenFromCode();
 
+        });
         fragmentWebView.show(activity.getSupportFragmentManager(), FragmentWebView.TAG);
-       /* SpotifyManager.loginWithBrowser(activity, Type.CODE, R.string.api_spotify_callback_settings, new String[]{Scope.USER_READ_PRIVATE, Scope.STREAMING}, new SpotifyManager.OAuthListener() {
-            @Override
-            public void onReceived(String code) {
-                accessCode = code;
-                AppPrefs.saveAccessCode(accessCode);
-                getTokenFromCode();
-            }
 
-            @Override
-            public void onError(String error) {
-                Log.d(TAG, error);
-            }
-        });*/
     }
 
 
@@ -96,7 +88,12 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         String redirect_uri = activity.getString(R.string.api_soundcloud_callback);
         String baseUrl = activity.getString(R.string.soundclound_web_view);
         FragmentWebView fragmentWebView = FragmentWebView.newInstance(String.format(baseUrl, apiKey, redirect_uri));
+        fragmentWebView.setIntentListener(new FragmentWebView.IntentListener() {
+            @Override
+            public void onReceive(Intent intent) {
 
+            }
+        });
         fragmentWebView.show(activity.getSupportFragmentManager(), FragmentWebView.TAG);
     }
 
@@ -104,8 +101,8 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
     private void getTokenFromCode() {
         try {
             Injector.INSTANCE.spotifyAuth().manager().requestToken(
-                    new SpotifyRequestToken("authorization_code", accessCode,
-                            activity.getString(R.string.api_spotify_callback_settings),
+                    new SpotifyRequestToken("authorization_code", AppPrefs.getSpotifyAccessCode(),
+                            activity.getString(R.string.api_spotify_callback_web_view),
                             activity.getString(R.string.api_spotify_id),
                             activity.getString(R.string.api_spotify_secret))).subscribe(
                     new Subscriber<SpotifyToken>() {
@@ -123,7 +120,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
                         @Override
                         public void onNext(SpotifyToken spotifyToken) {
                             Log.d(TAG, spotifyToken.toString());
-                            accessToken = spotifyToken.getAccessToken();
+                            String accessToken = spotifyToken.getAccessToken();
                             AppPrefs.saveAccessToken(accessToken);
                             AppPrefs.saveRefreshToken(spotifyToken.getRefreshToken());
 
