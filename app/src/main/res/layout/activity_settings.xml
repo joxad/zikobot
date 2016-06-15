@@ -50,7 +50,8 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -99,6 +100,57 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:text="@string/SoundCloud"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+
+
+                    <com.startogamu.zikobot.view.custom.MaterialButtonView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:onClick="@{activitySettingsVM.onButtonSoundCloudConnect}"
+                        android:visibility="@{activitySettingsVM.showSoundCloudConnect ? v.VISIBLE :  v.GONE}"
+                        app:mbv_text="@string/connect_with_SoundCloud"
+                        app:mbv_text_color="@android:color/white"
+                        app:mrl_rippleBackground="@color/colorPrimaryDark" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:orientation="horizontal"
+                        android:visibility="@{activitySettingsVM.showSoundCloudConnect ? v.GONE :  v.VISIBLE}">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/iv_user_soundcloud"
+                            android:layout_width="@dimen/avatar_size"
+                            android:layout_height="@dimen/avatar_size" />
+
+                        <TextView
+                            android:id="@+id/tv_user_soundcloud"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:textColor="@color/colorAccent" />
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 

@@ -4,18 +4,13 @@ package com.startogamu.zikobot.viewmodel.activity;
  * Created by josh on 25/03/16.
  */
 
-import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.joxad.android_easy_spotify.Scope;
-import com.joxad.android_easy_spotify.SpotifyManager;
-import com.joxad.android_easy_spotify.Type;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.easydatabinding.activity.INewIntent;
-import com.joxad.easydatabinding.activity.IResult;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivitySettingsBinding;
@@ -24,6 +19,7 @@ import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
 import com.startogamu.zikobot.module.spotify_auth.model.SpotifyRequestToken;
 import com.startogamu.zikobot.module.spotify_auth.model.SpotifyToken;
 import com.startogamu.zikobot.view.activity.ActivitySettings;
+import com.startogamu.zikobot.view.fragment.FragmentWebView;
 
 import java.io.UnsupportedEncodingException;
 
@@ -32,7 +28,7 @@ import rx.Subscriber;
 /***
  * {@link ActivitySettingsVM}  make the link between {@link ActivitySettings} and {@link com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager}
  */
-public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, ActivitySettingsBinding> implements IResult, INewIntent {
+public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, ActivitySettingsBinding> {
 
     public String TAG = ActivitySettingsVM.class.getSimpleName();
 
@@ -40,6 +36,8 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
     String accessToken;
 
     public ObservableBoolean showSpotifyConnect;
+
+    public ObservableBoolean showSoundCloudConnect;
 
     public ActivitySettingsVM(ActivitySettings activity, ActivitySettingsBinding binding) {
         super(activity, binding);
@@ -51,6 +49,8 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
     @Override
     public void init() {
         showSpotifyConnect = new ObservableBoolean(false);
+        showSoundCloudConnect = new ObservableBoolean(true);
+
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setTitle(R.string.action_settings);
         if (AppPrefs.getSpotifyAccessCode().equals("")) {
@@ -62,31 +62,16 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
 
 
     /***
-     * Manage the result code of Spotify
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        SpotifyManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    /***
-     * @param intent
-     */
-    @Override
-    public void onNewIntent(Intent intent) {
-        SpotifyManager.onNewIntent(intent);
-    }
-
-    /***
      * @param view
      */
     public void onButtonConnectClick(View view) {
+        String apiKey = activity.getString(R.string.api_spotify_id);
+        String redirect_uri = activity.getString(R.string.api_spotify_callback_web_view);
+        String baseUrl = activity.getString(R.string.spotify_web_view);
+        FragmentWebView fragmentWebView = FragmentWebView.newInstance(String.format(baseUrl, apiKey, redirect_uri, Scope.USER_READ_PRIVATE+"%20"+Scope.STREAMING));
 
-        SpotifyManager.loginWithBrowser(activity, Type.CODE, R.string.api_spotify_callback_settings, new String[]{Scope.USER_READ_PRIVATE, Scope.STREAMING}, new SpotifyManager.OAuthListener() {
+        fragmentWebView.show(activity.getSupportFragmentManager(), FragmentWebView.TAG);
+       /* SpotifyManager.loginWithBrowser(activity, Type.CODE, R.string.api_spotify_callback_settings, new String[]{Scope.USER_READ_PRIVATE, Scope.STREAMING}, new SpotifyManager.OAuthListener() {
             @Override
             public void onReceived(String code) {
                 accessCode = code;
@@ -98,8 +83,23 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
             public void onError(String error) {
                 Log.d(TAG, error);
             }
-        });
+        });*/
     }
+
+
+    /***
+     * @param view
+     */
+    public void onButtonSoundCloudConnect(View view) {
+
+        String apiKey = activity.getString(R.string.soundcloud_id);
+        String redirect_uri = activity.getString(R.string.api_soundcloud_callback);
+        String baseUrl = activity.getString(R.string.soundclound_web_view);
+        FragmentWebView fragmentWebView = FragmentWebView.newInstance(String.format(baseUrl, apiKey, redirect_uri));
+
+        fragmentWebView.show(activity.getSupportFragmentManager(), FragmentWebView.TAG);
+    }
+
 
     private void getTokenFromCode() {
         try {

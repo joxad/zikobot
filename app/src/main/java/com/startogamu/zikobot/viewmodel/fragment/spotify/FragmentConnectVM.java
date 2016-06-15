@@ -81,7 +81,7 @@ public class FragmentConnectVM extends FragmentBaseVM<FragmentSpotifyConnect, Fr
      * @param view
      */
     public void onButtonConnectClick(View view) {
-        SpotifyManager.loginWithBrowser(fragment.getActivity(), Type.CODE, R.string.api_spotify_callback_main,
+        SpotifyManager.loginWithBrowser(fragment.getActivity(), Type.CODE, R.string.api_spotify_callback_web_view,
                 new String[]{Scope.USER_READ_PRIVATE, Scope.STREAMING}, new SpotifyManager.OAuthListener() {
                     @Override
                     public void onReceived(String code) {
@@ -105,7 +105,7 @@ public class FragmentConnectVM extends FragmentBaseVM<FragmentSpotifyConnect, Fr
         try {
             Injector.INSTANCE.spotifyAuth().manager().requestToken(
                     new SpotifyRequestToken("authorization_code", accessCode,
-                            fragment.getString(R.string.api_spotify_callback_main),
+                            fragment.getString(R.string.api_spotify_callback_web_view),
                             fragment.getString(R.string.api_spotify_id),
                             fragment.getString(R.string.api_spotify_secret))).subscribe(new Subscriber<SpotifyToken>() {
                 @Override

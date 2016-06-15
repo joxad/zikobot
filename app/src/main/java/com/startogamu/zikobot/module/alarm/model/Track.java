@@ -10,6 +10,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 import com.raizlabs.android.dbflow.structure.container.ForeignKeyContainer;
 import com.startogamu.zikobot.core.db.MusicAlarmDatabase;
 import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
+import com.startogamu.zikobot.module.soundcloud.model.SoundCloudTrack;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyTrack;
 
 import org.parceler.Parcel;
@@ -80,6 +81,17 @@ public class Track extends BaseModel {
         return track;
     }
 
+
+    public static Track from(SoundCloudTrack soundCloudTrack) {
+        Track track = new Track();
+        track.setType(Track.TYPE.SOUNDCLOUD);
+        track.setRef(soundCloudTrack.getStreamURL() + "?client_id=c6cbaa6a6e431c11c4b0e6e0cffb4ff5");
+        track.setImageUrl(soundCloudTrack.getArtworkURL());
+        // track.setArtistName(soundCloudTrack.get);
+        track.setName(soundCloudTrack.getTitle());
+        return track;
+    }
+
     public void associateAlarm(Alarm alarm) {
         alarmForeignKeyContainer = FlowManager.getContainerAdapter(Alarm.class).toForeignKeyContainer(alarm);
     }
@@ -93,7 +105,7 @@ public class Track extends BaseModel {
         public static final int SPOTIFY = 0;
         public static final int DEEZER = 1;
         public static final int LOCAL = 2;
-
+        public static final int SOUNDCLOUD = 3;
     }
 
 }

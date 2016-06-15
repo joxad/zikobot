@@ -67,4 +67,6 @@
     <string name="album">album(s)</string>
     <string name="random_music">Mode aléatoire</string>
     <string name="volume_alarm">Volume</string>
+    <string name="SoundCloud">SoundCloud</string>
+    <string name="connect_with_SoundCloud">Me connecter avec SoundCloud</string>
 </resources>
