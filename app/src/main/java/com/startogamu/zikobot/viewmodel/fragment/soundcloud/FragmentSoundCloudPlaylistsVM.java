@@ -14,7 +14,7 @@ import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudPlaylists;
-import com.startogamu.zikobot.viewmodel.items.ItemSCPlaylistViewModel;
+import com.startogamu.zikobot.viewmodel.items.ItemSCPlaylistVM;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -26,7 +26,7 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundCloudPlaylists, FragmentSoundCloudPlaylistsBinding> {
 
     private static final String TAG = "FragmentSoundCloudPlaylistsVM";
-    public ObservableArrayList<ItemSCPlaylistViewModel> userPlaylists;
+    public ObservableArrayList<ItemSCPlaylistVM> userPlaylists;
     public ItemView itemPlaylist = ItemView.of(BR.playlistVM, R.layout.item_soundcloud_playlist);
 
     /***
@@ -64,7 +64,8 @@ public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundC
         Injector.INSTANCE.soundCloudApi().manager().userPlaylists(AppPrefs.soundCloudUser().getId()).subscribe(soundCloudPlaylists -> {
             userPlaylists.clear();
             for (SoundCloudPlaylist playlist : soundCloudPlaylists) {
-               userPlaylists.add(new ItemSCPlaylistViewModel(fragment.getContext(), playlist));
+                if (!playlist.getSoundCloudTracks().isEmpty())
+                    userPlaylists.add(new ItemSCPlaylistVM(fragment.getContext(), playlist));
             }
         }, throwable -> {
             Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();

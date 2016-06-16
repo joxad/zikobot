@@ -22,9 +22,9 @@ import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.receiver.ClearPlayerReceiver;
 import com.startogamu.zikobot.core.service.MediaPlayerService;
 import com.startogamu.zikobot.core.utils.AppPrefs;
+import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.Track;
-import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -161,17 +161,26 @@ public class PlayerMusicManager {
     Handler handler = new Handler();
     private boolean pauseToHandle = true;
 
+    boolean newTrack = true;
+
     /***
      * @param track
      */
     private void playTrack(final TrackVM track) {
         int i = 0;
+        newTrack = true;
         for (TrackVM t : tracks) {
             if (t.getModel().getRef().equals(track.getModel().getRef())) {
                 currentSong = i;
+                newTrack = false;
                 break;
             }
             i++;
+        }
+        if (newTrack) {
+            currentSong = 0;
+            tracks.clear();
+            tracks.add(track);
         }
         switch (track.getModel().getType()) {
             case Track.TYPE.LOCAL:

@@ -4,11 +4,14 @@ package com.startogamu.zikobot.module.soundcloud.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
 
+@Parcel
 @Data
 public class SoundCloudPlaylist {
 
@@ -72,7 +75,6 @@ public class SoundCloudPlaylist {
     @SerializedName("title")
     @Expose
     public String title;
-
     @SerializedName("license")
     @Expose
     public String license;

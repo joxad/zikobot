@@ -7,7 +7,7 @@
 
         <variable
             name="playlistVM"
-            type="com.startogamu.zikobot.viewmodel.items.ItemSCPlaylistViewModel" />
+            type="com.startogamu.zikobot.viewmodel.items.ItemSCPlaylistVM" />
     </data>
 
     <com.balysv.materialripple.MaterialRippleLayout

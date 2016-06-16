@@ -87,7 +87,7 @@ public class Track extends BaseModel {
         track.setType(Track.TYPE.SOUNDCLOUD);
         track.setRef(soundCloudTrack.getStreamUrl() + "?client_id=c6cbaa6a6e431c11c4b0e6e0cffb4ff5");
         track.setImageUrl(soundCloudTrack.getArtworkUrl());
-        // track.setArtistName(soundCloudTrack.get);
+        //track.setArtistName(soundCloudTrack.geta);
         track.setName(soundCloudTrack.getTitle());
         return track;
     }

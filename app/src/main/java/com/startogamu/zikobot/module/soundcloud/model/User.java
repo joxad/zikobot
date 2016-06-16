@@ -4,9 +4,13 @@ package com.startogamu.zikobot.module.soundcloud.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import lombok.Data;
 
-@Data public class User {
+@Parcel
+@Data
+public class User {
 
     @SerializedName("id")
     @Expose

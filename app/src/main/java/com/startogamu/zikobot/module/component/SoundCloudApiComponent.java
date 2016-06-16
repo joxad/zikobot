@@ -4,6 +4,7 @@ import com.startogamu.zikobot.module.soundcloud.SoundCloudApiBaseComponent;
 import com.startogamu.zikobot.module.soundcloud.SoundCloudApiModule;
 import com.startogamu.zikobot.viewmodel.activity.ActivitySettingsVM;
 import com.startogamu.zikobot.viewmodel.fragment.soundcloud.FragmentSoundCloudPlaylistsVM;
+import com.startogamu.zikobot.viewmodel.fragment.soundcloud.FragmentSoundCloudTracksVM;
 
 import javax.inject.Singleton;
 
@@ -18,4 +19,6 @@ public interface SoundCloudApiComponent extends SoundCloudApiBaseComponent {
     void inject(ActivitySettingsVM activitySettingsVM);
 
     void inject(FragmentSoundCloudPlaylistsVM fragmentSoundCloudPlaylistsVM);
+
+    void inject(FragmentSoundCloudTracksVM fragmentSoundCloudTracksVM);
 }

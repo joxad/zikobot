@@ -9,7 +9,7 @@ import com.startogamu.zikobot.module.spotify_api.model.Tracks;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 import com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel;
-import com.startogamu.zikobot.viewmodel.items.ItemSCPlaylistViewModel;
+import com.startogamu.zikobot.viewmodel.items.ItemSCPlaylistVM;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,10 +42,10 @@ public class Mock {
     }
 
 
-    public static ArrayList<ItemSCPlaylistViewModel> scPlaylists(Context context) {
-        ArrayList<ItemSCPlaylistViewModel> items = new ArrayList<>();
+    public static ArrayList<ItemSCPlaylistVM> scPlaylists(Context context) {
+        ArrayList<ItemSCPlaylistVM> items = new ArrayList<>();
         while (items.size() < 10) {
-            items.add(new ItemSCPlaylistViewModel(context, scPlaylist(context)));
+            items.add(new ItemSCPlaylistVM(context, scPlaylist(context)));
         }
         return items;
     }

@@ -37,6 +37,7 @@ import com.startogamu.zikobot.view.fragment.local.FragmentLocalPlaylists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
 import com.startogamu.zikobot.view.fragment.permission.FragmentPermission;
 import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudPlaylists;
+import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudTracks;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyAlbums;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyArtists;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
@@ -152,7 +153,7 @@ public class NavigationManager implements IFragmentManager, IPermission {
     @Subscribe
     public void onEvent(SelectSCItemPlaylistEvent selectItemPlaylistEvent) {
         SoundCloudPlaylist item = selectItemPlaylistEvent.getItem();
-        //replaceFragment(FragmentSound.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
+        replaceFragment(FragmentSoundCloudTracks.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
     }
 
     @Subscribe

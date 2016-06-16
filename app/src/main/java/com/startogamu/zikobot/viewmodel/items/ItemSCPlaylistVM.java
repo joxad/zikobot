@@ -15,14 +15,14 @@ import org.greenrobot.eventbus.EventBus;
 /***
  * ViewModel that will represent the playlist of a user on spotify
  */
-public class ItemSCPlaylistViewModel extends BaseVM<SoundCloudPlaylist> {
+public class ItemSCPlaylistVM extends BaseVM<SoundCloudPlaylist> {
 
 
     /***
      * @param context
      * @param model
      */
-    public ItemSCPlaylistViewModel(Context context, SoundCloudPlaylist model) {
+    public ItemSCPlaylistVM(Context context, SoundCloudPlaylist model) {
         super(context, model);
     }
 
@@ -49,7 +49,8 @@ public class ItemSCPlaylistViewModel extends BaseVM<SoundCloudPlaylist> {
 
     @Bindable
     public String getImageUrl() {
-        return model.getArtworkUrl();
+        if (model.getSoundCloudTracks().isEmpty()) return "";
+        return model.getSoundCloudTracks().get(0).getArtworkUrl();
     }
 
     @Bindable
