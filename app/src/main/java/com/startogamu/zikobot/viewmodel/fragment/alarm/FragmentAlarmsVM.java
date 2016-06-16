@@ -15,8 +15,8 @@ import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
-import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
-import com.startogamu.zikobot.module.alarm.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
+import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;

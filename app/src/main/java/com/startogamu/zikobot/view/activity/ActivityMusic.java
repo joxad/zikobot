@@ -10,7 +10,7 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.fragmentmanager.FragmentManager;
 import com.startogamu.zikobot.core.fragmentmanager.IFragmentManager;
 import com.startogamu.zikobot.databinding.ActivityMusicBinding;
-import com.startogamu.zikobot.module.alarm.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.viewmodel.activity.ActivityMusicVM;
 
 /**

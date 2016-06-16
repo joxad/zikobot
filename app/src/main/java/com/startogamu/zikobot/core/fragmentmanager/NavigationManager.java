@@ -22,10 +22,12 @@ import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerLocal;
 import com.startogamu.zikobot.core.event.navigation_manager.EventAccountSelect;
 import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
+import com.startogamu.zikobot.core.event.soundcloud.SelectSCItemPlaylistEvent;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
+import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
@@ -145,6 +147,12 @@ public class NavigationManager implements IFragmentManager, IPermission {
     public void onEvent(SelectItemPlaylistEvent selectItemPlaylistEvent) {
         Item item = selectItemPlaylistEvent.getItem();
         replaceFragment(FragmentSpotifyTracks.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
+    }
+
+    @Subscribe
+    public void onEvent(SelectSCItemPlaylistEvent selectItemPlaylistEvent) {
+        SoundCloudPlaylist item = selectItemPlaylistEvent.getItem();
+        //replaceFragment(FragmentSound.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
     }
 
     @Subscribe

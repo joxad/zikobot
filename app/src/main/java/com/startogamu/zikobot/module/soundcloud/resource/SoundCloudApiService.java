@@ -11,6 +11,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -20,10 +21,10 @@ import rx.Observable;
 public interface SoundCloudApiService {
 
     @GET("users/{id}/playlists")
-    Observable<ArrayList<SoundCloudPlaylist>> userPlaylists(@Query("id") final long userId);
+    Observable<ArrayList<SoundCloudPlaylist>> userPlaylists(@Path("id") final long userId);
 
     @GET("users/{id}/tracks")
-    Observable<ArrayList<SoundCloudTrack>> userTracks(@Query("id") final long userId);
+    Observable<ArrayList<SoundCloudTrack>> userTracks(@Path("id") final long userId);
 
     @FormUrlEncoded
     @POST("oauth2/token")

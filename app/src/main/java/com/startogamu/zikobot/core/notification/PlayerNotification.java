@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.NotificationTarget;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.receiver.ClearPlayerReceiver;
-import com.startogamu.zikobot.module.alarm.model.Track;
+import com.startogamu.zikobot.module.zikobot.model.Track;
 
 /**
  * Created by josh on 13/06/16.

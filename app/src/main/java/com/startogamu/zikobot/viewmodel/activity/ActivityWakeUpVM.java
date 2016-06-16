@@ -12,7 +12,7 @@ import com.startogamu.zikobot.core.event.TrackChangeEvent;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AnimationEndListener;
 import com.startogamu.zikobot.databinding.ActivityWakeUpBinding;
-import com.startogamu.zikobot.module.alarm.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.view.activity.ActivityWakeUp;

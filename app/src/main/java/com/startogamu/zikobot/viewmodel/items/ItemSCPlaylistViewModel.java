@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
-import com.startogamu.zikobot.module.spotify_api.model.Item;
+import com.startogamu.zikobot.core.event.soundcloud.SelectSCItemPlaylistEvent;
+import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -15,14 +15,14 @@ import org.greenrobot.eventbus.EventBus;
 /***
  * ViewModel that will represent the playlist of a user on spotify
  */
-public class ItemPlaylistViewModel extends BaseVM<Item> {
+public class ItemSCPlaylistViewModel extends BaseVM<SoundCloudPlaylist> {
 
 
     /***
      * @param context
      * @param model
      */
-    public ItemPlaylistViewModel(Context context,  Item model) {
+    public ItemSCPlaylistViewModel(Context context, SoundCloudPlaylist model) {
         super(context, model);
     }
 
@@ -37,27 +37,25 @@ public class ItemPlaylistViewModel extends BaseVM<Item> {
      * @param view
      */
     public void onItemClick(View view) {
-        EventBus.getDefault().post(new SelectItemPlaylistEvent(model));
+        EventBus.getDefault().post(new SelectSCItemPlaylistEvent(model));
     }
 
 
     @Bindable
     public String getName() {
-        return model.getName();
+        return model.getTitle();
     }
 
 
     @Bindable
     public String getImageUrl() {
-        if (model.getImages() != null && model.getImages().size() > 0)
-            return model.getImages().get(0).getUrl();
-        return "";
+        return model.getArtworkUrl();
     }
 
     @Bindable
     public String getNbSongs() {
         return String.format(context.getString(R.string.playlist_total_tracks),
-                model.tracks.total);
+                model.getTrackCount());
     }
 
 

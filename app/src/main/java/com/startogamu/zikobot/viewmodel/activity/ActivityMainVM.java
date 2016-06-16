@@ -11,7 +11,6 @@ import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.joxad.easydatabinding.activity.IResult;
-import com.mikepenz.materialdrawer.AccountHeader;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.core.event.EventFabClicked;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;

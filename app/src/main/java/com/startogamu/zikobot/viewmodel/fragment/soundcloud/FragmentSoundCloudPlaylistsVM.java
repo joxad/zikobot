@@ -8,12 +8,13 @@ import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
+import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentSoundCloudPlaylistsBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
-import com.startogamu.zikobot.module.spotify_api.model.Item;
+import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudPlaylists;
-import com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel;
+import com.startogamu.zikobot.viewmodel.items.ItemSCPlaylistViewModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -24,9 +25,9 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundCloudPlaylists, FragmentSoundCloudPlaylistsBinding> {
 
-    private static final String TAG = "FragmentSpotifyPlaylists";
-    public ObservableArrayList<ItemPlaylistViewModel> userPlaylists;
-    public ItemView itemPlaylist = ItemView.of(BR.playlistVM, R.layout.item_playlist);
+    private static final String TAG = "FragmentSoundCloudPlaylistsVM";
+    public ObservableArrayList<ItemSCPlaylistViewModel> userPlaylists;
+    public ItemView itemPlaylist = ItemView.of(BR.playlistVM, R.layout.item_soundcloud_playlist);
 
     /***
      * View model use to get the playlist of the user
@@ -40,6 +41,7 @@ public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundC
 
     @Override
     public void init() {
+        Injector.INSTANCE.soundCloudApi().inject(this);
         userPlaylists = new ObservableArrayList<>();
     }
 
@@ -58,11 +60,11 @@ public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundC
      */
     private void loadUserPlaylist() {
         userPlaylists.clear();
-        userPlaylists.addAll(Mock.playlists(fragment.getContext()));
-        Injector.INSTANCE.spotifyApi().manager().getUserPlaylists().subscribe(spotifyPlaylist -> {
+        userPlaylists.addAll(Mock.scPlaylists(fragment.getContext()));
+        Injector.INSTANCE.soundCloudApi().manager().userPlaylists(AppPrefs.soundCloudUser().getId()).subscribe(soundCloudPlaylists -> {
             userPlaylists.clear();
-            for (Item playlist : spotifyPlaylist.getItems()) {
-                userPlaylists.add(new ItemPlaylistViewModel(fragment.getContext(), playlist));
+            for (SoundCloudPlaylist playlist : soundCloudPlaylists) {
+               userPlaylists.add(new ItemSCPlaylistViewModel(fragment.getContext(), playlist));
             }
         }, throwable -> {
             Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();

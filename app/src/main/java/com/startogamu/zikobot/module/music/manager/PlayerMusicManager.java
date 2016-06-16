@@ -22,8 +22,8 @@ import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.receiver.ClearPlayerReceiver;
 import com.startogamu.zikobot.core.service.MediaPlayerService;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.module.alarm.model.Alarm;
-import com.startogamu.zikobot.module.alarm.model.Track;
+import com.startogamu.zikobot.module.zikobot.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 

@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.alarm.model;
+package com.startogamu.zikobot.module.zikobot.model;
 
 
 import com.raizlabs.android.dbflow.annotation.Column;

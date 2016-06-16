@@ -1,11 +1,11 @@
-package com.startogamu.zikobot.module.alarm.manager;
+package com.startogamu.zikobot.module.zikobot.manager;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
-import com.startogamu.zikobot.module.alarm.model.Alarm;
-import com.startogamu.zikobot.module.alarm.model.Track;
-import com.startogamu.zikobot.module.alarm.model.Track_Table;
-import com.startogamu.zikobot.module.alarm.model.Alarm_Table;
+import com.startogamu.zikobot.module.zikobot.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.module.zikobot.model.Track_Table;
+import com.startogamu.zikobot.module.zikobot.model.Alarm_Table;
 
 import java.util.Calendar;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.startogamu.zikobot.core.event;
 
-import com.startogamu.zikobot.module.alarm.model.Track;
+import com.startogamu.zikobot.module.zikobot.model.Track;
 
 import lombok.Data;
 

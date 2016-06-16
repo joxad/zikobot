@@ -1,6 +1,5 @@
 package com.startogamu.zikobot.viewmodel.activity;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +22,7 @@ import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.SimpleSeekBarListener;
 import com.startogamu.zikobot.databinding.ActivityAlarmBinding;
-import com.startogamu.zikobot.module.alarm.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityAlarm;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;

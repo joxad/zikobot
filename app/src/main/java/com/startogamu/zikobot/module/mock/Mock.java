@@ -3,11 +3,13 @@ package com.startogamu.zikobot.module.mock;
 import android.content.Context;
 
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.module.alarm.model.Track;
+import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.module.spotify_api.model.Tracks;
+import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 import com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel;
+import com.startogamu.zikobot.viewmodel.items.ItemSCPlaylistViewModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +18,12 @@ import java.util.Collection;
  * Created by josh on 03/06/16.
  */
 public class Mock {
+
+    public static SoundCloudPlaylist scPlaylist(Context context) {
+        SoundCloudPlaylist soundCloudPlaylist = new SoundCloudPlaylist();
+        soundCloudPlaylist.setTitle(context.getString(R.string.loading));
+        return soundCloudPlaylist;
+    }
 
     public static Item playlist(Context context) {
         Item spotifyPlaylist = new Item();
@@ -33,6 +41,15 @@ public class Mock {
         return items;
     }
 
+
+    public static ArrayList<ItemSCPlaylistViewModel> scPlaylists(Context context) {
+        ArrayList<ItemSCPlaylistViewModel> items = new ArrayList<>();
+        while (items.size() < 10) {
+            items.add(new ItemSCPlaylistViewModel(context, scPlaylist(context)));
+        }
+        return items;
+    }
+
     public static Collection<? extends TrackVM> tracks(Context context, int number) {
 
         ArrayList<TrackVM> items = new ArrayList<>();
@@ -43,7 +60,6 @@ public class Mock {
     }
 
     /**
-     *
      * @param context
      * @return
      */

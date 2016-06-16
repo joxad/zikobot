@@ -4,7 +4,7 @@ import com.raizlabs.android.dbflow.annotation.Database;
 import com.raizlabs.android.dbflow.annotation.Migration;
 import com.raizlabs.android.dbflow.sql.SQLiteType;
 import com.raizlabs.android.dbflow.sql.migration.AlterTableMigration;
-import com.startogamu.zikobot.module.alarm.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.model.Alarm;
 
 @Database(name = MusicAlarmDatabase.NAME, version = MusicAlarmDatabase.VERSION)
 public class MusicAlarmDatabase {

@@ -13,9 +13,9 @@ import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
-import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
-import com.startogamu.zikobot.module.alarm.model.Alarm;
-import com.startogamu.zikobot.module.alarm.model.Track;
+import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
+import com.startogamu.zikobot.module.zikobot.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.view.Henson;
 
 import me.tatarka.bindingcollectionadapter.ItemView;

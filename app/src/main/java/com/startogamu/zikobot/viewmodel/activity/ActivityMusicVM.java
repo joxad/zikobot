@@ -1,7 +1,6 @@
 package com.startogamu.zikobot.viewmodel.activity;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -21,17 +20,14 @@ import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.core.event.LocalArtistSelectEvent;
 import com.startogamu.zikobot.core.event.SelectAllTracks;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
-import com.startogamu.zikobot.core.event.permission.EventPermission;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.ActivityMusicBinding;
-import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
-import com.startogamu.zikobot.module.alarm.manager.AlarmTrackManager;
-import com.startogamu.zikobot.module.alarm.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
+import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
+import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
-import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityMusic;
 import com.startogamu.zikobot.view.fragment.deezer.DeezerFragment;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;

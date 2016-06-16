@@ -6,8 +6,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.startogamu.zikobot.core.utils.EXTRA;
-import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
-import com.startogamu.zikobot.module.alarm.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
+import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.view.Henson;
 
 /**

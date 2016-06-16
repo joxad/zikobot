@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
-import com.startogamu.zikobot.module.alarm.manager.AlarmTrackManager;
-import com.startogamu.zikobot.module.alarm.model.Track;
+import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
+import com.startogamu.zikobot.module.zikobot.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
 
