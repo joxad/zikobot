@@ -54,6 +54,7 @@ public class PlayerMusicManager {
     private boolean isPlaying = false;
 
     ClearPlayerReceiver clearPlayerReceiver;
+
     /***
      * @param context
      */
@@ -184,6 +185,11 @@ public class PlayerMusicManager {
                 mediaPlayerService.stop();
                 SpotifyPlayerManager.play(track.getModel().getRef());
                 break;
+            case Track.TYPE.SOUNDCLOUD:
+                SpotifyPlayerManager.pause();
+                SpotifyPlayerManager.clear();
+                mediaPlayerService.playUrlSong(track.getModel().getRef());
+                break;
         }
         EventBus.getDefault().post(new TrackChangeEvent(track.getModel()));
         PlayerNotification.show(track.getModel());
@@ -299,6 +305,7 @@ public class PlayerMusicManager {
         PlayerNotification.cancel();
         stop();
     }
+
     public boolean isPlaying() {
         return isPlaying;
     }

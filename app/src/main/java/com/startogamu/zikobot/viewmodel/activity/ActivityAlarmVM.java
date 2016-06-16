@@ -255,7 +255,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         calendar.set(Calendar.MILLISECOND, 0);
         if (binding.viewAlarm.swRepeat.isChecked()) {
             alarmMgr.setRepeating(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY, alarmIntent);
+                    30000, alarmIntent);
         } else {
             alarmMgr.set(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
 

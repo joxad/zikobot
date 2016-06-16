@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import
+            alias="v"
+            type="android.view.View" />
+
+        
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+
+        <variable
+            name="itemPlaylistViewModel"
+            type="com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel" />
+
+        <variable
+            name="fragmentSoundCloudPlaylistsVM"
+            type="com.startogamu.zikobot.viewmodel.fragment.soundcloud.FragmentSoundCloudPlaylistsVM" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
+            android:id="@+id/rv_items"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/grid_animation"
+            android:paddingBottom="@dimen/actionBarSize"
+            app:itemView="@{fragmentSoundCloudPlaylistsVM.itemPlaylist}"
+            app:items="@{fragmentSoundCloudPlaylistsVM.userPlaylists}"
+            app:layoutManager="@{LayoutManagers.grid(1)}"
+            tools:listitem="@layout/item_playlist" />
+
+
+    </RelativeLayout>
+</layout>

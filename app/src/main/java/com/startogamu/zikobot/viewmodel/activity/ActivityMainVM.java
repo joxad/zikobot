@@ -130,7 +130,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        navigationManager.onActivityResult(requestCode, resultCode, data);
     }
 
     /***
@@ -138,7 +137,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      */
     @Override
     public void onNewIntent(Intent intent) {
-        navigationManager.onNewIntent(intent);
     }
 
 

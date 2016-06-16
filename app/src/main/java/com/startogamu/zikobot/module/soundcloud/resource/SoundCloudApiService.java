@@ -1,5 +1,6 @@
 package com.startogamu.zikobot.module.soundcloud.resource;
 
+import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudToken;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudTrack;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudUser;
@@ -18,6 +19,8 @@ import rx.Observable;
  */
 public interface SoundCloudApiService {
 
+    @GET("users/{id}/playlists")
+    Observable<ArrayList<SoundCloudPlaylist>> userPlaylists(@Query("id") final long userId);
 
     @GET("users/{id}/tracks")
     Observable<ArrayList<SoundCloudTrack>> userTracks(@Query("id") final long userId);

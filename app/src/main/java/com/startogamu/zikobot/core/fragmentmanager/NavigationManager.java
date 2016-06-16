@@ -1,6 +1,5 @@
 package com.startogamu.zikobot.core.fragmentmanager;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,9 +10,7 @@ import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.bumptech.glide.Glide;
-import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
-import com.joxad.easydatabinding.activity.IResult;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.startogamu.zikobot.R;
@@ -22,9 +19,9 @@ import com.startogamu.zikobot.core.event.LocalArtistSelectEvent;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAlarms;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerLocal;
+import com.startogamu.zikobot.core.event.navigation_manager.EventAccountSelect;
 import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
-import com.startogamu.zikobot.core.event.permission.EventPermission;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
@@ -37,6 +34,7 @@ import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalPlaylists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
 import com.startogamu.zikobot.view.fragment.permission.FragmentPermission;
+import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudPlaylists;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyAlbums;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyArtists;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
@@ -52,10 +50,10 @@ import lombok.Data;
  * Created by josh on 10/06/16.
  */
 @Data
-public class NavigationManager implements IFragmentManager, IResult, INewIntent, IPermission {
+public class NavigationManager implements IFragmentManager, IPermission {
 
 
-    public enum Account {local, spotify, deezer}
+    public enum Account {local, spotify, deezer, soundcloud}
 
     private Account current = Account.local;
 
@@ -73,19 +71,42 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
      * Show the fragment of local playlist tracks (user has to create them)
      */
     public void showLocals() {
-        current = Account.local;
         initTabLayoutTracks();
         replaceFragment(FragmentLocalPlaylists.newInstance(), true, false);
+    }
+
+    @Subscribe
+    public void onEvent(EventAccountSelect eventAccountSelect) {
+        current = eventAccountSelect.getAccount();
+        switch (current) {
+            case spotify:
+                showSpotifys();
+                break;
+            case soundcloud:
+                showSoundClouds();
+                break;
+            case local:
+                showLocals();
+                break;
+        }
     }
 
     /****
      * filter on spotify playlists
      */
     public void showSpotifys() {
-        current = Account.spotify;
         initTabLayoutTracks();
         replaceFragment(FragmentSpotifyPlaylists.newInstance(), true, false);
     }
+
+    /****
+     * filter on spotify playlists
+     */
+    public void showSoundClouds() {
+        initTabLayoutTracks();
+        replaceFragment(FragmentSoundCloudPlaylists.newInstance(), true, false);
+    }
+
 
     /***
      * filter on the alarms
@@ -119,7 +140,6 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
         initTabLayoutAlarms();
         replaceFragment(FragmentAlarms.newInstance(), true, false);
     }
-
 
     @Subscribe
     public void onEvent(SelectItemPlaylistEvent selectItemPlaylistEvent) {
@@ -179,6 +199,8 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
                         case spotify:
                             fragment = FragmentSpotifyPlaylists.newInstance();
                             break;
+                        case soundcloud:
+                            fragment = FragmentSoundCloudPlaylists.newInstance();
                     }
                     break;
                 case TabLayoutManager.TAB_ARTIST:
@@ -220,46 +242,39 @@ public class NavigationManager implements IFragmentManager, IResult, INewIntent,
 
 
     @Override
-    public void onNewIntent(Intent intent) {
-
-    }
-
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST.PERMISSION_STORAGE_ALBUM:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    replaceFragment(FragmentLocalAlbums.newInstance(null),false,true);
+                    replaceFragment(FragmentLocalAlbums.newInstance(null), false, true);
                 } else {
                     replaceFragment(FragmentPermission.newInstance(activity.getString(R.string.permission_local), REQUEST.PERMISSION_STORAGE_ALBUM), false, false);
                 }
                 break;
             case REQUEST.PERMISSION_STORAGE_ARTIST:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    replaceFragment(FragmentLocalArtists.newInstance(),false,true);
+                    replaceFragment(FragmentLocalArtists.newInstance(), false, true);
                 } else {
                     replaceFragment(FragmentPermission.newInstance(activity.getString(R.string.permission_local), REQUEST.PERMISSION_STORAGE_ARTIST), false, false);
                 }
                 break;
             case REQUEST.PERMISSION_STORAGE_TRACKS:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    replaceFragment(FragmentLocalTracks.newInstance(null, BR.trackVM, R.layout.item_track),false,false);
+                    replaceFragment(FragmentLocalTracks.newInstance(null, BR.trackVM, R.layout.item_track), false, false);
                 } else {
                     replaceFragment(FragmentPermission.newInstance(activity.getString(R.string.permission_local), REQUEST.PERMISSION_STORAGE_TRACKS), false, false);
-                }break;
+                }
+                break;
             case REQUEST.PERMISSION_STORAGE_PLAYLIST:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    replaceFragment(FragmentLocalPlaylists.newInstance(),false,true);
+                    replaceFragment(FragmentLocalPlaylists.newInstance(), false, true);
                 } else {
                     replaceFragment(FragmentPermission.newInstance(activity.getString(R.string.permission_local), REQUEST.PERMISSION_STORAGE_PLAYLIST), false, false);
-                }break;
+                }
+                break;
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-    }
 
     @Override
     public void addFragment(Fragment fragment, boolean withBackstack) {

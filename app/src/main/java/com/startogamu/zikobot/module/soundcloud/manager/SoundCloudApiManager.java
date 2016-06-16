@@ -2,6 +2,7 @@ package com.startogamu.zikobot.module.soundcloud.manager;
 
 import android.content.Context;
 
+import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudToken;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudTrack;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudUser;
@@ -43,6 +44,19 @@ public class SoundCloudApiManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
+
+
+    /***
+     *
+     * @param id
+     * @return
+     */
+    public Observable<ArrayList<SoundCloudPlaylist>> userPlaylists(final long id) {
+        return soundCloudApiService.userPlaylists(id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
+
 
 
     /***

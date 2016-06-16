@@ -9,6 +9,7 @@ import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.core.event.TrackChangeEvent;
+import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AnimationEndListener;
 import com.startogamu.zikobot.databinding.ActivityWakeUpBinding;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
@@ -82,11 +83,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         trackVM.updateTrack(trackChangeEvent.getTrack());
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
 
     /***
      * We refresh the token of spotify to be sure
@@ -95,8 +91,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         try {
             Injector.INSTANCE.spotifyAuth().manager().refreshToken(activity, () -> {
                 Injector.INSTANCE.playerComponent().manager().refreshAccessTokenPlayer();
-
-
             });
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -128,6 +122,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      */
     public void stop(View view) {
         Injector.INSTANCE.playerComponent().manager().stop();
+        PlayerNotification.cancel();
         activity.finish();
     }
 

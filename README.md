@@ -12,7 +12,7 @@ https://trello.com/b/KY74S25F/zikobot
 
 # Current Version
 
-1.0.0-RC3
+1.0.0-RC8
 
 # How to Install
 
@@ -28,7 +28,18 @@ jdk.dir=/usr/lib/jvm/java-8-openjdk-amd64
 ```
 # Goals
 
-This project is an open source alarm which will be on the PlayStore.
+Zikobot is first an application on music.
+
+The main goal is the play it on different support :
+
+- Local
+- Spotify
+- Soundcloud
+- Deezer
+....
+
+The second  is to create alarms with the different players / account of the user.
+
 I wanted to test different techn that are going to me amazing (or not), or which are already.
 So this project is a opportunity to make a clean architecture of a project, which regroups DB data + WebServices + Scheduled Tasks
 

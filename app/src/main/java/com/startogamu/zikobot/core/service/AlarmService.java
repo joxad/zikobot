@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.module.alarm.manager.AlarmManager;
 import com.startogamu.zikobot.module.alarm.model.Alarm;
-import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.view.Henson;
 
 /**
@@ -33,7 +32,7 @@ public class AlarmService extends Service {
         AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
             if (AlarmManager.canStart(alarm)) {
                 AlarmService.this.alarm = alarm;
-                if (alarm.getRepeated()==0) {
+                if (alarm.getRepeated() == 0) {
                     alarm.setActive(0);
                     alarm.save();
                 }
@@ -44,15 +43,6 @@ public class AlarmService extends Service {
         return Service.START_NOT_STICKY;
     }
 
-
-
-
-    /***
-     *
-     */
-    private void stop() {
-        Injector.INSTANCE.playerComponent().manager().stop();
-    }
 
     @Nullable
     @Override
