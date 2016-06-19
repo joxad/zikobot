@@ -15,7 +15,6 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.navigation_manager.EventAccountSelect;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
-import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudUser;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
 import com.startogamu.zikobot.view.Henson;
@@ -31,16 +30,17 @@ import lombok.Data;
  */
 @Data
 public class DrawerManager {
-
+    protected ProfileDrawerItem itemLocal;
     protected ProfileDrawerItem itemSpotify;
     protected ProfileDrawerItem itemSoundCloud;
-
+    private ProfileDrawerItem itemAddAccount;
     private Drawer drawer;
 
     private final ActivityMain activity;
     private final ActivityMainVM activityMainVM;
     private final ActivityMainBinding binding;
     private AccountHeader accountHeader;
+
 
     /***
      * Initialise the drawer manager
@@ -79,38 +79,23 @@ public class DrawerManager {
      * Init the account manager header
      */
     private void initAccountHeader() {
-        ProfileDrawerItem itemLocal = new ProfileDrawerItem().withName(activity.getString(R.string.activity_music_local))
+        itemLocal = new ProfileDrawerItem().withName(activity.getString(R.string.activity_music_local))
                 .withIcon(ContextCompat.getDrawable(activity, R.drawable.shape_album));
 
-        ProfileDrawerItem itemAddAccount = new ProfileDrawerItem().withName(activity.getString(R.string.drawer_account_add))
+        itemAddAccount = new ProfileDrawerItem().withName(activity.getString(R.string.drawer_account_add)).withSelectable(false)
                 .withIcon(ContextCompat.getDrawable(activity, R.drawable.ic_add));
         accountHeader = new AccountHeaderBuilder()
                 .withActivity(activity)
                 .withHeaderBackground(R.drawable.header)
                 .withCurrentProfileHiddenInList(true)
+                .withAlternativeProfileHeaderSwitching(true)
+                .withOnAccountHeaderSelectionViewClickListener((view, profile) -> profileSelected(profile))
+                .withOnAccountHeaderListener((view, profile, current) -> profileSelected(profile))
                 .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
                     @Override
                     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-                        if (profile.getIdentifier() == itemLocal.getIdentifier()) {
-                            EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.local));
-                            return false;
-                        } else if (profile.getIdentifier() == itemAddAccount.getIdentifier()) {
-                            activity.startActivity(Henson.with(activity).gotoActivitySettings().build());
-                            return true;
-                        }
-                        if (itemSpotify != null) {
-                            if (profile.getIdentifier() == itemSpotify.getIdentifier()) {
-                                EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.spotify));
-                            }
-                            return false;
-                        }
-                        if (itemSoundCloud != null) {
-                            if (profile.getIdentifier() == itemSoundCloud.getIdentifier()) {
-                                EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.soundcloud));
-                            }
-                            return false;
-                        }
-                        return false;
+                        return profileSelected(profile);
+
                     }
 
                     @Override
@@ -119,8 +104,32 @@ public class DrawerManager {
                     }
                 })
                 .addProfiles(itemLocal, itemAddAccount)
-                .withOnAccountHeaderListener((view, profile, currentProfile) -> false)
                 .build();
+    }
+
+    private boolean profileSelected(IProfile profile) {
+        if (profile.getIdentifier() == itemLocal.getIdentifier()) {
+            EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.local));
+            return false;
+        } else if (profile.getIdentifier() == itemAddAccount.getIdentifier()) {
+            activity.startActivity(Henson.with(activity).gotoActivitySettings().build());
+            return true;
+        }
+        if (itemSpotify != null) {
+            if (profile.getIdentifier() == itemSpotify.getIdentifier()) {
+                EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.spotify));
+                return false;
+            }
+        }
+        if (itemSoundCloud != null) {
+            if (profile.getIdentifier() == itemSoundCloud.getIdentifier()) {
+                EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.soundcloud));
+                return false;
+
+            }
+
+        }
+        return false;
     }
 
     /***
