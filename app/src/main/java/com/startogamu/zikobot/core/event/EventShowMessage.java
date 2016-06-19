@@ -7,5 +7,6 @@ import lombok.Data;
  */
 @Data
 public class EventShowMessage {
+    private final String title;
     private final String string;
 }

@@ -22,7 +22,7 @@ public class ItemPlaylistViewModel extends BaseVM<Item> {
      * @param context
      * @param model
      */
-    public ItemPlaylistViewModel(Context context,  Item model) {
+    public ItemPlaylistViewModel(Context context, Item model) {
         super(context, model);
     }
 
@@ -37,7 +37,8 @@ public class ItemPlaylistViewModel extends BaseVM<Item> {
      * @param view
      */
     public void onItemClick(View view) {
-        EventBus.getDefault().post(new SelectItemPlaylistEvent(model));
+        if (model.getId() != null)
+            EventBus.getDefault().post(new SelectItemPlaylistEvent(model));
     }
 
 

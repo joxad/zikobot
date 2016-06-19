@@ -3,9 +3,8 @@ package com.startogamu.zikobot.viewmodel.activity;
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -42,6 +41,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     public DrawerManager drawerManager;
     public PlayerVM playerVM;
     public ObservableBoolean fabVisible, tabLayoutVisible;
+    private AlertDialog alertDialog;
 
     /***
      * @param activity
@@ -120,10 +120,14 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Subscribe
     public void onEvent(EventShowMessage event) {
-        Snackbar snack = Snackbar.make(binding.container, event.getString(), Snackbar.LENGTH_LONG);
-        View snackView = snack.getView();
-        snackView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorAccent));
-        snack.show();
+        if (alertDialog != null && alertDialog.isShowing())
+            return;
+        alertDialog = new AlertDialog.Builder(activity)
+                .setIcon(R.mipmap.ic_launcher)
+                .setTitle(event.getTitle())
+                .setMessage(event.getString())
+                .create();
+        alertDialog.show();
     }
 
     /***

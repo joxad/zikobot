@@ -74,4 +74,6 @@
     <string name="drawer_account">Mes comptes</string>
     <string name="account_type">Type de compte :</string>
     <string name="no_premium">Désolé, tu n\'as pas de compte Premium... je ne peux utiliser Spotify sans cela :(</string>
+    <string name="oops">Oops</string>
+    <string name="no_m4a_support">Désolé je ne supporte pas encore ce format :(</string>
 </resources>

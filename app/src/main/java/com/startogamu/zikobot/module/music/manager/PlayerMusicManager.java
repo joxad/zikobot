@@ -14,6 +14,7 @@ import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.event.TrackChangeEvent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
@@ -201,6 +202,7 @@ public class PlayerMusicManager {
                 mediaPlayerService.playUrlSong(track.getModel().getRef());
                 break;
         }
+        isPlaying = true;
         EventBus.getDefault().post(new TrackChangeEvent(track.getModel()));
         PlayerNotification.show(track.getModel());
 
@@ -297,8 +299,23 @@ public class PlayerMusicManager {
 
     @Subscribe
     public void onReceive(EventPlayTrack eventPlayTrack) {
-        isPlaying = true;
-        playTrack(eventPlayTrack.getTrack());
+        if (trackIsPlayable(eventPlayTrack.getTrack().getModel())) {
+            playTrack(eventPlayTrack.getTrack());
+        }
+    }
+
+    private boolean trackIsPlayable(Track model) {
+        if (model.getType() == TYPE.SPOTIFY) {
+            if (!AppPrefs.spotifyUser().getProduct().equalsIgnoreCase("premium")) {
+                EventBus.getDefault().post(new EventShowMessage(context.getString(R.string.oops), context.getString(R.string.no_premium)));
+                return false;
+            }
+        }
+        if (model.getRef().contains(".m4a")) {
+            EventBus.getDefault().post(new EventShowMessage(context.getString(R.string.oops), context.getString(R.string.no_m4a_support)));
+            return false;
+        }
+        return true;
     }
 
 
@@ -306,6 +323,11 @@ public class PlayerMusicManager {
     public void onReceive(EventAddTrackToPlayer eventAddTrackToPlayer) {
         tracks.clear();
         tracks.addAll(eventAddTrackToPlayer.getItems());
+        for (int i = tracks.size() - 1; i >= 0; i--) {
+            if (!trackIsPlayable(tracks.get(i).getModel())) {
+                tracks.remove(i);
+            }
+        }
         isPlaying = true;
         playTracks();
     }

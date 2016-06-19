@@ -117,6 +117,7 @@
             layout="@layout/view_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
             android:background="@android:drawable/dialog_holo_light_frame"
             app:behavior_peekHeight="@dimen/playerHeight"
             app:layout_behavior="@string/bottom_sheet_behavior"
