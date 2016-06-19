@@ -42,10 +42,10 @@
 
                 <RelativeLayout
                     android:id="@+id/rl_toolbar_image"
-                    app:layout_collapseMode="parallax"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:fitsSystemWindows="true"
-                    android:layout_height="wrap_content">
+                    app:layout_collapseMode="parallax">
 
                     <ImageView
                         android:id="@+id/iv_toolbar"
@@ -111,17 +111,6 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:onClick="@{activityMainVM.fabClicked}"
-            android:src="@drawable/ic_add"
-            android:visibility="@{activityMainVM.fabVisible ? v.VISIBLE: v.GONE}"
-            app:layout_anchor="@id/toolbar"
-            app:layout_anchorGravity="bottom|right|end" />
 
         <include
             android:id="@+id/view_player"
@@ -133,6 +122,19 @@
             app:layout_behavior="@string/bottom_sheet_behavior"
             app:playerVM="@{activityMainVM.playerVM}" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="72dp"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:onClick="@{activityMainVM.fabClicked}"
+            android:src="@drawable/ic_add"
+            android:visibility="@{activityMainVM.fabVisible ? v.VISIBLE: v.GONE}"
+            app:layout_anchor="@id/view_player"
+            app:layout_anchorGravity="bottom|end|right" />
 
     </android.support.design.widget.CoordinatorLayout>
 

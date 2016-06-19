@@ -2,11 +2,20 @@ package com.startogamu.zikobot.viewmodel.base;
 
 import android.content.Context;
 import android.databinding.Bindable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.joxad.easydatabinding.base.BaseVM;
+import com.mikepenz.iconics.utils.Utils;
+import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
+import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
+import com.startogamu.zikobot.module.zikobot.model.TYPE;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
@@ -68,9 +77,16 @@ public class TrackVM extends BaseVM<Track> {
 
     /***
      * Event called when we want to play a song
+     *
      * @param view
      */
     public void onTrackPlay(View view) {
+        if (model.getType() == TYPE.SPOTIFY) {
+            if (!AppPrefs.spotifyUser().getProduct().equalsIgnoreCase("premium")) {
+                EventBus.getDefault().post(new EventShowMessage(context.getString(R.string.no_premium)));
+                return;
+            }
+        }
         EventBus.getDefault().post(new EventPlayTrack(this));
     }
 
@@ -83,6 +99,7 @@ public class TrackVM extends BaseVM<Track> {
 
     /**
      * {@link }
+     *
      * @param track
      */
     public void updateTrack(Track track) {

@@ -50,12 +50,14 @@ public class DrawerManager {
 
         PrimaryDrawerItem music = new PrimaryDrawerItem().withName(R.string.drawer_filter_music).withIcon(R.drawable.ic_music_wave).withSelectedIcon(R.drawable.ic_music_wave_selected);
         PrimaryDrawerItem alarm = new PrimaryDrawerItem().withName(R.string.drawer_alarms).withIcon(R.drawable.ic_alarm).withSelectedIcon(R.drawable.ic_alarm_selected);
+        PrimaryDrawerItem accounts = new PrimaryDrawerItem().withName(R.string.drawer_account).withSelectable(false);
+
         PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withSelectable(false);
         drawer = new DrawerBuilder()
                 .withActivity(activity)
                 .withAccountHeader(accountHeader)
                 .withToolbar(binding.toolbar)
-                .addDrawerItems(music, alarm, about)
+                .addDrawerItems(music, alarm,accounts, about)
                 .build();
 
         drawer.setOnDrawerItemClickListener((view, position, drawerItem) -> {
@@ -66,6 +68,8 @@ public class DrawerManager {
                 activityMainVM.navigationManager.showLocals();
             } else if (drawerId == about.getIdentifier()) {
                 activityMainVM.navigationManager.showAbout();
+            } else if (drawerId ==accounts.getIdentifier()){
+                activity.startActivity(Henson.with(activity).gotoActivitySettings().build());
             }
             return false;
         });
@@ -88,7 +92,6 @@ public class DrawerManager {
                 .withActivity(activity)
                 .withHeaderBackground(R.drawable.header)
                 .withCurrentProfileHiddenInList(true)
-                .withAlternativeProfileHeaderSwitching(true)
                 .withOnAccountHeaderSelectionViewClickListener((view, profile) -> profileSelected(profile))
                 .withOnAccountHeaderListener((view, profile, current) -> profileSelected(profile))
                 .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
@@ -108,21 +111,21 @@ public class DrawerManager {
     }
 
     private boolean profileSelected(IProfile profile) {
-        if (profile.getIdentifier() == itemLocal.getIdentifier()) {
+        if (profile.getName().equals(itemLocal.getName())) {
             EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.local));
             return false;
-        } else if (profile.getIdentifier() == itemAddAccount.getIdentifier()) {
+        } else if (profile.getName().equals(itemAddAccount.getName())) {
             activity.startActivity(Henson.with(activity).gotoActivitySettings().build());
             return true;
         }
         if (itemSpotify != null) {
-            if (profile.getIdentifier() == itemSpotify.getIdentifier()) {
+            if (profile.getName().equals(itemSpotify.getName())) {
                 EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.spotify));
                 return false;
             }
         }
         if (itemSoundCloud != null) {
-            if (profile.getIdentifier() == itemSoundCloud.getIdentifier()) {
+            if (profile.getName().equals(itemSoundCloud.getName())) {
                 EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.soundcloud));
                 return false;
 
@@ -142,7 +145,8 @@ public class DrawerManager {
             if (AppPrefs.spotifyUser() != null && !AppPrefs.spotifyUser().equals("")) {
                 SpotifyUser spotifyUser = AppPrefs.spotifyUser();
                 itemSpotify = new ProfileDrawerItem()
-                        .withName(spotifyUser.getDisplayName())
+                        .withName(activity.getString(R.string.spotify))
+                        .withEmail(spotifyUser.getDisplayName())
                         .withIcon(R.drawable.logo_spotify);
             }
             if (itemSpotify != null) {
@@ -153,8 +157,8 @@ public class DrawerManager {
             if (AppPrefs.soundCloudUser() != null && !AppPrefs.soundCloudUser().equals("")) {
                 SoundCloudUser soundCloudUser = AppPrefs.soundCloudUser();
                 itemSoundCloud = new ProfileDrawerItem()
-                        .withName(soundCloudUser.getUserName())
-                        .withIcon(R.drawable.logo_soundcloud);
+                        .withName(activity.getString(R.string.soundcloud))
+                        .withEmail(soundCloudUser.getUserName()).withIcon(R.drawable.logo_soundcloud);
             }
             if (itemSoundCloud != null) {
                 accountHeader.addProfiles(itemSoundCloud);

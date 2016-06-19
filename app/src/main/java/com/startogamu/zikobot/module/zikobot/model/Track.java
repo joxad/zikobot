@@ -63,7 +63,7 @@ public class Track extends BaseModel {
 
     public static Track from(LocalTrack localTrack) {
         Track track = new Track();
-        track.setType(Track.TYPE.LOCAL);
+        track.setType(TYPE.LOCAL);
         track.setRef(localTrack.getData());
         track.setImageUrl(localTrack.getArtPath());
         track.setArtistName(localTrack.getArtist());
@@ -73,7 +73,7 @@ public class Track extends BaseModel {
 
     public static Track from(SpotifyTrack spotifyTrack) {
         Track track = new Track();
-        track.setType(Track.TYPE.SPOTIFY);
+        track.setType(TYPE.SPOTIFY);
         track.setRef("spotify:track:" + spotifyTrack.getId());
         track.setImageUrl(spotifyTrack.getAlbum().getImages().get(0).url);
         track.setArtistName(spotifyTrack.getArtists().get(0).getName());
@@ -84,7 +84,7 @@ public class Track extends BaseModel {
 
     public static Track from(SoundCloudTrack soundCloudTrack) {
         Track track = new Track();
-        track.setType(Track.TYPE.SOUNDCLOUD);
+        track.setType(TYPE.SOUNDCLOUD);
         track.setRef(soundCloudTrack.getStreamUrl() + "?client_id=c6cbaa6a6e431c11c4b0e6e0cffb4ff5");
         track.setImageUrl(soundCloudTrack.getArtworkUrl());
         //track.setArtistName(soundCloudTrack.geta);
@@ -100,12 +100,5 @@ public class Track extends BaseModel {
         return alarmForeignKeyContainer;
     }
 
-
-    public static class TYPE {
-        public static final int SPOTIFY = 0;
-        public static final int DEEZER = 1;
-        public static final int LOCAL = 2;
-        public static final int SOUNDCLOUD = 3;
-    }
 
 }

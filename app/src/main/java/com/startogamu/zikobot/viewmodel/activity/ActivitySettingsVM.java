@@ -46,7 +46,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         showSpotifyConnect = new ObservableBoolean(false);
         showSoundCloudConnect = new ObservableBoolean(true);
         activity.setSupportActionBar(binding.toolbar);
-        activity.getSupportActionBar().setTitle(R.string.action_settings);
+        activity.getSupportActionBar().setTitle(R.string.drawer_account);
         if (AppPrefs.getSpotifyAccessCode().equals("")) {
             showSpotifyConnect.set(true);
         } else {
@@ -140,6 +140,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
     public void getSpotifyMe() {
         Injector.INSTANCE.spotifyApi().manager().getMe().subscribe(spotifyUser -> {
             binding.tvUser.setText(spotifyUser.getDisplayName());
+            binding.tvStatus.setText(spotifyUser.getProduct());
             Glide.with(activity).load(spotifyUser.getImages().get(0).getUrl()).into(binding.ivUser);
             AppPrefs.spotifyUser(spotifyUser);
             showSpotifyConnect.set(false);

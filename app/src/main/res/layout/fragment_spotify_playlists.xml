@@ -30,6 +30,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
             android:id="@+id/rv_items"
             android:layout_width="match_parent"

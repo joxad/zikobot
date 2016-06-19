@@ -69,4 +69,9 @@
     <string name="volume_alarm">Volume</string>
     <string name="SoundCloud">SoundCloud</string>
     <string name="connect_with_SoundCloud">Me connecter avec SoundCloud</string>
+    <string name="spotify">Spotify</string>
+    <string name="soundcloud">Soundcloud</string>
+    <string name="drawer_account">Mes comptes</string>
+    <string name="account_type">Type de compte :</string>
+    <string name="no_premium">Désolé, tu n\'as pas de compte Premium... je ne peux utiliser Spotify sans cela :(</string>
 </resources>

@@ -3,6 +3,8 @@ package com.startogamu.zikobot.viewmodel.activity;
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +14,9 @@ import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.joxad.easydatabinding.activity.IResult;
 import com.orhanobut.logger.Logger;
+import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventFabClicked;
+import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.fragmentmanager.DrawerManager;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
@@ -24,6 +28,7 @@ import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.UnsupportedEncodingException;
 
@@ -85,11 +90,14 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
             Logger.e(e.getMessage());
         }
         drawerManager.onResume();
+
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onPause() {
         navigationManager.unsubscribe();
+        EventBus.getDefault().unregister(this);
         super.onPause();
     }
 
@@ -109,6 +117,14 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         drawerManager.init();
     }
 
+
+    @Subscribe
+    public void onEvent(EventShowMessage event) {
+        Snackbar snack = Snackbar.make(binding.container, event.getString(), Snackbar.LENGTH_LONG);
+        View snackView = snack.getView();
+        snackView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorAccent));
+        snack.show();
+    }
 
     /***
      *

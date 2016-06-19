@@ -24,6 +24,7 @@ import com.startogamu.zikobot.core.service.MediaPlayerService;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.model.TYPE;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
@@ -183,18 +184,18 @@ public class PlayerMusicManager {
             tracks.add(track);
         }
         switch (track.getModel().getType()) {
-            case Track.TYPE.LOCAL:
+            case TYPE.LOCAL:
                 pauseToHandle = false;
                 SpotifyPlayerManager.pause();
                 SpotifyPlayerManager.clear();
                 handler.postDelayed(() -> pauseToHandle = true, 500);
                 mediaPlayerService.playSong(Uri.parse(track.getModel().getRef()));
                 break;
-            case Track.TYPE.SPOTIFY:
+            case TYPE.SPOTIFY:
                 mediaPlayerService.stop();
                 SpotifyPlayerManager.play(track.getModel().getRef());
                 break;
-            case Track.TYPE.SOUNDCLOUD:
+            case TYPE.SOUNDCLOUD:
                 SpotifyPlayerManager.pause();
                 SpotifyPlayerManager.clear();
                 mediaPlayerService.playUrlSong(track.getModel().getRef());
