@@ -1,5 +1,6 @@
 package com.startogamu.zikobot.viewmodel.activity;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.jakewharton.rxbinding.view.RxView;
@@ -28,6 +30,8 @@ import com.startogamu.zikobot.view.activity.ActivityAlarm;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
 
 import java.util.Calendar;
+
+import me.tatarka.bindingcollectionadapter.ItemView;
 
 /**
  * Created by josh on 29/05/16.
@@ -66,17 +70,14 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
                     delete();
                     break;
                 case R.id.action_save:
-                    if (alarmVM.hasTracks()) {
-                        save().subscribe(alarm1 -> {
-                            prepareAlarm(alarm1);
-                            activity.finish();
-                        }, throwable -> {
-                            Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
-                        });
-                    } else {
-                        Snackbar.make(binding.getRoot(), R.string.add_tracks, Snackbar.LENGTH_SHORT).show();
 
-                    }
+                    save().subscribe(alarm1 -> {
+                        prepareAlarm(alarm1);
+                        activity.finish();
+                    }, throwable -> {
+                        Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
+                    });
+
 
                     break;
                 case R.id.action_play:
@@ -105,8 +106,12 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      *
      */
     private void initViews() {
-        alarmVM = new AlarmVM(activity, alarm);
-
+        alarmVM = new AlarmVM(activity, alarm) {
+            @Override
+            public ItemView itemView() {
+                return ItemView.of(BR.trackVM, R.layout.item_alarm_track_no_cb);
+            }
+        };
         initAlarmVM();
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -222,6 +227,9 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         Log.d(AlarmVM.class.getSimpleName(), "hours " + hour + "minu" + min);
         alarmVM.updateTimeSelected(hour, min);
         alarmVM.updateRepeated(binding.viewAlarm.swRepeat.isChecked());
+        if (!alarmVM.hasTracks()){
+            alarmVM.updateStatus(false);
+        }
         return alarmVM.save();
     }
 
@@ -254,7 +262,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         calendar.set(Calendar.MILLISECOND, 0);
         if (binding.viewAlarm.swRepeat.isChecked()) {
             alarmMgr.setRepeating(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    30000, alarmIntent);
+                    AlarmManager.INTERVAL_DAY, alarmIntent);
         } else {
             alarmMgr.set(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
 
@@ -268,7 +276,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     public void onAddTrackClick(View view) {
         save().subscribe(alarm1 -> {
             activity.startActivity(Henson.with(activity).gotoActivityMusic().alarm(alarm1).build());
-
         });
     }
 

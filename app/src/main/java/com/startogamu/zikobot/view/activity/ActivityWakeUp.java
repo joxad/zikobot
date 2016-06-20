@@ -1,6 +1,8 @@
 package com.startogamu.zikobot.view.activity;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.WindowManager;
 
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBase;
@@ -17,6 +19,7 @@ public class ActivityWakeUp extends ActivityBase<ActivityWakeUpBinding, Activity
 
     @InjectExtra
     Alarm alarm;
+
     @Override
     public int data() {
         return BR.activityWakeUpVM;
@@ -25,6 +28,13 @@ public class ActivityWakeUp extends ActivityBase<ActivityWakeUpBinding, Activity
     @Override
     public int layoutResources() {
         return R.layout.activity_wake_up;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+        super.onCreate(savedInstanceState);
     }
 
     @Override

@@ -2,15 +2,16 @@ package com.startogamu.zikobot.viewmodel.base;
 
 import android.content.Context;
 import android.databinding.Bindable;
+import android.support.v7.widget.PopupMenu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowMessage;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
-import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
-import com.startogamu.zikobot.module.zikobot.model.TYPE;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
@@ -18,7 +19,7 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * Created by josh on 30/05/16.
  */
-public class TrackVM extends BaseVM<Track> {
+public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickListener {
 
     public boolean isChecked = false;
 
@@ -70,6 +71,14 @@ public class TrackVM extends BaseVM<Track> {
         notifyChange();
     }
 
+
+    public void onMoreClicked(View view) {
+        PopupMenu popup = new PopupMenu(context, view);
+        popup.inflate(R.menu.menu_track);
+        popup.setOnMenuItemClickListener(this);
+        popup.show();
+    }
+
     /***
      * Event called when we want to play a song
      *
@@ -98,5 +107,15 @@ public class TrackVM extends BaseVM<Track> {
 
     public Track getModel() {
         return model;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_alarm:
+                EventBus.getDefault().post(new EventShowDialogAlarm(model));
+                break;
+        }
+        return false;
     }
 }

@@ -6,18 +6,19 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
-import com.startogamu.zikobot.BR;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventFabClicked;
+import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
+import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
-import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
@@ -26,6 +27,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.UnsupportedEncodingException;
+
 import me.tatarka.bindingcollectionadapter.ItemView;
 
 /**
@@ -107,7 +109,12 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
         AlarmManager.loadAlarms().subscribe(alarms -> {
             itemsVM.clear();
             for (Alarm alarm : alarms) {
-                itemsVM.add(new AlarmVM(fragment.getContext(), alarm));
+                itemsVM.add(new AlarmVM(fragment.getContext(), alarm) {
+                    @Override
+                    public ItemView itemView() {
+                        return null;
+                    }
+                });
             }
             if (alarms.size() == 0) {
                 showTuto.set(true);
@@ -128,11 +135,17 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     public void onEvent(EventFabClicked eventFabClicked) {
         addAlarm(null);
     }
+
     public void addAlarm(View view) {
         fragment.getActivity().startActivity(Henson.with(fragment.getContext())
                 .gotoActivityAlarm().alarm(new Alarm()).build());
     }
 
+    @Subscribe
+    public void onEvent(EventAlarmSelect eventAlarmSelect) {
+        fragment.startActivity(Henson.with(fragment.getContext())
+                .gotoActivityAlarm().alarm(eventAlarmSelect.getModel()).build());
+    }
 
     @Override
     public void destroy() {

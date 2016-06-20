@@ -8,29 +8,28 @@ import android.databinding.ObservableArrayList;
 import android.view.View;
 import android.widget.TextView;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.base.BaseVM;
-import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.Track;
-import com.startogamu.zikobot.view.Henson;
+
+import org.greenrobot.eventbus.EventBus;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
 /**
  * Created by josh on 29/05/16.
  */
-public class AlarmVM extends BaseVM<Alarm> {
+public abstract class AlarmVM extends BaseVM<Alarm> {
 
 
     public String alarmName;
 
     public ObservableArrayList<TrackVM> tracksVms;
-    public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_track);
-
+    public abstract ItemView itemView();
 
     /***
      * @param context
@@ -130,8 +129,7 @@ public class AlarmVM extends BaseVM<Alarm> {
      * @param view
      */
     public void onItemClick(View view) {
-        context.startActivity(Henson.with(context)
-                .gotoActivityAlarm().alarm(model).build());
+        EventBus.getDefault().post(new EventAlarmSelect(model));
     }
 
 
@@ -231,4 +229,6 @@ public class AlarmVM extends BaseVM<Alarm> {
         model.setVolume(progress);
         notifyChange();
     }
+
+
 }

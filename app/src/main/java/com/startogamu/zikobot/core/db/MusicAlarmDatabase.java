@@ -5,13 +5,14 @@ import com.raizlabs.android.dbflow.annotation.Migration;
 import com.raizlabs.android.dbflow.sql.SQLiteType;
 import com.raizlabs.android.dbflow.sql.migration.AlterTableMigration;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.model.Track;
 
 @Database(name = MusicAlarmDatabase.NAME, version = MusicAlarmDatabase.VERSION)
 public class MusicAlarmDatabase {
 
     public static final String NAME = "Music_Alarm_DB";
 
-    public static final int VERSION = 3;
+    public static final int VERSION = 4;
 
 
     @Migration(version = 2, database = MusicAlarmDatabase.class)
@@ -26,6 +27,7 @@ public class MusicAlarmDatabase {
             addColumn(SQLiteType.INTEGER, "randomTrack");
         }
     }
+
     @Migration(version = 3, database = MusicAlarmDatabase.class)
     public static class Migration3 extends AlterTableMigration<Alarm> {
 
@@ -38,6 +40,20 @@ public class MusicAlarmDatabase {
             addColumn(SQLiteType.INTEGER, "volume");
         }
     }
+
+    @Migration(version = 4, database = MusicAlarmDatabase.class)
+    public static class Migration4 extends AlterTableMigration<Track> {
+
+        public Migration4(Class<Track> table) {
+            super(table);
+        }
+
+        @Override
+        public void onPreMigrate() {
+            addColumn(SQLiteType.INTEGER, "activated");
+        }
+    }
+
 
 }
 

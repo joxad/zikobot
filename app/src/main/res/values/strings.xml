@@ -25,7 +25,7 @@
 
 
     <!--> ActivityAlarm <-->
-    <string name="activity_alarm_new">Nouvelle Alarme</string>
+    <string name="activity_alarm_new">Créer une alarme</string>
     <string name="alarm_hint_hour">Sélectionner l\'heure</string>
 
     <string name="alarm_hint">Libellé de l\'alarme</string>
@@ -76,4 +76,8 @@
     <string name="no_premium">Désolé, tu n\'as pas de compte Premium... je ne peux utiliser Spotify sans cela :(</string>
     <string name="oops">Oops</string>
     <string name="no_m4a_support">Désolé je ne supporte pas encore ce format :(</string>
+    <string name="put_to_alarm">En faire une alarme</string>
+    <string name="add_to_playlist">Ajouter à la lecture en cours</string>
+    <string name="track_to_alarm_title_dialog">Alarme Musicale</string>
+    <string name="alarm_select">Sélectionne ton alarme</string>
 </resources>

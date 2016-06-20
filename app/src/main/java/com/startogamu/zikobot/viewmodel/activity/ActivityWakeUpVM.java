@@ -5,16 +5,18 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.view.View;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
+import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.TrackChangeEvent;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AnimationEndListener;
 import com.startogamu.zikobot.databinding.ActivityWakeUpBinding;
-import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
+import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.view.activity.ActivityWakeUp;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
@@ -23,6 +25,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.UnsupportedEncodingException;
+
+import me.tatarka.bindingcollectionadapter.ItemView;
 
 /**
  * Created by josh on 31/05/16.
@@ -67,7 +71,13 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> onBackPressed());
         activity.setTitle(alarm.getName());
-        alarmVM = new AlarmVM(activity, alarm);
+        alarmVM = new AlarmVM(activity, alarm) {
+            @Override
+            public ItemView itemView() {
+                return ItemView.of(BR.trackVM, R.layout.item_alarm_track);
+
+            }
+        };
         binding.setAlarmVM(alarmVM);
         if (!alarm.getTracks().isEmpty()) {
             trackVM = new TrackVM(activity, Mock.track(activity));

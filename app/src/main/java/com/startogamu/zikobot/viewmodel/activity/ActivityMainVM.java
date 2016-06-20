@@ -16,6 +16,7 @@ import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventFabClicked;
 import com.startogamu.zikobot.core.event.EventShowMessage;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.fragmentmanager.DrawerManager;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
@@ -24,6 +25,7 @@ import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityMain;
+import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -130,6 +132,13 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         alertDialog.show();
     }
 
+
+    @Subscribe
+    public void onEvent(EventShowDialogAlarm event) {
+        DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
+        dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
+
+    }
     /***
      *
      */

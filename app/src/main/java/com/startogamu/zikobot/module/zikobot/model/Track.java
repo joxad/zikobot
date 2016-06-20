@@ -53,6 +53,11 @@ public class Track extends BaseModel {
     @Setter
     protected String artistName;
 
+    @Column
+    @Getter
+    @Setter
+    protected String activated;
+
     @Transient
     @ForeignKey(saveForeignKeyModel = false)
     public ForeignKeyContainer<Alarm> alarmForeignKeyContainer;

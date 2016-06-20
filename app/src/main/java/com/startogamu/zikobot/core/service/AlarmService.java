@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.view.WindowManager;
 
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
@@ -27,6 +28,7 @@ public class AlarmService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
 
         long alarmId = intent.getLongExtra(EXTRA.ALARM_ID, -1);
         AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
