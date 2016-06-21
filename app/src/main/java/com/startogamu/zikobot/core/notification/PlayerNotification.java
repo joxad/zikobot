@@ -14,6 +14,7 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.receiver.ClearPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.NextPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.PausePlayerReceiver;
+import com.startogamu.zikobot.core.receiver.PreviousPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.ResumePlayerReceiver;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 
@@ -127,7 +128,7 @@ public class PlayerNotification {
         playerViewLarge.setOnClickPendingIntent(R.id.iv_next, pIntentNext);
 
 
-        Intent intentPrevious = new Intent(context, PausePlayerReceiver.class);
+        Intent intentPrevious = new Intent(context, PreviousPlayerReceiver.class);
 // use System.currentTimeMillis() to have a unique ID for the pending intent
         PendingIntent pIntentPrevious = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentPrevious, PendingIntent.FLAG_UPDATE_CURRENT);
         playerViewLarge.setOnClickPendingIntent(R.id.iv_previous, pIntentPrevious);
