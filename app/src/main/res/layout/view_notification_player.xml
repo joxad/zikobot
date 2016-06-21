@@ -16,7 +16,7 @@
 
 
             <ImageView
-                android:id="@+id/iv_play"
+                android:id="@+id/iv_stop"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_alignParentEnd="true"
@@ -24,13 +24,11 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/margin_medium"
                 android:padding="8dp"
-                android:src="@drawable/ic_play_black" />
+                android:src="@drawable/ic_clear" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/iv_play"
-                android:layout_toStartOf="@id/iv_play"
                 android:orientation="horizontal">
 
 
@@ -68,13 +66,36 @@
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/ll_stop"
-            style="@style/Widget.AppCompat.Button.Borderless"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimaryDark"
-            android:text="@string/stop"
-            android:textColor="@android:color/black" />
+            android:layout_height="48dp"
+            android:background="@color/colorAccent"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+
+            <ImageView
+                android:id="@+id/iv_previous"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_previous" />
+
+            <ImageView
+                android:id="@+id/iv_play"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_play_arrow" />
+
+
+            <ImageView
+                android:id="@+id/iv_next"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_next" />
+        </LinearLayout>
+
     </LinearLayout>
 </RelativeLayout>

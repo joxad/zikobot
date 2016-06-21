@@ -17,7 +17,11 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.event.TrackChangeEvent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.event.player.EventNextPlayer;
+import com.startogamu.zikobot.core.event.player.EventPausePlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
+import com.startogamu.zikobot.core.event.player.EventPreviousPlayer;
+import com.startogamu.zikobot.core.event.player.EventResumePlayer;
 import com.startogamu.zikobot.core.event.player.EventStopPlayer;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.receiver.ClearPlayerReceiver;
@@ -208,6 +212,14 @@ public class PlayerMusicManager {
 
     }
 
+    /***
+     *
+     */
+    public void previous() {
+        currentSong--;
+        if (currentSong >= 0)
+            playTrack(tracks.get(currentSong));
+    }
 
     /***
      *
@@ -260,6 +272,7 @@ public class PlayerMusicManager {
     public void resume() {
         mediaPlayerService.resume();
         SpotifyPlayerManager.resume();
+        PlayerNotification.updatePlayStatus(false);
     }
 
     /**
@@ -268,6 +281,7 @@ public class PlayerMusicManager {
     public void pause() {
         mediaPlayerService.pause();
         SpotifyPlayerManager.pause();
+        PlayerNotification.updatePlayStatus(true);
     }
 
 
@@ -333,7 +347,29 @@ public class PlayerMusicManager {
     }
 
     @Subscribe
+    public void onReceive(EventPreviousPlayer eventPreviousPlayer) {
+        previous();
+    }
+
+    @Subscribe
+    public void onReceive(EventNextPlayer eventResumePlayer) {
+        next();
+    }
+
+    @Subscribe
+    public void onReceive(EventResumePlayer eventResumePlayer) {
+        resume();
+    }
+
+    @Subscribe
+    public void onReceive(EventPausePlayer eventPausePlayer) {
+        pause();
+    }
+
+    @Subscribe
     public void onReceive(EventStopPlayer eventStopPlayer) {
+        tracks.clear();
+        trackVMs().clear();
         PlayerNotification.cancel();
         stop();
     }

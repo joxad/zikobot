@@ -13,6 +13,7 @@ import com.joxad.android_easy_spotify.Scope;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivitySettingsBinding;
 import com.startogamu.zikobot.module.component.Injector;
@@ -144,6 +145,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
             Glide.with(activity).load(spotifyUser.getImages().get(0).getUrl()).into(binding.ivUser);
             AppPrefs.spotifyUser(spotifyUser);
             showSpotifyConnect.set(false);
+            AnalyticsManager.logConnectSpotify(spotifyUser.getDisplayName());
         }, throwable -> {
             Logger.e(throwable.getLocalizedMessage());
         });
@@ -158,6 +160,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
             binding.tvUserSoundcloud.setText(soundCloudUser.getUserName());
             Glide.with(activity).load(soundCloudUser.getAvatarUrl()).into(binding.ivUserSoundcloud);
             AppPrefs.soundCloudUser(soundCloudUser);
+            AnalyticsManager.logConnectSoundCloud(soundCloudUser.getUserName());
             showSoundCloudConnect.set(false);
         }, throwable -> {
             Logger.e(throwable.getLocalizedMessage());

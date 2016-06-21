@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.google.gms.google-services'
 
 
 Properties properties = new Properties()
@@ -39,7 +40,7 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-
+            applicationIdSuffix ".debug"
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     output.outputFile = new File(output.outputFile.parent,
@@ -128,6 +129,7 @@ dependencies {
     compile('com.mikepenz:materialdrawer:5.3.0@aar') {
         transitive = true
     }
+    compile 'com.google.firebase:firebase-core:9.0.2'
 
 
 }
