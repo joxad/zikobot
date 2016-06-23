@@ -18,4 +18,5 @@
     <dimen name="actionBarSize">48dp</dimen>
     <dimen name="playerHeight">60dp</dimen>
     <dimen name="image_card_height_large">120dp</dimen>
+    <dimen name="item_play_size">48dp</dimen>
 </resources>

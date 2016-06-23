@@ -47,7 +47,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         showSpotifyConnect = new ObservableBoolean(false);
         showSoundCloudConnect = new ObservableBoolean(true);
         activity.setSupportActionBar(binding.toolbar);
-        activity.getSupportActionBar().setTitle(R.string.drawer_account);
+        activity.getSupportActionBar().setTitle(R.string.activity_my_account);
         if (AppPrefs.getSpotifyAccessCode().equals("")) {
             showSpotifyConnect.set(true);
         } else {

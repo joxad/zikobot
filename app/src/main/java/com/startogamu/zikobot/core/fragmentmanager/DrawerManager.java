@@ -50,9 +50,9 @@ public class DrawerManager {
 
         PrimaryDrawerItem music = new PrimaryDrawerItem().withName(R.string.drawer_filter_music).withIcon(R.drawable.ic_music_wave).withSelectedIcon(R.drawable.ic_music_wave_selected);
         PrimaryDrawerItem alarm = new PrimaryDrawerItem().withName(R.string.drawer_alarms).withIcon(R.drawable.ic_alarm).withSelectedIcon(R.drawable.ic_alarm_selected);
-        PrimaryDrawerItem accounts = new PrimaryDrawerItem().withName(R.string.drawer_account).withSelectable(false);
+        PrimaryDrawerItem accounts = new PrimaryDrawerItem().withName(R.string.activity_my_account).withSelectable(false);
 
-        PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.about).withSelectable(false);
+        PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.menu_about).withSelectable(false);
         drawer = new DrawerBuilder()
                 .withActivity(activity)
                 .withAccountHeader(accountHeader)

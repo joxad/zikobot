@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="api_spotify_callback_settings">spotify-callback://settings-activity/</string>
     <string name="api_spotify_callback_web_view">http://zikobot.com/callback</string>
     <string name="spotify_base_api_url">https://api.spotify.com/v1/</string>
@@ -11,4 +12,13 @@
 
     <string name="soundclound_web_view" formatted="false">https://soundcloud.com/connect?state=SoundCloud_Dialog_8a600&amp;client_id=%s&amp;redirect_uri=%s&amp;response_type=code_and_token&amp;scope=non-expiring&amp;</string>
 
+
+
+    <string-array name="waves">
+        <item>@color/colorPrimaryDark</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimaryDark</item>
+        <item>@color/colorPrimary</item>
+
+    </string-array>
 </resources>
