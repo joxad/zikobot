@@ -143,7 +143,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      *
      */
     private void initPlayerVM() {
-        playerVM = new PlayerVM(activity);
+        playerVM = new PlayerVM(activity,binding.viewPlayer);
     }
 
     @Override

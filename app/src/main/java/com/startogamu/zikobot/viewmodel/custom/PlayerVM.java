@@ -3,12 +3,16 @@ package com.startogamu.zikobot.viewmodel.custom;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.TrackChangeEvent;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
+import com.startogamu.zikobot.core.event.player.EventPlayTrack;
+import com.startogamu.zikobot.databinding.ViewPlayerBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
@@ -24,13 +28,17 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public class PlayerVM extends BaseObservable implements IVM {
 
+    private final ViewPlayerBinding binding;
     public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_track);
+    public ItemView itemViewPlayer = ItemView.of(BR.trackVM, R.layout.view_player_current);
 
     private final Context context;
 
 
-    public PlayerVM(Context context) {
+    private boolean manualChange = false;
+    public PlayerVM(Context context, ViewPlayerBinding binding) {
         this.context = context;
+        this.binding = binding;
         init();
     }
 
@@ -38,13 +46,43 @@ public class PlayerVM extends BaseObservable implements IVM {
     public void init() {
         EventBus.getDefault().register(this);
         Injector.INSTANCE.playerComponent().inject(this);
+        binding.vpPlayer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                manualChange = true;
+                EventBus.getDefault().post(new EventPlayTrack(Injector.INSTANCE.playerComponent().manager().trackVMs().get(position)));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 
     @Subscribe
     public void onReceive(TrackChangeEvent trackChangeEvent) {
+        if (manualChange) {
+            manualChange=false;
+            return;
+        }
         notifyChange();
+        binding.vpPlayer.getAdapter().notifyDataSetChanged();
+        binding.vpPlayer.setCurrentItem(Injector.INSTANCE.playerComponent().manager().getCurrentSong(), true);
+    }
+
+
+    @Subscribe
+    public void onReceive(EventAddTrackToCurrent trackChangeEvent) {
+        notifyChange();
+        binding.vpPlayer.getAdapter().notifyDataSetChanged();
+
     }
 
 
@@ -61,21 +99,6 @@ public class PlayerVM extends BaseObservable implements IVM {
         EventBus.getDefault().unregister(this);
     }
 
-
-    @Bindable
-    public String getTrackImage() {
-        return Injector.INSTANCE.playerComponent().manager().getCurrentImage();
-    }
-
-    @Bindable
-    public String getTrackName() {
-        return Injector.INSTANCE.playerComponent().manager().getCurrentTrackName();
-    }
-
-    @Bindable
-    public String getArtistName() {
-        return Injector.INSTANCE.playerComponent().manager().getCurrentArtisteName();
-    }
 
     @Bindable
     public boolean isPlaying() {

@@ -16,6 +16,7 @@ import com.spotify.sdk.android.player.PlayerState;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.event.TrackChangeEvent;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventNextPlayer;
 import com.startogamu.zikobot.core.event.player.EventPausePlayer;
@@ -58,8 +59,6 @@ public class PlayerMusicManager {
     //connect to the service
     private Intent playIntent;
     private boolean isPlaying = false;
-
-    ClearPlayerReceiver clearPlayerReceiver;
 
     /***
      * @param context
@@ -226,8 +225,11 @@ public class PlayerMusicManager {
      */
     public void next() {
         currentSong++;
-        if (tracks.size() > currentSong)
+        if (tracks.size() > currentSong) {
             playTrack(tracks.get(currentSong));
+        } else {
+            stop();
+        }
     }
 
 
@@ -284,26 +286,8 @@ public class PlayerMusicManager {
         PlayerNotification.updatePlayStatus(true);
     }
 
-
-    public String getCurrentImage() {
-        if (tracks.isEmpty()) {
-            return "";
-        }
-        return tracks.get(currentSong).getImageUrl();
-    }
-
-    public String getCurrentTrackName() {
-        if (tracks.isEmpty()) {
-            return context.getString(R.string.activity_alarm_select_song);
-        }
-        return tracks.get(currentSong).getName();
-    }
-
-    public String getCurrentArtisteName() {
-        if (tracks.isEmpty()) {
-            return context.getString(R.string.activity_alarm_select_song);
-        }
-        return tracks.get(currentSong).getArtistName();
+    public int getCurrentSong() {
+        return currentSong;
     }
 
     public ArrayList<TrackVM> trackVMs() {
@@ -344,6 +328,12 @@ public class PlayerMusicManager {
         }
         isPlaying = true;
         playTracks();
+    }
+
+
+    @Subscribe
+    public void onReceive(EventAddTrackToCurrent eventAddTrackToPlayer) {
+        tracks.add(eventAddTrackToPlayer.getTrackVM());
     }
 
     @Subscribe

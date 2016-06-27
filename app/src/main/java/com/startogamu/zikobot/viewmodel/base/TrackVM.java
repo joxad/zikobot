@@ -8,13 +8,16 @@ import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Arrays;
 
 /**
  * Created by josh on 30/05/16.
@@ -114,6 +117,9 @@ public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickL
         switch (item.getItemId()) {
             case R.id.action_alarm:
                 EventBus.getDefault().post(new EventShowDialogAlarm(model));
+                break;
+            case R.id.action_play_after:
+                EventBus.getDefault().post(new EventAddTrackToCurrent(this));
                 break;
         }
         return false;
