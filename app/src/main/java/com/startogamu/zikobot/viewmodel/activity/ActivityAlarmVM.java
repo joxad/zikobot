@@ -1,9 +1,7 @@
 package com.startogamu.zikobot.viewmodel.activity;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -20,8 +18,6 @@ import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.receiver.AlarmReceiver;
-import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.SimpleSeekBarListener;
 import com.startogamu.zikobot.databinding.ActivityAlarmBinding;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
@@ -39,8 +35,6 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarmBinding> {
     private static String TAG = ActivityAlarmVM.class.getSimpleName();
 
-    private android.app.AlarmManager alarmMgr;
-    private PendingIntent alarmIntent;
 
     public AlarmVM alarmVM;
     @InjectExtra
@@ -59,7 +53,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     public void init() {
         am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
         Dart.inject(this, activity);
-        alarmMgr = (android.app.AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
         activity.setSupportActionBar(binding.toolbar);
         activity.setTitle(alarm.getName());
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -227,9 +220,9 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         Log.d(AlarmVM.class.getSimpleName(), "hours " + hour + "minu" + min);
         alarmVM.updateTimeSelected(hour, min);
         alarmVM.updateRepeated(binding.viewAlarm.swRepeat.isChecked());
-        if (!alarmVM.hasTracks()){
-            alarmVM.updateStatus(false);
-        }
+
+        alarmVM.updateStatus(alarmVM.hasTracks());
+
         return alarmVM.save();
     }
 
@@ -247,26 +240,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * @param alarm
      */
     private void prepareAlarm(Alarm alarm) {
-        Intent intent = new Intent(activity, AlarmReceiver.class);
-        intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
-        alarmIntent = PendingIntent.getBroadcast(activity, 0, intent, 0);
-        alarmMgr.cancel(alarmIntent);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        if (calendar.get(Calendar.HOUR_OF_DAY) > alarm.getHour()) {
-            calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + 1);
-        }
-        calendar.set(Calendar.HOUR_OF_DAY, this.alarm.getHour());
-        calendar.set(Calendar.MINUTE, this.alarm.getMinute());
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        if (binding.viewAlarm.swRepeat.isChecked()) {
-            alarmMgr.setRepeating(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY, alarmIntent);
-        } else {
-            alarmMgr.set(android.app.AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
-
-        }
+        com.startogamu.zikobot.module.zikobot.manager.AlarmManager.prepareAlarm(activity,alarm);
     }
 
 

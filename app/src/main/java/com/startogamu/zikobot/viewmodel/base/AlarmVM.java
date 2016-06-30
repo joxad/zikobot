@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
@@ -157,9 +158,12 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         return after;
     }
 
-    public void updateStatus(boolean activated) {
-        model.setActive(activated ? 1 : 0);
+    public void updateStatus( boolean active) {
+
+        model.setActive(active ? 1 : 0);
         model.save();
+        AlarmManager.prepareAlarm(context,model);
+
     }
 
     @Bindable

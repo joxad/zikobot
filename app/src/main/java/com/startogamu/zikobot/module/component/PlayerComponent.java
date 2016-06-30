@@ -17,7 +17,7 @@ import dagger.Component;
 @Component(modules = PlayerModule.class)
 public interface PlayerComponent extends PlayerBaseComponent{
 
-    void inject(ActivityWakeUpVM alarmService);
+    void inject(ActivityWakeUpVM activityWakeUpVM);
 
     void inject(PlayerVM playerVM);
 

@@ -95,7 +95,6 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".core.service.AlarmService" />
         <service android:name=".core.service.MediaPlayerService" />
 
         <meta-data
