@@ -154,8 +154,7 @@ public class AlarmManager {
     public static void cancel(Context context, Alarm alarm) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
-        final int _id = (int) System.currentTimeMillis();
-        alarmIntent = PendingIntent.getBroadcast(context, _id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmIntent = PendingIntent.getBroadcast(context, (int)alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmMgr.cancel(alarmIntent);
     }
 }
