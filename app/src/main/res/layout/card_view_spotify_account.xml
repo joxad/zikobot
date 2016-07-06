@@ -24,14 +24,27 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
-                android:text="@string/Spotify"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content">
 
+                <ImageView
+                    android:id="@+id/iv_logo"
+                    android:layout_width="@dimen/icon_medium"
+                    android:layout_height="@dimen/icon_medium"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_spotify_green" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:text="@string/Spotify"
+                    android:textColor="@color/colorSpotify"
+                    android:textSize="24sp" />
+
+            </RelativeLayout>
 
             <com.startogamu.zikobot.view.custom.MaterialButtonView
                 android:layout_width="match_parent"
@@ -39,9 +52,9 @@
                 android:layout_margin="@dimen/margin_medium"
                 android:onClick="@{activitySettingsVM.onButtonConnectClick}"
                 android:visibility="@{activitySettingsVM.showSpotifyConnect ? v.VISIBLE :  v.GONE}"
-                app:mbv_text="@string/connect_with_spotify"
+                app:mbv_text="@string/connect"
                 app:mbv_text_color="@android:color/white"
-                app:mrl_rippleBackground="@android:color/holo_green_dark" />
+                app:mrl_rippleBackground="@color/colorSpotify" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_margin="@dimen/margin_medium"
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorSpotify" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -80,7 +93,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_margin="@dimen/margin_medium"
                             android:text="@string/account_type"
-                            android:textColor="@color/colorAccent" />
+                            android:textColor="@color/colorSpotify" />
 
                         <TextView
                             android:id="@+id/tv_status"
@@ -88,7 +101,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_margin="@dimen/margin_medium"
-                            android:textColor="@color/colorAccent" />
+                            android:textColor="@color/colorSpotify" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
-import com.deezer.sdk.network.connect.DeezerConnect;
 import com.joxad.android_easy_spotify.SpotifyManager;
 import com.orhanobut.logger.Logger;
 import com.raizlabs.android.dbflow.config.FlowConfig;
@@ -13,7 +12,7 @@ import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.component.Injector;
-import com.startogamu.zikobot.module.deezer.DeezerManager;
+import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
 
 import io.fabric.sdk.android.Fabric;
 

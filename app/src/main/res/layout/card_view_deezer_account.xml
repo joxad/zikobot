@@ -9,14 +9,12 @@
             alias="v"
             type="android.view.View" />
 
-
         <variable
             name="activitySettingsVM"
             type="com.startogamu.zikobot.viewmodel.activity.ActivitySettingsVM" />
     </data>
 
     <android.support.v7.widget.CardView
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_medium">
@@ -26,27 +24,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_logo"
                     android:layout_width="@dimen/icon_medium"
                     android:layout_height="@dimen/icon_medium"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/logo_soundcloud" />
+                    android:src="@drawable/ic_deezer" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_medium"
-                    android:layout_toLeftOf="@id/iv_logo"
-                    android:text="@string/SoundCloud"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@string/activity_music_deezer"
+                    android:textColor="@color/colorDeezer"
                     android:textSize="24sp" />
 
             </RelativeLayout>
@@ -55,31 +50,60 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
-                android:onClick="@{activitySettingsVM.onButtonSoundCloudConnect}"
-                android:visibility="@{activitySettingsVM.showSoundCloudConnect ? v.VISIBLE :  v.GONE}"
+                android:onClick="@{activitySettingsVM.onButtonDeezerConnect}"
+                android:visibility="@{activitySettingsVM.showDeezerConnect ? v.VISIBLE :  v.GONE}"
                 app:mbv_text="@string/connect"
                 app:mbv_text_color="@android:color/white"
-                app:mrl_rippleBackground="@color/colorPrimaryDark" />
+                app:mrl_rippleBackground="@color/colorDeezer" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
                 android:orientation="horizontal"
-                android:visibility="@{activitySettingsVM.showSoundCloudConnect ? v.GONE :  v.VISIBLE}">
+                android:visibility="@{activitySettingsVM.showDeezerConnect ? v.GONE :  v.VISIBLE}">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_user_soundcloud"
+                    android:id="@+id/iv_user"
                     android:layout_width="@dimen/avatar_size"
                     android:layout_height="@dimen/avatar_size" />
 
-                <TextView
-                    android:id="@+id/tv_user_soundcloud"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:textColor="@color/colorDeezer" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:text="@string/account_type"
+                            android:textColor="@color/colorDeezer" />
+
+                        <TextView
+                            android:id="@+id/tv_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:textColor="@color/colorDeezer" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

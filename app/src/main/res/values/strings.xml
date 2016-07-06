@@ -60,6 +60,7 @@
 
     <!-- ActivityAccount -->
     <string name="connect_with_spotify">Me connecter avec spotify</string>
+    <string name="connect">Connexion</string>
 
     <!--> ActivityMusic<-->
 

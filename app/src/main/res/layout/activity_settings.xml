@@ -48,6 +48,11 @@
             tools:bindingContext="com.startogamu.zikobot.view.activity.ActivitySettings">
 
             <include
+                android:id="@+id/cv_deezer"
+                layout="@layout/card_view_deezer_account"
+                app:activitySettingsVM="@{activitySettingsVM}" />
+
+            <include
                 android:id="@+id/cv_spotify"
                 layout="@layout/card_view_spotify_account"
                 app:activitySettingsVM="@{activitySettingsVM}" />
@@ -56,6 +61,7 @@
                 android:id="@+id/cv_soundcloud"
                 layout="@layout/card_view_soundcloud_account"
                 app:activitySettingsVM="@{activitySettingsVM}" />
+
 
         </LinearLayout>
 

@@ -17,6 +17,7 @@ import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivitySettingsBinding;
 import com.startogamu.zikobot.module.component.Injector;
+import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
 import com.startogamu.zikobot.module.spotify_auth.model.SpotifyRequestToken;
 import com.startogamu.zikobot.view.activity.ActivitySettings;
 import com.startogamu.zikobot.view.fragment.FragmentWebView;
@@ -34,6 +35,8 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
 
     public ObservableBoolean showSoundCloudConnect;
 
+    public ObservableBoolean showDeezerConnect;
+
     public ActivitySettingsVM(ActivitySettings activity, ActivitySettingsBinding binding) {
         super(activity, binding);
         Injector.INSTANCE.spotifyApi().inject(this);
@@ -45,7 +48,8 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
     @Override
     public void init() {
         showSpotifyConnect = new ObservableBoolean(false);
-        showSoundCloudConnect = new ObservableBoolean(true);
+        showSoundCloudConnect = new ObservableBoolean(false);
+        showDeezerConnect = new ObservableBoolean(true);
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setTitle(R.string.activity_my_account);
         if (AppPrefs.getSpotifyAccessCode().equals("")) {
@@ -58,6 +62,8 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         } else {
             getSoundCloudMe();
         }
+        getDeezerMe();
+
     }
 
 
@@ -103,6 +109,20 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         });
         fragmentWebView.show(activity.getSupportFragmentManager(), FragmentWebView.TAG);
     }
+
+    /***
+     * @param view
+     */
+    public void onButtonDeezerConnect(View view) {
+        DeezerManager.login(activity).subscribe(bundle -> {
+            getDeezerMe();
+        }, throwable -> {
+            Logger.e(throwable.getMessage());
+
+        });
+
+    }
+
 
     private void getSoundCloudTokenFromCode() {
         String appId = activity.getString(R.string.soundcloud_id);
@@ -167,6 +187,16 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         });
     }
 
+
+    public void getDeezerMe() {
+        DeezerManager.current().subscribe(user -> {
+            binding.cvDeezer.tvUser.setText(user.getName());
+            Glide.with(activity).load(user.getPictureUrl()).into(binding.cvDeezer.ivUser);
+            showDeezerConnect.set(false);
+        }, throwable -> {
+            Logger.e(throwable.getMessage());
+        });
+    }
 
     @Override
     public void destroy() {
