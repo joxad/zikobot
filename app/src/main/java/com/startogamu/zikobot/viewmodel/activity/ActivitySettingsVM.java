@@ -140,9 +140,9 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
      */
     public void getSpotifyMe() {
         Injector.INSTANCE.spotifyApi().manager().getMe().subscribe(spotifyUser -> {
-            binding.tvUser.setText(spotifyUser.getDisplayName());
-            binding.tvStatus.setText(spotifyUser.getProduct());
-            Glide.with(activity).load(spotifyUser.getImages().get(0).getUrl()).into(binding.ivUser);
+            binding.cvSpotify.tvUser.setText(spotifyUser.getDisplayName());
+            binding.cvSpotify.tvStatus.setText(spotifyUser.getProduct());
+            Glide.with(activity).load(spotifyUser.getImages().get(0).getUrl()).into(binding.cvSpotify.ivUser);
             AppPrefs.spotifyUser(spotifyUser);
             showSpotifyConnect.set(false);
             AnalyticsManager.logConnectSpotify(spotifyUser.getDisplayName());
@@ -157,8 +157,8 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
      */
     public void getSoundCloudMe() {
         Injector.INSTANCE.soundCloudApi().manager().me().subscribe(soundCloudUser -> {
-            binding.tvUserSoundcloud.setText(soundCloudUser.getUserName());
-            Glide.with(activity).load(soundCloudUser.getAvatarUrl()).into(binding.ivUserSoundcloud);
+            binding.cvSoundcloud.tvUserSoundcloud.setText(soundCloudUser.getUserName());
+            Glide.with(activity).load(soundCloudUser.getAvatarUrl()).into(binding.cvSoundcloud.ivUserSoundcloud);
             AppPrefs.soundCloudUser(soundCloudUser);
             AnalyticsManager.logConnectSoundCloud(soundCloudUser.getUserName());
             showSoundCloudConnect.set(false);

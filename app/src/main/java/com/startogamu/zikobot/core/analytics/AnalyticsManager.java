@@ -5,10 +5,13 @@ import android.content.Context;
 import com.f2prateek.dart.henson.Bundler;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.util.Date;
+
 /**
  * Created by josh on 21/06/16.
  */
 public class AnalyticsManager {
+
 
     class Spotify {
         private static final String TAG = "SPOTIFY";
@@ -21,13 +24,16 @@ public class AnalyticsManager {
     }
 
     class Alarm {
-        private static final String TAG = "Alarm";
-        private static final String CREATE = "CREATE";
-        private static final String UPDATE = "UPDATE";
+        private static final String TAG = "ALARM_MANAGEMENT";
+        private static final String TAG_LAUNCH = "ALARM_LAUNCH";
+        private static final String START = "START";
         private static final String TITLE = "TITLE";
         private static final String HOUR = "HOUR";
         private static final String CREATE_FROM_ALARM = "CREATE_FROM_ALARM";
         private static final String CREATE_FROM_PLAYER = "CREATE_FROM_PLAYER";
+        public static final String TRACKS_COUNT = "TRACKS_COUNT";
+        public static final String RANDOM = "RANDOM";
+        public static final String REPEAT = "REPEAT";
     }
 
     private static FirebaseAnalytics firebaseAnalytics;
@@ -45,12 +51,27 @@ public class AnalyticsManager {
         firebaseAnalytics.logEvent(SoundClound.TAG, Bundler.create().put(SoundClound.LOGIN, account).get());
     }
 
-    public static void logCreateAlarm(com.startogamu.zikobot.module.zikobot.model.Alarm alarm, boolean isCreation, boolean fromAlarm) {
+
+    public static void logStartAlarm(com.startogamu.zikobot.module.zikobot.model.Alarm alarm) {
+        Date date = new Date();
+        Bundler bundler = Bundler.create()
+                .put(Alarm.START, date.toString())
+                .put(Alarm.TITLE, alarm.getName())
+                .put(Alarm.TRACKS_COUNT, alarm.getTracks().size())
+                .put(Alarm.RANDOM, alarm.getRandomTrack())
+                .put(Alarm.REPEAT, alarm.getRepeated())
+                .put(Alarm.HOUR, +alarm.getHour() + " h " + alarm.getMinute());
+        firebaseAnalytics.logEvent(Alarm.TAG_LAUNCH, bundler.get());
+    }
+
+    public static void logCreateAlarm(com.startogamu.zikobot.module.zikobot.model.Alarm alarm,  boolean fromAlarm) {
 
         Bundler bundler = Bundler.create()
-                .put(isCreation ? Alarm.CREATE : Alarm.UPDATE, true)
-                .put(Alarm.HOUR, +alarm.getHour() + " h " + alarm.getMinute())
-                .put(Alarm.TITLE, alarm.getName());
+                .put(Alarm.TITLE, alarm.getName())
+                .put(Alarm.TRACKS_COUNT, alarm.getTracks().size())
+                .put(Alarm.RANDOM, alarm.getRandomTrack())
+                .put(Alarm.REPEAT, alarm.getRepeated())
+                .put(Alarm.HOUR, +alarm.getHour() + " h " + alarm.getMinute());
         bundler.put(fromAlarm ? Alarm.CREATE_FROM_ALARM : Alarm.CREATE_FROM_PLAYER, true);
         firebaseAnalytics.logEvent(Alarm.TAG, bundler.get());
 

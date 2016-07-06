@@ -2,8 +2,6 @@ package com.startogamu.zikobot.view.custom;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.databinding.BindingAdapter;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,7 +35,14 @@ public class ZikobotMessageView extends RelativeLayout {
     }
 
     private void init(AttributeSet attrs) {
-        inflate(getContext(), R.layout.view_zikobot_message, this);
+        if (isInEditMode()) {
+            inflate(getContext(), R.layout.view_zikobot_message, this);
+            return;
+        } else {
+            inflate(getContext(), R.layout.view_zikobot_message, this);
+
+        }
+
         ButterKnife.bind(this);
         if (attrs != null) {
             TypedArray a = getContext().getTheme().obtainStyledAttributes(
@@ -47,7 +52,7 @@ public class ZikobotMessageView extends RelativeLayout {
 
     }
 
-    public void setZmvMessage( String message) {
+    public void setZmvMessage(String message) {
         tvMessage.setText(message);
     }
 }

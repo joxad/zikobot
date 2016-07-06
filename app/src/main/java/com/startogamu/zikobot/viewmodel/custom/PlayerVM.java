@@ -3,6 +3,7 @@ package com.startogamu.zikobot.viewmodel.custom;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.ObservableBoolean;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -120,5 +121,9 @@ public class PlayerVM extends BaseObservable implements IVM {
         return Injector.INSTANCE.playerComponent().manager().trackVMs();
     }
 
+    @Bindable
+    public boolean getIsEmpty(){
+        return Injector.INSTANCE.playerComponent().manager().trackVMs().isEmpty();
+    }
 
 }

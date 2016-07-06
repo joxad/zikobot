@@ -6,7 +6,6 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.module.spotify_api.model.Tracks;
-import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 import com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel;
@@ -72,7 +71,7 @@ public class Mock {
 
     public static Track trackPlayer(Context context) {
         Track track = new Track();
-        track.setName(context.getString(R.string.activity_alarm_select_song));
+        track.setName(context.getString(R.string.tuto_select_track));
         track.setArtistName("");
         return track;
     }

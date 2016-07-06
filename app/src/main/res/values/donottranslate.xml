@@ -9,8 +9,11 @@
     <string name="spotify_web_view" formatted="false">https://accounts.spotify.com/authorize/?client_id=%s&amp;response_type=code&amp;redirect_uri=%s&amp;scope=%s</string>
     <string name="soundcloud_base_api_url">https://api.soundcloud.com</string>
     <string name="api_soundcloud_callback">http://zikobot.com/soundcloud/callback</string>
-
     <string name="soundclound_web_view" formatted="false">https://soundcloud.com/connect?state=SoundCloud_Dialog_8a600&amp;client_id=%s&amp;redirect_uri=%s&amp;response_type=code_and_token&amp;scope=non-expiring&amp;</string>
+
+
+    <string name="deezer_base_api_url">https://api.soundcloud.com</string>
+    <string name="api_deezer_callback">http://zikobot.com/deezer/callback</string>
 
 
 

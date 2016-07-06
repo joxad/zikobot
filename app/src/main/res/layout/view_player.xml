@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="android.view.View"
+            alias="v"/>
 
         <variable
             name="playerVM"
@@ -29,34 +30,52 @@
                 android:layout_height="@dimen/playerHeight"
                 app:cardElevation="4dp">
 
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/iv_play"
-                        android:layout_width="@dimen/item_play_size"
-                        android:layout_height="@dimen/item_play_size"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:onClick="@{playerVM.onPlayPauseClicked}"
-                        android:padding="8dp"
-                        app:civ_fill_color="@color/colorAccent"
-                        app:imageRes="@{playerVM.imageState}" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                    <android.support.v4.view.ViewPager
-                        android:id="@+id/vp_player"
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/iv_play"
+                            android:visibility="@{playerVM.isEmpty ? v.GONE : v.VISIBLE}"
+
+                            android:layout_width="@dimen/item_play_size"
+                            android:layout_height="@dimen/item_play_size"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:onClick="@{playerVM.onPlayPauseClicked}"
+                            android:padding="8dp"
+                            app:civ_fill_color="@color/colorAccent"
+                            app:imageRes="@{playerVM.imageState}" />
+
+                        <android.support.v4.view.ViewPager
+                            android:id="@+id/vp_player"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@id/iv_play"
+                            android:layout_toStartOf="@id/iv_play"
+                            app:itemView="@{playerVM.itemViewPlayer}"
+                            app:items="@{playerVM.trackVMs}" />
+
+                    </RelativeLayout>
+
+                    <com.startogamu.zikobot.view.custom.ZikobotMessageView
+                        android:visibility="@{playerVM.isEmpty ? v.VISIBLE : v.GONE}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/iv_play"
-                        android:layout_toStartOf="@id/iv_play"
-                        app:itemView="@{playerVM.itemViewPlayer}"
-                        app:items="@{playerVM.trackVMs}" />
-
+                        android:layout_centerInParent="true"
+                        app:zmv_message="@string/tuto_select_track" />
                 </RelativeLayout>
+
+
             </android.support.v7.widget.CardView>
 
 
@@ -67,6 +86,7 @@
                 app:itemView="@{playerVM.itemView}"
                 app:items="@{playerVM.trackVMs}"
                 app:layoutManager="@{LayoutManagers.linear()}" />
+
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

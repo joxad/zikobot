@@ -10,6 +10,7 @@ import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.DialogFragmentBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.DialogFragmentAlarmsBinding;
@@ -75,6 +76,7 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
         AlarmTrackManager.init(alarm);
         AlarmTrackManager.selectTrack(track);
         AlarmManager.saveAlarm(alarm, AlarmTrackManager.tracks()).subscribe(alarm1 -> {
+            AnalyticsManager.logCreateAlarm(alarm,false);
             Toast.makeText(fragment.getContext(), track.getName() + " a été ajoutée à l'alarme " + alarm.getName(), Toast.LENGTH_SHORT).show();
             fragment.dismiss();
         }, throwable -> {

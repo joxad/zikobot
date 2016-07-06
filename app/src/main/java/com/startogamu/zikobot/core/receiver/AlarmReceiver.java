@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.orhanobut.logger.Logger;
+import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
 import com.startogamu.zikobot.view.Henson;
@@ -22,6 +23,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
             if (AlarmManager.canStart(alarm)) {
                 Logger.d("AlarmReceiver" + alarm.getName());
+                AnalyticsManager.logStartAlarm(alarm);
+
                 if (alarm.getRepeated() == 0) {
                     alarm.setActive(0);
                     alarm.save();

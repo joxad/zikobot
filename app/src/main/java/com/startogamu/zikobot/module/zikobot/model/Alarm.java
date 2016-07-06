@@ -97,6 +97,7 @@ public class Alarm extends BaseModel {
     }
 
 
+
     public boolean isDayActive(int day) {
         StringBuilder daysBuilder = new StringBuilder(days);
         char dayStatus = daysBuilder.charAt(day);

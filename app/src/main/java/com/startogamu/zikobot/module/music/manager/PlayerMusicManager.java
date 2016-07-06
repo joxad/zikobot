@@ -25,7 +25,6 @@ import com.startogamu.zikobot.core.event.player.EventPreviousPlayer;
 import com.startogamu.zikobot.core.event.player.EventResumePlayer;
 import com.startogamu.zikobot.core.event.player.EventStopPlayer;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
-import com.startogamu.zikobot.core.receiver.ClearPlayerReceiver;
 import com.startogamu.zikobot.core.service.MediaPlayerService;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.component.Injector;
@@ -196,7 +195,8 @@ public class PlayerMusicManager {
                 mediaPlayerService.playSong(Uri.parse(track.getModel().getRef()));
                 break;
             case TYPE.SPOTIFY:
-                mediaPlayerService.stop();
+                if (mediaPlayerService != null)
+                    mediaPlayerService.stop();
                 SpotifyPlayerManager.play(track.getModel().getRef());
                 break;
             case TYPE.SOUNDCLOUD:
@@ -377,7 +377,4 @@ public class PlayerMusicManager {
         }
     }
 
-    public void playUrl(String s) {
-        mediaPlayerService.playUrlSong(s);
-    }
 }

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string translatable="false" name="api_spotify_id">ab915fed01e14e5cbb008ca9e5c5d9c8</string>
-    <string translatable="false" name="api_spotify_secret">606372d8884d493a9c9112a4ac12a9ec</string>
-</resources>

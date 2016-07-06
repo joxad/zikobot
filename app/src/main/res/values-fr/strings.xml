@@ -16,6 +16,7 @@
 
     <string name="tuto">Appuie ici pour ajouter ta première alarme</string>
     <string name="tuto_zik">Appuie ici pour ajouter tes chansons préférées</string>
+    <string name="tuto_select_track">Choisissez votre chanson</string>
 
     <!--> Menu <-->
     <string name="menu_about">A propos</string>
@@ -41,7 +42,6 @@
 
     <string name="alarm_hint">Libellé de l\'alarme</string>
     <string name="edit_text_error_name_alarm">Erreur sur le nom</string>
-    <string name="activity_alarm_select_song">Choisissez votre chanson</string>
     <string name="activity_music_title">Choix de la musique</string>
 
     <string name="monday">LUN</string>
