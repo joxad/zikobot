@@ -29,7 +29,7 @@ import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.activity.ActivityMusic;
-import com.startogamu.zikobot.view.fragment.deezer.DeezerFragment;
+import com.startogamu.zikobot.view.fragment.deezer.FragmentDeezerPlaylists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
@@ -121,7 +121,7 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
                     }
                     break;
                 case 2:
-                    activity.replaceFragment(DeezerFragment.newInstance(), false, false);
+                    activity.replaceFragment(FragmentDeezerPlaylists.newInstance(), false, false);
                     break;
             }
         });

@@ -57,6 +57,8 @@ public class AppPrefs {
 
     public static SpotifyUser spotifyUser() {
         String user = Prefs.getString(SPOTIFY_USER, "");
+        if (user.equals(""))
+            return null;
         return gson.fromJson(user, SpotifyUser.class);
     }
 

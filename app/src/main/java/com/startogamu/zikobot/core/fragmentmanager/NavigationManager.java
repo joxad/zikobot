@@ -31,6 +31,7 @@ import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
+import com.startogamu.zikobot.view.fragment.deezer.FragmentDeezerPlaylists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalPlaylists;
@@ -91,6 +92,9 @@ public class NavigationManager implements IFragmentManager, IPermission {
             case local:
                 showLocals();
                 break;
+            case deezer:
+                showDeezers();
+                break;
         }
     }
 
@@ -103,11 +107,18 @@ public class NavigationManager implements IFragmentManager, IPermission {
     }
 
     /****
-     * filter on spotify playlists
+     * filter on soundcloud playlists
      */
     public void showSoundClouds() {
         initTabLayoutTracks();
         replaceFragment(FragmentSoundCloudPlaylists.newInstance(), true, false);
+    }
+    /****
+     * filter on deezer playlists
+     */
+    public void showDeezers() {
+        initTabLayoutTracks();
+        replaceFragment(FragmentDeezerPlaylists.newInstance(), true, false);
     }
 
 

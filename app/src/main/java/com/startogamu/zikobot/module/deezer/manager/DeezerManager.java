@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 
 import com.deezer.sdk.model.Permissions;
+import com.deezer.sdk.model.Playlist;
 import com.deezer.sdk.model.User;
 import com.deezer.sdk.network.connect.DeezerConnect;
 import com.deezer.sdk.network.connect.SessionStore;
@@ -16,6 +17,8 @@ import com.deezer.sdk.network.request.DeezerRequestFactory;
 import com.deezer.sdk.network.request.event.DeezerError;
 import com.deezer.sdk.network.request.event.JsonRequestListener;
 import com.startogamu.zikobot.R;
+
+import java.util.ArrayList;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -35,7 +38,6 @@ public class DeezerManager {
         DeezerManager.appId = appId;
         deezerConnect = DeezerConnect.forApp(context.getString(R.string.deezer_id)).build();
         sessionStore = new SessionStore();
-        sessionStore.save(deezerConnect, context);
 
     }
 
@@ -57,7 +59,10 @@ public class DeezerManager {
                 deezerConnect.authorize(activity, permissions, new DialogListener() {
                     @Override
                     public void onComplete(Bundle bundle) {
+                        sessionStore.save(deezerConnect, context);
+
                         subscriber.onNext(bundle);
+
                     }
 
                     @Override
@@ -75,7 +80,7 @@ public class DeezerManager {
     }
 
     public static Observable<User> current() {
-
+        sessionStore.restore(deezerConnect,context);
         DeezerRequest request = DeezerRequestFactory.requestCurrentUser();
         return Observable.create(new Observable.OnSubscribe<User>() {
             @Override
@@ -107,6 +112,39 @@ public class DeezerManager {
             }
         });
 
+    }
+
+    public static Observable<ArrayList<Playlist>> playlists() {
+        DeezerRequest request = DeezerRequestFactory.requestCurrentUserPlaylists();
+        return Observable.create(new Observable.OnSubscribe<ArrayList<Playlist>>() {
+            @Override
+            public void call(Subscriber<? super ArrayList<Playlist>> subscriber) {
+                AsyncDeezerTask task = new AsyncDeezerTask(deezerConnect, new JsonRequestListener() {
+
+                    @Override
+                    public void onResult(final Object result, final Object requestId) {
+                        if (result instanceof User) {
+                            subscriber.onNext((ArrayList<Playlist>)result);
+                        } else {
+                            subscriber.onError(new Throwable("Error of parsing"));
+                        }
+                    }
+
+                    @Override
+                    public void onUnparsedResult(final String response, final Object requestId) {
+                        subscriber.onError(new DeezerError("Unparsed reponse"));
+                    }
+
+
+                    @Override
+                    public void onException(final Exception exception, final Object requestId) {
+                        subscriber.onError(exception);
+                    }
+                });
+
+                task.execute(request);
+            }
+        });
     }
 
     /***

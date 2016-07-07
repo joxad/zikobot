@@ -70,6 +70,8 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     }
 
     private void initSpotify() {
+        if (AppPrefs.spotifyUser()==null)
+            return;
         try {
             Injector.INSTANCE.spotifyAuth().manager().refreshToken(activity, () -> {
             });

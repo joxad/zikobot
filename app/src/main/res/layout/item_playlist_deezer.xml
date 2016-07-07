@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="playlistVM"
+            type="com.startogamu.zikobot.viewmodel.items.ItemDeezerPlaylistVM" />
+    </data>
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_medium"
+        android:longClickable="true">
+
+        <LinearLayout
+            android:id="@+id/layout_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="@{playlistVM.onItemClick}"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_header"
+                android:layout_width="@dimen/item_icon_size"
+                android:layout_height="@dimen/item_icon_size"
+                app:imageUrl="@{playlistVM.imageUrl}"
+                tools:src="@drawable/ic_queue_music" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/margin_medium"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{playlistVM.name}"
+                    android:textSize="@dimen/textSizeLarge_openSource"
+                    tools:text="Ma playlist trop cool" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{playlistVM.nbSongs}"
+                    tools:text="3 chansons" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+</layout>

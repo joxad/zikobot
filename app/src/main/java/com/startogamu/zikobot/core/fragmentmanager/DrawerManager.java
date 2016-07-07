@@ -15,6 +15,7 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.navigation_manager.EventAccountSelect;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
+import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudUser;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
 import com.startogamu.zikobot.view.Henson;
@@ -33,6 +34,7 @@ public class DrawerManager {
     protected ProfileDrawerItem itemLocal;
     protected ProfileDrawerItem itemSpotify;
     protected ProfileDrawerItem itemSoundCloud;
+    protected ProfileDrawerItem itemDeezer;
     private ProfileDrawerItem itemAddAccount;
     private Drawer drawer;
 
@@ -57,7 +59,7 @@ public class DrawerManager {
                 .withActivity(activity)
                 .withAccountHeader(accountHeader)
                 .withToolbar(binding.toolbar)
-                .addDrawerItems(music, alarm,accounts, about)
+                .addDrawerItems(music, alarm, accounts, about)
                 .build();
 
         drawer.setOnDrawerItemClickListener((view, position, drawerItem) -> {
@@ -68,7 +70,7 @@ public class DrawerManager {
                 activityMainVM.navigationManager.showLocals();
             } else if (drawerId == about.getIdentifier()) {
                 activityMainVM.navigationManager.showAbout();
-            } else if (drawerId ==accounts.getIdentifier()){
+            } else if (drawerId == accounts.getIdentifier()) {
                 activity.startActivity(Henson.with(activity).gotoActivitySettings().build());
             }
             return false;
@@ -128,9 +130,13 @@ public class DrawerManager {
             if (profile.getName().equals(itemSoundCloud.getName())) {
                 EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.soundcloud));
                 return false;
-
             }
-
+        }
+        if (itemDeezer != null) {
+            if (profile.getName().equals(itemDeezer.getName())) {
+                EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.deezer));
+                return false;
+            }
         }
         return false;
     }
@@ -163,6 +169,19 @@ public class DrawerManager {
             if (itemSoundCloud != null) {
                 accountHeader.addProfiles(itemSoundCloud);
             }
+        }
+        if (itemDeezer == null) {
+           /* DeezerManager.current().subscribe(user -> {
+                itemDeezer = new ProfileDrawerItem()
+                        .withName(activity.getString(R.string.activity_music_deezer))
+                        .withEmail(user.getUsername())
+                        .withIcon(R.drawable.ic_deezer);
+                if (itemDeezer != null) {
+                    accountHeader.addProfiles(itemDeezer);
+                }
+            }, throwable -> {
+
+            });*/
         }
     }
 

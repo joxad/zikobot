@@ -19,6 +19,8 @@ import java.util.Collection;
  */
 public class Mock {
 
+
+
     public static SoundCloudPlaylist scPlaylist(Context context) {
         SoundCloudPlaylist soundCloudPlaylist = new SoundCloudPlaylist();
         soundCloudPlaylist.setTitle(context.getString(R.string.loading));
@@ -75,7 +77,6 @@ public class Mock {
         track.setArtistName("");
         return track;
     }
-
 
 
 }
