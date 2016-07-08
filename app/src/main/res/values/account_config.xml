@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string translatable="false" name="deezer_id">184802</string>
+    <string translatable="false" name="deezer_secret">32825de47df8af8b3c5a9facc0d98c01</string>
+    <string translatable="false" name="soundcloud_id">c6cbaa6a6e431c11c4b0e6e0cffb4ff5</string>
+    <string translatable="false" name="soundcloud_secret">886e39be025adf6dad25afc1a3f4a7a6</string>
+    <string translatable="false" name="api_spotify_id">ab915fed01e14e5cbb008ca9e5c5d9c8</string>
+    <string translatable="false" name="api_spotify_secret">606372d8884d493a9c9112a4ac12a9ec</string>
+</resources>

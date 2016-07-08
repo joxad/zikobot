@@ -12,7 +12,7 @@ https://trello.com/b/KY74S25F/zikobot
 
 # Current Version
 
-1.0.0-RC8
+VERSION_NAME = 1.0.11-RC6
 
 # How to Install
 
