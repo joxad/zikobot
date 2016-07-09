@@ -221,6 +221,9 @@ public class NavigationManager implements IFragmentManager, IPermission {
                             break;
                         case soundcloud:
                             fragment = FragmentSoundCloudPlaylists.newInstance();
+                            break;
+                        case deezer:
+                            fragment =FragmentDeezerPlaylists.newInstance();
                     }
                     break;
                 case TabLayoutManager.TAB_ARTIST:

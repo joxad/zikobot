@@ -171,17 +171,17 @@ public class DrawerManager {
             }
         }
         if (itemDeezer == null) {
-           /* DeezerManager.current().subscribe(user -> {
+           DeezerManager.current().subscribe(user -> {
                 itemDeezer = new ProfileDrawerItem()
                         .withName(activity.getString(R.string.activity_music_deezer))
-                        .withEmail(user.getUsername())
+                        .withEmail(user.getName())
                         .withIcon(R.drawable.ic_deezer);
                 if (itemDeezer != null) {
                     accountHeader.addProfiles(itemDeezer);
                 }
             }, throwable -> {
 
-            });*/
+            });
         }
     }
 

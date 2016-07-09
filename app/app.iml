@@ -157,8 +157,8 @@
     <orderEntry type="library" exported="" name="material-ripple-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="bindingcollectionadapter-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="baseLibrary-2.1.2" level="project" />
-    <orderEntry type="library" exported="" name="antlr4-annotations-4.5" level="project" />
     <orderEntry type="library" exported="" name="antlr4-runtime-4.5" level="project" />
+    <orderEntry type="library" exported="" name="antlr4-annotations-4.5" level="project" />
     <orderEntry type="library" exported="" name="org.abego.treelayout.core-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="LuseenBottomNavigation-1.8.0" level="project" />
@@ -215,8 +215,8 @@
     <orderEntry type="library" exported="" name="crashlytics-core-2.3.9" level="project" />
     <orderEntry type="library" exported="" name="henson-processor-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="fastadapter-1.5.2" level="project" />
-    <orderEntry type="library" exported="" name="adapter-rxjava-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
+    <orderEntry type="library" exported="" name="adapter-rxjava-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="guava-17.0" level="project" />
     <orderEntry type="library" exported="" name="bindingcollectionadapter-recyclerview-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="rxjava-1.1.1" level="project" />

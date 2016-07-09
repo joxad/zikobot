@@ -80,7 +80,7 @@ public class DeezerManager {
     }
 
     public static Observable<User> current() {
-        sessionStore.restore(deezerConnect,context);
+        sessionStore.restore(deezerConnect, context);
         DeezerRequest request = DeezerRequestFactory.requestCurrentUser();
         return Observable.create(new Observable.OnSubscribe<User>() {
             @Override
@@ -90,7 +90,7 @@ public class DeezerManager {
                     @Override
                     public void onResult(final Object result, final Object requestId) {
                         if (result instanceof User) {
-                            subscriber.onNext((User)result);
+                            subscriber.onNext((User) result);
                         } else {
                             subscriber.onError(new Throwable("Error of parsing"));
                         }
@@ -123,8 +123,8 @@ public class DeezerManager {
 
                     @Override
                     public void onResult(final Object result, final Object requestId) {
-                        if (result instanceof User) {
-                            subscriber.onNext((ArrayList<Playlist>)result);
+                        if (result != null) {
+                            subscriber.onNext((ArrayList<Playlist>) result);
                         } else {
                             subscriber.onError(new Throwable("Error of parsing"));
                         }
