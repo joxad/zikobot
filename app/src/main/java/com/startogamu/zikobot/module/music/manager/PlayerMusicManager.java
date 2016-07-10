@@ -9,7 +9,11 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.deezer.sdk.model.PlayableEntity;
+import com.deezer.sdk.player.PlayerWrapper;
+import com.deezer.sdk.player.event.PlayerWrapperListener;
 import com.joxad.android_easy_spotify.SpotifyPlayerManager;
+import com.orhanobut.logger.Logger;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
@@ -28,6 +32,7 @@ import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.service.MediaPlayerService;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.component.Injector;
+import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.TYPE;
 import com.startogamu.zikobot.module.zikobot.model.Track;
@@ -58,6 +63,7 @@ public class PlayerMusicManager {
     //connect to the service
     private Intent playIntent;
     private boolean isPlaying = false;
+    private PlayerWrapper deezerPlayer;
 
     /***
      * @param context
@@ -66,6 +72,7 @@ public class PlayerMusicManager {
         this.context = context;
         initMediaPlayer(context);
         initSpotifyPlayer(context);
+        initDeezerPlayer(context);
         EventBus.getDefault().register(this);
     }
 
@@ -161,6 +168,31 @@ public class PlayerMusicManager {
         }, null);
     }
 
+    private void initDeezerPlayer(Context context) {
+        DeezerManager.player().addPlayerListener(new PlayerWrapperListener() {
+            @Override
+            public void onAllTracksEnded() {
+
+            }
+
+            @Override
+            public void onPlayTrack(PlayableEntity playableEntity) {
+
+            }
+
+            @Override
+            public void onTrackEnded(PlayableEntity playableEntity) {
+                Logger.d("Track finish");
+                next();
+            }
+
+            @Override
+            public void onRequestException(Exception e, Object o) {
+
+            }
+        });
+
+    }
 
     Handler handler = new Handler();
     private boolean pauseToHandle = true;
@@ -203,6 +235,12 @@ public class PlayerMusicManager {
                 SpotifyPlayerManager.pause();
                 SpotifyPlayerManager.clear();
                 mediaPlayerService.playUrlSong(track.getModel().getRef());
+                break;
+            case TYPE.DEEZER:
+                SpotifyPlayerManager.pause();
+                SpotifyPlayerManager.clear();
+                mediaPlayerService.pause();
+                DeezerManager.playTrack(Long.parseLong(track.getModel().getRef()));
                 break;
         }
         isPlaying = true;

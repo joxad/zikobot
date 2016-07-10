@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.bumptech.glide.Glide;
+import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
@@ -17,6 +18,7 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.core.event.LocalArtistSelectEvent;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
+import com.startogamu.zikobot.core.event.deezer.SelectDeezerItemPlaylistEvent;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAlarms;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerLocal;
 import com.startogamu.zikobot.core.event.navigation_manager.EventAccountSelect;
@@ -32,6 +34,7 @@ import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
 import com.startogamu.zikobot.view.fragment.deezer.FragmentDeezerPlaylists;
+import com.startogamu.zikobot.view.fragment.deezer.FragmentDeezerTracks;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalPlaylists;
@@ -167,6 +170,11 @@ public class NavigationManager implements IFragmentManager, IPermission {
         replaceFragment(FragmentSoundCloudTracks.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
     }
 
+    @Subscribe
+    public void onEvent(SelectDeezerItemPlaylistEvent selectItemPlaylistEvent) {
+        Playlist item = selectItemPlaylistEvent.getItem();
+        replaceFragment(FragmentDeezerTracks.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
+    }
     @Subscribe
     public void onEvent(LocalArtistSelectEvent localArtistSelectEvent) {
         LocalArtist item = localArtistSelectEvent.getLocalArtist();

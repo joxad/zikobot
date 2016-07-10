@@ -85,6 +85,15 @@ public class Track extends BaseModel {
         track.setName(spotifyTrack.getName());
         return track;
     }
+    public static Track from(com.deezer.sdk.model.Track deezerTrack) {
+        Track track = new Track();
+        track.setType(TYPE.DEEZER);
+        track.setRef(""+deezerTrack.getId());
+        track.setImageUrl(deezerTrack.getAlbum().getMediumImageUrl());
+        track.setArtistName(deezerTrack.getArtist().getName());
+        track.setName(deezerTrack.getTitle());
+        return track;
+    }
 
 
     public static Track from(SoundCloudTrack soundCloudTrack) {

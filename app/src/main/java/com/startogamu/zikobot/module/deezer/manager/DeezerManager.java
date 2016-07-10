@@ -1,12 +1,14 @@
 package com.startogamu.zikobot.module.deezer.manager;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 
 import com.deezer.sdk.model.Permissions;
 import com.deezer.sdk.model.Playlist;
+import com.deezer.sdk.model.Track;
 import com.deezer.sdk.model.User;
 import com.deezer.sdk.network.connect.DeezerConnect;
 import com.deezer.sdk.network.connect.SessionStore;
@@ -16,6 +18,11 @@ import com.deezer.sdk.network.request.DeezerRequest;
 import com.deezer.sdk.network.request.DeezerRequestFactory;
 import com.deezer.sdk.network.request.event.DeezerError;
 import com.deezer.sdk.network.request.event.JsonRequestListener;
+import com.deezer.sdk.player.TrackPlayer;
+import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
+import com.deezer.sdk.player.networkcheck.NetworkStateChecker;
+import com.deezer.sdk.player.networkcheck.NetworkStateListener;
+import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
 import com.startogamu.zikobot.R;
 
 import java.util.ArrayList;
@@ -33,12 +40,28 @@ public class DeezerManager {
     private static Context context;
     private static int appId;
 
+    private static TrackPlayer trackPlayer;
     private static void init(Context context, int appId) {
         DeezerManager.context = context;
         DeezerManager.appId = appId;
         deezerConnect = DeezerConnect.forApp(context.getString(R.string.deezer_id)).build();
         sessionStore = new SessionStore();
+        initPlayer();
+    }
 
+    private static void initPlayer() {
+        try {
+            trackPlayer = new TrackPlayer((Application)context.getApplicationContext(), deezerConnect, new WifiAndMobileNetworkStateChecker());
+        } catch (TooManyPlayersExceptions tooManyPlayersExceptions) {
+            tooManyPlayersExceptions.printStackTrace();
+        } catch (DeezerError deezerError) {
+            deezerError.printStackTrace();
+        }
+
+    }
+
+    public static void playTrack(long trackId) {
+        trackPlayer.playTrack(trackId);
     }
 
     /***
@@ -147,6 +170,46 @@ public class DeezerManager {
         });
     }
 
+    public static TrackPlayer player(){
+        return trackPlayer;
+    }
+    /***
+     *
+     * @param idPlaylist
+     * @return
+     */
+    public static Observable<ArrayList<Track>> playlistTracks(long idPlaylist) {
+        DeezerRequest request = DeezerRequestFactory.requestPlaylistTracks(idPlaylist);
+        return Observable.create(new Observable.OnSubscribe<ArrayList<Track>>() {
+            @Override
+            public void call(Subscriber<? super ArrayList<Track>> subscriber) {
+                AsyncDeezerTask task = new AsyncDeezerTask(deezerConnect, new JsonRequestListener() {
+
+                    @Override
+                    public void onResult(final Object result, final Object requestId) {
+                        if (result != null) {
+                            subscriber.onNext((ArrayList<Track>) result);
+                        } else {
+                            subscriber.onError(new Throwable("Error of parsing"));
+                        }
+                    }
+
+                    @Override
+                    public void onUnparsedResult(final String response, final Object requestId) {
+                        subscriber.onError(new DeezerError("Unparsed reponse"));
+                    }
+
+
+                    @Override
+                    public void onException(final Exception exception, final Object requestId) {
+                        subscriber.onError(exception);
+                    }
+                });
+
+                task.execute(request);
+            }
+        });
+    }
     /***
      *
      */

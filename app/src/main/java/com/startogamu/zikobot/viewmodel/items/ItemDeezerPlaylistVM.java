@@ -51,7 +51,7 @@ public class ItemDeezerPlaylistVM extends BaseVM<Playlist> {
 
     @Bindable
     public String getImageUrl() {
-        return model.getBigImageUrl();
+        return model.getMediumImageUrl();
     }
 
     @Bindable
