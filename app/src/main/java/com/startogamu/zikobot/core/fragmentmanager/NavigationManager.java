@@ -42,8 +42,6 @@ import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
 import com.startogamu.zikobot.view.fragment.permission.FragmentPermission;
 import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudPlaylists;
 import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudTracks;
-import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyAlbums;
-import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyArtists;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyTracks;
 import com.startogamu.zikobot.viewmodel.activity.ActivityMainVM;
@@ -70,8 +68,7 @@ public class NavigationManager implements IFragmentManager, IPermission {
     private final android.support.v4.app.FragmentManager supportFragmentManager;
 
     public void init() {
-        initTabLayoutTracks();
-        replaceFragment(FragmentLocalPlaylists.newInstance(), true, false);
+        showLocals();
     }
 
     /***
@@ -79,7 +76,7 @@ public class NavigationManager implements IFragmentManager, IPermission {
      */
     public void showLocals() {
         initTabLayoutTracks();
-        replaceFragment(FragmentLocalPlaylists.newInstance(), true, false);
+        replaceFragment(FragmentLocalAlbums.newInstance(null), true, false);
     }
 
     @Subscribe
@@ -116,6 +113,7 @@ public class NavigationManager implements IFragmentManager, IPermission {
         initTabLayoutTracks();
         replaceFragment(FragmentSoundCloudPlaylists.newInstance(), true, false);
     }
+
     /****
      * filter on deezer playlists
      */
@@ -175,6 +173,7 @@ public class NavigationManager implements IFragmentManager, IPermission {
         Playlist item = selectItemPlaylistEvent.getItem();
         replaceFragment(FragmentDeezerTracks.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
     }
+
     @Subscribe
     public void onEvent(LocalArtistSelectEvent localArtistSelectEvent) {
         LocalArtist item = localArtistSelectEvent.getLocalArtist();
@@ -216,14 +215,11 @@ public class NavigationManager implements IFragmentManager, IPermission {
      * Will contains the filters (artist/album/tracks)
      */
     private void initTabLayoutTracks() {
-        TabLayoutManager.initTabLayoutLocalTracks(activity, binding.tabLayout, tab -> {
+        TabLayoutManager.initTabLayoutTracks(activity, current, binding.tabLayout, tab -> {
             Fragment fragment = null;
             switch (tab.getPosition()) {
-                case TabLayoutManager.TAB_PLAYLIST:
+                case 0:
                     switch (current) {
-                        case local:
-                            fragment = FragmentLocalPlaylists.newInstance();
-                            break;
                         case spotify:
                             fragment = FragmentSpotifyPlaylists.newInstance();
                             break;
@@ -231,36 +227,23 @@ public class NavigationManager implements IFragmentManager, IPermission {
                             fragment = FragmentSoundCloudPlaylists.newInstance();
                             break;
                         case deezer:
-                            fragment =FragmentDeezerPlaylists.newInstance();
+                            fragment = FragmentDeezerPlaylists.newInstance();
+                            break;
+                        case local:
+                            fragment = FragmentLocalAlbums.newInstance(null);
                     }
                     break;
-                case TabLayoutManager.TAB_ARTIST:
+                case 1:
                     switch (current) {
                         case local:
                             fragment = FragmentLocalArtists.newInstance();
                             break;
-                        case spotify:
-                            fragment = FragmentSpotifyArtists.newInstance();
-                            break;
                     }
                     break;
-                case TabLayoutManager.TAB_ALBUM:
-                    switch (current) {
-                        case local:
-                            fragment = FragmentLocalAlbums.newInstance(null);
-                            break;
-                        case spotify:
-                            fragment = FragmentSpotifyAlbums.newInstance();
-                            break;
-                    }
-                    break;
-                case TabLayoutManager.TAB_TRACK:
+                case 2:
                     switch (current) {
                         case local:
                             fragment = FragmentLocalTracks.newInstance(null, BR.trackVM, R.layout.item_track);
-                            break;
-                        case spotify:
-                            fragment = FragmentSpotifyTracks.newInstance(null, BR.trackVM, R.layout.item_track);
                             break;
                     }
                     break;

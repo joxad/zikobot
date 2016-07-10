@@ -44,12 +44,21 @@ public class TabLayoutManager {
         });
     }
 
-    public static void initTabLayoutLocalTracks(Context context, TabLayout tabLayout, SimpleTabSelectedListener simpleTabSelectedListener) {
+    public static void initTabLayoutTracks(Context context, NavigationManager.Account account, TabLayout tabLayout, SimpleTabSelectedListener simpleTabSelectedListener) {
         tabLayout.removeAllTabs();
-        tabLayout.addTab(tabLayout.newTab().setText(context.getString(R.string.drawer_filter_playlist)));
-        tabLayout.addTab(tabLayout.newTab().setText(context.getString(R.string.drawer_filter_album)));
-        tabLayout.addTab(tabLayout.newTab().setText(context.getString(R.string.drawer_filter_artiste)));
-        tabLayout.addTab(tabLayout.newTab().setText(context.getString(R.string.drawer_filter_tracks)));
+        switch (account){
+            case local:
+                tabLayout.addTab(tabLayout.newTab().setText(context.getString(R.string.drawer_filter_album)));
+                tabLayout.addTab(tabLayout.newTab().setText(context.getString(R.string.drawer_filter_artiste)));
+                tabLayout.addTab(tabLayout.newTab().setText(context.getString(R.string.drawer_filter_tracks)));
+                break;
+            case spotify:
+            case soundcloud:
+            case deezer:
+                tabLayout.addTab(tabLayout.newTab().setText(context.getString(R.string.drawer_filter_playlist)));
+                break;
+        }
+
 
 
 
