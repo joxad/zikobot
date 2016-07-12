@@ -22,8 +22,10 @@ public class NextAlarmClockWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        if (intent.getExtras().containsKey(AppWidgetManager.EXTRA_APPWIDGET_IDS)) {
-            onUpdate(context, AppWidgetManager.getInstance(context), intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS));
+        if (intent.getExtras() != null) {
+            if (intent.getExtras().containsKey(AppWidgetManager.EXTRA_APPWIDGET_IDS)) {
+                onUpdate(context, AppWidgetManager.getInstance(context), intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS));
+            }
         }
     }
 
