@@ -96,4 +96,10 @@
     <string name="oops">Oops</string>
     <string name="no_m4a_support">Désolé je ne supporte pas encore ce format :(</string>
 
+
+    <!-- Widget -->
+    <string name="next_alarm">Prochaine alarme : </string>
+    <string name="no_alarm">Aucune alarme</string>
+    <string name="add_alarm">Clique ici pour en ajouter</string>
+
 </resources>

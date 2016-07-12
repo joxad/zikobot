@@ -3,6 +3,7 @@ package com.startogamu.zikobot.module.zikobot.manager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.orhanobut.logger.Logger;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -130,18 +131,20 @@ public class AlarmManager {
             if (calendar.getTimeInMillis() < Calendar.getInstance()
                     .getTimeInMillis()) {
                 triggerMillis = calendar.getTimeInMillis() + android.app.AlarmManager.INTERVAL_DAY;
-
                 System.out.println("Alarm will go off next day");
             } else {
                 triggerMillis = calendar.getTimeInMillis();
             }
-            if (model.getRepeated() == 1) {
-                alarmMgr.setRepeating(android.app.AlarmManager.RTC_WAKEUP, triggerMillis,
-                        android.app.AlarmManager.INTERVAL_DAY, alarmIntent);
-            } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                android.app.AlarmManager.AlarmClockInfo alarmClockInfo = new android.app.AlarmManager.AlarmClockInfo(triggerMillis, alarmIntent);
+                alarmMgr.setAlarmClock(alarmClockInfo, alarmIntent);
+            }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                alarmMgr.setExact(android.app.AlarmManager.RTC_WAKEUP, triggerMillis, alarmIntent);
+            }else {
                 alarmMgr.set(android.app.AlarmManager.RTC_WAKEUP, triggerMillis, alarmIntent);
-
             }
+            model.setTimeInMillis(triggerMillis);
+            model.save();
             Logger.d(model.getName() + model.getHour() + "h " + model.getMinute() + "m" + "prepared");
 
         } else {

@@ -13,6 +13,7 @@ import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
+import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.Track;
@@ -149,13 +150,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     @Bindable
     public String getAlarmTimeAmPm() {
-        String am = "AM";
-        String pm = "PM";
-        String after = am;
-        if (model.getHour() >= 12) {
-            after = pm;
-        }
-        return after;
+        return ZikoUtils.amPm(model.getHour());
     }
 
     public void updateStatus( boolean active) {

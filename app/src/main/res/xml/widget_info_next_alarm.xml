@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/view_widget_next_alarm"
+    android:minHeight="36dp"
+    android:minWidth="288dp"
+    android:updatePeriodMillis="3600000">
+
+</appwidget-provider>

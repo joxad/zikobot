@@ -12,7 +12,7 @@ public class MusicAlarmDatabase {
 
     public static final String NAME = "Music_Alarm_DB";
 
-    public static final int VERSION = 4;
+    public static final int VERSION = 5;
 
 
     @Migration(version = 2, database = MusicAlarmDatabase.class)
@@ -54,6 +54,19 @@ public class MusicAlarmDatabase {
         }
     }
 
+
+    @Migration(version = 5, database = MusicAlarmDatabase.class)
+    public static class Migration5 extends AlterTableMigration<Alarm> {
+
+        public Migration5(Class<Alarm> table) {
+            super(table);
+        }
+
+        @Override
+        public void onPreMigrate() {
+            addColumn(SQLiteType.INTEGER, "timeInMillis");
+        }
+    }
 
 }
 

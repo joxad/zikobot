@@ -24,7 +24,11 @@ public class ZikobotApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+        final Fabric fabric = new Fabric.Builder(this)
+                .kits(new Crashlytics())
+                .debuggable(true)
+                .build();
+        Fabric.with(fabric);
         FlowManager.init(new FlowConfig.Builder(this).build());
         AppPrefs.init(this);
         AnalyticsManager.init(this);

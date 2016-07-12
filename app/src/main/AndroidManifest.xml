@@ -95,6 +95,31 @@
             </intent-filter>
         </receiver>
 
+
+        <receiver
+            android:name=".widget.NextAlarmWidgetProvider"
+            android:icon="@drawable/zikobot_large"
+            android:label="Next Alarm Widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_next_alarm" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.NextAlarmClockWidgetProvider"
+            android:icon="@drawable/zikobot_large"
+            android:label="Alarm Clock Widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_next_alarm_clock" />
+        </receiver>
+
         <service android:name=".core.service.MediaPlayerService" />
 
         <meta-data
@@ -102,5 +127,4 @@
             android:value="00c5576aa26f4b6ed7a4d6e0e8794f3af2436e2d" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

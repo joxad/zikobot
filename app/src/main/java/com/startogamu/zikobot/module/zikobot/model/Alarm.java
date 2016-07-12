@@ -19,6 +19,7 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import retrofit2.http.GET;
 
 /**
  * Created by josh on 08/03/16.
@@ -69,6 +70,11 @@ public class Alarm extends BaseModel {
     @Setter
     protected int volume;
 
+    @Column
+    @Getter
+    @Setter
+    protected long timeInMillis;
+
     @ParcelPropertyConverter(ItemListTrackConverter.class)
     protected List<Track> tracks = new ArrayList<>();
 
@@ -95,6 +101,7 @@ public class Alarm extends BaseModel {
 
         return tracks;
     }
+
 
 
 

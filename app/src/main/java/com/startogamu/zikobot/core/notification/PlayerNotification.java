@@ -167,6 +167,7 @@ public class PlayerNotification {
         playerViewSmall.setTextViewText(R.id.tv_track, track.getName());
     }
 
+
     /***
      *
      */

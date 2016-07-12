@@ -26,13 +26,11 @@
     <string name="action_add_all">Tout ajouter</string>
 
 
-
     <!--> Titles <-->
     <string name="activity_music_local">Ma bibliothèque musicale</string>
     <string name="activity_music_spotify">Spotify</string>
     <string name="activity_music_deezer">Deezer</string>
     <string name="activity_my_account">Mes comptes</string>
-
 
 
     <!--> ActivityAlarm <-->
@@ -95,5 +93,10 @@
     <string name="no_premium">Désolé, tu n\'as pas de compte Premium... je ne peux utiliser Spotify sans cela :(</string>
     <string name="oops">Oops</string>
     <string name="no_m4a_support">Désolé je ne supporte pas encore ce format :(</string>
+
+    <!-- Widget -->
+    <string name="next_alarm">Prochaine alarme : </string>
+    <string name="no_alarm">Aucune alarme</string>
+    <string name="add_alarm">Clique ici pour en ajouter</string>
 
 </resources>

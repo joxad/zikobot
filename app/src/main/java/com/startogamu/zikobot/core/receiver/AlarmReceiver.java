@@ -29,6 +29,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     alarm.setActive(0);
                     alarm.save();
                 }
+                AlarmManager.prepareAlarm(context, alarm);
                 context.startActivity(Henson.with(context).gotoActivityWakeUp().alarm(alarm).build().addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         }, throwable -> {
