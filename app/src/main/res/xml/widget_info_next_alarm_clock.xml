@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/view_widget_next_alarm_clock"
+    android:minResizeHeight="144dp"
+    android:minResizeWidth="252dp"
     android:minHeight="144dp"
-    android:minWidth="288dp"
+    android:minWidth="360dp"
+    android:resizeMode="horizontal"
     android:updatePeriodMillis="0">
 
 </appwidget-provider>
+
+<!--
+    android:configure="com.startogamu.zikobot.view.activity.ActivityWidget"
+-->
