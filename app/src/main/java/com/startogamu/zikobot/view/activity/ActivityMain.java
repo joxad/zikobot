@@ -1,8 +1,11 @@
 package com.startogamu.zikobot.view.activity;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
+import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
@@ -12,7 +15,12 @@ import com.startogamu.zikobot.viewmodel.activity.ActivityMainVM;
 /**
  * Created by josh on 08/06/16.
  */
-public class ActivityMain  extends ActivityBase<ActivityMainBinding, ActivityMainVM> {
+
+public class ActivityMain extends ActivityBase<ActivityMainBinding, ActivityMainVM> {
+    @Nullable
+    @InjectExtra
+    String fromWidget;
+
     @Override
     public int data() {
         return BR.activityMainVM;
@@ -25,6 +33,7 @@ public class ActivityMain  extends ActivityBase<ActivityMainBinding, ActivityMai
 
     @Override
     public ActivityMainVM baseActivityVM(ActivityMainBinding binding, Bundle savedInstanceState) {
+        Dart.inject(this);
         return new ActivityMainVM(this, binding);
     }
 
@@ -37,7 +46,7 @@ public class ActivityMain  extends ActivityBase<ActivityMainBinding, ActivityMai
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if ( vm.onOptionsItemSelected(item)) {
+        if (vm.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);

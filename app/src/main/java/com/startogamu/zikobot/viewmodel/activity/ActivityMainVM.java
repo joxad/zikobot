@@ -3,11 +3,14 @@ package com.startogamu.zikobot.viewmodel.activity;
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
@@ -44,6 +47,9 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     public PlayerVM playerVM;
     public ObservableBoolean fabVisible, tabLayoutVisible;
     private AlertDialog alertDialog;
+    @Nullable
+    @InjectExtra
+    String fromWidget;
 
     /***
      * @param activity
@@ -51,6 +57,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      */
     public ActivityMainVM(ActivityMain activity, ActivityMainBinding binding) {
         super(activity, binding);
+        Dart.inject(this, activity);
         Injector.INSTANCE.spotifyAuth().inject(this);
         Injector.INSTANCE.playerComponent().inject(this);
     }
@@ -67,10 +74,11 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         initToolbar();
         initDrawer();
         initPlayerVM();
+
     }
 
     private void initSpotify() {
-        if (AppPrefs.spotifyUser()==null)
+        if (AppPrefs.spotifyUser() == null)
             return;
         try {
             Injector.INSTANCE.spotifyAuth().manager().refreshToken(activity, () -> {
@@ -82,27 +90,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     private void initNavigationManager() {
         navigationManager = new NavigationManager(this, activity, binding, activity.getSupportFragmentManager());
-        navigationManager.init();
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        try {
-            navigationManager.subscribe();
-        } catch (Exception e) {
-            Logger.e(e.getMessage());
-        }
-        drawerManager.onResume();
-
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onPause() {
-        navigationManager.unsubscribe();
-        EventBus.getDefault().unregister(this);
-        super.onPause();
     }
 
     private void initToolbar() {
@@ -121,6 +109,35 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         drawerManager.init();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            navigationManager.subscribe();
+        } catch (Exception e) {
+            Logger.e(e.getMessage());
+        }
+        drawerManager.onResume();
+
+        EventBus.getDefault().register(this);
+        if (fromWidget != null) {
+            switch (fromWidget) {
+                case "ALARM":
+                    navigationManager.showAlarms();
+                    break;
+            }
+        } else {
+            navigationManager.init();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        navigationManager.unsubscribe();
+        EventBus.getDefault().unregister(this);
+        super.onPause();
+    }
 
     @Subscribe
     public void onEvent(EventShowMessage event) {
@@ -141,11 +158,13 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
 
     }
+
     /***
      *
      */
+
     private void initPlayerVM() {
-        playerVM = new PlayerVM(activity,binding.viewPlayer);
+        playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
 
     @Override

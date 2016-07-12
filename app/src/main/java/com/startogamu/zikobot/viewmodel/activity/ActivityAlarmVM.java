@@ -208,6 +208,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * Use this method to save the data
      */
     public rx.Observable<Alarm> save() {
+
         int min = 0;
         int hour = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -224,7 +225,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         alarmVM.updateRepeated(binding.viewAlarm.swRepeat.isChecked());
         AnalyticsManager.logCreateAlarm(alarm,true);
         alarmVM.updateStatus(alarmVM.hasTracks());
-
         return alarmVM.save();
     }
 

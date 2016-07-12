@@ -101,5 +101,6 @@
     <string name="next_alarm">Prochaine alarme : </string>
     <string name="no_alarm">Aucune alarme</string>
     <string name="add_alarm">Clique ici pour en ajouter</string>
-
+    <string name="no_active_alarm">Aucune alarme active</string>
+    <string name="activate_alarm">Clique ici pour en préparer</string>
 </resources>

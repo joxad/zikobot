@@ -25,6 +25,6 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/view_next_alarm" />
+    <include layout="@layout/view_widget_next_alarm" />
 
 </LinearLayout>
