@@ -42,4 +42,8 @@ public class AlarmTrackManager {
     public static List<Track> tracks() {
         return tracks;
     }
+
+    public static void clear() {
+        tracks.clear();
+    }
 }

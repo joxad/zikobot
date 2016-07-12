@@ -22,6 +22,7 @@ import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.utils.SimpleSeekBarListener;
 import com.startogamu.zikobot.databinding.ActivityAlarmBinding;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
+import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityAlarm;
@@ -68,6 +69,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
                     save().subscribe(alarm1 -> {
                         prepareAlarm(alarm1);
+                        AlarmTrackManager.clear();
                         activity.finish();
                     }, throwable -> {
                         Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();

@@ -3,7 +3,7 @@
     android:initialLayout="@layout/view_widget_next_alarm_clock"
     android:minResizeHeight="144dp"
     android:minResizeWidth="252dp"
-    android:minHeight="144dp"
+    android:minHeight="72dp"
     android:minWidth="360dp"
     android:resizeMode="horizontal"
     android:updatePeriodMillis="0">
