@@ -22,6 +22,7 @@
     <string name="menu_put_an_alarm">En faire une alarme</string>
     <string name="menu_add_to_playlist">Ajouter à la lecture en cours</string>
     <string name="menu_delete">delete</string>
+    <string name="menu_tablature">See guitar tab</string>
 
     <string name="action_add_all">Tout ajouter</string>
 
@@ -100,5 +101,6 @@
     <string name="add_alarm">Clique ici pour en ajouter</string>
     <string name="no_active_alarm">Aucune alarme active</string>
     <string name="activate_alarm">Clique ici pour en préparer</string>
+    <string name="activity_fingerprint">Zikentifier</string>
 
 </resources>

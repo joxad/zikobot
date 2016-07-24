@@ -91,6 +91,7 @@ dependencies {
     compile libs.appCompat
     compile libs.butterKnife
     compile libs.circleIV
+    compile libs.customTabs
     compile libs.dagger
     compile libs.dart
     compile libs.dbFlowCore
@@ -137,6 +138,9 @@ dependencies {
     }
     compile 'com.google.firebase:firebase-core:9.0.2'
     compile 'com.deezer.sdk:deezer-sdk:0.10.20@aar'
+    compile files('libs/gnsdk.jar')
+    compile files('libs/gnsdk_helpers.jar')
+
 
 }
 

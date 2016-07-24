@@ -2,7 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-
     <item
         android:id="@+id/action_play_after"
         android:icon="@drawable/ic_playlist_add"
@@ -14,4 +13,9 @@
         android:icon="@drawable/ic_alarm"
         android:orderInCategory="50"
         android:title="@string/menu_put_an_alarm" />
+
+    <item
+        android:id="@+id/action_tab"
+        android:title="@string/menu_tablature" />
+
 </menu>

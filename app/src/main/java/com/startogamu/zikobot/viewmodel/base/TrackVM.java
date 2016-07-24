@@ -12,6 +12,7 @@ import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
+import com.startogamu.zikobot.core.event.player.EventShowTab;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 
@@ -120,6 +121,9 @@ public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickL
                 break;
             case R.id.action_play_after:
                 EventBus.getDefault().post(new EventAddTrackToCurrent(this));
+                break;
+            case R.id.action_tab:
+                EventBus.getDefault().post(new EventShowTab(this));
                 break;
         }
         return false;

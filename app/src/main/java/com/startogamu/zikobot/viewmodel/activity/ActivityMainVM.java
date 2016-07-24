@@ -21,11 +21,13 @@ import com.startogamu.zikobot.core.event.EventFabClicked;
 import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
+import com.startogamu.zikobot.core.event.player.EventShowTab;
 import com.startogamu.zikobot.core.fragmentmanager.DrawerManager;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.component.Injector;
+import com.startogamu.zikobot.module.tablature.TablatureManager;
 import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
@@ -74,6 +76,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         initToolbar();
         initDrawer();
         initPlayerVM();
+        navigationManager.init();
 
     }
 
@@ -127,8 +130,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                     navigationManager.showAlarms();
                     break;
             }
-        } else {
-            navigationManager.init();
         }
     }
 
@@ -151,6 +152,10 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         alertDialog.show();
     }
 
+    @Subscribe
+    public void onEvent(EventShowTab event) {
+        TablatureManager.showTab(activity, event.getTrackVM().getName(), event.getTrackVM().getArtistName());
+    }
 
     @Subscribe
     public void onEvent(EventShowDialogAlarm event) {

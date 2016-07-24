@@ -122,6 +122,7 @@
 
         <service android:name=".core.service.MediaPlayerService" />
 
+        <activity android:name=".view.activity.fingerprint.ActivityFingerprint" />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="00c5576aa26f4b6ed7a4d6e0e8794f3af2436e2d" />

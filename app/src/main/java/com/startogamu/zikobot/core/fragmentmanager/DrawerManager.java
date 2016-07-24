@@ -1,5 +1,6 @@
 package com.startogamu.zikobot.core.fragmentmanager;
 
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.startogamu.zikobot.module.soundcloud.model.SoundCloudUser;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
 import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityMain;
+import com.startogamu.zikobot.view.activity.fingerprint.ActivityFingerprint;
 import com.startogamu.zikobot.viewmodel.activity.ActivityMainVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,6 +37,7 @@ public class DrawerManager {
     protected ProfileDrawerItem itemSpotify;
     protected ProfileDrawerItem itemSoundCloud;
     protected ProfileDrawerItem itemDeezer;
+
     private ProfileDrawerItem itemAddAccount;
     private Drawer drawer;
 
@@ -53,13 +56,14 @@ public class DrawerManager {
         PrimaryDrawerItem music = new PrimaryDrawerItem().withName(R.string.drawer_filter_music).withIcon(R.drawable.ic_music_wave).withSelectedIcon(R.drawable.ic_music_wave_selected);
         PrimaryDrawerItem alarm = new PrimaryDrawerItem().withName(R.string.drawer_alarms).withIcon(R.drawable.ic_alarm).withSelectedIcon(R.drawable.ic_alarm_selected);
         PrimaryDrawerItem accounts = new PrimaryDrawerItem().withName(R.string.activity_my_account).withSelectable(false);
+        PrimaryDrawerItem fingerprint = new PrimaryDrawerItem().withName(R.string.activity_fingerprint).withSelectable(false);
 
         PrimaryDrawerItem about = new PrimaryDrawerItem().withName(R.string.menu_about).withSelectable(false);
         drawer = new DrawerBuilder()
                 .withActivity(activity)
                 .withAccountHeader(accountHeader)
                 .withToolbar(binding.toolbar)
-                .addDrawerItems(music, alarm, accounts, about)
+                .addDrawerItems(music, alarm, accounts,fingerprint, about)
                 .build();
 
         drawer.setOnDrawerItemClickListener((view, position, drawerItem) -> {
@@ -72,6 +76,8 @@ public class DrawerManager {
                 activityMainVM.navigationManager.showAbout();
             } else if (drawerId == accounts.getIdentifier()) {
                 activity.startActivity(Henson.with(activity).gotoActivitySettings().build());
+            } else  if (drawerId == fingerprint.getIdentifier()){
+                activity.startActivity(new Intent(activity, ActivityFingerprint.class));
             }
             return false;
         });
