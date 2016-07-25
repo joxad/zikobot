@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.SelectAllTracks;
 import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
@@ -58,8 +59,8 @@ public abstract class FragmentSoundCloudTracksVM extends FragmentBaseVM<Fragment
     private void loadTracks(SoundCloudPlaylist playlist) {
         items.clear();
         for (SoundCloudTrack track : playlist.getSoundCloudTracks()) {
-
-            items.add(new TrackVM(fragment.getContext(), Track.from(track)));
+            items.add(new TrackVM(fragment.getContext(),
+                    Track.from(track, fragment.getContext().getString(R.string.soundcloud_id))));
         }
     }
 

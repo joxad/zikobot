@@ -103,4 +103,8 @@
     <string name="activate_alarm">Clique ici pour en préparer</string>
     <string name="activity_fingerprint">Zikentifier</string>
 
+    <!-- About -->
+    <string name="aboutLibraries_description_showIcon">true</string>
+    <string name="aboutLibraries_description_showVersion">true</string>
+    <string name="aboutLibraries_description_text">Zikobot, Android musical assistant</string>
 </resources>

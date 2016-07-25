@@ -58,6 +58,10 @@ public class Track extends BaseModel {
     @Setter
     protected String activated;
 
+    @Getter
+    @Setter
+    protected long duration;
+
     @Transient
     @ForeignKey(saveForeignKeyModel = false)
     public ForeignKeyContainer<Alarm> alarmForeignKeyContainer;
@@ -73,6 +77,7 @@ public class Track extends BaseModel {
         track.setImageUrl(localTrack.getArtPath());
         track.setArtistName(localTrack.getArtist());
         track.setName(localTrack.getTitle());
+        track.setDuration((int) localTrack.getDuration());
         return track;
     }
 
@@ -83,26 +88,41 @@ public class Track extends BaseModel {
         track.setImageUrl(spotifyTrack.getAlbum().getImages().get(0).url);
         track.setArtistName(spotifyTrack.getArtists().get(0).getName());
         track.setName(spotifyTrack.getName());
+        track.setDuration(spotifyTrack.getDuration());
         return track;
     }
+
+    /***
+     * 
+     * @param deezerTrack
+     * @return
+     */
     public static Track from(com.deezer.sdk.model.Track deezerTrack) {
         Track track = new Track();
         track.setType(TYPE.DEEZER);
-        track.setRef(""+deezerTrack.getId());
+        track.setRef("" + deezerTrack.getId());
         track.setImageUrl(deezerTrack.getAlbum().getMediumImageUrl());
         track.setArtistName(deezerTrack.getArtist().getName());
         track.setName(deezerTrack.getTitle());
+        track.setDuration(deezerTrack.getDuration());
         return track;
     }
 
 
-    public static Track from(SoundCloudTrack soundCloudTrack) {
+    /***
+     *
+     * @param soundCloudTrack
+     * @param clientId
+     * @return
+     */
+    public static Track from(SoundCloudTrack soundCloudTrack, String clientId) {
         Track track = new Track();
         track.setType(TYPE.SOUNDCLOUD);
-        track.setRef(soundCloudTrack.getStreamUrl() + "?client_id=c6cbaa6a6e431c11c4b0e6e0cffb4ff5");
+        track.setRef(soundCloudTrack.getStreamUrl() + "?client_id=" + clientId);
         track.setImageUrl(soundCloudTrack.getArtworkUrl());
         //track.setArtistName(soundCloudTrack.geta);
         track.setName(soundCloudTrack.getTitle());
+        track.setDuration(soundCloudTrack.getDuration());
         return track;
     }
 

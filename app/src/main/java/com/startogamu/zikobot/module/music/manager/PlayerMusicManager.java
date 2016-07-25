@@ -11,15 +11,14 @@ import android.util.Log;
 
 import com.deezer.sdk.model.PlayableEntity;
 import com.deezer.sdk.player.PlayerWrapper;
-import com.deezer.sdk.player.event.PlayerWrapperListener;
 import com.joxad.android_easy_spotify.SpotifyPlayerManager;
-import com.orhanobut.logger.Logger;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.event.TrackChangeEvent;
+import com.startogamu.zikobot.core.event.player.DurationEvent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventNextPlayer;
@@ -33,6 +32,7 @@ import com.startogamu.zikobot.core.service.MediaPlayerService;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
+import com.startogamu.zikobot.module.deezer.manager.SimplifiedPlayerListener;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.TYPE;
 import com.startogamu.zikobot.module.zikobot.model.Track;
@@ -43,8 +43,11 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Singleton;
+
+import lombok.Getter;
 
 /**
  * {@link PlayerMusicManager} will handle the change of track according to the type of alarm track that is used
@@ -56,7 +59,10 @@ public class PlayerMusicManager {
     private static final String TAG = PlayerMusicManager.class.getSimpleName();
     private final Context context;
     private Alarm alarm = null;
+    @Getter
     int currentSong = 0;
+    int currentType = -1;
+    int currentPosition;
     private ArrayList<TrackVM> tracks = new ArrayList<>();
     private MediaPlayerService mediaPlayerService;
     private boolean mediaPlayerServiceBound = false;
@@ -64,6 +70,7 @@ public class PlayerMusicManager {
     private Intent playIntent;
     private boolean isPlaying = false;
     private PlayerWrapper deezerPlayer;
+    private MediaObserver observer;
 
     /***
      * @param context
@@ -73,6 +80,9 @@ public class PlayerMusicManager {
         initMediaPlayer(context);
         initSpotifyPlayer(context);
         initDeezerPlayer(context);
+        observer = new MediaObserver();
+        new Thread(observer).start();
+
         EventBus.getDefault().register(this);
     }
 
@@ -123,7 +133,6 @@ public class PlayerMusicManager {
      * @param context
      */
     private void initSpotifyPlayer(Context context) {
-
         SpotifyPlayerManager.startPlayer(context, AppPrefs.getSpotifyAccessToken(), new Player.InitializationObserver() {
             @Override
             public void onInitialized(Player player) {
@@ -137,25 +146,8 @@ public class PlayerMusicManager {
         }, new PlayerNotificationCallback() {
             @Override
             public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
-                if (eventType == EventType.PAUSE) {
-                    Log.d(TAG, "PAUSE");
-                }
-                if (eventType == EventType.PLAY) {
-                    Log.d(TAG, "PLAY");
-                }
-                if (eventType == EventType.TRACK_CHANGED) {
-                    Log.d(TAG, "TRACK_CHANGED");
-                }
-                if (eventType == EventType.SKIP_NEXT) {
-                    Log.d(TAG, "SKIP_NEXT");
-                }
-                if (eventType == EventType.SKIP_PREV) {
-                    Log.d(TAG, "SKIP_PREV");
-                }
-                if (eventType == EventType.TRACK_END) {
-                    Log.d(TAG, "TRACK END");
-
-                }
+                if (currentType == TYPE.SPOTIFY)
+                    currentPosition = playerState.positionInMs;
                 if (playerState.positionInMs >= playerState.durationInMs && playerState.durationInMs > 0 && pauseToHandle)
                     next();
                 Log.d(TAG, String.format("Player state %s - activeDevice %s : current duration %d total duration %s", playerState.trackUri, playerState.activeDevice, playerState.positionInMs, playerState.durationInMs));
@@ -169,26 +161,10 @@ public class PlayerMusicManager {
     }
 
     private void initDeezerPlayer(Context context) {
-        DeezerManager.player().addPlayerListener(new PlayerWrapperListener() {
-            @Override
-            public void onAllTracksEnded() {
-
-            }
-
-            @Override
-            public void onPlayTrack(PlayableEntity playableEntity) {
-
-            }
-
+        DeezerManager.player().addPlayerListener(new SimplifiedPlayerListener() {
             @Override
             public void onTrackEnded(PlayableEntity playableEntity) {
-                Logger.d("Track finish");
                 next();
-            }
-
-            @Override
-            public void onRequestException(Exception e, Object o) {
-
             }
         });
 
@@ -218,34 +194,37 @@ public class PlayerMusicManager {
             tracks.clear();
             tracks.add(track);
         }
-        switch (track.getModel().getType()) {
+        Track model = track.getModel();
+        currentType = model.getType();
+        switch (model.getType()) {
             case TYPE.LOCAL:
                 pauseToHandle = false;
                 SpotifyPlayerManager.pause();
                 SpotifyPlayerManager.clear();
                 handler.postDelayed(() -> pauseToHandle = true, 500);
-                mediaPlayerService.playSong(Uri.parse(track.getModel().getRef()));
+                mediaPlayerService.playSong(Uri.parse(model.getRef()));
                 break;
             case TYPE.SPOTIFY:
                 if (mediaPlayerService != null)
                     mediaPlayerService.stop();
-                SpotifyPlayerManager.play(track.getModel().getRef());
+                SpotifyPlayerManager.play(model.getRef());
                 break;
             case TYPE.SOUNDCLOUD:
                 SpotifyPlayerManager.pause();
                 SpotifyPlayerManager.clear();
-                mediaPlayerService.playUrlSong(track.getModel().getRef());
+                mediaPlayerService.playUrlSong(model.getRef());
                 break;
             case TYPE.DEEZER:
                 SpotifyPlayerManager.pause();
                 SpotifyPlayerManager.clear();
                 mediaPlayerService.pause();
-                DeezerManager.playTrack(Long.parseLong(track.getModel().getRef()));
+                DeezerManager.playTrack(Long.parseLong(model.getRef()));
                 break;
         }
         isPlaying = true;
-        EventBus.getDefault().post(new TrackChangeEvent(track.getModel()));
-        PlayerNotification.show(track.getModel());
+        observer.resume();
+        EventBus.getDefault().post(new TrackChangeEvent(model));
+        PlayerNotification.show(model);
 
     }
 
@@ -302,6 +281,7 @@ public class PlayerMusicManager {
     public void stop() {
         SpotifyPlayerManager.pause();
         mediaPlayerService.stop();
+        observer.stop();
         currentSong = 0;
 
     }
@@ -322,10 +302,6 @@ public class PlayerMusicManager {
         mediaPlayerService.pause();
         SpotifyPlayerManager.pause();
         PlayerNotification.updatePlayStatus(true);
-    }
-
-    public int getCurrentSong() {
-        return currentSong;
     }
 
     public ArrayList<TrackVM> trackVMs() {
@@ -415,4 +391,76 @@ public class PlayerMusicManager {
         }
     }
 
+    /***
+     * move position
+     *
+     * @param progress
+     */
+    public void seek(int progress) {
+        switch (currentType) {
+            case TYPE.LOCAL:
+                mediaPlayerService.seek(progress);
+                break;
+            case TYPE.SPOTIFY:
+                SpotifyPlayerManager.player().seekToPosition(progress);
+                break;
+            case TYPE.SOUNDCLOUD:
+                mediaPlayerService.seek(progress);
+                break;
+            case TYPE.DEEZER:
+                deezerPlayer.seek(currentPosition);
+                break;
+        }
+    }
+
+
+    private class MediaObserver implements Runnable {
+        private AtomicBoolean stop = new AtomicBoolean(false);
+
+        public void stop() {
+            stop.set(true);
+        }
+
+        public void resume() {
+            stop.set(false);
+        }
+
+        @Override
+        public void run() {
+            while (!stop.get()) {
+                try {
+                    if (isPlaying()) {
+                        switch (currentType) {
+                            case TYPE.LOCAL:
+                                currentPosition = mediaPlayerService.getCurrentPosition();
+                                break;
+                            case TYPE.SPOTIFY:
+                                //already done in playbackevent
+                                break;
+                            case TYPE.SOUNDCLOUD:
+                                currentPosition = mediaPlayerService.getCurrentPosition();
+                                break;
+                            case TYPE.DEEZER:
+                                currentPosition = (int) deezerPlayer.getPosition();
+                                break;
+                        }
+                        sendMsgToUI(currentPosition);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    //handles all the background threads things for you
+    private void sendMsgToUI(int position) {
+        DurationEvent event = new DurationEvent(position);
+        EventBus.getDefault().post(event);
+    }
 }

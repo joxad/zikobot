@@ -2,6 +2,7 @@ package com.startogamu.zikobot.view.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.f2prateek.dart.Dart;
@@ -42,6 +43,13 @@ public class ActivityMain extends ActivityBase<ActivityMainBinding, ActivityMain
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         vm.onPostCreate();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override

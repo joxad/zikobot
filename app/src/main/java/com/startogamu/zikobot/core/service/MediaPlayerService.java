@@ -17,8 +17,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
 
     MediaPlayer mediaPlayer;
     private final IBinder musicBind = new MediaPlayerServiceBinder();
-    private int currentPosition;
-
 
     @Override
     public void onCreate() {
@@ -29,6 +27,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setOnPreparedListener(this);
         mediaPlayer.setOnErrorListener(this);
+
     }
 
     public void playUrlSong(String url) {
@@ -42,6 +41,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         }
         mediaPlayer.prepareAsync();
     }
+
     //play a song
     public void playSong(Uri uri) {
         //play
@@ -105,5 +105,13 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         mediaPlayer.stop();
         mediaPlayer.release();
         return false;
+    }
+
+    public void seek(int position) {
+        mediaPlayer.seekTo(position);
+    }
+
+    public int getCurrentPosition() {
+        return mediaPlayer.getCurrentPosition();
     }
 }

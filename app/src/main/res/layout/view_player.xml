@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
-        <import type="android.view.View"
-            alias="v"/>
+
+        <import
+            alias="v"
+            type="android.view.View" />
 
         <variable
             name="playerVM"
@@ -23,28 +26,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <android.support.v7.widget.CardView
                 android:id="@+id/rl_player"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/playerHeight"
                 app:cardElevation="4dp">
 
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/tuto_select_track"
+                        android:visibility="@{playerVM.isEmpty ? v.VISIBLE : v.GONE}" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/iv_play"
-                            android:visibility="@{playerVM.isEmpty ? v.GONE : v.VISIBLE}"
-
                             android:layout_width="@dimen/item_play_size"
                             android:layout_height="@dimen/item_play_size"
                             android:layout_alignParentEnd="true"
@@ -52,7 +56,8 @@
                             android:layout_centerVertical="true"
                             android:layout_margin="@dimen/margin_medium"
                             android:onClick="@{playerVM.onPlayPauseClicked}"
-                            android:padding="8dp"
+                            android:padding="@dimen/padding_16"
+                            android:visibility="@{playerVM.isEmpty ? v.GONE : v.VISIBLE}"
                             app:civ_fill_color="@color/colorAccent"
                             app:imageRes="@{playerVM.imageState}" />
 
@@ -67,26 +72,50 @@
 
                     </RelativeLayout>
 
-                    <com.startogamu.zikobot.view.custom.ZikobotMessageView
-                        android:visibility="@{playerVM.isEmpty ? v.VISIBLE : v.GONE}"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        app:zmv_message="@string/tuto_select_track" />
+
                 </RelativeLayout>
-
-
             </android.support.v7.widget.CardView>
 
-
-            <android.support.v7.widget.RecyclerView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/rl_player"
-                app:itemView="@{playerVM.itemView}"
-                app:items="@{playerVM.trackVMs}"
-                app:layoutManager="@{LayoutManagers.linear()}" />
+                android:orientation="vertical">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_8">
+
+                    <SeekBar
+                        android:id="@+id/progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/tv_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/progress"
+                        tools:text="1:00" />
+
+                    <TextView
+                        android:id="@+id/tv_duration_max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/progress"
+                        tools:text="3:OO" />
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:itemView="@{playerVM.itemView}"
+                    app:items="@{playerVM.trackVMs}"
+                    app:layoutManager="@{LayoutManagers.linear()}" />
+            </LinearLayout>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

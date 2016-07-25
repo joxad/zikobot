@@ -1,5 +1,7 @@
 package com.startogamu.zikobot.core.utils;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by josh on 12/07/16.
  */
@@ -18,5 +20,13 @@ public class ZikoUtils {
             after = pm;
         }
         return after;
+    }
+
+
+    public static String readableTime(int millis) {
+        return String.format("%2d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(millis), TimeUnit.MILLISECONDS.toSeconds(millis) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
+        );
     }
 }

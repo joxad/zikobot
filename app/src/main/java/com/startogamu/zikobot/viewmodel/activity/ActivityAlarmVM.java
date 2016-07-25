@@ -1,6 +1,5 @@
 package com.startogamu.zikobot.viewmodel.activity;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.media.AudioManager;
 import android.support.design.widget.Snackbar;
@@ -21,7 +20,6 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.utils.SimpleSeekBarListener;
 import com.startogamu.zikobot.databinding.ActivityAlarmBinding;
-import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.view.Henson;
@@ -60,6 +58,11 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         activity.setTitle(alarm.getName());
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> activity.onBackPressed());
+        initMenu();
+        initViews();
+    }
+
+    private void initMenu() {
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_delete:
@@ -88,8 +91,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
             return false;
         });
 
-
-        initViews();
     }
 
 
@@ -225,7 +226,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         Log.d(AlarmVM.class.getSimpleName(), "hours " + hour + "minu" + min);
         alarmVM.updateTimeSelected(hour, min);
         alarmVM.updateRepeated(binding.viewAlarm.swRepeat.isChecked());
-        AnalyticsManager.logCreateAlarm(alarm,true);
+        AnalyticsManager.logCreateAlarm(alarm, true);
         alarmVM.updateStatus(alarmVM.hasTracks());
         return alarmVM.save();
     }
@@ -244,7 +245,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * @param alarm
      */
     private void prepareAlarm(Alarm alarm) {
-        com.startogamu.zikobot.module.zikobot.manager.AlarmManager.prepareAlarm(activity,alarm);
+        com.startogamu.zikobot.module.zikobot.manager.AlarmManager.prepareAlarm(activity, alarm);
     }
 
 

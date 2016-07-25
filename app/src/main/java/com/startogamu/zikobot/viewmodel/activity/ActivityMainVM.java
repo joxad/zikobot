@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
@@ -76,10 +77,15 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         initToolbar();
         initDrawer();
         initPlayerVM();
+        initMenu();
         navigationManager.init();
 
     }
 
+
+    /***
+     * Refresh token of spotify if existing
+     */
     private void initSpotify() {
         if (AppPrefs.spotifyUser() == null)
             return;
@@ -96,6 +102,9 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     }
 
+    /***
+     * Init the toolar
+     */
     private void initToolbar() {
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -112,6 +121,20 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         drawerManager.init();
     }
 
+    /**
+     * Init the action on the toolbar menu
+     */
+    private void initMenu() {
+        binding.toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_search:
+                    Snackbar.make(binding.container, "Search", Snackbar.LENGTH_SHORT).show();
+                    break;
+            }
+            return false;
+        });
+
+    }
 
     @Override
     protected void onResume() {

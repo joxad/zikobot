@@ -136,8 +136,8 @@ public class NavigationManager implements IFragmentManager, IPermission {
      */
     public void showAbout() {
         new LibsBuilder()
-                .withAboutAppName(activity.getString(R.string.menu_about))
-                .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                .withActivityTheme(R.style.MaterialDrawerTheme)
+                .withActivityStyle(Libs.ActivityStyle.LIGHT)
                 .start(activity);
     }
 
