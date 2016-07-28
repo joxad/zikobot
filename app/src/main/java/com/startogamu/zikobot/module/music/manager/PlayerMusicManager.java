@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.databinding.Bindable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
@@ -67,7 +68,6 @@ public class PlayerMusicManager {
     private MediaPlayerService mediaPlayerService;
     private boolean mediaPlayerServiceBound = false;
     //connect to the service
-    private Intent playIntent;
     private boolean isPlaying = false;
     private PlayerWrapper deezerPlayer;
     private MediaObserver observer;
@@ -120,8 +120,8 @@ public class PlayerMusicManager {
      * @param context
      */
     public void initMediaPlayer(Context context) {
-        if (playIntent == null) {
-            playIntent = new Intent(context, MediaPlayerService.class);
+        if (!mediaPlayerServiceBound) {
+            Intent playIntent = new Intent(context, MediaPlayerService.class);
             context.bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             context.startService(playIntent);
         }
@@ -179,6 +179,7 @@ public class PlayerMusicManager {
      * @param track
      */
     private void playTrack(final TrackVM track) {
+        initMediaPlayer(context);
         int i = 0;
         newTrack = true;
         for (TrackVM t : tracks) {
@@ -411,6 +412,14 @@ public class PlayerMusicManager {
                 deezerPlayer.seek(currentPosition);
                 break;
         }
+    }
+
+
+    public TrackVM getCurrentTrackVM() {
+        if (tracks.isEmpty()){
+            return new TrackVM(context, new Track());
+        }
+        return tracks.get(currentSong);
     }
 
 

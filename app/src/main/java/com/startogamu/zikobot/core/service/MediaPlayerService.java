@@ -104,6 +104,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
     public boolean onUnbind(Intent intent) {
         mediaPlayer.stop();
         mediaPlayer.release();
+
         return false;
     }
 

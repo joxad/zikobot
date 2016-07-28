@@ -145,7 +145,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
             Logger.e(e.getMessage());
         }
         drawerManager.onResume();
-
+        playerVM.onResume();
         EventBus.getDefault().register(this);
         if (fromWidget != null) {
             switch (fromWidget) {
@@ -158,6 +158,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     protected void onPause() {
+        playerVM.onPause();
         navigationManager.unsubscribe();
         EventBus.getDefault().unregister(this);
         super.onPause();
@@ -194,6 +195,8 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     private void initPlayerVM() {
         playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
+
+
 
     @Override
     public void destroy() {

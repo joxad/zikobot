@@ -3,8 +3,9 @@ package com.startogamu.zikobot.viewmodel.custom;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.os.Handler;
-import android.os.Looper;
+import android.databinding.ObservableBoolean;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.SeekBar;
@@ -38,12 +39,11 @@ public class PlayerVM extends BaseObservable implements IVM {
     private final ViewPlayerBinding binding;
     public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_track);
     public ItemView itemViewPlayer = ItemView.of(BR.trackVM, R.layout.view_player_current);
-
-    private Handler durationHandler = new Handler(Looper.getMainLooper());
     private final Context context;
 
-
+    private BottomSheetBehavior bottomSheetBehavior;
     private boolean manualChange = false;
+    public ObservableBoolean isExpanded = new ObservableBoolean(false);
 
     public PlayerVM(Context context, ViewPlayerBinding binding) {
         this.context = context;
@@ -54,7 +54,20 @@ public class PlayerVM extends BaseObservable implements IVM {
     @Override
     public void init() {
         binding.vpPlayer.setOffscreenPageLimit(20);
-        EventBus.getDefault().register(this);
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.getRoot());
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                isExpanded.set(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED);
+                notifyPropertyChanged(BR.playerVM);
+
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
         Injector.INSTANCE.playerComponent().inject(this);
         binding.vpPlayer.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -64,14 +77,24 @@ public class PlayerVM extends BaseObservable implements IVM {
             }
         });
 
-        binding.progress.setOnSeekBarChangeListener(new SimpleSeekBarChangeListener() {
+        binding.rlProgress.progress.setOnSeekBarChangeListener(new SimpleSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser){
+                if (fromUser) {
                     Injector.INSTANCE.playerComponent().manager().seek(progress);
                 }
             }
         });
+    }
+
+    public void onResume() {
+        EventBus.getDefault().register(this);
+        isExpanded.set(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED);
+        binding.rgOptions.setVisibility(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ? View.VISIBLE : View.GONE);
+    }
+
+    public void onPause() {
+        EventBus.getDefault().unregister(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -79,8 +102,8 @@ public class PlayerVM extends BaseObservable implements IVM {
     public void onEvent(DurationEvent event) {
         //seekbar or any other ui element
         int millis = event.getPosition();
-        binding.progress.setProgress(millis);
-        binding.tvDuration.setText(ZikoUtils.readableTime(millis));
+        binding.rlProgress.progress.setProgress(millis);
+        binding.rlProgress.tvDuration.setText(ZikoUtils.readableTime(millis));
     }
 
 
@@ -94,8 +117,8 @@ public class PlayerVM extends BaseObservable implements IVM {
         //binding.progress.setm
         binding.vpPlayer.getAdapter().notifyDataSetChanged();
         binding.vpPlayer.setCurrentItem(Injector.INSTANCE.playerComponent().manager().getCurrentSong(), true);
-        binding.tvDurationMax.setText(ZikoUtils.readableTime((int) trackChangeEvent.getTrack().getDuration()));
-        binding.progress.setMax((int) trackChangeEvent.getTrack().getDuration());
+        binding.rlProgress.tvDurationMax.setText(ZikoUtils.readableTime((int) trackChangeEvent.getTrack().getDuration()));
+        binding.rlProgress.progress.setMax((int) trackChangeEvent.getTrack().getDuration());
     }
 
 
@@ -103,7 +126,6 @@ public class PlayerVM extends BaseObservable implements IVM {
     public void onReceive(EventAddTrackToCurrent trackChangeEvent) {
         notifyChange();
         binding.vpPlayer.getAdapter().notifyDataSetChanged();
-
     }
 
 
@@ -144,6 +166,11 @@ public class PlayerVM extends BaseObservable implements IVM {
     @Bindable
     public boolean getIsEmpty() {
         return Injector.INSTANCE.playerComponent().manager().trackVMs().isEmpty();
+    }
+
+    @Bindable
+    public TrackVM getTrackVM() {
+        return Injector.INSTANCE.playerComponent().manager().getCurrentTrackVM();
     }
 
 }
