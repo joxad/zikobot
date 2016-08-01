@@ -45,6 +45,7 @@ public class TabLayoutManager {
     }
 
     public static void initTabLayoutTracks(Context context, NavigationManager.Account account, TabLayout tabLayout, SimpleTabSelectedListener simpleTabSelectedListener) {
+
         tabLayout.removeAllTabs();
         switch (account){
             case local:

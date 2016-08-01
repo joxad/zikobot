@@ -9,11 +9,6 @@
             alias="v"
             type="android.view.View" />
 
-        <import
-            alias="color"
-            type="com.startogamu.zikobot.core.utils.Colors" />
-
-
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
 
         <variable

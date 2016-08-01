@@ -71,6 +71,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
+                            android:visibility="@{playerVM.isExpanded ? v.VISIBLE : v.GONE}"
+
                             android:layout_centerVertical="true"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
@@ -113,7 +115,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/rl_player"
-                android:orientation="vertical"
                 android:visibility="@{playerVM.isEmpty ? v.GONE : v.VISIBLE}">
 
                 <include
@@ -132,6 +133,7 @@
 
 
                     <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_tracks"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:itemView="@{playerVM.itemView}"

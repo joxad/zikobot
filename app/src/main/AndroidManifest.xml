@@ -21,7 +21,8 @@
 
         <activity
             android:name=".view.activity.ActivityMain"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
 
 
             <intent-filter>
@@ -39,14 +40,15 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
             android:name=".view.activity.ActivitySettings"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
-
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
 
             // An intent filter that will receive the response from the authentication service
             <intent-filter>
@@ -66,7 +68,8 @@
             android:name=".view.activity.ActivityMusic"
             android:configChanges="orientation|screenSize"
             android:label="@string/activity_music_title"
-            android:launchMode="singleInstance" />
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.activity.ActivityWakeUp"
@@ -82,8 +85,7 @@
         <receiver android:name=".core.receiver.ClearPlayerReceiver" />
         <receiver android:name=".core.receiver.NextPlayerReceiver" />
         <receiver android:name=".core.receiver.PreviousPlayerReceiver" />
-        <receiver android:name=".core.receiver.PausePlayerReceiver" />
-        <receiver android:name=".core.receiver.ResumePlayerReceiver" />
+        <receiver android:name=".core.receiver.NotificationPauseResumeReceiver" />
 
         <activity android:name=".view.activity.ActivityFirstStart" />
         <!-- Will not be called unless the application explicitly enables it -->
@@ -120,7 +122,8 @@
                 android:resource="@xml/widget_info_next_alarm_clock" />
         </receiver>
 
-        <service android:name=".core.service.MediaPlayerService" />
+        <service
+            android:name=".core.service.MediaPlayerService" />
 
         <activity android:name=".view.activity.fingerprint.ActivityFingerprint" />
         <meta-data

@@ -40,6 +40,7 @@ import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalPlaylists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
 import com.startogamu.zikobot.view.fragment.permission.FragmentPermission;
+import com.startogamu.zikobot.view.fragment.search.FragmentSearch;
 import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudPlaylists;
 import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudTracks;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
@@ -77,6 +78,11 @@ public class NavigationManager implements IFragmentManager, IPermission {
     public void showLocals() {
         initTabLayoutTracks();
         replaceFragment(FragmentLocalAlbums.newInstance(null), true, false);
+    }
+
+
+    public void showSearch() {
+        replaceFragment(FragmentSearch.newInstance(), false, true);
     }
 
     @Subscribe

@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.databinding.Bindable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
@@ -19,19 +18,13 @@ import com.spotify.sdk.android.player.PlayerState;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.event.TrackChangeEvent;
-import com.startogamu.zikobot.core.event.player.DurationEvent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
-import com.startogamu.zikobot.core.event.player.EventNextPlayer;
-import com.startogamu.zikobot.core.event.player.EventPausePlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
-import com.startogamu.zikobot.core.event.player.EventPreviousPlayer;
-import com.startogamu.zikobot.core.event.player.EventResumePlayer;
 import com.startogamu.zikobot.core.event.player.EventStopPlayer;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.service.MediaPlayerService;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
 import com.startogamu.zikobot.module.deezer.manager.SimplifiedPlayerListener;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
@@ -44,11 +37,11 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Singleton;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * {@link PlayerMusicManager} will handle the change of track according to the type of alarm track that is used
@@ -68,9 +61,9 @@ public class PlayerMusicManager {
     private MediaPlayerService mediaPlayerService;
     private boolean mediaPlayerServiceBound = false;
     //connect to the service
-    private boolean isPlaying = false;
+    public boolean isPlaying = false;
     private PlayerWrapper deezerPlayer;
-    private MediaObserver observer;
+    private Handler trackPositionHandler;
 
     /***
      * @param context
@@ -80,9 +73,7 @@ public class PlayerMusicManager {
         initMediaPlayer(context);
         initSpotifyPlayer(context);
         initDeezerPlayer(context);
-        observer = new MediaObserver();
-        new Thread(observer).start();
-
+        trackPositionHandler = new Handler();
         EventBus.getDefault().register(this);
     }
 
@@ -106,12 +97,14 @@ public class PlayerMusicManager {
             mediaPlayerService.setOnCompletionListener(mp -> {
                 next();
             });
+            mediaPlayerService.setOnDisconnectListener(() -> mediaPlayerServiceBound = false);
             //pass list
             mediaPlayerServiceBound = true;
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+            mediaPlayerService = null;
             mediaPlayerServiceBound = false;
         }
     };
@@ -120,7 +113,7 @@ public class PlayerMusicManager {
      * @param context
      */
     public void initMediaPlayer(Context context) {
-        if (!mediaPlayerServiceBound) {
+        if (!mediaPlayerServiceBound || mediaPlayerService == null) {
             Intent playIntent = new Intent(context, MediaPlayerService.class);
             context.bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             context.startService(playIntent);
@@ -223,8 +216,12 @@ public class PlayerMusicManager {
                 break;
         }
         isPlaying = true;
-        observer.resume();
+        observe();
         EventBus.getDefault().post(new TrackChangeEvent(model));
+
+        if (playerStatusListener != null) {
+            playerStatusListener.onUpdate(isPlaying);
+        }
         PlayerNotification.show(model);
 
     }
@@ -282,7 +279,6 @@ public class PlayerMusicManager {
     public void stop() {
         SpotifyPlayerManager.pause();
         mediaPlayerService.stop();
-        observer.stop();
         currentSong = 0;
 
     }
@@ -346,30 +342,11 @@ public class PlayerMusicManager {
     }
 
 
-    @Subscribe
+    @Subscribe(priority = 10)
     public void onReceive(EventAddTrackToCurrent eventAddTrackToPlayer) {
         tracks.add(eventAddTrackToPlayer.getTrackVM());
     }
 
-    @Subscribe
-    public void onReceive(EventPreviousPlayer eventPreviousPlayer) {
-        previous();
-    }
-
-    @Subscribe
-    public void onReceive(EventNextPlayer eventResumePlayer) {
-        next();
-    }
-
-    @Subscribe
-    public void onReceive(EventResumePlayer eventResumePlayer) {
-        resume();
-    }
-
-    @Subscribe
-    public void onReceive(EventPausePlayer eventPausePlayer) {
-        pause();
-    }
 
     @Subscribe
     public void onReceive(EventStopPlayer eventStopPlayer) {
@@ -379,16 +356,15 @@ public class PlayerMusicManager {
         stop();
     }
 
-    public boolean isPlaying() {
-        return isPlaying;
-    }
-
     public void playOrResume() {
         isPlaying = !isPlaying;
         if (isPlaying) {
-            Injector.INSTANCE.playerComponent().manager().resume();
+            resume();
         } else {
-            Injector.INSTANCE.playerComponent().manager().pause();
+            pause();
+        }
+        if (playerStatusListener != null) {
+            playerStatusListener.onUpdate(isPlaying);
         }
     }
 
@@ -416,60 +392,59 @@ public class PlayerMusicManager {
 
 
     public TrackVM getCurrentTrackVM() {
-        if (tracks.isEmpty()){
+        if (tracks.isEmpty()) {
             return new TrackVM(context, new Track());
         }
         return tracks.get(currentSong);
     }
 
 
-    private class MediaObserver implements Runnable {
-        private AtomicBoolean stop = new AtomicBoolean(false);
-
-        public void stop() {
-            stop.set(true);
-        }
-
-        public void resume() {
-            stop.set(false);
-        }
-
-        @Override
-        public void run() {
-            while (!stop.get()) {
-                try {
-                    if (isPlaying()) {
-                        switch (currentType) {
-                            case TYPE.LOCAL:
-                                currentPosition = mediaPlayerService.getCurrentPosition();
-                                break;
-                            case TYPE.SPOTIFY:
-                                //already done in playbackevent
-                                break;
-                            case TYPE.SOUNDCLOUD:
-                                currentPosition = mediaPlayerService.getCurrentPosition();
-                                break;
-                            case TYPE.DEEZER:
-                                currentPosition = (int) deezerPlayer.getPosition();
-                                break;
-                        }
-                        sendMsgToUI(currentPosition);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+    public void observe() {
+        trackPositionHandler.postDelayed(() -> {
+            if (isPlaying) {
+                switch (currentType) {
+                    case TYPE.LOCAL:
+                        currentPosition = mediaPlayerService.getCurrentPosition();
+                        break;
+                    case TYPE.SPOTIFY:
+                        //already done in playbackevent
+                        break;
+                    case TYPE.SOUNDCLOUD:
+                        currentPosition = mediaPlayerService.getCurrentPosition();
+                        break;
+                    case TYPE.DEEZER:
+                        currentPosition = (int) deezerPlayer.getPosition();
+                        break;
                 }
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                sendMsgToUI(currentPosition);
             }
-        }
+            observe();
+
+        }, 200);
+    }
+
+
+    @Setter
+    private DurationListener durationListener;
+
+    public interface DurationListener {
+        void onUpdate(int position);
+    }
+
+    @Setter
+    private PlayerStatusListener playerStatusListener;
+
+    public interface PlayerStatusListener {
+        void onUpdate(boolean isPlayinh);
     }
 
     //handles all the background threads things for you
     private void sendMsgToUI(int position) {
-        DurationEvent event = new DurationEvent(position);
-        EventBus.getDefault().post(event);
+        if (durationListener != null)
+            durationListener.onUpdate(position);
+    }
+
+    public int getCurrentPosition() {
+        return currentPosition;
     }
 }

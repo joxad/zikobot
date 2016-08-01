@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.orhanobut.logger.Logger;
-import com.startogamu.zikobot.core.event.player.EventNextPlayer;
-
-import org.greenrobot.eventbus.EventBus;
+import com.startogamu.zikobot.module.component.Injector;
 
 
 /**
@@ -24,7 +22,7 @@ public class NextPlayerReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        EventBus.getDefault().post(new EventNextPlayer());
+        Injector.INSTANCE.playerComponent().manager().next();
         Logger.d(TAG);
     }
 

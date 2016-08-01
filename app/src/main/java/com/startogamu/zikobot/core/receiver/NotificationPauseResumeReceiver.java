@@ -5,26 +5,25 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.orhanobut.logger.Logger;
-import com.startogamu.zikobot.core.event.player.EventPausePlayer;
-
-import org.greenrobot.eventbus.EventBus;
+import com.startogamu.zikobot.module.component.Injector;
 
 
 /**
  * Created by josh on 14/06/16.
  */
-public class PausePlayerReceiver extends BroadcastReceiver {
+public class NotificationPauseResumeReceiver extends BroadcastReceiver {
 
 
-    public static final String TAG = PausePlayerReceiver.class.getSimpleName();
+    public static final String TAG = NotificationPauseResumeReceiver.class.getSimpleName();
 
-    public PausePlayerReceiver() {
+    public NotificationPauseResumeReceiver() {
         super();
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        EventBus.getDefault().post(new EventPausePlayer());
+
+        Injector.INSTANCE.playerComponent().manager().playOrResume();
         Logger.d(TAG);
     }
 

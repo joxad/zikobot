@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
@@ -13,9 +15,8 @@ import com.bumptech.glide.request.target.NotificationTarget;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.receiver.ClearPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.NextPlayerReceiver;
-import com.startogamu.zikobot.core.receiver.PausePlayerReceiver;
+import com.startogamu.zikobot.core.receiver.NotificationPauseResumeReceiver;
 import com.startogamu.zikobot.core.receiver.PreviousPlayerReceiver;
-import com.startogamu.zikobot.core.receiver.ResumePlayerReceiver;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 
 /**
@@ -30,11 +31,13 @@ public class PlayerNotification {
     private static RemoteViews playerViewSmall;
     private static RemoteViews playerViewLarge;
     private static Notification notification;
+    private static Handler handler;
 
     /***
      * @param context
      */
     public static void init(final Context context) {
+        handler = new Handler(Looper.getMainLooper());
         PlayerNotification.context = context;
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
@@ -84,10 +87,10 @@ public class PlayerNotification {
                 R.id.remote_view_iv_track,
                 notification,
                 notificationId);
-        Glide.with(context)
+        handler.post(() -> Glide.with(context)
                 .load(track.getImageUrl())
                 .asBitmap()
-                .into(notificationTarget);
+                .into(notificationTarget));
     }
 
     /**
@@ -101,10 +104,10 @@ public class PlayerNotification {
                 R.id.remote_view_iv_track,
                 notification,
                 notificationId);
-        Glide.with(context)
+        handler.post(() -> Glide.with(context)
                 .load(track.getImageUrl())
                 .asBitmap()
-                .into(notificationTarget);
+                .into(notificationTarget));
     }
 
     /***
@@ -117,7 +120,7 @@ public class PlayerNotification {
         playerViewLarge.setTextViewText(R.id.tv_artist, track.getArtistName());
         playerViewLarge.setTextViewText(R.id.tv_track, track.getName());
 
-        Intent intentPause = new Intent(context, PausePlayerReceiver.class);
+        Intent intentPause = new Intent(context, NotificationPauseResumeReceiver.class);
 // use System.currentTimeMillis() to have a unique ID for the pending intent
         PendingIntent pIntentPause = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentPause, PendingIntent.FLAG_UPDATE_CURRENT);
         playerViewLarge.setOnClickPendingIntent(R.id.iv_play, pIntentPause);
@@ -142,11 +145,11 @@ public class PlayerNotification {
     public static void updatePlayStatus(boolean showPlay) {
         playerViewLarge.setImageViewResource(R.id.iv_play, showPlay ? R.drawable.ic_play_arrow : R.drawable.ic_pause);
         if (showPlay) {
-            Intent intentResume = new Intent(context, ResumePlayerReceiver.class);
+            Intent intentResume = new Intent(context, NotificationPauseResumeReceiver.class);
             PendingIntent pIntentResume = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentResume, PendingIntent.FLAG_UPDATE_CURRENT);
             playerViewLarge.setOnClickPendingIntent(R.id.iv_play, pIntentResume);
         } else {
-            Intent intentPause = new Intent(context, PausePlayerReceiver.class);
+            Intent intentPause = new Intent(context, NotificationPauseResumeReceiver.class);
             PendingIntent pIntentPause = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentPause, PendingIntent.FLAG_UPDATE_CURRENT);
             playerViewLarge.setOnClickPendingIntent(R.id.iv_play, pIntentPause);
         }

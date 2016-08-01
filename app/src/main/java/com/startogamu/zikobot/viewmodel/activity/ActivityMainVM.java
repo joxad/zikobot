@@ -67,9 +67,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     public void init() {
-        if (AppPrefs.isFirstStart()) {
-            activity.startActivity(Henson.with(activity).gotoActivityFirstStart().build());
-        }
+
         fabVisible = new ObservableBoolean(false);
         tabLayoutVisible = new ObservableBoolean(true);
         initSpotify();
@@ -79,7 +77,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         initPlayerVM();
         initMenu();
         navigationManager.init();
-
     }
 
 
@@ -129,6 +126,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
             switch (item.getItemId()) {
                 case R.id.action_search:
                     Snackbar.make(binding.container, "Search", Snackbar.LENGTH_SHORT).show();
+                    navigationManager.showSearch();
                     break;
             }
             return false;
@@ -153,6 +151,10 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                     navigationManager.showAlarms();
                     break;
             }
+        }
+
+        if (AppPrefs.isFirstStart()) {
+            activity.startActivity(Henson.with(activity).gotoActivityFirstStart().build());
         }
     }
 
@@ -241,6 +243,10 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
         if (drawerManager.isDrawerOpen()) {
             drawerManager.closeDrawer();
+            return false;
+        }
+        if (playerVM.isExpanded.get()){
+            playerVM.close();
             return false;
         }
         return super.onBackPressed();

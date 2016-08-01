@@ -25,7 +25,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_image"
                 android:layout_width="@dimen/item_icon_size"
                 android:layout_height="@dimen/item_icon_size"
@@ -41,12 +41,12 @@
                 android:layout_centerVertical="true"
                 android:padding="4dp">
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
                     android:onClick="@{trackVM.onMoreClicked}"
-                    android:src="@drawable/ic_more" />
+                    app:srcCompat="@drawable/ic_more" />
             </com.balysv.materialripple.MaterialRippleLayout>
 
             <RelativeLayout
