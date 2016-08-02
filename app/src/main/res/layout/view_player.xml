@@ -71,11 +71,11 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:visibility="@{playerVM.isExpanded ? v.VISIBLE : v.GONE}"
-
                             android:layout_centerVertical="true"
+
                             android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="@{playerVM.isExpanded ? v.VISIBLE : v.GONE}">
 
                             <CheckBox
                                 android:id="@+id/rb_list"
@@ -136,10 +136,26 @@
                         android:id="@+id/rv_tracks"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:visibility="@{playerVM.lyricsSelected ? v.GONE : v.VISIBLE}"
                         app:itemView="@{playerVM.itemView}"
+
                         app:items="@{playerVM.trackVMs}"
                         app:layoutManager="@{LayoutManagers.linear()}" />
 
+
+                    <TextView
+                        android:id="@+id/tv_lyrics"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:gravity="center_horizontal"
+                        android:isScrollContainer="true"
+                        android:padding="@dimen/margin_medium"
+                        android:scrollHorizontally="false"
+                        android:scrollbars="vertical"
+                        android:text="@{playerVM.currentTrackLyrics}"
+                        android:textIsSelectable="true"
+                        android:visibility="@{playerVM.lyricsSelected ? v.VISIBLE : v.GONE}" />
                 </RelativeLayout>
 
 

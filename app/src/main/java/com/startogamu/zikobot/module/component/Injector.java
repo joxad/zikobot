@@ -3,8 +3,8 @@ package com.startogamu.zikobot.module.component;
 import android.content.Context;
 
 import com.startogamu.zikobot.module.content_resolver.ContentResolverModule;
+import com.startogamu.zikobot.module.lyrics.LyricsApiModule;
 import com.startogamu.zikobot.module.music.PlayerModule;
-import com.startogamu.zikobot.module.soundcloud.SoundCloudApiBaseComponent;
 import com.startogamu.zikobot.module.soundcloud.SoundCloudApiModule;
 import com.startogamu.zikobot.module.spotify_api.SpotifyApiModule;
 import com.startogamu.zikobot.module.spotify_auth.SpotifyAuthModule;
@@ -17,14 +17,20 @@ public enum Injector {
     private ContentResolverComponent contentResolverComponent;
     private PlayerComponent playerComponent;
     private SoundCloudApiComponent soundCloudApiComponent;
-
+    private LyricsComponent lyricsComponent;
     public void init(Context context){
         initSpotifyApi(context);
         initSpotifyAuth(context);
         initContentResolver(context);
         initPlayerMusic(context);
         initSoundCloudApi(context);
+        initLyrics(context);
     }
+
+    private void initLyrics(Context context) {
+        lyricsComponent = DaggerLyricsComponent.builder().lyricsApiModule(new LyricsApiModule(context)).build();
+    }
+
     public void initSpotifyApi(Context context) {
         //   spotifyApiComponent = DaggerSpotifyComponent
         spotifyApiComponent = DaggerSpotifyApiComponent.builder().spotifyApiModule(new SpotifyApiModule(context)).build();
@@ -64,5 +70,9 @@ public enum Injector {
 
     public SoundCloudApiComponent soundCloudApi() {
         return soundCloudApiComponent;
+    }
+
+    public LyricsComponent lyricsComponent() {
+        return lyricsComponent;
     }
 }

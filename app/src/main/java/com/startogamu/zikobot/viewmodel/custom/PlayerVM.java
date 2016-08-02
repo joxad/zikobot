@@ -8,10 +8,12 @@ import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.SeekBar;
 
 import com.joxad.easydatabinding.base.IVM;
+import com.joxad.easydatabinding.utils.ObservableString;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.TrackChangeEvent;
@@ -20,7 +22,6 @@ import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ViewPlayerBinding;
 import com.startogamu.zikobot.module.component.Injector;
-import com.startogamu.zikobot.module.music.manager.PlayerMusicManager;
 import com.startogamu.zikobot.view.listener.SimpleSeekBarChangeListener;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
@@ -45,6 +46,9 @@ public class PlayerVM extends BaseObservable implements IVM {
     public ObservableBoolean isExpanded = new ObservableBoolean(false);
     public ObservableArrayList<TrackVM> trackVMs;
     public ObservableBoolean isPlaying = new ObservableBoolean(false);
+    public ObservableBoolean lyricsSelected = new ObservableBoolean(false);
+    public ObservableString currentTrackLyrics = new ObservableString("");
+
     public PlayerVM(Context context, ViewPlayerBinding binding) {
         this.context = context;
         this.binding = binding;
@@ -75,6 +79,10 @@ public class PlayerVM extends BaseObservable implements IVM {
                 manualChange = true;
                 EventBus.getDefault().post(new EventPlayTrack(Injector.INSTANCE.playerComponent().manager().trackVMs().get(position)));
             }
+        });
+
+        binding.rbKaraoke.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            lyricsSelected.set(isChecked);
         });
 
         binding.rlProgress.progress.setOnSeekBarChangeListener(new SimpleSeekBarChangeListener() {
@@ -126,7 +134,12 @@ public class PlayerVM extends BaseObservable implements IVM {
         trackVMs.addAll(Injector.INSTANCE.playerComponent().manager().trackVMs());
         binding.rvTracks.invalidate();
         binding.vpPlayer.invalidate();
-
+        Injector.INSTANCE.lyricsComponent().lyricsManager().search(trackChangeEvent.getTrack().getArtistName(),
+                trackChangeEvent.getTrack().getName()).subscribe(result -> {
+            currentTrackLyrics.set(result.getResult().getLyrics());
+        }, throwable -> {
+            currentTrackLyrics.set(throwable.getLocalizedMessage());
+        });
         binding.vpPlayer.setCurrentItem(Injector.INSTANCE.playerComponent().manager().getCurrentSong(), true);
         updateProgress((int) trackChangeEvent.getTrack().getDuration());
     }
@@ -134,7 +147,6 @@ public class PlayerVM extends BaseObservable implements IVM {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceive(EventAddTrackToCurrent addTrackToCurrent) {
-
         trackVMs.add(addTrackToCurrent.getTrackVM());
         binding.rvTracks.invalidate();
         binding.vpPlayer.invalidate();

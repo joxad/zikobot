@@ -51,25 +51,30 @@ import lombok.Setter;
 public class PlayerMusicManager {
 
     private static final String TAG = PlayerMusicManager.class.getSimpleName();
-    private final Context context;
+    private static Context context;
+    static Handler handler = new Handler();
+    private static boolean pauseToHandle = true;
+
+    static boolean newTrack = true;
+
     private Alarm alarm = null;
     @Getter
-    int currentSong = 0;
-    int currentType = -1;
-    int currentPosition;
-    private ArrayList<TrackVM> tracks = new ArrayList<>();
-    private MediaPlayerService mediaPlayerService;
-    private boolean mediaPlayerServiceBound = false;
+    static int currentSong = 0;
+    static int currentType = -1;
+    static int currentPosition;
+    private static ArrayList<TrackVM> tracks = new ArrayList<>();
+    private static MediaPlayerService mediaPlayerService;
+    private static boolean mediaPlayerServiceBound = false;
     //connect to the service
-    public boolean isPlaying = false;
-    private PlayerWrapper deezerPlayer;
-    private Handler trackPositionHandler;
+    public static boolean isPlaying = false;
+    private static PlayerWrapper deezerPlayer;
+    private static Handler trackPositionHandler;
 
     /***
      * @param context
      */
     public PlayerMusicManager(Context context) {
-        this.context = context;
+        PlayerMusicManager.context = context;
         initMediaPlayer(context);
         initSpotifyPlayer(context);
         initDeezerPlayer(context);
@@ -87,7 +92,7 @@ public class PlayerMusicManager {
     /***
      * service connexion that will handle the binding with the {@link MediaPlayerService} service
      */
-    private ServiceConnection musicConnection = new ServiceConnection() {
+    private static ServiceConnection musicConnection = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -97,7 +102,10 @@ public class PlayerMusicManager {
             mediaPlayerService.setOnCompletionListener(mp -> {
                 next();
             });
-            mediaPlayerService.setOnDisconnectListener(() -> mediaPlayerServiceBound = false);
+            mediaPlayerService.setOnDisconnectListener(() -> {
+                mediaPlayerService = null;
+                mediaPlayerServiceBound = false;
+            });
             //pass list
             mediaPlayerServiceBound = true;
         }
@@ -109,10 +117,11 @@ public class PlayerMusicManager {
         }
     };
 
+
     /***
      * @param context
      */
-    public void initMediaPlayer(Context context) {
+    private static void initMediaPlayer(Context context) {
         if (!mediaPlayerServiceBound || mediaPlayerService == null) {
             Intent playIntent = new Intent(context, MediaPlayerService.class);
             context.bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
@@ -163,15 +172,11 @@ public class PlayerMusicManager {
 
     }
 
-    Handler handler = new Handler();
-    private boolean pauseToHandle = true;
-
-    boolean newTrack = true;
 
     /***
      * @param track
      */
-    private void playTrack(final TrackVM track) {
+    private static void playTrack(final TrackVM track) {
         initMediaPlayer(context);
         int i = 0;
         newTrack = true;
@@ -238,7 +243,7 @@ public class PlayerMusicManager {
     /***
      *
      */
-    public void next() {
+    public static void next() {
         currentSong++;
         if (tracks.size() > currentSong) {
             playTrack(tracks.get(currentSong));
@@ -276,9 +281,11 @@ public class PlayerMusicManager {
     /***
      * Stop all the players
      */
-    public void stop() {
+    public static void stop() {
         SpotifyPlayerManager.pause();
-        mediaPlayerService.stop();
+        if (mediaPlayerService != null) {
+            mediaPlayerService.stop();
+        }
         currentSong = 0;
 
     }
@@ -287,7 +294,9 @@ public class PlayerMusicManager {
      *
      */
     public void resume() {
-        mediaPlayerService.resume();
+        if (mediaPlayerService != null) {
+            mediaPlayerService.resume();
+        }
         SpotifyPlayerManager.resume();
         PlayerNotification.updatePlayStatus(false);
     }
@@ -296,7 +305,9 @@ public class PlayerMusicManager {
      * pause all the players
      */
     public void pause() {
-        mediaPlayerService.pause();
+        if (mediaPlayerService != null) {
+            mediaPlayerService.pause();
+        }
         SpotifyPlayerManager.pause();
         PlayerNotification.updatePlayStatus(true);
     }
@@ -399,7 +410,7 @@ public class PlayerMusicManager {
     }
 
 
-    public void observe() {
+    public static void observe() {
         trackPositionHandler.postDelayed(() -> {
             if (isPlaying) {
                 switch (currentType) {
@@ -425,21 +436,21 @@ public class PlayerMusicManager {
 
 
     @Setter
-    private DurationListener durationListener;
+    private static DurationListener durationListener;
 
     public interface DurationListener {
         void onUpdate(int position);
     }
 
     @Setter
-    private PlayerStatusListener playerStatusListener;
+    private static PlayerStatusListener playerStatusListener;
 
     public interface PlayerStatusListener {
         void onUpdate(boolean isPlayinh);
     }
 
     //handles all the background threads things for you
-    private void sendMsgToUI(int position) {
+    private static void sendMsgToUI(int position) {
         if (durationListener != null)
             durationListener.onUpdate(position);
     }
