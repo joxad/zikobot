@@ -33,12 +33,6 @@ public class AlarmTrackManager {
         tracks.remove(track);
     }
 
-
-    public static void init(Alarm alarm) {
-        tracks.clear();
-        tracks.addAll(alarm.getTracks());
-    }
-
     public static List<Track> tracks() {
         return tracks;
     }

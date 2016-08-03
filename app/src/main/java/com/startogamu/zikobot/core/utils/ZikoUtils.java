@@ -22,6 +22,16 @@ public class ZikoUtils {
         return after;
     }
 
+    public static int amPmHour(int hour) {
+        if (hour > 12)
+            hour -= 12;
+        else {
+            if (hour == 0)
+                hour = 12;
+        }
+        return hour;
+    }
+
 
     public static String readableTime(int millis) {
         return String.format("%2d:%02d",

@@ -13,6 +13,7 @@ import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
+import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -44,6 +45,8 @@ public class ZikobotApp extends Application {
         }
         PlayerNotification.init(this);
         Injector.INSTANCE.init(this);
+        AlarmManager.init(this);
+
         Logger.init(ZikobotApp.class.getSimpleName());
 
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.module.component.Injector;
+import com.startogamu.zikobot.module.music.manager.PlayerMusicManager;
 
 
 /**
@@ -22,7 +23,7 @@ public class NextPlayerReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Injector.INSTANCE.playerComponent().manager().next();
+        PlayerMusicManager.next();
         Logger.d(TAG);
     }
 

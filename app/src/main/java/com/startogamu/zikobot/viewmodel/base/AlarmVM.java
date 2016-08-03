@@ -5,20 +5,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.joxad.easydatabinding.base.BaseVM;
+import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
+import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -31,6 +35,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     public String alarmName;
 
     public ObservableArrayList<TrackVM> tracksVms;
+
     public abstract ItemView itemView();
 
     /***
@@ -75,8 +80,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
      * @param track
      */
     public void addTrack(Track track) {
-        model.getTracks().add(track);
-        save();
+        tracksVms.add(new TrackVM(context, track));
     }
 
     /***
@@ -88,6 +92,9 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
             TrackVM itemTrackViewModel = new TrackVM(context, track);
             tracksVms.add(itemTrackViewModel);
         }
+        for (Track track :AlarmTrackManager.tracks()) {
+            tracksVms.add(new TrackVM(context,track));
+        }
     }
 
 
@@ -95,8 +102,13 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
      * @param adapterPosition
      */
     public void removeTrack(int adapterPosition) {
+        AlarmTrackManager.removeTrack(tracksVms.get(adapterPosition).getModel());
+        try {
+            tracksVms.get(adapterPosition).getModel().delete();
+        } catch (Exception e) {
+            Logger.e(e.getMessage());
+        }
         tracksVms.remove(adapterPosition);
-        model.getTracks().get(adapterPosition).delete();
     }
 
 
@@ -121,7 +133,10 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
      * @return
      */
     public rx.Observable<Alarm> save() {
-        return AlarmManager.saveAlarm(model, model.getTracks());
+        ArrayList<Track> allTracks = new ArrayList<>();
+        allTracks.addAll(model.getTracks());
+        allTracks.addAll(AlarmTrackManager.tracks());
+        return AlarmManager.saveAlarm(model, allTracks);
     }
 
 
@@ -142,10 +157,8 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     @Bindable
     public String getAlarmTime() {
-        int hour = model.getHour();
-        if (hour >= 12)
-            hour -= 12;
-        return String.format("%02d: %02d", hour, model.getMinute());
+        return String.format("%02d: %02d",
+                ZikoUtils.amPmHour(model.getHour()), model.getMinute());
     }
 
     @Bindable
@@ -153,12 +166,20 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         return ZikoUtils.amPm(model.getHour());
     }
 
-    public void updateStatus( boolean active) {
+    public void updateStatus(boolean active) {
 
-        model.setActive(active ? 1 : 0);
+        if (model.getTracks().isEmpty() && AlarmTrackManager.tracks().isEmpty()) {
+            Toast.makeText(context, "Tu n'as pas de chanson sur cette alarme !", Toast.LENGTH_SHORT).show();
+            model.setActive(0);
+        } else {
+            model.setActive(active ? 1 : 0);
+
+            AlarmManager.prepareAlarm(context, model);
+
+        }
         model.save();
-        AlarmManager.prepareAlarm(context,model);
 
+        notifyChange();
     }
 
     @Bindable

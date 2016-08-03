@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.deezer.sdk.model.PlayableEntity;
 import com.deezer.sdk.player.PlayerWrapper;
 import com.joxad.android_easy_spotify.SpotifyPlayerManager;
@@ -234,7 +235,7 @@ public class PlayerMusicManager {
     /***
      *
      */
-    public void previous() {
+    public static void previous() {
         currentSong--;
         if (currentSong >= 0)
             playTrack(tracks.get(currentSong));
@@ -268,9 +269,10 @@ public class PlayerMusicManager {
     public void startAlarm(Alarm alarm) {
         currentSong = 0;
         this.alarm = alarm;
-        this.tracks.clear();
+        tracks.clear();
+        Crashlytics.log("Start alarm " + alarm.getName() + " NbTracks : " + +alarm.getTracks().size());
         for (Track track : alarm.getTracks()) {
-            this.tracks.add(new TrackVM(context, track));
+            tracks.add(new TrackVM(context, track));
         }
         if (alarm.getRandomTrack() == 1) {
             Collections.shuffle(tracks);
@@ -293,7 +295,7 @@ public class PlayerMusicManager {
     /***
      *
      */
-    public void resume() {
+    public static void resume() {
         if (mediaPlayerService != null) {
             mediaPlayerService.resume();
         }
@@ -304,7 +306,7 @@ public class PlayerMusicManager {
     /**
      * pause all the players
      */
-    public void pause() {
+    public static void pause() {
         if (mediaPlayerService != null) {
             mediaPlayerService.pause();
         }
@@ -367,7 +369,7 @@ public class PlayerMusicManager {
         stop();
     }
 
-    public void playOrResume() {
+    public static void playOrResume() {
         isPlaying = !isPlaying;
         if (isPlaying) {
             resume();

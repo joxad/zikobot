@@ -73,7 +73,7 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
     public void onEvent(EventAlarmSelect eventAlarmSelect) {
         //TODO
         Alarm alarm = eventAlarmSelect.getModel();
-        AlarmTrackManager.init(alarm);
+        AlarmTrackManager.clear();
         AlarmTrackManager.selectTrack(track);
         AlarmManager.saveAlarm(alarm, AlarmTrackManager.tracks()).subscribe(alarm1 -> {
             AnalyticsManager.logCreateAlarm(alarm,false);
@@ -88,7 +88,7 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
 
     public void newAlarmClicked(View view){
         Alarm alarm = new Alarm();
-        AlarmTrackManager.init(alarm);
+        AlarmTrackManager.clear();
         AlarmTrackManager.selectTrack(track);
         AlarmManager.saveAlarm(alarm, AlarmTrackManager.tracks()).subscribe(alarm1 -> {
             Toast.makeText(fragment.getContext(), track.getName() + " a été ajoutée à l'alarme " + alarm.getName(), Toast.LENGTH_SHORT).show();

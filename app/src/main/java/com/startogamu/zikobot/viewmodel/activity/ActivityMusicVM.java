@@ -22,12 +22,11 @@ import com.startogamu.zikobot.core.event.SelectAllTracks;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMusicBinding;
-import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
-import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
-import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
+import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
+import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.view.activity.ActivityMusic;
 import com.startogamu.zikobot.view.fragment.deezer.FragmentDeezerPlaylists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
@@ -72,8 +71,6 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
 
         EventBus.getDefault().register(this);
         Dart.inject(this, activity);
-
-        AlarmTrackManager.init(alarm);
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> activity.onBackPressed());
@@ -182,9 +179,7 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
 
 
     public void onFabAddClicked(View view) {
-        AlarmManager.saveAlarm(alarm, AlarmTrackManager.tracks()).subscribe(alarm1 -> {
-            activity.finish();
-        });
+        activity.finish();
     }
 
     @Override

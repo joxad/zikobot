@@ -22,6 +22,7 @@ import com.startogamu.zikobot.core.utils.SimpleSeekBarListener;
 import com.startogamu.zikobot.databinding.ActivityAlarmBinding;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityAlarm;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
@@ -60,6 +61,8 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         binding.toolbar.setNavigationOnClickListener(listener -> activity.onBackPressed());
         initMenu();
         initViews();
+        AlarmTrackManager.clear();
+
     }
 
     private void initMenu() {
@@ -100,6 +103,11 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         alarmVM.refreshTracks();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
     /***
      *
      */
@@ -120,6 +128,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
                 alarmVM.removeTrack(viewHolder.getAdapterPosition());
             }
         });
@@ -253,9 +262,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * @param view
      */
     public void onAddTrackClick(View view) {
-        save().subscribe(alarm1 -> {
-            activity.startActivity(Henson.with(activity).gotoActivityMusic().alarm(alarm1).build());
-        });
+        activity.startActivity(Henson.with(activity).gotoActivityMusic().alarm(alarm).build());
     }
 
 

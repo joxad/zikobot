@@ -88,6 +88,7 @@ public class AlarmManager {
      * @param trackList
      */
     public static Observable<Alarm> saveAlarm(Alarm alarm, List<Track> trackList) {
+
         return Observable.create(new Observable.OnSubscribe<Alarm>() {
             @Override
             public void call(Subscriber<? super Alarm> subscriber) {
@@ -168,5 +169,18 @@ public class AlarmManager {
         intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
         alarmIntent = PendingIntent.getBroadcast(context, (int)alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmMgr.cancel(alarmIntent);
+    }
+
+    public static class Builder {
+        private Context context;
+        public Builder context(Context context){
+            this.context = context;
+            return this;
+        }
+        public void build() throws Exception {
+            if (this.context == null)
+                throw new Exception("Please set the Context");
+            AlarmManager.init(this.context);
+        }
     }
 }

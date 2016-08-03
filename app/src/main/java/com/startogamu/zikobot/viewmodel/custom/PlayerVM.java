@@ -22,6 +22,7 @@ import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ViewPlayerBinding;
 import com.startogamu.zikobot.module.component.Injector;
+import com.startogamu.zikobot.module.music.manager.PlayerMusicManager;
 import com.startogamu.zikobot.view.listener.SimpleSeekBarChangeListener;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
@@ -102,12 +103,12 @@ public class PlayerVM extends BaseObservable implements IVM {
         binding.rgOptions.setVisibility(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ? View.VISIBLE : View.GONE);
         trackVMs.clear();
         trackVMs.addAll(Injector.INSTANCE.playerComponent().manager().trackVMs());
-        Injector.INSTANCE.playerComponent().manager().setDurationListener(position -> {
+        PlayerMusicManager.setDurationListener(position -> {
             binding.rlProgress.progress.setProgress(position);
             binding.rlProgress.tvDuration.setText(ZikoUtils.readableTime(position));
         });
-        updatePlayingStatus(Injector.INSTANCE.playerComponent().manager().isPlaying);
-        Injector.INSTANCE.playerComponent().manager().setPlayerStatusListener(this::updatePlayingStatus);
+        updatePlayingStatus(PlayerMusicManager.isPlaying);
+        PlayerMusicManager.setPlayerStatusListener(this::updatePlayingStatus);
         notifyChange();
     }
 
@@ -118,8 +119,8 @@ public class PlayerVM extends BaseObservable implements IVM {
 
     public void onPause() {
         EventBus.getDefault().unregister(this);
-        Injector.INSTANCE.playerComponent().manager().setDurationListener(null);
-        Injector.INSTANCE.playerComponent().manager().setPlayerStatusListener(null);
+        PlayerMusicManager.setDurationListener(null);
+        PlayerMusicManager.setPlayerStatusListener(null);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -140,7 +141,7 @@ public class PlayerVM extends BaseObservable implements IVM {
         }, throwable -> {
             currentTrackLyrics.set(throwable.getLocalizedMessage());
         });
-        binding.vpPlayer.setCurrentItem(Injector.INSTANCE.playerComponent().manager().getCurrentSong(), true);
+        binding.vpPlayer.setCurrentItem(PlayerMusicManager.getCurrentSong(), true);
         updateProgress((int) trackChangeEvent.getTrack().getDuration());
     }
 

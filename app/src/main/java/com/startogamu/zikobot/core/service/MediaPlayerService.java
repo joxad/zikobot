@@ -1,6 +1,6 @@
 package com.startogamu.zikobot.core.service;
 
-import android.app.IntentService;
+import android.app.Service;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -17,25 +17,19 @@ import lombok.Setter;
 /**
  * Created by josh on 10/04/16.
  */
-public class MediaPlayerService extends IntentService implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
+public class MediaPlayerService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
 
     private static final String TAG = MediaPlayerService.class.getSimpleName();
-    MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
     private final IBinder musicBind = new MediaPlayerServiceBinder();
     @Setter
     private OnDisconnectListener onDisconnectListener;
-
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * */
-    public MediaPlayerService() {
-        super(TAG);
-    }
+    private MediaPlayer.OnCompletionListener onCompletionListener;
 
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    public void onCreate() {
+        super.onCreate();
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setWakeMode(getApplicationContext(),
                 PowerManager.PARTIAL_WAKE_LOCK);
@@ -79,10 +73,12 @@ public class MediaPlayerService extends IntentService implements MediaPlayer.OnP
     public void onPrepared(MediaPlayer mp) {
         mediaPlayer = mp;
         mediaPlayer.start();
+        if (onCompletionListener != null)
+            mediaPlayer.setOnCompletionListener(onCompletionListener);
     }
 
     public void setOnCompletionListener(MediaPlayer.OnCompletionListener onCompletionListener) {
-        mediaPlayer.setOnCompletionListener(onCompletionListener);
+        this.onCompletionListener = onCompletionListener;
     }
 
 

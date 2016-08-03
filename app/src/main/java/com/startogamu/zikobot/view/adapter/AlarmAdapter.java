@@ -4,6 +4,7 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
@@ -29,7 +30,7 @@ public class AlarmAdapter<T> extends BindingRecyclerViewAdapter<AlarmVM> {
     @Override
     public void onBindBinding(ViewDataBinding binding, int bindingVariable, @LayoutRes int layoutId, int position, AlarmVM item) {
         super.onBindBinding(binding, bindingVariable, layoutId, position, item);
-       RxCompoundButton.checkedChanges( ((ItemAlarmBinding) binding).swActivated).subscribe(item::updateStatus);
+        ((ItemAlarmBinding) binding).swActivated.setOnClickListener(v -> item.updateStatus(!item.isActivated()));
         ((ItemAlarmBinding)binding).tvMonday.setSelected(item.isDayActive(Calendar.MONDAY));
         ((ItemAlarmBinding)binding).tvTuesday.setSelected(item.isDayActive(Calendar.TUESDAY));
         ((ItemAlarmBinding)binding).tvWednesday.setSelected(item.isDayActive(Calendar.WEDNESDAY));
