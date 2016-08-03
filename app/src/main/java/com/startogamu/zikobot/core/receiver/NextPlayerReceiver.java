@@ -16,14 +16,15 @@ public class NextPlayerReceiver extends BroadcastReceiver {
 
 
     public static final String TAG = NextPlayerReceiver.class.getSimpleName();
-
+    private PlayerMusicManager playerMusicManager;
     public NextPlayerReceiver() {
         super();
+        playerMusicManager = Injector.INSTANCE.playerComponent().manager();
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        PlayerMusicManager.next();
+        playerMusicManager.next();
         Logger.d(TAG);
     }
 

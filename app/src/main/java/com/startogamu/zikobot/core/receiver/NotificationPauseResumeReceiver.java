@@ -15,15 +15,17 @@ import com.startogamu.zikobot.module.music.manager.PlayerMusicManager;
 public class NotificationPauseResumeReceiver extends BroadcastReceiver {
 
     public static final String TAG = NotificationPauseResumeReceiver.class.getSimpleName();
+    private final PlayerMusicManager playerMusicManager;
 
     public NotificationPauseResumeReceiver() {
         super();
+        playerMusicManager = Injector.INSTANCE.playerComponent().manager();
+
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        PlayerMusicManager.playOrResume();
+        playerMusicManager.playOrResume();
         Logger.d(TAG);
     }
 

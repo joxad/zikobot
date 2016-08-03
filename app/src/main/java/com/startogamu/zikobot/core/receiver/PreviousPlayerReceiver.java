@@ -18,14 +18,17 @@ public class PreviousPlayerReceiver extends BroadcastReceiver {
 
 
     public static final String TAG = PreviousPlayerReceiver.class.getSimpleName();
+    private PlayerMusicManager playerMusicManager;
 
     public PreviousPlayerReceiver() {
         super();
+        playerMusicManager = Injector.INSTANCE.playerComponent().manager();
+
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        PlayerMusicManager.previous();
+        playerMusicManager.previous();
         Logger.d(TAG);
     }
 
