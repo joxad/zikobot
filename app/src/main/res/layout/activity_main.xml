@@ -74,25 +74,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/actionBarSize"
                     android:minHeight="@dimen/actionBarSize"
+                    app:contentInsetEnd="0dp"
                     app:contentInsetLeft="0dp"
+                    app:contentInsetRight="0dp"
                     app:contentInsetStart="0dp"
+                    app:contentInsetEndWithActions="0dp"
+                    app:contentInsetStartWithNavigation="0dp"
+                    android:padding="0dp"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/AppTheme.PopupOverlay">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            tools:text="text" />
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="text" />
 
-                    </RelativeLayout>
                 </android.support.v7.widget.Toolbar>
             </android.support.design.widget.CollapsingToolbarLayout>
 

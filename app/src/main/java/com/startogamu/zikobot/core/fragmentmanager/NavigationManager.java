@@ -310,14 +310,23 @@ public class NavigationManager implements IFragmentManager, IPermission {
 
 
     private void updateToolbar(String name, @Nullable String image) {
-        binding.mainCollapsing.setTitle(name);
-        if (image == null) {
-            binding.rlToolbarImage.setVisibility(View.GONE);
-            binding.title.setText(name);
-        } else {
+
+        if (name.equals(getActivity().getString(R.string.drawer_filter_search))) {
+            //TODO handle search
             binding.title.setText("");
-            binding.rlToolbarImage.setVisibility(View.VISIBLE);
-            Glide.with(activity).load(image).placeholder(R.drawable.ic_vinyl).into(binding.ivToolbar);
+            binding.rlToolbarImage.setVisibility(View.GONE);
+
+        } else {
+
+            binding.mainCollapsing.setTitle(name);
+            if (image == null) {
+                binding.rlToolbarImage.setVisibility(View.GONE);
+                binding.title.setText(name);
+            } else {
+                binding.title.setText("");
+                binding.rlToolbarImage.setVisibility(View.VISIBLE);
+                Glide.with(activity).load(image).placeholder(R.drawable.ic_vinyl).into(binding.ivToolbar);
+            }
         }
     }
 

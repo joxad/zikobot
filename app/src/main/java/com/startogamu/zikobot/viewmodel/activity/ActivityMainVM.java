@@ -1,5 +1,6 @@
 package com.startogamu.zikobot.viewmodel.activity;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
@@ -199,7 +200,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     }
 
 
-
     @Override
     public void destroy() {
         EventBus.getDefault().unregister(this);
@@ -219,8 +219,18 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      */
     @Override
     public void onNewIntent(Intent intent) {
+        handleIntent(intent);
     }
 
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Logger.d(query);
+            //TODO send info to search fragment
+            //use the query to search your data somehow
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -245,7 +255,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
             drawerManager.closeDrawer();
             return false;
         }
-        if (playerVM.isExpanded.get()){
+        if (playerVM.isExpanded.get()) {
             playerVM.close();
             return false;
         }

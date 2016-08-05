@@ -7,7 +7,8 @@
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:orderInCategory="50"
-        app:showAsAction="always"
+        app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="android.support.v7.widget.SearchView"
         android:title="@string/drawer_filter_search" />
 
 

@@ -11,7 +11,10 @@ import com.startogamu.zikobot.R;
  */
 public class FragmentManager {
 
+    private static Fragment current;
+
     public static void addFragment(FragmentActivity activity, Fragment fragment, boolean withBackstack) {
+        current = fragment;
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.container, fragment);
         if (withBackstack) transaction.addToBackStack(fragment.getClass().getSimpleName());
@@ -25,6 +28,7 @@ public class FragmentManager {
      * @param withBackstack
      */
     public static void replaceFragment(FragmentActivity activity, Fragment fragment, boolean clearBackStack, boolean withBackstack) {
+        current = fragment;
         android.support.v4.app.FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
         if (clearBackStack) {
             while (supportFragmentManager.getBackStackEntryCount() > 0) {
@@ -42,5 +46,9 @@ public class FragmentManager {
             transaction.replace(R.id.container, fragment);
             transaction.commitAllowingStateLoss();
         }
+    }
+
+    public static Fragment currentFragment() {
+        return current;
     }
 }

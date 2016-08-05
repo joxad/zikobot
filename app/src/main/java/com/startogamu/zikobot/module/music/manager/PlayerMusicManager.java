@@ -13,6 +13,7 @@ import com.crashlytics.android.Crashlytics;
 import com.deezer.sdk.model.PlayableEntity;
 import com.deezer.sdk.player.PlayerWrapper;
 import com.joxad.android_easy_spotify.SpotifyPlayerManager;
+import com.orhanobut.logger.Logger;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
@@ -76,7 +77,7 @@ public class PlayerMusicManager {
      */
     public PlayerMusicManager(Context context) {
         this.context = context;
-        initMediaPlayer(context);
+        initMediaPlayer(context, () -> Logger.d("Media player initialized"));
         initSpotifyPlayer(context);
         initDeezerPlayer(context);
         trackPositionHandler = new Handler();
@@ -98,37 +99,35 @@ public class PlayerMusicManager {
     /***
      * @param context
      */
-    private void initMediaPlayer(Context context) {
-        if (!mediaPlayerServiceBound || mediaPlayerService == null) {
-            musicConnection = new ServiceConnection() {
+    private void initMediaPlayer(Context context, final IMediaPlayer iMediaPlayer) {
+        musicConnection = new ServiceConnection() {
 
-                @Override
-                public void onServiceConnected(ComponentName name, IBinder service) {
-                    MediaPlayerService.MediaPlayerServiceBinder binder = (MediaPlayerService.MediaPlayerServiceBinder) service;
-                    //get service
-                    mediaPlayerService = binder.getService();
-                    mediaPlayerService.setOnCompletionListener(mp -> {
-                        next();
-                    });
-                    mediaPlayerService.setOnDisconnectListener(() -> {
-                        mediaPlayerService = null;
-                        mediaPlayerServiceBound = false;
-                    });
-                    //pass list
-                    mediaPlayerServiceBound = true;
-                }
-
-                @Override
-                public void onServiceDisconnected(ComponentName name) {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                MediaPlayerService.MediaPlayerServiceBinder binder = (MediaPlayerService.MediaPlayerServiceBinder) service;
+                //get service
+                mediaPlayerService = binder.getService();
+                mediaPlayerService.setOnCompletionListener(mp -> next());
+                mediaPlayerService.setOnDisconnectListener(() -> {
                     mediaPlayerService = null;
                     mediaPlayerServiceBound = false;
-                }
-            };
+                });
+                //pass list
+                mediaPlayerServiceBound = true;
+                iMediaPlayer.onInit();
+            }
 
-            Intent playIntent = new Intent(context, MediaPlayerService.class);
-            context.bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-            context.startService(playIntent);
-        }
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                mediaPlayerService = null;
+                mediaPlayerServiceBound = false;
+            }
+        };
+
+        Intent playIntent = new Intent(context, MediaPlayerService.class);
+        context.bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+        context.startService(playIntent);
+
     }
 
     /***
@@ -179,7 +178,30 @@ public class PlayerMusicManager {
      * @param track
      */
     private void playTrack(final TrackVM track) {
-        initMediaPlayer(context);
+        if (!mediaPlayerServiceBound || mediaPlayerService == null)
+            initMediaPlayer(context, () -> playTrack(track));
+        else {
+            checkIfTracksAlreadyHere(track);
+            Track model = track.getModel();
+            handlePlay(model);
+            observe();
+            EventBus.getDefault().post(new TrackChangeEvent(model));
+
+            if (playerStatusListener != null) {
+                playerStatusListener.onUpdate(isPlaying);
+            }
+            PlayerNotification.show(model);
+        }
+    }
+
+
+    /**
+     * Verify if the track is already present in the playlist, if So play it
+     * else add it as a new tracks
+     *
+     * @param track
+     */
+    private void checkIfTracksAlreadyHere(TrackVM track) {
         int i = 0;
         newTrack = true;
         for (TrackVM t : tracks) {
@@ -195,7 +217,14 @@ public class PlayerMusicManager {
             tracks.clear();
             tracks.add(track);
         }
-        Track model = track.getModel();
+    }
+
+    /**
+     * choose the player to use according to the type
+     *
+     * @param model
+     */
+    private void handlePlay(Track model) {
         currentType = model.getType();
         switch (model.getType()) {
             case TYPE.LOCAL:
@@ -223,14 +252,6 @@ public class PlayerMusicManager {
                 break;
         }
         isPlaying = true;
-        observe();
-        EventBus.getDefault().post(new TrackChangeEvent(model));
-
-        if (playerStatusListener != null) {
-            playerStatusListener.onUpdate(isPlaying);
-        }
-        PlayerNotification.show(model);
-
     }
 
     /***
@@ -268,6 +289,7 @@ public class PlayerMusicManager {
      * @param alarm
      */
     public void startAlarm(Alarm alarm) {
+
         currentSong = 0;
         this.alarm = alarm;
         tracks.clear();
@@ -288,10 +310,9 @@ public class PlayerMusicManager {
         SpotifyPlayerManager.pause();
         if (mediaPlayerService != null) {
             mediaPlayerService.stop();
-            mediaPlayerServiceBound=false;
         }
         currentSong = 0;
-        currentPosition=0;
+        currentPosition = 0;
     }
 
     /***
@@ -442,6 +463,9 @@ public class PlayerMusicManager {
     @Setter
     private DurationListener durationListener;
 
+    public interface IMediaPlayer {
+        void onInit();
+    }
     public interface DurationListener {
         void onUpdate(int position);
     }
@@ -457,9 +481,5 @@ public class PlayerMusicManager {
     private void sendMsgToUI(int position) {
         if (durationListener != null)
             durationListener.onUpdate(position);
-    }
-
-    public int getCurrentPosition() {
-        return currentPosition;
     }
 }

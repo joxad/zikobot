@@ -27,6 +27,7 @@ import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityAlarm;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -84,8 +85,15 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
                     break;
                 case R.id.action_play:
-                    if (alarmVM.hasTracks()) {
-                        activity.startActivity(Henson.with(activity).gotoActivityWakeUp().alarm(alarm).build());
+
+                    if (alarmVM.hasTracks() || !AlarmTrackManager.tracks().isEmpty() ) {
+                        save().subscribe(alarm1 -> {
+                            prepareAlarm(alarm1);
+                            AlarmTrackManager.clear();
+                            activity.startActivity(Henson.with(activity).gotoActivityWakeUp().alarm(alarm1).build());
+                        }, throwable -> {
+                            Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
+                        });
                     } else {
                         Snackbar.make(binding.getRoot(), R.string.add_tracks, Snackbar.LENGTH_SHORT).show();
                     }

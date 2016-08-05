@@ -1,8 +1,11 @@
 package com.startogamu.zikobot.viewmodel.activity;
 
 import android.animation.Animator;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.ServiceConnection;
 import android.media.AudioManager;
+import android.os.IBinder;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -16,6 +19,7 @@ import com.startogamu.zikobot.core.utils.AnimationEndListener;
 import com.startogamu.zikobot.databinding.ActivityWakeUpBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
+import com.startogamu.zikobot.module.music.manager.PlayerMusicManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.view.activity.ActivityWakeUp;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
@@ -45,6 +49,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     public AlarmVM alarmVM;
     public TrackVM trackVM;
 
+    PlayerMusicManager playerMusicManager;
     /***
      * @param activity
      * @param binding
@@ -111,7 +116,8 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      * @param alarm
      */
     private void startAlarm(Alarm alarm) {
-        Injector.INSTANCE.playerComponent().manager().startAlarm(alarm);
+        playerMusicManager = Injector.INSTANCE.playerComponent().manager();
+        playerMusicManager.startAlarm(alarm);
         rotateCD();
     }
 
