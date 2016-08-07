@@ -30,6 +30,7 @@ import com.startogamu.zikobot.core.fragmentmanager.FragmentManager;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.core.utils.ISearch;
+import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.tablature.TablatureManager;
@@ -152,7 +153,8 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                ZikoUtils.hideKeyboard(binding.searchView);
+                return true;
             }
         });
      

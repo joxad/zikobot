@@ -3,11 +3,14 @@ package com.startogamu.zikobot.core.utils;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 
 
+import com.startogamu.zikobot.view.activity.ActivityMain;
 
 import java.util.concurrent.TimeUnit;
 
@@ -49,4 +52,8 @@ public class ZikoUtils {
         );
     }
 
+    public static void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }
