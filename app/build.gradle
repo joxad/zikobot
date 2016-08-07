@@ -140,6 +140,8 @@ dependencies {
     compile 'com.deezer.sdk:deezer-sdk:0.10.20@aar'
     compile files('libs/gnsdk.jar')
     compile files('libs/gnsdk_helpers.jar')
+    compile 'com.lapism:searchview:3.4.1'
+
 
 
 

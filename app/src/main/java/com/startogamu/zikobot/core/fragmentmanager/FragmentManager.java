@@ -1,10 +1,13 @@
 package com.startogamu.zikobot.core.fragmentmanager;
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.view.activity.ActivityMain;
 
 /**
  * Created by josh on 08/06/16.
@@ -50,5 +53,10 @@ public class FragmentManager {
 
     public static Fragment currentFragment() {
         return current;
+    }
+
+    public static void pop(AppCompatActivity activity) {
+        android.support.v4.app.FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
+        supportFragmentManager.popBackStack();
     }
 }

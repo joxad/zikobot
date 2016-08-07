@@ -69,18 +69,19 @@
                         app:srcCompat="@drawable/ic_play_arrow" />
                 </RelativeLayout>
 
+
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/actionBarSize"
                     android:minHeight="@dimen/actionBarSize"
+                    android:padding="0dp"
                     app:contentInsetEnd="0dp"
+                    app:contentInsetEndWithActions="0dp"
                     app:contentInsetLeft="0dp"
                     app:contentInsetRight="0dp"
                     app:contentInsetStart="0dp"
-                    app:contentInsetEndWithActions="0dp"
                     app:contentInsetStartWithNavigation="0dp"
-                    android:padding="0dp"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/AppTheme.PopupOverlay">
 
@@ -95,6 +96,8 @@
                         tools:text="text" />
 
                 </android.support.v7.widget.Toolbar>
+
+
             </android.support.design.widget.CollapsingToolbarLayout>
 
             <android.support.design.widget.TabLayout
@@ -146,6 +149,17 @@
             android:visibility="@{activityMainVM.fabVisible ? v.VISIBLE: v.GONE}"
             app:layout_anchor="@id/view_player"
             app:layout_anchorGravity="bottom|end|right" />
+
+        <com.lapism.searchview.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:search_divider="true"
+            app:search_hint="@string/drawer_filter_search"
+            app:search_version="menu_item"
+            app:search_shadow="false"
+            app:search_version_margins="menu_item"
+            app:search_voice="true" />
 
     </android.support.design.widget.CoordinatorLayout>
 
