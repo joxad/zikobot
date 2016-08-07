@@ -153,7 +153,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                ZikoUtils.hideKeyboard(binding.searchView);
+                binding.searchView.hideKeyboard();
                 return true;
             }
         });

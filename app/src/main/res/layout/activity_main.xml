@@ -158,6 +158,7 @@
             app:search_hint="@string/drawer_filter_search"
             app:search_version="menu_item"
             app:search_shadow="false"
+            app:search_clear_on_close="false"
             app:search_version_margins="menu_item"
             app:search_voice="true" />
 
