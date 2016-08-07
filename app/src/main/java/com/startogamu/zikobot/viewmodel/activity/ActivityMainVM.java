@@ -129,6 +129,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     private void initMenu() {
             binding.searchView.setVoiceText("Set permission on Android 6+ !");
 
+
             binding.searchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
                 @Override
                 public void onOpen() {
@@ -138,7 +139,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                 @Override
                 public void onClose() {
                     Logger.d("CLOSE");
-                    FragmentManager.pop(activity);
+//                    FragmentManager.pop(activity);
 
                 }
             });
