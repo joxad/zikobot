@@ -141,7 +141,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
             }
         });
         swipeToDismissTouchHelper.attachToRecyclerView(binding.viewAlarm.rvTracks);
-
+        binding.viewAlarm.rvTracks.setNestedScrollingEnabled(false);
 
     }
 

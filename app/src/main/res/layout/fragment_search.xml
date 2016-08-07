@@ -1,18 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
 
         <variable
             name="fragmentSearchVM"
             type="com.startogamu.zikobot.viewmodel.fragment.search.FragmentSearchVM" />
     </data>
 
-    <LinearLayout
+    <com.startogamu.zikobot.view.custom.MyNestedScrollView
+
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/textSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/drawer_filter_artiste" />
+
+            <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
+                android:id="@+id/rv_artists"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemView="@{fragmentSearchVM.itemViewArtist}"
+                app:items="@{fragmentSearchVM.artists}"
+                app:layoutManager="@{LayoutManagers.grid(2)}"
+                tools:listitem="@layout/item_artist" />
+
+            <TextView
+                style="@style/textSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/drawer_filter_album" />
+
+            <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
+                android:id="@+id/rv_albums"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemView="@{fragmentSearchVM.itemViewAlbum}"
+                app:items="@{fragmentSearchVM.albums}"
+                app:layoutManager="@{LayoutManagers.grid(2)}"
+                tools:listitem="@layout/item_artist" />
 
 
-    </LinearLayout>
+            <TextView
+                style="@style/textSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/drawer_filter_tracks" />
+
+            <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
+                android:id="@+id/rv_tracks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemView="@{fragmentSearchVM.itemViewTrack}"
+                app:items="@{fragmentSearchVM.tracks}"
+                app:layoutManager="@{LayoutManagers.grid(1)}"
+                tools:listitem="@layout/item_artist" />
+
+
+        </LinearLayout>
+
+    </com.startogamu.zikobot.view.custom.MyNestedScrollView>
 </layout>

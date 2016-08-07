@@ -114,7 +114,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
      * Load the local music
      */
     public void loadLocalMusic() {
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(localAlbum != null ? localAlbum.getId() : -1).subscribe(localTracks -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(localAlbum != null ? localAlbum.getId() : -1,null).subscribe(localTracks -> {
             Log.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 items.add(new TrackVM(fragment.getContext(), Track.from(localTrack)));

@@ -38,7 +38,7 @@ public class LocalMusicManager {
      * @param album -1 if you want all the tracks
      * @return
      */
-    public Observable<List<LocalTrack>> getLocalTracks(@Nullable final long album) {
+    public Observable<List<LocalTrack>> getLocalTracks(@Nullable final long album,@Nullable final String query) {
         return Observable.create(new Observable.OnSubscribe<List<LocalTrack>>() {
             @Override
             public void call(Subscriber<? super List<LocalTrack>> subscriber) {
@@ -58,69 +58,9 @@ public class LocalMusicManager {
                 if (album != -1) {
                     selection += " AND " + MediaStore.Audio.Media.ALBUM_ID + "='" + album + "'";
                 }
-                String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";
-                Cursor cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
-                if (cursor == null) {
-                    Log.e(TAG, "Failed to retrieve music: cursor is null :-(");
-                    subscriber.onError(new Throwable("Failed to retrieve music: cursor is null :-("));
-                    return;
+                if (query !=null) {
+                    selection += " AND " + MediaStore.Audio.Media.TITLE + " like '%" + query + "%'";
                 }
-                if (!cursor.moveToFirst()) {
-                    subscriber.onError(new Throwable("No results. :( Add some tracks!"));
-                    Log.e(TAG, "Failed to move cursor to first row (no query results).");
-                    return;
-                }
-                int artistColumn = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
-                int titleColumn = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
-                int albumColumn = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID);
-                int durationColumn = cursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
-                int idColumn = cursor.getColumnIndex(MediaStore.Audio.Media._ID);
-                int dataColumn = cursor.getColumnIndex(MediaStore.Audio.Media.DATA);
-                ArrayList<LocalTrack> tracks = new ArrayList<>();
-                do {
-                    Log.i(TAG, "ID: " + cursor.getString(idColumn) + " Title: " + cursor.getString(titleColumn));
-                    tracks.add(new LocalTrack(
-                            cursor.getLong(idColumn),
-                            cursor.getString(artistColumn),
-                            cursor.getString(titleColumn),
-                            cursor.getLong(albumColumn),
-                            cursor.getLong(durationColumn),
-                            cursor.getString(dataColumn)));
-                } while (cursor.moveToNext());
-                Log.i(TAG, "Done querying media. MusicRetriever is ready.");
-                cursor.close();
-                for (LocalTrack localTrack : tracks) {
-                    localTrack.setArtPath(findAlbumArt(localTrack.getAlbum()));
-                }
-                subscriber.onNext(tracks);
-            }
-        });
-    }
-
-    /***
-     * Give a list of tracks according to the query
-     *
-     * @param query
-     * @return
-     */
-    public Observable<List<LocalTrack>> search(@Nullable final String query) {
-        return Observable.create(new Observable.OnSubscribe<List<LocalTrack>>() {
-            @Override
-            public void call(Subscriber<? super List<LocalTrack>> subscriber) {
-                String[] projection = new String[]{
-                        MediaStore.Audio.Media._ID,
-                        MediaStore.Audio.Media.ARTIST,
-                        MediaStore.Audio.Media.ALBUM_ID,
-                        MediaStore.Audio.Media.ALBUM,
-                        MediaStore.Audio.Media.IS_MUSIC,
-                        MediaStore.Audio.Media.DURATION,
-                        MediaStore.Audio.Media.TITLE,
-                        MediaStore.Audio.Media.TRACK,
-                        MediaStore.Audio.Media.DATA
-                };
-                String selection = MediaStore.Audio.Media.IS_MUSIC + " = 1";
-                String[] selectionArgs = null;
-                selection += " AND " + MediaStore.Audio.Media.TITLE + "='" + query + "'";
                 String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";
                 Cursor cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
                 if (cursor == null) {
@@ -164,7 +104,7 @@ public class LocalMusicManager {
     /***
      * @return
      */
-    public Observable<List<LocalArtist>> getLocalArtists() {
+    public Observable<List<LocalArtist>> getLocalArtists(@Nullable final String query) {
         return Observable.create(new Observable.OnSubscribe<List<LocalArtist>>() {
             @Override
             public void call(Subscriber<? super List<LocalArtist>> subscriber) {
@@ -174,6 +114,9 @@ public class LocalMusicManager {
                         MediaStore.Audio.Artists.NUMBER_OF_ALBUMS,
                         MediaStore.Audio.Artists.NUMBER_OF_TRACKS};
                 String selection = null;
+                if (query !=null) {
+                    selection = "" + MediaStore.Audio.Artists.ARTIST + " like '%" + query + "%'";
+                }
                 String[] selectionArgs = null;
                 String sortOrder = MediaStore.Audio.Media.ARTIST + " ASC";
                 Cursor cursor = contentResolver.query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
@@ -207,7 +150,7 @@ public class LocalMusicManager {
      * @param artist null to get all
      * @return
      */
-    public Observable<List<LocalAlbum>> getLocalAlbums(@Nullable final String artist) {
+    public Observable<List<LocalAlbum>> getLocalAlbums(@Nullable final String artist,@Nullable final String query) {
 
         return Observable.create(new Observable.OnSubscribe<List<LocalAlbum>>() {
             @Override
@@ -223,6 +166,10 @@ public class LocalMusicManager {
                 String[] selectionArgs = null;
                 if (artist != null) {
                     selection = MediaStore.Audio.Albums.ARTIST + "='" + artist + "'";
+                }
+                if (query != null) {
+                    selection = MediaStore.Audio.Albums.ARTIST + " like '%" + query + "%'";
+                    selection += " OR "+ MediaStore.Audio.Albums.ALBUM + " like '%"+query+"%'";
                 }
                 String sortOrder = MediaStore.Audio.Media.ALBUM + " ASC";
                 Cursor cursor = contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
@@ -284,7 +231,7 @@ public class LocalMusicManager {
 
 
     /***
-     * @param albumId
+     * @param artistName
      * @return
      */
     public String findAlbumArtByArtist(String artistName) {

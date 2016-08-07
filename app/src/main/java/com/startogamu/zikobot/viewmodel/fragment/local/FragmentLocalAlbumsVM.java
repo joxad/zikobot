@@ -94,7 +94,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
      * Load the local music
      */
     public void loadLocalMusic() {
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(localArtist != null ? localArtist.getName() : null).subscribe(localAlbums -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(localArtist != null ? localArtist.getName() : null,null).subscribe(localAlbums -> {
             Log.d(TAG, "" + localAlbums.size());
             for (LocalAlbum localAlbum : localAlbums) {
                 items.add(new AlbumVM(fragment.getContext(), localAlbum));
