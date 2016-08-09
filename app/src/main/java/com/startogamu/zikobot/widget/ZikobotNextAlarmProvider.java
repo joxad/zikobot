@@ -8,10 +8,11 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
-import com.startogamu.zikobot.view.Henson;
+
 
 import java.util.Collections;
 import java.util.Date;
@@ -39,9 +40,8 @@ public abstract class ZikobotNextAlarmProvider extends AppWidgetProvider {
                 if (alarms.isEmpty()) {
                     remoteViews.setTextViewText(R.id.tv_next, context.getString(R.string.no_alarm));
                     remoteViews.setTextViewText(R.id.tv_message, context.getString(R.string.add_alarm));
-                    Intent intent = Henson.with(context).gotoActivityAlarm().alarm(null).build();
                     remoteViews.setOnClickPendingIntent(R.id.ll_alarm, PendingIntent.getActivity(context, 0,
-                            intent, PendingIntent.FLAG_UPDATE_CURRENT));
+                            IntentManager.goToAlarm(null), PendingIntent.FLAG_UPDATE_CURRENT));
 
                 } else {
                     Collections.sort(alarms, (a1, a2) -> new Date(a1.getTimeInMillis()).compareTo(new Date(a2.getTimeInMillis())));
@@ -51,9 +51,9 @@ public abstract class ZikobotNextAlarmProvider extends AppWidgetProvider {
                             remoteViews.setTextViewText(R.id.tv_next, context.getString(R.string.next_alarm));
                             remoteViews.setTextViewText(R.id.tv_message, String.format("%02d: %02d %s", ZikoUtils.amPmHour(alarm.getHour()), alarm.getMinute(), ZikoUtils.amPm(alarm.getHour())));
                             done = true;
-                            Intent intent = Henson.with(context).gotoActivityAlarm().alarm(alarm).build();
+
                             remoteViews.setOnClickPendingIntent(R.id.ll_alarm, PendingIntent.getActivity(context, 0,
-                                    intent, PendingIntent.FLAG_UPDATE_CURRENT));
+                                    IntentManager.goToAlarm(alarm), PendingIntent.FLAG_UPDATE_CURRENT));
 
                             break;
                         }
@@ -61,9 +61,9 @@ public abstract class ZikobotNextAlarmProvider extends AppWidgetProvider {
                     if (!done) {
                         remoteViews.setTextViewText(R.id.tv_next, context.getString(R.string.no_active_alarm));
                         remoteViews.setTextViewText(R.id.tv_message, context.getString(R.string.activate_alarm));
-                        Intent intent = Henson.with(context).gotoActivityMain().fromWidget("ALARM").build();
+
                         remoteViews.setOnClickPendingIntent(R.id.ll_alarm, PendingIntent.getActivity(context, 0,
-                                intent, PendingIntent.FLAG_UPDATE_CURRENT));
+                                IntentManager.goToMainFromWidget(), PendingIntent.FLAG_UPDATE_CURRENT));
                     }
 
                 }

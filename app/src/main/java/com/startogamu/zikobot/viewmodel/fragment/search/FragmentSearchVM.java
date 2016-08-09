@@ -14,7 +14,9 @@ import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
+import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.view.fragment.search.FragmentSearch;
 import com.startogamu.zikobot.viewmodel.base.AlbumVM;
 import com.startogamu.zikobot.viewmodel.base.ArtistVM;
@@ -58,8 +60,18 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
     @Override
     protected void onResume() {
         super.onResume();
+        ((ActivityMain)fragment.getActivity()).showSearch();
+
         EventBus.getDefault().post(new EventCollapseToolbar(null, null));
         EventBus.getDefault().post(new EventTabBars(false, FragmentSearch.class.getSimpleName()));
+    }
+
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+
+        ((ActivityMain)fragment.getActivity()).hideSearch();
     }
 
     @Override
@@ -73,7 +85,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
             Logger.d(TAG, "" + localArtists.size());
             artists.clear();
             for (LocalArtist localArtist : localArtists) {
-                artists.add(new ArtistVM(fragment.getContext(), localArtist));
+                artists.add(new ArtistVM(fragment.getContext(), Artist.from(localArtist)));
             }
 
         }, throwable -> {
@@ -92,7 +104,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
             Logger.e(throwable.getMessage());
             albums.clear();
         });
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(-1, query).subscribe(localTracks -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(null,-1, query).subscribe(localTracks -> {
             Logger.d("" + localTracks.size());
             tracks.clear();
             for (LocalTrack localTrack : localTracks) {
@@ -103,4 +115,5 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
             tracks.clear();
         });
     }
+
 }

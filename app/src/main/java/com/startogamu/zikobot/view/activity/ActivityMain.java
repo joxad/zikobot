@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.zikobot.BR;
@@ -35,11 +34,9 @@ public class ActivityMain extends ActivityBase<ActivityMainBinding, ActivityMain
 
     @Override
     public ActivityMainVM baseActivityVM(ActivityMainBinding binding, Bundle savedInstanceState) {
-        Dart.inject(this);
 
         return new ActivityMainVM(this, binding);
     }
-
 
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
@@ -51,10 +48,6 @@ public class ActivityMain extends ActivityBase<ActivityMainBinding, ActivityMain
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
-
-
         return true;
     }
 
@@ -64,5 +57,13 @@ public class ActivityMain extends ActivityBase<ActivityMainBinding, ActivityMain
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void hideSearch() {
+        vm.hideSearch();
+    }
+
+    public void showSearch() {
+        vm.showSearch();
     }
 }

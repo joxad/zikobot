@@ -6,9 +6,9 @@ import android.content.Intent;
 
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.core.analytics.AnalyticsManager;
+import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
-import com.startogamu.zikobot.view.Henson;
 
 /**
  * Created by josh on 28/03/16.
@@ -30,7 +30,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     alarm.save();
                 }
                 AlarmManager.prepareAlarm(context, alarm);
-                context.startActivity(Henson.with(context).gotoActivityWakeUp().alarm(alarm).build().addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                context.startActivity(IntentManager.goToWakeUp(alarm).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         }, throwable -> {
             Logger.d(throwable.getMessage());

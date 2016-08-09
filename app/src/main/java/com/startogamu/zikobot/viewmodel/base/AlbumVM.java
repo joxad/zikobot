@@ -7,9 +7,7 @@ import android.view.View;
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
-import com.startogamu.zikobot.core.event.LocalArtistSelectEvent;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
-import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -38,7 +36,7 @@ public class AlbumVM extends BaseVM<LocalAlbum> {
 
     public void onClick(View view){
         //TODO sendevent
-        EventBus.getDefault().post(new LocalAlbumSelectEvent(model));
+        EventBus.getDefault().post(new LocalAlbumSelectEvent(model, view.findViewById(R.id.iv_album)));
     }
 
     @Bindable

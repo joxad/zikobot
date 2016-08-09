@@ -17,7 +17,7 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
-import com.startogamu.zikobot.core.event.LocalArtistSelectEvent;
+import com.startogamu.zikobot.core.event.EventShowArtistDetail;
 import com.startogamu.zikobot.core.event.SelectAllTracks;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
 import com.startogamu.zikobot.core.utils.AppPrefs;
@@ -25,7 +25,6 @@ import com.startogamu.zikobot.databinding.ActivityMusicBinding;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
-import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.view.activity.ActivityMusic;
 import com.startogamu.zikobot.view.fragment.deezer.FragmentDeezerPlaylists;
@@ -166,8 +165,8 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
     }
 
     @Subscribe
-    public void onEvent(LocalArtistSelectEvent localArtistSelectEvent) {
-        LocalArtist item = localArtistSelectEvent.getLocalArtist();
+    public void onEvent(EventShowArtistDetail eventShowArtistDetail) {
+        LocalArtist item = null;//TODO eventShowArtistDetail.getArtist();
         activity.replaceFragment(FragmentLocalAlbums.newInstance(item), false, true);
     }
 

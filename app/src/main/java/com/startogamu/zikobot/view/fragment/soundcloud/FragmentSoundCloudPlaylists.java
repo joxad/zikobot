@@ -4,9 +4,7 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.databinding.FragmentSoundCloudPlaylistsBinding;
-import com.startogamu.zikobot.databinding.FragmentSpotifyPlaylistsBinding;
 import com.startogamu.zikobot.viewmodel.fragment.soundcloud.FragmentSoundCloudPlaylistsVM;
-import com.startogamu.zikobot.viewmodel.fragment.spotify.FragmentSpotifyPlaylistsVM;
 
 /**
  * Created by josh on 26/03/16.

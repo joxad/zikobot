@@ -23,8 +23,8 @@ public class TabLayoutManager {
     public static void initTabLayoutAlarms(Context context, TabLayout tabLayout, SimpleTabSelectedListener simpleTabSelectedListener) {
         tabLayout.removeAllTabs();
 
-        tabLayout.addTab(tabLayout.newTab().setText("Réveil"));
-        tabLayout.addTab(tabLayout.newTab().setText("Veilleuse"));
+        tabLayout.addTab(tabLayout.newTab().setText(context.getString(R.string.drawer_alarms)));
+
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

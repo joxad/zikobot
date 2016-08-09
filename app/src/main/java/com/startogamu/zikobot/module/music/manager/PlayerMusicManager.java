@@ -182,6 +182,7 @@ public class PlayerMusicManager {
             initMediaPlayer(context, () -> playTrack(track));
         else {
             checkIfTracksAlreadyHere(track);
+            track.isPlaying.set(true);
             Track model = track.getModel();
             handlePlay(model);
             observe();
@@ -205,6 +206,7 @@ public class PlayerMusicManager {
         int i = 0;
         newTrack = true;
         for (TrackVM t : tracks) {
+            t.isPlaying.set(false);
             if (t.getModel().getRef().equals(track.getModel().getRef())) {
                 currentSong = i;
                 newTrack = false;
@@ -267,6 +269,7 @@ public class PlayerMusicManager {
      *
      */
     public void next() {
+        getCurrentTrackVM().isPlaying.set(false);
         currentSong++;
         if (tracks.size() > currentSong) {
             playTrack(tracks.get(currentSong));
@@ -319,6 +322,7 @@ public class PlayerMusicManager {
      *
      */
     public void resume() {
+        getCurrentTrackVM().isPlaying.set(true);
         if (mediaPlayerService != null) {
             mediaPlayerService.resume();
         }
@@ -330,6 +334,7 @@ public class PlayerMusicManager {
      * pause all the players
      */
     public void pause() {
+        getCurrentTrackVM().isPlaying.set(false);
         if (mediaPlayerService != null) {
             mediaPlayerService.pause();
         }

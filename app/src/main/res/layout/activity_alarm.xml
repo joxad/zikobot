@@ -28,7 +28,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <com.startogamu.zikobot.view.custom.MyNestedScrollView
+        <com.startogamu.zikobot.view.custom.FlingNestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -39,7 +39,7 @@
                 layout="@layout/view_alarm"
                 app:alarmVM="@{activityAlarmVM.alarmVM}" />
 
-        </com.startogamu.zikobot.view.custom.MyNestedScrollView>
+        </com.startogamu.zikobot.view.custom.FlingNestedScrollView>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_add"

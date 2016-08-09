@@ -13,8 +13,8 @@
             type="android.view.View" />
 
         <variable
-            name="activityMainVM"
-            type="com.startogamu.zikobot.viewmodel.activity.ActivityMainVM" />
+            name="activityAlbumVM"
+            type="com.startogamu.zikobot.album.ActivityAlbumVM" />
     </data>
 
 
@@ -57,7 +57,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="250dp"
                             android:scaleType="centerCrop"
-                            android:visibility="visible"
+                            android:transitionName="@string/transition"
+                            app:srcCompat="@drawable/ic_vinyl"
                             tools:src="@drawable/ic_vinyl" />
 
                         <RelativeLayout
@@ -69,7 +70,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:onClick="@{activityMainVM.onPlayListClicked}"
+                            android:onClick="@{activityAlbumVM.onPlay}"
                             app:srcCompat="@drawable/ic_play_arrow" />
                     </RelativeLayout>
 
@@ -104,34 +105,61 @@
 
                 </android.support.design.widget.CollapsingToolbarLayout>
 
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tabLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/actionBarSize"
-                    android:background="@color/colorPrimary"
-                    android:visibility="@{activityMainVM.tabLayoutVisible ? v.VISIBLE: v.GONE}"
-                    app:tabBackground="@color/colorPrimary"
-                    app:tabGravity="fill"
-                    app:tabIndicatorColor="@android:color/white"
-                    app:tabIndicatorHeight="6dp"
-                    app:tabMaxWidth="0dp"
-                    app:tabMode="scrollable"
-                    app:tabSelectedTextColor="@android:color/white"
-                    app:tabTextColor="@android:color/white" />
 
             </android.support.design.widget.AppBarLayout>
 
 
-            <android.support.v4.view.ViewPager
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
             <FrameLayout
-                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <com.startogamu.zikobot.view.custom.FlingNestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/textSection"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_medium"
+                            android:layout_marginStart="@dimen/margin_medium"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            android:text="@string/drawer_filter_album"
+                            android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:background="@color/colorAccent"
+                            android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
+
+
+                        <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
+                            android:id="@+id/rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clipToPadding="false"
+                            android:layoutAnimation="@anim/grid_animation"
+                            android:paddingBottom="@dimen/actionBarSize"
+                            android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
+                            app:itemView="@{activityAlbumVM.itemViewTrack}"
+                            app:items="@{activityAlbumVM.tracks}"
+                            app:layoutManager="@{LayoutManagers.grid(1)}"
+                            tools:listitem="@layout/item_artist" />
+
+                    </LinearLayout>
+
+                </com.startogamu.zikobot.view.custom.FlingNestedScrollView>
+
+            </FrameLayout>
 
             <include
                 android:id="@+id/view_player"
@@ -142,35 +170,21 @@
                 android:background="@android:drawable/dialog_holo_light_frame"
                 app:behavior_peekHeight="@dimen/playerHeight"
                 app:layout_behavior="@string/bottom_sheet_behavior"
-                app:playerVM="@{activityMainVM.playerVM}" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginBottom="72dp"
-                android:layout_marginEnd="@dimen/fab_margin"
-                android:layout_marginRight="@dimen/fab_margin"
-                android:onClick="@{activityMainVM.fabClicked}"
-                android:src="@drawable/ic_add"
-                android:visibility="@{activityMainVM.fabVisible ? v.VISIBLE: v.GONE}"
-                app:layout_anchor="@id/view_player"
-                app:layout_anchorGravity="bottom|end|right" />
+                app:playerVM="@{activityAlbumVM.playerVM}" />
 
         </android.support.design.widget.CoordinatorLayout>
 
         <com.lapism.searchview.SearchView
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:search_clear_on_close="false"
-            app:search_divider="true"
-            app:search_hint="@string/drawer_filter_search"
-            app:search_shadow="false"
-            app:search_version="menu_item"
-            app:search_version_margins="menu_item"
-            app:search_voice="true" />
+             android:id="@+id/search_view"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             app:search_clear_on_close="false"
+             app:search_divider="true"
+             app:search_hint="@string/drawer_filter_search"
+             app:search_shadow="false"
+             app:search_version="menu_item"
+             app:search_version_margins="menu_item"
+             app:search_voice="true" />
     </RelativeLayout>
 </layout>
 

@@ -2,6 +2,7 @@ package com.startogamu.zikobot.viewmodel.base;
 
 import android.content.Context;
 import android.databinding.Bindable;
+import android.databinding.ObservableBoolean;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +11,6 @@ import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
-import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.event.player.EventShowTab;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
@@ -18,14 +18,13 @@ import com.startogamu.zikobot.module.zikobot.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Arrays;
-
 /**
  * Created by josh on 30/05/16.
  */
 public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickListener {
 
     public boolean isChecked = false;
+    public ObservableBoolean isPlaying;
 
     /***
      * @param context
@@ -37,6 +36,7 @@ public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickL
 
     @Override
     public void init() {
+        isPlaying = new ObservableBoolean(false);
     }
 
     @Override
@@ -128,4 +128,6 @@ public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickL
         }
         return false;
     }
+
+
 }

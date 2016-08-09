@@ -38,7 +38,7 @@ public class LocalMusicManager {
      * @param album -1 if you want all the tracks
      * @return
      */
-    public Observable<List<LocalTrack>> getLocalTracks(@Nullable final long album,@Nullable final String query) {
+    public Observable<List<LocalTrack>> getLocalTracks(@Nullable final String artist, @Nullable final long album, @Nullable final String query) {
         return Observable.create(new Observable.OnSubscribe<List<LocalTrack>>() {
             @Override
             public void call(Subscriber<? super List<LocalTrack>> subscriber) {
@@ -55,10 +55,13 @@ public class LocalMusicManager {
                 };
                 String selection = MediaStore.Audio.Media.IS_MUSIC + " = 1";
                 String[] selectionArgs = null;
+                if (artist != null) {
+                    selection += " AND " + MediaStore.Audio.Media.ARTIST + "='" + artist + "'";
+                }
                 if (album != -1) {
                     selection += " AND " + MediaStore.Audio.Media.ALBUM_ID + "='" + album + "'";
                 }
-                if (query !=null) {
+                if (query != null) {
                     selection += " AND " + MediaStore.Audio.Media.TITLE + " like '%" + query + "%'";
                 }
                 String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";
@@ -114,7 +117,7 @@ public class LocalMusicManager {
                         MediaStore.Audio.Artists.NUMBER_OF_ALBUMS,
                         MediaStore.Audio.Artists.NUMBER_OF_TRACKS};
                 String selection = null;
-                if (query !=null) {
+                if (query != null) {
                     selection = "" + MediaStore.Audio.Artists.ARTIST + " like '%" + query + "%'";
                 }
                 String[] selectionArgs = null;
@@ -150,7 +153,7 @@ public class LocalMusicManager {
      * @param artist null to get all
      * @return
      */
-    public Observable<List<LocalAlbum>> getLocalAlbums(@Nullable final String artist,@Nullable final String query) {
+    public Observable<List<LocalAlbum>> getLocalAlbums(@Nullable final String artist, @Nullable final String query) {
 
         return Observable.create(new Observable.OnSubscribe<List<LocalAlbum>>() {
             @Override
@@ -169,7 +172,7 @@ public class LocalMusicManager {
                 }
                 if (query != null) {
                     selection = MediaStore.Audio.Albums.ARTIST + " like '%" + query + "%'";
-                    selection += " OR "+ MediaStore.Audio.Albums.ALBUM + " like '%"+query+"%'";
+                    selection += " OR " + MediaStore.Audio.Albums.ALBUM + " like '%" + query + "%'";
                 }
                 String sortOrder = MediaStore.Audio.Media.ALBUM + " ASC";
                 Cursor cursor = contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);

@@ -1,106 +1,106 @@
 <resources>
     <string name="app_name">ZikoBot</string>
 
-    <string name="loading">Chargement..</string>
+    <string name="loading">Loading..</string>
 
     <!--> Start <-->
-    <string name="view_pager_1">Avec moi, ton réveil est plus convivial, je programme tes musiques préférées !</string>
-    <string name="view_pager_2">J\'ai besoin que tu te connectes à ton compte Spotify® ou Deezer® (Nécessite un compte premium)</string>
-    <string name="view_pager_3">Avec ta permission, je peux également accéder à tes musiques stockées en local sur ton téléphone.</string>
+    <string name="view_pager_1">With me, your alarm clock is more friendly, I program my favorite music!</string>
+    <string name="view_pager_2">I need that you connect to your Spotify® or Deezer® account (requires a premium account)</string>
+    <string name="view_pager_3">With your permission, I can also access my music stored locally on your phone.</string>
 
-    <string name="view_pager_1_title">Enchanté, je suis Zikobot, ton assistant musical!</string>
-    <string name="view_pager_2_title">Associe tes comptes musicaux</string>
-    <string name="view_pager_3_title">Pas de compte? Aucun souci pour moi!</string>
-    <string name="done">Valider</string>
-    <string name="skip">Passer</string>
+    <string name="view_pager_1_title">Nice to meet you, I Zikobot, your musical assistant!</string>
+    <string name="view_pager_2_title">Combines your musical accounts</string>
+    <string name="view_pager_3_title">No account? No problem for me!</string>
+    <string name="done">Done</string>
+    <string name="skip">Skip</string>
 
-    <string name="tuto">Appuie ici pour ajouter ta première alarme</string>
-    <string name="tuto_zik">Appuie ici pour ajouter tes chansons préférées</string>
+    <string name="tuto">Click here to add your first alarm</string>
+    <string name="tuto_zik">Supports here to add my favorite songs</string>
 
     <!--> Menu <-->
-    <string name="menu_about">A propos</string>
-    <string name="menu_put_an_alarm">En faire une alarme</string>
-    <string name="menu_add_to_playlist">Ajouter à la lecture en cours</string>
+    <string name="menu_about">About</string>
+    <string name="menu_put_an_alarm">Make an alarm</string>
+    <string name="menu_add_to_playlist">Add to current playlist</string>
     <string name="menu_delete">delete</string>
     <string name="menu_tablature">See guitar tab</string>
 
-    <string name="action_add_all">Tout ajouter</string>
+    <string name="action_add_all">Add all</string>
 
 
     <!--> Titles <-->
-    <string name="activity_music_local">Ma bibliothèque musicale</string>
+    <string name="activity_music_local">My personal music</string>
     <string name="activity_music_spotify">Spotify</string>
     <string name="activity_music_deezer">Deezer</string>
-    <string name="activity_my_account">Mes comptes</string>
+    <string name="activity_my_account">My accounts</string>
 
 
     <!--> ActivityAlarm <-->
-    <string name="activity_alarm_new">Créer une alarme</string>
-    <string name="alarm_hint_hour">Sélectionner l\'heure</string>
+    <string name="activity_alarm_new">Create an alarm</string>
+    <string name="alarm_hint_hour">Select the hour</string>
 
-    <string name="alarm_hint">Libellé de l\'alarme</string>
-    <string name="edit_text_error_name_alarm">Erreur sur le nom</string>
-    <string name="tuto_select_track">Choisissez votre chanson</string>
-    <string name="activity_music_title">Choix de la musique</string>
+    <string name="alarm_hint">Alarm title</string>
+    <string name="edit_text_error_name_alarm">Name error</string>
+    <string name="tuto_select_track">Select your track</string>
+    <string name="activity_music_title">Music choice</string>
 
-    <string name="monday">LUN</string>
-    <string name="tuesday">MAR</string>
-    <string name="wednesday">MER</string>
-    <string name="thursday">JEU</string>
-    <string name="friday">VEN</string>
-    <string name="saturday">SAM</string>
-    <string name="sunday">DIM</string>
-    <string name="repeat">Répéter</string>
+    <string name="monday">MON</string>
+    <string name="tuesday">TUE</string>
+    <string name="wednesday">WED</string>
+    <string name="thursday">THU</string>
+    <string name="friday">FRI</string>
+    <string name="saturday">SAT</string>
+    <string name="sunday">SUN</string>
+    <string name="repeat">Repeat</string>
 
 
     <!--> Activity Wake Up <-->
-    <string name="stop">Arrêter</string>
+    <string name="stop">Stop</string>
 
 
     <!-- ActivityAccount -->
-    <string name="connect_with_spotify">Me connecter avec spotify</string>
-    <string name="connect">Connexion</string>
+    <string name="connect_with_spotify">Connect to spotify</string>
+    <string name="connect">Connection</string>
 
     <!--> ActivityMusic<-->
 
-    <string name="wake_up">Gestion de mon alarme</string>
-    <string name="alarm_add">Valider</string>
-    <string name="playlist_total_tracks">%d chansons</string>
-    <string name="tracks">chanson(s)</string>
+    <string name="wake_up">Alarm management</string>
+    <string name="alarm_add">Validate</string>
+    <string name="playlist_total_tracks">%d tracks</string>
+    <string name="tracks">track(s)</string>
 
     <string name="coming_soon">Coming soon...</string>
-    <string name="play">Jouer l\'alarme</string>
+    <string name="play">Play alarm</string>
 
-    <string name="no_music">Désolé je n\'ai trouvé aucune musique sur ton téléphone</string>
-    <string name="add_tracks">J\'ai besoin que tu ajoutes des chansons pour lancer l\'alarme</string>
-    <string name="permission_local">J\'ai besoin de ta permission pour accéder à ta musique :)</string>
+    <string name="no_music">Sorry I did not find any music on your phone</string>
+    <string name="add_tracks">I need you to add songs to start the alarm</string>
+    <string name="permission_local">I need your permission to access your music :)</string>
     <string name="album">album(s)</string>
-    <string name="random_music">Mode aléatoire</string>
+    <string name="random_music">Random mode</string>
     <string name="volume_alarm">Volume</string>
 
 
     <!-- My account -->
     <string name="SoundCloud">SoundCloud</string>
-    <string name="connect_with_SoundCloud">Me connecter avec SoundCloud</string>
+    <string name="connect_with_SoundCloud">Connect to SoundCloud</string>
     <string name="spotify">Spotify</string>
     <string name="soundcloud">Soundcloud</string>
-    <string name="account_type">Type de compte :</string>
+    <string name="account_type">Account Type :</string>
     <string name="Spotify">Spotify</string>
 
 
     <!-- Dialogues -->
-    <string name="dialog_title_add_track">Alarme Musicale</string>
-    <string name="alarm_select">Sélectionne ton alarme</string>
-    <string name="no_premium">Désolé, tu n\'as pas de compte Premium... je ne peux utiliser Spotify sans cela :(</string>
+    <string name="dialog_title_add_track">Music Alarm</string>
+    <string name="alarm_select">Select your alarm</string>
+    <string name="no_premium">Sorry, you have no Premium account ... I can not use Spotify without it :(</string>
     <string name="oops">Oops</string>
-    <string name="no_m4a_support">Désolé je ne supporte pas encore ce format :(</string>
+    <string name="no_m4a_support">Sorry I do not handle that format yet :(</string>
 
     <!-- Widget -->
-    <string name="next_alarm">Prochaine alarme : </string>
-    <string name="no_alarm">Aucune alarme</string>
-    <string name="add_alarm">Clique ici pour en ajouter</string>
-    <string name="no_active_alarm">Aucune alarme active</string>
-    <string name="activate_alarm">Clique ici pour en préparer</string>
+    <string name="next_alarm">Next alarm : </string>
+    <string name="no_alarm">No alarm</string>
+    <string name="add_alarm">Click here to add </string>
+    <string name="no_active_alarm">No active alarms</string>
+    <string name="activate_alarm">Click here to prepare</string>
     <string name="activity_fingerprint">Zikentifier</string>
 
     <!-- About -->

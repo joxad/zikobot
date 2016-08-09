@@ -15,6 +15,7 @@ import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.FragmentLocalArtistsBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
+import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.viewmodel.base.ArtistVM;
 
@@ -64,7 +65,7 @@ public class FragmentLocalArtistVM extends FragmentBaseVM<FragmentLocalArtists, 
         Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalArtists(null).subscribe(localArtists -> {
             Log.d(TAG, "" + localArtists.size());
             for (LocalArtist localArtist : localArtists) {
-                items.add(new ArtistVM(fragment.getContext(), localArtist));
+                items.add(new ArtistVM(fragment.getActivity(), Artist.from(localArtist)));
             }
 
         }, throwable -> {

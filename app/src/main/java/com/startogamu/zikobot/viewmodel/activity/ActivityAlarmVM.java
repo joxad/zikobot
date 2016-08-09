@@ -18,16 +18,14 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.analytics.AnalyticsManager;
+import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.SimpleSeekBarListener;
 import com.startogamu.zikobot.databinding.ActivityAlarmBinding;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
-import com.startogamu.zikobot.module.zikobot.model.Track;
-import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityAlarm;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -90,7 +88,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
                         save().subscribe(alarm1 -> {
                             prepareAlarm(alarm1);
                             AlarmTrackManager.clear();
-                            activity.startActivity(Henson.with(activity).gotoActivityWakeUp().alarm(alarm1).build());
+                            activity.startActivity(IntentManager.goToWakeUp(alarm1));
                         }, throwable -> {
                             Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
                         });
@@ -270,7 +268,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * @param view
      */
     public void onAddTrackClick(View view) {
-        activity.startActivity(Henson.with(activity).gotoActivityMusic().alarm(alarm).build());
+        activity.startActivity(IntentManager.goToMusic(alarm));
     }
 
 

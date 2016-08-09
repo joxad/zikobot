@@ -14,12 +14,12 @@ import com.startogamu.zikobot.core.event.EventFabClicked;
 import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
+import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
-import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
 
@@ -137,14 +137,12 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     }
 
     public void addAlarm(View view) {
-        fragment.getActivity().startActivity(Henson.with(fragment.getContext())
-                .gotoActivityAlarm().alarm(new Alarm()).build());
+        fragment.getActivity().startActivity(IntentManager.goToAlarm(null));
     }
 
     @Subscribe
     public void onEvent(EventAlarmSelect eventAlarmSelect) {
-        fragment.startActivity(Henson.with(fragment.getContext())
-                .gotoActivityAlarm().alarm(eventAlarmSelect.getModel()).build());
+        fragment.startActivity(IntentManager.goToAlarm(eventAlarmSelect.getModel()));
     }
 
     @Override

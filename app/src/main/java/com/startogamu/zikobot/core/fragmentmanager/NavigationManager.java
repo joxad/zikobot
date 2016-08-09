@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
@@ -15,8 +16,8 @@ import com.joxad.easydatabinding.activity.IPermission;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.EventShowArtistDetail;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
-import com.startogamu.zikobot.core.event.LocalArtistSelectEvent;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
 import com.startogamu.zikobot.core.event.deezer.SelectDeezerItemPlaylistEvent;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAlarms;
@@ -28,7 +29,6 @@ import com.startogamu.zikobot.core.event.soundcloud.SelectSCItemPlaylistEvent;
 import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
-import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.activity.ActivityMain;
@@ -181,16 +181,18 @@ public class NavigationManager implements IFragmentManager, IPermission {
     }
 
     @Subscribe
-    public void onEvent(LocalArtistSelectEvent localArtistSelectEvent) {
-        LocalArtist item = localArtistSelectEvent.getLocalArtist();
-        replaceFragment(FragmentLocalAlbums.newInstance(item), false, true);
+    public void onEvent(EventShowArtistDetail eventShowArtistDetail) {
+        ActivityOptionsCompat options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(activity, eventShowArtistDetail.getView(), activity.getString(R.string.transition));
+        activity.startActivity(IntentManager.goToArtist(eventShowArtistDetail.getArtist()), options.toBundle());
     }
 
 
     @Subscribe
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
-        LocalAlbum item = localAlbumSelectEvent.getModel();
-        replaceFragment(FragmentLocalTracks.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
+        ActivityOptionsCompat options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(activity, localAlbumSelectEvent.getView(), activity.getString(R.string.transition));
+        activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()), options.toBundle());
     }
 
 

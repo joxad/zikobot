@@ -1,11 +1,8 @@
 package com.startogamu.zikobot.viewmodel.activity;
 
 import android.animation.Animator;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.ServiceConnection;
 import android.media.AudioManager;
-import android.os.IBinder;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -50,6 +47,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     public TrackVM trackVM;
 
     PlayerMusicManager playerMusicManager;
+
     /***
      * @param activity
      * @param binding
@@ -137,7 +135,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      * @param view
      */
     public void stop(View view) {
-        Injector.INSTANCE.playerComponent().manager().stop();
+        playerMusicManager.stop();
         PlayerNotification.cancel();
         activity.finish();
     }

@@ -5,7 +5,7 @@ import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
@@ -20,27 +20,30 @@ import com.joxad.easydatabinding.activity.IResult;
 import com.lapism.searchview.SearchView;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.artist.ActivityArtist;
 import com.startogamu.zikobot.core.event.EventFabClicked;
+import com.startogamu.zikobot.core.event.EventShowArtistDetail;
 import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.event.player.EventShowTab;
 import com.startogamu.zikobot.core.fragmentmanager.DrawerManager;
 import com.startogamu.zikobot.core.fragmentmanager.FragmentManager;
+import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
+import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ISearch;
-import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.tablature.TablatureManager;
-import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.parceler.Parcels;
 
 import java.io.UnsupportedEncodingException;
 
@@ -127,28 +130,28 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      * Init the action on the toolbar menu
      */
     private void initMenu() {
-            binding.searchView.setVoiceText("Set permission on Android 6+ !");
+        binding.searchView.setVoiceText("Set permission on Android 6+ !");
 
 
-            binding.searchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
-                @Override
-                public void onOpen() {
-                    Logger.d("OPEN");
-                }
+        binding.searchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
+            @Override
+            public void onOpen() {
+                Logger.d("OPEN");
+            }
 
-                @Override
-                public void onClose() {
-                    Logger.d("CLOSE");
+            @Override
+            public void onClose() {
+                Logger.d("CLOSE");
 //                    FragmentManager.pop(activity);
 
-                }
-            });
+            }
+        });
 
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(FragmentManager.currentFragment() instanceof ISearch)
-                    ((ISearch)FragmentManager.currentFragment()).query(newText);
+                if (FragmentManager.currentFragment() instanceof ISearch)
+                    ((ISearch) FragmentManager.currentFragment()).query(newText);
                 return false;
             }
 
@@ -158,12 +161,11 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                 return true;
             }
         });
-     
+
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_search:
                     Snackbar.make(binding.container, "Search", Snackbar.LENGTH_SHORT).show();
-                    binding.searchView.open(true);
                     navigationManager.showSearch();
                     break;
             }
@@ -192,7 +194,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         }
 
         if (AppPrefs.isFirstStart()) {
-            activity.startActivity(Henson.with(activity).gotoActivityFirstStart().build());
+            activity.startActivity(IntentManager.goToTuto());
         }
     }
 
@@ -215,6 +217,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                 .create();
         alertDialog.show();
     }
+
 
     @Subscribe
     public void onEvent(EventShowTab event) {
@@ -310,5 +313,13 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      */
     public void fabClicked(View view) {
         EventBus.getDefault().post(new EventFabClicked());
+    }
+
+    public void hideSearch() {
+        binding.searchView.close(true);
+    }
+
+    public void showSearch() {
+        binding.searchView.open(true);
     }
 }

@@ -1,7 +1,6 @@
 package com.startogamu.zikobot.module.zikobot.manager;
 
 import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -9,7 +8,6 @@ import android.os.Build;
 import com.orhanobut.logger.Logger;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
-import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
@@ -17,8 +15,6 @@ import com.startogamu.zikobot.module.zikobot.model.Alarm_Table;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.module.zikobot.model.Track_Table;
 import com.startogamu.zikobot.widget.AppWidgetHelper;
-import com.startogamu.zikobot.widget.NextAlarmClockWidgetProvider;
-import com.startogamu.zikobot.widget.NextAlarmWidgetProvider;
 
 import java.util.Calendar;
 import java.util.List;

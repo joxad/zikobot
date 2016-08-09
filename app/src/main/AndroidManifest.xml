@@ -16,12 +16,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/ZikoboTheme">
+        android:theme="@style/ZikoboTheme.NoActionBar">
 
         <activity
             android:name=".view.activity.ActivityMain"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait">
 
             <intent-filter>
@@ -31,6 +31,22 @@
             // An intent filter that will receive the response from the authentication service
 
         </activity>
+
+
+        <activity
+            android:name=".artist.ActivityArtist"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+
+
+
+
+        <activity
+            android:name=".album.ActivityAlbum"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+
+
         <activity
             android:name=".view.activity.ActivityAlarm"
             android:configChanges="orientation|screenSize"
@@ -125,7 +141,6 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="00c5576aa26f4b6ed7a4d6e0e8794f3af2436e2d" />
-
 
 
     </application>

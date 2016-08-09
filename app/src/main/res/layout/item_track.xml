@@ -25,12 +25,27 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_image"
-                android:layout_width="@dimen/item_icon_size"
-                android:layout_height="@dimen/item_icon_size"
-                app:imageUrl="@{trackVM.imageUrl}"
-                tools:src="@drawable/ic_picture_loading" />
+            <RelativeLayout
+                android:id="@+id/rl_player"
+                android:layout_centerVertical="true"
+                app:animationRotate="@{trackVM.isPlaying}"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_disk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_vinyl_64" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_centerInParent="true"
+                    app:imageUrl="@{trackVM.imageUrl}" />
+
+            </RelativeLayout>
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/iv_more"
@@ -52,9 +67,9 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/iv_image"
+                android:layout_toEndOf="@id/rl_player"
                 android:layout_toLeftOf="@id/iv_more"
-                android:layout_toRightOf="@id/iv_image"
+                android:layout_toRightOf="@id/rl_player"
                 android:layout_toStartOf="@id/iv_more">
 
                 <LinearLayout

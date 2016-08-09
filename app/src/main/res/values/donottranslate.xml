@@ -17,7 +17,7 @@
     <string name="deezer_base_api_url">https://api.soundcloud.com</string>
     <string name="api_deezer_callback">http://zikobot.com/deezer/callback</string>
     <string name="lyrics_wikia_url">http://lyrics.wikia.com/</string>
-
+    <string name="transition">transition</string>
 
 
     <string-array name="waves">

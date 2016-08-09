@@ -19,7 +19,6 @@ import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudUser;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
-import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.view.activity.fingerprint.ActivityFingerprint;
 import com.startogamu.zikobot.viewmodel.activity.ActivityMainVM;
@@ -75,7 +74,7 @@ public class DrawerManager {
             } else if (drawerId == about.getIdentifier()) {
                 activityMainVM.navigationManager.showAbout();
             } else if (drawerId == accounts.getIdentifier()) {
-                activity.startActivity(Henson.with(activity).gotoActivitySettings().build());
+                activity.startActivity(IntentManager.goToSettings());
             } else  if (drawerId == fingerprint.getIdentifier()){
                 activity.startActivity(new Intent(activity, ActivityFingerprint.class));
             }
@@ -123,7 +122,7 @@ public class DrawerManager {
             EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.local));
             return false;
         } else if (profile.getName().equals(itemAddAccount.getName())) {
-            activity.startActivity(Henson.with(activity).gotoActivitySettings().build());
+            activity.startActivity(IntentManager.goToSettings());
             return true;
         }
         if (itemSpotify != null) {
