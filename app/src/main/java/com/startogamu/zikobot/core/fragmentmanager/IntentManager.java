@@ -9,6 +9,7 @@ import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.spotify_api.model.ExternalUrls;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
+import com.startogamu.zikobot.module.zikobot.model.Album;
 import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.view.Henson;
 
@@ -56,7 +57,7 @@ public class IntentManager {
         return Henson.with(context).gotoActivityMusic().alarm(alarm).build();
     }
 
-    public static Intent goToAlbum(LocalAlbum model) {
+    public static Intent goToAlbum(Album model) {
         Intent intent = new Intent(context, ActivityAlbum.class);
         intent.putExtra(EXTRA.LOCAL_ALBUM, Parcels.wrap(model));
         return intent;

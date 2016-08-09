@@ -62,7 +62,9 @@
                             tools:src="@drawable/ic_vinyl" />
 
                         <RelativeLayout
+                            android:id="@+id/rl_overlay"
                             android:layout_width="match_parent"
+                            android:alpha="0"
                             android:layout_height="250dp"
                             android:background="#99000000" />
 

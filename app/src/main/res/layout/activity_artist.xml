@@ -62,6 +62,7 @@
                             tools:src="@drawable/ic_vinyl" />
 
                         <RelativeLayout
+                            android:id="@+id/rl_overlay"
                             android:layout_width="match_parent"
                             android:layout_height="250dp"
                             android:background="#99000000" />
@@ -205,16 +206,17 @@
         </android.support.design.widget.CoordinatorLayout>
 
         <com.lapism.searchview.SearchView
-             android:id="@+id/search_view"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             app:search_clear_on_close="false"
-             app:search_divider="true"
-             app:search_hint="@string/drawer_filter_search"
-             app:search_shadow="false"
-             app:search_version="menu_item"
-             app:search_version_margins="menu_item"
-             app:search_voice="true" />
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:search_clear_on_close="false"
+            app:search_clear_on_open="false"
+            app:search_divider="true"
+            app:search_hint="@string/drawer_filter_search"
+            app:search_shadow="false"
+            app:search_version="menu_item"
+            app:search_version_margins="menu_item"
+            app:search_voice="true" />
     </RelativeLayout>
 </layout>
 

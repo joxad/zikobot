@@ -24,6 +24,7 @@ import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMusicBinding;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
+import com.startogamu.zikobot.module.lyrics.model.Album;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.view.activity.ActivityMusic;
@@ -172,7 +173,7 @@ public class ActivityMusicVM extends ActivityBaseVM<ActivityMusic, ActivityMusic
 
     @Subscribe
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
-        LocalAlbum item = localAlbumSelectEvent.getModel();
+        LocalAlbum item = null;// TODO localAlbumSelectEvent.getModel();
         activity.replaceFragment(FragmentLocalTracks.newInstance(item, BR.trackVM, R.layout.item_alarm_track), false, true);
     }
 

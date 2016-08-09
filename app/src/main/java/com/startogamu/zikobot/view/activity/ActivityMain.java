@@ -38,11 +38,6 @@ public class ActivityMain extends ActivityBase<ActivityMainBinding, ActivityMain
         return new ActivityMainVM(this, binding);
     }
 
-    @Override
-    public void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        vm.onPostCreate();
-    }
 
 
     @Override
@@ -51,13 +46,7 @@ public class ActivityMain extends ActivityBase<ActivityMainBinding, ActivityMain
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (vm.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
 
     public void hideSearch() {
         vm.hideSearch();

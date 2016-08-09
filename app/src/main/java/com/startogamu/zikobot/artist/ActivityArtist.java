@@ -28,6 +28,8 @@ public class ActivityArtist extends ActivityBase<ActivityArtistBinding, Activity
 
     @Override
     public ActivityArtistVM baseActivityVM(ActivityArtistBinding binding, Bundle savedInstanceState) {
+        postponeEnterTransition();
+
         return new ActivityArtistVM(this, binding);
     }
 

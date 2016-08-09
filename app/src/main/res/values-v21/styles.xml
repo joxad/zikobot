@@ -9,7 +9,6 @@
 
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-
-
+        <!-- enable window content transitions -->
     </style>
 </resources>

@@ -1,24 +1,28 @@
 package com.startogamu.zikobot.album;
 
+import android.animation.ObjectAnimator;
 import android.databinding.ObservableArrayList;
-import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
+import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.artist.ActivityArtistVM;
+import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.ActivityAlbumBinding;
 import com.startogamu.zikobot.module.component.Injector;
-import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
-import com.startogamu.zikobot.module.lyrics.model.Album;
-import com.startogamu.zikobot.module.zikobot.model.Artist;
+import com.startogamu.zikobot.module.zikobot.model.Album;
 import com.startogamu.zikobot.module.zikobot.model.Track;
-import com.startogamu.zikobot.viewmodel.base.AlbumVM;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
+
+import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -34,8 +38,7 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
     public PlayerVM playerVM;
     public ObservableArrayList<TrackVM> tracks;
 
-
-
+    public Album album;
 
     /***
      * @param activity
@@ -47,8 +50,8 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
 
     @Override
     public void init() {
+        album = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.LOCAL_ALBUM));
         tracks = new ObservableArrayList<>();
-
         binding.rv.setNestedScrollingEnabled(false);
         initToolbar();
         initPlayerVM();
@@ -64,11 +67,40 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
         activity.getSupportActionBar().setHomeButtonEnabled(true);
         activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
 
-     //   binding.mainCollapsing.setTitle(artist.getName());
+        binding.mainCollapsing.setTitle(album.getName());
         binding.title.setText("");
         binding.rlToolbarImage.setVisibility(View.VISIBLE);
-      //  Glide.with(activity).load(artist.getImage()).placeholder(R.drawable.ic_vinyl).into(binding.ivToolbar);
+
+        Glide.with(activity).load(album.getImage()).listener(new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                scheduleStartPostponedTransition(binding.ivToolbar);
+                ObjectAnimator fadeIn = ObjectAnimator.ofFloat(binding.rlOverlay, "alpha", 0f, 1f);
+                fadeIn.setDuration(1000);
+                fadeIn.start();
+                return false;
+            }
+        }).placeholder(R.drawable.ic_vinyl).into(binding.ivToolbar);
+
     }
+
+    private void scheduleStartPostponedTransition(final View sharedElement) {
+        sharedElement.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
+                        activity.startPostponedEnterTransition();
+                        return true;
+                    }
+                });
+    }
+
 
     /***
      *
@@ -98,13 +130,13 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
     public void loadLocalMusic() {
         tracks.clear();
         Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(null, -1, null).subscribe(localTracks -> {
-            Log.d(TAG, "" + localTracks.size());
+            Logger.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 tracks.add(new TrackVM(activity, Track.from(localTrack)));
             }
 
         }, throwable -> {
-
+            Logger.d(TAG, throwable.getLocalizedMessage());
         });
     }
 

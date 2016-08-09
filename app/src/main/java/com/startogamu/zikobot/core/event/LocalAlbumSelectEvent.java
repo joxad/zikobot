@@ -2,7 +2,8 @@ package com.startogamu.zikobot.core.event;
 
 import android.view.View;
 
-import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
+
+import com.startogamu.zikobot.module.zikobot.model.Album;
 
 import lombok.Data;
 
@@ -11,6 +12,6 @@ import lombok.Data;
  */
 @Data
 public class LocalAlbumSelectEvent {
-    private final LocalAlbum model;
+    private final Album model;
     private final View view;
 }
