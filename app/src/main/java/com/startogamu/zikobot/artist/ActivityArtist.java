@@ -1,5 +1,6 @@
 package com.startogamu.zikobot.artist;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -28,8 +29,9 @@ public class ActivityArtist extends ActivityBase<ActivityArtistBinding, Activity
 
     @Override
     public ActivityArtistVM baseActivityVM(ActivityArtistBinding binding, Bundle savedInstanceState) {
-        postponeEnterTransition();
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
+        }
         return new ActivityArtistVM(this, binding);
     }
 

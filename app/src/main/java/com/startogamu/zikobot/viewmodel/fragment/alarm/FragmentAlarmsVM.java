@@ -137,7 +137,7 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     }
 
     public void addAlarm(View view) {
-        fragment.getActivity().startActivity(IntentManager.goToAlarm(null));
+        fragment.getActivity().startActivity(IntentManager.goToAlarm(new Alarm()));
     }
 
     @Subscribe

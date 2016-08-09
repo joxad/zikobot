@@ -2,6 +2,8 @@ package com.startogamu.zikobot.artist;
 
 import android.animation.ObjectAnimator;
 import android.databinding.ObservableArrayList;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -13,6 +15,8 @@ import com.bumptech.glide.request.target.Target;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
+import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.ActivityArtistBinding;
 import com.startogamu.zikobot.module.component.Injector;
@@ -24,6 +28,8 @@ import com.startogamu.zikobot.viewmodel.base.AlbumVM;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -61,6 +67,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         binding.rvTracks.setNestedScrollingEnabled(false);
         initToolbar();
         initPlayerVM();
+
     }
 
     /***
@@ -78,6 +85,13 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         ObjectAnimator fadeIn = ObjectAnimator.ofFloat(binding.rlOverlay, "alpha", 0f, 1f);
         fadeIn.setDuration(1000);
         fadeIn.start();
+        loadImage();
+
+
+    }
+
+    private void loadImage() {
+
         Glide.with(activity).load(artist.getImage()).listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -86,11 +100,13 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
 
             @Override
             public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                scheduleStartPostponedTransition(binding.ivToolbar);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    scheduleStartPostponedTransition(binding.ivToolbar);
+                }
                 return false;
             }
         }).placeholder(R.drawable.ic_vinyl).into(binding.ivToolbar);
-
     }
 
     private void scheduleStartPostponedTransition(final View sharedElement) {
@@ -116,15 +132,25 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     @Override
     protected void onResume() {
         super.onResume();
+        EventBus.getDefault().register(this);
         playerVM.onResume();
         loadLocalMusic();
         //TODO getinfos on the artist
 
     }
 
+
+    @Subscribe
+    public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
+        ActivityOptionsCompat options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(activity, localAlbumSelectEvent.getView(), activity.getString(R.string.transition));
+        activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()), options.toBundle());
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
+        EventBus.getDefault().unregister(this);
         playerVM.onPause();
     }
 
