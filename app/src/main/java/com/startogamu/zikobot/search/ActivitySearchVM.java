@@ -1,5 +1,7 @@
 package com.startogamu.zikobot.search;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.ActivityOptionsCompat;
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -18,8 +20,7 @@ import org.greenrobot.eventbus.Subscribe;
  * Created by josh on 12/08/16.
  */
 public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySearchBinding> {
-
-
+    Handler handler;
     FragmentSearch fragmentSearch;
 
     /***
@@ -32,8 +33,9 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
 
     @Override
     public void init() {
+        handler= new Handler(Looper.getMainLooper());
         fragmentSearch = FragmentSearch.newInstance();
-        FragmentManager.replaceFragment(activity, fragmentSearch, false, false);
+        FragmentManager.replaceFragment(activity, fragmentSearch, true, false);
         binding.searchView.setVoiceText("Set permission on Android 6+ !");
         binding.searchView.setOnMenuClickListener(() -> activity.finish());
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -50,7 +52,10 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
             }
         });
         binding.searchView.open(true);
+        handler.postDelayed(() -> binding.searchView.showKeyboard(), 100);
+
     }
+
 
     public void onResume() {
         EventBus.getDefault().register(this);
