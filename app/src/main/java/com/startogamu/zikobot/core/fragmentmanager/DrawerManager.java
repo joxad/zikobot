@@ -53,7 +53,6 @@ public class DrawerManager {
         initAccountHeader();
 
         PrimaryDrawerItem music = new PrimaryDrawerItem().withName(R.string.drawer_filter_music).withIcon(R.drawable.ic_music_wave).withSelectedIcon(R.drawable.ic_music_wave_selected);
-        PrimaryDrawerItem alarm = new PrimaryDrawerItem().withName(R.string.drawer_alarms).withIcon(R.drawable.ic_alarm).withSelectedIcon(R.drawable.ic_alarm_selected);
         PrimaryDrawerItem accounts = new PrimaryDrawerItem().withName(R.string.activity_my_account).withSelectable(false);
         PrimaryDrawerItem fingerprint = new PrimaryDrawerItem().withName(R.string.activity_fingerprint).withSelectable(false);
 
@@ -62,20 +61,18 @@ public class DrawerManager {
                 .withActivity(activity)
                 .withAccountHeader(accountHeader)
                 .withToolbar(binding.toolbar)
-                .addDrawerItems(music, alarm, accounts,fingerprint, about)
+                .addDrawerItems(music, accounts, fingerprint, about)
                 .build();
 
         drawer.setOnDrawerItemClickListener((view, position, drawerItem) -> {
             long drawerId = drawerItem.getIdentifier();
-            if (drawerId == alarm.getIdentifier()) {
-                activityMainVM.navigationManager.showAlarms();
-            } else if (drawerId == music.getIdentifier()) {
-                activityMainVM.navigationManager.showLocals();
+            if (drawerId == music.getIdentifier()) {
+                //  activityMainVM.navigationManager.showLocals();
             } else if (drawerId == about.getIdentifier()) {
-                activityMainVM.navigationManager.showAbout();
+                //activityMainVM.navigationManager.showAbout();
             } else if (drawerId == accounts.getIdentifier()) {
                 activity.startActivity(IntentManager.goToSettings());
-            } else  if (drawerId == fingerprint.getIdentifier()){
+            } else if (drawerId == fingerprint.getIdentifier()) {
                 activity.startActivity(new Intent(activity, ActivityFingerprint.class));
             }
             return false;
@@ -176,7 +173,7 @@ public class DrawerManager {
             }
         }
         if (itemDeezer == null) {
-           DeezerManager.current().subscribe(user -> {
+            DeezerManager.current().subscribe(user -> {
                 itemDeezer = new ProfileDrawerItem()
                         .withName(activity.getString(R.string.activity_music_deezer))
                         .withEmail(user.getName())

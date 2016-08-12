@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.fragment.search;
+package com.startogamu.zikobot.search;
 
 import android.databinding.ObservableArrayList;
 
@@ -17,7 +17,6 @@ import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
 import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.view.activity.ActivityMain;
-import com.startogamu.zikobot.view.fragment.search.FragmentSearch;
 import com.startogamu.zikobot.viewmodel.base.AlbumVM;
 import com.startogamu.zikobot.viewmodel.base.ArtistVM;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
@@ -55,23 +54,6 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
         binding.rvAlbums.setNestedScrollingEnabled(false);
         binding.rvTracks.setNestedScrollingEnabled(false);
         binding.rvArtists.setNestedScrollingEnabled(false);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ((ActivityMain)fragment.getActivity()).showSearch();
-
-        EventBus.getDefault().post(new EventCollapseToolbar(null, null));
-        EventBus.getDefault().post(new EventTabBars(false, FragmentSearch.class.getSimpleName()));
-    }
-
-    @Override
-    protected void onPause() {
-
-        super.onPause();
-
-        ((ActivityMain)fragment.getActivity()).hideSearch();
     }
 
     @Override

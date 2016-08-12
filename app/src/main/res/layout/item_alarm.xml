@@ -32,14 +32,14 @@
                 android:orientation="vertical"
                 android:padding="@dimen/margin_medium">
 
-                <Switch
+                <CheckBox
                     android:id="@+id/sw_activated"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-
+                    android:button="@drawable/selector_alarm"
                     android:checked="@{itemAlarmVM.activated}" />
 
                 <LinearLayout

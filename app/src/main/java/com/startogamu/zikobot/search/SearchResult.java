@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.fragment.search;
+package com.startogamu.zikobot.search;
 
 import com.startogamu.zikobot.module.zikobot.model.Track;
 

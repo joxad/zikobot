@@ -90,8 +90,8 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
         super.onResume();
         EventBus.getDefault().register(this);
 
-        EventBus.getDefault().post(new EventCollapseToolbar(fragment.getString(R.string.drawer_alarms), null));
-        EventBus.getDefault().post(new EventTabBars(false, TAG));
+        EventBus.getDefault().post(new EventCollapseToolbar(fragment.getString(R.string.drawer_my_playlists), null));
+        EventBus.getDefault().post(new EventTabBars(true, TAG));
         showTuto.set(false);
         loadAlarms();
     }

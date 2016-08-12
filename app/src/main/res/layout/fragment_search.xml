@@ -13,7 +13,7 @@
 
         <variable
             name="fragmentSearchVM"
-            type="com.startogamu.zikobot.viewmodel.fragment.search.FragmentSearchVM" />
+            type="com.startogamu.zikobot.search.FragmentSearchVM" />
     </data>
 
     <com.startogamu.zikobot.view.custom.FlingNestedScrollView
@@ -49,7 +49,6 @@
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:layoutAnimation="@anim/grid_animation"
-                android:paddingBottom="@dimen/actionBarSize"
                 android:visibility="@{fragmentSearchVM.artists.size() >0 ? v.VISIBLE : v.GONE}"
                 app:itemView="@{fragmentSearchVM.itemViewArtist}"
                 app:items="@{fragmentSearchVM.artists}"
@@ -79,7 +78,6 @@
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:layoutAnimation="@anim/grid_animation"
-                android:paddingBottom="@dimen/actionBarSize"
                 android:visibility="@{fragmentSearchVM.albums.size() >0 ? v.VISIBLE : v.GONE}"
                 app:itemView="@{fragmentSearchVM.itemViewAlbum}"
                 app:items="@{fragmentSearchVM.albums}"
@@ -110,7 +108,6 @@
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:layoutAnimation="@anim/grid_animation"
-                android:paddingBottom="@dimen/actionBarSize"
                 android:visibility="@{fragmentSearchVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
                 app:itemView="@{fragmentSearchVM.itemViewTrack}"
                 app:items="@{fragmentSearchVM.tracks}"

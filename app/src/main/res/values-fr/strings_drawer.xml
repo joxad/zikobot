@@ -9,7 +9,7 @@
 
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="drawer_alarms">Mes alarmes</string>
+    <string name="drawer_my_playlists">Mes playlists</string>
     <string name="drawer_account_add">Ajoute un compte</string>
     <string name="drawer_filter_music">Ma musique</string>
 

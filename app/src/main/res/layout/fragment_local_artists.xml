@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:layoutAnimation="@anim/grid_animation"
-            android:paddingBottom="@dimen/actionBarSize"
+            android:paddingBottom="@dimen/actionBarSizeNormal"
             app:itemView="@{fragmentLocalArtistVM.itemView}"
             app:items="@{fragmentLocalArtistVM.items}"
             app:layoutManager="@{LayoutManagers.grid(2)}"

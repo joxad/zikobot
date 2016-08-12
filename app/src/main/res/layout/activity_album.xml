@@ -80,8 +80,7 @@
                     <android.support.v7.widget.Toolbar
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/actionBarSize"
-                        android:minHeight="@dimen/actionBarSize"
+                        android:layout_height="@dimen/actionBarSizeNormal"
                         android:padding="0dp"
                         app:contentInsetEnd="0dp"
                         app:contentInsetEndWithActions="0dp"
@@ -150,7 +149,7 @@
                             android:layout_height="match_parent"
                             android:clipToPadding="false"
                             android:layoutAnimation="@anim/grid_animation"
-                            android:paddingBottom="@dimen/actionBarSize"
+                            android:paddingBottom="@dimen/actionBarSizeNormal"
                             android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
                             app:itemView="@{activityAlbumVM.itemViewTrack}"
                             app:items="@{activityAlbumVM.tracks}"

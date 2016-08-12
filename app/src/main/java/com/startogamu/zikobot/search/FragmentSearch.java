@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.view.fragment.search;
+package com.startogamu.zikobot.search;
 
 import android.os.Bundle;
 
@@ -7,7 +7,6 @@ import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.ISearch;
 import com.startogamu.zikobot.databinding.FragmentSearchBinding;
-import com.startogamu.zikobot.viewmodel.fragment.search.FragmentSearchVM;
 
 /**
  * Created by josh on 01/08/16.

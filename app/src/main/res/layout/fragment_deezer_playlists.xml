@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:layoutAnimation="@anim/grid_animation"
-            android:paddingBottom="@dimen/actionBarSize"
+            android:paddingBottom="@dimen/actionBarSizeNormal"
             app:itemView="@{fragmentDeezerPlaylistsVM.itemPlaylist}"
             app:items="@{fragmentDeezerPlaylistsVM.userPlaylists}"
             app:layoutManager="@{LayoutManagers.grid(1)}"

@@ -46,13 +46,4 @@ public class ActivityMain extends ActivityBase<ActivityMainBinding, ActivityMain
         return true;
     }
 
-
-
-    public void hideSearch() {
-        vm.hideSearch();
-    }
-
-    public void showSearch() {
-        vm.showSearch();
-    }
 }

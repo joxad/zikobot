@@ -20,7 +20,7 @@ import com.startogamu.zikobot.core.event.EventShowArtistDetail;
 import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.utils.EXTRA;
-import com.startogamu.zikobot.core.utils.REQUEST;
+import com.startogamu.zikobot.core.utils.Constants;
 import com.startogamu.zikobot.databinding.FragmentLocalAlbumsBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
@@ -87,7 +87,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
         super.onResume();
         if (localArtist != null) {
             EventBus.getDefault().post(new EventCollapseToolbar(localArtist.getName(), localArtist.getImage()));
-            EventBus.getDefault().post(new EventTabBars(false, TAG));
+            EventBus.getDefault().post(new EventTabBars(true, TAG));
         } else {
             EventBus.getDefault().post(new EventCollapseToolbar(null, null));
             EventBus.getDefault().post(new EventTabBars(true, TAG));
@@ -131,7 +131,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
      */
     private void askPermission() {
         ActivityCompat.requestPermissions(fragment.getActivity(), new String[]{
-                Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE_ALBUM);
+                Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.PERMISSION_STORAGE_ALBUM);
 
     }
 

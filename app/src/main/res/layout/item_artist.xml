@@ -75,6 +75,7 @@
                                 android:text="@{artistVM.nbAlbums}"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="14sp"
+                                android:visibility="gone"
                                 tools:text="12 albums" />
                         </LinearLayout>
 

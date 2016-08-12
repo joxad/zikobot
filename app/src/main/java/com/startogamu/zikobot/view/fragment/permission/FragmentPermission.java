@@ -14,7 +14,6 @@ import com.f2prateek.dart.InjectExtra;
 import com.f2prateek.dart.henson.Bundler;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
-import com.startogamu.zikobot.core.utils.REQUEST;
 import com.startogamu.zikobot.view.custom.ZikobotMessageView;
 
 import butterknife.Bind;

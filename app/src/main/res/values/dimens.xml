@@ -15,7 +15,8 @@
     <dimen name="footer_height">170dp</dimen>
     <dimen name="avatar_size">80dp</dimen>
     <dimen name="zikobot_size_mini">50dp</dimen>
-    <dimen name="actionBarSize">56dp</dimen>
+    <dimen name="actionBarSizeNormal">48dp</dimen>
+    <dimen name="actionBarSizeSearch">56dp</dimen>
     <dimen name="playerHeight">60dp</dimen>
     <dimen name="image_card_height_large">120dp</dimen>
     <dimen name="item_play_size">36dp</dimen>

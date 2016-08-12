@@ -19,7 +19,7 @@ import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.utils.EXTRA;
-import com.startogamu.zikobot.core.utils.REQUEST;
+import com.startogamu.zikobot.core.utils.Constants;
 import com.startogamu.zikobot.databinding.FragmentLocalTracksBinding;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.module.component.Injector;
@@ -106,7 +106,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
      */
     private void askPermission() {
         ActivityCompat.requestPermissions(fragment.getActivity(), new String[]{
-                Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE_TRACKS);
+                Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.PERMISSION_STORAGE_TRACKS);
 
     }
 

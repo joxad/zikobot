@@ -1,16 +1,18 @@
 package com.startogamu.zikobot.viewmodel.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -18,11 +20,8 @@ import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.joxad.easydatabinding.activity.IResult;
 import com.lapism.searchview.SearchView;
-import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.artist.ActivityArtist;
 import com.startogamu.zikobot.core.event.EventFabClicked;
-import com.startogamu.zikobot.core.event.EventShowArtistDetail;
 import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
@@ -32,18 +31,20 @@ import com.startogamu.zikobot.core.fragmentmanager.FragmentManager;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ISearch;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.tablature.TablatureManager;
 import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
+import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
+import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
+import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
+import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.parceler.Parcels;
 
 import java.io.UnsupportedEncodingException;
 
@@ -80,11 +81,18 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         tabLayoutVisible = new ObservableBoolean(true);
         initSpotify();
         initNavigationManager();
+        initTabLayout();
         initToolbar();
         initDrawer();
         initPlayerVM();
         initMenu();
-        navigationManager.init();
+    }
+
+    private void initTabLayout() {
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
+        binding.viewPager.setAdapter(new ViewPagerAdapter(activity, activity.getSupportFragmentManager()));
+        // Give the TabLayout the ViewPager
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
     }
 
 
@@ -130,42 +138,11 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      * Init the action on the toolbar menu
      */
     private void initMenu() {
-        binding.searchView.setVoiceText("Set permission on Android 6+ !");
-
-
-        binding.searchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
-            @Override
-            public void onOpen() {
-                Logger.d("OPEN");
-            }
-
-            @Override
-            public void onClose() {
-                Logger.d("CLOSE");
-//                    FragmentManager.pop(activity);
-
-            }
-        });
-
-        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (FragmentManager.currentFragment() instanceof ISearch)
-                    ((ISearch) FragmentManager.currentFragment()).query(newText);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                binding.searchView.hideKeyboard();
-                return true;
-            }
-        });
 
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_search:
-                    Snackbar.make(binding.container, "Search", Snackbar.LENGTH_SHORT).show();
+                    //Snackbar.make(binding.container, "Search", Snackbar.LENGTH_SHORT).show();
                     navigationManager.showSearch();
                     break;
             }
@@ -177,18 +154,14 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     @Override
     protected void onResume() {
         super.onResume();
-        try {
-            navigationManager.subscribe();
-        } catch (Exception e) {
-            Logger.e(e.getMessage());
-        }
+        navigationManager.onResume();
         drawerManager.onResume();
         playerVM.onResume();
         EventBus.getDefault().register(this);
         if (fromWidget != null) {
             switch (fromWidget) {
                 case "ALARM":
-                    navigationManager.showAlarms();
+                    // navigationManager.showAlarms();
                     break;
             }
         }
@@ -201,7 +174,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     @Override
     protected void onPause() {
         playerVM.onPause();
-        navigationManager.unsubscribe();
+        navigationManager.onPause();
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
@@ -281,11 +254,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     protected boolean onBackPressed() {
-        if (binding.searchView.isSearchOpen()) {
-            binding.searchView.close(true);
-            FragmentManager.pop(activity);
-            return false;
-        }
+
 
         if (drawerManager.isDrawerOpen()) {
             drawerManager.closeDrawer();
@@ -315,11 +284,56 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         EventBus.getDefault().post(new EventFabClicked());
     }
 
-    public void hideSearch() {
-        binding.searchView.close(true);
-    }
 
-    public void showSearch() {
-        binding.searchView.open(true);
+
+    private static class ViewPagerAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 4;
+        private Activity activity;
+
+        public ViewPagerAdapter(Activity activity, android.support.v4.app.FragmentManager fragmentManager) {
+            super(fragmentManager);
+            this.activity = activity;
+        }
+
+        // Returns total number of pages
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        // Returns the fragment to display for that page
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0: // Fragment # 0 - This will show FirstFragment
+                    return FragmentAlarms.newInstance();
+                case 1: // Fragment # 0 - This will show FirstFragment different title
+                    return FragmentLocalArtists.newInstance();
+                case 2: // Fragment # 1 - This will show SecondFragment
+                    return FragmentLocalAlbums.newInstance(null);
+                case 3:
+                    return FragmentLocalTracks.newInstance(null, BR.trackVM, R.layout.item_track);
+                default:
+                    return null;
+            }
+        }
+
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return activity.getString(R.string.drawer_my_playlists);
+                case 1:
+                    return activity.getString(R.string.drawer_filter_artiste);
+                case 2:
+                    return activity.getString(R.string.drawer_filter_album);
+                case 3:
+                    return activity.getString(R.string.drawer_filter_tracks);
+                default:
+                    return null;
+            }
+        }
+
     }
 }

@@ -11,6 +11,7 @@ import com.startogamu.zikobot.module.spotify_api.model.ExternalUrls;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.Album;
 import com.startogamu.zikobot.module.zikobot.model.Artist;
+import com.startogamu.zikobot.search.ActivitySearch;
 import com.startogamu.zikobot.view.Henson;
 
 import org.parceler.Parcels;
@@ -61,5 +62,9 @@ public class IntentManager {
         Intent intent = new Intent(context, ActivityAlbum.class);
         intent.putExtra(EXTRA.LOCAL_ALBUM, Parcels.wrap(model));
         return intent;
+    }
+
+    public static Intent goToSearch() {
+        return new Intent(context, ActivitySearch.class);
     }
 }

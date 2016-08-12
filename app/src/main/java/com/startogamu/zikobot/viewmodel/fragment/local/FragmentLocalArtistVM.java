@@ -11,13 +11,16 @@ import android.util.Log;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.utils.REQUEST;
+import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
+import com.startogamu.zikobot.core.utils.Constants;
 import com.startogamu.zikobot.databinding.FragmentLocalArtistsBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.viewmodel.base.ArtistVM;
+
+import org.greenrobot.eventbus.EventBus;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -57,6 +60,12 @@ public class FragmentLocalArtistVM extends FragmentBaseVM<FragmentLocalArtists, 
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().post(new EventTabBars(true, TAG));
+
+    }
 
     /***
      * Load the local music
@@ -79,7 +88,7 @@ public class FragmentLocalArtistVM extends FragmentBaseVM<FragmentLocalArtists, 
      */
     private void askPermission() {
         ActivityCompat.requestPermissions(fragment.getActivity(), new String[]{
-                Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST.PERMISSION_STORAGE_ARTIST);
+                Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.PERMISSION_STORAGE_ARTIST);
 
     }
 
