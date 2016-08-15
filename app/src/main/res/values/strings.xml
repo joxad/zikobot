@@ -19,8 +19,8 @@
 
     <!--> Menu <-->
     <string name="menu_about">About</string>
-    <string name="menu_put_an_alarm">Make an alarm</string>
-    <string name="menu_add_to_playlist">Add to current playlist</string>
+    <string name="menu_put_add_as_playlist">Make an alarm</string>
+    <string name="menu_add_to_current_play">Add to current playlist</string>
     <string name="menu_delete">delete</string>
     <string name="menu_tablature">See guitar tab</string>
 
@@ -107,4 +107,5 @@
     <string name="aboutLibraries_description_showIcon">true</string>
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">Zikobot, Android musical assistant</string>
+    <string name="options">settings</string>
 </resources>

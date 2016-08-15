@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
 
         <variable
             name="activityAlarmVM"
@@ -34,10 +37,26 @@
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <include
-                android:id="@+id/view_alarm"
-                layout="@layout/view_alarm"
-                app:alarmVM="@{activityAlarmVM.alarmVM}" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_tracks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemView="@{activityAlarmVM.alarmVM.itemView}"
+                    app:items="@{activityAlarmVM.alarmVM.tracksVms}"
+                    app:layoutManager="@{LayoutManagers.linear()}"
+                    tools:listitem="@layout/item_track" />
+
+                <include
+                    android:id="@+id/view_alarm"
+                    layout="@layout/view_alarm"
+                    app:alarmVM="@{activityAlarmVM.alarmVM}" />
+            </LinearLayout>
+
 
         </com.startogamu.zikobot.view.custom.FlingNestedScrollView>
 

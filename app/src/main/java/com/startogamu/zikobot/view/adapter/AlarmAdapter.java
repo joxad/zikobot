@@ -31,13 +31,13 @@ public class AlarmAdapter<T> extends BindingRecyclerViewAdapter<AlarmVM> {
     public void onBindBinding(ViewDataBinding binding, int bindingVariable, @LayoutRes int layoutId, int position, AlarmVM item) {
         super.onBindBinding(binding, bindingVariable, layoutId, position, item);
         ((ItemAlarmBinding) binding).swActivated.setOnClickListener(v -> item.updateStatus(!item.isActivated()));
-        ((ItemAlarmBinding)binding).tvMonday.setSelected(item.isDayActive(Calendar.MONDAY));
-        ((ItemAlarmBinding)binding).tvTuesday.setSelected(item.isDayActive(Calendar.TUESDAY));
-        ((ItemAlarmBinding)binding).tvWednesday.setSelected(item.isDayActive(Calendar.WEDNESDAY));
-        ((ItemAlarmBinding)binding).tvThursday.setSelected(item.isDayActive(Calendar.THURSDAY));
-        ((ItemAlarmBinding)binding).tvFriday.setSelected(item.isDayActive(Calendar.FRIDAY));
-        ((ItemAlarmBinding)binding).tvSaturday.setSelected(item.isDayActive(Calendar.SATURDAY));
-        ((ItemAlarmBinding)binding).tvSunday.setSelected(item.isDayActive(Calendar.SUNDAY));
+        ((ItemAlarmBinding)binding).viewDays.tvMonday.setSelected(item.isDayActive(Calendar.MONDAY));
+        ((ItemAlarmBinding)binding).viewDays.tvTuesday.setSelected(item.isDayActive(Calendar.TUESDAY));
+        ((ItemAlarmBinding)binding).viewDays.tvWednesday.setSelected(item.isDayActive(Calendar.WEDNESDAY));
+        ((ItemAlarmBinding)binding).viewDays.tvThursday.setSelected(item.isDayActive(Calendar.THURSDAY));
+        ((ItemAlarmBinding)binding).viewDays.tvFriday.setSelected(item.isDayActive(Calendar.FRIDAY));
+        ((ItemAlarmBinding)binding).viewDays.tvSaturday.setSelected(item.isDayActive(Calendar.SATURDAY));
+        ((ItemAlarmBinding)binding).viewDays.tvSunday.setSelected(item.isDayActive(Calendar.SUNDAY));
 
     }
 }

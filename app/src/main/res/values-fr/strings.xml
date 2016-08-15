@@ -20,8 +20,8 @@
 
     <!--> Menu <-->
     <string name="menu_about">A propos</string>
-    <string name="menu_put_an_alarm">En faire une alarme</string>
-    <string name="menu_add_to_playlist">Ajouter à la lecture en cours</string>
+    <string name="menu_put_add_as_playlist">En faire une alarme</string>
+    <string name="menu_add_to_current_play">Ajouter à la lecture en cours</string>
     <string name="menu_delete">Supprimer</string>
     <string name="menu_tablature">Voir la tablature</string>
 
@@ -111,4 +111,5 @@
     <string name="aboutLibraries_description_showIcon">true</string>
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">Zikobot, assistant musical pour Android</string>
+    <string name="options">options</string>
 </resources>

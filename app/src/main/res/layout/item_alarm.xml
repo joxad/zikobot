@@ -32,27 +32,57 @@
                 android:orientation="vertical"
                 android:padding="@dimen/margin_medium">
 
-                <CheckBox
-                    android:id="@+id/sw_activated"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:button="@drawable/selector_alarm"
-                    android:checked="@{itemAlarmVM.activated}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/sw_activated"
-                    android:layout_toStartOf="@id/sw_activated"
                     android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_playlist"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/image_card_height_large"
+                        android:scaleType="centerCrop"
+                        android:transitionName="@string/transition"
+                        tools:src="@drawable/ic_picture_loading" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <CheckBox
+                            android:id="@+id/sw_activated"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:button="@drawable/selector_alarm"
+                            android:checked="@{itemAlarmVM.activated}" />
+
+                        <TextView
+                            android:id="@+id/tv_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_medium"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            android:layout_toLeftOf="@id/sw_activated"
+                            android:layout_toStartOf="@id/sw_activated"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@{itemAlarmVM.name}"
+                            android:textSize="20sp"
+                            tools:text="Nom du réveil" />
+
+
+                    </RelativeLayout>
+
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="@{itemAlarmVM.activated ? v.VISIBLE : v.GONE}">
 
                         <TextView
                             android:id="@+id/tv_hour"
@@ -81,104 +111,11 @@
                             tools:text="AM" />
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tv_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_medium"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@{itemAlarmVM.name}"
-                        android:textSize="20sp"
-                        tools:text="Nom du réveil" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="@{itemAlarmVM.repeated ? v.VISIBLE : v.GONE}">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/colorPrimaryDark" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_medium"
-                            android:orientation="horizontal"
-                            android:weightSum="7">
-
-                            <TextView
-                                android:id="@+id/tv_monday"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:text="@string/monday"
-                                android:textColor="@color/text_color_days" />
-
-                            <TextView
-                                android:id="@+id/tv_tuesday"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:text="@string/tuesday"
-                                android:textColor="@color/text_color_days" />
-
-
-                            <TextView
-                                android:id="@+id/tv_wednesday"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:text="@string/wednesday"
-                                android:textColor="@color/text_color_days" />
-
-                            <TextView
-                                android:id="@+id/tv_thursday"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:text="@string/thursday"
-                                android:textColor="@color/text_color_days" />
-
-                            <TextView
-                                android:id="@+id/tv_friday"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:text="@string/friday"
-                                android:textColor="@color/text_color_days" />
-
-
-                            <TextView
-                                android:id="@+id/tv_saturday"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:text="@string/saturday"
-                                android:textColor="@color/text_color_days" />
-
-
-                            <TextView
-                                android:id="@+id/tv_sunday"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:text="@string/sunday"
-                                android:textColor="@color/text_color_days" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
+                    <include
+                        android:id="@+id/view_days"
+                        layout="@layout/view_alarm_days"
+                        app:itemAlarmVM="@{itemAlarmVM}" />
                 </LinearLayout>
 
 

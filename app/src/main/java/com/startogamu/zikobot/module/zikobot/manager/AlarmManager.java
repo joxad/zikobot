@@ -4,12 +4,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.provider.Settings;
 
 import com.orhanobut.logger.Logger;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
+import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.Alarm_Table;
 import com.startogamu.zikobot.module.zikobot.model.Track;
@@ -59,6 +61,14 @@ public class AlarmManager {
                 subscriber.onNext(alarm);
             }
         });
+    }
+
+    public static String getNextAlarm() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return ZikoUtils.getDate(alarmMgr.getNextAlarmClock().getTriggerTime(), "dd/MM/yyyy hh:mm:ss");
+        } else {
+            return Settings.System.getString(context.getContentResolver(), Settings.System.NEXT_ALARM_FORMATTED);
+        }
     }
 
 
@@ -180,7 +190,7 @@ public class AlarmManager {
         calendarAlarm.set(Calendar.MINUTE, alarm.getMinute());
         calendarAlarm.set(Calendar.SECOND, 0);
         calendarAlarm.set(Calendar.MILLISECOND, 0);
-        int interval = findInterval(alarm,calendarAlarm, calendarToday);
+        int interval = findInterval(alarm, calendarAlarm, calendarToday);
         triggerMillis = calendarAlarm.getTimeInMillis() + interval * android.app.AlarmManager.INTERVAL_DAY;
         return triggerMillis;
     }
@@ -190,16 +200,16 @@ public class AlarmManager {
      *
      * @param alarm
      * @param calendarAlarm
-     *@param calendarToday  @return
+     * @param calendarToday @return
      */
     public static int findInterval(Alarm alarm, Calendar calendarAlarm, Calendar calendarToday) {
         String alarms = alarm.getDays();//-1111111
         int today = calendarToday.get(Calendar.DAY_OF_WEEK);//2 lundi 15H, alarme a 18h
         // si l'alarme est prévu plus tard aujoudhui
-        if (alarm.isDayActive(today)&& calendarAlarm.getTimeInMillis() > calendarToday.getTimeInMillis()) {
+        if (alarm.isDayActive(today) && calendarAlarm.getTimeInMillis() > calendarToday.getTimeInMillis()) {
             return 0;
         }
-       //sinon on cherche le nmb de jours avant la prochaine
+        //sinon on cherche le nmb de jours avant la prochaine
         int tomorrow = (today + 1) % 7; //3
         char nextDayAlarm;
         int nextTrigger = -1;

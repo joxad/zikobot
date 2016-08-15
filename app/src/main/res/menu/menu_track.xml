@@ -6,13 +6,13 @@
         android:id="@+id/action_play_after"
         android:icon="@drawable/ic_playlist_add"
         android:orderInCategory="50"
-        android:title="@string/menu_add_to_playlist" />
+        android:title="@string/menu_add_to_current_play" />
 
     <item
         android:id="@+id/action_alarm"
         android:icon="@drawable/ic_alarm"
         android:orderInCategory="50"
-        android:title="@string/menu_put_an_alarm" />
+        android:title="@string/menu_put_add_as_playlist" />
 
     <item
         android:id="@+id/action_tab"

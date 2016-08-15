@@ -42,7 +42,7 @@ public abstract class ZikobotNextAlarmProvider extends AppWidgetProvider {
                     remoteViews.setTextViewText(R.id.tv_next, context.getString(R.string.no_alarm));
                     remoteViews.setTextViewText(R.id.tv_message, context.getString(R.string.add_alarm));
                     remoteViews.setOnClickPendingIntent(R.id.ll_alarm, PendingIntent.getActivity(context, 0,
-                            IntentManager.goToAlarm(null), PendingIntent.FLAG_UPDATE_CURRENT));
+                            IntentManager.goToAlarm(new Alarm()), PendingIntent.FLAG_UPDATE_CURRENT));
 
                 } else {
                     Collections.sort(alarms, (a1, a2) -> new Date(a1.getTimeInMillis()).compareTo(new Date(a2.getTimeInMillis())));
@@ -50,20 +50,12 @@ public abstract class ZikobotNextAlarmProvider extends AppWidgetProvider {
                     for (Alarm alarm : alarms) {
                         if (alarm.getActive() == 1) {
                             remoteViews.setTextViewText(R.id.tv_next, context.getString(R.string.next_alarm));
-                           /* Calendar calendarToday = Calendar.getInstance();
-                            Calendar calendarAlarm = Calendar.getInstance();
-                            calendarAlarm.setTimeInMillis(System.currentTimeMillis());
-                            calendarAlarm.set(Calendar.HOUR, alarm.getHour());
-                            calendarAlarm.set(Calendar.MINUTE, alarm.getMinute());
-                            calendarAlarm.set(Calendar.SECOND, 0);
-                            calendarAlarm.set(Calendar.MILLISECOND, 0);
-                            int nbDay = AlarmManager.findInterval(alarm, calendarAlarm, calendarToday);*/
-                            remoteViews.setTextViewText(R.id.tv_message, String.format("%02d: %02d %s",
-                                    ZikoUtils.amPmHour(alarm.getHour()), alarm.getMinute(), ZikoUtils.amPm(alarm.getHour())));
+                            AlarmManager.getNextAlarm();
+                            remoteViews.setTextViewText(R.id.tv_message, AlarmManager.getNextAlarm());
                             done = true;
 
                             remoteViews.setOnClickPendingIntent(R.id.ll_alarm, PendingIntent.getActivity(context, 0,
-                                    IntentManager.goToAlarm(alarm), PendingIntent.FLAG_UPDATE_CURRENT));
+                                    IntentManager.goToMainFromWidget(), PendingIntent.FLAG_UPDATE_CURRENT));
 
                             break;
                         }
