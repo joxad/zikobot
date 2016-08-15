@@ -13,7 +13,7 @@ import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 
-
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
@@ -34,6 +34,7 @@ public abstract class ZikobotNextAlarmProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+
         for (int i : appWidgetIds) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), layout());
             AlarmManager.loadAlarms().subscribe(alarms -> {
@@ -49,7 +50,16 @@ public abstract class ZikobotNextAlarmProvider extends AppWidgetProvider {
                     for (Alarm alarm : alarms) {
                         if (alarm.getActive() == 1) {
                             remoteViews.setTextViewText(R.id.tv_next, context.getString(R.string.next_alarm));
-                            remoteViews.setTextViewText(R.id.tv_message, String.format("%02d: %02d %s", ZikoUtils.amPmHour(alarm.getHour()), alarm.getMinute(), ZikoUtils.amPm(alarm.getHour())));
+                           /* Calendar calendarToday = Calendar.getInstance();
+                            Calendar calendarAlarm = Calendar.getInstance();
+                            calendarAlarm.setTimeInMillis(System.currentTimeMillis());
+                            calendarAlarm.set(Calendar.HOUR, alarm.getHour());
+                            calendarAlarm.set(Calendar.MINUTE, alarm.getMinute());
+                            calendarAlarm.set(Calendar.SECOND, 0);
+                            calendarAlarm.set(Calendar.MILLISECOND, 0);
+                            int nbDay = AlarmManager.findInterval(alarm, calendarAlarm, calendarToday);*/
+                            remoteViews.setTextViewText(R.id.tv_message, String.format("%02d: %02d %s",
+                                    ZikoUtils.amPmHour(alarm.getHour()), alarm.getMinute(), ZikoUtils.amPm(alarm.getHour())));
                             done = true;
 
                             remoteViews.setOnClickPendingIntent(R.id.ll_alarm, PendingIntent.getActivity(context, 0,

@@ -18,18 +18,15 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         long alarmId = intent.getLongExtra(EXTRA.ALARM_ID, -1);
         Logger.d("AlarmReceiver" + alarmId);
-
-
         AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
+            AlarmManager.prepareAlarm(context, alarm);
             if (AlarmManager.canStart(alarm)) {
                 Logger.d("AlarmReceiver" + alarm.getName());
                 AnalyticsManager.logStartAlarm(alarm);
-
                 if (alarm.getRepeated() == 0) {
                     alarm.setActive(0);
                     alarm.save();
                 }
-                AlarmManager.prepareAlarm(context, alarm);
                 context.startActivity(IntentManager.goToWakeUp(alarm).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         }, throwable -> {

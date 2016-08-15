@@ -73,7 +73,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
                 case R.id.action_save:
 
                     save().subscribe(alarm1 -> {
-                        prepareAlarm(alarm1);
                         AlarmTrackManager.clear();
                         activity.finish();
                     }, throwable -> {
@@ -86,7 +85,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
                     if (alarmVM.hasTracks() || !AlarmTrackManager.tracks().isEmpty() ) {
                         save().subscribe(alarm1 -> {
-                            prepareAlarm(alarm1);
                             AlarmTrackManager.clear();
                             activity.startActivity(IntentManager.goToWakeUp(alarm1));
                         }, throwable -> {

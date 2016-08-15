@@ -123,30 +123,23 @@ public class AlarmManager {
         return alarmOk && dayOk;
     }
 
+    /***
+     * Prepare the next alarm to fire
+     *
+     * @param context
+     * @param model
+     */
     public static void prepareAlarm(Context context, Alarm model) {
         init(context);
         if (model.getActive() == 1) {
             cancel(context, model);
-            Calendar calendar = Calendar.getInstance();
-            long triggerMillis = System.currentTimeMillis();
-            calendar.setTimeInMillis(triggerMillis);
-            calendar.set(Calendar.HOUR_OF_DAY, model.getHour());
-            calendar.set(Calendar.MINUTE, model.getMinute());
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-            if (calendar.getTimeInMillis() < Calendar.getInstance()
-                    .getTimeInMillis()) {
-                triggerMillis = calendar.getTimeInMillis() + android.app.AlarmManager.INTERVAL_DAY;
-                System.out.println("Alarm will go off next day");
-            } else {
-                triggerMillis = calendar.getTimeInMillis();
-            }
+            long triggerMillis = nextTrigger(model);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 android.app.AlarmManager.AlarmClockInfo alarmClockInfo = new android.app.AlarmManager.AlarmClockInfo(triggerMillis, alarmIntent);
                 alarmMgr.setAlarmClock(alarmClockInfo, alarmIntent);
-            }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 alarmMgr.setExact(android.app.AlarmManager.RTC_WAKEUP, triggerMillis, alarmIntent);
-            }else {
+            } else {
                 alarmMgr.set(android.app.AlarmManager.RTC_WAKEUP, triggerMillis, alarmIntent);
             }
             model.setTimeInMillis(triggerMillis);
@@ -159,20 +152,87 @@ public class AlarmManager {
         }
     }
 
-
+    /**
+     * Cancel the alarm
+     *
+     * @param context
+     * @param alarm
+     */
     public static void cancel(Context context, Alarm alarm) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
-        alarmIntent = PendingIntent.getBroadcast(context, (int)alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmIntent = PendingIntent.getBroadcast(context, (int) alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmMgr.cancel(alarmIntent);
+    }
+
+    /***
+     * Find the next alarm to trigger according to the days in the DB
+     *
+     * @param alarm
+     * @return
+     */
+    public static long nextTrigger(Alarm alarm) {
+        Calendar calendarAlarm = Calendar.getInstance();
+        Calendar calendarToday = Calendar.getInstance();
+        long triggerMillis = System.currentTimeMillis();
+        calendarAlarm.setTimeInMillis(triggerMillis);
+        calendarAlarm.set(Calendar.HOUR_OF_DAY, alarm.getHour());
+        calendarAlarm.set(Calendar.MINUTE, alarm.getMinute());
+        calendarAlarm.set(Calendar.SECOND, 0);
+        calendarAlarm.set(Calendar.MILLISECOND, 0);
+        int interval = findInterval(alarm,calendarAlarm, calendarToday);
+        triggerMillis = calendarAlarm.getTimeInMillis() + interval * android.app.AlarmManager.INTERVAL_DAY;
+        return triggerMillis;
+    }
+
+    /***
+     * find the difference of days for the next alarm to trigger
+     *
+     * @param alarm
+     * @param calendarAlarm
+     *@param calendarToday  @return
+     */
+    public static int findInterval(Alarm alarm, Calendar calendarAlarm, Calendar calendarToday) {
+        String alarms = alarm.getDays();//-1111111
+        int today = calendarToday.get(Calendar.DAY_OF_WEEK);//2 lundi 15H, alarme a 18h
+        // si l'alarme est prévu plus tard aujoudhui
+        if (alarm.isDayActive(today)&& calendarAlarm.getTimeInMillis() > calendarToday.getTimeInMillis()) {
+            return 0;
+        }
+       //sinon on cherche le nmb de jours avant la prochaine
+        int tomorrow = (today + 1) % 7; //3
+        char nextDayAlarm;
+        int nextTrigger = -1;
+        int nbDayToNextAlarm = 0;
+        for (int i = tomorrow; i < 8; i++) {// for 3 to 7
+            nbDayToNextAlarm++; // 1 2 3 4 5
+            nextDayAlarm = alarms.charAt(i); // days(3) => 0, days(4) => 0 , days(5) => 1, days(6), days(7)
+            if (nextDayAlarm == '1') {
+                nextTrigger = i;//3=> mardi
+                break;
+            }
+        }
+        if (nextTrigger != -1)
+            return nbDayToNextAlarm;
+        //on teste la semaine suivante
+        for (int i = 1; i <= today; i++) { //for 1 to 3
+            nbDayToNextAlarm++; // 6
+            nextDayAlarm = alarms.charAt(i); // days(1) => 1
+            if (nextDayAlarm == '1') {
+                break;
+            }
+        }
+        return nbDayToNextAlarm;
     }
 
     public static class Builder {
         private Context context;
-        public Builder context(Context context){
+
+        public Builder context(Context context) {
             this.context = context;
             return this;
         }
+
         public void build() throws Exception {
             if (this.context == null)
                 throw new Exception("Please set the Context");
