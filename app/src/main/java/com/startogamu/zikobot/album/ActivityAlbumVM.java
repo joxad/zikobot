@@ -1,19 +1,14 @@
 package com.startogamu.zikobot.album;
 
-import android.animation.ObjectAnimator;
 import android.databinding.ObservableArrayList;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
+import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivityAlbumBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
@@ -62,43 +57,9 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
      * Init the toolar
      */
     private void initToolbar() {
-        activity.setSupportActionBar(binding.toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        activity.getSupportActionBar().setHomeButtonEnabled(true);
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
 
-        binding.mainCollapsing.setTitle(album.getName());
-        binding.title.setText("");
-        binding.rlToolbarImage.setVisibility(View.VISIBLE);
+        ZikoUtils.prepareToolbar(activity, binding.customToolbar, album.getName(), album.getImage());
 
-        Glide.with(activity).load(album.getImage()).listener(new RequestListener<String, GlideDrawable>() {
-            @Override
-            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                scheduleStartPostponedTransition(binding.ivToolbar);
-                ObjectAnimator fadeIn = ObjectAnimator.ofFloat(binding.rlOverlay, "alpha", 0f, 1f);
-                fadeIn.setDuration(1000);
-                fadeIn.start();
-                return false;
-            }
-        }).placeholder(R.drawable.ic_vinyl).into(binding.ivToolbar);
-
-    }
-
-    private void scheduleStartPostponedTransition(final View sharedElement) {
-        sharedElement.getViewTreeObserver().addOnPreDrawListener(
-                new ViewTreeObserver.OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
-                        activity.startPostponedEnterTransition();
-                        return true;
-                    }
-                });
     }
 
 

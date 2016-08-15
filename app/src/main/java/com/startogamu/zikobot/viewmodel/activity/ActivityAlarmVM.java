@@ -20,6 +20,7 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.SimpleSeekBarListener;
+import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivityAlarmBinding;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
@@ -54,10 +55,11 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     public void init() {
         am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
         Dart.inject(this, activity);
-        activity.setSupportActionBar(binding.toolbar);
-        activity.setTitle(alarm.getName());
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        binding.toolbar.setNavigationOnClickListener(listener -> activity.onBackPressed());
+        String alarmUrl = null;
+        if( alarm.getTracks()!=null && !alarm.getTracks().isEmpty()){
+            alarmUrl = alarm.getTracks().get(0).getImageUrl();
+        }
+        ZikoUtils.prepareToolbar(activity,binding.customToolbar, alarm.getName(), alarmUrl);
         initMenu();
         initViews();
         AlarmTrackManager.clear();
@@ -65,24 +67,20 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     }
 
     private void initMenu() {
-        binding.toolbar.setOnMenuItemClickListener(item -> {
+        binding.customToolbar.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_delete:
                     delete();
                     break;
                 case R.id.action_save:
-
                     save().subscribe(alarm1 -> {
                         AlarmTrackManager.clear();
                         activity.finish();
                     }, throwable -> {
                         Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
                     });
-
-
                     break;
                 case R.id.action_play:
-
                     if (alarmVM.hasTracks() || !AlarmTrackManager.tracks().isEmpty() ) {
                         save().subscribe(alarm1 -> {
                             AlarmTrackManager.clear();
@@ -156,7 +154,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         RxCompoundButton.checkedChanges(binding.viewAlarm.swRandom).subscribe(aBoolean -> {
             alarmVM.updateRandom(aBoolean);
         });
-        RxTextView.textChanges(binding.viewAlarm.etName).skip(1).subscribe(charSequence -> {
+        RxTextView.textChanges(binding.etName).skip(1).subscribe(charSequence -> {
             alarmVM.updateName(charSequence);
         });
 
@@ -250,15 +248,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     private void delete() {
         alarmVM.delete();
         activity.finish();
-    }
-
-    /***
-     * Use this method to schedule the alarm
-     *
-     * @param alarm
-     */
-    private void prepareAlarm(Alarm alarm) {
-        com.startogamu.zikobot.module.zikobot.manager.AlarmManager.prepareAlarm(activity, alarm);
     }
 
 

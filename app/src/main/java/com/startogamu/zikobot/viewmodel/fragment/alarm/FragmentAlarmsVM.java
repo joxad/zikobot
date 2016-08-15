@@ -2,6 +2,7 @@ package com.startogamu.zikobot.viewmodel.fragment.alarm;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
@@ -140,10 +141,6 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
         fragment.getActivity().startActivity(IntentManager.goToAlarm(new Alarm()));
     }
 
-    @Subscribe
-    public void onEvent(EventAlarmSelect eventAlarmSelect) {
-        fragment.startActivity(IntentManager.goToAlarm(eventAlarmSelect.getModel()));
-    }
 
     @Override
     public void destroy() {

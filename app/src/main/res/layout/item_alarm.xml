@@ -43,6 +43,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/image_card_height_large"
                         android:scaleType="centerCrop"
+                        app:imageUrl="@{itemAlarmVM.getImageUrl}"
                         android:transitionName="@string/transition"
                         tools:src="@drawable/ic_picture_loading" />
 

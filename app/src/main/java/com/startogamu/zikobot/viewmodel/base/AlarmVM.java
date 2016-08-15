@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.joxad.easydatabinding.base.BaseVM;
 import com.orhanobut.logger.Logger;
+import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
@@ -24,6 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
 import me.tatarka.bindingcollectionadapter.ItemView;
 
 /**
@@ -146,7 +148,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
      * @param view
      */
     public void onItemClick(View view) {
-        EventBus.getDefault().post(new EventAlarmSelect(model));
+        EventBus.getDefault().post(new EventAlarmSelect(model, view.findViewById(R.id.iv_playlist)));
     }
 
 
@@ -234,6 +236,13 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         notifyChange();
     }
 
+    @Bindable
+    public String getImageUrl() {
+        if (hasTracks()){
+            return tracksVms.get(0).getImageUrl();
+        }
+        return null;
+    }
 
     public void updateRandom(boolean checked) {
         model.setRandomTrack(checked ? 1 : 0);

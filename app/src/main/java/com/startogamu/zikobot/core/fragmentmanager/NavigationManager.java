@@ -18,6 +18,7 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowArtistDetail;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
+import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.event.deezer.SelectDeezerItemPlaylistEvent;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAlarms;
 import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerLocal;
@@ -165,6 +166,13 @@ public class NavigationManager implements IPermission {
         activity.startActivity(IntentManager.goToArtist(eventShowArtistDetail.getArtist()), options.toBundle());
     }
 
+
+    @Subscribe
+    public void onEvent(EventAlarmSelect eventAlarmSelect) {
+        ActivityOptionsCompat options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(activity, eventAlarmSelect.getView(), activity.getString(R.string.transition));
+        activity.startActivity(IntentManager.goToAlarm(eventAlarmSelect.getModel()),options.toBundle());
+    }
 
     @Subscribe
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {

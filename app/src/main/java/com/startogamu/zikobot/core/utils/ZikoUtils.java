@@ -1,16 +1,16 @@
 package com.startogamu.zikobot.core.utils;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.os.Build;
+import android.animation.ObjectAnimator;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.inputmethod.InputMethodManager;
+import android.view.ViewTreeObserver;
 
-
-import com.startogamu.zikobot.view.activity.ActivityMain;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.databinding.ViewToolbarImageBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,12 +56,12 @@ public class ZikoUtils {
 
     /**
      * Return date in specified format.
+     *
      * @param milliSeconds Date in milliseconds
-     * @param dateFormat Date format
+     * @param dateFormat   Date format
      * @return String representing date in specified format
      */
-    public static String getDate(long milliSeconds, String dateFormat)
-    {
+    public static String getDate(long milliSeconds, String dateFormat) {
         // Create a DateFormatter object for displaying date in specified format.
         SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
 
@@ -69,5 +69,46 @@ public class ZikoUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
+    }
+
+    public static void prepareToolbar(AppCompatActivity activity, ViewToolbarImageBinding customToolbar,  String title,String image) {
+        activity.setSupportActionBar(customToolbar.toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        activity.getSupportActionBar().setHomeButtonEnabled(true);
+        activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+        customToolbar.toolbar.setNavigationOnClickListener(listener -> activity.onBackPressed());
+
+        customToolbar.mainCollapsing.setTitle(title);
+        customToolbar.title.setText("");
+        customToolbar.rlToolbarImage.setVisibility(View.VISIBLE);
+
+        Glide.with(activity).load(image).listener(new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                scheduleStartPostponedTransition(activity,customToolbar.ivToolbar);
+                ObjectAnimator fadeIn = ObjectAnimator.ofFloat(customToolbar.rlOverlay, "alpha", 0f, 1f);
+                fadeIn.setDuration(1000);
+                fadeIn.start();
+                return false;
+            }
+        }).placeholder(R.drawable.ic_vinyl).into(customToolbar.ivToolbar);
+    }
+
+
+    private static void scheduleStartPostponedTransition(final AppCompatActivity activity, final View sharedElement) {
+        sharedElement.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
+                        activity.startPostponedEnterTransition();
+                        return true;
+                    }
+                });
     }
 }

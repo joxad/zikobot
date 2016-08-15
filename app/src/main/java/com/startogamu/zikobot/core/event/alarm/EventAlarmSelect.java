@@ -1,5 +1,7 @@
 package com.startogamu.zikobot.core.event.alarm;
 
+import android.view.View;
+
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 
 import lombok.Data;
@@ -10,4 +12,5 @@ import lombok.Data;
 @Data
 public class EventAlarmSelect {
     private final Alarm model;
+    private final View view;
 }

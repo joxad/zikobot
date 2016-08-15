@@ -18,6 +18,7 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.EXTRA;
+import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivityArtistBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
@@ -74,52 +75,12 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
      * Init the toolar
      */
     private void initToolbar() {
-        activity.setSupportActionBar(binding.toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        activity.getSupportActionBar().setHomeButtonEnabled(true);
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
 
-        binding.mainCollapsing.setTitle(artist.getName());
-        binding.title.setText("");
-        binding.rlToolbarImage.setVisibility(View.VISIBLE);
-        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(binding.rlOverlay, "alpha", 0f, 1f);
-        fadeIn.setDuration(1000);
-        fadeIn.start();
-        loadImage();
 
+        ZikoUtils.prepareToolbar(activity,binding.customToolbar, artist.getName(),artist.getImage());
 
     }
 
-    private void loadImage() {
-
-        Glide.with(activity).load(artist.getImage()).listener(new RequestListener<String, GlideDrawable>() {
-            @Override
-            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    scheduleStartPostponedTransition(binding.ivToolbar);
-                }
-                return false;
-            }
-        }).placeholder(R.drawable.ic_vinyl).into(binding.ivToolbar);
-    }
-
-    private void scheduleStartPostponedTransition(final View sharedElement) {
-        sharedElement.getViewTreeObserver().addOnPreDrawListener(
-                new ViewTreeObserver.OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
-                        activity.startPostponedEnterTransition();
-                        return true;
-                    }
-                });
-    }
 
     /***
      *
