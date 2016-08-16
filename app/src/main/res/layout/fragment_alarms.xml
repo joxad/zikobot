@@ -31,7 +31,7 @@
             app:adapter='@{"com.startogamu.zikobot.view.adapter.AlarmAdapter"}'
             app:itemView="@{fragmentAlarmsVM.itemView}"
             app:items="@{fragmentAlarmsVM.itemsVM}"
-            app:layoutManager="@{LayoutManagers.linear()}"
+            app:layoutManager="@{LayoutManagers.grid(1)}"
 
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/item_alarm" />

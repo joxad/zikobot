@@ -2,7 +2,6 @@ package com.startogamu.zikobot.viewmodel.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.databinding.Bindable;
 import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -40,6 +39,8 @@ import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
+import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudPlaylists;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -61,6 +62,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     @Nullable
     @InjectExtra
     String fromWidget;
+    private ViewPagerAdapter tabAdapter;
 
     /***
      * @param activity
@@ -88,7 +90,8 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     private void initTabLayout() {
         // Get the ViewPager and set it's PagerAdapter so that it can display items
-        binding.viewPager.setAdapter(new ViewPagerAdapter(activity, activity.getSupportFragmentManager()));
+        tabAdapter = new ViewPagerAdapter(activity, activity.getSupportFragmentManager());
+        binding.viewPager.setAdapter(tabAdapter);
         // Give the TabLayout the ViewPager
         binding.tabLayout.setupWithViewPager(binding.viewPager);
         binding.viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -171,6 +174,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         if (AppPrefs.isFirstStart()) {
             activity.startActivity(IntentManager.goToTuto());
         }
+        tabAdapter.notifyDataSetChanged();
     }
 
     @Subscribe
@@ -217,10 +221,10 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     protected void onPause() {
+        super.onPause();
         playerVM.onPause();
         navigationManager.onPause();
         EventBus.getDefault().unregister(this);
-        super.onPause();
     }
 
 
@@ -286,7 +290,10 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         // Returns total number of pages
         @Override
         public int getCount() {
-            return NUM_ITEMS;
+            int spotify = AppPrefs.spotifyUser() == null ? 0 : 1;
+            int soundcloud = AppPrefs.soundCloudUser() == null ? 0 : 1;
+
+            return NUM_ITEMS + spotify + soundcloud;
         }
 
         // Returns the fragment to display for that page
@@ -301,6 +308,10 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                     return FragmentLocalAlbums.newInstance(null);
                 case 3:
                     return FragmentLocalTracks.newInstance(null, BR.trackVM, R.layout.item_track);
+                case 4:
+                    return FragmentSpotifyPlaylists.newInstance();
+                case 5:
+                    return FragmentSoundCloudPlaylists.newInstance();
                 default:
                     return null;
             }
@@ -318,7 +329,12 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                     return activity.getString(R.string.drawer_filter_album);
                 case 3:
                     return activity.getString(R.string.drawer_filter_tracks);
+                case 4:
+                    return activity.getString(R.string.spotify);
+                case 5:
+                    return activity.getString(R.string.soundcloud);
                 default:
+
                     return null;
             }
         }

@@ -225,7 +225,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     @Bindable
     public String getImageUrl() {
-        if (model.getTracks()!=null){
+        if ( !model.getTracks().isEmpty()){
             return model.getTracks().get(0).getImageUrl();
         }
         return null;

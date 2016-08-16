@@ -35,7 +35,7 @@
             android:paddingBottom="@dimen/actionBarSizeNormal"
             app:itemView="@{fragmentSpotifyPlaylistsVM.itemPlaylist}"
             app:items="@{fragmentSpotifyPlaylistsVM.userPlaylists}"
-            app:layoutManager="@{LayoutManagers.grid(1)}"
+            app:layoutManager="@{LayoutManagers.grid(2)}"
             tools:listitem="@layout/item_playlist" />
 
 

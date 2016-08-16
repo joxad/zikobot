@@ -82,18 +82,6 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
         EventBus.getDefault().post(new EventShowArtistDetail(null, view));
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (localArtist != null) {
-            EventBus.getDefault().post(new EventCollapseToolbar(localArtist.getName(), localArtist.getImage()));
-            EventBus.getDefault().post(new EventTabBars(true, TAG));
-        } else {
-            EventBus.getDefault().post(new EventCollapseToolbar(null, null));
-            EventBus.getDefault().post(new EventTabBars(true, TAG));
-        }
-    }
-
 
     /***
      * Load the local music

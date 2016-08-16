@@ -42,10 +42,4 @@ public class FragmentLocalArtists extends FragmentBase<FragmentLocalArtistsBindi
         return new FragmentLocalArtistVM(this, binding);
     }
 
-    @Override
-    public void onResume() {
-        EventBus.getDefault().post(new EventCollapseToolbar(null, null));
-        EventBus.getDefault().post(new EventTabBars(true, TAG));
-        super.onResume();
-    }
 }
