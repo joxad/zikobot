@@ -40,6 +40,7 @@ import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
 import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudPlaylists;
+import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyConnect;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
@@ -168,7 +169,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     protected void onResume() {
         super.onResume();
         navigationManager.onResume();
-        drawerManager.onResume();
         playerVM.onResume();
         EventBus.getDefault().register(this);
         if (AppPrefs.isFirstStart()) {
@@ -309,7 +309,12 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                 case 3:
                     return FragmentLocalTracks.newInstance(null, BR.trackVM, R.layout.item_track);
                 case 4:
-                    return FragmentSpotifyPlaylists.newInstance();
+                    if (AppPrefs.spotifyUser()!=null) {
+                        return FragmentSpotifyPlaylists.newInstance();
+                    }
+                    if (AppPrefs.soundCloudUser()!=null){
+                        return FragmentSoundCloudPlaylists.newInstance();
+                    }
                 case 5:
                     return FragmentSoundCloudPlaylists.newInstance();
                 default:

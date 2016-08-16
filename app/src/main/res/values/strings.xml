@@ -94,6 +94,7 @@
     <string name="no_premium">Sorry, you have no Premium account ... I can not use Spotify without it :(</string>
     <string name="oops">Oops</string>
     <string name="no_m4a_support">Sorry I do not handle that format yet :(</string>
+    <string name="dialog_edit_playlist">Edition</string>
 
     <!-- Widget -->
     <string name="next_alarm">Next alarm : </string>
@@ -108,5 +109,4 @@
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">Zikobot, Android musical assistant</string>
     <string name="options">settings</string>
-    <string name="dialog_edit_playlist">Edition</string>
 </resources>

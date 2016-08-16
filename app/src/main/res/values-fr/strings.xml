@@ -93,6 +93,7 @@
     <string name="oops">Oops</string>
     <string name="no_m4a_support">Désolé je ne supporte pas encore ce format :(</string>
 
+    <string name="dialog_edit_playlist">Edition</string>
 
     <!-- Widget -->
     <string name="next_alarm">Prochaine alarme : </string>
@@ -108,4 +109,5 @@
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">Zikobot, assistant musical pour Android</string>
     <string name="options">options</string>
+
 </resources>

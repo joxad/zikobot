@@ -50,7 +50,7 @@ public class DrawerManager {
      * Initialise the drawer manager
      */
     public void init() {
-        initAccountHeader();
+      //  initAccountHeader();
 
         PrimaryDrawerItem music = new PrimaryDrawerItem().withName(R.string.drawer_filter_music).withIcon(R.drawable.ic_music_wave).withSelectedIcon(R.drawable.ic_music_wave_selected);
         PrimaryDrawerItem accounts = new PrimaryDrawerItem().withName(R.string.activity_my_account).withSelectable(false);
@@ -83,109 +83,6 @@ public class DrawerManager {
         drawer.setActionBarDrawerToggle(activityMainVM.actionBarDrawerToggle);
     }
 
-    /***
-     * Init the account manager header
-     */
-    private void initAccountHeader() {
-        itemLocal = new ProfileDrawerItem().withName(activity.getString(R.string.activity_music_local))
-                .withIcon(ContextCompat.getDrawable(activity, R.drawable.shape_album));
-
-        itemAddAccount = new ProfileDrawerItem().withName(activity.getString(R.string.drawer_account_add)).withSelectable(false)
-                .withIcon(ContextCompat.getDrawable(activity, R.drawable.ic_add));
-        accountHeader = new AccountHeaderBuilder()
-                .withActivity(activity)
-                .withHeaderBackground(R.drawable.header)
-                .withCurrentProfileHiddenInList(true)
-                .withOnAccountHeaderSelectionViewClickListener((view, profile) -> profileSelected(profile))
-                .withOnAccountHeaderListener((view, profile, current) -> profileSelected(profile))
-                .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
-                    @Override
-                    public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-                        return profileSelected(profile);
-
-                    }
-
-                    @Override
-                    public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
-                        return false;
-                    }
-                })
-                .addProfiles(itemLocal, itemAddAccount)
-                .build();
-    }
-
-    private boolean profileSelected(IProfile profile) {
-        if (profile.getName().equals(itemLocal.getName())) {
-            EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.local));
-            return false;
-        } else if (profile.getName().equals(itemAddAccount.getName())) {
-            activity.startActivity(IntentManager.goToSettings());
-            return true;
-        }
-        if (itemSpotify != null) {
-            if (profile.getName().equals(itemSpotify.getName())) {
-                EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.spotify));
-                return false;
-            }
-        }
-        if (itemSoundCloud != null) {
-            if (profile.getName().equals(itemSoundCloud.getName())) {
-                EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.soundcloud));
-                return false;
-            }
-        }
-        if (itemDeezer != null) {
-            if (profile.getName().equals(itemDeezer.getName())) {
-                EventBus.getDefault().post(new EventAccountSelect(NavigationManager.Account.deezer));
-                return false;
-            }
-        }
-        return false;
-    }
-
-    /***
-     * Manage the onresume of the activity to see of new account has been registred
-     */
-    public void onResume() {
-
-//Add spotify only once
-        if (itemSpotify == null) {
-            if (AppPrefs.spotifyUser() != null && !AppPrefs.spotifyUser().equals("")) {
-                SpotifyUser spotifyUser = AppPrefs.spotifyUser();
-                itemSpotify = new ProfileDrawerItem()
-                        .withName(activity.getString(R.string.spotify))
-                        .withEmail(spotifyUser.getDisplayName())
-                        .withIcon(R.drawable.logo_spotify);
-            }
-            if (itemSpotify != null) {
-                accountHeader.addProfiles(itemSpotify);
-            }
-        }
-        if (itemSoundCloud == null) {
-            if (AppPrefs.soundCloudUser() != null && !AppPrefs.soundCloudUser().equals("")) {
-                SoundCloudUser soundCloudUser = AppPrefs.soundCloudUser();
-                itemSoundCloud = new ProfileDrawerItem()
-                        .withName(activity.getString(R.string.soundcloud))
-                        .withEmail(soundCloudUser.getUserName()).withIcon(R.drawable.logo_soundcloud);
-            }
-            if (itemSoundCloud != null) {
-                accountHeader.addProfiles(itemSoundCloud);
-            }
-        }
-        if (itemDeezer == null) {
-            DeezerManager.current().subscribe(user -> {
-                itemDeezer = new ProfileDrawerItem()
-                        .withName(activity.getString(R.string.activity_music_deezer))
-                        .withEmail(user.getName())
-                        .withIcon(R.drawable.ic_deezer);
-                if (itemDeezer != null) {
-                    accountHeader.addProfiles(itemDeezer);
-                }
-            }, throwable -> {
-
-            });
-        }
-    }
 
     public boolean isDrawerOpen() {
         return drawer.isDrawerOpen();

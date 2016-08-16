@@ -32,7 +32,7 @@
             app:itemView="@{fragmentAlarmsVM.itemView}"
             app:items="@{fragmentAlarmsVM.itemsVM}"
             app:layoutManager="@{LayoutManagers.grid(1)}"
-
+            android:paddingBottom="@dimen/margin_player"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/item_alarm" />
 
