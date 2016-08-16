@@ -6,12 +6,14 @@ import android.content.Intent;
 import com.startogamu.zikobot.album.ActivityAlbum;
 import com.startogamu.zikobot.artist.ActivityArtist;
 import com.startogamu.zikobot.core.utils.EXTRA;
-import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
-import com.startogamu.zikobot.module.spotify_api.model.ExternalUrls;
+import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
+import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.Album;
 import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.search.ActivitySearch;
+import com.startogamu.zikobot.soundcloud.ActivitySoundCloud;
+import com.startogamu.zikobot.spotify.ActivitySpotify;
 import com.startogamu.zikobot.view.Henson;
 import com.startogamu.zikobot.view.activity.ActivityAlarm;
 
@@ -42,7 +44,7 @@ public class IntentManager {
     }
 
     public static Intent goToMainFromWidget() {
-      return Henson.with(context).gotoActivityMain().fromWidget("ALARM").build();
+        return Henson.with(context).gotoActivityMain().fromWidget("ALARM").build();
     }
 
     public static Intent goToTuto() {
@@ -50,16 +52,13 @@ public class IntentManager {
     }
 
     public static Intent goToSettings() {
-         return Henson.with(context).gotoActivitySettings().build();
+        return Henson.with(context).gotoActivitySettings().build();
     }
 
     public static Intent goToWakeUp(Alarm alarm) {
-         return Henson.with(context).gotoActivityWakeUp().alarm(alarm).build();
+        return Henson.with(context).gotoActivityWakeUp().alarm(alarm).build();
     }
 
-    public static Intent goToMusic(Alarm alarm) {
-        return Henson.with(context).gotoActivityMusic().alarm(alarm).build();
-    }
 
     public static Intent goToAlbum(Album model) {
         Intent intent = new Intent(context, ActivityAlbum.class);
@@ -69,5 +68,18 @@ public class IntentManager {
 
     public static Intent goToSearch() {
         return new Intent(context, ActivitySearch.class);
+    }
+
+    public static Intent goToSpotifyPlaylist(Item item) {
+        Intent intent = new Intent(context, ActivitySpotify.class);
+        intent.putExtra(EXTRA.PLAYLIST, Parcels.wrap(item));
+        return intent;
+
+    }
+
+    public static Intent goToSoundCloudPlaylist(SoundCloudPlaylist item) {
+        Intent intent = new Intent(context, ActivitySoundCloud.class);
+        intent.putExtra(EXTRA.PLAYLIST, Parcels.wrap(item));
+        return intent;
     }
 }

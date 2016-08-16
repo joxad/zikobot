@@ -1,15 +1,11 @@
 package com.startogamu.zikobot.core.fragmentmanager;
 
-import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.bumptech.glide.Glide;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.mikepenz.aboutlibraries.Libs;
@@ -26,15 +22,10 @@ import com.startogamu.zikobot.core.event.navigation_manager.EventAccountSelect;
 import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
 import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.event.soundcloud.SelectSCItemPlaylistEvent;
-import com.startogamu.zikobot.core.utils.Constants;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
-import com.startogamu.zikobot.search.FragmentSearch;
+import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
+import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.activity.ActivityMain;
-import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
-import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
-import com.startogamu.zikobot.view.fragment.local.FragmentLocalPlaylists;
-import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
-import com.startogamu.zikobot.view.fragment.permission.FragmentPermission;
 import com.startogamu.zikobot.viewmodel.activity.ActivityMainVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -143,13 +134,15 @@ public class NavigationManager implements IPermission {
 
     @Subscribe
     public void onEvent(SelectItemPlaylistEvent selectItemPlaylistEvent) {
-        //  Item item = selectItemPlaylistEvent.getItem();
-        //  replaceFragment(FragmentSpotifyTracks.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
+        Item item = selectItemPlaylistEvent.getItem();
+        activity.startActivity(IntentManager.goToSpotifyPlaylist(item));
     }
 
     @Subscribe
     public void onEvent(SelectSCItemPlaylistEvent selectItemPlaylistEvent) {
-        //SoundCloudPlaylist item = selectItemPlaylistEvent.getItem();
+        SoundCloudPlaylist item = selectItemPlaylistEvent.getItem();
+        activity.startActivity(IntentManager.goToSoundCloudPlaylist(item));
+
         //replaceFragment(FragmentSoundCloudTracks.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
     }
 
