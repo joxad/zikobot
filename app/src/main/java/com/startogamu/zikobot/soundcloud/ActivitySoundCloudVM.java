@@ -60,7 +60,7 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
      * Init the toolar
      */
     private void initToolbar() {
-        ZikoUtils.prepareToolbar(activity, binding.customToolbar, soundCloudPlaylist.getTitle(), soundCloudPlaylist.getArtworkUrl());
+        ZikoUtils.prepareToolbar(activity, binding.customToolbar, soundCloudPlaylist.getTitle(), soundCloudPlaylist.getSoundCloudTracks().get(0).getArtworkUrl());
         ZikoUtils.animateScale(binding.fabPlay);
     }
 

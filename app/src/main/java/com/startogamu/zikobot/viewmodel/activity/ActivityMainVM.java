@@ -335,7 +335,12 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                 case 3:
                     return activity.getString(R.string.drawer_filter_tracks);
                 case 4:
-                    return activity.getString(R.string.spotify);
+                    if (AppPrefs.spotifyUser()!=null) {
+                        return activity.getString(R.string.spotify);
+                    }
+                    if (AppPrefs.soundCloudUser()!=null){
+                        return activity.getString(R.string.soundcloud);
+                    }
                 case 5:
                     return activity.getString(R.string.soundcloud);
                 default:
