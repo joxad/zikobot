@@ -37,9 +37,10 @@
                 android:maxLines="1"
                 android:text="@{itemAlarmVM.name}"
                 android:textSize="14sp"
-                tools:text="Nom du réveil" />
+                tools:text="Nom de la playlist" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

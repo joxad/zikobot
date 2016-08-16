@@ -20,14 +20,12 @@
 
     <!--> Menu <-->
     <string name="menu_about">A propos</string>
-    <string name="menu_put_add_as_playlist">En faire une alarme</string>
+    <string name="menu_put_add_as_playlist">Ajouter à une playlist</string>
     <string name="menu_add_to_current_play">Ajouter à la lecture en cours</string>
     <string name="menu_delete">Supprimer</string>
     <string name="menu_tablature">Voir la tablature</string>
 
     <string name="action_add_all">Tout ajouter</string>
-
-
 
     <!--> Titles <-->
     <string name="activity_music_local">Ma bibliothèque musicale</string>
@@ -35,13 +33,11 @@
     <string name="activity_music_deezer">Deezer</string>
     <string name="activity_my_account">Mes comptes</string>
 
-
-
     <!--> ActivityAlarm <-->
     <string name="activity_alarm_new">Créer une alarme</string>
     <string name="alarm_hint_hour">Sélectionner l\'heure</string>
 
-    <string name="alarm_hint">Libellé de l\'alarme</string>
+    <string name="playlist_hint">Titre de ta playlist</string>
     <string name="edit_text_error_name_alarm">Erreur sur le nom</string>
     <string name="activity_music_title">Choix de la musique</string>
 
@@ -92,7 +88,7 @@
 
     <!-- Dialogues -->
     <string name="dialog_title_add_track">Alarme Musicale</string>
-    <string name="alarm_select">Sélectionne ton alarme</string>
+    <string name="select_playlist">Sélectionne ta playlist</string>
     <string name="no_premium">Désolé, tu n\'as pas de compte Premium... je ne peux utiliser Spotify sans cela :(</string>
     <string name="oops">Oops</string>
     <string name="no_m4a_support">Désolé je ne supporte pas encore ce format :(</string>

@@ -111,6 +111,24 @@ public class AlarmManager {
 
     }
 
+    /***
+     *
+     * @param text
+     * @param alarm
+     * @return
+     */
+    public static Observable<Alarm> editAlarmName(String text, Alarm alarm) {
+        return Observable.create(new Observable.OnSubscribe<Alarm>() {
+            @Override
+            public void call(Subscriber<? super Alarm> subscriber) {
+                alarm.setName(text);
+                alarm.save();
+                AppWidgetHelper.update(context);
+                subscriber.onNext(alarm);
+            }
+        });
+    }
+
     public static void deleteAlarm(Alarm alarm) {
         SQLite.delete(Alarm.class).where(Alarm_Table.id.is(alarm.getId())).query();
         AppWidgetHelper.update(context);
@@ -234,6 +252,7 @@ public class AlarmManager {
         }
         return nbDayToNextAlarm;
     }
+
 
     public static class Builder {
         private Context context;

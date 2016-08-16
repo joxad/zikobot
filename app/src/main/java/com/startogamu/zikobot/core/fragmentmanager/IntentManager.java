@@ -13,6 +13,7 @@ import com.startogamu.zikobot.module.zikobot.model.Album;
 import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.search.ActivitySearch;
 import com.startogamu.zikobot.view.Henson;
+import com.startogamu.zikobot.view.activity.ActivityAlarm;
 
 import org.parceler.Parcels;
 
@@ -34,7 +35,9 @@ public class IntentManager {
     }
 
     public static Intent goToAlarm(Alarm alarm) {
-        return Henson.with(context).gotoActivityAlarm().alarm(alarm).build();
+        Intent intent = new Intent(context, ActivityAlarm.class);
+        intent.putExtra(EXTRA.ALARM, Parcels.wrap(alarm));
+        return intent;
 
     }
 

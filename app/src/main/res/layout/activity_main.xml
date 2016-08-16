@@ -149,14 +149,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="72dp"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginRight="@dimen/fab_margin"
+            android:layout_marginBottom="@{activityMainVM.playerVM.trackVMs.size() >0  ?@dimen/margin_player : @dimen/activity_vertical_margin }"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
             android:onClick="@{activityMainVM.fabClicked}"
             android:src="@drawable/ic_add"
             android:visibility="@{activityMainVM.fabVisible ? v.VISIBLE: v.GONE}"
             app:layout_anchor="@id/view_player"
-            app:layout_anchorGravity="bottom|end|right" />
+            app:layout_anchorGravity="top|end" />
 
     </android.support.design.widget.CoordinatorLayout>
 

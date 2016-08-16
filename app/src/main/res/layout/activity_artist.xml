@@ -63,12 +63,11 @@
                             android:visibility="@{activityArtistVM.albums.size() >0 ? v.VISIBLE : v.GONE}" />
 
 
-                        <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
+                        <android.support.v7.widget.RecyclerView
                             android:id="@+id/rv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:clipToPadding="false"
-                            android:layoutAnimation="@anim/grid_animation"
                             android:paddingBottom="@dimen/actionBarSizeNormal"
                             android:visibility="@{activityArtistVM.albums.size() >0 ? v.VISIBLE : v.GONE}"
                             app:itemView="@{activityArtistVM.itemViewAlbum}"
@@ -93,12 +92,11 @@
                             android:background="@color/colorAccent"
                             android:visibility="@{activityArtistVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
 
-                        <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
+                        <android.support.v7.widget.RecyclerView
                             android:id="@+id/rv_tracks"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clipToPadding="false"
-                            android:layoutAnimation="@anim/grid_animation"
                             android:paddingBottom="@dimen/actionBarSizeNormal"
                             android:visibility="@{activityArtistVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
                             app:itemView="@{activityArtistVM.itemViewTrack}"
@@ -123,6 +121,16 @@
                 app:layout_behavior="@string/bottom_sheet_behavior"
                 app:playerVM="@{activityArtistVM.playerVM}" />
 
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_margin="@dimen/fab_margin"
+                android:onClick="@{activityArtistVM.onPlay}"
+                android:src="@drawable/ic_play_white"
+                app:layout_anchor="@id/custom_toolbar"
+                app:layout_anchorGravity="bottom|end" />
         </android.support.design.widget.CoordinatorLayout>
 
         <com.lapism.searchview.SearchView

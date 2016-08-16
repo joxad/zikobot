@@ -1,5 +1,6 @@
 package com.startogamu.zikobot.album;
 
+import android.app.SharedElementCallback;
 import android.databinding.ObservableArrayList;
 import android.view.View;
 
@@ -7,6 +8,8 @@ import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivityAlbumBinding;
@@ -14,10 +17,15 @@ import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
 import com.startogamu.zikobot.module.zikobot.model.Album;
 import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
+
+import java.util.List;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -57,9 +65,8 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
      * Init the toolar
      */
     private void initToolbar() {
-
         ZikoUtils.prepareToolbar(activity, binding.customToolbar, album.getName(), album.getImage());
-
+        ZikoUtils.animateScale(binding.fabPlay);
     }
 
 
@@ -71,17 +78,28 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
         playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
+        EventBus.getDefault().register(this);
         playerVM.onResume();
         loadLocalMusic();
         //TODO getinfos on the album
     }
 
+
+    @Subscribe
+    public void onEvent(EventShowDialogAlarm event) {
+        DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
+        dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
+
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
+        EventBus.getDefault().unregister(this);
         playerVM.onPause();
     }
 
@@ -101,12 +119,26 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
         });
     }
 
+    /**
+     * Play all the tracks of the album
+     *
+     * @param view
+     */
     public void onPlay(View view) {
-
+        EventBus.getDefault().post(new EventAddTrackToPlayer(tracks));
     }
 
     @Override
     public void destroy() {
 
+    }
+
+    @Override
+    protected boolean onBackPressed() {
+        if (playerVM.isExpanded.get()) {
+            playerVM.close();
+            return false;
+        }
+        return super.onBackPressed();
     }
 }

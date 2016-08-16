@@ -2,6 +2,8 @@ package com.startogamu.zikobot.viewmodel.activity;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -10,22 +12,29 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
-import com.jakewharton.rxbinding.widget.RxTextView;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.analytics.AnalyticsManager;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
+import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.SimpleSeekBarListener;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivityAlarmBinding;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
+import com.startogamu.zikobot.playlist.DialogPlaylistEdit;
 import com.startogamu.zikobot.view.activity.ActivityAlarm;
+import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
+import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.parceler.Parcels;
 
 import java.util.Calendar;
 
@@ -37,10 +46,12 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarmBinding> {
     private static String TAG = ActivityAlarmVM.class.getSimpleName();
 
+    Handler handler = new Handler(Looper.getMainLooper());
 
     public AlarmVM alarmVM;
-    @InjectExtra
+    public PlayerVM playerVM;
     Alarm alarm;
+
     private AudioManager am;
 
     /***
@@ -53,22 +64,36 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
     @Override
     public void init() {
+        alarm = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.ALARM));
         am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
-        Dart.inject(this, activity);
-        String alarmUrl = null;
-        if( alarm.getTracks()!=null && !alarm.getTracks().isEmpty()){
-            alarmUrl = alarm.getTracks().get(0).getImageUrl();
-        }
-        ZikoUtils.prepareToolbar(activity,binding.customToolbar, alarm.getName(), alarmUrl);
+        initToolbar();
         initMenu();
         initViews();
+        initPlayerVM();
         AlarmTrackManager.clear();
 
     }
 
+    private void initToolbar() {
+        String alarmUrl = null;
+        if (alarm.getTracks() != null && !alarm.getTracks().isEmpty()) {
+            alarmUrl = alarm.getTracks().get(0).getImageUrl();
+        }
+        ZikoUtils.prepareToolbar(activity, binding.customToolbar, alarm.getName(), alarmUrl);
+        ZikoUtils.animateScale(binding.fabPlay);
+        ZikoUtils.animateScale(binding.swActivated);
+        binding.customToolbar.mainCollapsing.setOnClickListener(v -> {
+            showDialogEdit();
+        });
+    }
+
+
     private void initMenu() {
         binding.customToolbar.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
+                case R.id.action_edit:
+                    showDialogEdit();
+                    break;
                 case R.id.action_delete:
                     delete();
                     break;
@@ -81,7 +106,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
                     });
                     break;
                 case R.id.action_play:
-                    if (alarmVM.hasTracks() || !AlarmTrackManager.tracks().isEmpty() ) {
+                    if (alarmVM.hasTracks() || !AlarmTrackManager.tracks().isEmpty()) {
                         save().subscribe(alarm1 -> {
                             AlarmTrackManager.clear();
                             activity.startActivity(IntentManager.goToWakeUp(alarm1));
@@ -99,17 +124,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        alarmVM.refreshTracks();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
     /***
      *
      */
@@ -117,7 +131,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         alarmVM = new AlarmVM(activity, alarm) {
             @Override
             public ItemView itemView() {
-                return ItemView.of(BR.trackVM, R.layout.item_alarm_track_no_cb);
+                return ItemView.of(BR.trackVM, R.layout.item_track);
             }
         };
         initAlarmVM();
@@ -130,7 +144,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
                 alarmVM.removeTrack(viewHolder.getAdapterPosition());
             }
         });
@@ -154,14 +167,9 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         RxCompoundButton.checkedChanges(binding.viewAlarm.swRandom).subscribe(aBoolean -> {
             alarmVM.updateRandom(aBoolean);
         });
-        RxTextView.textChanges(binding.etName).skip(1).subscribe(charSequence -> {
-            alarmVM.updateName(charSequence);
-        });
-
         RxView.clicks(binding.viewAlarm.cbMonday).subscribe(aVoid -> {
             alarmVM.handleTextClickDay(binding.viewAlarm.cbMonday, Calendar.MONDAY);
         });
-
         RxView.clicks(binding.viewAlarm.cbTuesday).subscribe(aVoid -> {
             alarmVM.handleTextClickDay(binding.viewAlarm.cbTuesday, Calendar.TUESDAY);
         });
@@ -180,6 +188,8 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         RxView.clicks(binding.viewAlarm.cbSunday).subscribe(aVoid -> {
             alarmVM.handleTextClickDay(binding.viewAlarm.cbSunday, Calendar.SUNDAY);
         });
+        binding.swActivated.setOnClickListener(v -> alarmVM.updateStatus(!alarmVM.isActivated()));
+
         binding.viewAlarm.seekBarVolume.setOnSeekBarChangeListener(new SimpleSeekBarListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -191,16 +201,12 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
 
     private void initHour() {
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-
             binding.viewAlarm.timePicker.setMinute(alarmVM.getMinute());
             binding.viewAlarm.timePicker.setHour(alarmVM.getHour());
-
         } else {
             binding.viewAlarm.timePicker.setCurrentHour(Integer.valueOf(alarmVM.getHour()));
             binding.viewAlarm.timePicker.setCurrentMinute(Integer.valueOf(alarmVM.getMinute()));
-
         }
     }
 
@@ -215,6 +221,46 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         binding.viewAlarm.cbFriday.setSelected(alarmVM.isDayActive(Calendar.FRIDAY));
         binding.viewAlarm.cbSaturday.setSelected(alarmVM.isDayActive(Calendar.SATURDAY));
         binding.viewAlarm.cbSunday.setSelected(alarmVM.isDayActive(Calendar.SUNDAY));
+    }
+
+    /***
+     *
+     */
+
+    private void initPlayerVM() {
+        playerVM = new PlayerVM(activity, binding.viewPlayer);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        playerVM.onResume();
+        alarmVM.refreshTracks();
+    }
+
+
+    @Subscribe
+    public void onEvent(EventShowDialogAlarm event) {
+        DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
+        dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
+    }
+
+    /**
+     * Play all the tracks of the album
+     *
+     * @param view
+     */
+    public void onPlay(View view) {
+        EventBus.getDefault().post(new EventAddTrackToPlayer(alarmVM.tracksVms));
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        playerVM.onPause();
+
     }
 
 
@@ -238,7 +284,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         alarmVM.updateTimeSelected(hour, min);
         alarmVM.updateRepeated(binding.viewAlarm.swRepeat.isChecked());
         AnalyticsManager.logCreateAlarm(alarm, true);
-        alarmVM.updateStatus(alarmVM.hasTracks());
         return alarmVM.save();
     }
 
@@ -250,19 +295,13 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         activity.finish();
     }
 
-
-    /***
-     * @param view
-     */
-    public void onAddTrackClick(View view) {
-        activity.startActivity(IntentManager.goToMusic(alarm));
-    }
-
-
     @Override
     public void destroy() {
 
     }
 
+    private void showDialogEdit() {
+        DialogPlaylistEdit.newInstance(alarm).show(activity.getSupportFragmentManager(), DialogPlaylistEdit.TAG);
+    }
 
 }

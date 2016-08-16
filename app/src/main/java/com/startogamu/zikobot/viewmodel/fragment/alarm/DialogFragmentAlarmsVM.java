@@ -25,6 +25,8 @@ import com.startogamu.zikobot.viewmodel.base.AlarmVM;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+
 import me.tatarka.bindingcollectionadapter.ItemView;
 
 /**
@@ -75,9 +77,12 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
         Alarm alarm = eventAlarmSelect.getModel();
         AlarmTrackManager.clear();
         AlarmTrackManager.selectTrack(track);
-        AlarmManager.saveAlarm(alarm, AlarmTrackManager.tracks()).subscribe(alarm1 -> {
+        ArrayList<Track> allTracks = new ArrayList<>();
+        allTracks.addAll(alarm.getTracks());
+        allTracks.addAll(AlarmTrackManager.tracks());
+        AlarmManager.saveAlarm(alarm, allTracks).subscribe(alarm1 -> {
             AnalyticsManager.logCreateAlarm(alarm,false);
-            Toast.makeText(fragment.getContext(), track.getName() + " a été ajoutée à l'alarme " + alarm.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(fragment.getContext(), track.getName() + " a été ajoutée à la playlist " + alarm.getName(), Toast.LENGTH_SHORT).show();
             fragment.dismiss();
         }, throwable -> {
             Toast.makeText(fragment.getContext(), "Oops j'ai eu un souci", Toast.LENGTH_SHORT).show();

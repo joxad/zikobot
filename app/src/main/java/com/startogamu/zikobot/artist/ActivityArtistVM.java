@@ -1,21 +1,16 @@
 package com.startogamu.zikobot.artist;
 
-import android.animation.ObjectAnimator;
 import android.databinding.ObservableArrayList;
-import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
@@ -25,6 +20,7 @@ import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
 import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.viewmodel.base.AlbumVM;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
@@ -75,10 +71,8 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
      * Init the toolar
      */
     private void initToolbar() {
-
-
-        ZikoUtils.prepareToolbar(activity,binding.customToolbar, artist.getName(),artist.getImage());
-
+        ZikoUtils.prepareToolbar(activity, binding.customToolbar, artist.getName(), artist.getImage());
+        ZikoUtils.animateScale(binding.fabPlay);
     }
 
 
@@ -89,6 +83,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     private void initPlayerVM() {
         playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
+
 
     @Override
     protected void onResume() {
@@ -103,11 +98,15 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
 
     @Subscribe
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
-        ActivityOptionsCompat options = ActivityOptionsCompat
-                .makeSceneTransitionAnimation(activity, localAlbumSelectEvent.getView(), activity.getString(R.string.transition));
-        activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()), options.toBundle());
+        activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()));
     }
 
+
+    @Subscribe
+    public void onEvent(EventShowDialogAlarm event) {
+        DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
+        dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
+    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -142,7 +141,16 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     }
 
     public void onPlay(View view) {
+        EventBus.getDefault().post(new EventAddTrackToPlayer(tracks));
+    }
 
+    @Override
+    protected boolean onBackPressed() {
+        if (playerVM.isExpanded.get()) {
+            playerVM.close();
+            return false;
+        }
+        return super.onBackPressed();
     }
 
     @Override

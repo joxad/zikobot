@@ -82,10 +82,10 @@ public class Alarm extends BaseModel {
      * Default constructor =>  8 00 am
      */
     public Alarm() {
-        name = "Alarme";
+        name = "Playlist";
         hour = 8;
         minute = 0;
-        active = 1;
+        active = 0;
         volume=-1;
     }
 

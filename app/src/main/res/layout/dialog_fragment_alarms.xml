@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
 
                 android:layout_centerInParent="true"
-                android:text="@string/alarm_select"
+                android:text="@string/select_playlist"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white" />
         </RelativeLayout>
@@ -99,7 +99,7 @@
             app:items="@{fragmentAlarmsVM.itemsVM}"
             app:layoutManager="@{LayoutManagers.linear()}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:listitem="@layout/item_alarm" />
+            tools:listitem="@layout/item_alarm_dialog" />
 
     </LinearLayout>
 </layout>

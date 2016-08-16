@@ -1,9 +1,12 @@
 package com.startogamu.zikobot.core.utils;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -71,7 +74,7 @@ public class ZikoUtils {
         return formatter.format(calendar.getTime());
     }
 
-    public static void prepareToolbar(AppCompatActivity activity, ViewToolbarImageBinding customToolbar,  String title,String image) {
+    public static void prepareToolbar(AppCompatActivity activity, ViewToolbarImageBinding customToolbar, String title, String image) {
         activity.setSupportActionBar(customToolbar.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         activity.getSupportActionBar().setHomeButtonEnabled(true);
@@ -82,6 +85,7 @@ public class ZikoUtils {
         customToolbar.title.setText("");
         customToolbar.rlToolbarImage.setVisibility(View.VISIBLE);
 
+
         Glide.with(activity).load(image).listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -90,25 +94,34 @@ public class ZikoUtils {
 
             @Override
             public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                scheduleStartPostponedTransition(activity,customToolbar.ivToolbar);
-                ObjectAnimator fadeIn = ObjectAnimator.ofFloat(customToolbar.rlOverlay, "alpha", 0f, 1f);
-                fadeIn.setDuration(1000);
-                fadeIn.start();
+                ZikoUtils.animateFade(customToolbar.rlOverlay);
                 return false;
             }
         }).placeholder(R.drawable.ic_vinyl).into(customToolbar.ivToolbar);
+
+
     }
 
 
-    private static void scheduleStartPostponedTransition(final AppCompatActivity activity, final View sharedElement) {
-        sharedElement.getViewTreeObserver().addOnPreDrawListener(
-                new ViewTreeObserver.OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
-                        activity.startPostponedEnterTransition();
-                        return true;
-                    }
-                });
+
+    public static void animateFade(View view) {
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f);
+        fadeIn.setDuration(1000);
+        fadeIn.start();
+    }
+
+    public static void animateScale(View view) {
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f);
+        scaleX.setDuration(800);
+        scaleY.setDuration(800);
+        view.setVisibility(View.VISIBLE);
+        scaleX.start();
+        scaleY.start();
+    }
+
+    public static void showKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(view, 0);
     }
 }

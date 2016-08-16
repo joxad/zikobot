@@ -25,4 +25,5 @@ public class ActivityAlbum extends ActivityBase<ActivityAlbumBinding, ActivityAl
     public ActivityAlbumVM baseActivityVM(ActivityAlbumBinding binding, Bundle savedInstanceState) {
         return new ActivityAlbumVM(this, binding);
     }
+
 }

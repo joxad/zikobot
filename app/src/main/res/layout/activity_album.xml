@@ -26,16 +26,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <include
                 android:id="@+id/custom_toolbar"
                 layout="@layout/view_toolbar_image" />
 
-
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <com.startogamu.zikobot.view.custom.FlingNestedScrollView
@@ -65,12 +62,11 @@
                             android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
 
 
-                        <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
+                        <android.support.v7.widget.RecyclerView
                             android:id="@+id/rv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:clipToPadding="false"
-                            android:layoutAnimation="@anim/grid_animation"
                             android:paddingBottom="@dimen/actionBarSizeNormal"
                             android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
                             app:itemView="@{activityAlbumVM.itemViewTrack}"
@@ -95,19 +91,31 @@
                 app:layout_behavior="@string/bottom_sheet_behavior"
                 app:playerVM="@{activityAlbumVM.playerVM}" />
 
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_play"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                android:onClick="@{activityAlbumVM.onPlay}"
+                android:src="@drawable/ic_play_white"
+                android:visibility="gone"
+                app:layout_anchor="@id/custom_toolbar"
+                app:layout_anchorGravity="bottom|end" />
+
         </android.support.design.widget.CoordinatorLayout>
 
         <com.lapism.searchview.SearchView
-             android:id="@+id/search_view"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             app:search_clear_on_close="false"
-             app:search_divider="true"
-             app:search_hint="@string/drawer_filter_search"
-             app:search_shadow="false"
-             app:search_version="menu_item"
-             app:search_version_margins="menu_item"
-             app:search_voice="true" />
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:search_clear_on_close="false"
+            app:search_divider="true"
+            app:search_hint="@string/drawer_filter_search"
+            app:search_shadow="false"
+            app:search_version="menu_item"
+            app:search_version_margins="menu_item"
+            app:search_voice="true" />
     </RelativeLayout>
 </layout>
 

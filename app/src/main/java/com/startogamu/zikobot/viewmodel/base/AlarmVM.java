@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +26,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
 import me.tatarka.bindingcollectionadapter.ItemView;
 
 /**
@@ -37,7 +37,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     public String alarmName;
 
     public ObservableArrayList<TrackVM> tracksVms;
-
+    public ObservableBoolean isExpanded;
     public abstract ItemView itemView();
 
     /***
@@ -55,6 +55,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     @Override
     public void init() {
+        isExpanded = new ObservableBoolean(false);
         tracksVms = new ObservableArrayList<>();
     }
 
@@ -75,15 +76,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     /***
      * TRACK MANAGEMENT
      */
-
-    /**
-     * Add track
-     *
-     * @param track
-     */
-    public void addTrack(Track track) {
-        tracksVms.add(new TrackVM(context, track));
-    }
 
     /***
      *
@@ -189,11 +181,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         return model.getActive() == 1;
     }
 
-    public void updateName(CharSequence charSequence) {
-        alarmName = charSequence.toString();
-        model.setName(alarmName);
-    }
-
     /***
      * @param textView
      * @param day
@@ -238,8 +225,8 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     @Bindable
     public String getImageUrl() {
-        if (hasTracks()){
-            return tracksVms.get(0).getImageUrl();
+        if (model.getTracks()!=null){
+            return model.getTracks().get(0).getImageUrl();
         }
         return null;
     }
@@ -247,6 +234,10 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     public void updateRandom(boolean checked) {
         model.setRandomTrack(checked ? 1 : 0);
         notifyChange();
+    }
+
+    public void expand(View view){
+        isExpanded.set(!isExpanded.get());
     }
 
     @Bindable

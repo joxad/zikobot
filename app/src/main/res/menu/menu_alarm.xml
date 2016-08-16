@@ -5,10 +5,15 @@
 
 
     <item
+        android:id="@+id/action_edit"
+        android:orderInCategory="50"
+        app:showAsAction="ifRoom"
+        android:title="@string/dialog_edit_playlist" />
+    <item
         android:id="@+id/action_play"
         android:icon="@drawable/ic_play_arrow"
         android:orderInCategory="50"
-        android:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/play" />
     <item
         android:id="@+id/action_save"

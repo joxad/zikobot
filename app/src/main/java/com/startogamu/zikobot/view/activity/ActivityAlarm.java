@@ -3,22 +3,17 @@ package com.startogamu.zikobot.view.activity;
 import android.os.Bundle;
 import android.view.Menu;
 
-import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.databinding.ActivityAlarmBinding;
-import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.viewmodel.activity.ActivityAlarmVM;
 
 /**
  * Created by josh on 29/05/16.
  */
-public class ActivityAlarm extends ActivityBase<ActivityAlarmBinding, ActivityAlarmVM>{
+public class ActivityAlarm extends ActivityBase<ActivityAlarmBinding, ActivityAlarmVM> {
 
-
-    @InjectExtra
-    Alarm alarm;
 
     @Override
     public int data() {

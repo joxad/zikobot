@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
-        <import type="android.view.View" alias="v" />
+        <import
+            alias="v"
+            type="android.view.View" />
+
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
 
         <variable
@@ -15,15 +17,14 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/custom_toolbar"
             layout="@layout/view_toolbar_image" />
 
         <com.startogamu.zikobot.view.custom.FlingNestedScrollView
+            android:id="@+id/fnsv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -34,23 +35,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/til_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium">
-
-                    <EditText
-                        android:id="@+id/et_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:hint="@string/alarm_hint"
-                        android:singleLine="true"
-                        android:text="@{activityAlarmVM.alarmVM.alarmName}"
-                        android:textColor="@color/colorAccent" />
-
-                </android.support.design.widget.TextInputLayout>
 
                 <TextView
                     style="@style/textSection"
@@ -59,7 +43,7 @@
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:text="@string/drawer_filter_album"
+                    android:text="@string/drawer_filter_tracks"
                     android:visibility="@{activityAlarmVM.alarmVM.tracksVms.size() >0 ? v.VISIBLE : v.GONE}" />
 
 
@@ -69,26 +53,60 @@
                     android:layout_height="wrap_content"
                     app:itemView="@{activityAlarmVM.alarmVM.itemView}"
                     app:items="@{activityAlarmVM.alarmVM.tracksVms}"
-                    app:layoutManager="@{LayoutManagers.linear()}"
-                    tools:listitem="@layout/item_track" />
+                    app:layoutManager="@{LayoutManagers.linear()}" />
 
-                <include
-                    android:id="@+id/view_alarm"
-                    layout="@layout/view_alarm"
-                    app:alarmVM="@{activityAlarmVM.alarmVM}" />
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/margin_player"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium">
+
+                    <include
+                        android:id="@+id/view_alarm"
+                        layout="@layout/view_alarm"
+                        app:alarmVM="@{activityAlarmVM.alarmVM}" />
+                </android.support.v7.widget.CardView>
+
             </LinearLayout>
 
 
         </com.startogamu.zikobot.view.custom.FlingNestedScrollView>
 
+        <include
+            android:id="@+id/view_player"
+            layout="@layout/view_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:background="@android:drawable/dialog_holo_light_frame"
+            app:behavior_peekHeight="@dimen/playerHeight"
+            app:layout_behavior="@string/bottom_sheet_behavior"
+            app:playerVM="@{activityAlarmVM.playerVM}" />
+
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_add"
+            android:id="@+id/fab_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:onClick="@{activityAlarmVM.onAddTrackClick}"
-            android:src="@drawable/ic_playlist_add" />
+            android:layout_margin="@dimen/margin_medium"
+            android:onClick="@{activityAlarmVM.onPlay}"
+            android:src="@drawable/ic_play_white"
+            app:fabSize="normal"
+            app:layout_anchor="@id/custom_toolbar"
+            app:layout_anchorGravity="bottom|end" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/sw_activated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="76dp"
+            android:layout_marginRight="76dp"
+            android:src="@{activityAlarmVM.alarmVM.activated ? @drawable/ic_alarm_selected : @drawable/ic_alarm}"
+            app:backgroundTint="@color/white"
+            app:fabSize="mini"
+            app:layout_anchor="@id/custom_toolbar"
+            app:layout_anchorGravity="bottom|end" />
 
 
     </android.support.design.widget.CoordinatorLayout>

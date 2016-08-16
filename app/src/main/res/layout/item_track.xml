@@ -5,6 +5,7 @@
 
     <data>
 
+        <import type="android.view.View" alias="v" />
 
         <variable
             name="trackVM"
@@ -27,23 +28,26 @@
 
             <RelativeLayout
                 android:id="@+id/rl_player"
-                android:layout_centerVertical="true"
-                app:animationRotate="@{trackVM.isPlaying}"
-
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_disk"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_vinyl_64" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_centerInParent="true"
                     app:imageUrl="@{trackVM.imageUrl}" />
+
+                <es.claucookie.miniequalizerlibrary.EqualizerView
+                    android:id="@+id/equalizer_view"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:visibility="@{trackVM.isPlaying ? v.VISIBLE: v.GONE}"
+                    app:animatePlay="@{trackVM.isPlaying}"
+                    android:layout_centerInParent="true"
+                    app:animDuration="3500"
+                    app:foregroundColor="@color/colorAccent" />
 
             </RelativeLayout>
 

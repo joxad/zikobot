@@ -161,24 +161,18 @@ public class NavigationManager implements IPermission {
 
     @Subscribe
     public void onEvent(EventShowArtistDetail eventShowArtistDetail) {
-        ActivityOptionsCompat options = ActivityOptionsCompat
-                .makeSceneTransitionAnimation(activity, eventShowArtistDetail.getView(), activity.getString(R.string.transition));
-        activity.startActivity(IntentManager.goToArtist(eventShowArtistDetail.getArtist()), options.toBundle());
+        activity.startActivity(IntentManager.goToArtist(eventShowArtistDetail.getArtist()));
     }
 
 
     @Subscribe
     public void onEvent(EventAlarmSelect eventAlarmSelect) {
-        ActivityOptionsCompat options = ActivityOptionsCompat
-                .makeSceneTransitionAnimation(activity, eventAlarmSelect.getView(), activity.getString(R.string.transition));
-        activity.startActivity(IntentManager.goToAlarm(eventAlarmSelect.getModel()),options.toBundle());
+        activity.startActivity(IntentManager.goToAlarm(eventAlarmSelect.getModel()));
     }
 
     @Subscribe
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
-        ActivityOptionsCompat options = ActivityOptionsCompat
-                .makeSceneTransitionAnimation(activity, localAlbumSelectEvent.getView(), activity.getString(R.string.transition));
-        activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()), options.toBundle());
+        activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()));
     }
 
 

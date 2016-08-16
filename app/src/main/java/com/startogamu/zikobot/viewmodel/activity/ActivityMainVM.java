@@ -2,11 +2,13 @@ package com.startogamu.zikobot.viewmodel.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.databinding.Bindable;
 import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
@@ -19,7 +21,6 @@ import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.joxad.easydatabinding.activity.IResult;
-import com.lapism.searchview.SearchView;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventFabClicked;
 import com.startogamu.zikobot.core.event.EventShowMessage;
@@ -27,11 +28,9 @@ import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.event.player.EventShowTab;
 import com.startogamu.zikobot.core.fragmentmanager.DrawerManager;
-import com.startogamu.zikobot.core.fragmentmanager.FragmentManager;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.core.utils.ISearch;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.tablature.TablatureManager;
@@ -76,7 +75,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     public void init() {
-
         fabVisible = new ObservableBoolean(false);
         tabLayoutVisible = new ObservableBoolean(true);
         initSpotify();
@@ -93,6 +91,14 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         binding.viewPager.setAdapter(new ViewPagerAdapter(activity, activity.getSupportFragmentManager()));
         // Give the TabLayout the ViewPager
         binding.tabLayout.setupWithViewPager(binding.viewPager);
+        binding.viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                fabVisible.set(position == 0);
+            }
+        });
+        fabVisible.set(true);
     }
 
 
@@ -112,7 +118,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     private void initNavigationManager() {
         navigationManager = new NavigationManager(this, activity, binding, activity.getSupportFragmentManager());
-
     }
 
     /***
@@ -134,21 +139,26 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         drawerManager.init();
     }
 
+    /***
+     *
+     */
+
+    private void initPlayerVM() {
+        playerVM = new PlayerVM(activity, binding.viewPlayer);
+    }
+
     /**
      * Init the action on the toolbar menu
      */
     private void initMenu() {
-
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_search:
-                    //Snackbar.make(binding.container, "Search", Snackbar.LENGTH_SHORT).show();
                     navigationManager.showSearch();
                     break;
             }
             return false;
         });
-
     }
 
     @Override
@@ -158,25 +168,9 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         drawerManager.onResume();
         playerVM.onResume();
         EventBus.getDefault().register(this);
-        if (fromWidget != null) {
-            switch (fromWidget) {
-                case "ALARM":
-                    // navigationManager.showAlarms();
-                    break;
-            }
-        }
-
         if (AppPrefs.isFirstStart()) {
             activity.startActivity(IntentManager.goToTuto());
         }
-    }
-
-    @Override
-    protected void onPause() {
-        playerVM.onPause();
-        navigationManager.onPause();
-        EventBus.getDefault().unregister(this);
-        super.onPause();
     }
 
     @Subscribe
@@ -205,11 +199,28 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     }
 
     /***
+     * Called when the play button is called in above a list of tracks
      *
+     * @param view
      */
+    public void onPlayListClicked(View view) {
+        EventBus.getDefault().post(new EventPlayListClicked());
+    }
 
-    private void initPlayerVM() {
-        playerVM = new PlayerVM(activity, binding.viewPlayer);
+    /***
+     * @param view
+     */
+    public void fabClicked(View view) {
+        EventBus.getDefault().post(new EventFabClicked());
+    }
+
+
+    @Override
+    protected void onPause() {
+        playerVM.onPause();
+        navigationManager.onPause();
+        EventBus.getDefault().unregister(this);
+        super.onPause();
     }
 
 
@@ -241,9 +252,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         navigationManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    public void onPostCreate() {
-        actionBarDrawerToggle.syncState();
-    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
@@ -254,8 +262,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     protected boolean onBackPressed() {
-
-
         if (drawerManager.isDrawerOpen()) {
             drawerManager.closeDrawer();
             return false;
@@ -266,24 +272,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         }
         return super.onBackPressed();
     }
-
-
-    /***
-     * Called when the play button is called in above a list of tracks
-     *
-     * @param view
-     */
-    public void onPlayListClicked(View view) {
-        EventBus.getDefault().post(new EventPlayListClicked());
-    }
-
-    /***
-     * @param view
-     */
-    public void fabClicked(View view) {
-        EventBus.getDefault().post(new EventFabClicked());
-    }
-
 
 
     private static class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -336,4 +324,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         }
 
     }
+
+
 }

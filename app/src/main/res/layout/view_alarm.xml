@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
+        <import
+            alias="v"
+            type="android.view.View" />
 
         <variable
             name="alarmVM"
@@ -15,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/activity_vertical_margin">
+        android:padding="@dimen/activity_vertical_margin"
+        android:visibility="@{alarmVM.activated ? v.VISIBLE: v.GONE}">
 
 
         <TimePicker
@@ -24,132 +27,162 @@
             android:layout_height="wrap_content" />
 
 
-        <android.support.v7.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_medium"
-            app:contentPadding="@dimen/margin_medium">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Switch
-                        android:id="@+id/sw_repeat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_medium"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:text="@string/repeat"
-                        android:textAllCaps="true" />
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:weightSum="7">
-
-                    <TextView
-                        android:id="@+id/cb_monday"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="@{alarmVM.repeated}"
-                        android:text="@string/monday"
-                        android:textColor="@color/text_color_days" />
-
-                    <TextView
-                        android:id="@+id/cb_tuesday"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="@{alarmVM.repeated}"
-                        android:text="@string/tuesday"
-                        android:textColor="@color/text_color_days" />
-
-                    <TextView
-                        android:id="@+id/cb_wednesday"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="@{alarmVM.repeated}"
-
-                        android:text="@string/wednesday"
-                        android:textColor="@color/text_color_days" />
-
-                    <TextView
-                        android:id="@+id/cb_thursday"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="@{alarmVM.repeated}"
-                        android:text="@string/thursday"
-                        android:textColor="@color/text_color_days" />
-
-                    <TextView
-                        android:id="@+id/cb_friday"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="@{alarmVM.repeated}"
-                        android:text="@string/friday"
-
-                        android:textColor="@color/text_color_days" />
-
-                    <TextView
-                        android:id="@+id/cb_saturday"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="@{alarmVM.repeated}"
-                        android:text="@string/saturday"
-                        android:textColor="@color/text_color_days" />
-
-                    <TextView
-                        android:id="@+id/cb_sunday"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:enabled="@{alarmVM.repeated}"
-                        android:text="@string/sunday"
-                        android:textColor="@color/text_color_days" />
-
-                </LinearLayout>
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_medium">
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+            <TextView
+                style="@style/textSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/options" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@color/colorAccent" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Switch
+                    android:id="@+id/sw_repeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/repeat"
+                    android:textAllCaps="true" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="7">
+
+                <TextView
+                    android:id="@+id/cb_monday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:enabled="@{alarmVM.repeated}"
+                    android:text="@string/monday"
+                    android:textColor="@color/text_color_days" />
+
+                <TextView
+                    android:id="@+id/cb_tuesday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:enabled="@{alarmVM.repeated}"
+                    android:text="@string/tuesday"
+                    android:textColor="@color/text_color_days" />
+
+                <TextView
+                    android:id="@+id/cb_wednesday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:enabled="@{alarmVM.repeated}"
+
+                    android:text="@string/wednesday"
+                    android:textColor="@color/text_color_days" />
+
+                <TextView
+                    android:id="@+id/cb_thursday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:enabled="@{alarmVM.repeated}"
+                    android:text="@string/thursday"
+                    android:textColor="@color/text_color_days" />
+
+                <TextView
+                    android:id="@+id/cb_friday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:enabled="@{alarmVM.repeated}"
+                    android:text="@string/friday"
+
+                    android:textColor="@color/text_color_days" />
+
+                <TextView
+                    android:id="@+id/cb_saturday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:enabled="@{alarmVM.repeated}"
+                    android:text="@string/saturday"
+                    android:textColor="@color/text_color_days" />
+
+                <TextView
+                    android:id="@+id/cb_sunday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:enabled="@{alarmVM.repeated}"
+                    android:text="@string/sunday"
+                    android:textColor="@color/text_color_days" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@color/colorAccent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <Switch
+                    android:id="@+id/sw_random"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/random_music" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:orientation="vertical">
 
                 <TextView
@@ -158,61 +191,23 @@
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:text="@string/options"
-                    android:textAllCaps="true" />
+                    android:text="@string/volume_alarm" />
 
-                <RelativeLayout
+                <SeekBar
+                    android:id="@+id/seek_bar_volume"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium">
-
-                    <Switch
-                        android:id="@+id/sw_random"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_medium"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:text="@string/random_music" />
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_medium"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:text="@string/volume_alarm" />
-
-                    <SeekBar
-                        android:id="@+id/seek_bar_volume"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:maxHeight="8dp"
-                        android:progress="@{alarmVM.volume}"
-                        android:progressDrawable="@drawable/progress_bar"
-                        android:thumb="@drawable/thumb_volume" />
-
-
-                </LinearLayout>
+                    android:layout_centerVertical="true"
+                    android:maxHeight="8dp"
+                    android:progress="@{alarmVM.volume}"
+                    android:progressDrawable="@drawable/progress_bar"
+                    android:thumb="@drawable/thumb_volume" />
 
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
     </LinearLayout>
 </layout>
