@@ -251,4 +251,8 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     }
 
 
+    public void updateName(String name) {
+        model.setName(name);
+        notifyChange();
+    }
 }

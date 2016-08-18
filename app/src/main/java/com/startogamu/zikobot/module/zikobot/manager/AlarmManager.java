@@ -88,6 +88,22 @@ public class AlarmManager {
         });
     }
 
+    /**
+     * Create an observable on dbflow
+     *
+     * @return
+     */
+    public static Observable<Alarm> refreshAlarm(final long id) {
+        return Observable.create(new Observable.OnSubscribe<Alarm>() {
+            @Override
+            public void call(Subscriber<? super Alarm> subscriber) {
+                Alarm alarm = new Select().from(Alarm.class).where(Alarm_Table.id.eq(id)).querySingle();
+                if (subscriber.isUnsubscribed()) return;
+                subscriber.onNext(alarm);
+            }
+        });
+    }
+
 
     /***
      * @param alarm

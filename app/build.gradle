@@ -109,6 +109,7 @@ dependencies {
     compile libs.materialRipple
     compile libs.okHttpInterceptor
     compile libs.parcelerApi
+    compile libs.percent
     compile libs.recyclerView
     compile libs.recyclerViewDataBinding
     compile libs.retrofit

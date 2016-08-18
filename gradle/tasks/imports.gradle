@@ -7,7 +7,7 @@ ext {
     dartVersion = "2.0.0"
     dbFlowVersion = "3.0.0-beta6"
     dialerTPVersion = "4386944980"
-    easyDataBindingVersion = "0.6.1"
+    easyDataBindingVersion = "0.6.6"
     easyGcmVersion = "1.0.4"
     easyPrefsVersion = "1.8.1"
     easySpotifyVersion = "1.1.1"
@@ -79,6 +79,7 @@ ext {
             okHttpInterceptor      : "com.squareup.okhttp3:logging-interceptor:$okHttpVersion",
             parceler               : "org.parceler:parceler:$parcelerVersion",// use apt
             parcelerApi            : "org.parceler:parceler-api:$parcelerVersion",// use compile
+            percent                : "com.android.support:percent:$supportLibraryVersion",
             picasso                : "com.squareup.picasso:picasso:$picassoVersion",
             playServiceAuth        : "com.google.android.gms:play-services-auth:$playServiceVersion",
             recyclerView           : "com.android.support:recyclerview-v7:$supportLibraryVersion",
