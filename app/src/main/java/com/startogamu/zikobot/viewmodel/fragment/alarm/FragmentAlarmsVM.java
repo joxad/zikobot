@@ -2,7 +2,6 @@ package com.startogamu.zikobot.viewmodel.fragment.alarm;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
@@ -11,10 +10,6 @@ import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.EventFabClicked;
-import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
-import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
-import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
@@ -23,9 +18,6 @@ import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
 import com.startogamu.zikobot.viewmodel.base.AlarmVM;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.io.UnsupportedEncodingException;
 
@@ -89,19 +81,10 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     @Override
     protected void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
-
-        EventBus.getDefault().post(new EventCollapseToolbar(fragment.getString(R.string.drawer_my_playlists), null));
-        EventBus.getDefault().post(new EventTabBars(true, TAG));
         showTuto.set(false);
         loadAlarms();
     }
 
-    @Override
-    protected void onPause() {
-        EventBus.getDefault().unregister(this);
-        super.onPause();
-    }
 
     /***
      *
@@ -130,17 +113,6 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
 
         });
     }
-
-
-    @Subscribe
-    public void onEvent(EventFabClicked eventFabClicked) {
-        addAlarm(null);
-    }
-
-    public void addAlarm(View view) {
-        fragment.getActivity().startActivity(IntentManager.goToAlarm(new Alarm()));
-    }
-
 
     @Override
     public void destroy() {

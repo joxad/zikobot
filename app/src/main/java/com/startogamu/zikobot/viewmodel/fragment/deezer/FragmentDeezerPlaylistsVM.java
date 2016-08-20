@@ -7,8 +7,6 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
-import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.databinding.FragmentDeezerPlaylistsBinding;
 import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
 import com.startogamu.zikobot.view.fragment.deezer.FragmentDeezerPlaylists;
@@ -44,11 +42,7 @@ public class FragmentDeezerPlaylistsVM extends FragmentBaseVM<FragmentDeezerPlay
     @Override
     protected void onResume() {
         super.onResume();
-
-        EventBus.getDefault().post(new EventCollapseToolbar(null, null));
-        EventBus.getDefault().post(new EventTabBars(true, TAG));
-
-        loadUserPlaylist();
+     loadUserPlaylist();
     }
 
     /***

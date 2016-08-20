@@ -22,7 +22,6 @@ import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
 import com.startogamu.zikobot.module.spotify_auth.model.SpotifyRequestToken;
 import com.startogamu.zikobot.module.spotify_auth.model.SpotifyToken;
-import com.startogamu.zikobot.view.activity.ActivityMusic;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyConnect;
 
 import org.greenrobot.eventbus.EventBus;

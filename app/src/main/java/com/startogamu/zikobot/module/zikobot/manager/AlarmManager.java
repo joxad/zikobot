@@ -104,6 +104,22 @@ public class AlarmManager {
         });
     }
 
+    /***
+     * @param alarm
+     */
+    public static Observable<Alarm> saveAlarm(Alarm alarm) {
+
+        return Observable.create(new Observable.OnSubscribe<Alarm>() {
+            @Override
+            public void call(Subscriber<? super Alarm> subscriber) {
+                alarm.save();
+                AppWidgetHelper.update(context);
+                subscriber.onNext(alarm);
+            }
+        });
+
+    }
+
 
     /***
      * @param alarm
@@ -128,7 +144,6 @@ public class AlarmManager {
     }
 
     /***
-     *
      * @param text
      * @param alarm
      * @return

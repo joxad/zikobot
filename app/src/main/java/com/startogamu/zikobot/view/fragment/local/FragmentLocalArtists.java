@@ -5,12 +5,9 @@ import android.os.Bundle;
 import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
-import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.databinding.FragmentLocalArtistsBinding;
 import com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalArtistVM;
 
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by josh on 06/06/16.

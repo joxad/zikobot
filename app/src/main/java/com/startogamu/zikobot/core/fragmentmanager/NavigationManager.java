@@ -3,10 +3,7 @@ package com.startogamu.zikobot.core.fragmentmanager;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.View;
 
-import com.bumptech.glide.Glide;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
@@ -16,16 +13,15 @@ import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
 import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.event.deezer.SelectDeezerItemPlaylistEvent;
-import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerAlarms;
-import com.startogamu.zikobot.core.event.drawer.EventMenuDrawerLocal;
-import com.startogamu.zikobot.core.event.navigation_manager.EventAccountSelect;
-import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
-import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
+import com.startogamu.zikobot.core.event.player.EventShowTab;
 import com.startogamu.zikobot.core.event.soundcloud.SelectSCItemPlaylistEvent;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
+import com.startogamu.zikobot.module.tablature.TablatureManager;
 import com.startogamu.zikobot.view.activity.ActivityMain;
+import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.viewmodel.activity.ActivityMainVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,6 +38,8 @@ public class NavigationManager implements IPermission {
 
     Handler handler = new Handler(Looper.getMainLooper());
 
+
+
     public enum Account {local, spotify, deezer, soundcloud}
 
     private Account current = Account.local;
@@ -50,62 +48,6 @@ public class NavigationManager implements IPermission {
     private final ActivityMain activity;
     private final ActivityMainBinding binding;
     private final android.support.v4.app.FragmentManager supportFragmentManager;
-
-    public void showSearch() {
-        activity.startActivity(IntentManager.goToSearch());
-    }
-
-    @Subscribe
-    public void onEvent(EventAccountSelect eventAccountSelect) {
-        current = eventAccountSelect.getAccount();
-        switch (current) {
-            case spotify:
-                showSpotifys();
-                break;
-            case soundcloud:
-                showSoundClouds();
-                break;
-            case local:
-                //showLocals();
-                break;
-            case deezer:
-                showDeezers();
-                break;
-        }
-    }
-
-    /****
-     * filter on spotify playlists
-     */
-    public void showSpotifys() {
-        //   initTabLayoutTracks();
-        //   replaceFragment(FragmentSpotifyPlaylists.newInstance(), true, false);
-    }
-
-    /****
-     * filter on soundcloud playlists
-     */
-    public void showSoundClouds() {
-        //   initTabLayoutTracks();
-        //  replaceFragment(FragmentSoundCloudPlaylists.newInstance(), true, false);
-    }
-
-    /****
-     * filter on deezer playlists
-     */
-    public void showDeezers() {
-        //   initTabLayoutTracks();
-        //   replaceFragment(FragmentDeezerPlaylists.newInstance(), true, false);
-    }
-
-
-    /***
-     * filter on the alarms
-     */
-    public void showAlarms() {
-        //   initTabLayoutAlarms();
-        //   replaceFragment(FragmentAlarms.newInstance(), true, false);
-    }
 
     /***
      * Show the libs used in the projects
@@ -117,19 +59,8 @@ public class NavigationManager implements IPermission {
                 .start(activity);
     }
 
-    /***
-     * EVENTS
-     */
-    @Subscribe
-    public void onEvent(EventMenuDrawerLocal eventMenuDrawerLocal) {
-        //  initTabLayoutTracks();
-        //  replaceFragment(FragmentLocalArtists.newInstance(), true, false);
-    }
-
-    @Subscribe
-    public void onEvent(EventMenuDrawerAlarms eventMenuDrawerAlarms) {
-        //  initTabLayoutAlarms();
-        //  replaceFragment(FragmentAlarms.newInstance(), true, false);
+    public void showAccounts() {
+        activity.startActivity(IntentManager.goToSettings());
     }
 
     @Subscribe
@@ -142,8 +73,6 @@ public class NavigationManager implements IPermission {
     public void onEvent(SelectSCItemPlaylistEvent selectItemPlaylistEvent) {
         SoundCloudPlaylist item = selectItemPlaylistEvent.getItem();
         activity.startActivity(IntentManager.goToSoundCloudPlaylist(item));
-
-        //replaceFragment(FragmentSoundCloudTracks.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
     }
 
     @Subscribe
@@ -168,6 +97,17 @@ public class NavigationManager implements IPermission {
         activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()));
     }
 
+    @Subscribe
+    public void onEvent(EventShowTab event) {
+        TablatureManager.showTab(activity, event.getTrackVM().getName(), event.getTrackVM().getArtistName());
+    }
+
+    @Subscribe
+    public void onEvent(EventShowDialogAlarm event) {
+        DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
+        dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
+
+    }
 
     public void onResume() {
         EventBus.getDefault().register(this);
@@ -181,59 +121,5 @@ public class NavigationManager implements IPermission {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
     }
-
-
-    private void updateToolbar(String name, @Nullable String image) {
-
-        if (name.equals(getActivity().getString(R.string.drawer_filter_search))) {
-            //TODO handle search
-            binding.title.setText("");
-            binding.rlToolbarImage.setVisibility(View.GONE);
-
-        } else {
-
-            binding.mainCollapsing.setTitle(name);
-            if (image == null) {
-                binding.rlToolbarImage.setVisibility(View.GONE);
-                binding.title.setText(name);
-            } else {
-                binding.title.setText("");
-                binding.rlToolbarImage.setVisibility(View.VISIBLE);
-                Glide.with(activity).load(image).placeholder(R.drawable.ic_vinyl).into(binding.ivToolbar);
-            }
-        }
-    }
-
-
-    public void showTabLayout() {
-        activityMainVM.tabLayoutVisible.set(true);
-    }
-
-    public void hideTabLayout() {
-        activityMainVM.tabLayoutVisible.set(false);
-    }
-
-
-    @Subscribe
-    public void onEvent(EventCollapseToolbar eventCollapseToolbar) {
-        String title = "";
-        if (eventCollapseToolbar.getName() == null)
-            title = activity.getString(R.string.drawer_filter_music);
-        else {
-            title = eventCollapseToolbar.getName();
-        }
-
-        updateToolbar(title, eventCollapseToolbar.getImageUrl());
-    }
-
-    @Subscribe
-    public void onEvent(EventTabBars eventTabBars) {
-        if (eventTabBars.isVisible()) {
-            showTabLayout();
-        } else {
-            hideTabLayout();
-        }
-    }
-
 
 }

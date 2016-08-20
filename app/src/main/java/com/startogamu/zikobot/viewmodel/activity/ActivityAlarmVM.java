@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
@@ -16,7 +15,6 @@ import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivityAlarmBinding;
 import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
-import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.playlist.DialogPlaylistEdit;
 import com.startogamu.zikobot.view.activity.ActivityAlarm;
@@ -29,7 +27,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
-import rx.functions.Action1;
 
 /**
  * Created by josh on 29/05/16.
@@ -57,7 +54,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         initMenu();
         initViews();
         initPlayerVM();
-        AlarmTrackManager.clear();
 
     }
 
@@ -85,13 +81,8 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
                     delete();
                     break;
                 case R.id.action_play:
-                    if (alarmVM.hasTracks() || !AlarmTrackManager.tracks().isEmpty()) {
-                        save().subscribe(alarm1 -> {
-                            AlarmTrackManager.clear();
-                            activity.startActivity(IntentManager.goToWakeUp(alarm1));
-                        }, throwable -> {
-                            Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
-                        });
+                    if (alarmVM.hasTracks()) {
+                        activity.startActivity(IntentManager.goToWakeUp(alarmVM.getModel()));
                     } else {
                         Snackbar.make(binding.getRoot(), R.string.add_tracks, Snackbar.LENGTH_SHORT).show();
                     }
@@ -99,9 +90,9 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
             }
             return false;
         });
-        binding.swActivated.setOnClickListener(v -> alarmVM.updateStatus(!alarmVM.isActivated()));
-
-
+        binding.swActivated.setOnClickListener(v -> {
+            alarmVM.updateStatus(!alarmVM.isActivated());
+        });
     }
 
 
@@ -109,8 +100,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      *
      */
     private void initViews() {
-
-
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -141,16 +130,14 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     protected void onResume() {
         super.onResume();
         playerVM.onResume();
-        if (alarm.getVolume()!=-1){
-            AlarmManager.refreshAlarm(alarm.getId()).subscribe(alarm1 -> {
-                alarmVM = new AlarmVM(activity, alarm1) {
-                    @Override
-                    public ItemView itemView() {
-                        return ItemView.of(BR.trackVM, R.layout.item_track);
-                    }
-                };
-            });
-        }
+        alarmVM = new AlarmVM(activity, alarm) {
+            @Override
+            public ItemView itemView() {
+                return ItemView.of(BR.trackVM, R.layout.item_track);
+            }
+        };
+        alarmVM.refreshTracks();
+
     }
 
 
@@ -179,13 +166,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
 
     /***
-     * Use this method to save the data
-     */
-    public rx.Observable<Alarm> save() {
-        return alarmVM.save();
-    }
-
-    /***
      * Delete the alarm
      */
     private void delete() {
@@ -199,7 +179,18 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     }
 
     private void showDialogEdit() {
-        DialogPlaylistEdit.newInstance(alarm).show(activity.getSupportFragmentManager(), DialogPlaylistEdit.TAG);
+
+        DialogPlaylistEdit dialogPlaylistEdit = DialogPlaylistEdit.newInstance(alarmVM.getModel());
+        dialogPlaylistEdit.show(activity.getSupportFragmentManager(), DialogPlaylistEdit.TAG);
+        dialogPlaylistEdit.setOnDismissListener(this::updateAlarm);
+
+    }
+
+    private void updateAlarm() {
+        AlarmManager.refreshAlarm(alarm.getId()).subscribe(alarm1 -> {
+            alarmVM.updateName(alarm1.getName());
+            binding.customToolbar.mainCollapsing.setTitle(alarm1.getName());
+        });
     }
 
 }

@@ -33,13 +33,15 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public abstract class AlarmVM extends BaseVM<Alarm> {
 
-
     public String alarmName;
 
     public ObservableArrayList<TrackVM> tracksVms;
     public ObservableBoolean isExpanded;
     public abstract ItemView itemView();
 
+    public Alarm getModel() {
+        return model;
+    }
     /***
      * @param context
      * @param model
@@ -48,10 +50,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         super(context, model);
     }
 
-    @Override
-    public void destroy() {
-
-    }
 
     @Override
     public void init() {
@@ -74,10 +72,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
 
     /***
-     * TRACK MANAGEMENT
-     */
-
-    /***
      *
      */
     public void refreshTracks() {
@@ -85,9 +79,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         for (Track track : model.getTracks()) {
             TrackVM itemTrackViewModel = new TrackVM(context, track);
             tracksVms.add(itemTrackViewModel);
-        }
-        for (Track track :AlarmTrackManager.tracks()) {
-            tracksVms.add(new TrackVM(context,track));
         }
     }
 
@@ -112,7 +103,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     public void delete() {
         android.app.AlarmManager alarmMgr = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
         AlarmManager.deleteAlarm(model);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(EXTRA.ALARM_ID, model.getId());
@@ -127,10 +117,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
      * @return
      */
     public rx.Observable<Alarm> save() {
-        ArrayList<Track> allTracks = new ArrayList<>();
-        allTracks.addAll(model.getTracks());
-        allTracks.addAll(AlarmTrackManager.tracks());
-        return AlarmManager.saveAlarm(model, allTracks);
+        return AlarmManager.saveAlarm(model);
     }
 
 
@@ -143,7 +130,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         EventBus.getDefault().post(new EventAlarmSelect(model, view.findViewById(R.id.iv_playlist)));
     }
 
-
     @Bindable
     public String getName() {
         return model.getName();
@@ -151,8 +137,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     @Bindable
     public String getAlarmTime() {
-        return String.format("%02d: %02d",
-                ZikoUtils.amPmHour(model.getHour()), model.getMinute());
+        return String.format("%02d: %02d",ZikoUtils.amPmHour(model.getHour()), model.getMinute());
     }
 
     @Bindable
@@ -161,18 +146,15 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     }
 
     public void updateStatus(boolean active) {
-
-        if (model.getTracks().isEmpty() && AlarmTrackManager.tracks().isEmpty()) {
+        if (model.getTracks().isEmpty()) {
             Toast.makeText(context, "Tu n'as pas de chanson sur cette alarme !", Toast.LENGTH_SHORT).show();
             model.setActive(0);
         } else {
             model.setActive(active ? 1 : 0);
-
             AlarmManager.prepareAlarm(context, model);
 
         }
         model.save();
-
         notifyChange();
     }
 
@@ -250,9 +232,14 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         notifyChange();
     }
 
-
     public void updateName(String name) {
         model.setName(name);
         notifyChange();
+    }
+
+
+    @Override
+    public void destroy() {
+
     }
 }

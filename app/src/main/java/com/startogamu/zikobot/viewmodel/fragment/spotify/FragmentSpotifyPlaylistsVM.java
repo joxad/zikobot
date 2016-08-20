@@ -6,8 +6,6 @@ import android.support.design.widget.Snackbar;
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
-import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.databinding.FragmentSpotifyPlaylistsBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
@@ -46,10 +44,6 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
     @Override
     protected void onResume() {
         super.onResume();
-
-        EventBus.getDefault().post(new EventCollapseToolbar(null, null));
-        EventBus.getDefault().post(new EventTabBars(true, TAG));
-
         loadUserPlaylist();
     }
 

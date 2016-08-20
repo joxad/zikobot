@@ -7,18 +7,15 @@ import android.support.design.widget.Snackbar;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
-import com.startogamu.zikobot.core.event.SelectAllTracks;
-import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
-import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentSpotifyTracksBinding;
-import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylistItem;
+import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyTracks;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
@@ -35,6 +32,7 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
 
     private static final String TAG = FragmentSpotifyTracksVM.class.getSimpleName();
     public ObservableArrayList<TrackVM> items;
+
     public abstract ItemView getItemView();
 
     @Nullable
@@ -70,33 +68,19 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
         });
     }
 
-    @Subscribe
-    public void onEvent(SelectAllTracks selectAllTracks) {
-        for (TrackVM trackVM : items) {
-            trackVM.select();
-        }
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-        if (playlist != null) {
-            EventBus.getDefault().post(new EventCollapseToolbar(playlist.getName(), playlist.getImages().get(0).getUrl()));
-            EventBus.getDefault().post(new EventTabBars(false, TAG));
-            loadTracks(playlist);
-        } else {
-            EventBus.getDefault().post(new EventCollapseToolbar(null, null));
-            EventBus.getDefault().post(new EventTabBars(true, TAG));
-
-        }
     }
 
 
     @Subscribe
-    public void onEvent(EventPlayListClicked eventPlayListClicked){
+    public void onEvent(EventPlayListClicked eventPlayListClicked) {
         EventBus.getDefault().post(new EventAddTrackToPlayer(items));
     }
+
     @Override
     protected void onPause() {
         EventBus.getDefault().unregister(this);

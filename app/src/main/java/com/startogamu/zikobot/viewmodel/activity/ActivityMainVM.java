@@ -1,36 +1,29 @@
 package com.startogamu.zikobot.viewmodel.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.easydatabinding.activity.INewIntent;
 import com.joxad.easydatabinding.activity.IPermission;
-import com.joxad.easydatabinding.activity.IResult;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.EventFabClicked;
 import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
-import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.event.player.EventShowTab;
-import com.startogamu.zikobot.core.fragmentmanager.DrawerManager;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
+import com.startogamu.zikobot.localnetwork.FragmentLocalNetwork;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.tablature.TablatureManager;
 import com.startogamu.zikobot.view.activity.ActivityMain;
@@ -40,7 +33,6 @@ import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
 import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudPlaylists;
-import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyConnect;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
@@ -52,13 +44,11 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by josh on 08/06/16.
  */
-public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBinding> implements IResult, IPermission, INewIntent {
-    public ActionBarDrawerToggle actionBarDrawerToggle;
+public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBinding> implements IPermission {
 
     public NavigationManager navigationManager;
-    public DrawerManager drawerManager;
     public PlayerVM playerVM;
-    public ObservableBoolean fabVisible, tabLayoutVisible;
+    public ObservableBoolean  tabLayoutVisible;
     private AlertDialog alertDialog;
     @Nullable
     @InjectExtra
@@ -78,15 +68,16 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     public void init() {
-        fabVisible = new ObservableBoolean(false);
         tabLayoutVisible = new ObservableBoolean(true);
         initSpotify();
         initNavigationManager();
         initTabLayout();
-        initToolbar();
-        initDrawer();
         initPlayerVM();
+        initToolbar();
         initMenu();
+        if (AppPrefs.isFirstStart()) {
+            activity.startActivity(IntentManager.goToTuto());
+        }
     }
 
     private void initTabLayout() {
@@ -95,16 +86,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         binding.viewPager.setAdapter(tabAdapter);
         // Give the TabLayout the ViewPager
         binding.tabLayout.setupWithViewPager(binding.viewPager);
-        binding.viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                fabVisible.set(position == 0);
-            }
-        });
-        fabVisible.set(true);
     }
-
 
     /***
      * Refresh token of spotify if existing
@@ -129,24 +111,11 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      */
     private void initToolbar() {
         activity.setSupportActionBar(binding.toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        activity.getSupportActionBar().setHomeButtonEnabled(true);
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
-    }
-
-
-    /***
-     * Init the menu drawer layout that will contains the other way to play music
-     */
-    private void initDrawer() {
-        drawerManager = new DrawerManager(activity, this, binding);
-        drawerManager.init();
     }
 
     /***
      *
      */
-
     private void initPlayerVM() {
         playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
@@ -157,8 +126,11 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     private void initMenu() {
         binding.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.action_search:
-                    navigationManager.showSearch();
+                case R.id.action_account:
+                    navigationManager.showAccounts();
+                    break;
+                case R.id.action_about:
+                    navigationManager.showAbout();
                     break;
             }
             return false;
@@ -171,9 +143,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         navigationManager.onResume();
         playerVM.onResume();
         EventBus.getDefault().register(this);
-        if (AppPrefs.isFirstStart()) {
-            activity.startActivity(IntentManager.goToTuto());
-        }
+
         tabAdapter.notifyDataSetChanged();
     }
 
@@ -189,33 +159,11 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         alertDialog.show();
     }
 
-
-    @Subscribe
-    public void onEvent(EventShowTab event) {
-        TablatureManager.showTab(activity, event.getTrackVM().getName(), event.getTrackVM().getArtistName());
-    }
-
-    @Subscribe
-    public void onEvent(EventShowDialogAlarm event) {
-        DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
-        dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
-
-    }
-
-    /***
-     * Called when the play button is called in above a list of tracks
-     *
-     * @param view
-     */
-    public void onPlayListClicked(View view) {
-        EventBus.getDefault().post(new EventPlayListClicked());
-    }
-
     /***
      * @param view
      */
     public void fabClicked(View view) {
-        EventBus.getDefault().post(new EventFabClicked());
+        activity.startActivity(IntentManager.goToSearch());
     }
 
 
@@ -233,43 +181,13 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         EventBus.getDefault().unregister(this);
     }
 
-    /***
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    }
-
-    /***
-     * @param intent
-     */
-    @Override
-    public void onNewIntent(Intent intent) {
-
-    }
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         navigationManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return false;
-    }
-
     @Override
     protected boolean onBackPressed() {
-        if (drawerManager.isDrawerOpen()) {
-            drawerManager.closeDrawer();
-            return false;
-        }
         if (playerVM.isExpanded.get()) {
             playerVM.close();
             return false;
@@ -279,7 +197,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
 
     private static class ViewPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 4;
+        private static int NUM_ITEMS = 5;
         private Activity activity;
 
         public ViewPagerAdapter(Activity activity, android.support.v4.app.FragmentManager fragmentManager) {
@@ -309,13 +227,13 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                 case 3:
                     return FragmentLocalTracks.newInstance(null, BR.trackVM, R.layout.item_track);
                 case 4:
-                    if (AppPrefs.spotifyUser()!=null) {
+                    return FragmentLocalNetwork.newInstance();
+                case 5:
+                    if (AppPrefs.spotifyUser() != null) {
                         return FragmentSpotifyPlaylists.newInstance();
                     }
-                    if (AppPrefs.soundCloudUser()!=null){
-                        return FragmentSoundCloudPlaylists.newInstance();
-                    }
-                case 5:
+
+                case 6:
                     return FragmentSoundCloudPlaylists.newInstance();
                 default:
                     return null;
@@ -335,21 +253,20 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                 case 3:
                     return activity.getString(R.string.drawer_filter_tracks);
                 case 4:
-                    if (AppPrefs.spotifyUser()!=null) {
+                    return "Local Network";
+                case 5:
+                    if (AppPrefs.spotifyUser() != null) {
                         return activity.getString(R.string.spotify);
                     }
-                    if (AppPrefs.soundCloudUser()!=null){
+                    if (AppPrefs.soundCloudUser() != null) {
                         return activity.getString(R.string.soundcloud);
                     }
-                case 5:
+                case 6:
                     return activity.getString(R.string.soundcloud);
                 default:
 
                     return null;
             }
         }
-
     }
-
-
 }

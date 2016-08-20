@@ -6,8 +6,6 @@ import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
-import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.utils.ISearch;
 import com.startogamu.zikobot.databinding.FragmentSearchBinding;
 import com.startogamu.zikobot.module.component.Injector;
@@ -16,12 +14,9 @@ import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
 import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
 import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.module.zikobot.model.Track;
-import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.viewmodel.base.AlbumVM;
 import com.startogamu.zikobot.viewmodel.base.ArtistVM;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
-
-import org.greenrobot.eventbus.EventBus;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 

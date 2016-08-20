@@ -14,7 +14,7 @@
     <string name="done">Valider</string>
     <string name="skip">Passer</string>
 
-    <string name="tuto">Appuie ici pour ajouter ta première alarme</string>
+    <string name="tuto">Tu peux crééer tes playlists en parcourant les musiques de ton téléphone, ou de tes différents comptes musicaux. Regarde le menu avec les 3 petits points ;)</string>
     <string name="tuto_zik">Appuie ici pour ajouter tes chansons préférées</string>
     <string name="tuto_select_track">Choisissez votre chanson</string>
 
@@ -34,7 +34,7 @@
     <string name="activity_my_account">Mes comptes</string>
 
     <!--> ActivityAlarm <-->
-    <string name="activity_alarm_new">Créer une alarme</string>
+    <string name="activity_alarm_new">Créer une nouvelle playlist</string>
     <string name="alarm_hint_hour">Sélectionner l\'heure</string>
 
     <string name="playlist_hint">Titre de ta playlist</string>

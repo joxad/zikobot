@@ -41,7 +41,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:onClick="@{fragmentAlarmsVM.addAlarm}"
             android:visibility="@{fragmentAlarmsVM.showTuto ? v.VISIBLE :  v.GONE}"
             app:zmv_message="@string/tuto" />
 

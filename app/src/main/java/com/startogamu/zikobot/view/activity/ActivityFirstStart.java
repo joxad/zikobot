@@ -1,5 +1,6 @@
 package com.startogamu.zikobot.view.activity;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,10 +30,13 @@ public class ActivityFirstStart extends AppIntro {
 
         // Hide Skip/Done button.
 
+        String[] permissions = new String[1];
+        permissions[0] =  Manifest.permission.READ_EXTERNAL_STORAGE;
+        askForPermissions(permissions,2);
         setZoomAnimation();
         setProgressButtonEnabled(true);
         setDoneText(getString(R.string.done));
-        setSkipText(getString(R.string.skip));
+        showSkipButton(false);
     }
 
 

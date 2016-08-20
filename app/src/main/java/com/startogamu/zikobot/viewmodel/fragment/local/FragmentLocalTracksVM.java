@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -14,17 +13,15 @@ import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
-import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
-import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.Constants;
+import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentLocalTracksBinding;
-import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
 import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
+import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
@@ -64,34 +61,18 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
         zmvMessage = "";
         items = new ObservableArrayList<>();
         Injector.INSTANCE.contentResolverComponent().init(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                askPermission();
-            } else {
-                loadLocalMusic();
-            }
-        } else {
-            loadLocalMusic();
-            // continue with your code
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-        if (localAlbum != null) {
-            EventBus.getDefault().post(new EventCollapseToolbar(localAlbum.getName(), localAlbum.getImage()));
-            EventBus.getDefault().post(new EventTabBars(false, TAG));
-        } else {
-            EventBus.getDefault().post(new EventCollapseToolbar(null, null));
-            EventBus.getDefault().post(new EventTabBars(true, TAG));
-        }
+        loadLocalMusic();
     }
 
 
     @Subscribe
-    public void onEvent(EventPlayListClicked eventPlayListClicked){
+    public void onEvent(EventPlayListClicked eventPlayListClicked) {
         EventBus.getDefault().post(new EventAddTrackToPlayer(items));
     }
 
@@ -114,7 +95,13 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
      * Load the local music
      */
     public void loadLocalMusic() {
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(null,localAlbum != null ? localAlbum.getId() : -1,null).subscribe(localTracks -> {
+        if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            updateMessage(fragment.getString(R.string.permission_local));
+            binding.zmv.setOnClickListener(v -> askPermission());
+            return;
+        }
+        items.clear();
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(null, localAlbum != null ? localAlbum.getId() : -1, null).subscribe(localTracks -> {
             Log.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 items.add(new TrackVM(fragment.getContext(), Track.from(localTrack)));

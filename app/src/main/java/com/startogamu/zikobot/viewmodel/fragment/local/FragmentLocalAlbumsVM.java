@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,10 +16,8 @@ import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowArtistDetail;
-import com.startogamu.zikobot.core.event.navigation_manager.EventCollapseToolbar;
-import com.startogamu.zikobot.core.event.navigation_manager.EventTabBars;
-import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.Constants;
+import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentLocalAlbumsBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
@@ -66,19 +63,16 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
         showZmvMessage = new ObservableBoolean(false);
         zmvMessage = "";
         Injector.INSTANCE.contentResolverComponent().init(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                askPermission();
-            } else {
-                loadLocalMusic();
-            }
-        } else {
-            loadLocalMusic();
-            // continue with your code
-        }
+
     }
 
-    public void onClick(View view){
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadLocalMusic();
+    }
+
+    public void onClick(View view) {
         EventBus.getDefault().post(new EventShowArtistDetail(null, view));
     }
 
@@ -87,7 +81,13 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
      * Load the local music
      */
     public void loadLocalMusic() {
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(localArtist != null ? localArtist.getName() : null,null).subscribe(localAlbums -> {
+        if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            updateMessage(fragment.getString(R.string.permission_local));
+            binding.zmv.setOnClickListener(v -> askPermission());
+            return;
+        }
+        items.clear();
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(localArtist != null ? localArtist.getName() : null, null).subscribe(localAlbums -> {
             Log.d(TAG, "" + localAlbums.size());
             for (LocalAlbum localAlbum : localAlbums) {
                 items.add(new AlbumVM(fragment.getContext(), localAlbum));

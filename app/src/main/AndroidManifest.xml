@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.startogamu.zikobot">log
+    package="com.startogamu.zikobot">
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -80,12 +80,6 @@
             </intent-filter>
 
         </activity>
-        <activity
-            android:name=".view.activity.ActivityMusic"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/activity_music_title"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name=".view.activity.ActivityWakeUp"
@@ -103,7 +97,9 @@
         <receiver android:name=".core.receiver.PreviousPlayerReceiver" />
         <receiver android:name=".core.receiver.NotificationPauseResumeReceiver" />
 
-        <activity android:name=".view.activity.ActivityFirstStart" />
+        <activity
+            android:name=".view.activity.ActivityFirstStart"
+            android:launchMode="singleInstance" />
         <!-- Will not be called unless the application explicitly enables it -->
         <receiver
             android:name=".core.receiver.DeviceBootReceiver"
@@ -139,6 +135,7 @@
         </receiver>
 
         <service android:name=".core.service.MediaPlayerService" />
+        <service android:name=".localnetwork.LocalNetworkDiscoveryService" />
 
         <activity android:name=".view.activity.fingerprint.ActivityFingerprint" />
 
