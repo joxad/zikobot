@@ -2,6 +2,7 @@ package com.startogamu.zikobot;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
 import com.joxad.android_easy_spotify.SpotifyManager;
@@ -53,6 +54,11 @@ public class ZikobotApp extends Application {
 
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        MultiDex.install(base);
+        super.attachBaseContext(base);
+    }
 
     public static ZikobotApp get(Context context) {
         return (ZikobotApp) context.getApplicationContext();

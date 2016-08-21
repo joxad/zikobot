@@ -17,7 +17,7 @@ import com.orhanobut.logger.Logger;
  */
 public class LocalNetworkDiscoveryService extends Service {
 
-    public static final String SERVICE_TYPE = "_http._tcp.";
+    public static final String SERVICE_TYPE = "_http._dhcp";
     private static final String TAG = LocalNetworkDiscoveryService.class.getSimpleName();
     private NsdManager.DiscoveryListener mDiscoveryListener;
     private NsdManager.ResolveListener mResolveListener;

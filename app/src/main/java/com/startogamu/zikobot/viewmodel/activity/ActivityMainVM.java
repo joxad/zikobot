@@ -197,7 +197,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
 
     private static class ViewPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 5;
+        private static int NUM_ITEMS = 4;
         private Activity activity;
 
         public ViewPagerAdapter(Activity activity, android.support.v4.app.FragmentManager fragmentManager) {
@@ -227,14 +227,14 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                 case 3:
                     return FragmentLocalTracks.newInstance(null, BR.trackVM, R.layout.item_track);
                 case 4:
-                    return FragmentLocalNetwork.newInstance();
-                case 5:
                     if (AppPrefs.spotifyUser() != null) {
                         return FragmentSpotifyPlaylists.newInstance();
                     }
-
-                case 6:
+                case 5:
                     return FragmentSoundCloudPlaylists.newInstance();
+                case 6:
+                    return FragmentLocalNetwork.newInstance();
+
                 default:
                     return null;
             }
@@ -253,16 +253,17 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                 case 3:
                     return activity.getString(R.string.drawer_filter_tracks);
                 case 4:
-                    return "Local Network";
-                case 5:
                     if (AppPrefs.spotifyUser() != null) {
                         return activity.getString(R.string.spotify);
                     }
                     if (AppPrefs.soundCloudUser() != null) {
                         return activity.getString(R.string.soundcloud);
                     }
-                case 6:
+                case 5:
                     return activity.getString(R.string.soundcloud);
+                case 6:
+                    return "Local Network";
+
                 default:
 
                     return null;

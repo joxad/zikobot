@@ -14,6 +14,7 @@ import com.startogamu.zikobot.R;
  * Created by josh on 19/08/16.
  */
 public class FragmentLocalNetwork extends Fragment {
+
     public static FragmentLocalNetwork newInstance() {
         Bundle args = new Bundle();
         FragmentLocalNetwork fragment = new FragmentLocalNetwork();
@@ -21,12 +22,12 @@ public class FragmentLocalNetwork extends Fragment {
         return fragment;
     }
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_local_network, container,false);
-
-        getActivity().startService(new Intent(getContext(),LocalNetworkDiscoveryService.class));
+        View view = inflater.inflate(R.layout.fragment_local_network, container, false);
+        getActivity().startService(new Intent(getContext(), SmbService.class));
         return view;
     }
 

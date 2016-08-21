@@ -166,6 +166,7 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
         alarmVM.updateTimeSelected(hour, min);
         alarmVM.updateRepeated(binding.viewAlarm.swRepeat.isChecked());
         AnalyticsManager.logCreateAlarm(alarm, true);
+        alarmVM.updateStatus(alarmVM.isActivated());
         return alarmVM.save();
     }
 }

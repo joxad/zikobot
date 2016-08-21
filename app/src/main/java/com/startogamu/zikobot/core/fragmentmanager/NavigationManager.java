@@ -54,7 +54,6 @@ public class NavigationManager implements IPermission {
      */
     public void showAbout() {
         new LibsBuilder()
-                .withActivityTheme(R.style.MaterialDrawerTheme)
                 .withActivityStyle(Libs.ActivityStyle.LIGHT)
                 .start(activity);
     }
