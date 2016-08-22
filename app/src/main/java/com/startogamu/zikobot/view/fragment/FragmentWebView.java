@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.webkit.WebViewClient;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.f2prateek.dart.henson.Bundler;
+import com.joxad.easydatabinding.fragment.DialogFragmentBase;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
@@ -24,7 +26,7 @@ import lombok.Setter;
 /**
  * Created by josh on 10/06/16.
  */
-public class FragmentWebView extends DialogFragment {
+public class FragmentWebView extends BottomSheetDialogFragment {
 
     public static final String TAG = FragmentWebView.class.getSimpleName();
     @InjectExtra(EXTRA.URL)

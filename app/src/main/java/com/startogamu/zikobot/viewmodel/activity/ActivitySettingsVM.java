@@ -4,6 +4,7 @@ package com.startogamu.zikobot.viewmodel.activity;
  * Created by josh on 25/03/16.
  */
 
+import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.startogamu.zikobot.databinding.ActivitySettingsBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
 import com.startogamu.zikobot.module.spotify_auth.model.SpotifyRequestToken;
+import com.startogamu.zikobot.soundcloud.SoundCloudLoginActivity;
 import com.startogamu.zikobot.view.activity.ActivitySettings;
 import com.startogamu.zikobot.view.fragment.FragmentWebView;
 
@@ -52,6 +54,14 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         showDeezerConnect = new ObservableBoolean(true);
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setTitle(R.string.activity_my_account);
+
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (AppPrefs.getSpotifyAccessCode().equals("")) {
             showSpotifyConnect.set(true);
         } else {
@@ -63,9 +73,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
             getSoundCloudMe();
         }
         getDeezerMe();
-
     }
-
 
     /***
      * @param view
@@ -96,6 +104,8 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
      */
     public void onButtonSoundCloudConnect(View view) {
 
+        activity.startActivity(new Intent(activity, SoundCloudLoginActivity.class));
+/*
         String apiKey = activity.getString(R.string.soundcloud_id);
         String redirect_uri = activity.getString(R.string.api_soundcloud_callback);
         String baseUrl = activity.getString(R.string.soundclound_web_view);
@@ -107,7 +117,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
             AppPrefs.saveSoundCloudAccessCode(code);
             getSoundCloudTokenFromCode();
         });
-        fragmentWebView.show(activity.getSupportFragmentManager(), FragmentWebView.TAG);
+        fragmentWebView.show(activity.getSupportFragmentManager(), FragmentWebView.TAG);*/
     }
 
     /***
