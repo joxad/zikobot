@@ -1,5 +1,6 @@
 package com.startogamu.zikobot.view.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +17,6 @@ import android.webkit.WebViewClient;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.f2prateek.dart.henson.Bundler;
-import com.joxad.easydatabinding.fragment.DialogFragmentBase;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
@@ -43,10 +43,10 @@ public class FragmentWebView extends BottomSheetDialogFragment {
         return fragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        webView = (WebView) inflater.inflate(R.layout.fragment_web_view, container, false);
+    public void setupDialog(Dialog dialog, int style) {
+        super.setupDialog(dialog, style);
+        webView = (WebView) LayoutInflater.from(getContext()).inflate(R.layout.fragment_web_view, null, false);
         Dart.inject(this, getArguments());
         WebViewClient webViewClient = new WebViewClient() {
             @Override
@@ -74,7 +74,8 @@ public class FragmentWebView extends BottomSheetDialogFragment {
         webView.setWebViewClient(webViewClient);
 
         webView.loadUrl(url);
-        return webView;
+        dialog.setContentView(webView);
+
     }
 
 

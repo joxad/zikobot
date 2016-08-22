@@ -6,6 +6,7 @@ package com.startogamu.zikobot.viewmodel.activity;
 
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
+import android.support.design.widget.BottomSheetDialog;
 import android.util.Log;
 import android.view.View;
 
@@ -82,6 +83,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         String apiKey = activity.getString(R.string.api_spotify_id);
         String redirect_uri = activity.getString(R.string.api_spotify_callback_web_view);
         String baseUrl = activity.getString(R.string.spotify_web_view);
+
         FragmentWebView fragmentWebView = FragmentWebView.newInstance(String.format(baseUrl, apiKey, redirect_uri, Scope.USER_READ_PRIVATE + "%20" + Scope.STREAMING));
         fragmentWebView.setIntentListener(intent -> {
             fragmentWebView.dismiss();
