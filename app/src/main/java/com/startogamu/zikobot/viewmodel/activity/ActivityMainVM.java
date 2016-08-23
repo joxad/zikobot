@@ -1,12 +1,15 @@
 package com.startogamu.zikobot.viewmodel.activity;
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
+import android.net.Uri;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
@@ -17,23 +20,23 @@ import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowMessage;
-import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
-import com.startogamu.zikobot.core.event.player.EventShowTab;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.localnetwork.FragmentLocalNetwork;
 import com.startogamu.zikobot.module.component.Injector;
-import com.startogamu.zikobot.module.tablature.TablatureManager;
+import com.startogamu.zikobot.module.zikobot.model.TYPE;
+import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.view.activity.ActivityMain;
-import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
 import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudPlaylists;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
+import com.startogamu.zikobot.viewmodel.base.TrackVM;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,7 +51,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     public NavigationManager navigationManager;
     public PlayerVM playerVM;
-    public ObservableBoolean  tabLayoutVisible;
+    public ObservableBoolean tabLayoutVisible;
     private AlertDialog alertDialog;
     @Nullable
     @InjectExtra
@@ -102,6 +105,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         }
     }
 
+
     private void initNavigationManager() {
         navigationManager = new NavigationManager(this, activity, binding, activity.getSupportFragmentManager());
     }
@@ -145,6 +149,17 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         EventBus.getDefault().register(this);
 
         tabAdapter.notifyDataSetChanged();
+
+        if (activity.getIntent().getData() != null) {
+            Uri uri = activity.getIntent().getData();
+            ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList<>();
+            Track track = new Track();
+            track.setType(TYPE.LOCAL);
+            track.setName(uri.getLastPathSegment());
+            track.setRef(uri.getEncodedPath());
+            trackVMs.add(new TrackVM(activity, track));
+            EventBus.getDefault().post(new EventAddTrackToPlayer(trackVMs));
+        }
     }
 
     @Subscribe
@@ -239,6 +254,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                     return null;
             }
         }
+
 
         // Returns the page title for the top indicator
         @Override

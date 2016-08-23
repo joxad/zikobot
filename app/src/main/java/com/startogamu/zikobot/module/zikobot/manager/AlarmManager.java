@@ -19,6 +19,7 @@ import com.startogamu.zikobot.module.zikobot.model.Track_Table;
 import com.startogamu.zikobot.widget.AppWidgetHelper;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import rx.Observable;
@@ -204,7 +205,7 @@ public class AlarmManager {
             model.setTimeInMillis(triggerMillis);
             model.save();
             Logger.d(model.getName() + model.getHour() + "h " + model.getMinute() + "m" + "prepared");
-
+            AppWidgetHelper.update(context);
         } else {
             Logger.d(model.getName() + model.getHour() + "h " + model.getMinute() + "m" + "cancelled");
             cancel(context, model);
@@ -235,7 +236,7 @@ public class AlarmManager {
         Calendar calendarToday = Calendar.getInstance();
         long triggerMillis = System.currentTimeMillis();
         calendarAlarm.setTimeInMillis(triggerMillis);
-        calendarAlarm.set(Calendar.HOUR_OF_DAY, alarm.getHour());
+        calendarAlarm.set(Calendar.HOUR, alarm.getHour());
         calendarAlarm.set(Calendar.MINUTE, alarm.getMinute());
         calendarAlarm.set(Calendar.SECOND, 0);
         calendarAlarm.set(Calendar.MILLISECOND, 0);
