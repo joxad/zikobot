@@ -16,6 +16,7 @@
 
     <string name="tuto">You can create playlists by browsing the music on your phone, or your different musical accounts. Use the 3 dots menu ;)</string>
     <string name="tuto_zik">Supports here to add my favorite songs</string>
+    <string name="tuto_not_connected">You are logged out! Fix this here</string>
 
     <!--> Menu <-->
     <string name="menu_about">About</string>
@@ -109,5 +110,4 @@
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">Zikobot, Android musical assistant</string>
     <string name="options">settings</string>
-    <string name="tuto_not_connected">Tu ne t\'es pas encore connecté ! Clique ici pour changer cela</string>
 </resources>

@@ -17,6 +17,7 @@
     <string name="tuto">Tu peux crééer tes playlists en parcourant les musiques de ton téléphone, ou de tes différents comptes musicaux. Regarde le menu avec les 3 petits points ;)</string>
     <string name="tuto_zik">Appuie ici pour ajouter tes chansons préférées</string>
     <string name="tuto_select_track">Choisissez votre chanson</string>
+    <string name="tuto_not_connected">Tu ne t\'es pas encore connecté ! Clique ici pour changer cela</string>
 
     <!--> Menu <-->
     <string name="menu_about">A propos</string>
