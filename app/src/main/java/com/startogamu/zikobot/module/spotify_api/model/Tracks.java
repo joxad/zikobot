@@ -7,6 +7,8 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
+import java.util.ArrayList;
+
 import lombok.Data;
 
 @Generated("org.jsonschema2pojo")
@@ -21,5 +23,7 @@ public class Tracks {
     @Expose
     public Integer total;
 
+    @SerializedName("items")
+    public ArrayList<SpotifyTrack> items;
     public Tracks() {}
 }

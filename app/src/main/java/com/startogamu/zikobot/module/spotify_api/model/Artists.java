@@ -1,0 +1,14 @@
+package com.startogamu.zikobot.module.spotify_api.model;
+
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+
+/**
+ * Created by josh on 26/08/16.
+ */
+public class Artists {
+
+    @SerializedName("items")
+    public ArrayList<Item> items;
+}

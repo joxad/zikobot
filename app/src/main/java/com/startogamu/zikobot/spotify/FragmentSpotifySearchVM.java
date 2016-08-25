@@ -3,11 +3,16 @@ package com.startogamu.zikobot.spotify;
 import android.databinding.ObservableArrayList;
 
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.search.EventQueryChange;
 import com.startogamu.zikobot.core.utils.ISearch;
 import com.startogamu.zikobot.databinding.FragmentSpotifySearchBinding;
+import com.startogamu.zikobot.module.component.Injector;
+import com.startogamu.zikobot.module.spotify_api.model.SpotifySearchResult;
+import com.startogamu.zikobot.module.spotify_api.model.SpotifyTrack;
+import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.search.SearchManager;
 import com.startogamu.zikobot.viewmodel.base.AlbumVM;
 import com.startogamu.zikobot.viewmodel.base.ArtistVM;
@@ -17,6 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
+import rx.functions.Action1;
 
 /**
  * Created by josh on 01/08/16.
@@ -73,12 +79,17 @@ public class FragmentSpotifySearchVM extends FragmentBaseVM<FragmentSpotifySearc
 
     @Override
     public void destroy() {
-
     }
 
     @Override
     public void query(String query) {
-
+        Injector.INSTANCE.spotifyApi().manager().search(10, 0, query).subscribe(spotifySearchResult -> {
+            for (SpotifyTrack item : spotifySearchResult.tracks.getItems()) {
+                tracks.add(new TrackVM(fragment.getContext(), Track.from(item)));
+            }
+        }, throwable -> {
+            Logger.d(throwable.getMessage());
+        });
     }
 
 }

@@ -6,6 +6,7 @@ import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyFeaturedPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylistWithTrack;
+import com.startogamu.zikobot.module.spotify_api.model.SpotifySearchResult;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
 import com.startogamu.zikobot.module.spotify_api.resource.SpotifyAPIService;
 
@@ -59,6 +60,13 @@ public class SpotifyApiManager {
      */
     public Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(final String playlistId) {
         return spotifyAPIService.getPlaylistTracks(AppPrefs.spotifyUser().getId(), playlistId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
+
+
+    public Observable<SpotifySearchResult> search(final int limit, final int offset, final String search) {
+        return spotifyAPIService.search(limit,offset,search, "album,artist,track").subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }

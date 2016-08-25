@@ -4,10 +4,12 @@ package com.startogamu.zikobot.module.spotify_api.resource;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyFeaturedPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylistWithTrack;
+import com.startogamu.zikobot.module.spotify_api.model.SpotifySearchResult;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 
@@ -32,4 +34,6 @@ public interface SpotifyAPIService {
     @GET("users/{spotifyUser}/playlists/{playlistId}/tracks")
     Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(@Path("spotifyUser") String userId, @Path("playlistId") final String playlistId);
 
+    @GET("search")
+    Observable<SpotifySearchResult> search(@Query("limit") int limit, @Query("offset") int offset, @Query("q") String search, @Query("type")String type);
 }
