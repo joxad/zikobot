@@ -83,6 +83,7 @@ public class FragmentSpotifySearchVM extends FragmentBaseVM<FragmentSpotifySearc
 
     @Override
     public void query(String query) {
+        tracks.clear();
         Injector.INSTANCE.spotifyApi().manager().search(10, 0, query).subscribe(spotifySearchResult -> {
             for (SpotifyTrack item : spotifySearchResult.tracks.getItems()) {
                 tracks.add(new TrackVM(fragment.getContext(), Track.from(item)));
