@@ -7,6 +7,9 @@ import android.databinding.ObservableBoolean;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.f2prateek.dart.Dart;
@@ -17,6 +20,7 @@ import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.utils.Constants;
 import com.startogamu.zikobot.core.utils.EXTRA;
+import com.startogamu.zikobot.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.startogamu.zikobot.databinding.FragmentLocalTracksBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
@@ -61,13 +65,25 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
         zmvMessage = "";
         items = new ObservableArrayList<>();
         Injector.INSTANCE.contentResolverComponent().init(this);
+        binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(),1));
+        binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                loadLocalMusic(totalItemsCount,15);
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-        loadLocalMusic();
+        if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            updateMessage(fragment.getString(R.string.permission_local));
+            binding.zmv.setOnClickListener(v -> askPermission());
+            return;
+        }
+        loadLocalMusic(0,15);
     }
 
 
@@ -94,27 +110,23 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
     /***
      * Load the local music
      */
-    public void loadLocalMusic() {
-        if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            updateMessage(fragment.getString(R.string.permission_local));
-            binding.zmv.setOnClickListener(v -> askPermission());
-            return;
-        }
-        items.clear();
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(null, localAlbum != null ? localAlbum.getId() : -1, null).subscribe(localTracks -> {
-            Log.d(TAG, "" + localTracks.size());
-            for (LocalTrack localTrack : localTracks) {
-                items.add(new TrackVM(fragment.getContext(), Track.from(localTrack)));
-            }
-            if (localTracks.isEmpty()) {
-                updateMessage(fragment.getString(R.string.no_music));
-            } else {
-                showZmvMessage.set(false);
-            }
-        }, throwable -> {
-            updateMessage(fragment.getString(R.string.no_music));
+    public void loadLocalMusic(int limit,int offset) {
 
-        });
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(offset,limit,null, localAlbum != null ? localAlbum.getId() : -1, null)
+                .subscribe(localTracks -> {
+                    Log.d(TAG, "" + localTracks.size());
+                    for (LocalTrack localTrack : localTracks) {
+                        items.add(new TrackVM(fragment.getContext(), Track.from(localTrack)));
+                    }
+                    if (localTracks.isEmpty()) {
+                        updateMessage(fragment.getString(R.string.no_music));
+                    } else {
+                        showZmvMessage.set(false);
+                    }
+                }, throwable -> {
+                    updateMessage(fragment.getString(R.string.no_music));
+
+                });
     }
 
     /***

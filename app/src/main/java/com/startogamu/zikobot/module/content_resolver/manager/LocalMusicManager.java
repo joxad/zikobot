@@ -2,6 +2,7 @@ package com.startogamu.zikobot.module.content_resolver.manager;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -24,6 +25,9 @@ import rx.Subscriber;
 @Singleton
 public class LocalMusicManager {
 
+    public static final String QUERY_PARAMETER_LIMIT = "limit";
+    public static final String QUERY_PARAMETER_OFFSET = "offset";
+
     private static final String TAG = LocalMusicManager.class.getSimpleName();
     ContentResolver contentResolver;
 
@@ -32,13 +36,21 @@ public class LocalMusicManager {
     }
 
 
+    private Uri contentUri(Uri externalContentUri, final int limit, final int offset) {
+        return externalContentUri.buildUpon()
+                .appendQueryParameter(QUERY_PARAMETER_LIMIT,
+                        String.valueOf(limit))
+                .appendQueryParameter(QUERY_PARAMETER_OFFSET,
+                        String.valueOf(offset))
+                .build();
+    }
     /***
      * Give a list of tracks according to an album
      *
      * @param album -1 if you want all the tracks
      * @return
      */
-    public Observable<List<LocalTrack>> getLocalTracks(@Nullable final String artist, @Nullable final long album, @Nullable final String query) {
+    public Observable<List<LocalTrack>> getLocalTracks(final int offset,final int limit,@Nullable final String artist, @Nullable final long album, @Nullable final String query) {
         return Observable.create(new Observable.OnSubscribe<List<LocalTrack>>() {
             @Override
             public void call(Subscriber<? super List<LocalTrack>> subscriber) {
@@ -65,7 +77,7 @@ public class LocalMusicManager {
                     selection += " AND " + MediaStore.Audio.Media.TITLE + " like '%" + query + "%'";
                 }
                 String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";
-                Cursor cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
+                Cursor cursor = contentResolver.query(contentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,limit,offset), projection, selection, selectionArgs, sortOrder);
                 if (cursor == null) {
                     Log.e(TAG, "Failed to retrieve music: cursor is null :-(");
                     subscriber.onError(new Throwable("Failed to retrieve music: cursor is null :-("));

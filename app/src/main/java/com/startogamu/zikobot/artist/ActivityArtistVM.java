@@ -120,7 +120,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     public void loadLocalMusic() {
         albums.clear();
         tracks.clear();
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(artist != null ? artist.getName() : null, -1, null).subscribe(localTracks -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(0,10,artist != null ? artist.getName() : null, -1, null).subscribe(localTracks -> {
             Log.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 tracks.add(new TrackVM(activity, Track.from(localTrack)));

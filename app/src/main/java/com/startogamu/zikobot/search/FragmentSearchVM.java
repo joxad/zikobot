@@ -84,6 +84,10 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
 
     @Override
     public void query(String query) {
+        if( query.length()<2) {
+            clearAll();
+            return;
+        }
         Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalArtists(query).subscribe(localArtists -> {
             Logger.d(TAG, "" + localArtists.size());
             artists.clear();
@@ -107,7 +111,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
             Logger.e(throwable.getMessage());
             albums.clear();
         });
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(null,-1, query).subscribe(localTracks -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(0,10,null,-1, query).subscribe(localTracks -> {
             Logger.d("" + localTracks.size());
             tracks.clear();
             for (LocalTrack localTrack : localTracks) {
@@ -117,6 +121,12 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
             Logger.e(throwable.getMessage());
             tracks.clear();
         });
+    }
+
+    private void clearAll() {
+        artists.clear();
+        albums.clear();
+        tracks.clear();
     }
 
 }

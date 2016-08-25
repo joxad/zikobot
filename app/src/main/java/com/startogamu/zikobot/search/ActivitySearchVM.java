@@ -2,7 +2,6 @@ package com.startogamu.zikobot.search;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.view.ViewPager;
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.lapism.searchview.SearchView;
@@ -13,6 +12,8 @@ import com.startogamu.zikobot.core.event.search.EventQueryChange;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivitySearchBinding;
+import com.startogamu.zikobot.soundcloud.FragmentSoundCloudSearch;
+import com.startogamu.zikobot.spotify.FragmentSpotifySearch;
 import com.startogamu.zikobot.view.adapter.ViewPagerAdapter;
 
 import org.greenrobot.eventbus.EventBus;
