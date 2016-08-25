@@ -107,19 +107,6 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
     public void onButtonSoundCloudConnect(View view) {
 
         activity.startActivity(new Intent(activity, SoundCloudLoginActivity.class));
-/*
-        String apiKey = activity.getString(R.string.soundcloud_id);
-        String redirect_uri = activity.getString(R.string.api_soundcloud_callback);
-        String baseUrl = activity.getString(R.string.soundclound_web_view);
-        FragmentWebView fragmentWebView = FragmentWebView.newInstance(String.format(baseUrl, apiKey, redirect_uri));
-        fragmentWebView.setIntentListener(intent -> {
-            fragmentWebView.dismiss();
-            String code = intent.getData().getQueryParameter("code");
-
-            AppPrefs.saveSoundCloudAccessCode(code);
-            getSoundCloudTokenFromCode();
-        });
-        fragmentWebView.show(activity.getSupportFragmentManager(), FragmentWebView.TAG);*/
     }
 
     /***
@@ -205,6 +192,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
             binding.cvDeezer.tvUser.setText(user.getName());
             Glide.with(activity).load(user.getPictureUrl()).into(binding.cvDeezer.ivUser);
             showDeezerConnect.set(false);
+            AppPrefs.deezerUser(user);
         }, throwable -> {
             Logger.e(throwable.getMessage());
         });

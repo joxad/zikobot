@@ -2,10 +2,12 @@ package com.startogamu.zikobot.viewmodel.fragment.soundcloud;
 
 import android.databinding.ObservableArrayList;
 import android.support.design.widget.Snackbar;
+import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentSoundCloudPlaylistsBinding;
 import com.startogamu.zikobot.module.component.Injector;
@@ -13,8 +15,6 @@ import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudPlaylists;
 import com.startogamu.zikobot.viewmodel.items.ItemSCPlaylistVM;
-
-import org.greenrobot.eventbus.EventBus;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -53,6 +53,7 @@ public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundC
      * Call {@link com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager} to find the current user playlists
      */
     private void loadUserPlaylist() {
+        if (AppPrefs.soundCloudUser() == null) return;
         userPlaylists.clear();
         userPlaylists.addAll(Mock.scPlaylists(fragment.getContext()));
         Injector.INSTANCE.soundCloudApi().manager().userPlaylists(AppPrefs.soundCloudUser().getId()).subscribe(soundCloudPlaylists -> {
@@ -66,6 +67,10 @@ public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundC
         });
     }
 
+
+    public void goToSettings(View view) {
+        fragment.startActivity(IntentManager.goToSettings());
+    }
 
     @Override
     public void destroy() {

@@ -18,4 +18,5 @@ public class EXTRA {
     public static final String URL = "URL";
     public static final String MESSAGE = "MESSAGE";
     public static final String PERMISSION = "PERMISSION";
+    public static final java.lang.String FRAGMENT_TITLE = "FRAGMENT_TITLE";
 }

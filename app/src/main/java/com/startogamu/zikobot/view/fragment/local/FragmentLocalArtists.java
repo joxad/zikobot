@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentLocalArtistsBinding;
 import com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalArtistVM;
 

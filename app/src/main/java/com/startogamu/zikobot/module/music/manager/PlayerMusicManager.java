@@ -12,6 +12,12 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.deezer.sdk.model.PlayableEntity;
 import com.deezer.sdk.player.PlayerWrapper;
+import com.google.android.exoplayer.ExoPlayer;
+import com.google.android.exoplayer.FrameworkSampleSource;
+import com.google.android.exoplayer.MediaCodecAudioTrackRenderer;
+import com.google.android.exoplayer.MediaCodecSelector;
+import com.google.android.exoplayer.SampleSource;
+import com.google.android.exoplayer.TrackRenderer;
 import com.joxad.android_easy_spotify.SpotifyPlayerManager;
 import com.orhanobut.logger.Logger;
 import com.spotify.sdk.android.player.Player;
@@ -80,8 +86,19 @@ public class PlayerMusicManager {
         initMediaPlayer(context, () -> Logger.d("Media player initialized"));
         initSpotifyPlayer(context);
         initDeezerPlayer(context);
+        initAlternativePlayer();
         trackPositionHandler = new Handler();
         EventBus.getDefault().register(this);
+    }
+
+    private ExoPlayer exoPlayer;
+    MediaCodecAudioTrackRenderer audioRenderer;
+    private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
+    private static final int BUFFER_SEGMENT_COUNT = 256;
+
+    private void initAlternativePlayer() {
+        exoPlayer = ExoPlayer.Factory.newInstance(1);
+
     }
 
     /***
@@ -233,8 +250,10 @@ public class PlayerMusicManager {
                 pauseToHandle = false;
                 SpotifyPlayerManager.pause();
                 SpotifyPlayerManager.clear();
+
                 handler.postDelayed(() -> pauseToHandle = true, 500);
                 mediaPlayerService.playSong(Uri.parse(model.getRef()));
+
                 break;
             case TYPE.SPOTIFY:
                 if (mediaPlayerService != null)
@@ -254,6 +273,23 @@ public class PlayerMusicManager {
                 break;
         }
         isPlaying = true;
+    }
+
+    private void playWithExo(String ref) {
+        Uri uri = Uri.parse(ref);
+        final int numRenderers = 2;
+
+        // Build the sample source
+        SampleSource sampleSource =
+                new FrameworkSampleSource(context, uri, null);
+
+        // Build the track renderers
+        TrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource, MediaCodecSelector.DEFAULT);
+
+        // Build the ExoPlayer and start playback
+        exoPlayer = ExoPlayer.Factory.newInstance(numRenderers);
+        exoPlayer.prepare(audioRenderer);
+        exoPlayer.setPlayWhenReady(true);
     }
 
     /***
@@ -361,10 +397,7 @@ public class PlayerMusicManager {
                 return false;
             }
         }
-        if (model.getRef().contains(".m4a")) {
-            EventBus.getDefault().post(new EventShowMessage(context.getString(R.string.oops), context.getString(R.string.no_m4a_support)));
-            return false;
-        }
+
         return true;
     }
 
@@ -471,6 +504,7 @@ public class PlayerMusicManager {
     public interface IMediaPlayer {
         void onInit();
     }
+
     public interface DurationListener {
         void onUpdate(int position);
     }

@@ -13,8 +13,8 @@
             type="android.view.View" />
 
         <variable
-            name="activitySoundCloudVM"
-            type="com.startogamu.zikobot.soundcloud.ActivitySoundCloudVM" />
+            name="activityDeezerVM"
+            type="com.startogamu.zikobot.deezer.ActivityDeezerVM" />
     </data>
 
 
@@ -52,14 +52,14 @@
                             android:layout_marginStart="@dimen/margin_medium"
                             android:layout_marginTop="@dimen/margin_medium"
                             android:text="@string/drawer_filter_tracks"
-                            android:visibility="@{activitySoundCloudVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
+                            android:visibility="@{activityDeezerVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_margin="@dimen/margin_medium"
                             android:background="@color/colorAccent"
-                            android:visibility="@{activitySoundCloudVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
+                            android:visibility="@{activityDeezerVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
 
 
                         <android.support.v7.widget.RecyclerView
@@ -68,9 +68,9 @@
                             android:layout_height="match_parent"
                             android:clipToPadding="false"
                             android:paddingBottom="@dimen/actionBarSizeNormal"
-                            android:visibility="@{activitySoundCloudVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
-                            app:itemView="@{activitySoundCloudVM.itemViewTrack}"
-                            app:items="@{activitySoundCloudVM.tracks}"
+                            android:visibility="@{activityDeezerVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
+                            app:itemView="@{activityDeezerVM.itemViewTrack}"
+                            app:items="@{activityDeezerVM.tracks}"
                             app:layoutManager="@{LayoutManagers.grid(1)}"
                             tools:listitem="@layout/item_artist" />
 
@@ -89,7 +89,7 @@
                 android:background="@android:drawable/dialog_holo_light_frame"
                 app:behavior_peekHeight="@dimen/playerHeight"
                 app:layout_behavior="@string/bottom_sheet_behavior"
-                app:playerVM="@{activitySoundCloudVM.playerVM}" />
+                app:playerVM="@{activityDeezerVM.playerVM}" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab_play"
@@ -97,7 +97,7 @@
 
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/fab_margin"
-                android:onClick="@{activitySoundCloudVM.onPlay}"
+                android:onClick="@{activityDeezerVM.onPlay}"
                 android:src="@drawable/ic_play_white"
                 android:visibility="gone"
                 app:layout_anchor="@id/custom_toolbar"

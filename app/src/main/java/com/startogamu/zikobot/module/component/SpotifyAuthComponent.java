@@ -9,7 +9,6 @@ import com.startogamu.zikobot.viewmodel.activity.ActivityMainVM;
 import com.startogamu.zikobot.viewmodel.fragment.alarm.FragmentAlarmsVM;
 import com.startogamu.zikobot.viewmodel.activity.ActivitySettingsVM;
 import com.startogamu.zikobot.viewmodel.activity.ActivityWakeUpVM;
-import com.startogamu.zikobot.viewmodel.fragment.spotify.FragmentConnectVM;
 
 import javax.inject.Singleton;
 
@@ -22,7 +21,6 @@ import dagger.Component;
 @Singleton
 @Component(modules = SpotifyAuthModule.class)
 public interface SpotifyAuthComponent extends SpotifyAuthBaseComponent {
-    void inject(FragmentConnectVM fragmentConnectVM);
 
     void inject(ActivitySettingsVM activitySettingsVM);
 

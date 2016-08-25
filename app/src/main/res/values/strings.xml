@@ -109,4 +109,5 @@
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">Zikobot, Android musical assistant</string>
     <string name="options">settings</string>
+    <string name="tuto_not_connected">Tu ne t\'es pas encore connecté ! Clique ici pour changer cela</string>
 </resources>

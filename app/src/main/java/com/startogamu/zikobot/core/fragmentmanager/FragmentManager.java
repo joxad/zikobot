@@ -59,4 +59,15 @@ public class FragmentManager {
         android.support.v4.app.FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
         supportFragmentManager.popBackStack();
     }
+
+    public static Fragment fragmentByName(String fragmentName) throws IllegalAccessException, InstantiationException {
+        Class<?> className = null;
+        try {
+            className  = Class.forName(fragmentName);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return (Fragment) className.newInstance();
+    }
+
 }

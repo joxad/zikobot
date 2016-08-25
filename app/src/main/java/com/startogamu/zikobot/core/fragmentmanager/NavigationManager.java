@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 
+import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
@@ -76,8 +77,8 @@ public class NavigationManager implements IPermission {
 
     @Subscribe
     public void onEvent(SelectDeezerItemPlaylistEvent selectItemPlaylistEvent) {
-        //Playlist item = selectItemPlaylistEvent.getItem();
-        //replaceFragment(FragmentDeezerTracks.newInstance(item, BR.trackVM, R.layout.item_track), false, true);
+        Playlist item = selectItemPlaylistEvent.getItem();
+        activity.startActivity(IntentManager.goToDeezerPlaylist(item));
     }
 
     @Subscribe

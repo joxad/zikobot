@@ -1,8 +1,10 @@
 package com.startogamu.zikobot.view.fragment.spotify;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.f2prateek.dart.henson.Bundler;
 import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentSpotifyPlaylistsBinding;
 import com.startogamu.zikobot.viewmodel.fragment.spotify.FragmentSpotifyPlaylistsVM;
 

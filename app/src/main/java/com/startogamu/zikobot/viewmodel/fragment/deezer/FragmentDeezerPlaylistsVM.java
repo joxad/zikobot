@@ -2,17 +2,17 @@ package com.startogamu.zikobot.viewmodel.fragment.deezer;
 
 import android.databinding.ObservableArrayList;
 import android.support.design.widget.Snackbar;
+import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.databinding.FragmentDeezerPlaylistsBinding;
 import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
 import com.startogamu.zikobot.view.fragment.deezer.FragmentDeezerPlaylists;
 import com.startogamu.zikobot.viewmodel.items.ItemDeezerPlaylistVM;
-
-import org.greenrobot.eventbus.EventBus;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -42,13 +42,24 @@ public class FragmentDeezerPlaylistsVM extends FragmentBaseVM<FragmentDeezerPlay
     @Override
     protected void onResume() {
         super.onResume();
-     loadUserPlaylist();
+
+        checkAccount();
+    }
+
+    private void checkAccount() {
+        DeezerManager.current().subscribe(user -> {
+            loadUserPlaylist();
+
+        }, throwable -> {
+
+        });
     }
 
     /***
      * Call {@link com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager} to find the current user playlists
      */
     private void loadUserPlaylist() {
+
         userPlaylists.clear();
 
         DeezerManager.playlists().subscribe(playlists -> {
@@ -58,8 +69,13 @@ public class FragmentDeezerPlaylistsVM extends FragmentBaseVM<FragmentDeezerPlay
         }, throwable -> {
             Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
         });
+
     }
 
+
+    public void goToSettings(View view) {
+        fragment.startActivity(IntentManager.goToSettings());
+    }
 
     @Override
     public void destroy() {

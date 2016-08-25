@@ -40,5 +40,14 @@
             tools:listitem="@layout/item_playlist" />
 
 
+        <com.startogamu.zikobot.view.custom.ZikobotMessageView
+            android:id="@+id/zmv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:zmv_message="@string/tuto_not_connected"
+            android:onClick="@{fragmentSoundCloudPlaylistsVM.goToSettings}"
+            android:visibility="@{fragmentSoundCloudPlaylistsVM.userPlaylists.isEmpty() ? v.VISIBLE : v.GONE}" />
+
     </RelativeLayout>
 </layout>

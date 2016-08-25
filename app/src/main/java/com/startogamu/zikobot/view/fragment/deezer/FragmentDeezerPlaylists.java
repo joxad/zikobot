@@ -12,6 +12,7 @@ public class FragmentDeezerPlaylists extends FragmentBase<FragmentDeezerPlaylist
 
     public static FragmentDeezerPlaylists newInstance() {
         FragmentDeezerPlaylists fragment = new FragmentDeezerPlaylists();
+
         return fragment;
     }
 

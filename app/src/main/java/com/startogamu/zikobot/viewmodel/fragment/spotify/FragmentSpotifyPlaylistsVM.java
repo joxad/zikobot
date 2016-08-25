@@ -2,10 +2,13 @@ package com.startogamu.zikobot.viewmodel.fragment.spotify;
 
 import android.databinding.ObservableArrayList;
 import android.support.design.widget.Snackbar;
+import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
+import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentSpotifyPlaylistsBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
@@ -51,6 +54,7 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
      * Call {@link com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager} to find the current user playlists
      */
     private void loadUserPlaylist() {
+        if (AppPrefs.spotifyUser()==null)return;
         userPlaylists.clear();
         userPlaylists.addAll(Mock.playlists(fragment.getContext()));
         Injector.INSTANCE.spotifyApi().manager().getUserPlaylists().subscribe(spotifyPlaylist -> {
@@ -63,6 +67,12 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
         });
     }
 
+
+
+
+    public void goToSettings(View view) {
+        fragment.startActivity(IntentManager.goToSettings());
+    }
 
     @Override
     public void destroy() {

@@ -3,6 +3,7 @@ package com.startogamu.zikobot.core.utils;
 import android.content.Context;
 import android.content.ContextWrapper;
 
+import com.deezer.sdk.model.User;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudUser;
@@ -26,6 +27,7 @@ public class AppPrefs {
     public static final String SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN";
     public static final String REFRESH_TOKEN = "REFRESH_TOKEN";
     private static final String SPOTIFY_USER = "SPOTIFY_USER";
+    private static final String DEEZER_USER = "DEEZER_USER";
 
     public static void saveRefreshToken(final String refreshToken) {
         Prefs.putString(REFRESH_TOKEN, refreshToken);
@@ -60,6 +62,17 @@ public class AppPrefs {
         if (user.equals(""))
             return null;
         return gson.fromJson(user, SpotifyUser.class);
+    }
+
+    public static void deezerUser(User deezerUser) {
+        Prefs.putString(DEEZER_USER, gson.toJson(deezerUser));
+    }
+
+    public static User deezerUser() {
+        String user = Prefs.getString(DEEZER_USER, "");
+        if (user.equals(""))
+            return null;
+        return gson.fromJson(user, User.class);
     }
 
     /***

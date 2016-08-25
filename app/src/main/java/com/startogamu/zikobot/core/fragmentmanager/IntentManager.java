@@ -3,9 +3,11 @@ package com.startogamu.zikobot.core.fragmentmanager;
 import android.content.Context;
 import android.content.Intent;
 
+import com.deezer.sdk.model.Playlist;
 import com.startogamu.zikobot.album.ActivityAlbum;
 import com.startogamu.zikobot.artist.ActivityArtist;
 import com.startogamu.zikobot.core.utils.EXTRA;
+import com.startogamu.zikobot.deezer.ActivityDeezer;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
@@ -59,11 +61,8 @@ public class IntentManager {
         return Henson.with(context).gotoActivityWakeUp().alarm(alarm).build();
     }
 
-
     public static Intent goToAlbum(Album model) {
-        Intent intent = new Intent(context, ActivityAlbum.class);
-        intent.putExtra(EXTRA.LOCAL_ALBUM, Parcels.wrap(model));
-        return intent;
+        return new Intent(context, ActivityAlbum.class).putExtra(EXTRA.LOCAL_ALBUM, Parcels.wrap(model));
     }
 
     public static Intent goToSearch() {
@@ -71,15 +70,14 @@ public class IntentManager {
     }
 
     public static Intent goToSpotifyPlaylist(Item item) {
-        Intent intent = new Intent(context, ActivitySpotify.class);
-        intent.putExtra(EXTRA.PLAYLIST, Parcels.wrap(item));
-        return intent;
-
+        return new Intent(context, ActivitySpotify.class).putExtra(EXTRA.PLAYLIST, Parcels.wrap(item));
     }
 
     public static Intent goToSoundCloudPlaylist(SoundCloudPlaylist item) {
-        Intent intent = new Intent(context, ActivitySoundCloud.class);
-        intent.putExtra(EXTRA.PLAYLIST, Parcels.wrap(item));
-        return intent;
+        return new Intent(context, ActivitySoundCloud.class).putExtra(EXTRA.PLAYLIST, Parcels.wrap(item));
+    }
+
+    public static Intent goToDeezerPlaylist(Playlist item) {
+        return new Intent(context, ActivityDeezer.class).putExtra(EXTRA.PLAYLIST, Parcels.wrap(item));
     }
 }

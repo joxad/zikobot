@@ -236,11 +236,11 @@ public class AlarmManager {
         Calendar calendarToday = Calendar.getInstance();
         long triggerMillis = System.currentTimeMillis();
         calendarAlarm.setTimeInMillis(triggerMillis);
-        calendarAlarm.set(Calendar.HOUR, alarm.getHour());
+        calendarAlarm.set(Calendar.HOUR_OF_DAY, alarm.getHour());
         calendarAlarm.set(Calendar.MINUTE, alarm.getMinute());
         calendarAlarm.set(Calendar.SECOND, 0);
         calendarAlarm.set(Calendar.MILLISECOND, 0);
-        int interval = findInterval(alarm, calendarAlarm, calendarToday);
+        int interval = findInterval(alarm, calendarAlarm.getTime().getTime(), calendarToday);
         triggerMillis = calendarAlarm.getTimeInMillis() + interval * android.app.AlarmManager.INTERVAL_DAY;
         return triggerMillis;
     }
@@ -249,14 +249,14 @@ public class AlarmManager {
      * find the difference of days for the next alarm to trigger
      *
      * @param alarm
-     * @param calendarAlarm
+     * @param calendarAlarmMs
      * @param calendarToday @return
      */
-    public static int findInterval(Alarm alarm, Calendar calendarAlarm, Calendar calendarToday) {
+    public static int findInterval(Alarm alarm, long calendarAlarmMs, Calendar calendarToday) {
         String alarms = alarm.getDays();//-1111111
         int today = calendarToday.get(Calendar.DAY_OF_WEEK);//2 lundi 15H, alarme a 18h
         // si l'alarme est prévu plus tard aujoudhui
-        if (alarm.isDayActive(today) && calendarAlarm.getTimeInMillis() > calendarToday.getTimeInMillis()) {
+        if (alarm.isDayActive(today) && calendarAlarmMs > calendarToday.getTimeInMillis()) {
             return 0;
         }
         //sinon on cherche le nmb de jours avant la prochaine

@@ -77,21 +77,19 @@
         </activity>
 
 
+        <activity android:name=".deezer.ActivityDeezer" />
         <activity
             android:name=".artist.ActivityArtist"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:label="@string/app_name" />
 
 
         <activity
             android:name=".search.ActivitySearch"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:label="@string/app_name" />
 
         <activity
             android:name=".album.ActivityAlbum"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:label="@string/app_name" />
 
         <activity android:name=".soundcloud.SoundCloudLoginActivity" />
         <activity
