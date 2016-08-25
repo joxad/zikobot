@@ -2,12 +2,14 @@ package com.startogamu.zikobot.search;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.view.ViewPager;
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.lapism.searchview.SearchView;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowArtistDetail;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
+import com.startogamu.zikobot.core.event.search.EventQueryChange;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivitySearchBinding;
@@ -46,6 +48,8 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
+                SearchManager.QUERY = newText;
+                EventBus.getDefault().post(new EventQueryChange(newText));
                 return false;
             }
 
@@ -98,6 +102,7 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
 
     public void onPause() {
         EventBus.getDefault().unregister(this);
+        SearchManager.QUERY="";
     }
 
     @Override

@@ -10,7 +10,7 @@ import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.TrackChangeEvent;
+import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AnimationEndListener;
 import com.startogamu.zikobot.databinding.ActivityWakeUpBinding;

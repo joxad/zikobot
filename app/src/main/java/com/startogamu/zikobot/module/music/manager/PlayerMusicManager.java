@@ -25,7 +25,7 @@ import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowMessage;
-import com.startogamu.zikobot.core.event.TrackChangeEvent;
+import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;

@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.core.event;
+package com.startogamu.zikobot.core.event.player;
 
 import com.startogamu.zikobot.module.zikobot.model.Track;
 

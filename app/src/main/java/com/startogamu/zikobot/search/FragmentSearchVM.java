@@ -6,6 +6,7 @@ import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.search.EventQueryChange;
 import com.startogamu.zikobot.core.utils.ISearch;
 import com.startogamu.zikobot.databinding.FragmentSearchBinding;
 import com.startogamu.zikobot.module.component.Injector;
@@ -17,6 +18,9 @@ import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.viewmodel.base.AlbumVM;
 import com.startogamu.zikobot.viewmodel.base.ArtistVM;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -49,6 +53,28 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
         binding.rvAlbums.setNestedScrollingEnabled(false);
         binding.rvTracks.setNestedScrollingEnabled(false);
         binding.rvArtists.setNestedScrollingEnabled(false);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+        if (!SearchManager.QUERY.isEmpty()) {
+            query(SearchManager.QUERY);
+        }
+    }
+
+
+    @Subscribe
+    public void onReceive(EventQueryChange event) {
+        query(event.getQuery());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
