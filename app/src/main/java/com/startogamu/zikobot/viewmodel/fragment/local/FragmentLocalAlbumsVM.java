@@ -7,6 +7,7 @@ import android.databinding.ObservableBoolean;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
 
@@ -18,6 +19,7 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowArtistDetail;
 import com.startogamu.zikobot.core.utils.Constants;
 import com.startogamu.zikobot.core.utils.EXTRA;
+import com.startogamu.zikobot.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.startogamu.zikobot.databinding.FragmentLocalAlbumsBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
@@ -63,13 +65,24 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
         showZmvMessage = new ObservableBoolean(false);
         zmvMessage = "";
         Injector.INSTANCE.contentResolverComponent().init(this);
-
+        binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(),2));
+        binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                loadLocalMusic(15, totalItemsCount);
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        loadLocalMusic();
+        if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            updateMessage(fragment.getString(R.string.permission_local));
+            binding.zmv.setOnClickListener(v -> askPermission());
+            return;
+        }
+        loadLocalMusic(15, 0);
     }
 
     public void onClick(View view) {
@@ -80,24 +93,21 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
     /***
      * Load the local music
      */
-    public void loadLocalMusic() {
-        if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            updateMessage(fragment.getString(R.string.permission_local));
-            binding.zmv.setOnClickListener(v -> askPermission());
-            return;
-        }
-        items.clear();
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(localArtist != null ? localArtist.getName() : null, null).subscribe(localAlbums -> {
+    public void loadLocalMusic(int limit, int offset) {
+
+
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(limit, offset, localArtist != null ? localArtist.getName() : null, null).subscribe(localAlbums -> {
             Log.d(TAG, "" + localAlbums.size());
             for (LocalAlbum localAlbum : localAlbums) {
                 items.add(new AlbumVM(fragment.getContext(), localAlbum));
             }
-            if (localAlbums.isEmpty()) {
+            if (localAlbums.isEmpty() && offset == 0) {
                 updateMessage(fragment.getString(R.string.no_music));
             } else {
                 showZmvMessage.set(false);
             }
         }, throwable -> {
+            if (offset==0)
             updateMessage(fragment.getString(R.string.no_music));
 
         });

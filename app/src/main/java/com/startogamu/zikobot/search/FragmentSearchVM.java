@@ -88,7 +88,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
             clearAll();
             return;
         }
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalArtists(query).subscribe(localArtists -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalArtists(15,0,query).subscribe(localArtists -> {
             Logger.d(TAG, "" + localArtists.size());
             artists.clear();
             for (LocalArtist localArtist : localArtists) {
@@ -100,7 +100,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
             artists.clear();
 
         });
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(null, query).subscribe(localArtists -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(15,0,null, query).subscribe(localArtists -> {
             Logger.d(TAG, "" + localArtists.size());
             albums.clear();
             for (LocalAlbum localAlbum : localArtists) {
@@ -111,7 +111,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
             Logger.e(throwable.getMessage());
             albums.clear();
         });
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(0,10,null,-1, query).subscribe(localTracks -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(10,0,null,-1, query).subscribe(localTracks -> {
             Logger.d("" + localTracks.size());
             tracks.clear();
             for (LocalTrack localTrack : localTracks) {

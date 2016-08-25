@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.f2prateek.dart.Dart;
@@ -65,11 +63,11 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
         zmvMessage = "";
         items = new ObservableArrayList<>();
         Injector.INSTANCE.contentResolverComponent().init(this);
-        binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(),1));
+        binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(), 1));
         binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                loadLocalMusic(totalItemsCount,15);
+                loadLocalMusic(15, totalItemsCount);
             }
         });
     }
@@ -83,7 +81,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
             binding.zmv.setOnClickListener(v -> askPermission());
             return;
         }
-        loadLocalMusic(0,15);
+        loadLocalMusic(15, 0);
     }
 
 
@@ -110,21 +108,23 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
     /***
      * Load the local music
      */
-    public void loadLocalMusic(int limit,int offset) {
+    public void loadLocalMusic(int limit, int offset) {
 
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(offset,limit,null, localAlbum != null ? localAlbum.getId() : -1, null)
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(limit, offset, null, localAlbum != null ? localAlbum.getId() : -1, null)
                 .subscribe(localTracks -> {
                     Log.d(TAG, "" + localTracks.size());
                     for (LocalTrack localTrack : localTracks) {
                         items.add(new TrackVM(fragment.getContext(), Track.from(localTrack)));
                     }
-                    if (localTracks.isEmpty()) {
+
+                    if (localTracks.isEmpty() && offset==0) {
                         updateMessage(fragment.getString(R.string.no_music));
                     } else {
                         showZmvMessage.set(false);
                     }
                 }, throwable -> {
-                    updateMessage(fragment.getString(R.string.no_music));
+                    if (offset == 0)
+                        updateMessage(fragment.getString(R.string.no_music));
 
                 });
     }

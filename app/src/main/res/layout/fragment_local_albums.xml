@@ -5,7 +5,6 @@
 
     <data>
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
 
         <import
             alias="v"
@@ -31,7 +30,6 @@
             android:paddingBottom="@dimen/actionBarSizeNormal"
             app:itemView="@{fragmentLocalAlbumsVM.itemView}"
             app:items="@{fragmentLocalAlbumsVM.items}"
-            app:layoutManager="@{LayoutManagers.grid(2)}"
             tools:listitem="@layout/item_artist" />
 
         <com.startogamu.zikobot.view.custom.ZikobotMessageView

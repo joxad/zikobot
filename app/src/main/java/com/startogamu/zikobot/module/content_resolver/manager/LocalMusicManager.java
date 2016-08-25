@@ -50,7 +50,7 @@ public class LocalMusicManager {
      * @param album -1 if you want all the tracks
      * @return
      */
-    public Observable<List<LocalTrack>> getLocalTracks(final int offset,final int limit,@Nullable final String artist, @Nullable final long album, @Nullable final String query) {
+    public Observable<List<LocalTrack>> getLocalTracks(final int limit,final int offset,@Nullable final String artist, @Nullable final long album, @Nullable final String query) {
         return Observable.create(new Observable.OnSubscribe<List<LocalTrack>>() {
             @Override
             public void call(Subscriber<? super List<LocalTrack>> subscriber) {
@@ -76,8 +76,8 @@ public class LocalMusicManager {
                 if (query != null) {
                     selection += " AND " + MediaStore.Audio.Media.TITLE + " like '%" + query + "%'";
                 }
-                String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";
-                Cursor cursor = contentResolver.query(contentUri(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,limit,offset), projection, selection, selectionArgs, sortOrder);
+                String sortOrder = MediaStore.Audio.Media.TITLE + " ASC limit "+limit+ " offset "+offset;
+                Cursor cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
                 if (cursor == null) {
                     Log.e(TAG, "Failed to retrieve music: cursor is null :-(");
                     subscriber.onError(new Throwable("Failed to retrieve music: cursor is null :-("));
@@ -119,7 +119,7 @@ public class LocalMusicManager {
     /***
      * @return
      */
-    public Observable<List<LocalArtist>> getLocalArtists(@Nullable final String query) {
+    public Observable<List<LocalArtist>> getLocalArtists(int limit, int offset,@Nullable final String query) {
         return Observable.create(new Observable.OnSubscribe<List<LocalArtist>>() {
             @Override
             public void call(Subscriber<? super List<LocalArtist>> subscriber) {
@@ -133,7 +133,7 @@ public class LocalMusicManager {
                     selection = "" + MediaStore.Audio.Artists.ARTIST + " like '%" + query + "%'";
                 }
                 String[] selectionArgs = null;
-                String sortOrder = MediaStore.Audio.Media.ARTIST + " ASC";
+                String sortOrder = MediaStore.Audio.Media.ARTIST + " ASC limit "+limit+ " offset "+offset;
                 Cursor cursor = contentResolver.query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
                 if (cursor == null) {
                     Log.e(TAG, "Failed to retrieve music: cursor is null :-(");
@@ -165,7 +165,7 @@ public class LocalMusicManager {
      * @param artist null to get all
      * @return
      */
-    public Observable<List<LocalAlbum>> getLocalAlbums(@Nullable final String artist, @Nullable final String query) {
+    public Observable<List<LocalAlbum>> getLocalAlbums(int limit, int offset ,@Nullable final String artist, @Nullable final String query) {
 
         return Observable.create(new Observable.OnSubscribe<List<LocalAlbum>>() {
             @Override
@@ -186,7 +186,7 @@ public class LocalMusicManager {
                     selection = MediaStore.Audio.Albums.ARTIST + " like '%" + query + "%'";
                     selection += " OR " + MediaStore.Audio.Albums.ALBUM + " like '%" + query + "%'";
                 }
-                String sortOrder = MediaStore.Audio.Media.ALBUM + " ASC";
+                String sortOrder = MediaStore.Audio.Media.ALBUM + " ASC limit "+limit+ " offset "+offset;
                 Cursor cursor = contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
 
                 if (cursor == null) {

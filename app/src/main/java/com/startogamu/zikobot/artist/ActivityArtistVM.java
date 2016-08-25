@@ -120,7 +120,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     public void loadLocalMusic() {
         albums.clear();
         tracks.clear();
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(0,10,artist != null ? artist.getName() : null, -1, null).subscribe(localTracks -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(15,0,artist != null ? artist.getName() : null, -1, null).subscribe(localTracks -> {
             Log.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 tracks.add(new TrackVM(activity, Track.from(localTrack)));
@@ -129,7 +129,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         }, throwable -> {
 
         });
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(artist != null ? artist.getName() : null, null).subscribe(localAlbums -> {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(15,0,artist != null ? artist.getName() : null, null).subscribe(localAlbums -> {
             Log.d(TAG, "" + localAlbums.size());
             for (LocalAlbum localAlbum : localAlbums) {
                 albums.add(new AlbumVM(activity, localAlbum));
