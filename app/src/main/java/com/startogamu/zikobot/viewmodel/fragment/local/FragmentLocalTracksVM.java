@@ -81,6 +81,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
             binding.zmv.setOnClickListener(v -> askPermission());
             return;
         }
+        items.clear();
         loadLocalMusic(15, 0);
     }
 

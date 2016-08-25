@@ -69,6 +69,7 @@ public class FragmentLocalArtistVM extends FragmentBaseVM<FragmentLocalArtists, 
             binding.zmv.setOnClickListener(v ->askPermission());
             return;
         }
+        items.clear();
         loadLocalMusic(15,0);
 
     }
