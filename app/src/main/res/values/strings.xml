@@ -8,7 +8,7 @@
     <string name="view_pager_2">I need that you connect to your Spotify® or Deezer® account (requires a premium account)</string>
     <string name="view_pager_3">With your permission, I can also access my music stored locally on your phone.</string>
 
-    <string name="view_pager_1_title">Nice to meet you, I Zikobot, your musical assistant!</string>
+    <string name="view_pager_1_title">Nice to meet you, I am Zikobot, your musical assistant!</string>
     <string name="view_pager_2_title">Combines your musical accounts</string>
     <string name="view_pager_3_title">No account? No problem for me!</string>
     <string name="done">Done</string>
