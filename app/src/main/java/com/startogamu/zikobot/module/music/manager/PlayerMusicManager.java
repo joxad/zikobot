@@ -121,7 +121,8 @@ public class PlayerMusicManager {
      * @param model
      */
     private void handlePlay(Track model) {
-        //TODO pause other model
+        if (currentPlayer != null)
+            currentPlayer.pause();
         currentType = model.getType();
         switch (model.getType()) {
             case TYPE.LOCAL:

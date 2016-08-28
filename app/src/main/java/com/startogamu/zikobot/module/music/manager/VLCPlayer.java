@@ -60,12 +60,12 @@ public class VLCPlayer implements IMusicPlayer {
 
     @Override
     public void seekTo(int position) {
-        mediaPlayer.setPosition(position);
+        mediaPlayer.setTime(position);
     }
 
     @Override
     public float position() {
-        return mediaPlayer.getPosition();
+        return mediaPlayer.getPosition() * mediaPlayer.getLength();
     }
 
 
