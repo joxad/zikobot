@@ -64,6 +64,16 @@ In order to test MVVM on Android
 - Realm (it seems it is a new DB that is going better, so need to test that)
 - Retrofit
 
+# Thanks 
+
+Some libs that made it possible (thanks to them)
+ 
+- https://github.com/mrmaffen/vlc-android-sdk
+- https://code.videolan.org/videolan/vlc-android
+- https://github.com/deezer/android-sample
+- https://github.com/spotify/android-sdk
+- https://github.com/lapism/SearchView
+
 # Contributing 
 
 Feel free to contribute to this project :) Pull request are welcome !

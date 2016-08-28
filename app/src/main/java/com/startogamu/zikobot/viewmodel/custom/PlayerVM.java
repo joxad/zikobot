@@ -125,8 +125,8 @@ public class PlayerVM extends BaseObservable implements IVM {
         isExpanded.set(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED);
         binding.rgOptions.setVisibility(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED ? View.VISIBLE : View.GONE);
         playerMusicManager.setDurationListener(position -> {
-            binding.rlProgress.progress.setProgress(position);
-            binding.rlProgress.tvDuration.setText(ZikoUtils.readableTime(position));
+            binding.rlProgress.progress.setProgress((int)position);
+            binding.rlProgress.tvDuration.setText(ZikoUtils.readableTime((int)position));
         });
         manualChange = false;
         handler.postDelayed(() -> binding.vpPlayer.setCurrentItem(playerMusicManager.getCurrentSong()),100);

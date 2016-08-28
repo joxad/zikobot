@@ -1,40 +1,19 @@
 package com.startogamu.zikobot.module.music.manager;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.net.Uri;
 import android.os.Handler;
-import android.os.IBinder;
-import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.deezer.sdk.model.PlayableEntity;
-import com.deezer.sdk.player.PlayerWrapper;
-import com.google.android.exoplayer.ExoPlayer;
-import com.google.android.exoplayer.FrameworkSampleSource;
-import com.google.android.exoplayer.MediaCodecAudioTrackRenderer;
-import com.google.android.exoplayer.MediaCodecSelector;
-import com.google.android.exoplayer.SampleSource;
-import com.google.android.exoplayer.TrackRenderer;
-import com.joxad.android_easy_spotify.SpotifyPlayerManager;
-import com.orhanobut.logger.Logger;
-import com.spotify.sdk.android.player.Player;
-import com.spotify.sdk.android.player.PlayerNotificationCallback;
-import com.spotify.sdk.android.player.PlayerState;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowMessage;
-import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.event.player.EventNextTrack;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.event.player.EventStopPlayer;
+import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
-import com.startogamu.zikobot.core.service.MediaPlayerService;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
-import com.startogamu.zikobot.module.deezer.manager.SimplifiedPlayerListener;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.TYPE;
 import com.startogamu.zikobot.module.zikobot.model.Track;
@@ -60,134 +39,38 @@ public class PlayerMusicManager {
 
     private static final String TAG = PlayerMusicManager.class.getSimpleName();
     private Context context;
-    Handler handler = new Handler();
-    private boolean pauseToHandle = true;
 
-    boolean newTrack = true;
+    private ArrayList<TrackVM> tracks = new ArrayList<>();
 
-    private Alarm alarm = null;
+    @Setter
+    private DurationListener durationListener;
+
+    @Setter
+    private PlayerStatusListener playerStatusListener;
+
     @Getter
     int currentSong = 0;
     int currentType = -1;
-    int currentPosition;
-    private ArrayList<TrackVM> tracks = new ArrayList<>();
-    private MediaPlayerService mediaPlayerService;
-    private boolean mediaPlayerServiceBound = false;
-    //connect to the service
     public boolean isPlaying = false;
-    private PlayerWrapper deezerPlayer;
     private Handler trackPositionHandler;
+    IMusicPlayer currentPlayer;
+
+    VLCPlayer vlcPlayer;
+    DeezerPlayer deezerPlayer;
+    SpotifyPlayer spotifyPlayer;
+    AndroidPlayer androidPlayer;
 
     /***
      * @param context
      */
     public PlayerMusicManager(Context context) {
         this.context = context;
-        initMediaPlayer(context, () -> Logger.d("Media player initialized"));
-        initSpotifyPlayer(context);
-        initDeezerPlayer(context);
-        initAlternativePlayer();
+        androidPlayer = new AndroidPlayer(context);
+        spotifyPlayer = new SpotifyPlayer(context);
+        deezerPlayer = new DeezerPlayer(context);
+        vlcPlayer = new VLCPlayer();
         trackPositionHandler = new Handler();
         EventBus.getDefault().register(this);
-    }
-
-    private ExoPlayer exoPlayer;
-    MediaCodecAudioTrackRenderer audioRenderer;
-    private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
-    private static final int BUFFER_SEGMENT_COUNT = 256;
-
-    private void initAlternativePlayer() {
-        exoPlayer = ExoPlayer.Factory.newInstance(1);
-
-    }
-
-    /***
-     * Method called when the token is updated for spotify
-     */
-    public void refreshAccessTokenPlayer() {
-        SpotifyPlayerManager.updateToken(AppPrefs.getSpotifyAccessToken());
-    }
-
-    /***
-     * service connexion that will handle the binding with the {@link MediaPlayerService} service
-     */
-    private ServiceConnection musicConnection;
-
-    /***
-     * @param context
-     */
-    private void initMediaPlayer(Context context, final IMediaPlayer iMediaPlayer) {
-        musicConnection = new ServiceConnection() {
-
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                MediaPlayerService.MediaPlayerServiceBinder binder = (MediaPlayerService.MediaPlayerServiceBinder) service;
-                //get service
-                mediaPlayerService = binder.getService();
-                mediaPlayerService.setOnCompletionListener(mp -> next());
-                mediaPlayerService.setOnDisconnectListener(() -> {
-                    mediaPlayerService = null;
-                    mediaPlayerServiceBound = false;
-                });
-                //pass list
-                mediaPlayerServiceBound = true;
-                iMediaPlayer.onInit();
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                mediaPlayerService = null;
-                mediaPlayerServiceBound = false;
-            }
-        };
-
-        Intent playIntent = new Intent(context, MediaPlayerService.class);
-        context.bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-        context.startService(playIntent);
-
-    }
-
-    /***
-     * Initialize the SpotifyPlayer according to the data found with accesstoken
-     *
-     * @param context
-     */
-    private void initSpotifyPlayer(Context context) {
-        SpotifyPlayerManager.startPlayer(context, AppPrefs.getSpotifyAccessToken(), new Player.InitializationObserver() {
-            @Override
-            public void onInitialized(Player player) {
-
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-
-            }
-        }, new PlayerNotificationCallback() {
-            @Override
-            public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
-                if (currentType == TYPE.SPOTIFY)
-                    currentPosition = playerState.positionInMs;
-                if (playerState.positionInMs >= playerState.durationInMs && playerState.durationInMs > 0 && pauseToHandle)
-                    next();
-                Log.d(TAG, String.format("Player state %s - activeDevice %s : current duration %d total duration %s", playerState.trackUri, playerState.activeDevice, playerState.positionInMs, playerState.durationInMs));
-            }
-
-            @Override
-            public void onPlaybackError(ErrorType errorType, String s) {
-
-            }
-        }, null);
-    }
-
-    private void initDeezerPlayer(Context context) {
-        DeezerManager.player().addPlayerListener(new SimplifiedPlayerListener() {
-            @Override
-            public void onTrackEnded(PlayableEntity playableEntity) {
-                next();
-            }
-        });
-
     }
 
 
@@ -195,23 +78,17 @@ public class PlayerMusicManager {
      * @param track
      */
     private void playTrack(final TrackVM track) {
-        if (!mediaPlayerServiceBound || mediaPlayerService == null)
-            initMediaPlayer(context, () -> playTrack(track));
-        else {
-            checkIfTracksAlreadyHere(track);
-            track.isPlaying.set(true);
-            Track model = track.getModel();
-            handlePlay(model);
-            observe();
-            EventBus.getDefault().post(new TrackChangeEvent(model));
-
-            if (playerStatusListener != null) {
-                playerStatusListener.onUpdate(isPlaying);
-            }
-            PlayerNotification.show(model);
+        checkIfTracksAlreadyHere(track);
+        track.isPlaying.set(true);
+        Track model = track.getModel();
+        handlePlay(model);
+        observe();
+        EventBus.getDefault().post(new TrackChangeEvent(model));
+        if (playerStatusListener != null) {
+            playerStatusListener.onUpdate(isPlaying);
         }
+        PlayerNotification.show(model);
     }
-
 
     /**
      * Verify if the track is already present in the playlist, if So play it
@@ -221,7 +98,7 @@ public class PlayerMusicManager {
      */
     private void checkIfTracksAlreadyHere(TrackVM track) {
         int i = 0;
-        newTrack = true;
+        boolean newTrack = true;
         for (TrackVM t : tracks) {
             t.isPlaying.set(false);
             if (t.getModel().getRef().equals(track.getModel().getRef())) {
@@ -244,53 +121,26 @@ public class PlayerMusicManager {
      * @param model
      */
     private void handlePlay(Track model) {
+        //TODO pause other model
         currentType = model.getType();
         switch (model.getType()) {
             case TYPE.LOCAL:
-                pauseToHandle = false;
-                SpotifyPlayerManager.pause();
-                SpotifyPlayerManager.clear();
-
-                handler.postDelayed(() -> pauseToHandle = true, 500);
-                mediaPlayerService.playSong(Uri.parse(model.getRef()));
-
+                currentPlayer = vlcPlayer;
                 break;
             case TYPE.SPOTIFY:
-                if (mediaPlayerService != null)
-                    mediaPlayerService.stop();
-                SpotifyPlayerManager.play(model.getRef());
+                currentPlayer = spotifyPlayer;
                 break;
             case TYPE.SOUNDCLOUD:
-                SpotifyPlayerManager.pause();
-                SpotifyPlayerManager.clear();
-                mediaPlayerService.playUrlSong(model.getRef());
+                currentPlayer = androidPlayer;
                 break;
             case TYPE.DEEZER:
-                SpotifyPlayerManager.pause();
-                SpotifyPlayerManager.clear();
-                mediaPlayerService.pause();
-                DeezerManager.playTrack(Long.parseLong(model.getRef()));
+                currentPlayer = deezerPlayer;
                 break;
         }
         isPlaying = true;
+        currentPlayer.play(model.getRef());
     }
 
-    private void playWithExo(String ref) {
-        Uri uri = Uri.parse(ref);
-        final int numRenderers = 2;
-
-        // Build the sample source
-        SampleSource sampleSource =
-                new FrameworkSampleSource(context, uri, null);
-
-        // Build the track renderers
-        TrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource, MediaCodecSelector.DEFAULT);
-
-        // Build the ExoPlayer and start playback
-        exoPlayer = ExoPlayer.Factory.newInstance(numRenderers);
-        exoPlayer.prepare(audioRenderer);
-        exoPlayer.setPlayWhenReady(true);
-    }
 
     /***
      *
@@ -300,6 +150,7 @@ public class PlayerMusicManager {
         if (currentSong >= 0)
             playTrack(tracks.get(currentSong));
     }
+
 
     /***
      *
@@ -314,7 +165,6 @@ public class PlayerMusicManager {
         }
     }
 
-
     /***
      * @param
      */
@@ -328,9 +178,7 @@ public class PlayerMusicManager {
      * @param alarm
      */
     public void startAlarm(Alarm alarm) {
-
         currentSong = 0;
-        this.alarm = alarm;
         tracks.clear();
         Crashlytics.log("Start alarm " + alarm.getName() + " NbTracks : " + +alarm.getTracks().size());
         for (Track track : alarm.getTracks()) {
@@ -346,12 +194,8 @@ public class PlayerMusicManager {
      * Stop all the players
      */
     public void stop() {
-        SpotifyPlayerManager.pause();
-        if (mediaPlayerService != null) {
-            mediaPlayerService.stop();
-        }
+        currentPlayer.stop();
         currentSong = 0;
-        currentPosition = 0;
     }
 
     /***
@@ -359,10 +203,7 @@ public class PlayerMusicManager {
      */
     public void resume() {
         getCurrentTrackVM().isPlaying.set(true);
-        if (mediaPlayerService != null) {
-            mediaPlayerService.resume();
-        }
-        SpotifyPlayerManager.resume();
+        currentPlayer.resume();
         PlayerNotification.updatePlayStatus(false);
     }
 
@@ -371,10 +212,7 @@ public class PlayerMusicManager {
      */
     public void pause() {
         getCurrentTrackVM().isPlaying.set(false);
-        if (mediaPlayerService != null) {
-            mediaPlayerService.pause();
-        }
-        SpotifyPlayerManager.pause();
+        currentPlayer.pause();
         PlayerNotification.updatePlayStatus(true);
     }
 
@@ -388,6 +226,11 @@ public class PlayerMusicManager {
         if (trackIsPlayable(eventPlayTrack.getTrack().getModel())) {
             playTrack(eventPlayTrack.getTrack());
         }
+    }
+
+    @Subscribe
+    public void onReceive(EventNextTrack ev) {
+        next();
     }
 
     private boolean trackIsPlayable(Track model) {
@@ -448,20 +291,7 @@ public class PlayerMusicManager {
      * @param progress
      */
     public void seek(int progress) {
-        switch (currentType) {
-            case TYPE.LOCAL:
-                mediaPlayerService.seek(progress);
-                break;
-            case TYPE.SPOTIFY:
-                SpotifyPlayerManager.player().seekToPosition(progress);
-                break;
-            case TYPE.SOUNDCLOUD:
-                mediaPlayerService.seek(progress);
-                break;
-            case TYPE.DEEZER:
-                deezerPlayer.seek(currentPosition);
-                break;
-        }
+        currentPlayer.seekTo(progress);
     }
 
 
@@ -476,21 +306,7 @@ public class PlayerMusicManager {
     public void observe() {
         trackPositionHandler.postDelayed(() -> {
             if (isPlaying) {
-                switch (currentType) {
-                    case TYPE.LOCAL:
-                        currentPosition = mediaPlayerService.getCurrentPosition();
-                        break;
-                    case TYPE.SPOTIFY:
-                        //already done in playbackevent
-                        break;
-                    case TYPE.SOUNDCLOUD:
-                        currentPosition = mediaPlayerService.getCurrentPosition();
-                        break;
-                    case TYPE.DEEZER:
-                        currentPosition = (int) deezerPlayer.getPosition();
-                        break;
-                }
-                sendMsgToUI(currentPosition);
+                sendMsgToUI(currentPlayer.position());
             }
             observe();
 
@@ -498,26 +314,8 @@ public class PlayerMusicManager {
     }
 
 
-    @Setter
-    private DurationListener durationListener;
-
-    public interface IMediaPlayer {
-        void onInit();
-    }
-
-    public interface DurationListener {
-        void onUpdate(int position);
-    }
-
-    @Setter
-    private PlayerStatusListener playerStatusListener;
-
-    public interface PlayerStatusListener {
-        void onUpdate(boolean isPlayinh);
-    }
-
     //handles all the background threads things for you
-    private void sendMsgToUI(int position) {
+    private void sendMsgToUI(float position) {
         if (durationListener != null)
             durationListener.onUpdate(position);
     }

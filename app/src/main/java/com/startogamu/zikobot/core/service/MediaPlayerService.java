@@ -12,6 +12,10 @@ import android.util.Log;
 
 import com.orhanobut.logger.Logger;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import lombok.Setter;
 
 /**
@@ -55,10 +59,25 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         //play
         mediaPlayer.reset();
         //set the data source
-        try {
-            mediaPlayer.setDataSource(getApplicationContext(), uri);
-        } catch (Exception e) {
-            Log.e(MediaPlayerService.class.getSimpleName(), "Error setting data source", e);
+
+        if (uri.toString().contains("m4a")) {
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(uri.getPath());
+                mediaPlayer.setDataSource(fis.getFD());
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // set mediaplayer data source to file descriptor of input stream
+        } else {
+            try {
+                mediaPlayer.setDataSource(getApplicationContext(), uri);
+            } catch (Exception e) {
+                Log.e(MediaPlayerService.class.getSimpleName(), "Error setting data source", e);
+            }
         }
         mediaPlayer.prepareAsync();
     }

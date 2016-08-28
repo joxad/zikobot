@@ -8,11 +8,13 @@ import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
+import com.joxad.android_easy_spotify.SpotifyPlayerManager;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AnimationEndListener;
+import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityWakeUpBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.mock.Mock;
@@ -59,6 +61,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
 
     @Override
     public void init() {
+        SpotifyPlayerManager.updateToken(AppPrefs.getSpotifyAccessToken());
 
         Injector.INSTANCE.spotifyAuth().inject(this);
         Injector.INSTANCE.playerComponent().inject(this);
@@ -68,7 +71,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
 
 //For Normal mode
         am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-        refreshToken();
         Dart.inject(this, activity);
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -96,19 +98,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         trackVM.updateTrack(trackChangeEvent.getTrack());
     }
 
-
-    /***
-     * We refresh the token of spotify to be sure
-     */
-    private void refreshToken() {
-        try {
-            Injector.INSTANCE.spotifyAuth().manager().refreshToken(activity, () -> {
-                Injector.INSTANCE.playerComponent().manager().refreshAccessTokenPlayer();
-            });
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * @param alarm
