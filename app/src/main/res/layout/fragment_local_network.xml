@@ -32,6 +32,11 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="This feature is currently in DEV" />
+
                 <com.github.ayvazj.breadcrumblayout.BreadcrumbLayout
                     android:id="@+id/breadcrumbLayout"
                     android:layout_width="match_parent"
