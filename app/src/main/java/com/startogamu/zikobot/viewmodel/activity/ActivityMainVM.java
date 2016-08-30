@@ -16,6 +16,7 @@ import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
+import com.startogamu.zikobot.localnetwork.FragmentLocalNetwork;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.view.adapter.ViewPagerAdapter;
@@ -82,7 +83,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         tabAdapter.addFragment(activity.getString(R.string.drawer_filter_artiste), FragmentLocalArtists.newInstance());
         tabAdapter.addFragment(activity.getString(R.string.drawer_filter_album), FragmentLocalAlbums.newInstance(null));
         tabAdapter.addFragment(activity.getString(R.string.drawer_filter_tracks), FragmentLocalTracks.newInstance(null, BR.trackVM, R.layout.item_track));
-
+        tabAdapter.addFragment("network", FragmentLocalNetwork.newInstance());
     }
 
     /***

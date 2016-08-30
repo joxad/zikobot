@@ -1,11 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+
+    <data>
+
+        <import
+            alias="v"
+            type="android.view.View" />
+
+        <variable
+            name="fragmentLocalNetworkVM"
+            type="com.startogamu.zikobot.localnetwork.FragmentLocalNetworkVM" />
+
+    </data>
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SCANNER!" />
-</LinearLayout>
+        android:layout_height="match_parent">
+
+        <com.startogamu.zikobot.view.custom.FlingNestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:id="@+id/ll_network"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.github.ayvazj.breadcrumblayout.BreadcrumbLayout
+                    android:id="@+id/breadcrumbLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@android:color/white" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorAccent" />
+
+
+                <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
+                    android:id="@+id/rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:layoutAnimation="@anim/grid_animation"
+                    android:paddingBottom="@dimen/actionBarSizeNormal"
+                    app:itemView="@{fragmentLocalNetworkVM.itemNetwork}"
+                    app:items="@{fragmentLocalNetworkVM.networkItems}"
+                    tools:listitem="@layout/item_network" />
+
+            </LinearLayout>
+
+        </com.startogamu.zikobot.view.custom.FlingNestedScrollView>
+
+
+        <ProgressBar
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:visibility="@{fragmentLocalNetworkVM.networkItems.isEmpty() ? v.VISIBLE: v.GONE}" />
+
+    </RelativeLayout>
+
+</layout>

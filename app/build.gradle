@@ -135,6 +135,7 @@ dependencies {
     compile 'com.github.claucookie.miniequalizer:library:1.0.0'
     compile 'com.android.support:multidex:1.0.1'
     compile(name:'vlc-android-sdk', ext:'aar')
+    compile 'com.github.ayvazj.android:breadcrumblayout:0.1.0'
 
 }
 
