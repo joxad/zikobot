@@ -78,7 +78,6 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
                 loadLocalTracks(15, totalItemsCount);
             }
         });
-        binding.rvTracks.setNestedScrollingEnabled(false);
         initToolbar();
         initPlayerVM();
 
@@ -108,8 +107,8 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         EventBus.getDefault().register(this);
         playerVM.onResume();
         albums.clear();
-        loadLocalAlbums(15,0);
         tracks.clear();
+        loadLocalAlbums(15,0);
         loadLocalTracks(15,0);
         //TODO getinfos on the artist
 
@@ -139,24 +138,22 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
      * Load the local music
      */
     public void loadLocalAlbums(int limit, int offset) {
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(limit, offset, artist != null ? artist.getName() : null, -1, null).subscribe(localTracks -> {
-            Log.d(TAG, "" + localTracks.size());
-            for (LocalTrack localTrack : localTracks) {
-                tracks.add(new TrackVM(activity, Track.from(localTrack)));
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(limit, offset, artist != null ? artist.getName() : null, null).subscribe(localAlbums -> {
+            Log.d(TAG, "" + localAlbums.size());
+            for (LocalAlbum localAlbum : localAlbums) {
+                albums.add(new AlbumVM(activity, localAlbum));
             }
 
         }, throwable -> {
 
         });
-
     }
 
     public void loadLocalTracks(int limit, int offset) {
-
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(limit, offset, artist != null ? artist.getName() : null, null).subscribe(localAlbums -> {
-            Log.d(TAG, "" + localAlbums.size());
-            for (LocalAlbum localAlbum : localAlbums) {
-                albums.add(new AlbumVM(activity, localAlbum));
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(limit, offset, artist != null ? artist.getName() : null, -1, null).subscribe(localTracks -> {
+            Log.d(TAG, "" + localTracks.size());
+            for (LocalTrack localTrack : localTracks) {
+                tracks.add(new TrackVM(activity, Track.from(localTrack)));
             }
 
         }, throwable -> {
