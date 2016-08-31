@@ -37,6 +37,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
     public ItemView itemViewAlbum = ItemView.of(BR.albumVM, R.layout.item_album);
     public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
 
+    public String query="";
     /***
      * @param fragment
      * @param binding
@@ -88,6 +89,15 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
             clearAll();
             return;
         }
+        this.query = query;
+        loadArtists(15,0);
+        loadAlbums(15,0);
+        loadTracks(15,0);
+
+
+    }
+
+    public void loadArtists(final int limit, final int offset){
         Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalArtists(15,0,query).subscribe(localArtists -> {
             Logger.d(TAG, "" + localArtists.size());
             artists.clear();
@@ -100,6 +110,9 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
             artists.clear();
 
         });
+    }
+
+    public void loadAlbums(final int limit, final int offset){
         Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(15,0,null, query).subscribe(localArtists -> {
             Logger.d(TAG, "" + localArtists.size());
             albums.clear();
@@ -111,6 +124,9 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
             Logger.e(throwable.getMessage());
             albums.clear();
         });
+    }
+
+    public void loadTracks(final int limit, final int offset){
         Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(10,0,null,-1, query).subscribe(localTracks -> {
             Logger.d("" + localTracks.size());
             tracks.clear();

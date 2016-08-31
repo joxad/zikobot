@@ -1,7 +1,7 @@
 package com.startogamu.zikobot.artist;
 
 import android.databinding.ObservableArrayList;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
 
@@ -14,6 +14,7 @@ import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
+import com.startogamu.zikobot.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.startogamu.zikobot.databinding.ActivityArtistBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
@@ -61,6 +62,22 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         tracks = new ObservableArrayList<>();
 
         binding.rv.setNestedScrollingEnabled(false);
+        binding.rv.setLayoutManager(new GridLayoutManager(activity, 2));
+        binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                loadLocalAlbums(15, totalItemsCount);
+            }
+        });
+
+        binding.rvTracks.setNestedScrollingEnabled(false);
+        binding.rvTracks.setLayoutManager(new GridLayoutManager(activity, 1));
+        binding.rvTracks.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rvTracks.getLayoutManager()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                loadLocalTracks(15, totalItemsCount);
+            }
+        });
         binding.rvTracks.setNestedScrollingEnabled(false);
         initToolbar();
         initPlayerVM();
@@ -90,7 +107,10 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         super.onResume();
         EventBus.getDefault().register(this);
         playerVM.onResume();
-        loadLocalMusic();
+        albums.clear();
+        loadLocalAlbums(15,0);
+        tracks.clear();
+        loadLocalTracks(15,0);
         //TODO getinfos on the artist
 
     }
@@ -107,6 +127,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
         dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -117,10 +138,8 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     /***
      * Load the local music
      */
-    public void loadLocalMusic() {
-        albums.clear();
-        tracks.clear();
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(15,0,artist != null ? artist.getName() : null, -1, null).subscribe(localTracks -> {
+    public void loadLocalAlbums(int limit, int offset) {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(limit, offset, artist != null ? artist.getName() : null, -1, null).subscribe(localTracks -> {
             Log.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 tracks.add(new TrackVM(activity, Track.from(localTrack)));
@@ -129,7 +148,12 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         }, throwable -> {
 
         });
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(15,0,artist != null ? artist.getName() : null, null).subscribe(localAlbums -> {
+
+    }
+
+    public void loadLocalTracks(int limit, int offset) {
+
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(limit, offset, artist != null ? artist.getName() : null, null).subscribe(localAlbums -> {
             Log.d(TAG, "" + localAlbums.size());
             for (LocalAlbum localAlbum : localAlbums) {
                 albums.add(new AlbumVM(activity, localAlbum));

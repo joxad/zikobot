@@ -72,7 +72,6 @@
                             android:visibility="@{activityArtistVM.albums.size() >0 ? v.VISIBLE : v.GONE}"
                             app:itemView="@{activityArtistVM.itemViewAlbum}"
                             app:items="@{activityArtistVM.albums}"
-                            app:layoutManager="@{LayoutManagers.grid(2)}"
                             tools:listitem="@layout/item_artist" />
 
                         <TextView
@@ -101,7 +100,6 @@
                             android:visibility="@{activityArtistVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
                             app:itemView="@{activityArtistVM.itemViewTrack}"
                             app:items="@{activityArtistVM.tracks}"
-                            app:layoutManager="@{LayoutManagers.grid(1)}"
                             tools:listitem="@layout/item_artist" />
 
                     </LinearLayout>

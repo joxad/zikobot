@@ -1,7 +1,7 @@
 package com.startogamu.zikobot.album;
 
-import android.app.SharedElementCallback;
 import android.databinding.ObservableArrayList;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -12,6 +12,7 @@ import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
+import com.startogamu.zikobot.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.startogamu.zikobot.databinding.ActivityAlbumBinding;
 import com.startogamu.zikobot.module.component.Injector;
 import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
@@ -24,8 +25,6 @@ import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
-
-import java.util.List;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -56,6 +55,13 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
         album = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.LOCAL_ALBUM));
         tracks = new ObservableArrayList<>();
         binding.rv.setNestedScrollingEnabled(false);
+        binding.rv.setLayoutManager(new GridLayoutManager(activity, 1));
+        binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                loadLocalMusic(15, totalItemsCount);
+            }
+        });
         initToolbar();
         initPlayerVM();
     }
@@ -84,7 +90,9 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
         super.onResume();
         EventBus.getDefault().register(this);
         playerVM.onResume();
-        loadLocalMusic();
+        tracks.clear();
+
+        loadLocalMusic(15, 0);
         //TODO getinfos on the album
     }
 
@@ -105,10 +113,11 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
 
     /***
      * Load the local music
+     * @param i
+     * @param totalItemsCount
      */
-    public void loadLocalMusic() {
-        tracks.clear();
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(10,0,null, album.getId(), null).subscribe(localTracks -> {
+    public void loadLocalMusic(int limit, int offset) {
+        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(limit,offset,null, album.getId(), null).subscribe(localTracks -> {
             Logger.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 tracks.add(new TrackVM(activity, Track.from(localTrack)));

@@ -71,7 +71,6 @@
                             android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
                             app:itemView="@{activityAlbumVM.itemViewTrack}"
                             app:items="@{activityAlbumVM.tracks}"
-                            app:layoutManager="@{LayoutManagers.grid(1)}"
                             tools:listitem="@layout/item_artist" />
 
                     </LinearLayout>

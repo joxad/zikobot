@@ -8,6 +8,7 @@ import com.lapism.searchview.SearchView;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowArtistDetail;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.search.EventQueryChange;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
@@ -15,6 +16,7 @@ import com.startogamu.zikobot.databinding.ActivitySearchBinding;
 import com.startogamu.zikobot.soundcloud.FragmentSoundCloudSearch;
 import com.startogamu.zikobot.spotify.FragmentSpotifySearch;
 import com.startogamu.zikobot.view.adapter.ViewPagerAdapter;
+import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -94,6 +96,14 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     public void onEvent(EventShowArtistDetail eventShowArtistDetail) {
         activity.startActivity(IntentManager.goToArtist(eventShowArtistDetail.getArtist()));
     }
+
+    @Subscribe
+    public void onEvent(EventShowDialogAlarm event) {
+        DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
+        dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
+
+    }
+
 
     @Subscribe
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
