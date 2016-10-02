@@ -10,6 +10,9 @@ import com.startogamu.zikobot.core.event.EventSelectItemNetwork;
 import org.greenrobot.eventbus.EventBus;
 import org.videolan.libvlc.Media;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 /**
  * Created by josh on 29/08/16.
  */
@@ -34,7 +37,18 @@ public class ItemNetworkVM extends BaseVM<ItemNetwork> {
 
     @Bindable
     public String getName() {
-        return model.getTitle();
+        String decoded = null;
+        try {
+            String title= model.getTitle();
+            if (title.startsWith("/")) {
+                title = title.substring(1);
+            }
+            decoded = URLDecoder.decode(title, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return decoded;
     }
 
     @Bindable

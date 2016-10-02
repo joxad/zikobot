@@ -10,13 +10,19 @@ import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventSelectItemNetwork;
+import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.databinding.FragmentLocalNetworkBinding;
+import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -62,7 +68,7 @@ public class FragmentLocalNetworkVM extends FragmentBaseVM<FragmentLocalNetwork,
                     int position = crumb.getPosition();
                     String path = "";
                     for (int i = 1; i <= position; i++) {
-                        path += binding.breadcrumbLayout.getCrumbAt(i).getText();
+                        path += binding.breadcrumbLayout.getCrumbAt(i);
                     }
                     currentMedia = path;
                     discover(Uri.parse(path));
@@ -102,12 +108,22 @@ public class FragmentLocalNetworkVM extends FragmentBaseVM<FragmentLocalNetwork,
 
     @Subscribe
     public void onReceive(EventSelectItemNetwork eventSelectItemNetwork) {
-        currentMedia = eventSelectItemNetwork.getModel().getMedia().getUri().toString();
+        String title = "";
+        try {
+            title = URLDecoder.decode(eventSelectItemNetwork.getModel().getTitle(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        if (eventSelectItemNetwork.getModel().getMedia().getType() == Media.Type.File) {
+            EventBus.getDefault().post(new EventPlayTrack(new TrackVM(fragment.getContext(), Track.from(eventSelectItemNetwork.getModel().getMedia(), title))));
+        } else {
+            currentMedia = eventSelectItemNetwork.getModel().getMedia().getUri().toString();
 
-        binding.breadcrumbLayout.addCrumb(binding.breadcrumbLayout.newCrumb()
-                .setText(eventSelectItemNetwork.getModel().getTitle()));
+            binding.breadcrumbLayout.addCrumb(binding.breadcrumbLayout.newCrumb()
+                    .setText(title));
 
-        discover(eventSelectItemNetwork.getModel().getMedia().getUri());
+            discover(eventSelectItemNetwork.getModel().getMedia().getUri());
+        }
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.startogamu.zikobot.module.spotify_api.model.SpotifyTrack;
 
 import org.parceler.Parcel;
 import org.parceler.Transient;
+import org.videolan.libvlc.Media;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -135,4 +136,11 @@ public class Track extends BaseModel {
     }
 
 
+    public static Track from(Media media, String title) {
+        Track track = new Track();
+        track.setType(TYPE.LOCAL);
+        track.setRef(media.getUri().toString());
+        track.setName(title);
+        return track;
+    }
 }
