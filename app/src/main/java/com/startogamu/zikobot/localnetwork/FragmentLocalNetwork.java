@@ -6,6 +6,7 @@ import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.BR;
 
+import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentLocalNetworkBinding;
 
 /**
@@ -14,9 +15,11 @@ import com.startogamu.zikobot.databinding.FragmentLocalNetworkBinding;
 public class FragmentLocalNetwork extends FragmentBase<FragmentLocalNetworkBinding, FragmentLocalNetworkVM>{
 
 
-    public static FragmentLocalNetwork newInstance() {
+    public static FragmentLocalNetwork newInstance(final String current, final String media) {
         Bundle args = new Bundle();
         FragmentLocalNetwork fragment = new FragmentLocalNetwork();
+        args.putString(EXTRA.FRAGMENT_TITLE, current);
+        args.putString(EXTRA.MEDIA, media);
         fragment.setArguments(args);
         return fragment;
     }

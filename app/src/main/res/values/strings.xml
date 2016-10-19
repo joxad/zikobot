@@ -110,4 +110,5 @@
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">Zikobot, Android musical assistant</string>
     <string name="options">settings</string>
+    <string name="drawer_filter_network">network</string>
 </resources>

@@ -91,11 +91,10 @@
             android:layout_marginBottom="@{activityMainVM.playerVM.trackVMs.size() >0  ?@dimen/margin_player : @dimen/activity_vertical_margin }"
             android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_vertical_margin"
+            app:isHiding="@{activityMainVM.playerVM.isExpanded}"
             app:layout_behavior="com.startogamu.zikobot.view.custom.ScrollAwareFABBehavior"
             android:onClick="@{activityMainVM.fabClicked}"
-            android:src="@drawable/ic_search"
-            app:layout_anchor="@id/view_player"
-            app:layout_anchorGravity="top|end" />
+            app:srcCompat="@drawable/ic_search" />
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -19,6 +19,7 @@ android {
     dataBinding {
         enabled = true
     }
+
     defaultConfig {
         applicationId "com.startogamu.zikobot"
         minSdkVersion 16
@@ -134,8 +135,8 @@ dependencies {
     compile 'com.lapism:searchview:3.4.1'
     compile 'com.github.claucookie.miniequalizer:library:1.0.0'
     compile 'com.android.support:multidex:1.0.1'
-    compile(name:'vlc-android-sdk', ext:'aar')
-    compile 'com.github.ayvazj.android:breadcrumblayout:0.1.0'
+    compile(name: 'vlc-android-sdk', ext: 'aar')
+    compile 'com.rokpetek.breadcrumbtoolbar:breadcrumb-toolbar:1.0'
 
 }
 

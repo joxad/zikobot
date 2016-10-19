@@ -30,6 +30,9 @@ public class VLCPlayer implements IMusicPlayer {
         ArrayList<String> options = new ArrayList<>();
         options.add("--http-reconnect");
         options.add("--network-caching=2000");
+        options.add("--aout=opensles");
+        options.add("--audio-time-stretch"); // time stretching
+        options.add("-vvv"); // verbosity
         libVLC = new LibVLC(options);
         mediaPlayer = new MediaPlayer(libVLC);
         mediaPlayer.setEventListener(new MediaPlayerListener());

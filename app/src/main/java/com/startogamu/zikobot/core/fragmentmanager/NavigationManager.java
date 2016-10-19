@@ -9,6 +9,7 @@ import com.joxad.easydatabinding.activity.IPermission;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.event.EventSelectItemNetwork;
 import com.startogamu.zikobot.core.event.EventShowArtistDetail;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
@@ -29,6 +30,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import lombok.Data;
+
+import static android.R.attr.fragment;
 
 /**
  * Created by josh on 10/06/16.
@@ -107,6 +110,11 @@ public class NavigationManager implements IPermission {
         DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
         dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
 
+    }
+
+    @Subscribe
+    public void onReceive(EventSelectItemNetwork eventSelectItemNetwork) {
+        activity.startActivity(IntentManager.goToLocalNetwork(eventSelectItemNetwork.getModel().getMedia().getUri().toString()));
     }
 
     public void onResume() {

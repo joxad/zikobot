@@ -2,6 +2,7 @@ package com.startogamu.zikobot.core.utils;
 
 import android.databinding.BindingAdapter;
 import android.support.annotation.DrawableRes;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -41,7 +42,16 @@ public class Bindings {
     public static void setBottomMargin(View view, float bottomMargin) {
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
         layoutParams.setMargins(layoutParams.leftMargin, layoutParams.topMargin,
-                layoutParams.rightMargin, (int)bottomMargin);
+                layoutParams.rightMargin, (int) bottomMargin);
         view.setLayoutParams(layoutParams);
+    }
+
+    @BindingAdapter("isHiding")
+    public static void isHiding(FloatingActionButton view, boolean isHiding) {
+        if (isHiding) {
+            view.hide();
+        } else {
+            view.show();
+        }
     }
 }

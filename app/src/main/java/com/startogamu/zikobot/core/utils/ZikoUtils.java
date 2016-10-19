@@ -15,6 +15,8 @@ import com.bumptech.glide.request.target.Target;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.databinding.ViewToolbarImageBinding;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
@@ -123,5 +125,14 @@ public class ZikoUtils {
     public static void showKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(view, 0);
+    }
+
+    public static String handleUtf8(String title) {
+        try {
+            title = URLDecoder.decode(title, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return title;
     }
 }

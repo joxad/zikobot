@@ -71,9 +71,11 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
         super.onPause();
     }
 
-    @Subscribe
+    @Subscribe(priority = 1)
     public void onEvent(EventAlarmSelect eventAlarmSelect) {
         //TODO
+        EventBus.getDefault().cancelEventDelivery(eventAlarmSelect) ;
+
         Alarm alarm = eventAlarmSelect.getModel();
         AlarmTrackManager.clear();
         AlarmTrackManager.selectTrack(track);

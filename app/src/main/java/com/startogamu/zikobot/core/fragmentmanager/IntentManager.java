@@ -8,6 +8,7 @@ import com.startogamu.zikobot.album.ActivityAlbum;
 import com.startogamu.zikobot.artist.ActivityArtist;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.deezer.ActivityDeezer;
+import com.startogamu.zikobot.localnetwork.ActivityLocalNetwork;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
@@ -79,5 +80,9 @@ public class IntentManager {
 
     public static Intent goToDeezerPlaylist(Playlist item) {
         return new Intent(context, ActivityDeezer.class).putExtra(EXTRA.PLAYLIST, Parcels.wrap(item));
+    }
+
+    public static Intent goToLocalNetwork(String currentMedia) {
+        return new Intent(context, ActivityLocalNetwork.class).putExtra(EXTRA.MEDIA, currentMedia);
     }
 }
