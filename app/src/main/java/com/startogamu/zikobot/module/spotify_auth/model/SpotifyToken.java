@@ -2,15 +2,11 @@ package com.startogamu.zikobot.module.spotify_auth.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-/**
- * @author Fabien Baron
- * @company Phoceis
- * @email fbaron@phoceis.com
- * @date 11/04/2016
- */
 @Data
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class SpotifyToken {
     @SerializedName("access_token")
     protected String accessToken;

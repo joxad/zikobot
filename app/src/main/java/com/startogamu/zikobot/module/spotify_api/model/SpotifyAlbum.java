@@ -8,10 +8,12 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Generated("org.jsonschema2pojo")
 @Data
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class SpotifyAlbum {
 
     @SerializedName("id")

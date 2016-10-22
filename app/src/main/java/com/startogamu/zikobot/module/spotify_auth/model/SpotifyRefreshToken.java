@@ -2,9 +2,11 @@ package com.startogamu.zikobot.module.spotify_auth.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class SpotifyRefreshToken {
 
     @SerializedName("grant_type")

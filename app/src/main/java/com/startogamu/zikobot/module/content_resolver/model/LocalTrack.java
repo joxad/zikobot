@@ -3,6 +3,7 @@ package com.startogamu.zikobot.module.content_resolver.model;
 import android.content.ContentUris;
 import android.net.Uri;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

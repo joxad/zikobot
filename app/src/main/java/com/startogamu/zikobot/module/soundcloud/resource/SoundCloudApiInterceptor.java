@@ -7,6 +7,7 @@ import com.startogamu.zikobot.core.utils.AppPrefs;
 
 import java.io.IOException;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -17,6 +18,7 @@ import okhttp3.Response;
  * Created by josh on 15/06/16.
  */
 @Data
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class SoundCloudApiInterceptor implements Interceptor {
 
     private final Context context;

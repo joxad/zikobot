@@ -7,6 +7,7 @@ import com.startogamu.zikobot.module.spotify_api.model.SpotifyArtist;
 
 import org.parceler.Parcel;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,10 +17,11 @@ import lombok.Setter;
  */
 @Data
 @Parcel
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class Album {
-    private long id;
-    private String name;
-    private String image;
+    protected long id;
+    protected String name;
+    protected String image;
     protected int type;
     protected int nbTracks;
 

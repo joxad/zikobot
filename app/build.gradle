@@ -75,10 +75,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-
-    retrolambda {
-        jdk jdk_dir
-    }
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -132,7 +128,7 @@ dependencies {
     }
     compile 'com.google.firebase:firebase-core:9.0.2'
     compile 'com.deezer.sdk:deezer-sdk:0.10.20@aar'
-    compile 'com.lapism:searchview:3.4.1'
+    compile 'com.lapism:searchview:3.8'
     compile 'com.github.claucookie.miniequalizer:library:1.0.0'
     compile 'com.android.support:multidex:1.0.1'
     compile(name: 'vlc-android-sdk', ext: 'aar')

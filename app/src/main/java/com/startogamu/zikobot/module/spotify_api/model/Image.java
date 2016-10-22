@@ -5,10 +5,12 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Parcel
 @Data
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class Image {
 
     @SerializedName("height")

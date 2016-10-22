@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
                     android:onClick="@{trackVM.onMoreClicked}"
-                    app:srcCompat="@drawable/ic_more" />
+                    android:src="@drawable/ic_more" />
             </com.balysv.materialripple.MaterialRippleLayout>
 
             <RelativeLayout

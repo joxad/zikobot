@@ -35,7 +35,7 @@
                     android:layout_height="250dp"
                     android:scaleType="centerCrop"
                     android:transitionName="@string/transition"
-                    app:srcCompat="@drawable/ic_vinyl" />
+                    android:src="@drawable/ic_vinyl" />
 
                 <RelativeLayout
                     android:id="@+id/rl_overlay"

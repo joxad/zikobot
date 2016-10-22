@@ -4,6 +4,7 @@ import android.util.Base64;
 
 import java.io.IOException;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -13,6 +14,7 @@ import okhttp3.Response;
  *
  */
 @Data
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class SpotifyAuthInterceptor implements Interceptor {
 
     private final String clientId;

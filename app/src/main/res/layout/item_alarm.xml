@@ -62,7 +62,7 @@
                             android:layout_alignParentRight="true"
                             android:onClick="@{itemAlarmVM.expand}"
                             android:layout_centerVertical="true"
-                            app:srcCompat="@drawable/ic_expand_accent" />
+                            android:src="@drawable/ic_expand_accent" />
 
                         <TextView
                             android:id="@+id/tv_title"

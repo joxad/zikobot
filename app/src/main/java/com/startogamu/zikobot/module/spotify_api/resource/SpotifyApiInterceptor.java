@@ -4,6 +4,7 @@ import com.startogamu.zikobot.core.utils.AppPrefs;
 
 import java.io.IOException;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -13,6 +14,7 @@ import okhttp3.Response;
  * Created by josh on 11/04/16.
  */
 @Data
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class SpotifyApiInterceptor implements Interceptor {
 
 

@@ -3,12 +3,14 @@ package com.startogamu.zikobot.module.lyrics.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
  * Created by josh on 02/08/16.
  */
 @Data
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class Result {
 
     @SerializedName("name")

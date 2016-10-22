@@ -7,10 +7,12 @@ import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Generated("org.jsonschema2pojo")
 @Data
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class SpotifyPlaylist {
 
     @SerializedName("href")

@@ -2,12 +2,14 @@ package com.startogamu.zikobot.module.spotify_api.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
  * Created by josh on 01/04/16.
  */
 @Data
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class SpotifyArtist {
 
     @SerializedName("href")

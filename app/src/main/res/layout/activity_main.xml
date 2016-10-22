@@ -83,6 +83,7 @@
             app:layout_behavior="@string/bottom_sheet_behavior"
             app:playerVM="@{activityMainVM.playerVM}" />
 
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -94,7 +95,7 @@
             app:isHiding="@{activityMainVM.playerVM.isExpanded}"
             app:layout_behavior="com.startogamu.zikobot.view.custom.ScrollAwareFABBehavior"
             android:onClick="@{activityMainVM.fabClicked}"
-            app:srcCompat="@drawable/ic_search" />
+            android:src="@drawable/ic_search" />
 
     </android.support.design.widget.CoordinatorLayout>
 

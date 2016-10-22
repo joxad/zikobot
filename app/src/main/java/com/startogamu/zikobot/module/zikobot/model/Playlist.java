@@ -5,6 +5,7 @@ import com.startogamu.zikobot.module.spotify_api.model.Item;
 
 import java.util.ArrayList;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.Builder;
 
@@ -13,6 +14,7 @@ import lombok.experimental.Builder;
  */
 @Data
 @Builder
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class Playlist {
 
     private String name;

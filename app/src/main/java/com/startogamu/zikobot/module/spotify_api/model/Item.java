@@ -9,11 +9,13 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Generated("org.jsonschema2pojo")
 @Data
 @Parcel
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class Item {
 
     @SerializedName("collaborative")

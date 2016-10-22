@@ -29,6 +29,7 @@ import com.startogamu.zikobot.viewmodel.activity.ActivityMainVM;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import static android.R.attr.fragment;

@@ -82,7 +82,7 @@
             app:search_divider="true"
             app:search_hint="@string/drawer_filter_search"
             app:search_shadow="false"
-            app:search_version="toolbar_icon"
+            app:search_version="toolbar"
             app:search_version_margins="menu_item"
             app:search_voice="true" />
 
