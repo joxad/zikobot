@@ -19,7 +19,7 @@ public class NotificationPauseResumeReceiver extends BroadcastReceiver {
 
     public NotificationPauseResumeReceiver() {
         super();
-        playerMusicManager = Injector.INSTANCE.playerComponent().manager();
+        playerMusicManager = PlayerMusicManager.getInstance();
 
     }
 

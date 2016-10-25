@@ -55,7 +55,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         super(activity, binding);
         Dart.inject(this, activity);
         Injector.INSTANCE.spotifyAuth().inject(this);
-        Injector.INSTANCE.playerComponent().inject(this);
     }
 
     @Override

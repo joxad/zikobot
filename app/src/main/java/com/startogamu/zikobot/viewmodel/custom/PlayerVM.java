@@ -63,7 +63,7 @@ public class PlayerVM extends BaseObservable implements IVM {
     @Override
     public void init() {
 
-        playerMusicManager = Injector.INSTANCE.playerComponent().manager();
+        playerMusicManager = PlayerMusicManager.getInstance();
         binding.vpPlayer.setOffscreenPageLimit(20);
         bottomSheetBehavior = BottomSheetBehavior.from(binding.getRoot());
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {

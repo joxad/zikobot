@@ -64,7 +64,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         SpotifyPlayerManager.updateToken(AppPrefs.getSpotifyAccessToken());
 
         Injector.INSTANCE.spotifyAuth().inject(this);
-        Injector.INSTANCE.playerComponent().inject(this);
         EventBus.getDefault().register(this);
 
         am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
@@ -103,7 +102,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      * @param alarm
      */
     private void startAlarm(Alarm alarm) {
-        playerMusicManager = Injector.INSTANCE.playerComponent().manager();
+        playerMusicManager = PlayerMusicManager.getInstance();
         playerMusicManager.startAlarm(alarm);
         rotateCD();
     }

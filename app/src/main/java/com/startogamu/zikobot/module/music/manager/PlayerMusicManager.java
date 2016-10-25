@@ -34,7 +34,6 @@ import lombok.Setter;
  * {@link PlayerMusicManager} will handle the change of track according to the type of alarm track that is used
  * If a spotify track is finished and the next one is a local one, it is his job to deal with it
  */
-@Singleton
 public class PlayerMusicManager {
 
     private static final String TAG = PlayerMusicManager.class.getSimpleName();
@@ -60,19 +59,44 @@ public class PlayerMusicManager {
     SpotifyPlayer spotifyPlayer;
     AndroidPlayer androidPlayer;
 
-    /***
-     * @param context
+
+    /**
+     * Constructeur privé
      */
-    public PlayerMusicManager(Context context) {
+    private PlayerMusicManager() {
+        EventBus.getDefault().register(this);
+        vlcPlayer = new VLCPlayer();
+        trackPositionHandler = new Handler();
+    }
+
+
+    /**
+     * Constructeur privé
+     */
+    public void init(Context context) {
         this.context = context;
         androidPlayer = new AndroidPlayer(context);
         spotifyPlayer = new SpotifyPlayer(context);
         deezerPlayer = new DeezerPlayer(context);
-        vlcPlayer = new VLCPlayer();
-        trackPositionHandler = new Handler();
-        EventBus.getDefault().register(this);
     }
 
+
+    /**
+     * Holder
+     */
+    private static class PlayerMusicManagerHolder {
+        /**
+         * Instance unique non préinitialisée
+         */
+        private final static PlayerMusicManager instance = new PlayerMusicManager();
+    }
+
+    /**
+     * Point d'accès pour l'instance unique du singleton
+     */
+    public static PlayerMusicManager getInstance() {
+        return PlayerMusicManagerHolder.instance;
+    }
 
     /***
      * @param track

@@ -22,7 +22,7 @@ public class PreviousPlayerReceiver extends BroadcastReceiver {
 
     public PreviousPlayerReceiver() {
         super();
-        playerMusicManager = Injector.INSTANCE.playerComponent().manager();
+        playerMusicManager = PlayerMusicManager.getInstance();
 
     }
 

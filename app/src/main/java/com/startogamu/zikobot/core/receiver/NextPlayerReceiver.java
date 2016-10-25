@@ -19,7 +19,7 @@ public class NextPlayerReceiver extends BroadcastReceiver {
     private PlayerMusicManager playerMusicManager;
     public NextPlayerReceiver() {
         super();
-        playerMusicManager = Injector.INSTANCE.playerComponent().manager();
+        playerMusicManager = PlayerMusicManager.getInstance();
     }
 
     @Override

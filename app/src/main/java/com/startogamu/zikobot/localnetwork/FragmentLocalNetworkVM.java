@@ -71,7 +71,7 @@ public class FragmentLocalNetworkVM extends FragmentBaseVM<FragmentLocalNetwork,
     public void onMediaAdded(int i, Media media) {
         Logger.d("Added" + media.toString() + media.getUri().toString());
         String title = media.getUri().toString();
-        if (title!=null) {
+        if (title!=null && current!=null) {
             title = title.replace(current, "");
         }
         networkItems.add(new ItemNetworkVM(fragment.getContext(), new ItemNetwork(title, media)));
