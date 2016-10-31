@@ -13,7 +13,7 @@ import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.event.player.EventShowTab;
-import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
+import com.startogamu.zikobot.alarm.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 
 import org.greenrobot.eventbus.EventBus;

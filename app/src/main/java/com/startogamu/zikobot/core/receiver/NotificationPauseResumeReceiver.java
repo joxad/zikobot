@@ -5,8 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.orhanobut.logger.Logger;
-import com.startogamu.zikobot.module.component.Injector;
-import com.startogamu.zikobot.module.music.manager.PlayerMusicManager;
+import com.startogamu.zikobot.module.music.PlayerMusicManager;
 
 
 /**

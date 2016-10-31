@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.zikobot.manager;
+package com.startogamu.zikobot.alarm;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -19,7 +19,6 @@ import com.startogamu.zikobot.module.zikobot.model.Track_Table;
 import com.startogamu.zikobot.widget.AppWidgetHelper;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import rx.Observable;

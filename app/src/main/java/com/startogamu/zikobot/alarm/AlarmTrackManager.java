@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.zikobot.manager;
+package com.startogamu.zikobot.alarm;
 
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.Track;

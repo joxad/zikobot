@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.music.manager;
+package com.startogamu.zikobot.module.music.player;
 
 import android.content.Context;
 

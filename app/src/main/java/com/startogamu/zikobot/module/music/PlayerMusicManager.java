@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.music.manager;
+package com.startogamu.zikobot.module.music;
 
 import android.content.Context;
 import android.os.Handler;
@@ -14,6 +14,13 @@ import com.startogamu.zikobot.core.event.player.EventStopPlayer;
 import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AppPrefs;
+import com.startogamu.zikobot.module.music.player.AndroidPlayer;
+import com.startogamu.zikobot.module.music.player.DeezerPlayer;
+import com.startogamu.zikobot.module.music.listener.DurationListener;
+import com.startogamu.zikobot.module.music.player.IMusicPlayer;
+import com.startogamu.zikobot.module.music.listener.PlayerStatusListener;
+import com.startogamu.zikobot.module.music.player.SpotifyPlayer;
+import com.startogamu.zikobot.module.music.player.VLCPlayer;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.TYPE;
 import com.startogamu.zikobot.module.zikobot.model.Track;
@@ -24,8 +31,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
-import javax.inject.Singleton;
 
 import lombok.Getter;
 import lombok.Setter;

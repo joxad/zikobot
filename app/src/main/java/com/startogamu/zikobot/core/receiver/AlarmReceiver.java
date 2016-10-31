@@ -8,7 +8,7 @@ import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.EXTRA;
-import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
+import com.startogamu.zikobot.alarm.AlarmManager;
 
 /**
  * Created by josh on 28/03/16.

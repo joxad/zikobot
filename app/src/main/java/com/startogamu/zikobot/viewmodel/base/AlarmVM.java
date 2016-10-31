@@ -17,14 +17,12 @@ import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
-import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
-import com.startogamu.zikobot.module.zikobot.manager.AlarmTrackManager;
+import com.startogamu.zikobot.alarm.AlarmManager;
+import com.startogamu.zikobot.alarm.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 

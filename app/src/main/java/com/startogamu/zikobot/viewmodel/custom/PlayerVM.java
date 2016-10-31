@@ -22,7 +22,7 @@ import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ViewPlayerBinding;
 import com.startogamu.zikobot.module.component.Injector;
-import com.startogamu.zikobot.module.music.manager.PlayerMusicManager;
+import com.startogamu.zikobot.module.music.PlayerMusicManager;
 import com.startogamu.zikobot.view.listener.SimpleSeekBarChangeListener;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 

@@ -9,11 +9,9 @@ import android.widget.RemoteViews;
 
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
-import com.startogamu.zikobot.core.utils.ZikoUtils;
-import com.startogamu.zikobot.module.zikobot.manager.AlarmManager;
+import com.startogamu.zikobot.alarm.AlarmManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
