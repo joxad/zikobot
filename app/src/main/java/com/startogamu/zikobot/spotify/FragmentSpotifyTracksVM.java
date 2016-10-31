@@ -15,8 +15,7 @@ import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylistItem;
-import com.startogamu.zikobot.module.zikobot.model.Track;
-import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyTracks;
+import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;

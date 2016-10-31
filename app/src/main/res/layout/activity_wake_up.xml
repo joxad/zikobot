@@ -6,7 +6,7 @@
 
         <variable
             name="activityWakeUpVM"
-            type="com.startogamu.zikobot.viewmodel.activity.ActivityWakeUpVM" />
+            type="com.startogamu.zikobot.wakeup.ActivityWakeUpVM" />
 
 
         <variable

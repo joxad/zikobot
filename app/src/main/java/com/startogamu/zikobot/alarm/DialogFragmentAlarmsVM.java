@@ -9,12 +9,11 @@ import android.widget.Toast;
 import com.joxad.easydatabinding.fragment.DialogFragmentBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.DialogFragmentAlarmsBinding;
-import com.startogamu.zikobot.module.zikobot.model.Alarm;
-import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.core.model.Alarm;
+import com.startogamu.zikobot.core.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -78,7 +77,6 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
         allTracks.addAll(alarm.getTracks());
         allTracks.addAll(AlarmTrackManager.tracks());
         AlarmManager.saveAlarm(alarm, allTracks).subscribe(alarm1 -> {
-            AnalyticsManager.logCreateAlarm(alarm, false);
             Toast.makeText(fragment.getContext(), track.getName() + " a été ajoutée à la playlist " + alarm.getName(), Toast.LENGTH_SHORT).show();
             fragment.dismiss();
         }, throwable -> {

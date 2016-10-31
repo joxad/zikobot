@@ -12,10 +12,10 @@ import com.raizlabs.android.dbflow.sql.language.Select;
 import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
-import com.startogamu.zikobot.module.zikobot.model.Alarm;
-import com.startogamu.zikobot.module.zikobot.model.Alarm_Table;
-import com.startogamu.zikobot.module.zikobot.model.Track;
-import com.startogamu.zikobot.module.zikobot.model.Track_Table;
+import com.startogamu.zikobot.core.model.Alarm;
+import com.startogamu.zikobot.core.model.Alarm_Table;
+import com.startogamu.zikobot.core.model.Track;
+import com.startogamu.zikobot.core.model.Track_Table;
 import com.startogamu.zikobot.widget.AppWidgetHelper;
 
 import java.util.Calendar;

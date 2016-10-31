@@ -9,7 +9,7 @@
 
         <variable
             name="fragmentDeezerTracksVM"
-            type="com.startogamu.zikobot.viewmodel.fragment.deezer.FragmentDeezerTracksVM" />
+            type="com.startogamu.zikobot.deezer.FragmentDeezerTracksVM" />
     </data>
 
     <LinearLayout

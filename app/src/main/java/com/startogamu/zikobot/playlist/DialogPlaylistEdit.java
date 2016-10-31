@@ -1,18 +1,14 @@
 package com.startogamu.zikobot.playlist;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
-import android.view.View;
 
 import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.DialogPlaylistEditBinding;
-import com.startogamu.zikobot.module.zikobot.model.Alarm;
+import com.startogamu.zikobot.core.model.Alarm;
 
 import org.parceler.Parcels;
 

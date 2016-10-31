@@ -23,7 +23,7 @@ import com.startogamu.zikobot.databinding.FragmentLocalTracksBinding;
 import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
 import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
 import com.startogamu.zikobot.module.localmusic.model.LocalTrack;
-import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 

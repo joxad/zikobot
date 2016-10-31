@@ -2,7 +2,7 @@ package com.startogamu.zikobot.core.event.alarm;
 
 import android.view.View;
 
-import com.startogamu.zikobot.module.zikobot.model.Alarm;
+import com.startogamu.zikobot.core.model.Alarm;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

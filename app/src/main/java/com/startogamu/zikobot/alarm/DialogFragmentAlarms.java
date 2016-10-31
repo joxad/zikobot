@@ -9,7 +9,7 @@ import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.DialogFragmentAlarmsBinding;
-import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.core.model.Track;
 
 import org.parceler.Parcels;
 

@@ -9,7 +9,7 @@
 
         <variable
             name="fragmentSoundCloudTracksVM"
-            type="com.startogamu.zikobot.viewmodel.fragment.soundcloud.FragmentSoundCloudTracksVM" />
+            type="com.startogamu.zikobot.soundcloud.FragmentSoundCloudTracksVM" />
     </data>
 
     <LinearLayout

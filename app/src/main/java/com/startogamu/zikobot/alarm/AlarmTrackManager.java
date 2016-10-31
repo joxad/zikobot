@@ -1,7 +1,6 @@
 package com.startogamu.zikobot.alarm;
 
-import com.startogamu.zikobot.module.zikobot.model.Alarm;
-import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.core.model.Track;
 
 import java.util.ArrayList;
 import java.util.List;

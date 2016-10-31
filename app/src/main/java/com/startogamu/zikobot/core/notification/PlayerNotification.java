@@ -17,7 +17,7 @@ import com.startogamu.zikobot.core.receiver.ClearPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.NextPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.NotificationPauseResumeReceiver;
 import com.startogamu.zikobot.core.receiver.PreviousPlayerReceiver;
-import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.core.model.Track;
 
 /**
  * Created by josh on 13/06/16.

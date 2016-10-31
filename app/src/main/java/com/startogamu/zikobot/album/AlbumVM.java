@@ -8,7 +8,7 @@ import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
-import com.startogamu.zikobot.module.zikobot.model.Album;
+import com.startogamu.zikobot.core.model.Album;
 
 import org.greenrobot.eventbus.EventBus;
 

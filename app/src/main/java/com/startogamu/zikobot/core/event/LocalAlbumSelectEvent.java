@@ -3,7 +3,7 @@ package com.startogamu.zikobot.core.event;
 import android.view.View;
 
 
-import com.startogamu.zikobot.module.zikobot.model.Album;
+import com.startogamu.zikobot.core.model.Album;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

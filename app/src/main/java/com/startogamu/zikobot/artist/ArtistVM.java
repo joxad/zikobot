@@ -1,23 +1,15 @@
 package com.startogamu.zikobot.artist;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.Bindable;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.artist.ActivityArtist;
 import com.startogamu.zikobot.core.event.EventShowArtistDetail;
-import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
-import com.startogamu.zikobot.core.utils.EXTRA;
-import com.startogamu.zikobot.module.zikobot.model.Artist;
+import com.startogamu.zikobot.core.model.Artist;
 
 import org.greenrobot.eventbus.EventBus;
-import org.parceler.Parcels;
 
 /**
  * Created by josh on 06/06/16.

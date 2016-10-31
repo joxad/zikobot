@@ -10,8 +10,8 @@
             type="android.view.View" />
 
         <variable
-            name="fragmentLocalArtistVM"
-            type="com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalArtistVM" />
+            name="fragmentLocalArtistsVM"
+            type="com.startogamu.zikobot.artist.FragmentLocalArtistsVM" />
     </data>
 
     <RelativeLayout
@@ -26,8 +26,8 @@
             android:clipToPadding="false"
             android:layoutAnimation="@anim/grid_animation"
             android:paddingBottom="@dimen/actionBarSizeNormal"
-            app:itemView="@{fragmentLocalArtistVM.itemView}"
-            app:items="@{fragmentLocalArtistVM.items}"
+            app:itemView="@{fragmentLocalArtistsVM.itemView}"
+            app:items="@{fragmentLocalArtistsVM.items}"
             tools:listitem="@layout/item_artist" />
 
         <com.startogamu.zikobot.view.custom.ZikobotMessageView
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="@{fragmentLocalArtistVM.showZmvMessage ? v.VISIBLE : v.GONE}" />
+            android:visibility="@{fragmentLocalArtistsVM.showZmvMessage ? v.VISIBLE : v.GONE}" />
 
     </RelativeLayout>
 </layout>

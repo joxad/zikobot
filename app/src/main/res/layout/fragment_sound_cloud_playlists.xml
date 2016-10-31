@@ -19,7 +19,7 @@
 
         <variable
             name="fragmentSoundCloudPlaylistsVM"
-            type="com.startogamu.zikobot.viewmodel.fragment.soundcloud.FragmentSoundCloudPlaylistsVM" />
+            type="com.startogamu.zikobot.soundcloud.FragmentSoundCloudPlaylistsVM" />
     </data>
 
     <RelativeLayout

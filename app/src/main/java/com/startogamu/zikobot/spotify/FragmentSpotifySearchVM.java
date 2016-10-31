@@ -12,7 +12,7 @@ import com.startogamu.zikobot.databinding.FragmentSpotifySearchBinding;
 
 import com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyTrack;
-import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.search.SearchManager;
 import com.startogamu.zikobot.album.AlbumVM;
 import com.startogamu.zikobot.artist.ArtistVM;

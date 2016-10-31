@@ -21,9 +21,9 @@ import com.startogamu.zikobot.module.music.player.IMusicPlayer;
 import com.startogamu.zikobot.module.music.listener.PlayerStatusListener;
 import com.startogamu.zikobot.module.music.player.SpotifyPlayer;
 import com.startogamu.zikobot.module.music.player.VLCPlayer;
-import com.startogamu.zikobot.module.zikobot.model.Alarm;
-import com.startogamu.zikobot.module.zikobot.model.TYPE;
-import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.core.model.Alarm;
+import com.startogamu.zikobot.core.model.TYPE;
+import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;

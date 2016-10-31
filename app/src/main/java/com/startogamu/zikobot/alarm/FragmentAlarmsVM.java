@@ -13,7 +13,7 @@ import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
 
 import com.startogamu.zikobot.module.spotify_auth.manager.SpotifyAuthManager;
-import com.startogamu.zikobot.module.zikobot.model.Alarm;
+import com.startogamu.zikobot.core.model.Alarm;
 
 import java.io.UnsupportedEncodingException;
 

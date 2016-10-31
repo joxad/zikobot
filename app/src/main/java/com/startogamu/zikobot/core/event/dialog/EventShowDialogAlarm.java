@@ -1,6 +1,6 @@
 package com.startogamu.zikobot.core.event.dialog;
 
-import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.core.model.Track;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -95,7 +95,7 @@
 
         <activity android:name=".soundcloud.SoundCloudLoginActivity" />
         <activity
-            android:name=".view.activity.ActivityFirstStart"
+            android:name=".intro.ActivityFirstStart"
             android:launchMode="singleInstance" />
         <!-- Will not be called unless the application explicitly enables it -->
         <activity android:name=".spotify.ActivitySpotify" />
@@ -131,7 +131,7 @@
         </activity>
 
         <activity
-            android:name=".view.activity.ActivityWakeUp"
+            android:name=".wakeup.ActivityWakeUp"
             android:screenOrientation="portrait" />
 
         <receiver android:name=".core.receiver.AlarmReceiver">

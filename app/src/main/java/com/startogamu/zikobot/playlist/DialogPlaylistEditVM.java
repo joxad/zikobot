@@ -10,11 +10,10 @@ import android.widget.SeekBar;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBaseVM;
-import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.SimpleSeekBarListener;
 import com.startogamu.zikobot.databinding.DialogPlaylistEditBinding;
-import com.startogamu.zikobot.module.zikobot.model.Alarm;
+import com.startogamu.zikobot.core.model.Alarm;
 import com.startogamu.zikobot.alarm.AlarmVM;
 
 import org.parceler.Parcels;
@@ -165,7 +164,6 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
         alarmVM.updateName(binding.etName.getText().toString());
         alarmVM.updateTimeSelected(hour, min);
         alarmVM.updateRepeated(binding.viewAlarm.swRepeat.isChecked());
-        AnalyticsManager.logCreateAlarm(alarm, true);
         alarmVM.updateStatus(alarmVM.isActivated());
         return alarmVM.save();
     }

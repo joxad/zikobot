@@ -120,7 +120,6 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.6@aar') {
         transitive = true;
     }
-    compile 'com.google.firebase:firebase-core:9.0.2'
     compile 'com.deezer.sdk:deezer-sdk:0.10.20@aar'
     compile 'com.lapism:searchview:3.8'
     compile 'com.github.claucookie.miniequalizer:library:1.0.0'

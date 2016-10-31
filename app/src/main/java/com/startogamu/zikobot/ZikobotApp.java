@@ -9,13 +9,12 @@ import com.joxad.android_easy_spotify.SpotifyManager;
 import com.orhanobut.logger.Logger;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
-import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 
 import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
-import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
+import com.startogamu.zikobot.module.deezer.DeezerManager;
 import com.startogamu.zikobot.module.lyrics.manager.LyricsManager;
 import com.startogamu.zikobot.module.music.PlayerMusicManager;
 import com.startogamu.zikobot.alarm.AlarmManager;
@@ -40,7 +39,6 @@ public class ZikobotApp extends Application {
         Fabric.with(fabric);
         FlowManager.init(new FlowConfig.Builder(this).build());
         AppPrefs.init(this);
-        AnalyticsManager.init(this);
         IntentManager.init(this);
         try {
             new SpotifyManager.Builder().setContext(this).setApiKey(R.string.api_spotify_id).build();

@@ -2,7 +2,7 @@ package com.startogamu.zikobot.core.utils;
 
 import android.os.Parcel;
 
-import com.startogamu.zikobot.module.zikobot.model.Track;
+import com.startogamu.zikobot.core.model.Track;
 
 import org.parceler.Parcels;
 import org.parceler.converter.ArrayListParcelConverter;

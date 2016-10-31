@@ -16,7 +16,7 @@
 
         <variable
             name="fragmentDeezerPlaylistsVM"
-            type="com.startogamu.zikobot.viewmodel.fragment.deezer.FragmentDeezerPlaylistsVM" />
+            type="com.startogamu.zikobot.deezer.FragmentDeezerPlaylistsVM" />
     </data>
 
     <RelativeLayout

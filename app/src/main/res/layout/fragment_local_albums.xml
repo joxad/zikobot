@@ -12,7 +12,7 @@
 
         <variable
             name="fragmentLocalAlbumsVM"
-            type="com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalAlbumsVM" />
+            type="com.startogamu.zikobot.album.FragmentLocalAlbumsVM" />
     </data>
 
     <RelativeLayout

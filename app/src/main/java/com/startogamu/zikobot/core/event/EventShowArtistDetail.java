@@ -2,7 +2,7 @@ package com.startogamu.zikobot.core.event;
 
 import android.view.View;
 
-import com.startogamu.zikobot.module.zikobot.model.Artist;
+import com.startogamu.zikobot.core.model.Artist;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
