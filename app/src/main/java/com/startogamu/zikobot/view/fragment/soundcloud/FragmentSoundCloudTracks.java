@@ -1,11 +1,11 @@
 package com.startogamu.zikobot.view.fragment.soundcloud;
 
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.view.Menu;
 import android.view.MenuInflater;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.f2prateek.dart.henson.Bundler;
 import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
@@ -26,15 +26,14 @@ public class FragmentSoundCloudTracks extends FragmentBase<FragmentSoundCloudTra
 
     public static FragmentSoundCloudTracks newInstance(SoundCloudPlaylist item, int dataVm, @LayoutRes int layout) {
         FragmentSoundCloudTracks fragment = new FragmentSoundCloudTracks();
-
-        Bundler bundler = Bundler.create()
-                .put(EXTRA.DATA_VM, dataVm)
-                .put(EXTRA.LAYOUT, layout);
+        Bundle bundle = new Bundle();
         if (item != null) {
-            bundler.put(EXTRA.PLAYLIST, Parcels.wrap(item));
-
+            bundle.putParcelable(EXTRA.PLAYLIST, Parcels.wrap(item));
         }
-        fragment.setArguments(bundler.get());
+        bundle.putInt(EXTRA.DATA_VM, dataVm);
+        bundle.putInt(EXTRA.LAYOUT, layout);
+
+        fragment.setArguments(bundle);
         return fragment;
     }
 

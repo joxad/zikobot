@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.f2prateek.dart.HensonNavigable;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.AppPrefs;
@@ -14,7 +13,6 @@ import com.startogamu.zikobot.view.fragment.IntroFragment;
 /**
  * Created by josh on 02/06/16.
  */
-@HensonNavigable
 public class ActivityFirstStart extends AppIntro {
 
     @Override

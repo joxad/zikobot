@@ -6,8 +6,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.startogamu.zikobot.R;
@@ -17,7 +15,6 @@ import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.localnetwork.FragmentLocalNetwork;
-
 import com.startogamu.zikobot.module.spotify_auth.manager.SpotifyAuthManager;
 import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.view.adapter.ViewPagerAdapter;
@@ -43,9 +40,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     public NavigationManager navigationManager;
     public PlayerVM playerVM;
     private AlertDialog alertDialog;
-    @Nullable
-    @InjectExtra
-    String fromWidget;
+
     private ViewPagerAdapter tabAdapter;
 
     /***
@@ -54,7 +49,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      */
     public ActivityMainVM(ActivityMain activity, ActivityMainBinding binding) {
         super(activity, binding);
-        Dart.inject(this, activity);
     }
 
     @Override

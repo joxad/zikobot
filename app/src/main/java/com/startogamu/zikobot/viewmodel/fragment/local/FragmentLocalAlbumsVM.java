@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -11,8 +12,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
 
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
@@ -29,6 +28,7 @@ import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.viewmodel.base.AlbumVM;
 
 import org.greenrobot.eventbus.EventBus;
+import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -38,7 +38,6 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, FragmentLocalAlbumsBinding> {
 
     @Nullable
-    @InjectExtra(EXTRA.LOCAL_ARTIST)
     LocalArtist localArtist;
 
     public static final String TAG = "FragmentLocalAlbumsVM";
@@ -60,12 +59,12 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
 
     @Override
     public void init() {
-
-        Dart.inject(this, fragment.getArguments());
+        Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.LOCAL_ARTIST);
+        localArtist = parcelable != null ? Parcels.unwrap(parcelable) : null;
         items = new ObservableArrayList<>();
         showZmvMessage = new ObservableBoolean(false);
         zmvMessage = "";
-        binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(),2));
+        binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(), 2));
         binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
@@ -108,8 +107,8 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
                 showZmvMessage.set(false);
             }
         }, throwable -> {
-            if (offset==0)
-            updateMessage(fragment.getString(R.string.no_music));
+            if (offset == 0)
+                updateMessage(fragment.getString(R.string.no_music));
 
         });
     }

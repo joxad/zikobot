@@ -2,7 +2,6 @@ package com.startogamu.zikobot.settings;
 
 import android.os.Bundle;
 
-import com.f2prateek.dart.HensonNavigable;
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;

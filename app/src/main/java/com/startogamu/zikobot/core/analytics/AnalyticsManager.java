@@ -2,7 +2,7 @@ package com.startogamu.zikobot.core.analytics;
 
 import android.content.Context;
 
-import com.f2prateek.dart.henson.Bundler;
+
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.Date;
@@ -44,36 +44,36 @@ public class AnalyticsManager {
 
 
     public static void logConnectSpotify(final String account) {
-        firebaseAnalytics.logEvent(Spotify.TAG, Bundler.create().put(Spotify.LOGIN, account).get());
+        //firebaseAnalytics.logEvent(Spotify.TAG, Bundler.create().put(Spotify.LOGIN, account).get());
     }
 
     public static void logConnectSoundCloud(final String account) {
-        firebaseAnalytics.logEvent(SoundClound.TAG, Bundler.create().put(SoundClound.LOGIN, account).get());
+     //   firebaseAnalytics.logEvent(SoundClound.TAG, Bundler.create().put(SoundClound.LOGIN, account).get());
     }
 
 
     public static void logStartAlarm(com.startogamu.zikobot.module.zikobot.model.Alarm alarm) {
         Date date = new Date();
-        Bundler bundler = Bundler.create()
+       /* Bundler bundler = Bundler.create()
                 .put(Alarm.START, date.toString())
                 .put(Alarm.TITLE, alarm.getName())
                 .put(Alarm.TRACKS_COUNT, alarm.getTracks().size())
                 .put(Alarm.RANDOM, alarm.getRandomTrack())
                 .put(Alarm.REPEAT, alarm.getRepeated())
                 .put(Alarm.HOUR, +alarm.getHour() + " h " + alarm.getMinute());
-        firebaseAnalytics.logEvent(Alarm.TAG_LAUNCH, bundler.get());
+        firebaseAnalytics.logEvent(Alarm.TAG_LAUNCH, bundler.get());*/
     }
 
     public static void logCreateAlarm(com.startogamu.zikobot.module.zikobot.model.Alarm alarm,  boolean fromAlarm) {
 
-        Bundler bundler = Bundler.create()
+      /*  Bundler bundler = Bundler.create()
                 .put(Alarm.TITLE, alarm.getName())
                 .put(Alarm.TRACKS_COUNT, alarm.getTracks().size())
                 .put(Alarm.RANDOM, alarm.getRandomTrack())
                 .put(Alarm.REPEAT, alarm.getRepeated())
                 .put(Alarm.HOUR, +alarm.getHour() + " h " + alarm.getMinute());
         bundler.put(fromAlarm ? Alarm.CREATE_FROM_ALARM : Alarm.CREATE_FROM_PLAYER, true);
-        firebaseAnalytics.logEvent(Alarm.TAG, bundler.get());
+        firebaseAnalytics.logEvent(Alarm.TAG, bundler.get());*/
 
     }
 

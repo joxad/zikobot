@@ -1,8 +1,9 @@
 package com.startogamu.zikobot.view.fragment.local;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.f2prateek.dart.henson.Bundler;
+
 import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
@@ -21,7 +22,9 @@ public class FragmentLocalAlbums extends FragmentBase<FragmentLocalAlbumsBinding
 
     public static FragmentLocalAlbums newInstance(@Nullable LocalArtist artist) {
         FragmentLocalAlbums fragment = new FragmentLocalAlbums();
-        fragment.setArguments(Bundler.create().put(EXTRA.LOCAL_ARTIST, Parcels.wrap(artist)).get());
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(EXTRA.LOCAL_ARTIST, Parcels.wrap(artist));
+        fragment.setArguments(bundle);
         return fragment;
     }
 

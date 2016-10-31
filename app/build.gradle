@@ -86,7 +86,6 @@ dependencies {
     compile libs.butterKnife
     compile libs.circleIV
     compile libs.customTabs
-    compile libs.dart
     compile libs.dbFlowCore
     compile libs.dbFlow
     compile libs.design
@@ -96,7 +95,6 @@ dependencies {
     compile libs.eventBus
     compile libs.gson
     compile libs.glide
-    compile libs.henson
     compile libs.logger
     compile libs.easySpotify
     compile libs.materialRipple
@@ -111,8 +109,6 @@ dependencies {
     compile libs.rxAndroid
     compile libs.rxBindings
     compile libs.support
-    provided libs.dartProc
-    provided libs.hensonProc
     provided libs.lombok
     provided libs.javaxAnnotation
     compile 'com.github.armcha:LuseenBottomNavigation:1.8.0'

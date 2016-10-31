@@ -1,8 +1,9 @@
 package com.startogamu.zikobot.view.fragment.alarm;
 
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-import com.f2prateek.dart.henson.Bundler;
+
 import com.joxad.easydatabinding.fragment.DialogFragmentBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
@@ -23,8 +24,9 @@ public class DialogFragmentAlarms extends DialogFragmentBase<DialogFragmentAlarm
 
     public static DialogFragmentAlarms newInstance(Track track) {
         DialogFragmentAlarms fragment = new DialogFragmentAlarms();
-        fragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
-        fragment.setArguments(Bundler.create().put(EXTRA.TRACK, Parcels.wrap(track)).get());
+        fragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);Bundle bundle = new Bundle();
+        bundle.putParcelable(EXTRA.TRACK, Parcels.wrap(track));
+        fragment.setArguments(bundle);
         return fragment;
     }
 

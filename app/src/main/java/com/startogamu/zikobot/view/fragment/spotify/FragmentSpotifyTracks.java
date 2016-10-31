@@ -2,15 +2,10 @@ package com.startogamu.zikobot.view.fragment.spotify;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.f2prateek.dart.henson.Bundler;
 import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
@@ -32,14 +27,13 @@ public class FragmentSpotifyTracks extends FragmentBase<FragmentSpotifyTracksBin
     public static FragmentSpotifyTracks newInstance(Item item, int dataVm, @LayoutRes int layout) {
         FragmentSpotifyTracks fragment = new FragmentSpotifyTracks();
 
-        Bundler bundler = Bundler.create()
-                .put(EXTRA.DATA_VM, dataVm)
-                .put(EXTRA.LAYOUT, layout);
+        Bundle bundle = new Bundle();
+        bundle.putInt(EXTRA.DATA_VM, dataVm);
+        bundle.putInt(EXTRA.LAYOUT, layout);
         if (item != null) {
-            bundler.put(EXTRA.PLAYLIST, Parcels.wrap(item));
-
+            bundle.putParcelable(EXTRA.PLAYLIST, Parcels.wrap(item));
         }
-        fragment.setArguments(bundler.get());
+        fragment.setArguments(bundle);
         return fragment;
     }
 

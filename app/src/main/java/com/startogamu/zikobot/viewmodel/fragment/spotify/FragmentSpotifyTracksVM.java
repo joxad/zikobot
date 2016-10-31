@@ -1,11 +1,10 @@
 package com.startogamu.zikobot.viewmodel.fragment.spotify;
 
 import android.databinding.ObservableArrayList;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
@@ -22,6 +21,7 @@ import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -37,16 +37,17 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
     public abstract ItemView getItemView();
 
     @Nullable
-    @InjectExtra(EXTRA.PLAYLIST)
     Item playlist;
 
     public FragmentSpotifyTracksVM(FragmentSpotifyTracks fragment, FragmentSpotifyTracksBinding binding) {
         super(fragment, binding);
-        Dart.inject(this, fragment.getArguments());
     }
 
     @Override
     public void init() {
+        Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.PLAYLIST);
+        playlist = parcelable != null ? Parcels.unwrap(parcelable) : null;
+
         items = new ObservableArrayList<>();
     }
 

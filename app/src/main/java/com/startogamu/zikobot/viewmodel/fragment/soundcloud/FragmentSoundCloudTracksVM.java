@@ -1,10 +1,9 @@
 package com.startogamu.zikobot.viewmodel.fragment.soundcloud;
 
 import android.databinding.ObservableArrayList;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
@@ -19,6 +18,7 @@ import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -34,16 +34,17 @@ public abstract class FragmentSoundCloudTracksVM extends FragmentBaseVM<Fragment
     public abstract ItemView getItemView();
 
     @Nullable
-    @InjectExtra(EXTRA.PLAYLIST)
     SoundCloudPlaylist playlist;
 
     public FragmentSoundCloudTracksVM(FragmentSoundCloudTracks fragment, FragmentSoundCloudTracksBinding binding) {
         super(fragment, binding);
-        Dart.inject(this, fragment.getArguments());
     }
 
     @Override
     public void init() {
+        Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.PLAYLIST);
+        playlist = parcelable != null ? Parcels.unwrap(parcelable) : null;
+
         items = new ObservableArrayList<>();
     }
 

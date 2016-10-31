@@ -9,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
-import com.f2prateek.dart.henson.Bundler;
+
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.view.custom.ZikobotMessageView;
@@ -24,13 +22,14 @@ import butterknife.ButterKnife;
  */
 public class FragmentPermission extends Fragment {
 
-    @InjectExtra(EXTRA.MESSAGE)
     String message;
-    @InjectExtra(EXTRA.PERMISSION)
     int permission;
     public static FragmentPermission newInstance(final String message, final int permission) {
         FragmentPermission fragment = new FragmentPermission();
-        fragment.setArguments(Bundler.create().put(EXTRA.MESSAGE, message).put(EXTRA.PERMISSION, permission).get());
+        Bundle bundle = new Bundle();
+        bundle.putString(EXTRA.MESSAGE, message);
+        bundle.putInt(EXTRA.PERMISSION, permission);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -42,7 +41,8 @@ public class FragmentPermission extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_permission, container, false);
         ButterKnife.bind(this,view);
-        Dart.inject(this, getArguments());
+        message = getArguments().getString(EXTRA.MESSAGE);
+        permission = getArguments().getInt(EXTRA.PERMISSION);
         zmv.setZmvMessage(message);
         zmv.setOnClickListener(v -> askPermission());
         return view;

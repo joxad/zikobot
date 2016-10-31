@@ -6,26 +6,25 @@ import android.media.AudioManager;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
 import com.joxad.android_easy_spotify.SpotifyPlayerManager;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.alarm.AlarmVM;
 import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AnimationEndListener;
 import com.startogamu.zikobot.core.utils.AppPrefs;
+import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.ActivityWakeUpBinding;
-
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.module.music.PlayerMusicManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.view.activity.ActivityWakeUp;
-import com.startogamu.zikobot.alarm.AlarmVM;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -37,7 +36,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
 
     private static final int ROTATION = 2;
     private static final int DELAY = 10;//MS
-    @InjectExtra
     Alarm alarm;
     AudioManager am;
 
@@ -65,7 +63,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
 
 //For Normal mode
         am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-        Dart.inject(this, activity);
+        alarm = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.ALARM));
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> onBackPressed());

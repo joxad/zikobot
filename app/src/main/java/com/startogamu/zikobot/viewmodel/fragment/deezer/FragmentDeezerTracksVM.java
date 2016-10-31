@@ -1,11 +1,10 @@
 package com.startogamu.zikobot.viewmodel.fragment.deezer;
 
 import android.databinding.ObservableArrayList;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.deezer.sdk.model.Playlist;
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
@@ -18,6 +17,7 @@ import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -33,16 +33,16 @@ public abstract class FragmentDeezerTracksVM extends FragmentBaseVM<FragmentDeez
     public abstract ItemView getItemView();
 
     @Nullable
-    @InjectExtra(EXTRA.PLAYLIST)
     Playlist playlist;
 
     public FragmentDeezerTracksVM(FragmentDeezerTracks fragment, FragmentDeezerTracksBinding binding) {
         super(fragment, binding);
-        Dart.inject(this, fragment.getArguments());
     }
 
     @Override
     public void init() {
+        Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.PLAYLIST);
+        playlist = parcelable != null ? Parcels.unwrap(parcelable) : null;
         items = new ObservableArrayList<>();
     }
 

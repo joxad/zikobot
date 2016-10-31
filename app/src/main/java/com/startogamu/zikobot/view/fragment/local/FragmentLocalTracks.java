@@ -1,10 +1,11 @@
 package com.startogamu.zikobot.view.fragment.local;
 
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.f2prateek.dart.henson.Bundler;
+
 import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
@@ -25,12 +26,11 @@ public class FragmentLocalTracks extends FragmentBase<FragmentLocalTracksBinding
 
     public static FragmentLocalTracks newInstance(@Nullable LocalAlbum album, int dataVm, @LayoutRes int layout) {
         FragmentLocalTracks fragment = new FragmentLocalTracks();
-        fragment.setArguments(
-                Bundler.create()
-                        .put(EXTRA.LOCAL_ALBUM, Parcels.wrap(album))
-                        .put(EXTRA.DATA_VM, dataVm)
-                        .put(EXTRA.LAYOUT, layout)
-                        .get());
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(EXTRA.LOCAL_ALBUM, Parcels.wrap(album));
+        bundle.putInt(EXTRA.DATA_VM, dataVm);
+        bundle.putInt(EXTRA.LAYOUT, layout);
+        fragment.setArguments(bundle);
         return fragment;
     }
 

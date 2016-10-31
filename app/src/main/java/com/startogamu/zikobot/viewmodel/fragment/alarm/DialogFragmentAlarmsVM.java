@@ -1,12 +1,11 @@
 package com.startogamu.zikobot.viewmodel.fragment.alarm;
 
 import android.databinding.ObservableArrayList;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Toast;
 
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.DialogFragmentBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
@@ -23,6 +22,7 @@ import com.startogamu.zikobot.alarm.AlarmVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,6 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
     public ItemView itemView = ItemView.of(BR.itemAlarmVM, R.layout.item_alarm_dialog);
 
     @Nullable
-    @InjectExtra(EXTRA.TRACK)
     Track track;
 
     /***
@@ -47,11 +46,12 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
      */
     public DialogFragmentAlarmsVM(DialogFragmentAlarms fragment, DialogFragmentAlarmsBinding binding) {
         super(fragment, binding);
-        Dart.inject(this, fragment.getArguments());
     }
 
     @Override
     public void init() {
+        Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.TRACK);
+        track = (parcelable != null ? Parcels.unwrap(parcelable) : null);
         itemsVM = new ObservableArrayList<>();
         loadAlarms();
 
@@ -73,7 +73,7 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
     @Subscribe(priority = 1)
     public void onEvent(EventAlarmSelect eventAlarmSelect) {
         //TODO
-        EventBus.getDefault().cancelEventDelivery(eventAlarmSelect) ;
+        EventBus.getDefault().cancelEventDelivery(eventAlarmSelect);
 
         Alarm alarm = eventAlarmSelect.getModel();
         AlarmTrackManager.clear();
@@ -82,7 +82,7 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
         allTracks.addAll(alarm.getTracks());
         allTracks.addAll(AlarmTrackManager.tracks());
         AlarmManager.saveAlarm(alarm, allTracks).subscribe(alarm1 -> {
-            AnalyticsManager.logCreateAlarm(alarm,false);
+            AnalyticsManager.logCreateAlarm(alarm, false);
             Toast.makeText(fragment.getContext(), track.getName() + " a été ajoutée à la playlist " + alarm.getName(), Toast.LENGTH_SHORT).show();
             fragment.dismiss();
         }, throwable -> {
@@ -92,7 +92,7 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
 
     }
 
-    public void newAlarmClicked(View view){
+    public void newAlarmClicked(View view) {
         Alarm alarm = new Alarm();
         AlarmTrackManager.clear();
         AlarmTrackManager.selectTrack(track);

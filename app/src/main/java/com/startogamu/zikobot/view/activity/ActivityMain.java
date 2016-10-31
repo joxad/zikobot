@@ -3,9 +3,6 @@ package com.startogamu.zikobot.view.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
-import android.view.MenuItem;
-
-import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
@@ -18,7 +15,6 @@ import com.startogamu.zikobot.viewmodel.activity.ActivityMainVM;
 
 public class ActivityMain extends ActivityBase<ActivityMainBinding, ActivityMainVM> {
     @Nullable
-    @InjectExtra
     String fromWidget;
 
 
@@ -34,7 +30,6 @@ public class ActivityMain extends ActivityBase<ActivityMainBinding, ActivityMain
 
     @Override
     public ActivityMainVM baseActivityVM(ActivityMainBinding binding, Bundle savedInstanceState) {
-
         return new ActivityMainVM(this, binding);
     }
 

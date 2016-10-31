@@ -3,8 +3,6 @@ package com.startogamu.zikobot.view.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.WindowManager;
-
-import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
@@ -17,7 +15,6 @@ import com.startogamu.zikobot.viewmodel.activity.ActivityWakeUpVM;
  */
 public class ActivityWakeUp extends ActivityBase<ActivityWakeUpBinding, ActivityWakeUpVM> {
 
-    @InjectExtra
     Alarm alarm;
 
     @Override

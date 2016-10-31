@@ -4,14 +4,13 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
@@ -30,6 +29,7 @@ import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -39,7 +39,6 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocalTracks, FragmentLocalTracksBinding> {
 
     @Nullable
-    @InjectExtra(EXTRA.LOCAL_ALBUM)
     LocalAlbum localAlbum;
     private static final String TAG = FragmentLocalTracksVM.class.getSimpleName();
     public ObservableArrayList<TrackVM> items;
@@ -59,7 +58,8 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
 
     @Override
     public void init() {
-        Dart.inject(this, fragment.getArguments());
+        Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.LOCAL_ALBUM);
+        localAlbum = parcelable != null ? Parcels.unwrap(parcelable) : null;
         showZmvMessage = new ObservableBoolean(false);
         zmvMessage = "";
         items = new ObservableArrayList<>();
@@ -118,7 +118,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
                         items.add(new TrackVM(fragment.getContext(), Track.from(localTrack)));
                     }
 
-                    if (localTracks.isEmpty() && offset==0) {
+                    if (localTracks.isEmpty() && offset == 0) {
                         updateMessage(fragment.getString(R.string.no_music));
                     } else {
                         showZmvMessage.set(false);

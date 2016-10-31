@@ -4,19 +4,13 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.f2prateek.dart.Dart;
-import com.f2prateek.dart.InjectExtra;
-import com.f2prateek.dart.henson.Bundler;
+
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
@@ -29,7 +23,6 @@ import lombok.Setter;
 public class FragmentWebView extends BottomSheetDialogFragment {
 
     public static final String TAG = FragmentWebView.class.getSimpleName();
-    @InjectExtra(EXTRA.URL)
     String url;
 
     WebView webView;
@@ -39,7 +32,9 @@ public class FragmentWebView extends BottomSheetDialogFragment {
 
     public static FragmentWebView newInstance(String url) {
         FragmentWebView fragment = new FragmentWebView();
-        fragment.setArguments(Bundler.create().put(EXTRA.URL, url).get());
+        Bundle bundle = new Bundle();
+        bundle.putString(EXTRA.URL, url);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -47,7 +42,7 @@ public class FragmentWebView extends BottomSheetDialogFragment {
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
         webView = (WebView) LayoutInflater.from(getContext()).inflate(R.layout.fragment_web_view, null, false);
-        Dart.inject(this, getArguments());
+        url = getArguments().getString(EXTRA.URL);
         WebViewClient webViewClient = new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
