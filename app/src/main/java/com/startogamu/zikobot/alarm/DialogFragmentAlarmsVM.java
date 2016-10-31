@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.fragment.alarm;
+package com.startogamu.zikobot.alarm;
 
 import android.databinding.ObservableArrayList;
 import android.os.Parcelable;
@@ -13,12 +13,8 @@ import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.DialogFragmentAlarmsBinding;
-import com.startogamu.zikobot.alarm.AlarmManager;
-import com.startogamu.zikobot.alarm.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.Track;
-import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
-import com.startogamu.zikobot.alarm.AlarmVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

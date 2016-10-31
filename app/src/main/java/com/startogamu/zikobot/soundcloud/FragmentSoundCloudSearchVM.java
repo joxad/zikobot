@@ -9,8 +9,8 @@ import com.startogamu.zikobot.core.event.search.EventQueryChange;
 import com.startogamu.zikobot.core.utils.ISearch;
 import com.startogamu.zikobot.databinding.FragmentSoundCloudSearchBinding;
 import com.startogamu.zikobot.search.SearchManager;
-import com.startogamu.zikobot.viewmodel.base.AlbumVM;
-import com.startogamu.zikobot.viewmodel.base.ArtistVM;
+import com.startogamu.zikobot.album.AlbumVM;
+import com.startogamu.zikobot.artist.ArtistVM;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;

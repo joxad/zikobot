@@ -8,7 +8,6 @@ import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
-import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventSelectItemNetwork;
 import com.startogamu.zikobot.core.event.EventShowArtistDetail;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
@@ -22,17 +21,14 @@ import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.module.tablature.TablatureManager;
-import com.startogamu.zikobot.view.activity.ActivityMain;
-import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
-import com.startogamu.zikobot.viewmodel.activity.ActivityMainVM;
+import com.startogamu.zikobot.home.ActivityMain;
+import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
+import com.startogamu.zikobot.home.ActivityMainVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import static android.R.attr.fragment;
 
 /**
  * Created by josh on 10/06/16.

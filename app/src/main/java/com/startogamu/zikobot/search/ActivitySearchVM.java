@@ -16,7 +16,7 @@ import com.startogamu.zikobot.databinding.ActivitySearchBinding;
 import com.startogamu.zikobot.soundcloud.FragmentSoundCloudSearch;
 import com.startogamu.zikobot.spotify.FragmentSpotifySearch;
 import com.startogamu.zikobot.view.adapter.ViewPagerAdapter;
-import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
+import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

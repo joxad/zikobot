@@ -19,7 +19,7 @@ import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
 import com.startogamu.zikobot.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.module.zikobot.model.Album;
 import com.startogamu.zikobot.module.zikobot.model.Track;
-import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
+import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 

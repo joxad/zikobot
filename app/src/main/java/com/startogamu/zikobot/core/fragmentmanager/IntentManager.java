@@ -20,7 +20,7 @@ import com.startogamu.zikobot.soundcloud.ActivitySoundCloud;
 import com.startogamu.zikobot.spotify.ActivitySpotify;
 import com.startogamu.zikobot.alarm.ActivityAlarm;
 import com.startogamu.zikobot.view.activity.ActivityFirstStart;
-import com.startogamu.zikobot.view.activity.ActivityMain;
+import com.startogamu.zikobot.home.ActivityMain;
 
 import org.parceler.Parcels;
 

@@ -13,7 +13,7 @@
 
         <variable
             name="activityMainVM"
-            type="com.startogamu.zikobot.viewmodel.activity.ActivityMainVM" />
+            type="com.startogamu.zikobot.home.ActivityMainVM" />
     </data>
 
 

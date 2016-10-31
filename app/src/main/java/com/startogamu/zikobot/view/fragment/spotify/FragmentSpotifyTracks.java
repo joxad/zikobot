@@ -11,7 +11,7 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentSpotifyTracksBinding;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
-import com.startogamu.zikobot.viewmodel.fragment.spotify.FragmentSpotifyTracksVM;
+import com.startogamu.zikobot.spotify.FragmentSpotifyTracksVM;
 
 import org.parceler.Parcels;
 

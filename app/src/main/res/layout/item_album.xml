@@ -7,7 +7,7 @@
 
         <variable
             name="albumVM"
-            type="com.startogamu.zikobot.viewmodel.base.AlbumVM" />
+            type="com.startogamu.zikobot.album.AlbumVM" />
     </data>
 
 

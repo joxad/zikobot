@@ -9,7 +9,7 @@
 
         <variable
             name="fragmentSpotifyTracksVM"
-            type="com.startogamu.zikobot.viewmodel.fragment.spotify.FragmentSpotifyTracksVM" />
+            type="com.startogamu.zikobot.spotify.FragmentSpotifyTracksVM" />
     </data>
 
     <LinearLayout

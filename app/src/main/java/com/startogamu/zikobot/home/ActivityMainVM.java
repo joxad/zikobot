@@ -1,7 +1,6 @@
-package com.startogamu.zikobot.viewmodel.activity;
+package com.startogamu.zikobot.home;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
@@ -16,9 +15,8 @@ import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.localnetwork.FragmentLocalNetwork;
 import com.startogamu.zikobot.module.spotify_auth.manager.SpotifyAuthManager;
-import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.view.adapter.ViewPagerAdapter;
-import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
+import com.startogamu.zikobot.alarm.FragmentAlarms;
 import com.startogamu.zikobot.view.fragment.deezer.FragmentDeezerPlaylists;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;

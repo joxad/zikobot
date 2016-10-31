@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.base;
+package com.startogamu.zikobot.artist;
 
 import android.app.Activity;
 import android.content.Context;

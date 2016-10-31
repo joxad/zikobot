@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.view.activity;
+package com.startogamu.zikobot.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +7,6 @@ import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
-import com.startogamu.zikobot.viewmodel.activity.ActivityMainVM;
 
 /**
  * Created by josh on 08/06/16.

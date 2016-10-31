@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.fragment.spotify;
+package com.startogamu.zikobot.spotify;
 
 import android.databinding.ObservableArrayList;
 import android.os.Parcelable;

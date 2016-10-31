@@ -1,13 +1,11 @@
-package com.startogamu.zikobot.view.fragment.alarm;
+package com.startogamu.zikobot.alarm;
 
 import android.os.Bundle;
 
 import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
-import com.startogamu.zikobot.viewmodel.fragment.alarm.FragmentAlarmsVM;
 
 /***
  * List the alarms

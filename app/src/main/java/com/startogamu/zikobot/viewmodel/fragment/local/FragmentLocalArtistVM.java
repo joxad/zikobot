@@ -20,7 +20,7 @@ import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
 import com.startogamu.zikobot.module.localmusic.model.LocalArtist;
 import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalArtists;
-import com.startogamu.zikobot.viewmodel.base.ArtistVM;
+import com.startogamu.zikobot.artist.ArtistVM;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 

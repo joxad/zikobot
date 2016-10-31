@@ -30,7 +30,7 @@
         android:theme="@style/ZikoboTheme.NoActionBar">
 
         <activity
-            android:name=".view.activity.ActivityMain"
+            android:name=".home.ActivityMain"
             android:screenOrientation="portrait">
 
             <intent-filter>

@@ -12,7 +12,7 @@
 
         <variable
             name="fragmentAlarmsVM"
-            type="com.startogamu.zikobot.viewmodel.fragment.alarm.FragmentAlarmsVM" />
+            type="com.startogamu.zikobot.alarm.FragmentAlarmsVM" />
     </data>
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"

@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.view.fragment.alarm;
+package com.startogamu.zikobot.alarm;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -10,7 +10,6 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.DialogFragmentAlarmsBinding;
 import com.startogamu.zikobot.module.zikobot.model.Track;
-import com.startogamu.zikobot.viewmodel.fragment.alarm.DialogFragmentAlarmsVM;
 
 import org.parceler.Parcels;
 

@@ -22,8 +22,8 @@ import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
 import com.startogamu.zikobot.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.module.zikobot.model.Track;
-import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
-import com.startogamu.zikobot.viewmodel.base.AlbumVM;
+import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
+import com.startogamu.zikobot.album.AlbumVM;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 

@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.fragment.alarm;
+package com.startogamu.zikobot.alarm;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
@@ -12,11 +12,8 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
 
-import com.startogamu.zikobot.alarm.AlarmManager;
 import com.startogamu.zikobot.module.spotify_auth.manager.SpotifyAuthManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
-import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
-import com.startogamu.zikobot.alarm.AlarmVM;
 
 import java.io.UnsupportedEncodingException;
 

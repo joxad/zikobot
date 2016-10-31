@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.base;
+package com.startogamu.zikobot.album;
 
 import android.content.Context;
 import android.databinding.Bindable;

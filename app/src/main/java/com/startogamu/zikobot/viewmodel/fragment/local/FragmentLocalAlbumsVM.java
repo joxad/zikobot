@@ -25,7 +25,7 @@ import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
 import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
 import com.startogamu.zikobot.module.localmusic.model.LocalArtist;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalAlbums;
-import com.startogamu.zikobot.viewmodel.base.AlbumVM;
+import com.startogamu.zikobot.album.AlbumVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.parceler.Parcels;
