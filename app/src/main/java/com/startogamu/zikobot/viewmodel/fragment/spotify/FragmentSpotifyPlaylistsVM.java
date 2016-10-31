@@ -10,8 +10,9 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentSpotifyPlaylistsBinding;
-import com.startogamu.zikobot.module.component.Injector;
+
 import com.startogamu.zikobot.module.mock.Mock;
+import com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.view.fragment.spotify.FragmentSpotifyPlaylists;
 import com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel;
@@ -57,7 +58,7 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
         if (AppPrefs.spotifyUser()==null)return;
         userPlaylists.clear();
         userPlaylists.addAll(Mock.playlists(fragment.getContext()));
-        Injector.INSTANCE.spotifyApi().manager().getUserPlaylists().subscribe(spotifyPlaylist -> {
+        SpotifyApiManager.getInstance().getUserPlaylists().subscribe(spotifyPlaylist -> {
             userPlaylists.clear();
             for (Item playlist : spotifyPlaylist.getItems()) {
                 userPlaylists.add(new ItemPlaylistViewModel(fragment.getContext(), playlist));

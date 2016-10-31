@@ -10,8 +10,9 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentSoundCloudPlaylistsBinding;
-import com.startogamu.zikobot.module.component.Injector;
+
 import com.startogamu.zikobot.module.mock.Mock;
+import com.startogamu.zikobot.module.soundcloud.manager.SoundCloudApiManager;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.view.fragment.soundcloud.FragmentSoundCloudPlaylists;
 import com.startogamu.zikobot.viewmodel.items.ItemSCPlaylistVM;
@@ -39,7 +40,6 @@ public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundC
 
     @Override
     public void init() {
-        Injector.INSTANCE.soundCloudApi().inject(this);
         userPlaylists = new ObservableArrayList<>();
     }
 
@@ -56,7 +56,7 @@ public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundC
         if (AppPrefs.soundCloudUser() == null) return;
         userPlaylists.clear();
         userPlaylists.addAll(Mock.scPlaylists(fragment.getContext()));
-        Injector.INSTANCE.soundCloudApi().manager().userPlaylists(AppPrefs.soundCloudUser().getId()).subscribe(soundCloudPlaylists -> {
+        SoundCloudApiManager.getInstance().userPlaylists(AppPrefs.soundCloudUser().getId()).subscribe(soundCloudPlaylists -> {
             userPlaylists.clear();
             for (SoundCloudPlaylist playlist : soundCloudPlaylists) {
                 if (!playlist.getSoundCloudTracks().isEmpty())

@@ -4,12 +4,10 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import com.startogamu.zikobot.databinding.ItemAlarmBinding;
-import com.startogamu.zikobot.viewmodel.base.AlarmVM;
+import com.startogamu.zikobot.alarm.AlarmVM;
 
 import java.util.Calendar;
 

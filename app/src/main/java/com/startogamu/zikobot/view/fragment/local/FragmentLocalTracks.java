@@ -9,7 +9,7 @@ import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentLocalTracksBinding;
-import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
+import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
 import com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalTracksVM;
 
 import org.parceler.Parcels;

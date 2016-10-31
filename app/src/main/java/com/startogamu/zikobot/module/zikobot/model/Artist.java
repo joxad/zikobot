@@ -1,6 +1,6 @@
 package com.startogamu.zikobot.module.zikobot.model;
 
-import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
+import com.startogamu.zikobot.module.localmusic.model.LocalArtist;
 import com.startogamu.zikobot.module.soundcloud.model.User;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyArtist;
 

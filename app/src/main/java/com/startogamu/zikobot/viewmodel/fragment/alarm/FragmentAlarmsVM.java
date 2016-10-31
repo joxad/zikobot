@@ -11,11 +11,12 @@ import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
-import com.startogamu.zikobot.module.component.Injector;
+
 import com.startogamu.zikobot.alarm.AlarmManager;
+import com.startogamu.zikobot.module.spotify_auth.manager.SpotifyAuthManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
-import com.startogamu.zikobot.viewmodel.base.AlarmVM;
+import com.startogamu.zikobot.alarm.AlarmVM;
 
 import java.io.UnsupportedEncodingException;
 
@@ -40,7 +41,6 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
      */
     public FragmentAlarmsVM(FragmentAlarms activity, FragmentAlarmsBinding binding) {
         super(activity, binding);
-        Injector.INSTANCE.spotifyAuth().inject(this);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     }
 
     private void refreshAccessToken() throws UnsupportedEncodingException {
-        Injector.INSTANCE.spotifyAuth().manager().refreshToken(fragment.getContext(), () -> {
+       SpotifyAuthManager.getInstance().refreshToken(fragment.getContext(), () -> {
 
         });
     }

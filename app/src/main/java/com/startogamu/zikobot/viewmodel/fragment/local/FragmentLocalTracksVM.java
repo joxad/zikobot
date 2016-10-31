@@ -20,9 +20,10 @@ import com.startogamu.zikobot.core.utils.Constants;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.startogamu.zikobot.databinding.FragmentLocalTracksBinding;
-import com.startogamu.zikobot.module.component.Injector;
-import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
-import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
+
+import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
+import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
+import com.startogamu.zikobot.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
@@ -62,7 +63,6 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
         showZmvMessage = new ObservableBoolean(false);
         zmvMessage = "";
         items = new ObservableArrayList<>();
-        Injector.INSTANCE.contentResolverComponent().init(this);
         binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(), 1));
         binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
             @Override
@@ -111,7 +111,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
      */
     public void loadLocalMusic(int limit, int offset) {
 
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(limit, offset, null, localAlbum != null ? localAlbum.getId() : -1, null)
+        LocalMusicManager.getInstance().getLocalTracks(limit, offset, null, localAlbum != null ? localAlbum.getId() : -1, null)
                 .subscribe(localTracks -> {
                     Log.d(TAG, "" + localTracks.size());
                     for (LocalTrack localTrack : localTracks) {

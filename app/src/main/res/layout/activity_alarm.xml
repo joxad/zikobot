@@ -12,7 +12,7 @@
 
         <variable
             name="activityAlarmVM"
-            type="com.startogamu.zikobot.viewmodel.activity.ActivityAlarmVM" />
+            type="com.startogamu.zikobot.alarm.ActivityAlarmVM" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout

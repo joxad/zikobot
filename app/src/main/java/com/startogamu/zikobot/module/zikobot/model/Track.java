@@ -9,7 +9,7 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 import com.raizlabs.android.dbflow.structure.container.ForeignKeyContainer;
 import com.startogamu.zikobot.core.db.MusicAlarmDatabase;
-import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
+import com.startogamu.zikobot.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudTrack;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyTrack;
 

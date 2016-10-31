@@ -85,6 +85,6 @@ public class FragmentWebView extends BottomSheetDialogFragment {
 
 
     public interface IntentListener {
-        public void onReceive(Intent intent);
+        void onReceive(Intent intent);
     }
 }

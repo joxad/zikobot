@@ -15,10 +15,12 @@ import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.Album;
 import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.search.ActivitySearch;
+import com.startogamu.zikobot.settings.ActivitySettings;
 import com.startogamu.zikobot.soundcloud.ActivitySoundCloud;
 import com.startogamu.zikobot.spotify.ActivitySpotify;
-import com.startogamu.zikobot.view.Henson;
-import com.startogamu.zikobot.view.activity.ActivityAlarm;
+import com.startogamu.zikobot.alarm.ActivityAlarm;
+import com.startogamu.zikobot.view.activity.ActivityFirstStart;
+import com.startogamu.zikobot.view.activity.ActivityMain;
 
 import org.parceler.Parcels;
 
@@ -47,19 +49,19 @@ public class IntentManager {
     }
 
     public static Intent goToMainFromWidget() {
-        return Henson.with(context).gotoActivityMain().fromWidget("ALARM").build();
+        return new Intent(context, ActivityMain.class);
     }
 
     public static Intent goToTuto() {
-        return Henson.with(context).gotoActivityFirstStart().build();
+        return new Intent(context, ActivityFirstStart.class);
     }
 
     public static Intent goToSettings() {
-        return Henson.with(context).gotoActivitySettings().build();
+        return new Intent(context, ActivitySettings.class);
     }
 
     public static Intent goToWakeUp(Alarm alarm) {
-        return Henson.with(context).gotoActivityWakeUp().alarm(alarm).build();
+        return new Intent(context, ActivityMain.class).putExtra(EXTRA.ALARM,Parcels.wrap(alarm));
     }
 
     public static Intent goToAlbum(Album model) {

@@ -46,3 +46,11 @@ task clean(type: Delete) {
 
 apply from: 'gradle/tasks/versioning.gradle'
 apply from: 'gradle/tasks/imports.gradle'
+
+
+ext {
+    androidCompileSdkVersion = 23
+    androidBuildToolsVersion = '23.0.3'
+    androidMinSdkVersion = 16
+    androidTargetSdkVersion = 24
+}

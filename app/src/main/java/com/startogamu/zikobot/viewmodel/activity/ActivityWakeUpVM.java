@@ -16,12 +16,12 @@ import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AnimationEndListener;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityWakeUpBinding;
-import com.startogamu.zikobot.module.component.Injector;
+
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.module.music.PlayerMusicManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.view.activity.ActivityWakeUp;
-import com.startogamu.zikobot.viewmodel.base.AlarmVM;
+import com.startogamu.zikobot.alarm.AlarmVM;
 import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,10 +60,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     @Override
     public void init() {
         SpotifyPlayerManager.updateToken(AppPrefs.getSpotifyAccessToken());
-
-        Injector.INSTANCE.spotifyAuth().inject(this);
         EventBus.getDefault().register(this);
-
         am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
 
 //For Normal mode

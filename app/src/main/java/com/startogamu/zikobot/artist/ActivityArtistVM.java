@@ -16,9 +16,10 @@ import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.startogamu.zikobot.databinding.ActivityArtistBinding;
-import com.startogamu.zikobot.module.component.Injector;
-import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
-import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
+
+import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
+import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
+import com.startogamu.zikobot.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
@@ -138,7 +139,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
      * Load the local music
      */
     public void loadLocalAlbums(int limit, int offset) {
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(limit, offset, artist != null ? artist.getName() : null, null).subscribe(localAlbums -> {
+        LocalMusicManager.getInstance().getLocalAlbums(limit, offset, artist != null ? artist.getName() : null, null).subscribe(localAlbums -> {
             Log.d(TAG, "" + localAlbums.size());
             for (LocalAlbum localAlbum : localAlbums) {
                 albums.add(new AlbumVM(activity, localAlbum));
@@ -150,7 +151,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     }
 
     public void loadLocalTracks(int limit, int offset) {
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(limit, offset, artist != null ? artist.getName() : null, -1, null).subscribe(localTracks -> {
+        LocalMusicManager.getInstance().getLocalTracks(limit, offset, artist != null ? artist.getName() : null, -1, null).subscribe(localTracks -> {
             Log.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 tracks.add(new TrackVM(activity, Track.from(localTrack)));

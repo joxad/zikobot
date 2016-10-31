@@ -15,7 +15,7 @@ import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.SimpleSeekBarListener;
 import com.startogamu.zikobot.databinding.DialogPlaylistEditBinding;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
-import com.startogamu.zikobot.viewmodel.base.AlarmVM;
+import com.startogamu.zikobot.alarm.AlarmVM;
 
 import org.parceler.Parcels;
 

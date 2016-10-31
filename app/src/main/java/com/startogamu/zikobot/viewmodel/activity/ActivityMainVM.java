@@ -17,7 +17,8 @@ import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.localnetwork.FragmentLocalNetwork;
-import com.startogamu.zikobot.module.component.Injector;
+
+import com.startogamu.zikobot.module.spotify_auth.manager.SpotifyAuthManager;
 import com.startogamu.zikobot.view.activity.ActivityMain;
 import com.startogamu.zikobot.view.adapter.ViewPagerAdapter;
 import com.startogamu.zikobot.view.fragment.alarm.FragmentAlarms;
@@ -54,7 +55,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     public ActivityMainVM(ActivityMain activity, ActivityMainBinding binding) {
         super(activity, binding);
         Dart.inject(this, activity);
-        Injector.INSTANCE.spotifyAuth().inject(this);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         if (AppPrefs.spotifyUser() == null)
             return;
         try {
-            Injector.INSTANCE.spotifyAuth().manager().refreshToken(activity, () -> {
+            SpotifyAuthManager.getInstance().refreshToken(activity, () -> {
             });
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

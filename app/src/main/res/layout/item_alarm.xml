@@ -11,7 +11,7 @@
 
         <variable
             name="itemAlarmVM"
-            type="com.startogamu.zikobot.viewmodel.base.AlarmVM" />
+            type="com.startogamu.zikobot.alarm.AlarmVM" />
     </data>
 
     <android.support.v7.widget.CardView

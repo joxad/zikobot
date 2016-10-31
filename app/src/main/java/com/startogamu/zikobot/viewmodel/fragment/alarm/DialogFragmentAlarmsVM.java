@@ -19,7 +19,7 @@ import com.startogamu.zikobot.alarm.AlarmTrackManager;
 import com.startogamu.zikobot.module.zikobot.model.Alarm;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
-import com.startogamu.zikobot.viewmodel.base.AlarmVM;
+import com.startogamu.zikobot.alarm.AlarmVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

@@ -11,7 +11,7 @@
 
         <variable
             name="activitySettingsVM"
-            type="com.startogamu.zikobot.viewmodel.activity.ActivitySettingsVM" />
+            type="com.startogamu.zikobot.settings.ActivitySettingsVM" />
     </data>
 
     <android.support.v7.widget.CardView

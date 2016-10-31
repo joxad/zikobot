@@ -24,7 +24,8 @@ import android.widget.RelativeLayout;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.module.component.Injector;
+import com.startogamu.zikobot.module.soundcloud.manager.SoundCloudApiManager;
+
 
 public class SoundCloudLoginActivity extends AppCompatActivity {
 
@@ -248,7 +249,7 @@ public class SoundCloudLoginActivity extends AppCompatActivity {
         String appId = getString(R.string.soundcloud_id);
         String appSecret = getString(R.string.soundcloud_secret);
         String redirectUrl = getString(R.string.api_soundcloud_callback);
-        Injector.INSTANCE.soundCloudApi().manager().token(appId, appSecret, redirectUrl, AppPrefs.getSoundCloundAccesCode(), "authorization_code")
+        SoundCloudApiManager.getInstance().token(appId, appSecret, redirectUrl, AppPrefs.getSoundCloundAccesCode(), "authorization_code")
                 .subscribe(soundCloudToken -> {
                     AppPrefs.saveSoundCloudAccessToken(soundCloudToken.getAccessToken());
                     finish();

@@ -10,7 +10,7 @@
 
         <variable
             name="itemAlarmVM"
-            type="com.startogamu.zikobot.viewmodel.base.AlarmVM" />
+            type="com.startogamu.zikobot.alarm.AlarmVM" />
     </data>
 
 

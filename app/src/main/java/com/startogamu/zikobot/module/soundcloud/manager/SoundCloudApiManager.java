@@ -2,15 +2,18 @@ package com.startogamu.zikobot.module.soundcloud.manager;
 
 import android.content.Context;
 
+import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.module.music.PlayerMusicManager;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudToken;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudTrack;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudUser;
+import com.startogamu.zikobot.module.soundcloud.resource.SoundCloudApiInterceptor;
 import com.startogamu.zikobot.module.soundcloud.resource.SoundCloudApiService;
 
 import java.util.ArrayList;
 
-import javax.inject.Singleton;
+
 
 import retrofit2.Retrofit;
 import rx.Observable;
@@ -20,7 +23,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by josh on 15/06/16.
  */
-@Singleton
+
 public class SoundCloudApiManager {
 
     public SoundCloudApiService soundCloudApiService;
@@ -28,9 +31,28 @@ public class SoundCloudApiManager {
     private Context context;
     private Retrofit retrofit;
 
-    public SoundCloudApiManager(Context context, Retrofit retrofit) {
+
+    /**
+     * Holder
+     */
+    private static class SoundCloudApiManagerHolder {
+        /**
+         * Instance unique non préinitialisée
+         */
+        private final static SoundCloudApiManager instance = new SoundCloudApiManager();
+    }
+
+    /**
+     * Point d'accès pour l'instance unique du singleton
+     */
+    public static SoundCloudApiManager getInstance() {
+        return SoundCloudApiManager.SoundCloudApiManagerHolder.instance;
+    }
+
+    public void init(Context context) {
         this.context = context;
-        this.retrofit = retrofit;
+        SoundCloudRetrofit soundCloudRetrofit = new SoundCloudRetrofit(context.getString(R.string.soundcloud_base_api_url), new SoundCloudApiInterceptor(context));
+        this.retrofit = soundCloudRetrofit.retrofit();
         soundCloudApiService = retrofit.create(SoundCloudApiService.class);
     }
 

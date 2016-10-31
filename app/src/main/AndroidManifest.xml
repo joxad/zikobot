@@ -102,7 +102,7 @@
         <activity android:name=".soundcloud.ActivitySoundCloud" />
         <activity android:name=".localnetwork.ActivityLocalNetwork"/>
         <activity
-            android:name=".view.activity.ActivityAlarm"
+            android:name=".alarm.ActivityAlarm"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
@@ -110,7 +110,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
-            android:name=".view.activity.ActivitySettings"
+            android:name=".settings.ActivitySettings"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
@@ -182,8 +182,6 @@
         <service android:name=".core.service.MediaPlayerService" />
         <service android:name=".localnetwork.LocalNetworkDiscoveryService" />
         <service android:name=".localnetwork.SmbService" />
-
-        <activity android:name=".view.activity.fingerprint.ActivityFingerprint" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

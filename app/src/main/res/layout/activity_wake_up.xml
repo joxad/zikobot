@@ -15,7 +15,7 @@
 
         <variable
             name="alarmVM"
-            type="com.startogamu.zikobot.viewmodel.base.AlarmVM" />
+            type="com.startogamu.zikobot.alarm.AlarmVM" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout

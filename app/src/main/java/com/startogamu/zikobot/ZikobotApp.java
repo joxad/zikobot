@@ -13,10 +13,15 @@ import com.startogamu.zikobot.core.analytics.AnalyticsManager;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.module.component.Injector;
+
+import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
 import com.startogamu.zikobot.module.deezer.manager.DeezerManager;
+import com.startogamu.zikobot.module.lyrics.manager.LyricsManager;
 import com.startogamu.zikobot.module.music.PlayerMusicManager;
 import com.startogamu.zikobot.alarm.AlarmManager;
+import com.startogamu.zikobot.module.soundcloud.manager.SoundCloudApiManager;
+import com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager;
+import com.startogamu.zikobot.module.spotify_auth.manager.SpotifyAuthManager;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -47,9 +52,13 @@ public class ZikobotApp extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        SpotifyAuthManager.getInstance().init(this);
         PlayerMusicManager.getInstance().init(this);
+        SoundCloudApiManager.getInstance().init(this);
+        SpotifyApiManager.getInstance().init(this);
+        LocalMusicManager.getInstance().init(this);
+        LyricsManager.getInstance().init(this);
         PlayerNotification.init(this);
-        Injector.INSTANCE.init(this);
         AlarmManager.init(this);
 
         Logger.init(ZikobotApp.class.getSimpleName());

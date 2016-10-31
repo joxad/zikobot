@@ -14,8 +14,9 @@ import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.startogamu.zikobot.databinding.ActivityAlbumBinding;
-import com.startogamu.zikobot.module.component.Injector;
-import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
+
+import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
+import com.startogamu.zikobot.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.module.zikobot.model.Album;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.view.fragment.alarm.DialogFragmentAlarms;
@@ -117,7 +118,7 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
      * @param totalItemsCount
      */
     public void loadLocalMusic(int limit, int offset) {
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(limit,offset,null, album.getId(), null).subscribe(localTracks -> {
+        LocalMusicManager.getInstance().getLocalTracks(limit,offset,null, album.getId(), null).subscribe(localTracks -> {
             Logger.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 tracks.add(new TrackVM(activity, Track.from(localTrack)));

@@ -9,10 +9,11 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.search.EventQueryChange;
 import com.startogamu.zikobot.core.utils.ISearch;
 import com.startogamu.zikobot.databinding.FragmentSearchBinding;
-import com.startogamu.zikobot.module.component.Injector;
-import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
-import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
-import com.startogamu.zikobot.module.content_resolver.model.LocalTrack;
+
+import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
+import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
+import com.startogamu.zikobot.module.localmusic.model.LocalArtist;
+import com.startogamu.zikobot.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.module.zikobot.model.Artist;
 import com.startogamu.zikobot.module.zikobot.model.Track;
 import com.startogamu.zikobot.viewmodel.base.AlbumVM;
@@ -98,7 +99,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
     }
 
     public void loadArtists(final int limit, final int offset){
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalArtists(15,0,query).subscribe(localArtists -> {
+        LocalMusicManager.getInstance().getLocalArtists(15,0,query).subscribe(localArtists -> {
             Logger.d(TAG, "" + localArtists.size());
             artists.clear();
             for (LocalArtist localArtist : localArtists) {
@@ -113,7 +114,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
     }
 
     public void loadAlbums(final int limit, final int offset){
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalAlbums(15,0,null, query).subscribe(localArtists -> {
+        LocalMusicManager.getInstance().getLocalAlbums(15,0,null, query).subscribe(localArtists -> {
             Logger.d(TAG, "" + localArtists.size());
             albums.clear();
             for (LocalAlbum localAlbum : localArtists) {
@@ -127,7 +128,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
     }
 
     public void loadTracks(final int limit, final int offset){
-        Injector.INSTANCE.contentResolverComponent().localMusicManager().getLocalTracks(10,0,null,-1, query).subscribe(localTracks -> {
+        LocalMusicManager.getInstance().getLocalTracks(10,0,null,-1, query).subscribe(localTracks -> {
             Logger.d("" + localTracks.size());
             tracks.clear();
             for (LocalTrack localTrack : localTracks) {

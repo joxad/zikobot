@@ -1,16 +1,11 @@
 package com.startogamu.zikobot.module.zikobot.model;
 
-import com.startogamu.zikobot.module.content_resolver.model.LocalAlbum;
-import com.startogamu.zikobot.module.content_resolver.model.LocalArtist;
-import com.startogamu.zikobot.module.soundcloud.model.User;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifyArtist;
+import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
 
 import org.parceler.Parcel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created by josh on 08/08/16.

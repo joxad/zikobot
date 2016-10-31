@@ -9,7 +9,8 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.search.EventQueryChange;
 import com.startogamu.zikobot.core.utils.ISearch;
 import com.startogamu.zikobot.databinding.FragmentSpotifySearchBinding;
-import com.startogamu.zikobot.module.component.Injector;
+
+import com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifySearchResult;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyTrack;
 import com.startogamu.zikobot.module.zikobot.model.Track;
@@ -84,7 +85,7 @@ public class FragmentSpotifySearchVM extends FragmentBaseVM<FragmentSpotifySearc
     @Override
     public void query(String query) {
         tracks.clear();
-        Injector.INSTANCE.spotifyApi().manager().search(10, 0, query).subscribe(spotifySearchResult -> {
+        SpotifyApiManager.getInstance().search(10, 0, query).subscribe(spotifySearchResult -> {
             for (SpotifyTrack item : spotifySearchResult.tracks.getItems()) {
                 tracks.add(new TrackVM(fragment.getContext(), Track.from(item)));
             }

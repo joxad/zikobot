@@ -14,16 +14,16 @@ def key_alias = properties.getProperty('keystore.alias')
 def key_password = properties.getProperty('keystore.password')
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
+    buildToolsVersion rootProject.ext.androidBuildToolsVersion
     dataBinding {
         enabled = true
     }
 
     defaultConfig {
         applicationId "com.startogamu.zikobot"
-        minSdkVersion 16
-        targetSdkVersion 23
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
         versionCode buildVersionCode()
         versionName VERSION_NAME
         multiDexEnabled true
@@ -80,14 +80,12 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // compile project(":deezersdk")
     testCompile 'junit:junit:4.12'
-    apt libs.daggerCompiler
     apt libs.dbFlowProc
     apt libs.parceler
     compile libs.appCompat
     compile libs.butterKnife
     compile libs.circleIV
     compile libs.customTabs
-    compile libs.dagger
     compile libs.dart
     compile libs.dbFlowCore
     compile libs.dbFlow

@@ -5,15 +5,14 @@ import android.util.Base64;
 
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-
+import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
 import com.startogamu.zikobot.module.spotify_auth.model.SpotifyRefreshToken;
 import com.startogamu.zikobot.module.spotify_auth.model.SpotifyRequestToken;
 import com.startogamu.zikobot.module.spotify_auth.model.SpotifyToken;
+import com.startogamu.zikobot.module.spotify_auth.resource.SpotifyAuthInterceptor;
 import com.startogamu.zikobot.module.spotify_auth.resource.SpotifyAuthService;
 
 import java.io.UnsupportedEncodingException;
-
-import javax.inject.Singleton;
 
 import retrofit2.Retrofit;
 import rx.Observable;
@@ -24,15 +23,33 @@ import rx.schedulers.Schedulers;
 /****
  * {@link SpotifyAuthManager} will handle the connexion to the auth api of spotify
  */
-@Singleton
+
 public class SpotifyAuthManager {
     SpotifyAuthService spotifyAuthService;
     Context context;
     Retrofit retrofit;
+    /**
+     * Holder
+     */
+    private static class SpotifyAuthManagerHolder {
+        /**
+         * Instance unique non préinitialisée
+         */
+        private final static SpotifyAuthManager instance = new SpotifyAuthManager();
+    }
 
-    public SpotifyAuthManager(Context context, Retrofit retrofit) {
+    /**
+     * Point d'accès pour l'instance unique du singleton
+     */
+    public static SpotifyAuthManager getInstance() {
+        return SpotifyAuthManager.SpotifyAuthManagerHolder.instance;
+    }
+    public void init(Context context) {
         this.context = context;
-        this.retrofit = retrofit;
+        SpotifyAuthRetrofit authRetrofit = new SpotifyAuthRetrofit(context.getString(R.string.spotify_base_auth_url),
+                new SpotifyAuthInterceptor(context.getString(R.string.api_spotify_id), context.getString(R.string.api_spotify_secret)));
+
+        this.retrofit = authRetrofit.retrofit();
         spotifyAuthService = this.retrofit.create(SpotifyAuthService.class);
     }
 
@@ -85,7 +102,7 @@ public class SpotifyAuthManager {
     }
 
     public interface Listener {
-        public void onDone();
+        void onDone();
     }
 
 
