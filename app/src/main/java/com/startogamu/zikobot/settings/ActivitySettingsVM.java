@@ -23,7 +23,7 @@ import com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager;
 import com.startogamu.zikobot.module.spotify_auth.manager.SpotifyAuthManager;
 import com.startogamu.zikobot.module.spotify_auth.model.SpotifyRequestToken;
 import com.startogamu.zikobot.soundcloud.SoundCloudLoginActivity;
-import com.startogamu.zikobot.view.fragment.FragmentWebView;
+import com.startogamu.zikobot.core.general.FragmentWebView;
 
 import java.io.UnsupportedEncodingException;
 

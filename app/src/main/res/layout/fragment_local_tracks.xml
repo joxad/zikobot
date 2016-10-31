@@ -11,7 +11,7 @@
 
         <variable
             name="fragmentLocalTracksVM"
-            type="com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalTracksVM" />
+            type="com.startogamu.zikobot.localtracks.FragmentLocalTracksVM" />
     </data>
 
     <RelativeLayout
@@ -20,7 +20,7 @@
         android:orientation="vertical">
 
 
-        <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
+        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,7 +32,7 @@
             tools:listitem="@layout/item_alarm_track" />
 
 
-        <com.startogamu.zikobot.view.custom.ZikobotMessageView
+        <com.startogamu.zikobot.core.viewutils.ZikobotMessageView
             android:id="@+id/zmv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

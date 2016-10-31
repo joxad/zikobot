@@ -9,7 +9,7 @@
 
         <variable
             name="trackVM"
-            type="com.startogamu.zikobot.viewmodel.base.TrackVM" />
+            type="com.startogamu.zikobot.localtracks.TrackVM" />
     </data>
 
     <com.balysv.materialripple.MaterialRippleLayout

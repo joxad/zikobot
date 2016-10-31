@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.playlist;
+package com.startogamu.zikobot.alarm;
 
 import android.content.DialogInterface;
 import android.os.Bundle;

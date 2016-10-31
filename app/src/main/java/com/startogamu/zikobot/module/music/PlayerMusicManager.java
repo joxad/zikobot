@@ -24,7 +24,7 @@ import com.startogamu.zikobot.module.music.player.VLCPlayer;
 import com.startogamu.zikobot.core.model.Alarm;
 import com.startogamu.zikobot.core.model.TYPE;
 import com.startogamu.zikobot.core.model.Track;
-import com.startogamu.zikobot.viewmodel.base.TrackVM;
+import com.startogamu.zikobot.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

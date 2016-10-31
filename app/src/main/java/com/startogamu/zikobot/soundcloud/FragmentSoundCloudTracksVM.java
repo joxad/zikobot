@@ -13,7 +13,7 @@ import com.startogamu.zikobot.databinding.FragmentSoundCloudTracksBinding;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.soundcloud.model.SoundCloudTrack;
 import com.startogamu.zikobot.core.model.Track;
-import com.startogamu.zikobot.viewmodel.base.TrackVM;
+import com.startogamu.zikobot.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

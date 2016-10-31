@@ -19,7 +19,7 @@ import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.core.model.Alarm;
 import com.startogamu.zikobot.core.model.Track;
-import com.startogamu.zikobot.viewmodel.base.TrackVM;
+import com.startogamu.zikobot.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 

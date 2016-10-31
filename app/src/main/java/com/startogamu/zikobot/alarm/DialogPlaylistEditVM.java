@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.playlist;
+package com.startogamu.zikobot.alarm;
 
 import android.content.Context;
 import android.databinding.Bindable;
@@ -14,7 +14,6 @@ import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.SimpleSeekBarListener;
 import com.startogamu.zikobot.databinding.DialogPlaylistEditBinding;
 import com.startogamu.zikobot.core.model.Alarm;
-import com.startogamu.zikobot.alarm.AlarmVM;
 
 import org.parceler.Parcels;
 

@@ -46,7 +46,7 @@
 
             </RelativeLayout>
 
-            <com.startogamu.zikobot.view.custom.MaterialButtonView
+            <com.startogamu.zikobot.core.viewutils.MaterialButtonView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"

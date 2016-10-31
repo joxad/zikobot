@@ -15,8 +15,7 @@ import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivityAlarmBinding;
 import com.startogamu.zikobot.core.model.Alarm;
-import com.startogamu.zikobot.playlist.DialogPlaylistEdit;
-import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
+import com.startogamu.zikobot.home.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

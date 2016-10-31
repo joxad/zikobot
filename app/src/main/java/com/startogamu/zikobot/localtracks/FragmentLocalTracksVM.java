@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.fragment.local;
+package com.startogamu.zikobot.localtracks;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -24,8 +24,6 @@ import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
 import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
 import com.startogamu.zikobot.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.core.model.Track;
-import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
-import com.startogamu.zikobot.viewmodel.base.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

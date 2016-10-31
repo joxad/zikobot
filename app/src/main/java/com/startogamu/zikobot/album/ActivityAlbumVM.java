@@ -20,8 +20,8 @@ import com.startogamu.zikobot.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.core.model.Album;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
-import com.startogamu.zikobot.viewmodel.base.TrackVM;
-import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
+import com.startogamu.zikobot.localtracks.TrackVM;
+import com.startogamu.zikobot.home.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

@@ -1,17 +1,15 @@
-package com.startogamu.zikobot.view.fragment.local;
+package com.startogamu.zikobot.localtracks;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 
-import com.android.databinding.library.baseAdapters.BR;
-
 import com.joxad.easydatabinding.fragment.FragmentBase;
+import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentLocalTracksBinding;
 import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
-import com.startogamu.zikobot.viewmodel.fragment.local.FragmentLocalTracksVM;
 
 import org.parceler.Parcels;
 

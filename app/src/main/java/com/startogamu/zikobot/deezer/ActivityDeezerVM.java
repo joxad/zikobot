@@ -15,8 +15,8 @@ import com.startogamu.zikobot.databinding.ActivityDeezerBinding;
 import com.startogamu.zikobot.module.deezer.DeezerManager;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
-import com.startogamu.zikobot.viewmodel.base.TrackVM;
-import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
+import com.startogamu.zikobot.localtracks.TrackVM;
+import com.startogamu.zikobot.home.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

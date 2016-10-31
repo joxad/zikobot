@@ -19,10 +19,9 @@ import com.startogamu.zikobot.alarm.FragmentAlarms;
 import com.startogamu.zikobot.deezer.FragmentDeezerPlaylists;
 import com.startogamu.zikobot.album.FragmentLocalAlbums;
 import com.startogamu.zikobot.artist.FragmentLocalArtists;
-import com.startogamu.zikobot.view.fragment.local.FragmentLocalTracks;
+import com.startogamu.zikobot.localtracks.FragmentLocalTracks;
 import com.startogamu.zikobot.soundcloud.FragmentSoundCloudPlaylists;
 import com.startogamu.zikobot.spotify.FragmentSpotifyPlaylists;
-import com.startogamu.zikobot.viewmodel.custom.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

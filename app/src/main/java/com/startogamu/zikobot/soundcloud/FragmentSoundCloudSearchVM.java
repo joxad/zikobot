@@ -11,7 +11,7 @@ import com.startogamu.zikobot.databinding.FragmentSoundCloudSearchBinding;
 import com.startogamu.zikobot.search.SearchManager;
 import com.startogamu.zikobot.album.AlbumVM;
 import com.startogamu.zikobot.artist.ArtistVM;
-import com.startogamu.zikobot.viewmodel.base.TrackVM;
+import com.startogamu.zikobot.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.view.listener;
+package com.startogamu.zikobot.core.viewutils;
 
 import android.widget.SeekBar;
 

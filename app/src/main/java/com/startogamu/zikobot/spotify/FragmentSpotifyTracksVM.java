@@ -16,7 +16,7 @@ import com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylistItem;
 import com.startogamu.zikobot.core.model.Track;
-import com.startogamu.zikobot.viewmodel.base.TrackVM;
+import com.startogamu.zikobot.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

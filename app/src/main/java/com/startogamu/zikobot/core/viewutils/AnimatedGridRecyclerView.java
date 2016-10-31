@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.view.custom;
+package com.startogamu.zikobot.core.viewutils;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;

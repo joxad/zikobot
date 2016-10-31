@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.startogamu.zikobot.view.custom.AnimatedGridRecyclerView
+        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,7 +30,7 @@
             app:items="@{fragmentLocalArtistsVM.items}"
             tools:listitem="@layout/item_artist" />
 
-        <com.startogamu.zikobot.view.custom.ZikobotMessageView
+        <com.startogamu.zikobot.core.viewutils.ZikobotMessageView
             android:id="@+id/zmv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

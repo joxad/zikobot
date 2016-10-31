@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.custom;
+package com.startogamu.zikobot.home;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
@@ -24,8 +24,8 @@ import com.startogamu.zikobot.databinding.ViewPlayerBinding;
 
 import com.startogamu.zikobot.module.lyrics.manager.LyricsManager;
 import com.startogamu.zikobot.module.music.PlayerMusicManager;
-import com.startogamu.zikobot.view.listener.SimpleSeekBarChangeListener;
-import com.startogamu.zikobot.viewmodel.base.TrackVM;
+import com.startogamu.zikobot.core.viewutils.SimpleSeekBarChangeListener;
+import com.startogamu.zikobot.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

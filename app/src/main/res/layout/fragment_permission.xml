@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.startogamu.zikobot.view.custom.ZikobotMessageView
+    <com.startogamu.zikobot.core.viewutils.ZikobotMessageView
         android:id="@+id/zmv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

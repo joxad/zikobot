@@ -18,7 +18,7 @@ import com.startogamu.zikobot.core.model.Artist;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.album.AlbumVM;
 import com.startogamu.zikobot.artist.ArtistVM;
-import com.startogamu.zikobot.viewmodel.base.TrackVM;
+import com.startogamu.zikobot.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

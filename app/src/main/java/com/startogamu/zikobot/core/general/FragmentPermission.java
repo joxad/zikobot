@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.view.fragment.permission;
+package com.startogamu.zikobot.core.general;
 
 import android.Manifest;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
-import com.startogamu.zikobot.view.custom.ZikobotMessageView;
+import com.startogamu.zikobot.core.viewutils.ZikobotMessageView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

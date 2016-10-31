@@ -35,7 +35,7 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <com.startogamu.zikobot.view.custom.FlingNestedScrollView
+                <com.startogamu.zikobot.core.viewutils.FlingNestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -76,7 +76,7 @@
 
                     </LinearLayout>
 
-                </com.startogamu.zikobot.view.custom.FlingNestedScrollView>
+                </com.startogamu.zikobot.core.viewutils.FlingNestedScrollView>
 
             </FrameLayout>
 

@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.view.custom;
+package com.startogamu.zikobot.core.viewutils;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -35,14 +35,10 @@ public class ZikobotMessageView extends RelativeLayout {
     }
 
     private void init(AttributeSet attrs) {
+        inflate(getContext(), R.layout.view_zikobot_message, this);
         if (isInEditMode()) {
-            inflate(getContext(), R.layout.view_zikobot_message, this);
             return;
-        } else {
-            inflate(getContext(), R.layout.view_zikobot_message, this);
-
         }
-
         ButterKnife.bind(this);
         if (attrs != null) {
             TypedArray a = getContext().getTheme().obtainStyledAttributes(

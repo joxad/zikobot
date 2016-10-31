@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.base;
+package com.startogamu.zikobot.localtracks;
 
 import android.content.Context;
 import android.databinding.Bindable;

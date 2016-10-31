@@ -23,7 +23,7 @@
             android:id="@+id/custom_toolbar"
             layout="@layout/view_toolbar_image" />
 
-        <com.startogamu.zikobot.view.custom.FlingNestedScrollView
+        <com.startogamu.zikobot.core.viewutils.FlingNestedScrollView
             android:id="@+id/fnsv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -60,7 +60,7 @@
             </LinearLayout>
 
 
-        </com.startogamu.zikobot.view.custom.FlingNestedScrollView>
+        </com.startogamu.zikobot.core.viewutils.FlingNestedScrollView>
 
         <include
             android:id="@+id/view_player"

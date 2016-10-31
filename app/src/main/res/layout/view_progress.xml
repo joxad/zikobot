@@ -11,7 +11,7 @@
 
         <variable
             name="playerVM"
-            type="com.startogamu.zikobot.viewmodel.custom.PlayerVM" />
+            type="com.startogamu.zikobot.home.PlayerVM" />
     </data>
 
     <LinearLayout

@@ -19,7 +19,7 @@ import com.startogamu.zikobot.databinding.ActivityWakeUpBinding;
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.module.music.PlayerMusicManager;
 import com.startogamu.zikobot.core.model.Alarm;
-import com.startogamu.zikobot.viewmodel.base.TrackVM;
+import com.startogamu.zikobot.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

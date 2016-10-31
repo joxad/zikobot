@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.view.fragment;
+package com.startogamu.zikobot.core.general;
 
 import android.app.Dialog;
 import android.content.Intent;

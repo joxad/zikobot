@@ -7,7 +7,7 @@ import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
 import com.startogamu.zikobot.module.spotify_api.model.Tracks;
 import com.startogamu.zikobot.core.model.Track;
-import com.startogamu.zikobot.viewmodel.base.TrackVM;
+import com.startogamu.zikobot.localtracks.TrackVM;
 import com.startogamu.zikobot.spotify.ItemPlaylistViewModel;
 import com.startogamu.zikobot.soundcloud.SoundCloudPlaylistVM;
 

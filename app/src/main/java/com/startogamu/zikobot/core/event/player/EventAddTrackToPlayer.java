@@ -2,7 +2,7 @@ package com.startogamu.zikobot.core.event.player;
 
 import android.databinding.ObservableArrayList;
 
-import com.startogamu.zikobot.viewmodel.base.TrackVM;
+import com.startogamu.zikobot.localtracks.TrackVM;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
