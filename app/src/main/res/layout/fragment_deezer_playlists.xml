@@ -12,7 +12,7 @@
 
         <variable
             name="itemPlaylistViewModel"
-            type="com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel" />
+            type="com.startogamu.zikobot.deezer.DeezerPlaylistVM" />
 
         <variable
             name="fragmentDeezerPlaylistsVM"

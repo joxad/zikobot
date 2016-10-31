@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.items;
+package com.startogamu.zikobot.spotify;
 
 import android.content.Context;
 import android.databinding.Bindable;
@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.soundcloud.SelectSCItemPlaylistEvent;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
+import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
+import com.startogamu.zikobot.module.spotify_api.model.Item;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -15,14 +15,14 @@ import org.greenrobot.eventbus.EventBus;
 /***
  * ViewModel that will represent the playlist of a user on spotify
  */
-public class ItemSCPlaylistVM extends BaseVM<SoundCloudPlaylist> {
+public class ItemPlaylistViewModel extends BaseVM<Item> {
 
 
     /***
      * @param context
      * @param model
      */
-    public ItemSCPlaylistVM(Context context, SoundCloudPlaylist model) {
+    public ItemPlaylistViewModel(Context context, Item model) {
         super(context, model);
     }
 
@@ -37,26 +37,28 @@ public class ItemSCPlaylistVM extends BaseVM<SoundCloudPlaylist> {
      * @param view
      */
     public void onItemClick(View view) {
-        EventBus.getDefault().post(new SelectSCItemPlaylistEvent(model));
+        if (model.getId() != null)
+            EventBus.getDefault().post(new SelectItemPlaylistEvent(model));
     }
 
 
     @Bindable
     public String getName() {
-        return model.getTitle();
+        return model.getName();
     }
 
 
     @Bindable
     public String getImageUrl() {
-        if (model.getSoundCloudTracks().isEmpty()) return "";
-        return model.getSoundCloudTracks().get(0).getArtworkUrl();
+        if (model.getImages() != null && model.getImages().size() > 0)
+            return model.getImages().get(0).getUrl();
+        return "";
     }
 
     @Bindable
     public String getNbSongs() {
         return String.format(context.getString(R.string.playlist_total_tracks),
-                model.getTrackCount());
+                model.tracks.total);
     }
 
 

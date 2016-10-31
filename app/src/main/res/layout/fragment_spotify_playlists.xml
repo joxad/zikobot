@@ -13,7 +13,7 @@
 
         <variable
             name="itemPlaylistViewModel"
-            type="com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel" />
+            type="com.startogamu.zikobot.spotify.ItemPlaylistViewModel" />
 
         <variable
             name="fragmentSpotifyPlaylistsVM"

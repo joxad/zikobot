@@ -25,7 +25,7 @@ public class FragmentLocalArtists extends FragmentBase<FragmentLocalArtistsBindi
 
     @Override
     public int data() {
-        return BR.fragmentLocalArtistVM;
+        return BR.fragmentLocalArtistsVM;
     }
 
     @Override

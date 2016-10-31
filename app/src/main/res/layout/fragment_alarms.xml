@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:scrollbars="vertical"
-            app:adapter='@{"com.startogamu.zikobot.view.adapter.AlarmAdapter"}'
+            app:adapter='@{"com.startogamu.zikobot.alarm.AlarmAdapter"}'
             app:itemView="@{fragmentAlarmsVM.itemView}"
             app:items="@{fragmentAlarmsVM.itemsVM}"
             app:layoutManager="@{LayoutManagers.grid(1)}"

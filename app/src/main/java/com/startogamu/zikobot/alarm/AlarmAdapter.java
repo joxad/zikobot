@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.view.adapter;
+package com.startogamu.zikobot.alarm;
 
 import android.databinding.ViewDataBinding;
 import android.support.annotation.LayoutRes;

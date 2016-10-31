@@ -7,7 +7,7 @@
 
         <variable
             name="playlistVM"
-            type="com.startogamu.zikobot.viewmodel.items.ItemDeezerPlaylistVM" />
+            type="com.startogamu.zikobot.deezer.DeezerPlaylistVM" />
     </data>
 
     <com.balysv.materialripple.MaterialRippleLayout

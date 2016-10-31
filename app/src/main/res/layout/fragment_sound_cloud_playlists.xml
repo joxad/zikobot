@@ -15,7 +15,7 @@
 
         <variable
             name="itemPlaylistViewModel"
-            type="com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel" />
+            type="com.startogamu.zikobot.soundcloud.SoundCloudPlaylistVM" />
 
         <variable
             name="fragmentSoundCloudPlaylistsVM"

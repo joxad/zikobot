@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.viewmodel.items;
+package com.startogamu.zikobot.deezer;
 
 import android.content.Context;
 import android.databinding.Bindable;
@@ -15,14 +15,14 @@ import org.greenrobot.eventbus.EventBus;
 /***
  * ViewModel that will represent the playlist of a user on spotify
  */
-public class ItemDeezerPlaylistVM extends BaseVM<Playlist> {
+public class DeezerPlaylistVM extends BaseVM<Playlist> {
 
 
     /***
      * @param context
      * @param model
      */
-    public ItemDeezerPlaylistVM(Context context, Playlist model) {
+    public DeezerPlaylistVM(Context context, Playlist model) {
         super(context, model);
     }
 

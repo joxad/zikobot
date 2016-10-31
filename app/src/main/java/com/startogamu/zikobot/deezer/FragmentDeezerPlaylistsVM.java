@@ -4,14 +4,14 @@ import android.databinding.ObservableArrayList;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.android.databinding.library.baseAdapters.BR;
+
 import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.databinding.FragmentDeezerPlaylistsBinding;
 import com.startogamu.zikobot.module.deezer.DeezerManager;
-import com.startogamu.zikobot.viewmodel.items.ItemDeezerPlaylistVM;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -22,7 +22,7 @@ public class FragmentDeezerPlaylistsVM extends FragmentBaseVM<FragmentDeezerPlay
 
 
     private static final String TAG = "FragmentSpotifyPlaylists";
-    public ObservableArrayList<ItemDeezerPlaylistVM> userPlaylists;
+    public ObservableArrayList<DeezerPlaylistVM> userPlaylists;
     public ItemView itemPlaylist = ItemView.of(BR.playlistVM, R.layout.item_playlist_deezer);
 
     /***
@@ -63,7 +63,7 @@ public class FragmentDeezerPlaylistsVM extends FragmentBaseVM<FragmentDeezerPlay
 
         DeezerManager.playlists().subscribe(playlists -> {
             for (Playlist playlist : playlists) {
-                userPlaylists.add(new ItemDeezerPlaylistVM(fragment.getContext(), playlist));
+                userPlaylists.add(new DeezerPlaylistVM(fragment.getContext(), playlist));
             }
         }, throwable -> {
             Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();

@@ -14,7 +14,6 @@ import com.startogamu.zikobot.databinding.FragmentSpotifyPlaylistsBinding;
 import com.startogamu.zikobot.module.mock.Mock;
 import com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager;
 import com.startogamu.zikobot.module.spotify_api.model.Item;
-import com.startogamu.zikobot.viewmodel.items.ItemPlaylistViewModel;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
