@@ -1,5 +1,5 @@
 
-package com.startogamu.zikobot.module.soundcloud.model;
+package com.startogamu.zikobot.core.module.soundcloud.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

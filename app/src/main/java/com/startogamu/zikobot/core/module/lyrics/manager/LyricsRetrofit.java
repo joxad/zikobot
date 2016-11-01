@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.lyrics.manager;
+package com.startogamu.zikobot.core.module.lyrics.manager;
 
 import android.support.annotation.Nullable;
 

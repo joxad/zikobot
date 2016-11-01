@@ -1,15 +1,15 @@
-package com.startogamu.zikobot.module.soundcloud.manager;
+package com.startogamu.zikobot.core.module.soundcloud.manager;
 
 import android.content.Context;
 
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.module.music.PlayerMusicManager;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudToken;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudTrack;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudUser;
-import com.startogamu.zikobot.module.soundcloud.resource.SoundCloudApiInterceptor;
-import com.startogamu.zikobot.module.soundcloud.resource.SoundCloudApiService;
+import com.startogamu.zikobot.core.module.music.PlayerMusicManager;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudPlaylist;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudToken;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudTrack;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudUser;
+import com.startogamu.zikobot.core.module.soundcloud.resource.SoundCloudApiInterceptor;
+import com.startogamu.zikobot.core.module.soundcloud.resource.SoundCloudApiService;
 
 import java.util.ArrayList;
 

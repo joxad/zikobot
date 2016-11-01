@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.deezer;
+package com.startogamu.zikobot.core.module.deezer;
 
 import com.deezer.sdk.model.PlayableEntity;
 import com.deezer.sdk.player.event.PlayerWrapperListener;

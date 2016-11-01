@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.localmusic.manager;
+package com.startogamu.zikobot.core.module.localmusic.manager;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -8,9 +8,9 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
-import com.startogamu.zikobot.module.localmusic.model.LocalArtist;
-import com.startogamu.zikobot.module.localmusic.model.LocalTrack;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalAlbum;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalArtist;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalTrack;
 
 import java.util.ArrayList;
 import java.util.List;

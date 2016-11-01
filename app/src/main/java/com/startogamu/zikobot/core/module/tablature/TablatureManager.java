@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.tablature;
+package com.startogamu.zikobot.core.module.tablature;
 
 import android.app.Activity;
 import android.net.Uri;

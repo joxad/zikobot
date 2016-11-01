@@ -1,9 +1,9 @@
-package com.startogamu.zikobot.module.soundcloud.resource;
+package com.startogamu.zikobot.core.module.soundcloud.resource;
 
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudToken;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudTrack;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudUser;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudPlaylist;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudToken;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudTrack;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudUser;
 
 import java.util.ArrayList;
 

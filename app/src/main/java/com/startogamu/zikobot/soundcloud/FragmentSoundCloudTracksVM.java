@@ -10,8 +10,8 @@ import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentSoundCloudTracksBinding;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudTrack;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudPlaylist;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudTrack;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.localtracks.TrackVM;
 

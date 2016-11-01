@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.music;
+package com.startogamu.zikobot.core.module.music;
 
 import android.content.Context;
 import android.os.Handler;
@@ -14,13 +14,13 @@ import com.startogamu.zikobot.core.event.player.EventStopPlayer;
 import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.module.music.player.AndroidPlayer;
-import com.startogamu.zikobot.module.music.player.DeezerPlayer;
-import com.startogamu.zikobot.module.music.listener.DurationListener;
-import com.startogamu.zikobot.module.music.player.IMusicPlayer;
-import com.startogamu.zikobot.module.music.listener.PlayerStatusListener;
-import com.startogamu.zikobot.module.music.player.SpotifyPlayer;
-import com.startogamu.zikobot.module.music.player.VLCPlayer;
+import com.startogamu.zikobot.core.module.music.player.AndroidPlayer;
+import com.startogamu.zikobot.core.module.music.player.DeezerPlayer;
+import com.startogamu.zikobot.core.module.music.listener.DurationListener;
+import com.startogamu.zikobot.core.module.music.player.IMusicPlayer;
+import com.startogamu.zikobot.core.module.music.listener.PlayerStatusListener;
+import com.startogamu.zikobot.core.module.music.player.SpotifyPlayer;
+import com.startogamu.zikobot.core.module.music.player.VLCPlayer;
 import com.startogamu.zikobot.core.model.Alarm;
 import com.startogamu.zikobot.core.model.TYPE;
 import com.startogamu.zikobot.core.model.Track;

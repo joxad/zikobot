@@ -1,11 +1,11 @@
-package com.startogamu.zikobot.module.spotify_api.resource;
+package com.startogamu.zikobot.core.module.spotify_api.resource;
 
 
-import com.startogamu.zikobot.module.spotify_api.model.SpotifyFeaturedPlaylist;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylist;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylistWithTrack;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifySearchResult;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
+import com.startogamu.zikobot.core.module.spotify_api.model.SpotifyFeaturedPlaylist;
+import com.startogamu.zikobot.core.module.spotify_api.model.SpotifyPlaylist;
+import com.startogamu.zikobot.core.module.spotify_api.model.SpotifyPlaylistWithTrack;
+import com.startogamu.zikobot.core.module.spotify_api.model.SpotifySearchResult;
+import com.startogamu.zikobot.core.module.spotify_api.model.SpotifyUser;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;

@@ -11,9 +11,9 @@ import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.FragmentSoundCloudPlaylistsBinding;
 
-import com.startogamu.zikobot.module.mock.Mock;
-import com.startogamu.zikobot.module.soundcloud.manager.SoundCloudApiManager;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
+import com.startogamu.zikobot.core.module.mock.Mock;
+import com.startogamu.zikobot.core.module.soundcloud.manager.SoundCloudApiManager;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudPlaylist;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 

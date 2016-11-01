@@ -6,8 +6,8 @@ import android.content.ContextWrapper;
 import com.deezer.sdk.model.User;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudUser;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudUser;
+import com.startogamu.zikobot.core.module.spotify_api.model.SpotifyUser;
 
 /***
  * {@link AppPrefs} will handle the prefs of the application using {@link Prefs}

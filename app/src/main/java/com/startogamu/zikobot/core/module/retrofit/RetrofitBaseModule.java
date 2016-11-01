@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.retrofit;
+package com.startogamu.zikobot.core.module.retrofit;
 
 import android.support.annotation.Nullable;
 

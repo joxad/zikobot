@@ -1,7 +1,7 @@
-package com.startogamu.zikobot.module.lyrics;
+package com.startogamu.zikobot.core.module.lyrics;
 
-import com.startogamu.zikobot.module.lyrics.model.LyricResult;
-import com.startogamu.zikobot.module.lyrics.model.Result;
+import com.startogamu.zikobot.core.module.lyrics.model.LyricResult;
+import com.startogamu.zikobot.core.module.lyrics.model.Result;
 
 import retrofit2.http.GET;
 import retrofit2.http.Headers;

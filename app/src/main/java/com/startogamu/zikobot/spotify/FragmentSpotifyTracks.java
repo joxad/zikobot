@@ -10,7 +10,7 @@ import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentSpotifyTracksBinding;
-import com.startogamu.zikobot.module.spotify_api.model.Item;
+import com.startogamu.zikobot.core.module.spotify_api.model.Item;
 
 import org.parceler.Parcels;
 

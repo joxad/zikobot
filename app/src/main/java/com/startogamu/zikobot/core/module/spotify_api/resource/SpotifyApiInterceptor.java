@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.spotify_api.resource;
+package com.startogamu.zikobot.core.module.spotify_api.resource;
 
 import com.startogamu.zikobot.core.utils.AppPrefs;
 

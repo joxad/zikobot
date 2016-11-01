@@ -1,16 +1,16 @@
-package com.startogamu.zikobot.module.spotify_auth.manager;
+package com.startogamu.zikobot.core.module.spotify_auth.manager;
 
 import android.content.Context;
 import android.util.Base64;
 
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
-import com.startogamu.zikobot.module.spotify_auth.model.SpotifyRefreshToken;
-import com.startogamu.zikobot.module.spotify_auth.model.SpotifyRequestToken;
-import com.startogamu.zikobot.module.spotify_auth.model.SpotifyToken;
-import com.startogamu.zikobot.module.spotify_auth.resource.SpotifyAuthInterceptor;
-import com.startogamu.zikobot.module.spotify_auth.resource.SpotifyAuthService;
+import com.startogamu.zikobot.core.module.localmusic.manager.LocalMusicManager;
+import com.startogamu.zikobot.core.module.spotify_auth.model.SpotifyRefreshToken;
+import com.startogamu.zikobot.core.module.spotify_auth.model.SpotifyRequestToken;
+import com.startogamu.zikobot.core.module.spotify_auth.model.SpotifyToken;
+import com.startogamu.zikobot.core.module.spotify_auth.resource.SpotifyAuthInterceptor;
+import com.startogamu.zikobot.core.module.spotify_auth.resource.SpotifyAuthService;
 
 import java.io.UnsupportedEncodingException;
 

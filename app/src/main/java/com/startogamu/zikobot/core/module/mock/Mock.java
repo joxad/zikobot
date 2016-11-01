@@ -1,11 +1,11 @@
-package com.startogamu.zikobot.module.mock;
+package com.startogamu.zikobot.core.module.mock;
 
 import android.content.Context;
 
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
-import com.startogamu.zikobot.module.spotify_api.model.Item;
-import com.startogamu.zikobot.module.spotify_api.model.Tracks;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudPlaylist;
+import com.startogamu.zikobot.core.module.spotify_api.model.Item;
+import com.startogamu.zikobot.core.module.spotify_api.model.Tracks;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.localtracks.TrackVM;
 import com.startogamu.zikobot.spotify.ItemPlaylistViewModel;

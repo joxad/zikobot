@@ -16,8 +16,8 @@ import com.startogamu.zikobot.core.utils.Constants;
 import com.startogamu.zikobot.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.startogamu.zikobot.databinding.FragmentLocalArtistsBinding;
 
-import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
-import com.startogamu.zikobot.module.localmusic.model.LocalArtist;
+import com.startogamu.zikobot.core.module.localmusic.manager.LocalMusicManager;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalArtist;
 import com.startogamu.zikobot.core.model.Artist;
 
 import me.tatarka.bindingcollectionadapter.ItemView;

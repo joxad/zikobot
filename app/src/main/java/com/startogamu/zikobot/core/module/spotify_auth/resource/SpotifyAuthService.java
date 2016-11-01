@@ -1,7 +1,7 @@
-package com.startogamu.zikobot.module.spotify_auth.resource;
+package com.startogamu.zikobot.core.module.spotify_auth.resource;
 
 
-import com.startogamu.zikobot.module.spotify_auth.model.SpotifyToken;
+import com.startogamu.zikobot.core.module.spotify_auth.model.SpotifyToken;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

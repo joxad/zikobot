@@ -1,17 +1,17 @@
-package com.startogamu.zikobot.module.spotify_api.manager;
+package com.startogamu.zikobot.core.module.spotify_api.manager;
 
 import android.content.Context;
 
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.module.soundcloud.manager.SoundCloudApiManager;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifyFeaturedPlaylist;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylist;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylistWithTrack;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifySearchResult;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifyUser;
-import com.startogamu.zikobot.module.spotify_api.resource.SpotifyAPIService;
-import com.startogamu.zikobot.module.spotify_api.resource.SpotifyApiInterceptor;
+import com.startogamu.zikobot.core.module.soundcloud.manager.SoundCloudApiManager;
+import com.startogamu.zikobot.core.module.spotify_api.model.SpotifyFeaturedPlaylist;
+import com.startogamu.zikobot.core.module.spotify_api.model.SpotifyPlaylist;
+import com.startogamu.zikobot.core.module.spotify_api.model.SpotifyPlaylistWithTrack;
+import com.startogamu.zikobot.core.module.spotify_api.model.SpotifySearchResult;
+import com.startogamu.zikobot.core.module.spotify_api.model.SpotifyUser;
+import com.startogamu.zikobot.core.module.spotify_api.resource.SpotifyAPIService;
+import com.startogamu.zikobot.core.module.spotify_api.resource.SpotifyApiInterceptor;
 
 import retrofit2.Retrofit;
 import rx.Observable;

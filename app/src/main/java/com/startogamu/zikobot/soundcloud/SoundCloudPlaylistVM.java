@@ -7,7 +7,7 @@ import android.view.View;
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.soundcloud.SelectSCItemPlaylistEvent;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudPlaylist;
 
 import org.greenrobot.eventbus.EventBus;
 

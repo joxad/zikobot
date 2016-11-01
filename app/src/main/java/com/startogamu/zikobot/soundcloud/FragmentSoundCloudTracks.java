@@ -10,7 +10,7 @@ import com.joxad.easydatabinding.fragment.FragmentBase;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentSoundCloudTracksBinding;
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudPlaylist;
 
 import org.parceler.Parcels;
 

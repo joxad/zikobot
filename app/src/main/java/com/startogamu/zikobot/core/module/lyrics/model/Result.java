@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.lyrics.model;
+package com.startogamu.zikobot.core.module.lyrics.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

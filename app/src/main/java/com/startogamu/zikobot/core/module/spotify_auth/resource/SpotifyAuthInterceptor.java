@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.spotify_auth.resource;
+package com.startogamu.zikobot.core.module.spotify_auth.resource;
 
 import android.util.Base64;
 

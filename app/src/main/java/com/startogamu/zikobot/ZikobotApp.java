@@ -13,14 +13,14 @@ import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 
-import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
-import com.startogamu.zikobot.module.deezer.DeezerManager;
-import com.startogamu.zikobot.module.lyrics.manager.LyricsManager;
-import com.startogamu.zikobot.module.music.PlayerMusicManager;
+import com.startogamu.zikobot.core.module.localmusic.manager.LocalMusicManager;
+import com.startogamu.zikobot.core.module.deezer.DeezerManager;
+import com.startogamu.zikobot.core.module.lyrics.manager.LyricsManager;
+import com.startogamu.zikobot.core.module.music.PlayerMusicManager;
 import com.startogamu.zikobot.alarm.AlarmManager;
-import com.startogamu.zikobot.module.soundcloud.manager.SoundCloudApiManager;
-import com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager;
-import com.startogamu.zikobot.module.spotify_auth.manager.SpotifyAuthManager;
+import com.startogamu.zikobot.core.module.soundcloud.manager.SoundCloudApiManager;
+import com.startogamu.zikobot.core.module.spotify_api.manager.SpotifyApiManager;
+import com.startogamu.zikobot.core.module.spotify_auth.manager.SpotifyAuthManager;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -32,11 +32,6 @@ public class ZikobotApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        final Fabric fabric = new Fabric.Builder(this)
-                .kits(new Crashlytics())
-                .debuggable(true)
-                .build();
-        Fabric.with(fabric);
         FlowManager.init(new FlowConfig.Builder(this).build());
         AppPrefs.init(this);
         IntentManager.init(this);
@@ -60,6 +55,8 @@ public class ZikobotApp extends Application {
         AlarmManager.init(this);
 
         Logger.init(ZikobotApp.class.getSimpleName());
+
+        Fabric.with(this,new Crashlytics());
 
     }
 

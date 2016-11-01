@@ -1,7 +1,7 @@
 package com.startogamu.zikobot.core.model;
 
-import com.startogamu.zikobot.module.soundcloud.model.SoundCloudPlaylist;
-import com.startogamu.zikobot.module.spotify_api.model.Item;
+import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudPlaylist;
+import com.startogamu.zikobot.core.module.spotify_api.model.Item;
 
 import java.util.ArrayList;
 

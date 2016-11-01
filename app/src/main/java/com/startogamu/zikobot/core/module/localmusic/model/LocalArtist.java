@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.localmusic.model;
+package com.startogamu.zikobot.core.module.localmusic.model;
 
 import org.parceler.Parcel;
 

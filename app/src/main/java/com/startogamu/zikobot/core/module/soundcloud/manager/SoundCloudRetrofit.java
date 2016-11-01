@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.soundcloud.manager;
+package com.startogamu.zikobot.core.module.soundcloud.manager;
 
 import android.support.annotation.Nullable;
 

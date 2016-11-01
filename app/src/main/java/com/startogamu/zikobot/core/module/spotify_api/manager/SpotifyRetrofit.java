@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.spotify_api.manager;
+package com.startogamu.zikobot.core.module.spotify_api.manager;
 
 import android.support.annotation.Nullable;
 

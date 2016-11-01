@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.soundcloud.resource;
+package com.startogamu.zikobot.core.module.soundcloud.resource;
 
 import android.content.Context;
 

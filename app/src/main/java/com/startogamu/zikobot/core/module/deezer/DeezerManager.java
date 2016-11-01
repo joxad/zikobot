@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.deezer;
+package com.startogamu.zikobot.core.module.deezer;
 
 import android.app.Activity;
 import android.content.Context;

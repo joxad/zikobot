@@ -14,7 +14,7 @@ import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.localnetwork.FragmentLocalNetwork;
-import com.startogamu.zikobot.module.spotify_auth.manager.SpotifyAuthManager;
+import com.startogamu.zikobot.core.module.spotify_auth.manager.SpotifyAuthManager;
 import com.startogamu.zikobot.alarm.FragmentAlarms;
 import com.startogamu.zikobot.deezer.FragmentDeezerPlaylists;
 import com.startogamu.zikobot.album.FragmentLocalAlbums;
@@ -171,7 +171,10 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      * @param view
      */
     public void fabClicked(View view) {
-        activity.startActivity(IntentManager.goToSearch());
+        throw new RuntimeException("This is a crash");
+
+
+     //   activity.startActivity(IntentManager.goToSearch());
     }
 
 

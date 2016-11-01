@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.music.player;
+package com.startogamu.zikobot.core.module.music.player;
 
 import android.app.Application;
 import android.content.Context;
@@ -11,7 +11,7 @@ import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
 import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.player.EventNextTrack;
-import com.startogamu.zikobot.module.deezer.SimplifiedPlayerListener;
+import com.startogamu.zikobot.core.module.deezer.SimplifiedPlayerListener;
 
 import org.greenrobot.eventbus.EventBus;
 

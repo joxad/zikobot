@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.spotify_auth.model;
+package com.startogamu.zikobot.core.module.spotify_auth.model;
 
 import com.google.gson.annotations.SerializedName;
 

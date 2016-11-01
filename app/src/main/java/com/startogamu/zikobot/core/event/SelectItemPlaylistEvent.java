@@ -1,6 +1,6 @@
 package com.startogamu.zikobot.core.event;
 
-import com.startogamu.zikobot.module.spotify_api.model.Item;
+import com.startogamu.zikobot.core.module.spotify_api.model.Item;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

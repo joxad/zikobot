@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.lyrics;
+package com.startogamu.zikobot.core.module.lyrics;
 
 import android.content.Context;
 

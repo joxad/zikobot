@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.spotify_api.model;
+package com.startogamu.zikobot.core.module.spotify_api.model;
 
 import com.google.gson.annotations.SerializedName;
 

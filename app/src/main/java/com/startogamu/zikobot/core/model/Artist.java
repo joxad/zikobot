@@ -1,8 +1,8 @@
 package com.startogamu.zikobot.core.model;
 
-import com.startogamu.zikobot.module.localmusic.model.LocalArtist;
-import com.startogamu.zikobot.module.soundcloud.model.User;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifyArtist;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalArtist;
+import com.startogamu.zikobot.core.module.soundcloud.model.User;
+import com.startogamu.zikobot.core.module.spotify_api.model.SpotifyArtist;
 
 import org.parceler.Parcel;
 

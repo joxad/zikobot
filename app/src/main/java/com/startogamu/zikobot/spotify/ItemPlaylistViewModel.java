@@ -7,7 +7,7 @@ import android.view.View;
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
-import com.startogamu.zikobot.module.spotify_api.model.Item;
+import com.startogamu.zikobot.core.module.spotify_api.model.Item;
 
 import org.greenrobot.eventbus.EventBus;
 

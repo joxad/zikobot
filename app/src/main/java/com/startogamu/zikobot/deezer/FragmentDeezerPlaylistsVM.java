@@ -11,7 +11,7 @@ import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.databinding.FragmentDeezerPlaylistsBinding;
-import com.startogamu.zikobot.module.deezer.DeezerManager;
+import com.startogamu.zikobot.core.module.deezer.DeezerManager;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 

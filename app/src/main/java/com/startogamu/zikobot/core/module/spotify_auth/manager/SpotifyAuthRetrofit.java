@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.module.spotify_auth.manager;
+package com.startogamu.zikobot.core.module.spotify_auth.manager;
 
 import android.support.annotation.Nullable;
 

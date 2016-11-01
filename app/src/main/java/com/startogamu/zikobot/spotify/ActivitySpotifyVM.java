@@ -15,10 +15,10 @@ import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivitySpotifyBinding;
 
-import com.startogamu.zikobot.module.mock.Mock;
-import com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager;
-import com.startogamu.zikobot.module.spotify_api.model.Item;
-import com.startogamu.zikobot.module.spotify_api.model.SpotifyPlaylistItem;
+import com.startogamu.zikobot.core.module.mock.Mock;
+import com.startogamu.zikobot.core.module.spotify_api.manager.SpotifyApiManager;
+import com.startogamu.zikobot.core.module.spotify_api.model.Item;
+import com.startogamu.zikobot.core.module.spotify_api.model.SpotifyPlaylistItem;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.localtracks.TrackVM;

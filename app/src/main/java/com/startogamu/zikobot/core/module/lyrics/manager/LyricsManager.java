@@ -1,11 +1,11 @@
-package com.startogamu.zikobot.module.lyrics.manager;
+package com.startogamu.zikobot.core.module.lyrics.manager;
 
 import android.content.Context;
 
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.module.lyrics.LyricsInterceptor;
-import com.startogamu.zikobot.module.lyrics.LyricsService;
-import com.startogamu.zikobot.module.lyrics.model.LyricResult;
+import com.startogamu.zikobot.core.module.lyrics.LyricsInterceptor;
+import com.startogamu.zikobot.core.module.lyrics.LyricsService;
+import com.startogamu.zikobot.core.module.lyrics.model.LyricResult;
 
 import retrofit2.Retrofit;
 import rx.Observable;

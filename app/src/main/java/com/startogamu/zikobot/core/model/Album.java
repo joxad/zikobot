@@ -1,6 +1,6 @@
 package com.startogamu.zikobot.core.model;
 
-import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalAlbum;
 
 import org.parceler.Parcel;
 

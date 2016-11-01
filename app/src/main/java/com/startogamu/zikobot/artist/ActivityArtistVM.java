@@ -17,9 +17,9 @@ import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.startogamu.zikobot.databinding.ActivityArtistBinding;
 
-import com.startogamu.zikobot.module.localmusic.manager.LocalMusicManager;
-import com.startogamu.zikobot.module.localmusic.model.LocalAlbum;
-import com.startogamu.zikobot.module.localmusic.model.LocalTrack;
+import com.startogamu.zikobot.core.module.localmusic.manager.LocalMusicManager;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalAlbum;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.core.model.Artist;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.alarm.DialogFragmentAlarms;

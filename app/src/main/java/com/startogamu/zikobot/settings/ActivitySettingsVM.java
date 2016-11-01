@@ -17,11 +17,11 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.databinding.ActivitySettingsBinding;
 
-import com.startogamu.zikobot.module.deezer.DeezerManager;
-import com.startogamu.zikobot.module.soundcloud.manager.SoundCloudApiManager;
-import com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager;
-import com.startogamu.zikobot.module.spotify_auth.manager.SpotifyAuthManager;
-import com.startogamu.zikobot.module.spotify_auth.model.SpotifyRequestToken;
+import com.startogamu.zikobot.core.module.deezer.DeezerManager;
+import com.startogamu.zikobot.core.module.soundcloud.manager.SoundCloudApiManager;
+import com.startogamu.zikobot.core.module.spotify_api.manager.SpotifyApiManager;
+import com.startogamu.zikobot.core.module.spotify_auth.manager.SpotifyAuthManager;
+import com.startogamu.zikobot.core.module.spotify_auth.model.SpotifyRequestToken;
 import com.startogamu.zikobot.soundcloud.SoundCloudLoginActivity;
 import com.startogamu.zikobot.core.general.FragmentWebView;
 

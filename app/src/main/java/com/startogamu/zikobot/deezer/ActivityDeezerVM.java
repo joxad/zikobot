@@ -12,7 +12,7 @@ import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivityDeezerBinding;
-import com.startogamu.zikobot.module.deezer.DeezerManager;
+import com.startogamu.zikobot.core.module.deezer.DeezerManager;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.localtracks.TrackVM;
