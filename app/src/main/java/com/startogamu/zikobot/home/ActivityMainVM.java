@@ -171,10 +171,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      * @param view
      */
     public void fabClicked(View view) {
-        throw new RuntimeException("This is a crash");
-
-
-     //   activity.startActivity(IntentManager.goToSearch());
+         activity.startActivity(IntentManager.goToSearch());
     }
 
 
