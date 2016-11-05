@@ -1,12 +1,18 @@
 package com.startogamu.zikobot.core.module.music.player;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.joxad.android_easy_spotify.SpotifyManager;
 import com.joxad.android_easy_spotify.SpotifyPlayerManager;
 import com.orhanobut.logger.Logger;
+import com.spotify.sdk.android.player.Config;
+import com.spotify.sdk.android.player.ConnectionStateCallback;
 import com.spotify.sdk.android.player.Player;
 import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
+import com.spotify.sdk.android.player.Spotify;
+import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.player.EventNextTrack;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 
@@ -18,7 +24,9 @@ import org.greenrobot.eventbus.EventBus;
 public class SpotifyPlayer implements IMusicPlayer {
 
     private final Context context;
-    int currentPosition;
+    protected int currentPosition;
+
+    protected Player player;
 
     public SpotifyPlayer(Context context) {
         this.context = context;
@@ -27,30 +35,21 @@ public class SpotifyPlayer implements IMusicPlayer {
 
     @Override
     public void init() {
-        SpotifyPlayerManager.startPlayer(context, AppPrefs.getSpotifyAccessToken(), new Player.InitializationObserver() {
+        Config playerConfig = new Config(context, AppPrefs.getSpotifyAccessToken(), context.getString(R.string.api_spotify_id));
+        Spotify.getPlayer(playerConfig, context, new Player.InitializationObserver() {
             @Override
-            public void onInitialized(Player player) {
-
+            public void onInitialized(Player pl) {
+                player = pl;
+                player.addConnectionStateCallback(connexionStateCallback);
+                player.addPlayerNotificationCallback(playerNotificationCallback);
             }
 
             @Override
             public void onError(Throwable throwable) {
+                Log.e(SpotifyManager.class.getSimpleName(), "Could not initialize player: " + throwable.getMessage());
 
             }
-        }, new PlayerNotificationCallback() {
-            @Override
-            public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
-                currentPosition = playerState.positionInMs;
-                if (playerState.positionInMs >= playerState.durationInMs && playerState.durationInMs > 0)
-                    next();
-                Logger.d(String.format("Player state %s - activeDevice %s : current duration %d total duration %s", playerState.trackUri, playerState.activeDevice, playerState.positionInMs, playerState.durationInMs));
-            }
-
-            @Override
-            public void onPlaybackError(ErrorType errorType, String s) {
-
-            }
-        }, null);
+        });
     }
 
     /***
@@ -96,4 +95,48 @@ public class SpotifyPlayer implements IMusicPlayer {
     public void next() {
         EventBus.getDefault().post(new EventNextTrack());
     }
+
+
+    PlayerNotificationCallback playerNotificationCallback = new PlayerNotificationCallback() {
+        @Override
+        public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
+            currentPosition = playerState.positionInMs;
+            if (playerState.positionInMs >= playerState.durationInMs && playerState.durationInMs > 0)
+                next();
+            Logger.d(String.format("Player state %s - activeDevice %s : current duration %d total duration %s", playerState.trackUri, playerState.activeDevice, playerState.positionInMs, playerState.durationInMs));
+        }
+
+        @Override
+        public void onPlaybackError(ErrorType errorType, String s) {
+
+        }
+    };
+
+    private ConnectionStateCallback connexionStateCallback = new ConnectionStateCallback() {
+        @Override
+        public void onLoggedIn() {
+
+        }
+
+        @Override
+        public void onLoggedOut() {
+
+        }
+
+        @Override
+        public void onLoginFailed(Throwable throwable) {
+
+        }
+
+        @Override
+        public void onTemporaryError() {
+
+        }
+
+        @Override
+        public void onConnectionMessage(String s) {
+
+        }
+    };
+
 }

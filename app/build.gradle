@@ -16,7 +16,6 @@ repositories {
 apply plugin: 'io.fabric'
 apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.google.gms.google-services'
 
 
 Properties properties = new Properties()
@@ -125,7 +124,6 @@ dependencies {
     compile libs.support
     provided libs.lombok
     provided libs.javaxAnnotation
-    compile 'com.github.armcha:LuseenBottomNavigation:1.8.0'
     compile('com.mikepenz:aboutlibraries:5.6.7@aar') {
         transitive = true
     }

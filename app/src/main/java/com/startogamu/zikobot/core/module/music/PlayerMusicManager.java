@@ -57,21 +57,18 @@ public class PlayerMusicManager {
     int currentType = -1;
     public boolean isPlaying = false;
     private Handler trackPositionHandler;
-    IMusicPlayer currentPlayer;
-
-    VLCPlayer vlcPlayer;
-    DeezerPlayer deezerPlayer;
-    SpotifyPlayer spotifyPlayer;
-    AndroidPlayer androidPlayer;
+    private IMusicPlayer currentPlayer;
+    private PlayerNotification playerNotification;
+    private VLCPlayer vlcPlayer;
+    private DeezerPlayer deezerPlayer;
+    private SpotifyPlayer spotifyPlayer;
+    private AndroidPlayer androidPlayer;
 
 
     /**
      * Constructeur privé
      */
     private PlayerMusicManager() {
-        EventBus.getDefault().register(this);
-        vlcPlayer = new VLCPlayer();
-        trackPositionHandler = new Handler();
     }
 
 
@@ -83,8 +80,11 @@ public class PlayerMusicManager {
         androidPlayer = new AndroidPlayer(context);
         spotifyPlayer = new SpotifyPlayer(context);
         deezerPlayer = new DeezerPlayer(context);
+        playerNotification = new PlayerNotification(context);
+        EventBus.getDefault().register(this);
+        vlcPlayer = new VLCPlayer();
+        trackPositionHandler = new Handler();
     }
-
 
     /**
      * Holder
@@ -116,7 +116,7 @@ public class PlayerMusicManager {
         if (playerStatusListener != null) {
             playerStatusListener.onUpdate(isPlaying);
         }
-        PlayerNotification.show(model);
+        playerNotification.show(model);
     }
 
     /**
@@ -224,8 +224,11 @@ public class PlayerMusicManager {
      * Stop all the players
      */
     public void stop() {
-        currentPlayer.stop();
-        currentSong = 0;
+        if (currentPlayer!=null) {
+            currentPlayer.stop();
+            currentSong = 0;
+            playerNotification.cancel();
+        }
     }
 
     /***
@@ -234,7 +237,7 @@ public class PlayerMusicManager {
     public void resume() {
         getCurrentTrackVM().isPlaying.set(true);
         currentPlayer.resume();
-        PlayerNotification.updatePlayStatus(false);
+        playerNotification.updatePlayStatus(false);
     }
 
     /**
@@ -243,7 +246,7 @@ public class PlayerMusicManager {
     public void pause() {
         getCurrentTrackVM().isPlaying.set(false);
         currentPlayer.pause();
-        PlayerNotification.updatePlayStatus(true);
+        playerNotification.updatePlayStatus(true);
     }
 
     public ArrayList<TrackVM> trackVMs() {
@@ -299,7 +302,7 @@ public class PlayerMusicManager {
     public void onReceive(EventStopPlayer eventStopPlayer) {
         tracks.clear();
         trackVMs().clear();
-        PlayerNotification.cancel();
+        playerNotification.cancel();
         stop();
     }
 

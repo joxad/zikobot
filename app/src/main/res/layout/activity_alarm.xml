@@ -92,7 +92,7 @@
             android:layout_marginEnd="76dp"
             android:layout_marginRight="76dp"
             android:src="@{activityAlarmVM.alarmVM.activated ? @drawable/ic_alarm_selected : @drawable/ic_alarm}"
-            app:backgroundTint="@color/white"
+            app:backgroundTint="@android:color/white"
             app:fabSize="mini"
             app:layout_anchor="@id/custom_toolbar"
             app:layout_anchorGravity="bottom|end" />

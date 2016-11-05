@@ -13,6 +13,7 @@ import android.widget.RemoteViews;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.NotificationTarget;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.module.music.PlayerMusicManager;
 import com.startogamu.zikobot.core.receiver.ClearPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.NextPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.NotificationPauseResumeReceiver;
@@ -24,29 +25,25 @@ import com.startogamu.zikobot.core.model.Track;
  */
 public class PlayerNotification {
 
-    private static int notificationId = 42;
+    private int notificationId = 42;
 
-    private static Context context;
-    private static NotificationManager notificationManager;
-    private static RemoteViews playerViewSmall;
-    private static RemoteViews playerViewLarge;
-    private static Notification notification;
-    private static Handler handler;
+    private Context context;
+    private NotificationManager notificationManager;
+    private RemoteViews playerViewSmall;
+    private RemoteViews playerViewLarge;
+    private Notification notification;
+    private Handler handler;
 
-    /***
-     * @param context
-     */
-    public static void init(final Context context) {
+    public PlayerNotification(Context context) {
         handler = new Handler(Looper.getMainLooper());
-        PlayerNotification.context = context;
+        this.context = context;
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
     }
-
-
     /***
      * @param track
      */
-    public static void show(final Track track) {
+    public void show(final Track track) {
         // prepare intent which is triggered if the
 // notification is selected
 
@@ -80,7 +77,7 @@ public class PlayerNotification {
      * @param notification
      * @param track
      */
-    private static void loadSmallImage(Notification notification, Track track) {
+    private void loadSmallImage(Notification notification, Track track) {
         NotificationTarget notificationTarget = new NotificationTarget(
                 context,
                 playerViewSmall,
@@ -97,7 +94,7 @@ public class PlayerNotification {
      * @param notification
      * @param track
      */
-    private static void loadLargeImage(Notification notification, Track track) {
+    private void loadLargeImage(Notification notification, Track track) {
         NotificationTarget notificationTarget = new NotificationTarget(
                 context,
                 playerViewLarge,
@@ -114,7 +111,7 @@ public class PlayerNotification {
      * @param pIntent
      * @param track
      */
-    private static void initLargeNotification(PendingIntent pIntent, Track track) {
+    private void initLargeNotification(PendingIntent pIntent, Track track) {
         playerViewLarge = new RemoteViews(context.getPackageName(), R.layout.view_notification_player);
         playerViewLarge.setOnClickPendingIntent(R.id.iv_stop, pIntent);
         playerViewLarge.setTextViewText(R.id.tv_artist, track.getArtistName());
@@ -142,7 +139,7 @@ public class PlayerNotification {
     /***
      * @param showPlay
      */
-    public static void updatePlayStatus(boolean showPlay) {
+    public void updatePlayStatus(boolean showPlay) {
         playerViewLarge.setImageViewResource(R.id.iv_play, showPlay ? R.drawable.ic_play_arrow : R.drawable.ic_pause);
         if (showPlay) {
             Intent intentResume = new Intent(context, NotificationPauseResumeReceiver.class);
@@ -163,7 +160,7 @@ public class PlayerNotification {
      * @param pIntent
      * @param track
      */
-    private static void initSmallNotification(PendingIntent pIntent, Track track) {
+    private void initSmallNotification(PendingIntent pIntent, Track track) {
         playerViewSmall = new RemoteViews(context.getPackageName(), R.layout.view_notification_player_small);
         playerViewSmall.setOnClickPendingIntent(R.id.iv_stop, pIntent);
         playerViewSmall.setTextViewText(R.id.tv_artist, track.getArtistName());
@@ -174,7 +171,7 @@ public class PlayerNotification {
     /***
      *
      */
-    public static void cancel() {
+    public void cancel() {
         notificationManager.cancel(notificationId);
     }
 }

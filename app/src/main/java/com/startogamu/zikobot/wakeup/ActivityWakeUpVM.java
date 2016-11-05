@@ -116,7 +116,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      */
     public void stop(View view) {
         playerMusicManager.stop();
-        PlayerNotification.cancel();
         activity.finish();
     }
 

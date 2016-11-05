@@ -35,23 +35,18 @@ public class ZikobotApp extends Application {
         FlowManager.init(new FlowConfig.Builder(this).build());
         AppPrefs.init(this);
         IntentManager.init(this);
-        try {
-            new SpotifyManager.Builder().setContext(this).setApiKey(R.string.api_spotify_id).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+       /*
         try {
             new DeezerManager.Builder().context(this).appId(R.string.deezer_id).build();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         SpotifyAuthManager.getInstance().init(this);
         PlayerMusicManager.getInstance().init(this);
         SoundCloudApiManager.getInstance().init(this);
         SpotifyApiManager.getInstance().init(this);
         LocalMusicManager.getInstance().init(this);
         LyricsManager.getInstance().init(this);
-        PlayerNotification.init(this);
         AlarmManager.init(this);
 
         Logger.init(ZikobotApp.class.getSimpleName());
