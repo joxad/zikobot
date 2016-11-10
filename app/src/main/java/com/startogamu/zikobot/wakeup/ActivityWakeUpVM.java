@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.content.Context;
 import android.media.AudioManager;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.android_easy_spotify.SpotifyPlayerManager;
@@ -56,10 +57,12 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
 
     @Override
     public void init() {
-        SpotifyPlayerManager.updateToken(AppPrefs.getSpotifyAccessToken());
         EventBus.getDefault().register(this);
         am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
-
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON|
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED|
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 //For Normal mode
         am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         alarm = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.ALARM));

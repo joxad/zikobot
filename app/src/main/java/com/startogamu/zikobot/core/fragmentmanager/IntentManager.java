@@ -2,6 +2,9 @@ package com.startogamu.zikobot.core.fragmentmanager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.view.WindowManager;
 
 import com.deezer.sdk.model.Playlist;
 import com.startogamu.zikobot.album.ActivityAlbum;
@@ -21,6 +24,7 @@ import com.startogamu.zikobot.spotify.ActivitySpotify;
 import com.startogamu.zikobot.alarm.ActivityAlarm;
 import com.startogamu.zikobot.intro.ActivityFirstStart;
 import com.startogamu.zikobot.home.ActivityMain;
+import com.startogamu.zikobot.wakeup.ActivityWakeUp;
 
 import org.parceler.Parcels;
 
@@ -61,7 +65,9 @@ public class IntentManager {
     }
 
     public static Intent goToWakeUp(Alarm alarm) {
-        return new Intent(context, ActivityMain.class).putExtra(EXTRA.ALARM,Parcels.wrap(alarm));
+        return new Intent(context, ActivityWakeUp.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .putExtra(EXTRA.ALARM, Parcels.wrap(alarm));
     }
 
     public static Intent goToAlbum(Album model) {

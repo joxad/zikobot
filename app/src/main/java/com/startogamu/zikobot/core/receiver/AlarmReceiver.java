@@ -25,7 +25,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     alarm.setActive(0);
                     alarm.save();
                 }
-                context.startActivity(IntentManager.goToWakeUp(alarm).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                context.startActivity(IntentManager.goToWakeUp(alarm));
             }
         }, throwable -> {
             Logger.d(throwable.getMessage());

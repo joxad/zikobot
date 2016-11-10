@@ -12,6 +12,7 @@ import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
+import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.localnetwork.FragmentLocalNetwork;
 import com.startogamu.zikobot.core.module.spotify_auth.manager.SpotifyAuthManager;
@@ -59,6 +60,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         if (AppPrefs.isFirstStart()) {
             activity.startActivity(IntentManager.goToTuto());
         }
+       
     }
 
     private void initTabLayout() {
