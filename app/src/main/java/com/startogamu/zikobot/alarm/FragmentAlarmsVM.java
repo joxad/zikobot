@@ -5,7 +5,7 @@ import android.databinding.ObservableBoolean;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
@@ -41,7 +41,7 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         itemsVM = new ObservableArrayList<>();
         showTuto = new ObservableBoolean(false);
         if (Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
@@ -74,7 +74,7 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         showTuto.set(false);
         loadAlarms();
@@ -107,11 +107,6 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
        SpotifyAuthManager.getInstance().refreshToken(fragment.getContext(), () -> {
 
         });
-    }
-
-    @Override
-    public void destroy() {
-
     }
 
 }

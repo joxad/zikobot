@@ -25,15 +25,6 @@ public class AlbumVM extends BaseVM<LocalAlbum> {
         super(context, model);
     }
 
-    @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void destroy() {
-
-    }
 
     public void onClick(View view) {
         //TODO sendevent
@@ -54,5 +45,10 @@ public class AlbumVM extends BaseVM<LocalAlbum> {
     @Bindable
     public String getImageUrl() {
         return model.getImage();
+    }
+
+    @Override
+    public void onCreate() {
+
     }
 }

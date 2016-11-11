@@ -49,7 +49,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         initSpotify();
         initNavigationManager();
         initTabLayout();
@@ -128,7 +128,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         navigationManager.onResume();
         playerVM.onResume();
@@ -178,16 +178,10 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         playerVM.onPause();
         navigationManager.onPause();
-        EventBus.getDefault().unregister(this);
-    }
-
-
-    @Override
-    public void destroy() {
         EventBus.getDefault().unregister(this);
     }
 

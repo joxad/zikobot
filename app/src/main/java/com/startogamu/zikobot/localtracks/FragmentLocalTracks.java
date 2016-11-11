@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 
-import com.joxad.easydatabinding.fragment.FragmentBase;
+import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;

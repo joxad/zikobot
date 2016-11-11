@@ -14,8 +14,6 @@ import com.startogamu.zikobot.core.model.Alarm;
  */
 public class ActivityWakeUp extends ActivityBase<ActivityWakeUpBinding, ActivityWakeUpVM> {
 
-    Alarm alarm;
-
     @Override
     public int data() {
         return BR.activityWakeUpVM;
@@ -38,9 +36,5 @@ public class ActivityWakeUp extends ActivityBase<ActivityWakeUpBinding, Activity
         return new ActivityWakeUpVM(this, binding);
     }
 
-    @Override
-    protected void onDestroy() {
-        vm.destroy();
-        super.onDestroy();
-    }
+
 }

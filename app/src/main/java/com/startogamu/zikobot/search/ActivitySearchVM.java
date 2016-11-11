@@ -25,7 +25,6 @@ import org.greenrobot.eventbus.Subscribe;
  * Created by josh on 12/08/16.
  */
 public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySearchBinding> {
-    Handler handler;
     private ViewPagerAdapter tabAdapter;
 
     /***
@@ -37,11 +36,10 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     }
 
     @Override
-    public void init() {
-        handler = new Handler(Looper.getMainLooper());
+    public void onCreate() {
         initSearch();
         initTabLayout();
-        handler.postDelayed(() -> binding.searchView.showKeyboard(), 100);
+        uiHandler.postDelayed(() -> binding.searchView.showKeyboard(), 100);
 
     }
 
@@ -116,8 +114,4 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
         SearchManager.QUERY="";
     }
 
-    @Override
-    public void destroy() {
-
-    }
 }

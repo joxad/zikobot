@@ -29,7 +29,7 @@ public class DeezerPlaylistVM extends BaseVM<Playlist> {
 
 
     @Override
-    public void init() {
+    public void onCreate() {
 
     }
 
@@ -60,9 +60,4 @@ public class DeezerPlaylistVM extends BaseVM<Playlist> {
                 model.getTracks().size());
     }
 
-
-    @Override
-    public void destroy() {
-
-    }
 }

@@ -57,7 +57,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         artist = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.LOCAL_ARTIST));
         albums = new ObservableArrayList<>();
         tracks = new ObservableArrayList<>();
@@ -103,7 +103,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
         playerVM.onResume();
@@ -129,7 +129,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
         playerVM.onPause();
@@ -175,8 +175,4 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         return super.onBackPressed();
     }
 
-    @Override
-    public void destroy() {
-
-    }
 }

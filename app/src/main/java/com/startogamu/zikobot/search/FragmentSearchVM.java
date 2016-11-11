@@ -2,7 +2,7 @@ package com.startogamu.zikobot.search;
 
 import android.databinding.ObservableArrayList;
 
-import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
@@ -48,7 +48,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         artists = new ObservableArrayList<>();
         albums = new ObservableArrayList<>();
         tracks = new ObservableArrayList<>();
@@ -59,7 +59,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
         if (!SearchManager.QUERY.isEmpty()) {
@@ -74,14 +74,9 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void destroy() {
-
     }
 
     @Override

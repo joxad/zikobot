@@ -39,7 +39,7 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         am = (AudioManager) fragment.getActivity().getSystemService(Context.AUDIO_SERVICE);
 
         alarm = Parcels.unwrap(fragment.getArguments().getParcelable(EXTRA.ALARM));
@@ -137,10 +137,6 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
         return alarm.getName();
     }
 
-    @Override
-    public void destroy() {
-
-    }
 
 
     /***

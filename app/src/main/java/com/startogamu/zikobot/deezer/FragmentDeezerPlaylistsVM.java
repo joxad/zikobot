@@ -6,7 +6,7 @@ import android.view.View;
 
 
 import com.deezer.sdk.model.Playlist;
-import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
@@ -34,12 +34,12 @@ public class FragmentDeezerPlaylistsVM extends FragmentBaseVM<FragmentDeezerPlay
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         userPlaylists = new ObservableArrayList<>();
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
         checkAccount();
@@ -76,8 +76,4 @@ public class FragmentDeezerPlaylistsVM extends FragmentBaseVM<FragmentDeezerPlay
         fragment.startActivity(IntentManager.goToSettings());
     }
 
-    @Override
-    public void destroy() {
-
-    }
 }

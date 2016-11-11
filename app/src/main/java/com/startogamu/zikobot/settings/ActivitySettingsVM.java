@@ -46,7 +46,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
 
 
     @Override
-    public void init() {
+    public void onCreate() {
         showSpotifyConnect = new ObservableBoolean(false);
         showSoundCloudConnect = new ObservableBoolean(false);
         showDeezerConnect = new ObservableBoolean(true);
@@ -58,7 +58,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         if (AppPrefs.getSpotifyAccessCode().equals("")) {
             showSpotifyConnect.set(true);
@@ -191,10 +191,5 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         }, throwable -> {
             Logger.e(throwable.getMessage());
         });
-    }
-
-    @Override
-    public void destroy() {
-
     }
 }

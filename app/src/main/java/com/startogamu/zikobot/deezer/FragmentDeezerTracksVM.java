@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.deezer.sdk.model.Playlist;
-import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.utils.EXTRA;
@@ -39,7 +39,7 @@ public abstract class FragmentDeezerTracksVM extends FragmentBaseVM<FragmentDeez
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.PLAYLIST);
         playlist = parcelable != null ? Parcels.unwrap(parcelable) : null;
         items = new ObservableArrayList<>();
@@ -64,7 +64,7 @@ public abstract class FragmentDeezerTracksVM extends FragmentBaseVM<FragmentDeez
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
         loadTracks(playlist);
@@ -77,12 +77,9 @@ public abstract class FragmentDeezerTracksVM extends FragmentBaseVM<FragmentDeez
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
 
-    @Override
-    public void destroy() {
-    }
 }

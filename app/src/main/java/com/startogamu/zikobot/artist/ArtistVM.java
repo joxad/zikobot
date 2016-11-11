@@ -24,15 +24,7 @@ public class ArtistVM extends BaseVM<Artist> {
         super(context, model);
     }
 
-    @Override
-    public void init() {
 
-    }
-
-    @Override
-    public void destroy() {
-
-    }
 
     public void onClick(View view){
 
@@ -53,5 +45,10 @@ public class ArtistVM extends BaseVM<Artist> {
     @Bindable
     public String getImageUrl() {
         return model.getImage();
+    }
+
+    @Override
+    public void onCreate() {
+
     }
 }

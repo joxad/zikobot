@@ -2,7 +2,7 @@ package com.startogamu.zikobot.spotify;
 
 import android.databinding.ObservableArrayList;
 
-import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
@@ -45,7 +45,7 @@ public class FragmentSpotifySearchVM extends FragmentBaseVM<FragmentSpotifySearc
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         artists = new ObservableArrayList<>();
         albums = new ObservableArrayList<>();
         tracks = new ObservableArrayList<>();
@@ -56,7 +56,7 @@ public class FragmentSpotifySearchVM extends FragmentBaseVM<FragmentSpotifySearc
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
         if (!SearchManager.QUERY.isEmpty()) {
@@ -71,14 +71,11 @@ public class FragmentSpotifySearchVM extends FragmentBaseVM<FragmentSpotifySearc
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    public void destroy() {
-    }
 
     @Override
     public void query(String query) {

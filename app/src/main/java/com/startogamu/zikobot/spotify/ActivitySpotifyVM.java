@@ -54,7 +54,7 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         album = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.PLAYLIST));
         tracks = new ObservableArrayList<>();
         binding.rv.setNestedScrollingEnabled(false);
@@ -82,7 +82,7 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
         playerVM.onResume();
@@ -114,7 +114,7 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
 
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
         playerVM.onPause();
@@ -144,11 +144,6 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
      */
     public void onPlay(View view) {
         EventBus.getDefault().post(new EventAddTrackToPlayer(tracks));
-    }
-
-    @Override
-    public void destroy() {
-
     }
 
     @Override

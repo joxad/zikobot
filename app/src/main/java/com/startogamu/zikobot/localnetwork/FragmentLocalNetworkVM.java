@@ -4,7 +4,7 @@ import android.databinding.ObservableArrayList;
 import android.net.Uri;
 import android.support.v7.widget.GridLayoutManager;
 
-import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
@@ -39,7 +39,7 @@ public class FragmentLocalNetworkVM extends FragmentBaseVM<FragmentLocalNetwork,
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(), 1));
         binding.rv.setNestedScrollingEnabled(false);
         LibVLC libVLC = new LibVLC();
@@ -89,8 +89,4 @@ public class FragmentLocalNetworkVM extends FragmentBaseVM<FragmentLocalNetwork,
 
     }
 
-    @Override
-    public void destroy() {
-
-    }
 }

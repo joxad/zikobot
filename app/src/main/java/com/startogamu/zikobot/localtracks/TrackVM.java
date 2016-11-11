@@ -35,14 +35,10 @@ public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickL
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         isPlaying = new ObservableBoolean(false);
     }
 
-    @Override
-    public void destroy() {
-
-    }
 
     @Bindable
     public String getImageUrl() {

@@ -46,7 +46,7 @@ public class ActivityDeezerVM extends ActivityBaseVM<ActivityDeezer, ActivityDee
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         deezerPlaylist = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.PLAYLIST));
         tracks = new ObservableArrayList<>();
         binding.rv.setNestedScrollingEnabled(false);
@@ -73,7 +73,7 @@ public class ActivityDeezerVM extends ActivityBaseVM<ActivityDeezer, ActivityDee
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
         playerVM.onResume();
@@ -90,7 +90,7 @@ public class ActivityDeezerVM extends ActivityBaseVM<ActivityDeezer, ActivityDee
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
         playerVM.onPause();
@@ -122,10 +122,6 @@ public class ActivityDeezerVM extends ActivityBaseVM<ActivityDeezer, ActivityDee
         EventBus.getDefault().post(new EventAddTrackToPlayer(tracks));
     }
 
-    @Override
-    public void destroy() {
-
-    }
 
     @Override
     protected boolean onBackPressed() {

@@ -27,7 +27,7 @@ public class ItemNetworkVM extends BaseVM<ItemNetwork> {
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
 
     }
 
@@ -61,8 +61,5 @@ public class ItemNetworkVM extends BaseVM<ItemNetwork> {
         return "Total : " + model.getMedia().getTrackCount();
     }
 
-    @Override
-    public void destroy() {
 
-    }
 }

@@ -58,11 +58,11 @@ public class PlayerVM extends BaseObservable implements IVM {
     public PlayerVM(Context context, ViewPlayerBinding binding) {
         this.context = context;
         this.binding = binding;
-        init();
+        onCreate();
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
 
         playerMusicManager = PlayerMusicManager.getInstance();
         binding.vpPlayer.setOffscreenPageLimit(20);
@@ -148,6 +148,11 @@ public class PlayerVM extends BaseObservable implements IVM {
         playerMusicManager.setPlayerStatusListener(null);
     }
 
+    @Override
+    public void onDestroy() {
+
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceive(TrackChangeEvent trackChangeEvent) {
         updateLists();
@@ -189,7 +194,6 @@ public class PlayerVM extends BaseObservable implements IVM {
         notifyChange();
     }
 
-    @Override
     public void destroy() {
         EventBus.getDefault().unregister(this);
     }

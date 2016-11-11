@@ -12,20 +12,17 @@ import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
 
-import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowArtistDetail;
+import com.startogamu.zikobot.core.module.localmusic.manager.LocalMusicManager;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalAlbum;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalArtist;
 import com.startogamu.zikobot.core.utils.Constants;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.startogamu.zikobot.databinding.FragmentLocalAlbumsBinding;
-
-import com.startogamu.zikobot.core.module.localmusic.manager.LocalMusicManager;
-import com.startogamu.zikobot.core.module.localmusic.model.LocalAlbum;
-import com.startogamu.zikobot.core.module.localmusic.model.LocalArtist;
-import com.startogamu.zikobot.album.FragmentLocalAlbums;
-import com.startogamu.zikobot.album.AlbumVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.parceler.Parcels;
@@ -58,7 +55,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
 
 
     @Override
-    public void init() {
+    public void onCreate() {
         Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.LOCAL_ARTIST);
         localArtist = parcelable != null ? Parcels.unwrap(parcelable) : null;
         items = new ObservableArrayList<>();
@@ -74,7 +71,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             updateMessage(fragment.getString(R.string.permission_local));
@@ -133,8 +130,4 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
 
     }
 
-    @Override
-    public void destroy() {
-
-    }
-}
+  }

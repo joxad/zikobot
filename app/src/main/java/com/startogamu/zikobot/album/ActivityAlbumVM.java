@@ -52,7 +52,7 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         album = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.LOCAL_ALBUM));
         tracks = new ObservableArrayList<>();
         binding.rv.setNestedScrollingEnabled(false);
@@ -87,7 +87,7 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
         playerVM.onResume();
@@ -106,7 +106,7 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
         playerVM.onPause();
@@ -114,8 +114,8 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
 
     /***
      * Load the local music
-     * @param i
-     * @param totalItemsCount
+     * @param limit
+     * @param offset
      */
     public void loadLocalMusic(int limit, int offset) {
         LocalMusicManager.getInstance().getLocalTracks(limit,offset,null, album.getId(), null).subscribe(localTracks -> {
@@ -136,11 +136,6 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
      */
     public void onPlay(View view) {
         EventBus.getDefault().post(new EventAddTrackToPlayer(tracks));
-    }
-
-    @Override
-    public void destroy() {
-
     }
 
     @Override

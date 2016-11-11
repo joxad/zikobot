@@ -27,7 +27,7 @@ public class ItemPlaylistViewModel extends BaseVM<Item> {
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
 
     }
 
@@ -61,9 +61,4 @@ public class ItemPlaylistViewModel extends BaseVM<Item> {
                 model.tracks.total);
     }
 
-
-    @Override
-    public void destroy() {
-
-    }
 }

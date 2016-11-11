@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 
-import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.utils.EXTRA;
@@ -43,7 +43,7 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.PLAYLIST);
         playlist = parcelable != null ? Parcels.unwrap(parcelable) : null;
 
@@ -70,7 +70,7 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
     }
@@ -82,12 +82,9 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
 
-    @Override
-    public void destroy() {
-    }
 }

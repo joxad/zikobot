@@ -11,7 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 
-import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
@@ -55,7 +55,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
 
 
     @Override
-    public void init() {
+    public void onCreate() {
         Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.LOCAL_ALBUM);
         localAlbum = parcelable != null ? Parcels.unwrap(parcelable) : null;
         showZmvMessage = new ObservableBoolean(false);
@@ -71,7 +71,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
         if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -90,7 +90,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
@@ -139,10 +139,6 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
         binding.zmv.setZmvMessage(zmvMessage);
     }
 
-    @Override
-    public void destroy() {
-
-    }
 
     public abstract ItemView getItemView();
 

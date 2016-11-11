@@ -47,7 +47,7 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         soundCloudPlaylist = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.PLAYLIST));
         tracks = new ObservableArrayList<>();
         binding.rv.setNestedScrollingEnabled(false);
@@ -75,7 +75,7 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
         playerVM.onResume();
@@ -92,7 +92,7 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
         playerVM.onPause();
@@ -117,11 +117,6 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
      */
     public void onPlay(View view) {
         EventBus.getDefault().post(new EventAddTrackToPlayer(tracks));
-    }
-
-    @Override
-    public void destroy() {
-
     }
 
     @Override

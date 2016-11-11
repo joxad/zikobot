@@ -44,7 +44,7 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.TRACK);
         track = (parcelable != null ? Parcels.unwrap(parcelable) : null);
         itemsVM = new ObservableArrayList<>();
@@ -53,14 +53,14 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
 
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
@@ -120,11 +120,5 @@ public class DialogFragmentAlarmsVM extends DialogFragmentBaseVM<DialogFragmentA
         });
     }
 
-
-    @Override
-    public void destroy() {
-
-        EventBus.getDefault().unregister(this);
-    }
 
 }

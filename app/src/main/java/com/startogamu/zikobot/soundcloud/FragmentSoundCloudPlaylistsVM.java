@@ -5,7 +5,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
@@ -37,12 +37,12 @@ public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundC
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         userPlaylists = new ObservableArrayList<>();
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         loadUserPlaylist();
     }
@@ -68,10 +68,5 @@ public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundC
 
     public void goToSettings(View view) {
         fragment.startActivity(IntentManager.goToSettings());
-    }
-
-    @Override
-    public void destroy() {
-
     }
 }

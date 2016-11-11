@@ -49,7 +49,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
 
     @Override
-    public void init() {
+    public void onCreate() {
         isExpanded = new ObservableBoolean(false);
         tracksVms = new ObservableArrayList<>();
     }
@@ -235,8 +235,4 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     }
 
 
-    @Override
-    public void destroy() {
-
-    }
 }

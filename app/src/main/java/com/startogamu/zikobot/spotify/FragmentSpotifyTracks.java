@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.joxad.easydatabinding.fragment.FragmentBase;
+import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentSpotifyTracksBinding;

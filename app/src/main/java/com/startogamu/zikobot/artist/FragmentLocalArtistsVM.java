@@ -9,7 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 
-import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.Constants;
@@ -46,7 +46,7 @@ public class FragmentLocalArtistsVM extends FragmentBaseVM<FragmentLocalArtists,
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         showZmvMessage =new ObservableBoolean(false);
         items = new ObservableArrayList<>();
         binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(),2));
@@ -60,7 +60,7 @@ public class FragmentLocalArtistsVM extends FragmentBaseVM<FragmentLocalArtists,
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             updateMessage(fragment.getString(R.string.permission_local));
@@ -115,9 +115,4 @@ public class FragmentLocalArtistsVM extends FragmentBaseVM<FragmentLocalArtists,
         binding.zmv.setZmvMessage(zmvMessage);
     }
 
-
-    @Override
-    public void destroy() {
-
-    }
 }

@@ -43,7 +43,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         alarm = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.ALARM));
         initToolbar();
         initMenu();
@@ -122,7 +122,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         playerVM.onResume();
         alarmVM = new AlarmVM(activity, alarm) {
@@ -153,7 +153,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         playerVM.onPause();
 
@@ -166,11 +166,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     private void delete() {
         alarmVM.delete();
         activity.finish();
-    }
-
-    @Override
-    public void destroy() {
-
     }
 
     private void showDialogEdit() {

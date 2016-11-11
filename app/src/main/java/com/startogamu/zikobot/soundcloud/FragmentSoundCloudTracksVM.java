@@ -4,7 +4,7 @@ import android.databinding.ObservableArrayList;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
-import com.joxad.easydatabinding.fragment.FragmentBaseVM;
+import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
@@ -40,7 +40,7 @@ public abstract class FragmentSoundCloudTracksVM extends FragmentBaseVM<Fragment
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.PLAYLIST);
         playlist = parcelable != null ? Parcels.unwrap(parcelable) : null;
 
@@ -61,7 +61,7 @@ public abstract class FragmentSoundCloudTracksVM extends FragmentBaseVM<Fragment
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
     }
@@ -73,12 +73,9 @@ public abstract class FragmentSoundCloudTracksVM extends FragmentBaseVM<Fragment
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         EventBus.getDefault().unregister(this);
         super.onPause();
     }
 
-    @Override
-    public void destroy() {
-    }
 }

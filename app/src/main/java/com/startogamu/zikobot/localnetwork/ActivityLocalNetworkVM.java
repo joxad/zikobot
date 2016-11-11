@@ -35,7 +35,7 @@ public class ActivityLocalNetworkVM extends ActivityBaseVM<ActivityLocalNetwork,
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
         medias = new LinkedList<>();
         initToolbar();
         initFragment();
@@ -72,7 +72,7 @@ public class ActivityLocalNetworkVM extends ActivityBaseVM<ActivityLocalNetwork,
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
     }
@@ -92,13 +92,8 @@ public class ActivityLocalNetworkVM extends ActivityBaseVM<ActivityLocalNetwork,
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void destroy() {
-
     }
 }

@@ -27,7 +27,7 @@ public class SoundCloudPlaylistVM extends BaseVM<SoundCloudPlaylist> {
     }
 
     @Override
-    public void init() {
+    public void onCreate() {
 
     }
 
@@ -59,9 +59,4 @@ public class SoundCloudPlaylistVM extends BaseVM<SoundCloudPlaylist> {
                 model.getTrackCount());
     }
 
-
-    @Override
-    public void destroy() {
-
-    }
 }

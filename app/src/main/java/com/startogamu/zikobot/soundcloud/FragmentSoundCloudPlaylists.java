@@ -2,7 +2,7 @@ package com.startogamu.zikobot.soundcloud;
 
 import com.android.databinding.library.baseAdapters.BR;
 
-import com.joxad.easydatabinding.fragment.FragmentBase;
+import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.databinding.FragmentSoundCloudPlaylistsBinding;
 

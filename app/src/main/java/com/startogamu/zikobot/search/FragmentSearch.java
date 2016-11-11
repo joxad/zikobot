@@ -2,7 +2,7 @@ package com.startogamu.zikobot.search;
 
 import android.os.Bundle;
 
-import com.joxad.easydatabinding.fragment.FragmentBase;
+import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.utils.ISearch;
