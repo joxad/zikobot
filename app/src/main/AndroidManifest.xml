@@ -13,6 +13,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+
 
     <uses-permission
         android:name="android.permission.ACCESS_WIFI_STATE"
@@ -148,6 +151,18 @@
         <receiver android:name=".core.receiver.NextPlayerReceiver" />
         <receiver android:name=".core.receiver.PreviousPlayerReceiver" />
         <receiver android:name=".core.receiver.NotificationPauseResumeReceiver" />
+
+
+        <!--This part is inside the application-->
+        <receiver android:name=".core.receiver.CallReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
+
 
         <receiver
             android:name=".core.receiver.DeviceBootReceiver"
