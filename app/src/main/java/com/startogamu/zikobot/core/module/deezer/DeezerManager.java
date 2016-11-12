@@ -3,7 +3,6 @@ package com.startogamu.zikobot.core.module.deezer;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
 
 import com.deezer.sdk.model.Permissions;
 import com.deezer.sdk.model.Playlist;
@@ -27,17 +26,33 @@ import rx.Subscriber;
 /**
  * Created by josh on 06/07/16.
  */
-public class DeezerManager {
+public class   DeezerManager {
 
-    private static DeezerConnect deezerConnect;
-    private static SessionStore sessionStore;
-    private static Context context;
-    private static int appId;
+    private DeezerConnect deezerConnect;
+    private SessionStore sessionStore;
+    private Context context;
+    private String appId;
 
-    private static void init(Context context, int appId) {
-        DeezerManager.context = context;
-        DeezerManager.appId = appId;
-        deezerConnect = DeezerConnect.forApp(context.getString(R.string.deezer_id)).build();
+    /**
+     * Holder
+     */
+    private static class DeezerManagerHolder {
+        /**
+         * Instance unique non préinitialisée
+         */
+        private final static DeezerManager instance = new DeezerManager();
+    }
+
+    /**
+     * Point d'accès pour l'instance unique du singleton
+     */
+    public static DeezerManager getInstance() {
+        return DeezerManager.DeezerManagerHolder.instance;
+    }
+    public void init(Context context) {
+        this.context = context;
+        this.appId = context.getString(R.string.deezer_id);
+        deezerConnect = DeezerConnect.forApp(appId).build();
         sessionStore = new SessionStore();
     }
 
@@ -48,7 +63,7 @@ public class DeezerManager {
      * @param activity
      * @param
      */
-    public static Observable<Bundle> login(Activity activity) {
+    public Observable<Bundle> login(Activity activity) {
         // The set of Deezer Permissions needed by the app
         String[] permissions = new String[]{
                 Permissions.BASIC_ACCESS,
@@ -82,7 +97,7 @@ public class DeezerManager {
         });
     }
 
-    public static Observable<User> current() {
+    public  Observable<User> current() {
         sessionStore.restore(deezerConnect, context);
         DeezerRequest request = DeezerRequestFactory.requestCurrentUser();
         return Observable.create(new Observable.OnSubscribe<User>() {
@@ -117,7 +132,7 @@ public class DeezerManager {
 
     }
 
-    public static Observable<ArrayList<Playlist>> playlists() {
+    public  Observable<ArrayList<Playlist>> playlists() {
         DeezerRequest request = DeezerRequestFactory.requestCurrentUserPlaylists();
         return Observable.create(new Observable.OnSubscribe<ArrayList<Playlist>>() {
             @Override
@@ -155,7 +170,7 @@ public class DeezerManager {
      * @param idPlaylist
      * @return
      */
-    public static Observable<ArrayList<Track>> playlistTracks(long idPlaylist) {
+    public  Observable<ArrayList<Track>> playlistTracks(long idPlaylist) {
         DeezerRequest request = DeezerRequestFactory.requestPlaylistTracks(idPlaylist);
         return Observable.create(new Observable.OnSubscribe<ArrayList<Track>>() {
             @Override
@@ -186,47 +201,6 @@ public class DeezerManager {
                 task.execute(request);
             }
         });
-    }
-    /***
-     *
-     */
-    public static class Builder {
-
-        private Context context;
-
-        @StringRes
-        private int appIdRes = -1;
-
-        /***
-         * @param context
-         * @return
-         */
-        public Builder context(final Context context) {
-            this.context = context;
-            return this;
-        }
-
-        /***
-         * @param appIdRes
-         * @return
-         */
-        public Builder appId(final int appIdRes) {
-            this.appIdRes = appIdRes;
-            return this;
-        }
-
-
-        /***
-         *
-         */
-        public void build() throws Exception {
-            if (this.context == null)
-                throw new Exception("Please set the Context");
-            if (this.appIdRes == -1)
-                throw new Exception("Please set the appIdRes");
-            DeezerManager.init(this.context, this.appIdRes);
-        }
-
     }
 
 }

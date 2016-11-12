@@ -53,7 +53,7 @@ public abstract class FragmentDeezerTracksVM extends FragmentBaseVM<FragmentDeez
      */
     private void loadTracks(Playlist playlist) {
         items.clear();
-        DeezerManager.playlistTracks(playlist.getId()).subscribe(tracks -> {
+        DeezerManager.getInstance().playlistTracks(playlist.getId()).subscribe(tracks -> {
             for (com.deezer.sdk.model.Track track : tracks) {
                 items.add(new TrackVM(fragment.getContext(), Track.from(track)));
             }

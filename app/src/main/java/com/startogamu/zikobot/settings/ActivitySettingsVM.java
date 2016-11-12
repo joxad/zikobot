@@ -110,7 +110,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
      * @param view
      */
     public void onButtonDeezerConnect(View view) {
-        DeezerManager.login(activity).subscribe(bundle -> {
+        DeezerManager.getInstance().login(activity).subscribe(bundle -> {
             getDeezerMe();
         }, throwable -> {
             Logger.e(throwable.getMessage());
@@ -183,7 +183,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
 
 
     public void getDeezerMe() {
-        DeezerManager.current().subscribe(user -> {
+        DeezerManager.getInstance().current().subscribe(user -> {
             binding.cvDeezer.tvUser.setText(user.getName());
             Glide.with(activity).load(user.getPictureUrl()).into(binding.cvDeezer.ivUser);
             showDeezerConnect.set(false);

@@ -24,6 +24,7 @@
     <string name="menu_add_to_current_play">Add to current playlist</string>
     <string name="menu_delete">delete</string>
     <string name="menu_tablature">See guitar tab</string>
+    <string name="drawer_filter_network">network</string>
 
     <string name="action_add_all">Add all</string>
 
@@ -110,5 +111,4 @@
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">Zikobot, Android musical assistant</string>
     <string name="options">settings</string>
-    <string name="drawer_filter_network">network</string>
 </resources>

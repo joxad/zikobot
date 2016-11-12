@@ -35,12 +35,7 @@ public class ZikobotApp extends Application {
         FlowManager.init(new FlowConfig.Builder(this).build());
         AppPrefs.init(this);
         IntentManager.init(this);
-       /*
-        try {
-            new DeezerManager.Builder().context(this).appId(R.string.deezer_id).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+        DeezerManager.getInstance().init(this);
         SpotifyAuthManager.getInstance().init(this);
         PlayerMusicManager.getInstance().init(this);
         SoundCloudApiManager.getInstance().init(this);

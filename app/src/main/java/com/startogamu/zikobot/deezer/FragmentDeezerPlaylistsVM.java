@@ -21,7 +21,7 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 public class FragmentDeezerPlaylistsVM extends FragmentBaseVM<FragmentDeezerPlaylists, FragmentDeezerPlaylistsBinding> {
 
 
-    private static final String TAG = "FragmentSpotifyPlaylists";
+    private static final String TAG = "FragmentDeezerPlaylistsVM";
     public ObservableArrayList<DeezerPlaylistVM> userPlaylists;
     public ItemView itemPlaylist = ItemView.of(BR.playlistVM, R.layout.item_playlist_deezer);
 
@@ -46,7 +46,7 @@ public class FragmentDeezerPlaylistsVM extends FragmentBaseVM<FragmentDeezerPlay
     }
 
     private void checkAccount() {
-        DeezerManager.current().subscribe(user -> {
+        DeezerManager.getInstance().current().subscribe(user -> {
             loadUserPlaylist();
 
         }, throwable -> {
@@ -55,13 +55,12 @@ public class FragmentDeezerPlaylistsVM extends FragmentBaseVM<FragmentDeezerPlay
     }
 
     /***
-     * Call {@link com.startogamu.zikobot.module.spotify_api.manager.SpotifyApiManager} to find the current user playlists
      */
     private void loadUserPlaylist() {
 
         userPlaylists.clear();
 
-        DeezerManager.playlists().subscribe(playlists -> {
+        DeezerManager.getInstance().playlists().subscribe(playlists -> {
             for (Playlist playlist : playlists) {
                 userPlaylists.add(new DeezerPlaylistVM(fragment.getContext(), playlist));
             }

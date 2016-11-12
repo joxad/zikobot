@@ -103,7 +103,7 @@ public class ActivityDeezerVM extends ActivityBaseVM<ActivityDeezer, ActivityDee
      */
     private void loadTracks(Playlist playlist) {
         tracks.clear();
-        DeezerManager.playlistTracks(playlist.getId()).subscribe(deezerTracks -> {
+        DeezerManager.getInstance().playlistTracks(playlist.getId()).subscribe(deezerTracks -> {
             for (com.deezer.sdk.model.Track track : deezerTracks) {
                 tracks.add(new TrackVM(activity, Track.from(track)));
             }
