@@ -14,6 +14,7 @@ import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.event.player.EventStopPlayer;
 import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.core.module.localmusic.model.LocalTrack;
+import com.startogamu.zikobot.core.module.music.player.ExoPlayerWrapper;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.core.module.music.player.AndroidPlayer;
@@ -65,7 +66,7 @@ public class PlayerMusicManager {
     private DeezerPlayer deezerPlayer;
     private SpotifyPlayer spotifyPlayer;
     private AndroidPlayer androidPlayer;
-
+    private ExoPlayerWrapper exoPlayerWrapper;
 
     /**
      * Constructeur privé
@@ -86,6 +87,7 @@ public class PlayerMusicManager {
         playerNotification = new PlayerNotification(context);
         vlcPlayer = new VLCPlayer(context);
         trackPositionHandler = new Handler();
+        exoPlayerWrapper= new ExoPlayerWrapper(context);
     }
 
     /**
@@ -157,7 +159,7 @@ public class PlayerMusicManager {
         currentType = model.getType();
         switch (model.getType()) {
             case TYPE.LOCAL:
-                currentPlayer = androidPlayer;
+                currentPlayer = exoPlayerWrapper;
                 break;
             case TYPE.SPOTIFY:
                 currentPlayer = spotifyPlayer;

@@ -124,6 +124,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile(name: 'vlc-android-sdk', ext: 'aar')
     compile 'com.rokpetek.breadcrumbtoolbar:breadcrumb-toolbar:1.0'
+    compile 'com.google.android.exoplayer:exoplayer:r1.5.3'
 
 }
 
