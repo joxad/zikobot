@@ -46,63 +46,70 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <android.support.v4.view.ViewPager
-                            android:id="@+id/vp_player"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:itemView="@{playerVM.itemViewPlayer}"
-                            app:items="@{playerVM.trackVMs}" />
 
-                        <android.support.v7.widget.AppCompatImageView
-                            android:id="@+id/iv_play"
-                            android:layout_width="@dimen/item_play_size"
-                            android:layout_height="@dimen/item_play_size"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_margin="@dimen/margin_medium"
-                            android:onClick="@{playerVM.onPlayPauseClicked}"
-                            android:visibility="@{(playerVM.isEmpty ||playerVM.isExpanded) ? v.GONE : v.VISIBLE}"
-                            app:imageRes="@{playerVM.imageState}" />
-
-                        <LinearLayout
-                            android:id="@+id/rg_options"
+                        <RelativeLayout
+                            android:id="@+id/rl_options"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
+                            android:layout_centerVertical="true">
 
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:visibility="@{playerVM.isExpanded ? v.VISIBLE : v.GONE}">
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/iv_play"
+                                android:layout_width="@dimen/item_play_size"
+                                android:layout_height="@dimen/item_play_size"
+                                android:layout_margin="@dimen/margin_medium"
+                                android:onClick="@{playerVM.onPlayPauseClicked}"
+                                android:visibility="@{(playerVM.isEmpty ||playerVM.isExpanded) ? v.GONE : v.VISIBLE}"
+                                app:imageRes="@{playerVM.imageState}" />
 
-                            <CheckBox
-                                android:id="@+id/rb_list"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginEnd="@dimen/padding_16"
-                                android:layout_marginRight="@dimen/padding_16"
-                                android:button="@drawable/selector_queue_music"
-                                android:checked="true" />
+                            <LinearLayout
+                                android:id="@+id/rg_options"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:visibility="@{playerVM.isExpanded ? v.VISIBLE : v.GONE}">
 
-                            <CheckBox
-                                android:id="@+id/rb_karaoke"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginEnd="@dimen/padding_16"
-                                android:layout_marginRight="@dimen/padding_16"
-                                android:button="@drawable/selector_karaoke" />
+                                <CheckBox
+                                    android:id="@+id/rb_list"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginEnd="@dimen/padding_16"
+                                    android:layout_marginRight="@dimen/padding_16"
+                                    android:button="@drawable/selector_queue_music"
+                                    android:checked="true" />
+
+                                <CheckBox
+                                    android:id="@+id/rb_karaoke"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginEnd="@dimen/padding_16"
+                                    android:layout_marginRight="@dimen/padding_16"
+                                    android:button="@drawable/selector_karaoke" />
 
 
-                            <CheckBox
-                                android:id="@+id/rb_tabs"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginEnd="@dimen/padding_8"
-                                android:layout_marginRight="@dimen/padding_8"
-                                android:button="@drawable/selector_guitar" />
-                        </LinearLayout>
+                                <CheckBox
+                                    android:id="@+id/rb_tabs"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginEnd="@dimen/padding_8"
+                                    android:layout_marginRight="@dimen/padding_8"
+                                    android:button="@drawable/selector_guitar" />
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
+
+
+                        <android.support.v4.view.ViewPager
+                            android:id="@+id/vp_player"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@id/rl_options"
+                            android:layout_toStartOf="@id/rl_options"
+                            app:itemView="@{playerVM.itemViewPlayer}"
+                            app:items="@{playerVM.trackVMs}" />
 
 
                     </RelativeLayout>

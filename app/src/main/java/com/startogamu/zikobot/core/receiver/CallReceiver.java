@@ -11,6 +11,7 @@ import java.util.Date;
  */
 
 public class CallReceiver extends PhonecallReceiver {
+
     @Override
     protected void onIncomingCallReceived(Context ctx, String number, Date start) {
         PlayerMusicManager.getInstance().pause();

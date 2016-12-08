@@ -77,12 +77,12 @@ public class PlayerMusicManager {
      */
     public void init(Context context) {
         this.context = context;
+        EventBus.getDefault().register(this);
         androidPlayer = new AndroidPlayer(context);
         spotifyPlayer = new SpotifyPlayer(context);
         deezerPlayer = new DeezerPlayer(context);
         playerNotification = new PlayerNotification(context);
-        EventBus.getDefault().register(this);
-        vlcPlayer = new VLCPlayer();
+        vlcPlayer = new VLCPlayer(context);
         trackPositionHandler = new Handler();
     }
 

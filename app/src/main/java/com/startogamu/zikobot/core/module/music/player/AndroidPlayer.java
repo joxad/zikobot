@@ -34,15 +34,13 @@ public class AndroidPlayer implements IMusicPlayer {
 
     @Override
     public void init() {
-        initMediaPlayer(context, () -> {
-            Logger.d("FIRST INIT MEDIA PLAYER");
-        });
+@        initMediaPlayer(context);
     }
 
     /***
      * @param context
      */
-    private void initMediaPlayer(Context context, final IMediaPlayer iMediaPlayer) {
+    private void initMediaPlayer(Context context) {
         musicConnection = new ServiceConnection() {
 
             @Override
@@ -57,7 +55,6 @@ public class AndroidPlayer implements IMusicPlayer {
                 });
                 //pass list
                 mediaPlayerServiceBound = true;
-                iMediaPlayer.onInit();
             }
 
             @Override
@@ -77,10 +74,7 @@ public class AndroidPlayer implements IMusicPlayer {
     @Override
     public void play(String ref) {
         if (mediaPlayerService == null) {
-            initMediaPlayer(context, () -> {
-                Logger.d("REINIT INIT MEDIA PLAYER");
-                play(ref);
-            });
+            initMediaPlayer(context);
         } else {
             mediaPlayerService.playUrlSong(ref);
         }
@@ -122,8 +116,6 @@ public class AndroidPlayer implements IMusicPlayer {
     }
 
 
-    public interface IMediaPlayer {
-        void onInit();
-    }
+
 
 }

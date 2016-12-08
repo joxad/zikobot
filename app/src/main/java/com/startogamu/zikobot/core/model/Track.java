@@ -105,7 +105,7 @@ public class Track extends BaseModel {
         track.setImageUrl(deezerTrack.getAlbum().getMediumImageUrl());
         track.setArtistName(deezerTrack.getArtist().getName());
         track.setName(deezerTrack.getTitle());
-        track.setDuration(deezerTrack.getDuration());
+        track.setDuration(deezerTrack.getDuration()*1000);
         return track;
     }
 

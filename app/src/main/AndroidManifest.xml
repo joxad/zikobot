@@ -198,6 +198,8 @@
         </receiver>
 
         <service android:name=".core.service.MediaPlayerService" />
+        <service android:name=".core.service.VLCMediaPlayerService" />
+
         <service android:name=".localnetwork.LocalNetworkDiscoveryService" />
 
         <meta-data

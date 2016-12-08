@@ -156,6 +156,8 @@ public class PlayerVM extends BaseObservable implements IVM {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceive(TrackChangeEvent trackChangeEvent) {
         updateLists();
+        updateProgress((int) trackChangeEvent.getTrack().getDuration());
+
         notifyChange();
         //binding.progress.setm
         LyricsManager.getInstance().search(trackChangeEvent.getTrack().getArtistName(),
@@ -165,7 +167,6 @@ public class PlayerVM extends BaseObservable implements IVM {
             currentTrackLyrics.set(throwable.getLocalizedMessage());
         });
         binding.vpPlayer.setCurrentItem(playerMusicManager.getCurrentSong(), true);
-        updateProgress((int) trackChangeEvent.getTrack().getDuration());
     }
 
 

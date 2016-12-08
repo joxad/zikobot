@@ -10,12 +10,12 @@ import com.orhanobut.logger.Logger;
 public abstract class SimplifiedPlayerListener implements PlayerWrapperListener {
     @Override
     public void onAllTracksEnded() {
-
+        Logger.d("End");
     }
 
     @Override
     public void onPlayTrack(PlayableEntity playableEntity) {
-
+        Logger.d(playableEntity.toString());
     }
 
     @Override
@@ -23,6 +23,6 @@ public abstract class SimplifiedPlayerListener implements PlayerWrapperListener 
 
     @Override
     public void onRequestException(Exception e, Object o) {
-
+        Logger.e(e.getLocalizedMessage());
     }
 }
