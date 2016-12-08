@@ -74,6 +74,7 @@ public class Track extends BaseModel {
     public static Track from(LocalTrack localTrack) {
         Track track = new Track();
         track.setType(TYPE.LOCAL);
+        track.setId(localTrack.getId());
         track.setRef(localTrack.getData());
         track.setImageUrl(localTrack.getArtPath());
         track.setArtistName(localTrack.getArtist());

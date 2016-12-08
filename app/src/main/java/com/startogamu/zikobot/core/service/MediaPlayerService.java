@@ -54,7 +54,32 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         mediaPlayer.prepareAsync();
     }
 
+    public void playSong(Uri uri) {
+        //play
+        mediaPlayer.reset();
+        //set the data source
 
+        if (uri.toString().contains("m4a")) {
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(uri.getPath());
+                mediaPlayer.setDataSource(fis.getFD());
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // set mediaplayer data source to file descriptor of input stream
+        } else {
+            try {
+                mediaPlayer.setDataSource(getApplicationContext(), uri);
+            } catch (Exception e) {
+                Log.e(MediaPlayerService.class.getSimpleName(), "Error setting data source", e);
+            }
+        }
+        mediaPlayer.prepareAsync();
+    }
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {

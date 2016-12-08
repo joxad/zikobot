@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.IBinder;
 
 import com.orhanobut.logger.Logger;
@@ -34,7 +35,7 @@ public class AndroidPlayer implements IMusicPlayer {
 
     @Override
     public void init() {
-@        initMediaPlayer(context);
+        initMediaPlayer(context);
     }
 
     /***
@@ -71,6 +72,13 @@ public class AndroidPlayer implements IMusicPlayer {
     }
 
 
+    public void play(Uri ref) {
+        if (mediaPlayerService == null) {
+            initMediaPlayer(context);
+        } else {
+            mediaPlayerService.playSong(ref);
+        }
+    }
     @Override
     public void play(String ref) {
         if (mediaPlayerService == null) {

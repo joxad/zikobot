@@ -1,5 +1,6 @@
 package com.startogamu.zikobot.core.module.music;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.os.Handler;
 
@@ -12,6 +13,7 @@ import com.startogamu.zikobot.core.event.player.EventNextTrack;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.event.player.EventStopPlayer;
 import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.core.module.music.player.AndroidPlayer;
@@ -155,7 +157,7 @@ public class PlayerMusicManager {
         currentType = model.getType();
         switch (model.getType()) {
             case TYPE.LOCAL:
-                currentPlayer = vlcPlayer;
+                currentPlayer = androidPlayer;
                 break;
             case TYPE.SPOTIFY:
                 currentPlayer = spotifyPlayer;
