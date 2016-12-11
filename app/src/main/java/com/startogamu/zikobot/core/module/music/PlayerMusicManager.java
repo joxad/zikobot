@@ -159,7 +159,7 @@ public class PlayerMusicManager {
         currentType = model.getType();
         switch (model.getType()) {
             case TYPE.LOCAL:
-                currentPlayer = exoPlayerWrapper;
+                currentPlayer = androidPlayer;
                 break;
             case TYPE.SPOTIFY:
                 currentPlayer = spotifyPlayer;
