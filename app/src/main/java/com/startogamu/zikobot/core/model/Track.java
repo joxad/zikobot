@@ -68,6 +68,9 @@ public class Track extends BaseModel {
     public ForeignKeyContainer<Alarm> alarmForeignKeyContainer;
 
     public Track() {
+        setType(TYPE.LOCAL);
+        setArtistName("Loading");
+        setName("Loading");
     }
 
 

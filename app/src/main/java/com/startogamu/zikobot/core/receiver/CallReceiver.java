@@ -2,8 +2,6 @@ package com.startogamu.zikobot.core.receiver;
 
 import android.content.Context;
 
-import com.startogamu.zikobot.core.module.music.PlayerMusicManager;
-
 import java.util.Date;
 
 /**
@@ -14,7 +12,7 @@ public class CallReceiver extends PhonecallReceiver {
 
     @Override
     protected void onIncomingCallReceived(Context ctx, String number, Date start) {
-        PlayerMusicManager.getInstance().pause();
+       // PlayerMusicManager.getInstance().pause();
     }
 
     @Override
@@ -29,13 +27,13 @@ public class CallReceiver extends PhonecallReceiver {
 
     @Override
     protected void onOutgoingCallStarted(Context ctx, String number, Date start) {
-        PlayerMusicManager.getInstance().pause();
+     //   PlayerMusicManager.getInstance().pause();
 
     }
 
     @Override
     protected void onOutgoingCallEnded(Context ctx, String number, Date start, Date end) {
-        PlayerMusicManager.getInstance().resume();
+      //  PlayerMusicManager.getInstance().resume();
     }
 
     @Override

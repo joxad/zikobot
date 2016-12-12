@@ -9,11 +9,11 @@ import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.alarm.AlarmTrackManager;
 import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.event.player.EventShowTab;
-import com.startogamu.zikobot.alarm.AlarmTrackManager;
 import com.startogamu.zikobot.core.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
@@ -85,7 +85,7 @@ public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickL
      * @param view
      */
     public void onTrackPlay(View view) {
-        EventBus.getDefault().post(new EventPlayTrack(this));
+       EventBus.getDefault().post(new EventPlayTrack(this));
     }
 
     public void select() {
@@ -123,6 +123,10 @@ public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickL
                 break;
         }
         return false;
+    }
+
+    public String getRef() {
+        return model.getRef();
     }
 
 

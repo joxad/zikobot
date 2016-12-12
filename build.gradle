@@ -32,6 +32,7 @@ allprojects {
         maven { url "http://dl.bintray.com/pixplicity/maven" }
         maven { url "https://jitpack.io" }
         maven { url 'https://maven.fabric.io/public' }
+        maven { url 'https://mvn.jwplayer.com/content/repositories/releases/'}
 
         flatDir {
             dirs 'libs'

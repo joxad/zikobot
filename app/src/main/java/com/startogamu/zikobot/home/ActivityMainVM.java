@@ -12,7 +12,6 @@ import com.startogamu.zikobot.core.event.EventShowMessage;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.fragmentmanager.NavigationManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.localnetwork.FragmentLocalNetwork;
 import com.startogamu.zikobot.core.module.spotify_auth.manager.SpotifyAuthManager;
@@ -23,7 +22,7 @@ import com.startogamu.zikobot.artist.FragmentLocalArtists;
 import com.startogamu.zikobot.localtracks.FragmentLocalTracks;
 import com.startogamu.zikobot.soundcloud.FragmentSoundCloudPlaylists;
 import com.startogamu.zikobot.spotify.FragmentSpotifyPlaylists;
-
+import com.startogamu.zikobot.player.PlayerVM;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -107,7 +106,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      *
      */
     private void initPlayerVM() {
-        playerVM = new PlayerVM(activity, binding.viewPlayer);
+        playerVM = new PlayerVM(activity);
     }
 
     /**
@@ -143,18 +142,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
             tabAdapter.addFragment(activity.getString(R.string.activity_music_deezer), FragmentDeezerPlaylists.newInstance());
         }
         tabAdapter.notifyDataSetChanged();
-
-/*TODO test play from other app
-        if (activity.getIntent().getData() != null) {
-            Uri uri = activity.getIntent().getData();
-            ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList<>();
-            Track track = new Track();
-            track.setType(TYPE.LOCAL);
-            track.setName(uri.getLastPathSegment());
-            track.setRef(uri.getEncodedPath());
-            trackVMs.add(new TrackVM(activity, track));
-            EventBus.getDefault().post(new EventAddTrackToPlayer(trackVMs));
-        }*/
     }
 
     @Subscribe
@@ -192,10 +179,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     protected boolean onBackPressed() {
-        if (playerVM.isExpanded.get()) {
-            playerVM.close();
-            return false;
-        }
         return super.onBackPressed();
     }
 

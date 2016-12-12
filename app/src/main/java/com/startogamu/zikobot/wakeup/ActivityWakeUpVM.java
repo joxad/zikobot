@@ -7,18 +7,14 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.joxad.android_easy_spotify.SpotifyPlayerManager;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.alarm.AlarmVM;
 import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
-import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AnimationEndListener;
-import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.ActivityWakeUpBinding;
 import com.startogamu.zikobot.core.module.mock.Mock;
-import com.startogamu.zikobot.core.module.music.PlayerMusicManager;
 import com.startogamu.zikobot.core.model.Alarm;
 import com.startogamu.zikobot.localtracks.TrackVM;
 
@@ -44,7 +40,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     public AlarmVM alarmVM;
     public TrackVM trackVM;
 
-    PlayerMusicManager playerMusicManager;
 
     /***
      * @param activity
@@ -97,9 +92,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      * @param alarm
      */
     private void startAlarm(Alarm alarm) {
-        playerMusicManager = PlayerMusicManager.getInstance();
-        playerMusicManager.startAlarm(alarm);
-        rotateCD();
+       rotateCD();
     }
 
     /**
@@ -118,7 +111,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      * @param view
      */
     public void stop(View view) {
-        playerMusicManager.stop();
         activity.finish();
     }
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.orhanobut.logger.Logger;
-import com.startogamu.zikobot.core.module.music.PlayerMusicManager;
 
 
 /**
@@ -14,17 +13,14 @@ import com.startogamu.zikobot.core.module.music.PlayerMusicManager;
 public class NotificationPauseResumeReceiver extends BroadcastReceiver {
 
     public static final String TAG = NotificationPauseResumeReceiver.class.getSimpleName();
-    private final PlayerMusicManager playerMusicManager;
 
     public NotificationPauseResumeReceiver() {
         super();
-        playerMusicManager = PlayerMusicManager.getInstance();
 
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        playerMusicManager.playOrResume();
         Logger.d(TAG);
     }
 

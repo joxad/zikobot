@@ -74,7 +74,7 @@
 
         <include
             android:id="@+id/view_player"
-            layout="@layout/view_player"
+            layout="@layout/view_player_simple"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
@@ -89,14 +89,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="@{activityMainVM.playerVM.trackVMs.size() >0  ?@dimen/margin_player : @dimen/activity_vertical_margin }"
             android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_vertical_margin"
-            app:isHiding="@{activityMainVM.playerVM.isExpanded}"
             app:layout_behavior="com.startogamu.zikobot.core.viewutils.ScrollAwareFABBehavior"
             android:onClick="@{activityMainVM.fabClicked}"
             android:src="@drawable/ic_search" />
-
+<!--            android:layout_marginBottom="@{activityMainVM.playerVM.trackVMs.size() >0  ?@dimen/margin_player : @dimen/activity_vertical_margin }"
+-->
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>

@@ -16,7 +16,7 @@ import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudTrack;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.localtracks.TrackVM;
-import com.startogamu.zikobot.home.PlayerVM;
+import com.startogamu.zikobot.player.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -70,7 +70,7 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
      */
 
     private void initPlayerVM() {
-        playerVM = new PlayerVM(activity, binding.viewPlayer);
+        playerVM = new PlayerVM(activity);
     }
 
 
@@ -121,10 +121,7 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
 
     @Override
     protected boolean onBackPressed() {
-        if (playerVM.isExpanded.get()) {
-            playerVM.close();
-            return false;
-        }
+
         return super.onBackPressed();
     }
 }

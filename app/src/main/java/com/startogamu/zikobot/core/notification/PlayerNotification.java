@@ -13,7 +13,6 @@ import android.widget.RemoteViews;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.NotificationTarget;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.module.music.PlayerMusicManager;
 import com.startogamu.zikobot.core.receiver.ClearPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.NextPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.NotificationPauseResumeReceiver;

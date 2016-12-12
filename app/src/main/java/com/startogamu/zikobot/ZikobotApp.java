@@ -10,13 +10,11 @@ import com.orhanobut.logger.Logger;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
-import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 
 import com.startogamu.zikobot.core.module.localmusic.manager.LocalMusicManager;
 import com.startogamu.zikobot.core.module.deezer.DeezerManager;
 import com.startogamu.zikobot.core.module.lyrics.manager.LyricsManager;
-import com.startogamu.zikobot.core.module.music.PlayerMusicManager;
 import com.startogamu.zikobot.alarm.AlarmManager;
 import com.startogamu.zikobot.core.module.soundcloud.manager.SoundCloudApiManager;
 import com.startogamu.zikobot.core.module.spotify_api.manager.SpotifyApiManager;
@@ -37,7 +35,6 @@ public class ZikobotApp extends Application {
         IntentManager.init(this);
         DeezerManager.getInstance().init(this);
         SpotifyAuthManager.getInstance().init(this);
-        PlayerMusicManager.getInstance().init(this);
         SoundCloudApiManager.getInstance().init(this);
         SpotifyApiManager.getInstance().init(this);
         LocalMusicManager.getInstance().init(this);

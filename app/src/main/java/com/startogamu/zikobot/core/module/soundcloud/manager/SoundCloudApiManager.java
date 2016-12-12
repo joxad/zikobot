@@ -3,7 +3,6 @@ package com.startogamu.zikobot.core.module.soundcloud.manager;
 import android.content.Context;
 
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.module.music.PlayerMusicManager;
 import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudToken;
 import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudTrack;

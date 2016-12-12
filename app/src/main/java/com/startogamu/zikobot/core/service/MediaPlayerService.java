@@ -47,7 +47,21 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnPrepare
         mediaPlayer.reset();
         //set the data source
         try {
-            mediaPlayer.setDataSource(url);
+            if (url.toString().contains("m4a")) {
+                FileInputStream fis = null;
+                try {
+                    fis = new FileInputStream(url);
+                    mediaPlayer.setDataSource(fis.getFD());
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // set mediaplayer data source to file descriptor of input stream
+            } else {
+                mediaPlayer.setDataSource(url);
+            }
         } catch (Exception e) {
             Log.e(MediaPlayerService.class.getSimpleName(), "Error setting data source", e);
         }

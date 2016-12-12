@@ -32,7 +32,9 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/ZikoboTheme.NoActionBar">
-
+        <meta-data
+            android:name="JW_LICENSE_KEY"
+            android:value="RYXW/Fr8BoYQFR9LwbharWAIcpwWpc5E9JPBGQ==" />
         <activity
             android:name=".home.ActivityMain"
             android:screenOrientation="portrait">
@@ -197,10 +199,7 @@
                 android:resource="@xml/widget_info_next_alarm_clock" />
         </receiver>
 
-        <service android:name=".core.service.MediaPlayerService" />
-        <service android:name=".core.service.VLCMediaPlayerService" />
-
-        <service android:name=".localnetwork.LocalNetworkDiscoveryService" />
+        <service android:name=".player.PlayerService"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"

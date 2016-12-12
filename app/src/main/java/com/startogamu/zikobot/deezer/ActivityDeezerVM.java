@@ -7,16 +7,16 @@ import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.model.Track;
+import com.startogamu.zikobot.core.module.deezer.DeezerManager;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivityDeezerBinding;
-import com.startogamu.zikobot.core.module.deezer.DeezerManager;
-import com.startogamu.zikobot.core.model.Track;
-import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.localtracks.TrackVM;
-import com.startogamu.zikobot.home.PlayerVM;
+import com.startogamu.zikobot.player.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -68,7 +68,7 @@ public class ActivityDeezerVM extends ActivityBaseVM<ActivityDeezer, ActivityDee
      */
 
     private void initPlayerVM() {
-        playerVM = new PlayerVM(activity, binding.viewPlayer);
+        playerVM = new PlayerVM(activity);
     }
 
 
@@ -125,10 +125,7 @@ public class ActivityDeezerVM extends ActivityBaseVM<ActivityDeezer, ActivityDee
 
     @Override
     protected boolean onBackPressed() {
-        if (playerVM.isExpanded.get()) {
-            playerVM.close();
-            return false;
-        }
+
         return super.onBackPressed();
     }
 }

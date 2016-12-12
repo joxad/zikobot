@@ -82,7 +82,7 @@
 
             <include
                 android:id="@+id/view_player"
-                layout="@layout/view_player"
+                layout="@layout/view_player_simple"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"

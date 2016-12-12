@@ -22,7 +22,7 @@ import com.startogamu.zikobot.core.module.spotify_api.model.SpotifyPlaylistItem;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
 import com.startogamu.zikobot.localtracks.TrackVM;
-import com.startogamu.zikobot.home.PlayerVM;
+import com.startogamu.zikobot.player.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -77,7 +77,7 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
      */
 
     private void initPlayerVM() {
-        playerVM = new PlayerVM(activity, binding.viewPlayer);
+        playerVM = new PlayerVM(activity);
     }
 
 
@@ -148,10 +148,7 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
 
     @Override
     protected boolean onBackPressed() {
-        if (playerVM.isExpanded.get()) {
-            playerVM.close();
-            return false;
-        }
+
         return super.onBackPressed();
     }
 }

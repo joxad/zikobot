@@ -11,7 +11,7 @@
 
         <variable
             name="playerVM"
-            type="com.startogamu.zikobot.home.PlayerVM" />
+            type="com.startogamu.zikobot.player.PlayerVM" />
     </data>
 
     <LinearLayout
@@ -70,9 +70,7 @@
                 android:id="@+id/iv_play"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/item_play_size"
-                android:layout_weight="1"
-                android:onClick="@{playerVM.onPlayPauseClicked}"
-                app:imageRes="@{playerVM.imageState}" />
+                android:layout_weight="1" />
 
 
             <ImageView
