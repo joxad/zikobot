@@ -68,11 +68,6 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
                 loadLocalMusic(15, totalItemsCount);
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             updateMessage(fragment.getString(R.string.permission_local));
             binding.zmv.setOnClickListener(v -> askPermission());
@@ -80,6 +75,12 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
         }
         items.clear();
         loadLocalMusic(15, 0);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     public void onClick(View view) {

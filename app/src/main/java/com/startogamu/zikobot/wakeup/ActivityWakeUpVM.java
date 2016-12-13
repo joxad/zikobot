@@ -2,6 +2,7 @@ package com.startogamu.zikobot.wakeup;
 
 import android.animation.Animator;
 import android.content.Context;
+import android.databinding.ObservableArrayList;
 import android.media.AudioManager;
 import android.view.View;
 import android.view.WindowManager;
@@ -10,16 +11,17 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.alarm.AlarmVM;
-import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.model.Alarm;
+import com.startogamu.zikobot.core.model.Track;
+import com.startogamu.zikobot.core.module.mock.Mock;
 import com.startogamu.zikobot.core.utils.AnimationEndListener;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.ActivityWakeUpBinding;
-import com.startogamu.zikobot.core.module.mock.Mock;
-import com.startogamu.zikobot.core.model.Alarm;
 import com.startogamu.zikobot.localtracks.TrackVM;
+import com.startogamu.zikobot.player.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -34,7 +36,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     private static final int DELAY = 10;//MS
     Alarm alarm;
     AudioManager am;
-
+    PlayerVM playerVM;
 
     int rotation = ROTATION;
     public AlarmVM alarmVM;
@@ -53,10 +55,11 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     @Override
     public void onCreate() {
         EventBus.getDefault().register(this);
+        playerVM = new PlayerVM(activity);
         am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
-        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON|
-                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|
-                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED|
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 //For Normal mode
         am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
@@ -82,17 +85,22 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         startAlarm(alarm);
     }
 
-    @Subscribe
-    public void onReceived(TrackChangeEvent trackChangeEvent) {
-        trackVM.updateTrack(trackChangeEvent.getTrack());
+    @Override
+    public void onResume() {
+        super.onResume();
+        playerVM.onResume();
     }
-
 
     /**
      * @param alarm
      */
     private void startAlarm(Alarm alarm) {
-       rotateCD();
+        ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList<>();
+        for (Track track : alarm.getTracks()) {
+            trackVMs.add(new TrackVM(activity, track));
+        }
+        EventBus.getDefault().post(new EventAddTrackToPlayer(trackVMs));
+        rotateCD();
     }
 
     /**
@@ -125,6 +133,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     @Override
     public void onPause() {
         super.onPause();
+        playerVM.onPause();
         EventBus.getDefault().unregister(this);
     }
 

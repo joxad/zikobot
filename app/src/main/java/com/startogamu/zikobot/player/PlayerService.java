@@ -7,8 +7,12 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.orhanobut.logger.Logger;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
+import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.core.module.music.player.IMusicPlayer;
+import com.startogamu.zikobot.core.notification.PlayerNotification;
 import com.startogamu.zikobot.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,9 +30,8 @@ public class PlayerService extends Service implements IMusicPlayer {
     public ObservableArrayList<TrackVM> trackVMs;
     public TrackVM currentTrackVM;
     private MediaPlayer vlcPlayer;
-
-
-
+    PlayerNotification playerNotification;
+    private int currentIndex = 0;
     LibVLC libVLC;
     private final IBinder musicBind = new PlayerService.PlayerBinder();
 
@@ -61,12 +64,44 @@ public class PlayerService extends Service implements IMusicPlayer {
     public void init() {
         libVLC = new LibVLC();
         vlcPlayer = new MediaPlayer(libVLC);
+        vlcPlayer.setEventListener(new MediaPlayer.EventListener() {
+            @Override
+            public void onEvent(MediaPlayer.Event event) {
+                switch (event.type) {
+                    case MediaPlayer.Event.EncounteredError:
+                        Logger.d(event.toString());
+                        break;
+                    case MediaPlayer.Event.MediaChanged:
+                        Logger.d("VLC Media changed");
+                        break;
+                    case MediaPlayer.Event.EndReached:
+                        Logger.d("VLOC Media ended");
+                        next();
+                        break;
+                }
+            }
+        });
+        playerNotification = new PlayerNotification(this);
     }
 
     @Subscribe
     public void onEvent(EventPlayTrack eventPlayTrack) {
-        play(eventPlayTrack.getTrack().getRef());
+        currentTrackVM = eventPlayTrack.getTrack();
+        play(currentTrackVM.getRef());
+        playerNotification.show(currentTrackVM.getModel());
+        EventBus.getDefault().post(new TrackChangeEvent());
     }
+
+    @Subscribe
+    public void onEvent(EventAddTrackToPlayer eventPlayTrack) {
+        trackVMs = eventPlayTrack.getItems();
+        currentIndex = 0;
+        currentTrackVM = trackVMs.get(currentIndex);
+        play(currentTrackVM.getRef());
+        playerNotification.show(currentTrackVM.getModel());
+        EventBus.getDefault().post(new TrackChangeEvent());
+    }
+
 
     @Override
     public void play(String ref) {
@@ -101,19 +136,28 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     @Override
     public void next() {
-        vlcPlayer.nextChapter();
+        currentIndex++;
+        if (currentIndex < trackVMs.size()) {
+            currentTrackVM = trackVMs.get(currentIndex);
+            play(currentTrackVM.getRef());
+            playerNotification.show(currentTrackVM.getModel());
+            EventBus.getDefault().post(new TrackChangeEvent());
+        }
     }
+
+
 
 
     @Override
     public boolean onUnbind(Intent intent) {
-        vlcPlayer.release();
         return false;
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         EventBus.getDefault().unregister(this);
+        vlcPlayer.release();
+        super.onDestroy();
+
     }
 }
