@@ -88,7 +88,6 @@ public class PlayerService extends Service implements IMusicPlayer {
     public void onEvent(EventPlayTrack eventPlayTrack) {
         currentTrackVM = eventPlayTrack.getTrack();
         play(currentTrackVM.getRef());
-        playerNotification.show(currentTrackVM.getModel());
         EventBus.getDefault().post(new TrackChangeEvent());
     }
 
@@ -98,7 +97,6 @@ public class PlayerService extends Service implements IMusicPlayer {
         currentIndex = 0;
         currentTrackVM = trackVMs.get(currentIndex);
         play(currentTrackVM.getRef());
-        playerNotification.show(currentTrackVM.getModel());
         EventBus.getDefault().post(new TrackChangeEvent());
     }
 
@@ -140,21 +138,22 @@ public class PlayerService extends Service implements IMusicPlayer {
         if (currentIndex < trackVMs.size()) {
             currentTrackVM = trackVMs.get(currentIndex);
             play(currentTrackVM.getRef());
-            playerNotification.show(currentTrackVM.getModel());
             EventBus.getDefault().post(new TrackChangeEvent());
         }
     }
 
 
-
-
     @Override
     public boolean onUnbind(Intent intent) {
+        if (currentTrackVM != null) {
+            startForeground(playerNotification.getNotificationId(), playerNotification.show(currentTrackVM.getModel()));
+        }
         return false;
     }
 
     @Override
     public void onDestroy() {
+        //TODO start foregroundservice if current trackvm & tracks vms to handle
         EventBus.getDefault().unregister(this);
         vlcPlayer.release();
         super.onDestroy();

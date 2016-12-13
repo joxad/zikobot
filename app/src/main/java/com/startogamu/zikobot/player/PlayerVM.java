@@ -36,7 +36,8 @@ public class PlayerVM extends BaseObservable implements IVM {
     @Override
     public void onCreate() {
         intent = new Intent(activity, PlayerService.class);
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
 
     }
 

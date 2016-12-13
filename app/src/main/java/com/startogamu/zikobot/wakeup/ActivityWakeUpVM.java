@@ -54,7 +54,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
 
     @Override
     public void onCreate() {
-        EventBus.getDefault().register(this);
         playerVM = new PlayerVM(activity);
         am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
@@ -134,7 +133,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     public void onPause() {
         super.onPause();
         playerVM.onPause();
-        EventBus.getDefault().unregister(this);
     }
 
 }

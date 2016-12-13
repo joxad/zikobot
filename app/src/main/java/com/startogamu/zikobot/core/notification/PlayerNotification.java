@@ -19,11 +19,13 @@ import com.startogamu.zikobot.core.receiver.NotificationPauseResumeReceiver;
 import com.startogamu.zikobot.core.receiver.PreviousPlayerReceiver;
 import com.startogamu.zikobot.core.model.Track;
 
+import lombok.Getter;
+
 /**
  * Created by josh on 13/06/16.
  */
 public class PlayerNotification {
-
+    @Getter
     private int notificationId = 42;
 
     private Context context;
@@ -42,7 +44,7 @@ public class PlayerNotification {
     /***
      * @param track
      */
-    public void show(final Track track) {
+    public Notification show(final Track track) {
         // prepare intent which is triggered if the
 // notification is selected
 
@@ -68,7 +70,7 @@ public class PlayerNotification {
         loadSmallImage(notification, track);
         loadLargeImage(notification, track);
 
-        notificationManager.notify(notificationId, notification);
+        return notification;
 
     }
 
