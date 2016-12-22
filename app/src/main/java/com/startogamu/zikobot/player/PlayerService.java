@@ -3,6 +3,7 @@ package com.startogamu.zikobot.player;
 import android.app.Service;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -33,6 +34,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     PlayerNotification playerNotification;
     private int currentIndex = 0;
     LibVLC libVLC;
+    public ObservableBoolean playing = new ObservableBoolean(false);
     private final IBinder musicBind = new PlayerService.PlayerBinder();
 
     public class PlayerBinder extends Binder {
@@ -105,21 +107,28 @@ public class PlayerService extends Service implements IMusicPlayer {
     public void play(String ref) {
         vlcPlayer.setMedia(new Media(libVLC, ref));
         vlcPlayer.play();
+        playing.set(true);
     }
 
     @Override
     public void pause() {
         vlcPlayer.pause();
+        playing.set(false);
+
     }
 
     @Override
     public void resume() {
         vlcPlayer.play();
+        playing.set(true);
+
     }
 
     @Override
     public void stop() {
         vlcPlayer.stop();
+        playing.set(false);
+
     }
 
     @Override
@@ -157,6 +166,6 @@ public class PlayerService extends Service implements IMusicPlayer {
         EventBus.getDefault().unregister(this);
         vlcPlayer.release();
         super.onDestroy();
-
     }
+
 }

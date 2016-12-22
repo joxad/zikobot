@@ -44,7 +44,6 @@ public class PlayerVM extends BaseObservable implements IVM {
     @Override
     public void onResume() {
         if (isBound) return;
-
         musicConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -88,5 +87,10 @@ public class PlayerVM extends BaseObservable implements IVM {
         if (isBound)
             return playerService.currentTrackVM;
         return null;
+    }
+
+    @Bindable
+    public boolean isPlaying() {
+        return playerService.playing.get();
     }
 }
