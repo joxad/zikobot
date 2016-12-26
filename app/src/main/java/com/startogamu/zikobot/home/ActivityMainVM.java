@@ -52,7 +52,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         initSpotify();
         initNavigationManager();
         initTabLayout();
-        initPlayerVM();
         initToolbar();
         initMenu();
 
@@ -102,12 +101,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         activity.setSupportActionBar(binding.toolbar);
     }
 
-    /***
-     *
-     */
-    private void initPlayerVM() {
-        playerVM = new PlayerVM(activity);
-    }
 
     /**
      * Init the action on the toolbar menu
@@ -130,7 +123,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     public void onResume() {
         super.onResume();
         navigationManager.onResume();
-        playerVM.onResume();
         EventBus.getDefault().register(this);
 
         if (AppPrefs.spotifyUser() != null)
@@ -167,7 +159,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     @Override
     public void onPause() {
         super.onPause();
-        playerVM.onPause();
         navigationManager.onPause();
         EventBus.getDefault().unregister(this);
     }
@@ -176,11 +167,5 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         navigationManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
-    @Override
-    protected boolean onBackPressed() {
-        return super.onBackPressed();
-    }
-
 
 }

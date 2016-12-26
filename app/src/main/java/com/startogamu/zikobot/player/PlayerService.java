@@ -28,7 +28,7 @@ import org.videolan.libvlc.MediaPlayer;
 
 public class PlayerService extends Service implements IMusicPlayer {
 
-    public ObservableArrayList<TrackVM> trackVMs;
+    public ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList<>();
     public TrackVM currentTrackVM;
     private MediaPlayer vlcPlayer;
     PlayerNotification playerNotification;
@@ -66,21 +66,18 @@ public class PlayerService extends Service implements IMusicPlayer {
     public void init() {
         libVLC = new LibVLC();
         vlcPlayer = new MediaPlayer(libVLC);
-        vlcPlayer.setEventListener(new MediaPlayer.EventListener() {
-            @Override
-            public void onEvent(MediaPlayer.Event event) {
-                switch (event.type) {
-                    case MediaPlayer.Event.EncounteredError:
-                        Logger.d(event.toString());
-                        break;
-                    case MediaPlayer.Event.MediaChanged:
-                        Logger.d("VLC Media changed");
-                        break;
-                    case MediaPlayer.Event.EndReached:
-                        Logger.d("VLOC Media ended");
-                        next();
-                        break;
-                }
+        vlcPlayer.setEventListener(event -> {
+            switch (event.type) {
+                case MediaPlayer.Event.EncounteredError:
+                    Logger.d(event.toString());
+                    break;
+                case MediaPlayer.Event.MediaChanged:
+                    Logger.d("VLC Media changed");
+                    break;
+                case MediaPlayer.Event.EndReached:
+                    Logger.d("VLOC Media ended");
+                    next();
+                    break;
             }
         });
         playerNotification = new PlayerNotification(this);
@@ -168,4 +165,7 @@ public class PlayerService extends Service implements IMusicPlayer {
         super.onDestroy();
     }
 
+    public boolean isEmpty() {
+        return trackVMs.isEmpty();
+    }
 }

@@ -98,7 +98,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
      */
 
     private void initPlayerVM() {
-        playerVM = new PlayerVM(activity);
+        playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
 
 

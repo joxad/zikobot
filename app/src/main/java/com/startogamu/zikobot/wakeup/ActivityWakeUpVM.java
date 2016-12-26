@@ -54,7 +54,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
 
     @Override
     public void onCreate() {
-        playerVM = new PlayerVM(activity);
+        playerVM = new PlayerVM(activity, null);//TODO create viewplayerbinding
         am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |

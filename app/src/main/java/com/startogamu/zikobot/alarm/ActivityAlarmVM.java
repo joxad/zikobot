@@ -117,7 +117,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      */
 
     private void initPlayerVM() {
-        playerVM = new PlayerVM(activity);
+        playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
 
 

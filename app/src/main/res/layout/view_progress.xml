@@ -66,13 +66,13 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_previous" />
 
-            <android.support.v7.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/iv_play"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/item_play_size"
-                android:layout_weight="1" />
-
-
+                android:layout_weight="1"
+                android:onClick="@{playerVM.playPause}"
+                android:src="@{playerVM.isPlaying ? @drawable/ic_pause : @drawable/ic_play_arrow, default = @drawable/ic_play_arrow}" />
             <ImageView
                 android:id="@+id/iv_next"
                 android:layout_width="0dp"

@@ -4,9 +4,14 @@
 
     <data>
 
+
+        <import
+            alias="v"
+            type="android.view.View" />
+
         <variable
             name="playerVM"
-            type="com.startogamu.zikobot.player.PlayerVM"/>
+            type="com.startogamu.zikobot.player.PlayerVM" />
 
         <variable
             name="trackVM"
@@ -16,7 +21,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/view_player_height"
+        android:visibility="@{playerVM.empty ? v.GONE: v.VISIBLE}">
 
         <ImageView
             android:id="@+id/iv_status"
@@ -26,7 +32,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="@dimen/margin_medium"
-            android:src="@{playerVM.isPlaying ? @drawable/ic_play_arrow : @drawable/ic_pause, default = @drawable/ic_play_arrow}" />
+            android:onClick="@{playerVM.playPause}"
+            android:src="@{playerVM.isPlaying ? @drawable/ic_pause : @drawable/ic_play_arrow, default = @drawable/ic_play_arrow}"
+            android:visibility="@{playerVM.isExpanded ? v.GONE:v.VISIBLE}" />
 
         <LinearLayout
             android:layout_width="match_parent"

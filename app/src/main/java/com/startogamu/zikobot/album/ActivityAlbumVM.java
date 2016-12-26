@@ -81,7 +81,7 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
      */
 
     private void initPlayerVM() {
-        playerVM = new PlayerVM(activity);
+        playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
 
 

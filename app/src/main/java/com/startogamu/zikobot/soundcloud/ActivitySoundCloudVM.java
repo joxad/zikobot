@@ -70,7 +70,7 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
      */
 
     private void initPlayerVM() {
-        playerVM = new PlayerVM(activity);
+        playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
 
 

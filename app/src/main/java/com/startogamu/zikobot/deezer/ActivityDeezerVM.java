@@ -68,7 +68,7 @@ public class ActivityDeezerVM extends ActivityBaseVM<ActivityDeezer, ActivityDee
      */
 
     private void initPlayerVM() {
-        playerVM = new PlayerVM(activity);
+        playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
 
 

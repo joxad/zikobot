@@ -77,7 +77,7 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
      */
 
     private void initPlayerVM() {
-        playerVM = new PlayerVM(activity);
+        playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
 
 
