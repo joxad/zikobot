@@ -19,14 +19,14 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
             android:theme="@style/AppTheme.AppBarOverlay">
 
 
@@ -57,30 +57,24 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewPager"
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <FrameLayout
-                android:id="@+id/container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true" />
         </RelativeLayout>
 
-        <FrameLayout
+        <android.support.v7.widget.CardView
             android:id="@+id/bottom"
+            app:cardElevation="16dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
-            app:behavior_hideable="false"
+            app:behavior_hideable="true"
             app:behavior_peekHeight="@dimen/view_player_height"
             app:layout_behavior="@string/bottom_sheet_behavior">
 
@@ -89,7 +83,7 @@
                 layout="@layout/view_player_simple"
                 app:playerVM="@{activityMainVM.playerVM}" />
 
-        </FrameLayout>
+        </android.support.v7.widget.CardView>
 
 
         <android.support.design.widget.FloatingActionButton
@@ -97,9 +91,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="@{activityMainVM.playerVM.empty ?  @dimen/activity_vertical_margin : @dimen/margin_player  }"
+            android:layout_marginBottom="@dimen/margin_player"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            app:fabSize="normal"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
+            app:layout_behavior="com.startogamu.zikobot.core.viewutils.ScrollAwareFABBehavior"
             android:onClick="@{activityMainVM.fabClicked}"
             android:src="@drawable/ic_search" />
 

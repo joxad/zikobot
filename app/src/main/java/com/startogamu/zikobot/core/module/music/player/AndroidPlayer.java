@@ -114,8 +114,13 @@ public class AndroidPlayer implements IMusicPlayer {
     }
 
     @Override
-    public float position() {
+    public int position() {
         return mediaPlayerService.getCurrentPosition();
+    }
+
+    @Override
+    public int positionMax() {
+        return 0;
     }
 
     @Override

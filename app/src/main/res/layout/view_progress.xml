@@ -32,6 +32,7 @@
                 android:id="@+id/tv_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{``+playerVM.seekBarValue}"
                 tools:text="1:00" />
 
             <TextView
@@ -40,12 +41,17 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:text="@{``+playerVM.positionMax}"
+
                 tools:text="3:OO" />
 
             <SeekBar
                 android:id="@+id/progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:progress="@{playerVM.seekBarValue}"
+                android:max="@{playerVM.positionMax}"
+                android:onProgressChanged="@{playerVM.onValueChanged}"
                 android:layout_below="@id/tv_duration" />
 
         </RelativeLayout>

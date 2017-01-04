@@ -10,6 +10,7 @@ public interface IMusicPlayer {
     void resume();
     void stop();
     void seekTo(int position);
-    float position();
+    int position();
+    int positionMax();
     void next();
 }

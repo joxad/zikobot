@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
+import com.startogamu.zikobot.core.event.player.EventPosition;
 import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.core.module.music.player.IMusicPlayer;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
@@ -36,6 +38,10 @@ public class PlayerService extends Service implements IMusicPlayer {
     LibVLC libVLC;
     public ObservableBoolean playing = new ObservableBoolean(false);
     private final IBinder musicBind = new PlayerService.PlayerBinder();
+    private int currentProgress = 0;
+    public static final int DELAY = 200;
+
+    private Handler timeHandler;
 
     public class PlayerBinder extends Binder {
         public PlayerService getService() {
@@ -81,11 +87,13 @@ public class PlayerService extends Service implements IMusicPlayer {
             }
         });
         playerNotification = new PlayerNotification(this);
+        timeHandler = new Handler();
     }
 
     @Subscribe
     public void onEvent(EventPlayTrack eventPlayTrack) {
         currentTrackVM = eventPlayTrack.getTrack();
+        trackVMs.add(currentTrackVM);
         play(currentTrackVM.getRef());
         EventBus.getDefault().post(new TrackChangeEvent());
     }
@@ -105,6 +113,16 @@ public class PlayerService extends Service implements IMusicPlayer {
         vlcPlayer.setMedia(new Media(libVLC, ref));
         vlcPlayer.play();
         playing.set(true);
+        runHandler();
+    }
+
+    private void runHandler() {
+        timeHandler.postDelayed(() -> {
+            if (playing.get())
+                currentProgress += DELAY;
+            EventBus.getDefault().post(new EventPosition(currentProgress));
+            runHandler();
+        }, DELAY);
     }
 
     @Override
@@ -125,7 +143,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     public void stop() {
         vlcPlayer.stop();
         playing.set(false);
-
+        currentProgress = 0;
     }
 
     @Override
@@ -134,8 +152,14 @@ public class PlayerService extends Service implements IMusicPlayer {
     }
 
     @Override
-    public float position() {
-        return vlcPlayer.getPosition();
+    public int position() {
+        return currentProgress;
+    }
+
+    @Override
+    public int positionMax() {
+        if (currentTrackVM==null)return 0;
+        return (int)currentTrackVM.getModel().getDuration();
     }
 
     @Override
@@ -147,7 +171,6 @@ public class PlayerService extends Service implements IMusicPlayer {
             EventBus.getDefault().post(new TrackChangeEvent());
         }
     }
-
 
     @Override
     public boolean onUnbind(Intent intent) {
@@ -165,7 +188,10 @@ public class PlayerService extends Service implements IMusicPlayer {
         super.onDestroy();
     }
 
+
     public boolean isEmpty() {
         return trackVMs.isEmpty();
     }
+
+
 }

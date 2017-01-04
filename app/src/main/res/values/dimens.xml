@@ -23,5 +23,5 @@
     <dimen name="item_play_size">36dp</dimen>
     <dimen name="padding_8">8dp</dimen>
     <dimen name="padding_16">16dp</dimen>
-    <dimen name="view_player_height">56dp</dimen>
+    <dimen name="view_player_height">64dp</dimen>
 </resources>

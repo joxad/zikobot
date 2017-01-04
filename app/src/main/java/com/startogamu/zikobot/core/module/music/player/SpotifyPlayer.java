@@ -87,8 +87,13 @@ public class SpotifyPlayer implements IMusicPlayer {
     }
 
     @Override
-    public float position() {
+    public int position() {
         return currentPosition;
+    }
+
+    @Override
+    public int positionMax() {
+        return 0;
     }
 
     @Override

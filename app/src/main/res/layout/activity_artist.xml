@@ -108,13 +108,21 @@
 
             </FrameLayout>
 
+            <android.support.v7.widget.CardView
+                android:id="@+id/bottom"
+                app:cardElevation="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                app:behavior_hideable="false"
+                app:behavior_peekHeight="@dimen/view_player_height"
+                app:layout_behavior="@string/bottom_sheet_behavior">
+
             <include
                 android:id="@+id/view_player"
                 layout="@layout/view_player_simple"
-                app:behavior_peekHeight="@dimen/playerHeight"
-                app:layout_behavior="@string/bottom_sheet_behavior"
                 app:playerVM="@{activityArtistVM.playerVM}" />
-
+                     </android.support.v7.widget.CardView>
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab_play"
                 android:layout_width="wrap_content"

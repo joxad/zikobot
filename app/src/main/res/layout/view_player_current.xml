@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -21,56 +22,74 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_player_height"
-        android:visibility="@{playerVM.empty ? v.GONE: v.VISIBLE}">
+        android:layout_height="@dimen/view_player_height">
 
-        <ImageView
-            android:id="@+id/iv_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/margin_medium"
-            android:onClick="@{playerVM.playPause}"
-            android:src="@{playerVM.isPlaying ? @drawable/ic_pause : @drawable/ic_play_arrow, default = @drawable/ic_play_arrow}"
-            android:visibility="@{playerVM.isExpanded ? v.GONE:v.VISIBLE}" />
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/iv_status"
-            android:layout_toStartOf="@id/iv_status"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:visibility="@{playerVM.empty ? v.GONE: v.VISIBLE}">
 
-
-            <LinearLayout
+            <ImageView
+                android:id="@+id/iv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_margin="@dimen/margin_medium"
-                android:orientation="vertical">
+                android:onClick="@{playerVM.playPause}"
+                android:src="@{playerVM.isPlaying ? @drawable/ic_pause : @drawable/ic_play_arrow, default = @drawable/ic_play_arrow}"
+                android:visibility="@{playerVM.isExpanded ? v.GONE:v.VISIBLE}" />
 
-                <TextView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/iv_status"
+                android:layout_toStartOf="@id/iv_status"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:lines="1"
-                    android:text="@{trackVM.name}"
-                    android:textSize="18sp"
-                    tools:text="Wonderwall" />
+                    android:layout_margin="@dimen/margin_medium"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:lines="1"
-                    android:text="@{trackVM.artistName}"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="16sp"
-                    tools:text="Oasis" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:lines="1"
+                        android:text="@{trackVM.name}"
+                        android:textSize="18sp"
+                        tools:text="Wonderwall" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:lines="1"
+                        android:text="@{trackVM.artistName}"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp"
+                        tools:text="Oasis" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{playerVM.empty ? v.VISIBLE: v.GONE}">
+
+            <com.startogamu.zikobot.core.viewutils.ZikobotMessageView
+                android:layout_width="250dp"
+                android:layout_marginTop="4dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="match_parent"
+                app:zmv_message="@string/tuto_select_track" />
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

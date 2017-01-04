@@ -85,8 +85,13 @@ public class DeezerPlayer implements IMusicPlayer {
     }
 
     @Override
-    public float position() {
-        return trackPlayer.getPosition();
+    public int position() {
+        return (int)trackPlayer.getPosition();
+    }
+
+    @Override
+    public int positionMax() {
+        return 0;
     }
 
 
