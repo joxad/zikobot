@@ -19,7 +19,9 @@ import android.widget.SeekBar;
 
 import com.joxad.easydatabinding.base.IVM;
 import com.startogamu.zikobot.BR;
+import com.startogamu.zikobot.core.event.player.EventNextTrack;
 import com.startogamu.zikobot.core.event.player.EventPosition;
+import com.startogamu.zikobot.core.event.player.EventPreviousTrack;
 import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.databinding.ViewPlayerSimpleBinding;
 import com.startogamu.zikobot.localtracks.TrackVM;
@@ -150,6 +152,14 @@ public class PlayerVM extends BaseObservable implements IVM {
     public int getPositionMax() {
         if (!isBound.get()) return 0;
         return playerService.positionMax();
+    }
+
+    public void next(View view) {
+        EventBus.getDefault().post(new EventNextTrack());
+    }
+
+    public void previous(View view) {
+        EventBus.getDefault().post(new EventPreviousTrack());
     }
 
     public void onValueChanged(SeekBar seekBar, int progresValue, boolean fromUser) {

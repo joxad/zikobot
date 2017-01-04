@@ -70,6 +70,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="@{playerVM.previous}"
                 android:src="@drawable/ic_previous" />
 
             <ImageView
@@ -84,6 +85,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="@{playerVM.next}"
                 android:src="@drawable/ic_next" />
         </LinearLayout>
 

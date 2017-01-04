@@ -20,7 +20,7 @@
     </data>
 
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="@dimen/view_player_height">
 
@@ -91,5 +91,5 @@
                 android:layout_height="match_parent"
                 app:zmv_message="@string/tuto_select_track" />
         </RelativeLayout>
-    </RelativeLayout>
+    </android.support.v7.widget.CardView>
 </layout>

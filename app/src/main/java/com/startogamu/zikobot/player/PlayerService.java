@@ -57,6 +57,7 @@ public class PlayerService extends Service implements IMusicPlayer {
         super.onCreate();
         EventBus.getDefault().register(this);
         init();
+        runHandler();
     }
 
     @Nullable
@@ -129,7 +130,8 @@ public class PlayerService extends Service implements IMusicPlayer {
         if (currentTrackVM != null) {
             startForeground(playerNotification.getNotificationId(), playerNotification.show(currentTrackVM.getModel()));
         }
-        runHandler();
+        currentProgress = 0;
+
     }
 
     private void runHandler() {
@@ -164,7 +166,9 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     @Override
     public void seekTo(int position) {
-        vlcPlayer.setPosition(position);
+        currentProgress = position;
+        float p = (float) position / (float) positionMax();
+        vlcPlayer.setPosition(p);
     }
 
     @Override
@@ -180,8 +184,8 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     @Override
     public void next() {
-        currentIndex++;
-        if (currentIndex < trackVMs.size()) {
+        if (currentIndex < trackVMs.size()-1) {
+            currentIndex++;
             currentTrackVM = trackVMs.get(currentIndex);
             play(currentTrackVM.getRef());
             EventBus.getDefault().post(new TrackChangeEvent());
@@ -190,8 +194,8 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     @Override
     public void previous() {
-        currentIndex--;
         if (currentIndex > 0) {
+            currentIndex--;
             currentTrackVM = trackVMs.get(currentIndex);
             play(currentTrackVM.getRef());
             EventBus.getDefault().post(new TrackChangeEvent());
