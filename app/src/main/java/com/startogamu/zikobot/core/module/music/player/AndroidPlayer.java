@@ -128,7 +128,10 @@ public class AndroidPlayer implements IMusicPlayer {
         EventBus.getDefault().post(new EventNextTrack());
     }
 
+    @Override
+    public void previous() {
 
+    }
 
 
 }

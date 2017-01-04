@@ -101,6 +101,11 @@ public class SpotifyPlayer implements IMusicPlayer {
         EventBus.getDefault().post(new EventNextTrack());
     }
 
+    @Override
+    public void previous() {
+
+    }
+
 
     PlayerNotificationCallback playerNotificationCallback = new PlayerNotificationCallback() {
         @Override

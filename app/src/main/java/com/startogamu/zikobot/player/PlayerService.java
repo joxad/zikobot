@@ -11,8 +11,11 @@ import android.support.annotation.Nullable;
 
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.event.player.EventNextTrack;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.event.player.EventPosition;
+import com.startogamu.zikobot.core.event.player.EventPreviousTrack;
+import com.startogamu.zikobot.core.event.player.EventStopPlayer;
 import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.core.module.music.player.IMusicPlayer;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
@@ -54,11 +57,6 @@ public class PlayerService extends Service implements IMusicPlayer {
         super.onCreate();
         EventBus.getDefault().register(this);
         init();
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_STICKY;
     }
 
     @Nullable
@@ -107,12 +105,30 @@ public class PlayerService extends Service implements IMusicPlayer {
         EventBus.getDefault().post(new TrackChangeEvent());
     }
 
+    @Subscribe
+    public void onEvent(EventStopPlayer eventStopPlayer) {
+        stopForeground(true);
+        stop();
+    }
+
+    @Subscribe
+    public void onEvent(EventNextTrack eventNextTrack) {
+        next();
+    }
+
+    @Subscribe
+    public void onEvent(EventPreviousTrack eventPreviousTrack) {
+        previous();
+    }
 
     @Override
     public void play(String ref) {
         vlcPlayer.setMedia(new Media(libVLC, ref));
         vlcPlayer.play();
         playing.set(true);
+        if (currentTrackVM != null) {
+            startForeground(playerNotification.getNotificationId(), playerNotification.show(currentTrackVM.getModel()));
+        }
         runHandler();
     }
 
@@ -158,8 +174,8 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     @Override
     public int positionMax() {
-        if (currentTrackVM==null)return 0;
-        return (int)currentTrackVM.getModel().getDuration();
+        if (currentTrackVM == null) return 0;
+        return (int) currentTrackVM.getModel().getDuration();
     }
 
     @Override
@@ -173,16 +189,23 @@ public class PlayerService extends Service implements IMusicPlayer {
     }
 
     @Override
-    public boolean onUnbind(Intent intent) {
-        if (currentTrackVM != null) {
-            startForeground(playerNotification.getNotificationId(), playerNotification.show(currentTrackVM.getModel()));
+    public void previous() {
+        currentIndex--;
+        if (currentIndex > 0) {
+            currentTrackVM = trackVMs.get(currentIndex);
+            play(currentTrackVM.getRef());
+            EventBus.getDefault().post(new TrackChangeEvent());
         }
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        stopForeground(true);
         return false;
     }
 
     @Override
     public void onDestroy() {
-        //TODO start foregroundservice if current trackvm & tracks vms to handle
         EventBus.getDefault().unregister(this);
         vlcPlayer.release();
         super.onDestroy();

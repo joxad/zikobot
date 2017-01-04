@@ -74,7 +74,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            app:behavior_hideable="true"
             app:behavior_peekHeight="@dimen/view_player_height"
             app:layout_behavior="@string/bottom_sheet_behavior">
 

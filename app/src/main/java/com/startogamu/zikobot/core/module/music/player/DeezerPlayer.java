@@ -99,4 +99,9 @@ public class DeezerPlayer implements IMusicPlayer {
     public void next() {
         EventBus.getDefault().post(new EventNextTrack());
     }
+
+    @Override
+    public void previous() {
+
+    }
 }

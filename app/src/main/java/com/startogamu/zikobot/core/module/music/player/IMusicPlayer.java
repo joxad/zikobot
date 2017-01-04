@@ -13,4 +13,5 @@ public interface IMusicPlayer {
     int position();
     int positionMax();
     void next();
+    void previous();
 }
