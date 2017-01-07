@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:layoutAnimation="@anim/grid_animation"
-            android:paddingBottom="@dimen/actionBarSizeNormal"
+            android:paddingBottom="@dimen/view_player_height"
             app:itemView="@{fragmentLocalTracksVM.itemView}"
             app:items="@{fragmentLocalTracksVM.items}"
             tools:listitem="@layout/item_alarm_track" />

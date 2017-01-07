@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.orhanobut.logger.Logger;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventNextTrack;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
@@ -91,18 +92,33 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     @Subscribe
     public void onEvent(EventPlayTrack eventPlayTrack) {
+        stopPreviousTrack();
         currentTrackVM = eventPlayTrack.getTrack();
         trackVMs.add(currentTrackVM);
-        play(currentTrackVM.getRef());
+        play(currentTrackVM);
+        EventBus.getDefault().post(new TrackChangeEvent());
+    }
+
+
+
+
+    @Subscribe
+    public void onEvent(EventAddTrackToPlayer eventPlayTrack) {
+        stopPreviousTrack();
+        trackVMs = eventPlayTrack.getItems();
+        currentIndex = 0;
+        currentTrackVM = trackVMs.get(currentIndex);
+        play(currentTrackVM);
         EventBus.getDefault().post(new TrackChangeEvent());
     }
 
     @Subscribe
-    public void onEvent(EventAddTrackToPlayer eventPlayTrack) {
-        trackVMs = eventPlayTrack.getItems();
+    public void onEvent(EventAddTrackToCurrent eventPlayTrack) {
+        stopPreviousTrack();
+        trackVMs.add(eventPlayTrack.getTrackVM());
         currentIndex = 0;
         currentTrackVM = trackVMs.get(currentIndex);
-        play(currentTrackVM.getRef());
+        play(currentTrackVM);
         EventBus.getDefault().post(new TrackChangeEvent());
     }
 
@@ -120,6 +136,15 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Subscribe
     public void onEvent(EventPreviousTrack eventPreviousTrack) {
         previous();
+    }
+
+    private void stopPreviousTrack() {
+        if (currentTrackVM != null)
+            currentTrackVM.isPlaying.set(false);
+    }
+    private void play(TrackVM currentTrackVM) {
+        currentTrackVM.isPlaying.set(true);
+        play(currentTrackVM.getRef());
     }
 
     @Override
@@ -184,7 +209,7 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     @Override
     public void next() {
-        if (currentIndex < trackVMs.size()-1) {
+        if (currentIndex < trackVMs.size() - 1) {
             currentIndex++;
             currentTrackVM = trackVMs.get(currentIndex);
             play(currentTrackVM.getRef());
