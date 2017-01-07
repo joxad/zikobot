@@ -224,7 +224,7 @@ public class PlayerService extends Service implements IMusicPlayer {
         if (currentIndex < trackVMs.size() - 1) {
             currentIndex++;
             currentTrackVM = trackVMs.get(currentIndex);
-            play(currentTrackVM.getRef());
+            play(currentTrackVM);
             EventBus.getDefault().post(new TrackChangeEvent());
         }
     }
@@ -234,7 +234,7 @@ public class PlayerService extends Service implements IMusicPlayer {
         if (currentIndex > 0) {
             currentIndex--;
             currentTrackVM = trackVMs.get(currentIndex);
-            play(currentTrackVM.getRef());
+            play(currentTrackVM);
             EventBus.getDefault().post(new TrackChangeEvent());
         }
     }
