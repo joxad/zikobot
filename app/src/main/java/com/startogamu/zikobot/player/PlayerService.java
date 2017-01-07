@@ -93,13 +93,22 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Subscribe
     public void onEvent(EventPlayTrack eventPlayTrack) {
         stopPreviousTrack();
-        currentTrackVM = eventPlayTrack.getTrack();
-        trackVMs.add(currentTrackVM);
+
+        boolean foundInCurrentList = false;
+        for (int i = 0; i < trackVMs.size(); i++) {
+            TrackVM trackVM = trackVMs.get(i);
+            if (trackVM.getModel().getId() == eventPlayTrack.getTrack().getModel().getId()) {
+                currentTrackVM = trackVM;
+                foundInCurrentList = true;
+            }
+        }
+        if (!foundInCurrentList) {
+            currentTrackVM = eventPlayTrack.getTrack();
+            trackVMs.add(currentTrackVM);
+        }
         play(currentTrackVM);
         EventBus.getDefault().post(new TrackChangeEvent());
     }
-
-
 
 
     @Subscribe
@@ -142,6 +151,7 @@ public class PlayerService extends Service implements IMusicPlayer {
         if (currentTrackVM != null)
             currentTrackVM.isPlaying.set(false);
     }
+
     private void play(TrackVM currentTrackVM) {
         currentTrackVM.isPlaying.set(true);
         play(currentTrackVM.getRef());
@@ -184,6 +194,8 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     @Override
     public void stop() {
+        stopPreviousTrack();
+        currentTrackVM = null;
         vlcPlayer.stop();
         playing.set(false);
         currentProgress = 0;

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.os.IBinder;
@@ -19,6 +20,7 @@ import android.widget.SeekBar;
 import com.joxad.easydatabinding.base.IVM;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.BR;
+import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.player.EventNextTrack;
 import com.startogamu.zikobot.core.event.player.EventPosition;
 import com.startogamu.zikobot.core.event.player.EventPreviousTrack;
@@ -28,6 +30,8 @@ import com.startogamu.zikobot.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import me.tatarka.bindingcollectionadapter.ItemView;
 
 /**
  * Created by Jocelyn on 12/12/2016.
@@ -44,7 +48,7 @@ public class PlayerVM extends BaseObservable implements IVM {
     private Intent intent;
     private BottomSheetBehavior<View> behavior;
     public ObservableField<Integer> seekBarValue = new ObservableField<>(0);
-
+    public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_track);
 
     public PlayerVM(AppCompatActivity activity, ViewPlayerSimpleBinding binding) {
         this.activity = activity;
@@ -162,6 +166,12 @@ public class PlayerVM extends BaseObservable implements IVM {
     public int getPositionMax() {
         if (!isBound.get()) return 0;
         return playerService.positionMax();
+    }
+
+    @Bindable
+    public ObservableArrayList<TrackVM> getTrackVMs() {
+        if (!isBound.get()) return new ObservableArrayList<>();
+        return playerService.trackVMs;
     }
 
     public void next(View view) {

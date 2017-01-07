@@ -91,6 +91,8 @@ public class NavigationManager implements IPermission {
 
     @Subscribe
     public void onEvent(EventAlarmSelect eventAlarmSelect) {
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(activity, eventAlarmSelect.getView(), activity.getString(R.string.transition));
         activity.startActivity(IntentManager.goToAlarm(eventAlarmSelect.getModel()));
     }
 

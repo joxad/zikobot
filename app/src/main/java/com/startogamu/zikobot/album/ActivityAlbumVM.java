@@ -70,6 +70,7 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
         super.onEnterAnimationComplete();
         handler.postDelayed(() -> {
             ZikoUtils.animateScale(binding.fabPlay);
+            ZikoUtils.animateFade(binding.customToolbar.rlOverlay);
             loadLocalMusic(15, 0);
         }, 400);
 

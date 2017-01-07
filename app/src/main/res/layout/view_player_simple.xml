@@ -22,12 +22,24 @@
 
 
         <include
+            android:id="@+id/view_player_current"
             layout="@layout/view_player_current"
             app:playerVM="@{playerVM}"
             app:trackVM="@{playerVM.currentTrackVM}" />
 
+
         <include
-            app:playerVM="@{playerVM}"
-            layout="@layout/view_progress" />
+            android:id="@+id/view_progress"
+            layout="@layout/view_progress"
+            app:playerVM="@{playerVM}" />
+
+        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:itemView="@{playerVM.itemView}"
+            app:items="@{playerVM.trackVMs}"
+            app:layoutManager="@{LayoutManagers.grid(1)}"
+            android:layout_above="@id/view_progress"
+            android:layout_below="@id/view_player_current" />
     </RelativeLayout>
 </layout>

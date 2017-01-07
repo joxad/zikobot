@@ -179,7 +179,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     protected boolean onBackPressed() {
-        return super.onBackPressed();
+        return playerVM.onBackPressed();
     }
 
 

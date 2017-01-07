@@ -11,10 +11,10 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
+import com.startogamu.zikobot.core.model.Alarm;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivityAlarmBinding;
-import com.startogamu.zikobot.core.model.Alarm;
 import com.startogamu.zikobot.player.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,6 +60,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         ZikoUtils.prepareToolbar(activity, binding.customToolbar, alarm.getName(), alarmUrl);
         ZikoUtils.animateScale(binding.fabPlay);
         ZikoUtils.animateScale(binding.swActivated);
+        ZikoUtils.animateFade(binding.customToolbar.rlOverlay);
         binding.customToolbar.mainCollapsing.setOnClickListener(v -> {
             showDialogEdit();
         });
@@ -183,4 +184,12 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         });
     }
 
+    @Override
+    protected boolean onBackPressed() {
+        if (playerVM.onBackPressed()) {
+            binding.fabPlay.setVisibility(View.GONE);
+            return true;
+        }
+        return false;
+    }
 }

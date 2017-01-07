@@ -234,5 +234,8 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         notifyChange();
     }
 
-
+    @Bindable
+    public String getTransition() {
+        return context.getString(R.string.transition)+model.getId();
+    }
 }

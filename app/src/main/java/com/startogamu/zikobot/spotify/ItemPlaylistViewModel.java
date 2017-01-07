@@ -61,4 +61,8 @@ public class ItemPlaylistViewModel extends BaseVM<Item> {
                 model.tracks.total);
     }
 
+    @Bindable
+    public String getTransition() {
+        return context.getString(R.string.transition)+model.getId();
+    }
 }

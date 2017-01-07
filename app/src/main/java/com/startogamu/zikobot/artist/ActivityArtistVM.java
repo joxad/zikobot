@@ -74,6 +74,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         if (loaded) return;
         handler.postDelayed(() -> {
             ZikoUtils.animateScale(binding.fabPlay);
+            ZikoUtils.animateFade(binding.customToolbar.rlOverlay);
             loadLocalAlbums(15, 0);
             loadLocalTracks(15, 0);
             loaded = true;

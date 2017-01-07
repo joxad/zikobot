@@ -30,6 +30,7 @@
                     android:id="@+id/iv_album"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/image_card_height_large"
+                    android:transitionName="@{playlistVM.transition}"
                     android:scaleType="centerCrop"
                     app:imageUrl="@{playlistVM.imageUrl}"
                     tools:src="@drawable/ic_picture_loading" />

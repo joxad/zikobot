@@ -94,7 +94,6 @@ public class ZikoUtils {
 
             @Override
             public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                //    ZikoUtils.animateFade(customToolbar.rlOverlay);
                 return false;
             }
         }).into(customToolbar.ivToolbar);
