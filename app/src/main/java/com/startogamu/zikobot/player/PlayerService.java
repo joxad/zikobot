@@ -222,6 +222,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Override
     public void next() {
         if (currentIndex < trackVMs.size() - 1) {
+            stopPreviousTrack();
             currentIndex++;
             currentTrackVM = trackVMs.get(currentIndex);
             play(currentTrackVM);
@@ -232,6 +233,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Override
     public void previous() {
         if (currentIndex > 0) {
+            stopPreviousTrack();
             currentIndex--;
             currentTrackVM = trackVMs.get(currentIndex);
             play(currentTrackVM);
