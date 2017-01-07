@@ -55,12 +55,6 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="@dimen/avatar_size"
-                        android:layout_height="@dimen/avatar_size"
-                        android:layout_centerInParent="true"
-                        app:imageUrl="@{alarmTrackVM.imageUrl}" />
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -71,7 +65,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
                             android:layout_margin="@dimen/margin_medium"
-                            android:text="@{alarmTrackVM.artistName}"
+                            android:text="@{activityWakeUpVM.playerVM.currentTrackVM.artistName}"
                             android:textAllCaps="true"
                             android:textColor="@color/colorAccent"
                             android:textStyle="bold" />
@@ -80,7 +74,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
                             android:layout_margin="@dimen/margin_medium"
-                            android:text="@{alarmTrackVM.name}"
+                            android:text="@{activityWakeUpVM.playerVM.currentTrackVM.name}"
                             android:textColor="@color/colorAccent" />
                     </LinearLayout>
                 </LinearLayout>
@@ -97,14 +91,13 @@
                     android:id="@+id/iv_disk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:src="@drawable/ic_vinyl" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="@dimen/avatar_size"
                     android:layout_height="@dimen/avatar_size"
                     android:layout_centerInParent="true"
-                    app:imageUrl="@{alarmTrackVM.imageUrl}" />
+                    app:imageUrl="@{activityWakeUpVM.playerVM.currentTrackVM.imageUrl}" />
 
             </RelativeLayout>
 

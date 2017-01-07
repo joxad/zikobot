@@ -47,6 +47,10 @@ public class AlbumVM extends BaseVM<LocalAlbum> {
         return model.getImage();
     }
 
+    @Bindable
+    public String getTransition() {
+        return context.getString(R.string.transition)+model.getId();
+    }
     @Override
     public void onCreate() {
 

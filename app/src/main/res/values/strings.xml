@@ -111,4 +111,6 @@
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">Zikobot, Android musical assistant</string>
     <string name="options">settings</string>
+    <string name="cancel">Annuler</string>
+    <string name="playlist_deleted">Ta playlist a été supprimée</string>
 </resources>

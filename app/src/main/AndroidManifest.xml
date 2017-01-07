@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.startogamu.zikobot">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -12,9 +11,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
 
 
     <uses-permission
@@ -32,9 +31,7 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/ZikoboTheme.NoActionBar">
-        <meta-data
-            android:name="JW_LICENSE_KEY"
-            android:value="RYXW/Fr8BoYQFR9LwbharWAIcpwWpc5E9JPBGQ==" />
+
         <activity
             android:name=".home.ActivityMain"
             android:screenOrientation="portrait">
@@ -46,57 +43,27 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:scheme="file" />
-                <data android:mimeType="audio/*" />
-                <data android:mimeType="application/ogg" />
-                <data android:mimeType="application/x-ogg" />
-                <data android:mimeType="application/itunes" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="http" />
-                <data android:mimeType="audio/*" />
-                <data android:mimeType="application/ogg" />
-                <data android:mimeType="application/x-ogg" />
-                <data android:mimeType="application/itunes" />
-            </intent-filter>
-            <intent-filter android:priority="-1">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="content" />
-                <data android:mimeType="audio/*" />
-                <data android:mimeType="application/ogg" />
-                <data android:mimeType="application/x-ogg" />
-                <data android:mimeType="application/itunes" />
-            </intent-filter>
-
-
         </activity>
 
 
         <activity android:name=".deezer.ActivityDeezer" />
         <activity
             android:name=".artist.ActivityArtist"
+            android:screenOrientation="portrait"
+
             android:label="@string/app_name" />
 
 
         <activity
             android:name=".search.ActivitySearch"
+            android:screenOrientation="portrait"
+
             android:label="@string/app_name" />
 
         <activity
             android:name=".album.ActivityAlbum"
+            android:screenOrientation="portrait"
+
             android:label="@string/app_name" />
 
         <activity android:name=".soundcloud.SoundCloudLoginActivity" />
@@ -106,7 +73,7 @@
         <!-- Will not be called unless the application explicitly enables it -->
         <activity android:name=".spotify.ActivitySpotify" />
         <activity android:name=".soundcloud.ActivitySoundCloud" />
-        <activity android:name=".localnetwork.ActivityLocalNetwork"/>
+        <activity android:name=".localnetwork.ActivityLocalNetwork" />
         <activity
             android:name=".alarm.ActivityAlarm"
             android:configChanges="orientation|screenSize"
@@ -139,8 +106,7 @@
         <activity
             android:name=".wakeup.ActivityWakeUp"
             android:screenOrientation="portrait"
-            android:showOnLockScreen="true"
-            />
+            android:showOnLockScreen="true" />
 
         <receiver android:name=".core.receiver.AlarmReceiver">
             <intent-filter>
@@ -156,7 +122,7 @@
 
 
         <!--This part is inside the application-->
-        <receiver android:name=".core.receiver.CallReceiver" >
+        <receiver android:name=".core.receiver.CallReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
@@ -199,7 +165,7 @@
                 android:resource="@xml/widget_info_next_alarm_clock" />
         </receiver>
 
-        <service android:name=".player.PlayerService"/>
+        <service android:name=".player.PlayerService" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

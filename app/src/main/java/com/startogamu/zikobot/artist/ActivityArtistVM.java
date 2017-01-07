@@ -1,6 +1,7 @@
 package com.startogamu.zikobot.artist;
 
 import android.databinding.ObservableArrayList;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -8,22 +9,20 @@ import android.view.View;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
+import com.startogamu.zikobot.album.AlbumVM;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
-import com.startogamu.zikobot.core.utils.EXTRA;
-import com.startogamu.zikobot.core.utils.ZikoUtils;
-import com.startogamu.zikobot.core.viewutils.EndlessRecyclerViewScrollListener;
-import com.startogamu.zikobot.databinding.ActivityArtistBinding;
-
+import com.startogamu.zikobot.core.model.Artist;
+import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.core.module.localmusic.manager.LocalMusicManager;
 import com.startogamu.zikobot.core.module.localmusic.model.LocalAlbum;
 import com.startogamu.zikobot.core.module.localmusic.model.LocalTrack;
-import com.startogamu.zikobot.core.model.Artist;
-import com.startogamu.zikobot.core.model.Track;
-import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
-import com.startogamu.zikobot.album.AlbumVM;
+import com.startogamu.zikobot.core.utils.EXTRA;
+import com.startogamu.zikobot.core.utils.ZikoUtils;
+import com.startogamu.zikobot.databinding.ActivityArtistBinding;
 import com.startogamu.zikobot.localtracks.TrackVM;
 import com.startogamu.zikobot.player.PlayerVM;
 
@@ -47,6 +46,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     public ObservableArrayList<TrackVM> tracks;
 
     Artist artist;
+    boolean loaded = false;
 
     /***
      * @param activity
@@ -59,29 +59,25 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     @Override
     public void onCreate() {
         artist = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.LOCAL_ARTIST));
+        binding.rvTracks.setLayoutManager(new GridLayoutManager(activity, 1));
+        binding.rv.setLayoutManager(new GridLayoutManager(activity, 2));
         albums = new ObservableArrayList<>();
         tracks = new ObservableArrayList<>();
-
-        binding.rv.setNestedScrollingEnabled(false);
-        binding.rv.setLayoutManager(new GridLayoutManager(activity, 2));
-        binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                loadLocalAlbums(15, totalItemsCount);
-            }
-        });
-
-        binding.rvTracks.setNestedScrollingEnabled(false);
-        binding.rvTracks.setLayoutManager(new GridLayoutManager(activity, 1));
-        binding.rvTracks.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rvTracks.getLayoutManager()) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                loadLocalTracks(15, totalItemsCount);
-            }
-        });
         initToolbar();
         initPlayerVM();
 
+    }
+
+    @Override
+    public void onEnterAnimationComplete() {
+        super.onEnterAnimationComplete();
+        if (loaded) return;
+        handler.postDelayed(() -> {
+            ZikoUtils.animateScale(binding.fabPlay);
+            loadLocalAlbums(15, 0);
+            loadLocalTracks(15, 0);
+            loaded = true;
+        }, 400);
     }
 
     /***
@@ -89,7 +85,6 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
      */
     private void initToolbar() {
         ZikoUtils.prepareToolbar(activity, binding.customToolbar, artist.getName(), artist.getImage());
-        ZikoUtils.animateScale(binding.fabPlay);
     }
 
 
@@ -107,18 +102,15 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         super.onResume();
         EventBus.getDefault().register(this);
         playerVM.onResume();
-        albums.clear();
-        tracks.clear();
-        loadLocalAlbums(15,0);
-        loadLocalTracks(15,0);
-        //TODO getinfos on the artist
 
     }
 
 
     @Subscribe
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
-        activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()));
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(activity, localAlbumSelectEvent.getView(), activity.getString(R.string.transition));
+        activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()), options.toBundle());
     }
 
 
@@ -138,7 +130,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     /***
      * Load the local music
      */
-    public void loadLocalAlbums(int limit, int offset) {
+    private void loadLocalAlbums(int limit, int offset) {
         LocalMusicManager.getInstance().getLocalAlbums(limit, offset, artist != null ? artist.getName() : null, null).subscribe(localAlbums -> {
             Log.d(TAG, "" + localAlbums.size());
             for (LocalAlbum localAlbum : localAlbums) {
@@ -150,7 +142,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         });
     }
 
-    public void loadLocalTracks(int limit, int offset) {
+    private void loadLocalTracks(int limit, int offset) {
         LocalMusicManager.getInstance().getLocalTracks(limit, offset, artist != null ? artist.getName() : null, -1, null).subscribe(localTracks -> {
             Log.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
@@ -168,8 +160,11 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
 
     @Override
     protected boolean onBackPressed() {
-
-        return super.onBackPressed();
+        if (playerVM.onBackPressed()) {
+            binding.fabPlay.setVisibility(View.GONE);
+            return true;
+        }
+        return false;
     }
 
 }

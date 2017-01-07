@@ -54,7 +54,6 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
     public void onCreate() {
         album = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.LOCAL_ALBUM));
         tracks = new ObservableArrayList<>();
-        binding.rv.setNestedScrollingEnabled(false);
         binding.rv.setLayoutManager(new GridLayoutManager(activity, 1));
         binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
             @Override
@@ -66,13 +65,21 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
         initPlayerVM();
     }
 
+    @Override
+    public void onEnterAnimationComplete() {
+        super.onEnterAnimationComplete();
+        handler.postDelayed(() -> {
+            ZikoUtils.animateScale(binding.fabPlay);
+            loadLocalMusic(15, 0);
+        }, 400);
+
+    }
 
     /***
      * Init the toolar
      */
     private void initToolbar() {
         ZikoUtils.prepareToolbar(activity, binding.customToolbar, album.getName(), album.getImage());
-        ZikoUtils.animateScale(binding.fabPlay);
     }
 
 
@@ -90,10 +97,6 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
         super.onResume();
         EventBus.getDefault().register(this);
         playerVM.onResume();
-        tracks.clear();
-
-        loadLocalMusic(15, 0);
-        //TODO getinfos on the album
     }
 
 
@@ -113,11 +116,12 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
 
     /***
      * Load the local music
+     *
      * @param limit
      * @param offset
      */
     public void loadLocalMusic(int limit, int offset) {
-        LocalMusicManager.getInstance().getLocalTracks(limit,offset,null, album.getId(), null).subscribe(localTracks -> {
+        LocalMusicManager.getInstance().getLocalTracks(limit, offset, null, album.getId(), null).subscribe(localTracks -> {
             Logger.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 tracks.add(new TrackVM(activity, Track.from(localTrack)));
@@ -139,7 +143,10 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
 
     @Override
     protected boolean onBackPressed() {
-
-        return super.onBackPressed();
+        if (playerVM.onBackPressed()) {
+            binding.fabPlay.setVisibility(View.GONE);
+            return true;
+        }
+        return false;
     }
 }

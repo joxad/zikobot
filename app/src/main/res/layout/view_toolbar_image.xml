@@ -30,12 +30,10 @@
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_toolbar"
-                    tools:src="@drawable/ic_vinyl"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:scaleType="centerCrop"
-                    android:transitionName="@string/transition"
-                    android:src="@drawable/ic_vinyl" />
+                    android:transitionName="@string/transition" />
 
                 <RelativeLayout
                     android:id="@+id/rl_overlay"

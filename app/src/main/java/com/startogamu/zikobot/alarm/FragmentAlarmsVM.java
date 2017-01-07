@@ -2,6 +2,7 @@ package com.startogamu.zikobot.alarm;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
@@ -9,11 +10,11 @@ import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.utils.AppPrefs;
-import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
-
-import com.startogamu.zikobot.core.module.spotify_auth.manager.SpotifyAuthManager;
 import com.startogamu.zikobot.core.model.Alarm;
+import com.startogamu.zikobot.core.module.spotify_auth.manager.SpotifyAuthManager;
+import com.startogamu.zikobot.core.utils.AppPrefs;
+import com.startogamu.zikobot.core.viewutils.SnackUtils;
+import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
 
 import java.io.UnsupportedEncodingException;
 
@@ -66,8 +67,18 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                itemsVM.get(viewHolder.getAdapterPosition()).delete();
-                itemsVM.remove(viewHolder.getAdapterPosition());
+                int position = viewHolder.getAdapterPosition();
+                AlarmVM alarmVM = itemsVM.get(position);
+
+                itemsVM.remove(position);
+
+                SnackUtils.showCancelable(binding.getRoot(), R.string.playlist_deleted, view1 -> {
+                    itemsVM.add(position, alarmVM);
+                }, (snackbar, dismissEvent) -> {
+                    if (dismissEvent != Snackbar.Callback.DISMISS_EVENT_ACTION) {
+                        alarmVM.delete();
+                    }
+                });
 
             }
         });
@@ -104,7 +115,7 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     }
 
     private void refreshAccessToken() throws UnsupportedEncodingException {
-       SpotifyAuthManager.getInstance().refreshToken(fragment.getContext(), () -> {
+        SpotifyAuthManager.getInstance().refreshToken(fragment.getContext(), () -> {
 
         });
     }

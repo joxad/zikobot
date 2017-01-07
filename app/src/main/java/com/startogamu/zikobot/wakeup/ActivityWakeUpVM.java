@@ -36,7 +36,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     private static final int DELAY = 10;//MS
     Alarm alarm;
     AudioManager am;
-    PlayerVM playerVM;
+    public PlayerVM playerVM;
 
     int rotation = ROTATION;
     public AlarmVM alarmVM;
@@ -54,7 +54,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
 
     @Override
     public void onCreate() {
-        playerVM = new PlayerVM(activity, null);//TODO create viewplayerbinding
+        playerVM = new PlayerVM(activity, null);
         am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |

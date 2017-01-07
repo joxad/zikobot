@@ -48,7 +48,6 @@
                             style="@style/textSection"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/margin_medium"
                             android:layout_marginStart="@dimen/margin_medium"
                             android:layout_marginTop="@dimen/margin_medium"
                             android:text="@string/drawer_filter_album"
@@ -62,11 +61,13 @@
                             android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
 
 
-                        <android.support.v7.widget.RecyclerView
+                        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
                             android:id="@+id/rv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:clipToPadding="false"
+                            android:layoutAnimation="@anim/grid_animation"
+                            android:nestedScrollingEnabled="false"
                             android:paddingBottom="@dimen/actionBarSizeNormal"
                             android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
                             app:itemView="@{activityAlbumVM.itemViewTrack}"
@@ -78,21 +79,23 @@
                 </com.startogamu.zikobot.core.viewutils.FlingNestedScrollView>
 
             </FrameLayout>
+
             <android.support.v7.widget.CardView
                 android:id="@+id/bottom"
-                app:cardElevation="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 app:behavior_hideable="false"
                 app:behavior_peekHeight="@dimen/view_player_height"
+                app:cardElevation="16dp"
                 app:layout_behavior="@string/bottom_sheet_behavior">
 
-            <include
-                android:id="@+id/view_player"
-                layout="@layout/view_player_simple"
+                <include
+                    android:id="@+id/view_player"
+                    layout="@layout/view_player_simple"
 
-                app:playerVM="@{activityAlbumVM.playerVM}" />           </android.support.v7.widget.CardView>
+                    app:playerVM="@{activityAlbumVM.playerVM}" />
+            </android.support.v7.widget.CardView>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab_play"

@@ -88,23 +88,6 @@ public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickL
        EventBus.getDefault().post(new EventPlayTrack(this));
     }
 
-    public void select() {
-        isChecked = !isChecked;
-        AlarmTrackManager.selectTrack(model);
-        notifyChange();
-
-    }
-
-    /**
-     * {@link }
-     *
-     * @param track
-     */
-    public void updateTrack(Track track) {
-        this.model = track;
-        notifyChange();
-    }
-
     public Track getModel() {
         return model;
     }

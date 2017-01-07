@@ -47,6 +47,10 @@ public class ArtistVM extends BaseVM<Artist> {
         return model.getImage();
     }
 
+    @Bindable
+    public String getTransition() {
+        return context.getString(R.string.transition)+model.getId();
+    }
     @Override
     public void onCreate() {
 

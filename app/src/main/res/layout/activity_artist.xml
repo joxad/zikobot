@@ -63,12 +63,14 @@
                             android:visibility="@{activityArtistVM.albums.size() >0 ? v.VISIBLE : v.GONE}" />
 
 
-                        <android.support.v7.widget.RecyclerView
+                        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
                             android:id="@+id/rv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:clipToPadding="false"
                             android:paddingBottom="@dimen/actionBarSizeNormal"
+                            android:layoutAnimation="@anim/grid_animation"
+                            app:nestedScrollingEnabled="@{false}"
                             android:visibility="@{activityArtistVM.albums.size() >0 ? v.VISIBLE : v.GONE}"
                             app:itemView="@{activityArtistVM.itemViewAlbum}"
                             app:items="@{activityArtistVM.albums}"
@@ -91,11 +93,13 @@
                             android:background="@color/colorAccent"
                             android:visibility="@{activityArtistVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
 
-                        <android.support.v7.widget.RecyclerView
+                        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
                             android:id="@+id/rv_tracks"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clipToPadding="false"
+                            android:layoutAnimation="@anim/grid_animation"
+                            app:nestedScrollingEnabled="@{false}"
                             android:paddingBottom="@dimen/actionBarSizeNormal"
                             android:visibility="@{activityArtistVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
                             app:itemView="@{activityArtistVM.itemViewTrack}"

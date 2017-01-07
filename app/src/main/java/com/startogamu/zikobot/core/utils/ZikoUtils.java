@@ -1,18 +1,16 @@
 package com.startogamu.zikobot.core.utils;
 
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.databinding.ViewToolbarImageBinding;
 
 import java.io.UnsupportedEncodingException;
@@ -96,14 +94,13 @@ public class ZikoUtils {
 
             @Override
             public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                ZikoUtils.animateFade(customToolbar.rlOverlay);
+                //    ZikoUtils.animateFade(customToolbar.rlOverlay);
                 return false;
             }
-        }).placeholder(R.drawable.ic_vinyl).into(customToolbar.ivToolbar);
+        }).into(customToolbar.ivToolbar);
 
 
     }
-
 
 
     public static void animateFade(View view) {
@@ -113,13 +110,10 @@ public class ZikoUtils {
     }
 
     public static void animateScale(View view) {
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f);
-        scaleX.setDuration(800);
-        scaleY.setDuration(800);
         view.setVisibility(View.VISIBLE);
-        scaleX.start();
-        scaleY.start();
+        view.setScaleX(0);
+        view.setScaleY(0);
+        view.animate().scaleX(1).scaleY(1).setDuration(400).start();
     }
 
     public static void showKeyboard(View view) {

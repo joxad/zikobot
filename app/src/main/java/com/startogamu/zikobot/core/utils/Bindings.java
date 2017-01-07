@@ -3,6 +3,7 @@ package com.startogamu.zikobot.core.utils;
 import android.databinding.BindingAdapter;
 import android.support.annotation.DrawableRes;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,13 +17,15 @@ import es.claucookie.miniequalizerlibrary.EqualizerView;
  * Created by josh on 26/03/16.
  */
 public class Bindings {
-    private static final int ROTATION = 2;
 
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {
         Glide.with(view.getContext())
                 .load(imageUrl)
-                .placeholder(R.drawable.ic_picture_loading)
+                .skipMemoryCache(true)
+                .dontTransform()
+                .dontAnimate()
+                .error(R.drawable.ic_picture_loading)
                 .into(view);
     }
 
@@ -54,4 +57,10 @@ public class Bindings {
             view.show();
         }
     }
+
+    @BindingAdapter({"nestedScrollingEnabled"})
+    public static void nestedScroll(RecyclerView rv, boolean b) {
+        rv.setNestedScrollingEnabled(b);
+    }
+
 }

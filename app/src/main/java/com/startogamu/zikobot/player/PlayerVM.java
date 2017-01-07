@@ -9,7 +9,6 @@ import android.databinding.Bindable;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.os.IBinder;
-import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +17,7 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import com.joxad.easydatabinding.base.IVM;
+import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.core.event.player.EventNextTrack;
 import com.startogamu.zikobot.core.event.player.EventPosition;
@@ -54,11 +54,20 @@ public class PlayerVM extends BaseObservable implements IVM {
 
     @Override
     public void onCreate() {
+        intent = new Intent(activity, PlayerService.class);
+
+        if (binding == null) return;
         behavior = BottomSheetBehavior.from((CardView) binding.getRoot().getParent());
         behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                isExpanded.set(newState == BottomSheetBehavior.STATE_EXPANDED);
+                Logger.d("%d",newState);
+                if (newState == BottomSheetBehavior.STATE_EXPANDED)
+                    isExpanded.set(true);
+                else {
+                    if (isExpanded.get())
+                        isExpanded.set(false);
+                }
             }
 
             @Override
@@ -66,7 +75,6 @@ public class PlayerVM extends BaseObservable implements IVM {
 
             }
         });
-        intent = new Intent(activity, PlayerService.class);
 
 
     }
@@ -109,14 +117,16 @@ public class PlayerVM extends BaseObservable implements IVM {
     }
 
     @Subscribe
-    public void onReceive(EventPosition eventPosition){
+    public void onReceive(EventPosition eventPosition) {
         seekBarValue.set(eventPosition.getValue());
         notifyPropertyChanged(BR.position);
     }
+
     @Override
     public void onPause() {
         isBound.set(false);
         EventBus.getDefault().unregister(this);
+        activity.unbindService(musicConnection);
     }
 
     @Override
@@ -166,5 +176,14 @@ public class PlayerVM extends BaseObservable implements IVM {
         seekBarValue.set(progresValue);
         if (fromUser)
             playerService.seekTo(progresValue);
+    }
+
+    public boolean onBackPressed() {
+
+        if(behavior.getState()==BottomSheetBehavior.STATE_EXPANDED) {
+            behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            return false;
+        }
+        return true;
     }
 }

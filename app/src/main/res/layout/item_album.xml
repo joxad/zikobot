@@ -32,6 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/image_card_height_large"
                     android:scaleType="centerCrop"
+                    android:transitionName="@{albumVM.transition}"
                     app:imageUrl="@{albumVM.imageUrl}"
                     tools:src="@drawable/ic_picture_loading" />
 

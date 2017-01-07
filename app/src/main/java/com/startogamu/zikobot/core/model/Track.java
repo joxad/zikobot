@@ -59,6 +59,7 @@ public class Track extends BaseModel {
     @Setter
     protected String activated;
 
+    @Column
     @Getter
     @Setter
     protected long duration;
