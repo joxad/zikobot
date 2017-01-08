@@ -228,7 +228,7 @@ public class PlayerService extends Service implements IMusicPlayer {
         vlcPlayer.play();
         playing.set(true);
         if (currentTrackVM != null) {
-            startForeground(playerNotification.getNotificationId(), playerNotification.show(currentTrackVM.getModel()));
+            playerNotification.showNotification(currentTrackVM.getModel());
         }
         currentProgress = 0;
 

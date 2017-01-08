@@ -1,10 +1,10 @@
 package com.startogamu.zikobot.core.notification;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
@@ -12,13 +12,16 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.widget.RemoteViews;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.NotificationTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.core.receiver.ClearPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.NextPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.NotificationPauseResumeReceiver;
 import com.startogamu.zikobot.core.receiver.PreviousPlayerReceiver;
-import com.startogamu.zikobot.core.model.Track;
+import com.startogamu.zikobot.home.ActivityMain;
 
 import lombok.Getter;
 
@@ -40,9 +43,55 @@ public class PlayerNotification {
         handler = new Handler(Looper.getMainLooper());
         this.context = context;
 // Get an instance of the NotificationManager service
-         notificationManager = NotificationManagerCompat.from(context);
+        notificationManager = NotificationManagerCompat.from(context);
 
     }
+
+    public void showNotification(Track track) {
+        int notificationId = 001;
+// Build intent for notification content
+        Intent viewIntent = new Intent(context, ActivityMain.class);
+        PendingIntent viewPendingIntent =
+                PendingIntent.getActivity(context, 0, viewIntent, 0);
+        Intent intentPause = new Intent(context, NotificationPauseResumeReceiver.class);
+        PendingIntent pIntentPause = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentPause, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intentNext = new Intent(context, NextPlayerReceiver.class);
+// use System.currentTimeMillis() to have a unique ID for the pending intent
+        PendingIntent pIntentNext = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentNext, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intentPrevious = new Intent(context, PreviousPlayerReceiver.class);
+// use System.currentTimeMillis() to have a unique ID for the pending intent
+        PendingIntent pIntentPrevious = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentPrevious, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Glide.with(context)
+                .load(track.getImageUrl())
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>(100, 100) {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                        NotificationCompat.Builder notificationBuilder =
+                                new NotificationCompat.Builder(context)
+                                        .setSmallIcon(R.mipmap.ic_launcher)
+                                        .setLargeIcon(resource)
+                                        .setContentTitle(track.getName())
+                                        .setContentText(track.getArtistName())
+                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_pause, "Pause", pIntentPause).build())
+                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_previous, "Previous", pIntentPrevious).build())
+                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_next, "Next", pIntentNext).build())
+                                        .setContentIntent(viewPendingIntent);
+
+// Get an instance of the NotificationManager service
+                        NotificationManagerCompat notificationManager =
+                                NotificationManagerCompat.from(context);
+
+// Build the notification and issues it with notification manager.
+                        notificationManager.notify(notificationId, notificationBuilder.build());
+
+                    }
+                });
+
+
+    }
+
     /***
      * @param track
      */
@@ -57,17 +106,17 @@ public class PlayerNotification {
         initSmallNotification(pIntent, track);
         initLargeNotification(pIntent, track);
 
-
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_music)
                 .setContentText(track.getName())
-
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContent(playerViewSmall)
                 .setContentTitle(track.getName())
                 .setOngoing(true)
-                .setAutoCancel(false)
                 .setCustomBigContentView(playerViewLarge)
                 .setWhen(when);
+
+// Build the notification and issues it with notification manager.
+        notificationManager.notify(notificationId, notificationBuilder.build());
 
         notification = notificationBuilder.build();
 

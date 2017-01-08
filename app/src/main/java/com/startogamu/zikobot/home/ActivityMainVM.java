@@ -1,6 +1,10 @@
 package com.startogamu.zikobot.home;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
