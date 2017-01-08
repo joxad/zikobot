@@ -152,7 +152,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
                 name = track.getName();
             if (album != null)
                 name = album.getName();
-            Toast.makeText(fragment.getContext(), track.getName() + " a été ajoutée à l'alarme " + alarm.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(fragment.getContext(), name + " a été ajoutée à l'alarme " + alarm.getName(), Toast.LENGTH_SHORT).show();
             dismiss();
         }, throwable -> {
             Toast.makeText(fragment.getContext(), "Oops j'ai eu un souci", Toast.LENGTH_SHORT).show();
