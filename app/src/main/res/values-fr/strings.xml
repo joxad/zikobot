@@ -22,7 +22,8 @@
     <!--> Menu <-->
     <string name="menu_about">A propos</string>
     <string name="menu_put_add_as_playlist">Ajouter à une playlist</string>
-    <string name="menu_add_to_current_play">Ajouter à la lecture en cours</string>
+    <string name="menu_add_to_current_play">Ajouter à la suite</string>
+    <string name="menu_add_to_end_of_current_play">Ajouter à la fin</string>
     <string name="menu_delete">Supprimer</string>
     <string name="menu_tablature">Voir la tablature</string>
     <string name="drawer_filter_network">Réseau</string>

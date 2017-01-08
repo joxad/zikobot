@@ -7,9 +7,9 @@ import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
-import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
-import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.alarm.DialogFragmentSettings;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogSettings;
+import com.startogamu.zikobot.core.event.player.EventAddList;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.core.module.deezer.DeezerManager;
 import com.startogamu.zikobot.core.utils.EXTRA;
@@ -83,9 +83,9 @@ public class ActivityDeezerVM extends ActivityBaseVM<ActivityDeezer, ActivityDee
 
 
     @Subscribe
-    public void onEvent(EventShowDialogAlarm event) {
-        DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
-        dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
+    public void onEvent(EventShowDialogSettings event) {
+        DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
+        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
 
     }
 
@@ -119,7 +119,7 @@ public class ActivityDeezerVM extends ActivityBaseVM<ActivityDeezer, ActivityDee
      * @param view
      */
     public void onPlay(View view) {
-        EventBus.getDefault().post(new EventAddTrackToPlayer(tracks));
+        EventBus.getDefault().post(new EventAddList(tracks));
     }
 
 

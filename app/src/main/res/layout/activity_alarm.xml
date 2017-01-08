@@ -40,9 +40,6 @@
                     style="@style/textSection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_medium"
                     android:text="@string/drawer_filter_tracks"
                     android:visibility="@{activityAlarmVM.alarmVM.tracksVms.size() >0 ? v.VISIBLE : v.GONE}" />
 

@@ -16,7 +16,8 @@ import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
 import com.startogamu.zikobot.core.event.SelectItemPlaylistEvent;
 import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.event.deezer.SelectDeezerItemPlaylistEvent;
-import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlbumSettings;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogSettings;
 import com.startogamu.zikobot.core.event.player.EventShowTab;
 import com.startogamu.zikobot.core.event.soundcloud.SelectSCItemPlaylistEvent;
 import com.startogamu.zikobot.databinding.ActivityMainBinding;
@@ -24,7 +25,7 @@ import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.core.module.spotify_api.model.Item;
 import com.startogamu.zikobot.core.module.tablature.TablatureManager;
 import com.startogamu.zikobot.home.ActivityMain;
-import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
+import com.startogamu.zikobot.alarm.DialogFragmentSettings;
 import com.startogamu.zikobot.home.ActivityMainVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -109,10 +110,15 @@ public class NavigationManager implements IPermission {
     }
 
     @Subscribe
-    public void onEvent(EventShowDialogAlarm event) {
-        DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
-        dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
+    public void onEvent(EventShowDialogSettings event) {
+        DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
+        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
+    }
 
+    @Subscribe
+    public void onEvent(EventShowDialogAlbumSettings event) {
+        DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
+        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
     }
 
     @Subscribe

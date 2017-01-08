@@ -13,7 +13,7 @@ import android.util.Log;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.event.player.EventAddList;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.utils.Constants;
 import com.startogamu.zikobot.core.utils.EXTRA;
@@ -87,7 +87,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
 
     @Subscribe
     public void onEvent(EventPlayListClicked eventPlayListClicked) {
-        EventBus.getDefault().post(new EventAddTrackToPlayer(items));
+        EventBus.getDefault().post(new EventAddList(items));
     }
 
     @Override

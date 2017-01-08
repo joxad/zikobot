@@ -15,8 +15,9 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
 import com.orhanobut.logger.Logger;
+import com.startogamu.zikobot.core.event.player.EventAddList;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
-import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.event.player.EventAddTrackToEndOfCurrent;
 import com.startogamu.zikobot.core.event.player.EventNextTrack;
 import com.startogamu.zikobot.core.event.player.EventPauseMediaButton;
 import com.startogamu.zikobot.core.event.player.EventPlayMediaButton;
@@ -136,9 +137,9 @@ public class PlayerService extends Service implements IMusicPlayer {
 
 
     @Subscribe
-    public void onEvent(EventAddTrackToPlayer eventPlayTrack) {
+    public void onEvent(EventAddList eventAddList) {
         stopPreviousTrack();
-        trackVMs = eventPlayTrack.getItems();
+        trackVMs = eventAddList.getItems();
         currentIndex = 0;
         currentTrackVM = trackVMs.get(currentIndex);
         play(currentTrackVM);
@@ -147,12 +148,30 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     @Subscribe
     public void onEvent(EventAddTrackToCurrent eventPlayTrack) {
-        stopPreviousTrack();
-        trackVMs.add(eventPlayTrack.getTrackVM());
-        currentIndex = 0;
-        currentTrackVM = trackVMs.get(currentIndex);
-        play(currentTrackVM);
-        EventBus.getDefault().post(new TrackChangeEvent());
+        if (trackVMs.isEmpty()) {
+            trackVMs.add(eventPlayTrack.getTrackVM());
+            currentIndex = 0;
+            currentTrackVM = trackVMs.get(currentIndex);
+            play(currentTrackVM);
+            EventBus.getDefault().post(new TrackChangeEvent());
+        } else {
+            trackVMs.add(currentIndex + 1, eventPlayTrack.getTrackVM());
+        }
+
+    }
+
+    @Subscribe
+    public void onEvent(EventAddTrackToEndOfCurrent eventPlayTrack) {
+        if (trackVMs.isEmpty()) {
+            trackVMs.add(eventPlayTrack.getTrackVM());
+            currentIndex = 0;
+            currentTrackVM = trackVMs.get(currentIndex);
+            play(currentTrackVM);
+            EventBus.getDefault().post(new TrackChangeEvent());
+        } else {
+            trackVMs.add(eventPlayTrack.getTrackVM());
+        }
+
     }
 
     @Subscribe

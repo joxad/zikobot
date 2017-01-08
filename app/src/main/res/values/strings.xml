@@ -21,7 +21,8 @@
     <!--> Menu <-->
     <string name="menu_about">About</string>
     <string name="menu_put_add_as_playlist">Make an alarm</string>
-    <string name="menu_add_to_current_play">Add to current playlist</string>
+    <string name="menu_add_to_current_play">Add after current playing track</string>
+    <string name="menu_add_to_end_of_current_play">Add at the end of current playing track</string>
     <string name="menu_delete">delete</string>
     <string name="menu_tablature">See guitar tab</string>
     <string name="drawer_filter_network">network</string>
@@ -113,4 +114,7 @@
     <string name="options">settings</string>
     <string name="cancel">Annuler</string>
     <string name="playlist_deleted">Ta playlist a été supprimée</string>
+    <string name="dialog_options">Options</string>
+    <string name="title_add_playlist">Ajouter à une playlist</string>
+    <string name="title_playing">Lecture en cours</string>
 </resources>

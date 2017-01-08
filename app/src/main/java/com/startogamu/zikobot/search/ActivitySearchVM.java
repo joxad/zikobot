@@ -1,14 +1,11 @@
 package com.startogamu.zikobot.search;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.lapism.searchview.SearchView;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.EventShowArtistDetail;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
-import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogSettings;
 import com.startogamu.zikobot.core.event.search.EventQueryChange;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
@@ -16,7 +13,7 @@ import com.startogamu.zikobot.databinding.ActivitySearchBinding;
 import com.startogamu.zikobot.soundcloud.FragmentSoundCloudSearch;
 import com.startogamu.zikobot.spotify.FragmentSpotifySearch;
 import com.startogamu.zikobot.home.ViewPagerAdapter;
-import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
+import com.startogamu.zikobot.alarm.DialogFragmentSettings;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -96,9 +93,9 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     }
 
     @Subscribe
-    public void onEvent(EventShowDialogAlarm event) {
-        DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
-        dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
+    public void onEvent(EventShowDialogSettings event) {
+        DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
+        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
 
     }
 

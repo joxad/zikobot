@@ -5,7 +5,9 @@
 
     <data>
 
-        <import type="android.view.View" alias="v" />
+        <import
+            alias="v"
+            type="android.view.View" />
 
         <variable
             name="trackVM"
@@ -17,7 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:onClick="@{trackVM.onTrackPlay}">
+        android:onClick="@{trackVM.onTrackPlay}"
+        android:onLongClick="@{trackVM::onLongClick}">
 
         <RelativeLayout
             android:id="@+id/layout_content"
@@ -43,10 +46,10 @@
                     android:id="@+id/equalizer_view"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:visibility="@{trackVM.isPlaying ? v.VISIBLE: v.GONE}"
-                    app:animatePlay="@{trackVM.isPlaying}"
                     android:layout_centerInParent="true"
+                    android:visibility="@{trackVM.isPlaying ? v.VISIBLE: v.GONE}"
                     app:animDuration="3500"
+                    app:animatePlay="@{trackVM.isPlaying}"
                     app:foregroundColor="@color/colorAccent" />
 
             </RelativeLayout>

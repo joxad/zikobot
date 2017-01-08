@@ -8,8 +8,8 @@ import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
-import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogSettings;
+import com.startogamu.zikobot.core.event.player.EventAddList;
 import com.startogamu.zikobot.core.fragmentmanager.IntentManager;
 import com.startogamu.zikobot.core.model.Alarm;
 import com.startogamu.zikobot.core.utils.EXTRA;
@@ -138,9 +138,9 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
 
     @Subscribe
-    public void onEvent(EventShowDialogAlarm event) {
-        DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
-        dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
+    public void onEvent(EventShowDialogSettings event) {
+        DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
+        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
     }
 
     /**
@@ -149,7 +149,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      * @param view
      */
     public void onPlay(View view) {
-        EventBus.getDefault().post(new EventAddTrackToPlayer(alarmVM.tracksVms));
+        EventBus.getDefault().post(new EventAddList(alarmVM.tracksVms));
     }
 
 

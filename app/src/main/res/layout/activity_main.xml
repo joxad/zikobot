@@ -92,9 +92,7 @@
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="@dimen/margin_player"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            app:fabSize="normal"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            app:layout_behavior="com.startogamu.zikobot.core.viewutils.ScrollAwareFABBehavior"
+            app:fabSize="mini"
             android:onClick="@{activityMainVM.fabClicked}"
             android:src="@drawable/ic_search" />
 

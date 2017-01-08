@@ -3,17 +3,12 @@ package com.startogamu.zikobot.localtracks;
 import android.content.Context;
 import android.databinding.Bindable;
 import android.databinding.ObservableBoolean;
-import android.support.v7.widget.PopupMenu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
-import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.alarm.AlarmTrackManager;
-import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
-import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogSettings;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
-import com.startogamu.zikobot.core.event.player.EventShowTab;
 import com.startogamu.zikobot.core.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
@@ -21,7 +16,7 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * Created by josh on 30/05/16.
  */
-public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickListener {
+public class TrackVM extends BaseVM<Track> {
 
     public boolean isChecked = false;
     public ObservableBoolean isPlaying;
@@ -64,6 +59,7 @@ public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickL
     public long getDuration() {
         return model.getDuration();
     }
+
     public void onTrackClicked(View view) {
         isChecked = !isChecked;
         if (isChecked) {
@@ -77,10 +73,8 @@ public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickL
 
 
     public void onMoreClicked(View view) {
-        PopupMenu popup = new PopupMenu(context, view);
-        popup.inflate(R.menu.menu_track);
-        popup.setOnMenuItemClickListener(this);
-        popup.show();
+        EventBus.getDefault().post(new EventShowDialogSettings(model));
+
     }
 
     /***
@@ -89,27 +83,17 @@ public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickL
      * @param view
      */
     public void onTrackPlay(View view) {
-       EventBus.getDefault().post(new EventPlayTrack(this));
+        EventBus.getDefault().post(new EventPlayTrack(this));
     }
 
     public Track getModel() {
         return model;
     }
 
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_alarm:
-                EventBus.getDefault().post(new EventShowDialogAlarm(model));
-                break;
-            case R.id.action_play_after:
-                EventBus.getDefault().post(new EventAddTrackToCurrent(this));
-                break;
-            case R.id.action_tab:
-                EventBus.getDefault().post(new EventShowTab(this));
-                break;
-        }
-        return false;
+
+    public boolean onLongClick(View view) {
+        EventBus.getDefault().post(new EventShowDialogSettings(model));
+        return true;
     }
 
     public String getRef() {

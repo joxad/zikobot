@@ -6,15 +6,15 @@ import android.view.View;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlarm;
-import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.event.dialog.EventShowDialogSettings;
+import com.startogamu.zikobot.core.event.player.EventAddList;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
 import com.startogamu.zikobot.databinding.ActivitySoundCloudBinding;
 import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudTrack;
 import com.startogamu.zikobot.core.model.Track;
-import com.startogamu.zikobot.alarm.DialogFragmentAlarms;
+import com.startogamu.zikobot.alarm.DialogFragmentSettings;
 import com.startogamu.zikobot.localtracks.TrackVM;
 import com.startogamu.zikobot.player.PlayerVM;
 
@@ -85,9 +85,9 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
 
 
     @Subscribe
-    public void onEvent(EventShowDialogAlarm event) {
-        DialogFragmentAlarms dialogFragmentAlarms = DialogFragmentAlarms.newInstance(event.getModel());
-        dialogFragmentAlarms.show(activity.getSupportFragmentManager(), DialogFragmentAlarms.TAG);
+    public void onEvent(EventShowDialogSettings event) {
+        DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
+        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
 
     }
 
@@ -116,7 +116,7 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
      * @param view
      */
     public void onPlay(View view) {
-        EventBus.getDefault().post(new EventAddTrackToPlayer(tracks));
+        EventBus.getDefault().post(new EventAddList(tracks));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.startogamu.zikobot.album;
 
 import android.os.Bundle;
+import android.view.Menu;
 
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.startogamu.zikobot.BR;
@@ -25,5 +26,12 @@ public class ActivityAlbum extends ActivityBase<ActivityAlbumBinding, ActivityAl
     public ActivityAlbumVM baseActivityVM(ActivityAlbumBinding binding, Bundle savedInstanceState) {
         return new ActivityAlbumVM(this, binding);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_album, menu);
+        return true;
+    }
+
 
 }

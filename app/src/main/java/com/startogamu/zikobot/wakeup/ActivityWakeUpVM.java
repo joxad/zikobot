@@ -11,7 +11,7 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.alarm.AlarmVM;
-import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.event.player.EventAddList;
 import com.startogamu.zikobot.core.model.Alarm;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.core.module.mock.Mock;
@@ -98,7 +98,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         for (Track track : alarm.getTracks()) {
             trackVMs.add(new TrackVM(activity, track));
         }
-        EventBus.getDefault().post(new EventAddTrackToPlayer(trackVMs));
+        EventBus.getDefault().post(new EventAddList(trackVMs));
         rotateCD();
     }
 

@@ -20,6 +20,7 @@
         <com.balysv.materialripple.MaterialRippleLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onLongClick="@{albumVM::onLongClick}"
             android:onClick="@{albumVM.onClick}">
 
             <LinearLayout

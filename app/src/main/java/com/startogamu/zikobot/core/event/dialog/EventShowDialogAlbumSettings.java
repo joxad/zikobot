@@ -1,6 +1,6 @@
 package com.startogamu.zikobot.core.event.dialog;
 
-import com.startogamu.zikobot.core.model.Track;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalAlbum;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +10,6 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor(suppressConstructorProperties = true)
-public class EventShowDialogAlarm {
-    protected final Track model;
+public class EventShowDialogAlbumSettings {
+    protected final LocalAlbum model;
 }

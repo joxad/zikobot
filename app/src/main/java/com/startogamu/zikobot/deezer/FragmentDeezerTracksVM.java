@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
-import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
+import com.startogamu.zikobot.core.event.player.EventAddList;
 import com.startogamu.zikobot.core.event.player.EventPlayListClicked;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.FragmentDeezerTracksBinding;
@@ -73,7 +73,7 @@ public abstract class FragmentDeezerTracksVM extends FragmentBaseVM<FragmentDeez
 
     @Subscribe
     public void onEvent(EventPlayListClicked eventPlayListClicked) {
-        EventBus.getDefault().post(new EventAddTrackToPlayer(items));
+        EventBus.getDefault().post(new EventAddList(items));
     }
 
     @Override
