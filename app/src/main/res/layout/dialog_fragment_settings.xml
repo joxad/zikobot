@@ -21,13 +21,14 @@
             type="com.startogamu.zikobot.alarm.DialogFragmentSettingsVM" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -79,7 +80,8 @@
 
         <com.startogamu.zikobot.core.viewutils.FlingNestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@id/cv">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,7 +131,7 @@
         </com.startogamu.zikobot.core.viewutils.FlingNestedScrollView>
 
 
-    </LinearLayout>
+    </RelativeLayout>
 </layout>
 
 

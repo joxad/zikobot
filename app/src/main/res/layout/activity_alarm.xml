@@ -44,13 +44,16 @@
                     android:visibility="@{activityAlarmVM.alarmVM.tracksVms.size() >0 ? v.VISIBLE : v.GONE}" />
 
 
-                <android.support.v7.widget.RecyclerView
+                <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
                     android:id="@+id/rv_tracks"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:layoutAnimation="@anim/grid_animation"
+                    android:paddingBottom="@dimen/view_player_height"
                     app:itemView="@{activityAlarmVM.alarmVM.itemView}"
                     app:items="@{activityAlarmVM.alarmVM.tracksVms}"
-                    app:layoutManager="@{LayoutManagers.linear()}" />
+                    app:layoutManager="@{LayoutManagers.grid(1)}" />
 
 
             </LinearLayout>
