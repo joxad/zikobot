@@ -9,15 +9,17 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBaseVM;
+import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
-import com.startogamu.zikobot.album.AlbumVM;
 import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToEndOfCurrent;
 import com.startogamu.zikobot.core.model.Alarm;
 import com.startogamu.zikobot.core.model.Track;
+import com.startogamu.zikobot.core.module.localmusic.manager.LocalMusicManager;
 import com.startogamu.zikobot.core.module.localmusic.model.LocalAlbum;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.DialogFragmentSettingsBinding;
 import com.startogamu.zikobot.localtracks.TrackVM;
@@ -42,9 +44,8 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
     @Nullable
     Track track;
 
-    public TrackVM trackVM = null;
     private LocalAlbum album;
-    private AlbumVM albumVM = null;
+    private ArrayList<Track> tracks;
 
     /***
      * @param fragment
@@ -59,14 +60,21 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
         if (fragment.getArguments().containsKey(EXTRA.TRACK)) {
             Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.TRACK);
             track = (parcelable != null ? Parcels.unwrap(parcelable) : null);
-            trackVM = new TrackVM(fragment.getContext(), track);
         }
         if (fragment.getArguments().containsKey(EXTRA.LOCAL_ALBUM)) {
             Parcelable parcelableAlbum = fragment.getArguments().getParcelable(EXTRA.LOCAL_ALBUM);
             album = (parcelableAlbum != null ? Parcels.unwrap(parcelableAlbum) : null);
-            albumVM = new AlbumVM(fragment.getContext(), album);
+            tracks = new ArrayList<>();
+            LocalMusicManager.getInstance().getLocalTracks(100, 0, null, album.getId(), null).subscribe(localTracks -> {
+                for (LocalTrack localTrack : localTracks) {
+                    tracks.add(Track.from(localTrack));
+                }
+            }, throwable -> {
+                Logger.d(TAG, throwable.getLocalizedMessage());
+            });
         }
         itemsVM = new ObservableArrayList<>();
+        notifyChange();
         loadAlarms();
     }
 
@@ -90,7 +98,13 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
 
         Alarm alarm = eventAlarmSelect.getModel();
         AlarmTrackManager.clear();
-        AlarmTrackManager.selectTrack(track);
+        if (track != null)
+            AlarmTrackManager.selectTrack(track);
+        if (album != null) {
+            for (Track track : tracks) {
+                AlarmTrackManager.selectTrack(track);
+            }
+        }
         ArrayList<Track> allTracks = new ArrayList<>();
         allTracks.addAll(alarm.getTracks());
         allTracks.addAll(AlarmTrackManager.tracks());
@@ -105,12 +119,12 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
     }
 
     public void addTrackToCurrent(View view) {
-        EventBus.getDefault().post(new EventAddTrackToCurrent(trackVM));
+        EventBus.getDefault().post(new EventAddTrackToCurrent(new TrackVM(fragment.getContext(), track)));
         dismiss();
     }
 
     public void addTrackToEndOfCurrent(View view) {
-        EventBus.getDefault().post(new EventAddTrackToEndOfCurrent(trackVM));
+        EventBus.getDefault().post(new EventAddTrackToEndOfCurrent(new TrackVM(fragment.getContext(), track)));
         dismiss();
     }
 
@@ -122,8 +136,22 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
     public void newAlarmClicked(View view) {
         Alarm alarm = new Alarm();
         AlarmTrackManager.clear();
-        AlarmTrackManager.selectTrack(track);
+        if (track != null) {
+            AlarmTrackManager.selectTrack(track);
+            alarm.setName(track.getName());
+        }
+        if (album != null) {
+            for (Track track : tracks) {
+                AlarmTrackManager.selectTrack(track);
+            }
+            alarm.setName(album.getName());
+        }
         AlarmManager.saveAlarm(alarm, AlarmTrackManager.tracks()).subscribe(alarm1 -> {
+            String name = "";
+            if (track != null)
+                name = track.getName();
+            if (album != null)
+                name = album.getName();
             Toast.makeText(fragment.getContext(), track.getName() + " a été ajoutée à l'alarme " + alarm.getName(), Toast.LENGTH_SHORT).show();
             dismiss();
         }, throwable -> {
@@ -160,22 +188,22 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
 
     @Bindable
     public String getImage() {
-        if (trackVM != null) return trackVM.getImageUrl();
-        if (albumVM != null) return albumVM.getImageUrl();
+        if (track != null) return track.getImageUrl();
+        if (album != null) return album.getImage();
         return "";
     }
 
     @Bindable
     public String getTitle() {
-        if (trackVM != null) return trackVM.getName();
-        if (albumVM != null) return albumVM.getName();
+        if (track != null) return track.getName();
+        if (album != null) return album.getName();
         return "";
     }
 
     @Bindable
     public String getSubtitle() {
-        if (trackVM != null) return trackVM.getArtistName();
-        if (albumVM != null) return albumVM.getArtist();
+        if (track != null) return track.getArtistName();
+        if (album != null) return album.getArtist();
         return "";
     }
 }

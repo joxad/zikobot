@@ -31,6 +31,10 @@ public class AlbumVM extends BaseVM<LocalAlbum> {
 
     }
 
+    public void onMoreClicked(View view) {
+        onLongClick(view);
+    }
+
     public boolean onLongClick(View view) {
         EventBus.getDefault().post(new EventShowDialogAlbumSettings(model));
         return true;

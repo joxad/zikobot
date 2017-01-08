@@ -120,11 +120,13 @@ public class PlayerService extends Service implements IMusicPlayer {
         stopPreviousTrack();
 
         boolean foundInCurrentList = false;
-        for (int i = 0; i < trackVMs.size(); i++) {
-            TrackVM trackVM = trackVMs.get(i);
-            if (trackVM.getModel().getId() == eventPlayTrack.getTrack().getModel().getId()) {
-                currentTrackVM = trackVM;
-                foundInCurrentList = true;
+        if (!trackVMs.isEmpty()) {
+            for (int i = 0; i < trackVMs.size(); i++) {
+                TrackVM trackVM = trackVMs.get(i);
+                if (trackVM.getModel().getId() == eventPlayTrack.getTrack().getModel().getId()) {
+                    currentTrackVM = trackVM;
+                    foundInCurrentList = true;
+                }
             }
         }
         if (!foundInCurrentList) {

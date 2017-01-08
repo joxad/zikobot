@@ -20,22 +20,44 @@
         <com.balysv.materialripple.MaterialRippleLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onLongClick="@{albumVM::onLongClick}"
-            android:onClick="@{albumVM.onClick}">
+            android:onClick="@{albumVM.onClick}"
+            android:onLongClick="@{albumVM::onLongClick}">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/iv_album"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/image_card_height_large"
-                    android:scaleType="centerCrop"
-                    android:transitionName="@{albumVM.transition}"
-                    app:imageUrl="@{albumVM.imageUrl}"
-                    tools:src="@drawable/ic_picture_loading" />
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_album"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/image_card_height_large"
+                        android:scaleType="centerCrop"
+                        android:transitionName="@{albumVM.transition}"
+                        app:imageUrl="@{albumVM.imageUrl}"
+                        tools:src="@drawable/ic_picture_loading" />
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/iv_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:padding="4dp">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|center_vertical"
+                            android:onClick="@{albumVM.onMoreClicked}"
+                            android:src="@drawable/ic_more" />
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/layout_content"
