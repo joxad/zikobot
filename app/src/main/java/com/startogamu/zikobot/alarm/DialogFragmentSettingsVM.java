@@ -16,9 +16,9 @@ import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToEndOfCurrent;
 import com.startogamu.zikobot.core.model.Alarm;
+import com.startogamu.zikobot.core.model.Album;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.core.module.localmusic.manager.LocalMusicManager;
-import com.startogamu.zikobot.core.module.localmusic.model.LocalAlbum;
 import com.startogamu.zikobot.core.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.databinding.DialogFragmentSettingsBinding;
@@ -44,7 +44,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
     @Nullable
     Track track;
 
-    private LocalAlbum album;
+    private Album album;
     private ArrayList<Track> tracks;
 
     /***

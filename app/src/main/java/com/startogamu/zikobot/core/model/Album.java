@@ -19,7 +19,7 @@ public class Album {
     protected String image;
     protected int type;
     protected int nbTracks;
-
+    protected String artist;
     public Album() {
     }
 
@@ -30,6 +30,7 @@ public class Album {
         album.name = localAlbum.getName();
         album.image = localAlbum.getImage();
         album.nbTracks = localAlbum.getNbTracks();
+        album.artist=localAlbum.getArtist();
         return album;
     }
 }

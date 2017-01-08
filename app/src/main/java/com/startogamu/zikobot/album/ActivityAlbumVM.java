@@ -14,6 +14,7 @@ import com.startogamu.zikobot.core.event.player.EventAddList;
 import com.startogamu.zikobot.core.model.Album;
 import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.core.module.localmusic.manager.LocalMusicManager;
+import com.startogamu.zikobot.core.module.localmusic.model.LocalAlbum;
 import com.startogamu.zikobot.core.module.localmusic.model.LocalTrack;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
@@ -81,6 +82,11 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
      */
     private void initToolbar() {
         ZikoUtils.prepareToolbar(activity, binding.customToolbar, album.getName(), album.getImage());
+        binding.customToolbar.mainCollapsing.setOnClickListener(v -> {
+            DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(album);
+            dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
+
+        });
     }
 
 
