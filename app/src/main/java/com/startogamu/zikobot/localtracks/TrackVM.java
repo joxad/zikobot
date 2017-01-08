@@ -60,6 +60,10 @@ public class TrackVM extends BaseVM<Track> implements PopupMenu.OnMenuItemClickL
         return String.format("%s - %s", model.getName(), model.getArtistName());
     }
 
+    @Bindable
+    public long getDuration() {
+        return model.getDuration();
+    }
     public void onTrackClicked(View view) {
         isChecked = !isChecked;
         if (isChecked) {

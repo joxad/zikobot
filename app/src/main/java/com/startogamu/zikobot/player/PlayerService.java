@@ -1,25 +1,34 @@
 package com.startogamu.zikobot.player;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
+import android.media.AudioManager;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToCurrent;
 import com.startogamu.zikobot.core.event.player.EventAddTrackToPlayer;
 import com.startogamu.zikobot.core.event.player.EventNextTrack;
+import com.startogamu.zikobot.core.event.player.EventPauseMediaButton;
+import com.startogamu.zikobot.core.event.player.EventPlayMediaButton;
 import com.startogamu.zikobot.core.event.player.EventPlayTrack;
 import com.startogamu.zikobot.core.event.player.EventPosition;
 import com.startogamu.zikobot.core.event.player.EventPreviousTrack;
+import com.startogamu.zikobot.core.event.player.EventRefreshPlayer;
 import com.startogamu.zikobot.core.event.player.EventStopPlayer;
 import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.core.module.music.player.IMusicPlayer;
 import com.startogamu.zikobot.core.notification.PlayerNotification;
+import com.startogamu.zikobot.core.receiver.ZikoMediaCallback;
 import com.startogamu.zikobot.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,7 +53,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     private final IBinder musicBind = new PlayerService.PlayerBinder();
     private int currentProgress = 0;
     public static final int DELAY = 200;
-
+    private MediaSessionCompat mediaSession;
     private Handler timeHandler;
 
     public class PlayerBinder extends Binder {
@@ -56,6 +65,21 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Override
     public void onCreate() {
         super.onCreate();
+        mediaSession = new MediaSessionCompat(this, "PlayerService");
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
+                MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+        mediaSession.setCallback(new ZikoMediaCallback());
+
+        mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
+                .setState(PlaybackStateCompat.STATE_PAUSED, 0, 0)
+                .setActions(PlaybackStateCompat.ACTION_PLAY_PAUSE)
+                .build());
+
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audioManager.requestAudioFocus(focusChange -> {
+            // Ignore
+        }, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        mediaSession.setActive(true);
         EventBus.getDefault().register(this);
         init();
         runHandler();
@@ -143,6 +167,20 @@ public class PlayerService extends Service implements IMusicPlayer {
     }
 
     @Subscribe
+    public void onEvent(EventPauseMediaButton eventPauseMediaButton) {
+        pause();
+    }
+
+    @Subscribe
+    public void onEvent(EventPlayMediaButton eventPlayMediaButton) {
+        if (currentTrackVM != null)
+            resume();
+        else {
+
+        }
+    }
+
+    @Subscribe
     public void onEvent(EventPreviousTrack eventPreviousTrack) {
         previous();
     }
@@ -154,6 +192,12 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     private void play(TrackVM currentTrackVM) {
         currentTrackVM.isPlaying.set(true);
+        mediaSession.setMetadata(new MediaMetadataCompat.Builder()
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, currentTrackVM.getArtistName())
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, currentTrackVM.getName())
+                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, currentTrackVM.getDuration())
+                .build());
+
         play(currentTrackVM.getRef());
     }
 
@@ -182,6 +226,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     public void pause() {
         vlcPlayer.pause();
         playing.set(false);
+        EventBus.getDefault().post(new EventRefreshPlayer());
 
     }
 
@@ -189,7 +234,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     public void resume() {
         vlcPlayer.play();
         playing.set(true);
-
+        EventBus.getDefault().post(new EventRefreshPlayer());
     }
 
     @Override

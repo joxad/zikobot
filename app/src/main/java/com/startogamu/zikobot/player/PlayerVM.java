@@ -24,6 +24,7 @@ import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.event.player.EventNextTrack;
 import com.startogamu.zikobot.core.event.player.EventPosition;
 import com.startogamu.zikobot.core.event.player.EventPreviousTrack;
+import com.startogamu.zikobot.core.event.player.EventRefreshPlayer;
 import com.startogamu.zikobot.core.event.player.TrackChangeEvent;
 import com.startogamu.zikobot.databinding.ViewPlayerSimpleBinding;
 import com.startogamu.zikobot.localtracks.TrackVM;
@@ -113,6 +114,11 @@ public class PlayerVM extends BaseObservable implements IVM {
     public void playPause(View view) {
         playerService.pause();
         notifyChange();
+    }
+
+    @Subscribe
+    public void onReceive(EventRefreshPlayer eventRefreshPlayer) {
+        refresh();
     }
 
     @Subscribe
