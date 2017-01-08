@@ -30,7 +30,7 @@
             <ImageView
                 android:id="@+id/remote_view_iv_track"
                 android:layout_width="62dp"
-                android:layout_height="62dp" />
+                android:layout_height="match_parent" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

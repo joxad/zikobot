@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.widget.RemoteViews;
 
 import com.bumptech.glide.Glide;
@@ -29,7 +30,7 @@ public class PlayerNotification {
     private int notificationId = 42;
 
     private Context context;
-    private NotificationManager notificationManager;
+    private NotificationManagerCompat notificationManager;
     private RemoteViews playerViewSmall;
     private RemoteViews playerViewLarge;
     private Notification notification;
@@ -38,7 +39,8 @@ public class PlayerNotification {
     public PlayerNotification(Context context) {
         handler = new Handler(Looper.getMainLooper());
         this.context = context;
-        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+// Get an instance of the NotificationManager service
+         notificationManager = NotificationManagerCompat.from(context);
 
     }
     /***
@@ -58,14 +60,16 @@ public class PlayerNotification {
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_music)
+                .setContentText(track.getName())
+
                 .setContent(playerViewSmall)
                 .setContentTitle(track.getName())
                 .setOngoing(true)
                 .setAutoCancel(false)
+                .setCustomBigContentView(playerViewLarge)
                 .setWhen(when);
 
         notification = notificationBuilder.build();
-        notification.bigContentView = playerViewLarge;
 
         loadSmallImage(notification, track);
         loadLargeImage(notification, track);

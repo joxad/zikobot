@@ -125,6 +125,7 @@ dependencies {
     compile(name: 'vlc-android-sdk', ext: 'aar')
     compile 'com.rokpetek.breadcrumbtoolbar:breadcrumb-toolbar:1.0'
     compile 'com.github.andrewlord1990:snackbarbuilder:0.7.0'
+    wearApp project(':wear')
 
 }
 

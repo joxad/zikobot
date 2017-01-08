@@ -15,7 +15,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
-
     <uses-permission
         android:name="android.permission.ACCESS_WIFI_STATE"
         android:required="true" />
@@ -31,11 +30,9 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/ZikoboTheme.NoActionBar">
-
         <activity
             android:name=".home.ActivityMain"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.MUSIC_PLAYER" />
@@ -46,6 +43,7 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:scheme="file" />
@@ -79,28 +77,19 @@
                 <data android:mimeType="application/itunes" />
             </intent-filter>
         </activity>
-
-
         <activity android:name=".deezer.ActivityDeezer" />
         <activity
             android:name=".artist.ActivityArtist"
             android:label="@string/app_name"
-
             android:screenOrientation="portrait" />
-
-
         <activity
             android:name=".search.ActivitySearch"
             android:label="@string/app_name"
-
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".album.ActivityAlbum"
             android:label="@string/app_name"
-
             android:screenOrientation="portrait" />
-
         <activity android:name=".soundcloud.SoundCloudLoginActivity" />
         <activity
             android:name=".intro.ActivityFirstStart"
@@ -116,28 +105,23 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <activity
             android:name=".settings.ActivitySettings"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
-
             // An intent filter that will receive the response from the authentication service
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 // this needs to match the scheme and host of the redirect uri
                 <data
                     android:host="settings-activity"
                     android:scheme="spotify-callback" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".wakeup.ActivityWakeUp"
             android:screenOrientation="portrait"
@@ -146,18 +130,14 @@
         <receiver android:name=".core.receiver.AlarmReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-
             </intent-filter>
-
         </receiver>
-
         <receiver android:name=".core.receiver.ClearPlayerReceiver" />
         <receiver android:name=".core.receiver.NextPlayerReceiver" />
         <receiver android:name=".core.receiver.PreviousPlayerReceiver" />
         <receiver android:name=".core.receiver.NotificationPauseResumeReceiver" />
 
-
-        <!--This part is inside the application-->
+        <!-- This part is inside the application -->
         <receiver android:name=".core.receiver.CallReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
@@ -166,8 +146,6 @@
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
-
-
         <receiver
             android:name=".core.receiver.DeviceBootReceiver"
             android:enabled="false">
@@ -175,8 +153,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-
         <receiver
             android:name=".widget.NextAlarmWidgetProvider"
             android:icon="@drawable/zikobot_large"
@@ -184,11 +160,11 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_next_alarm" />
         </receiver>
-
         <receiver
             android:name=".widget.NextAlarmClockWidgetProvider"
             android:icon="@drawable/zikobot_large"
@@ -196,12 +172,13 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_next_alarm_clock" />
         </receiver>
 
-        <service android:name=".player.PlayerService" >
+        <service android:name=".player.PlayerService">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
@@ -211,12 +188,11 @@
             android:name="io.fabric.ApiKey"
             android:value="00c5576aa26f4b6ed7a4d6e0e8794f3af2436e2d" />
 
-        <receiver android:name=".core.receiver.MediaButtonReceiver" >
+        <receiver android:name=".core.receiver.MediaButtonReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>
