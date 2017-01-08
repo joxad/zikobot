@@ -13,12 +13,12 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * Created by josh on 14/06/16.
  */
-public class ClearPlayerReceiver extends BroadcastReceiver {
+public class StopPlayerReceiver extends BroadcastReceiver {
 
 
-    public static final String TAG = ClearPlayerReceiver.class.getSimpleName();
+    public static final String TAG = StopPlayerReceiver.class.getSimpleName();
 
-    public ClearPlayerReceiver() {
+    public StopPlayerReceiver() {
         super();
     }
 

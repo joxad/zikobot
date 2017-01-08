@@ -17,10 +17,12 @@ import com.bumptech.glide.request.target.NotificationTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.model.Track;
-import com.startogamu.zikobot.core.receiver.ClearPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.NextPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.NotificationPauseResumeReceiver;
+import com.startogamu.zikobot.core.receiver.PausePlayerReceiver;
 import com.startogamu.zikobot.core.receiver.PreviousPlayerReceiver;
+import com.startogamu.zikobot.core.receiver.ResumePlayerReceiver;
+import com.startogamu.zikobot.core.receiver.StopPlayerReceiver;
 import com.startogamu.zikobot.home.ActivityMain;
 
 import lombok.Getter;
@@ -53,14 +55,16 @@ public class PlayerNotification {
         Intent viewIntent = new Intent(context, ActivityMain.class);
         PendingIntent viewPendingIntent =
                 PendingIntent.getActivity(context, 0, viewIntent, 0);
-        Intent intentPause = new Intent(context, NotificationPauseResumeReceiver.class);
+        Intent intentPause = new Intent(context, PausePlayerReceiver.class);
         PendingIntent pIntentPause = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentPause, PendingIntent.FLAG_UPDATE_CURRENT);
         Intent intentNext = new Intent(context, NextPlayerReceiver.class);
-// use System.currentTimeMillis() to have a unique ID for the pending intent
         PendingIntent pIntentNext = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentNext, PendingIntent.FLAG_UPDATE_CURRENT);
         Intent intentPrevious = new Intent(context, PreviousPlayerReceiver.class);
-// use System.currentTimeMillis() to have a unique ID for the pending intent
         PendingIntent pIntentPrevious = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentPrevious, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intentResume = new Intent(context, ResumePlayerReceiver.class);
+        PendingIntent pIntentResume = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentResume, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intentStop = new Intent(context, StopPlayerReceiver.class);
+        PendingIntent pIntentStop = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Glide.with(context)
                 .load(track.getImageUrl())
@@ -74,9 +78,12 @@ public class PlayerNotification {
                                         .setLargeIcon(resource)
                                         .setContentTitle(track.getName())
                                         .setContentText(track.getArtistName())
-                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_pause, "Pause", pIntentPause).build())
-                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_previous, "Previous", pIntentPrevious).build())
-                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_next, "Next", pIntentNext).build())
+                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_pause_notif, "Pause", pIntentPause).build())
+                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_play_white, "Play", pIntentResume).build())
+                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_previous_notif, "Previous", pIntentPrevious).build())
+                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_next_notif, "Next", pIntentNext).build())
+                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_clear, "Arrêter", pIntentStop).build())
+
                                         .setContentIntent(viewPendingIntent);
 
 // Get an instance of the NotificationManager service
@@ -100,7 +107,7 @@ public class PlayerNotification {
 // notification is selected
 
         long when = System.currentTimeMillis();
-        Intent intent = new Intent(context, ClearPlayerReceiver.class);
+        Intent intent = new Intent(context, StopPlayerReceiver.class);
 // use System.currentTimeMillis() to have a unique ID for the pending intent
         PendingIntent pIntent = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intent, 0);
         initSmallNotification(pIntent, track);

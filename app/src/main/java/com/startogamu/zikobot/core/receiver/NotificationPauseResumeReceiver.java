@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.orhanobut.logger.Logger;
+import com.startogamu.zikobot.core.event.player.EventPauseMediaButton;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 /**
@@ -21,6 +24,7 @@ public class NotificationPauseResumeReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        EventBus.getDefault().post(new EventPauseMediaButton());
         Logger.d(TAG);
     }
 
