@@ -228,7 +228,7 @@ public class PlayerService extends Service implements IMusicPlayer {
         vlcPlayer.play();
         playing.set(true);
         if (currentTrackVM != null) {
-            playerNotification.showNotification(currentTrackVM.getModel());
+            playerNotification.prepareNotification(currentTrackVM.getModel());
         }
         currentProgress = 0;
 
@@ -261,10 +261,12 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Override
     public void stop() {
         stopPreviousTrack();
-        currentTrackVM = null;
         vlcPlayer.stop();
         playing.set(false);
         currentProgress = 0;
+        playerNotification.cancel();
+        EventBus.getDefault().post(new EventRefreshPlayer());
+
     }
 
     @Override

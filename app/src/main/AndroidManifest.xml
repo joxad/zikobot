@@ -135,6 +135,8 @@
         <receiver android:name=".core.receiver.StopPlayerReceiver" />
         <receiver android:name=".core.receiver.NextPlayerReceiver" />
         <receiver android:name=".core.receiver.PreviousPlayerReceiver" />
+        <receiver android:name=".core.receiver.PausePlayerReceiver" />
+        <receiver android:name=".core.receiver.ResumePlayerReceiver" />
         <receiver android:name=".core.receiver.NotificationPauseResumeReceiver" />
 
         <!-- This part is inside the application -->

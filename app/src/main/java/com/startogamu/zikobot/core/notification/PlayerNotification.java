@@ -5,8 +5,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.widget.RemoteViews;
@@ -25,195 +28,106 @@ import com.startogamu.zikobot.core.receiver.ResumePlayerReceiver;
 import com.startogamu.zikobot.core.receiver.StopPlayerReceiver;
 import com.startogamu.zikobot.home.ActivityMain;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import lombok.Getter;
 
 /**
  * Created by josh on 13/06/16.
  */
 public class PlayerNotification {
+    private final PendingIntent viewPendingIntent;
+    private final ArrayList actions;
     @Getter
     private int notificationId = 42;
 
     private Context context;
     private NotificationManagerCompat notificationManager;
     private RemoteViews playerViewSmall;
-    private RemoteViews playerViewLarge;
-    private Notification notification;
-    private Handler handler;
 
     public PlayerNotification(Context context) {
-        handler = new Handler(Looper.getMainLooper());
         this.context = context;
 // Get an instance of the NotificationManager service
         notificationManager = NotificationManagerCompat.from(context);
-
-    }
-
-    public void showNotification(Track track) {
-        int notificationId = 001;
-// Build intent for notification content
         Intent viewIntent = new Intent(context, ActivityMain.class);
-        PendingIntent viewPendingIntent =
-                PendingIntent.getActivity(context, 0, viewIntent, 0);
+        viewPendingIntent = PendingIntent.getActivity(context, 0, viewIntent, 0);
         Intent intentPause = new Intent(context, PausePlayerReceiver.class);
         PendingIntent pIntentPause = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentPause, PendingIntent.FLAG_UPDATE_CURRENT);
-        Intent intentNext = new Intent(context, NextPlayerReceiver.class);
-        PendingIntent pIntentNext = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentNext, PendingIntent.FLAG_UPDATE_CURRENT);
-        Intent intentPrevious = new Intent(context, PreviousPlayerReceiver.class);
-        PendingIntent pIntentPrevious = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentPrevious, PendingIntent.FLAG_UPDATE_CURRENT);
         Intent intentResume = new Intent(context, ResumePlayerReceiver.class);
         PendingIntent pIntentResume = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentResume, PendingIntent.FLAG_UPDATE_CURRENT);
         Intent intentStop = new Intent(context, StopPlayerReceiver.class);
         PendingIntent pIntentStop = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        actions = new ArrayList<>();
+        actions.add(new NotificationCompat.Action.Builder(R.drawable.ic_pause_notif, "Pause", pIntentPause).build());
+        actions.add(new NotificationCompat.Action.Builder(R.drawable.ic_play_white, "Play", pIntentResume).build());
+        actions.add(new NotificationCompat.Action.Builder(R.drawable.ic_clear_white, "Arrêter", pIntentStop).build());
+
+
+    }
+
+    public void prepareNotification(Track track) {
+// Build intent for notification content
+
+        NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender()
+                .setDisplayIntent(viewPendingIntent).addActions(actions)
+                .setCustomSizePreset(Notification.WearableExtender.SIZE_FULL_SCREEN);
         Glide.with(context)
                 .load(track.getImageUrl())
                 .asBitmap()
                 .into(new SimpleTarget<Bitmap>(100, 100) {
                     @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        showNotification(track, extender, viewPendingIntent,  BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_vinyl) );
+                    }
+
+                    @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                        NotificationCompat.Builder notificationBuilder =
-                                new NotificationCompat.Builder(context)
-                                        .setSmallIcon(R.mipmap.ic_launcher)
-                                        .setLargeIcon(resource)
-                                        .setContentTitle(track.getName())
-                                        .setContentText(track.getArtistName())
-                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_pause_notif, "Pause", pIntentPause).build())
-                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_play_white, "Play", pIntentResume).build())
-                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_previous_notif, "Previous", pIntentPrevious).build())
-                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_next_notif, "Next", pIntentNext).build())
-                                        .addAction(new NotificationCompat.Action.Builder(R.drawable.ic_clear, "Arrêter", pIntentStop).build())
-
-                                        .setContentIntent(viewPendingIntent);
-
-// Get an instance of the NotificationManager service
-                        NotificationManagerCompat notificationManager =
-                                NotificationManagerCompat.from(context);
-
-// Build the notification and issues it with notification manager.
-                        notificationManager.notify(notificationId, notificationBuilder.build());
-
+                        showNotification(track, extender, viewPendingIntent, resource);
                     }
                 });
 
-
     }
 
-    /***
-     * @param track
-     */
-    public Notification show(final Track track) {
-        // prepare intent which is triggered if the
-// notification is selected
+    private void showNotification(Track track, NotificationCompat.WearableExtender extender, PendingIntent intent, @Nullable Bitmap bitmap) {
+        Intent intentStop = new Intent(context, StopPlayerReceiver.class);
+        PendingIntent pIntentStop = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        long when = System.currentTimeMillis();
-        Intent intent = new Intent(context, StopPlayerReceiver.class);
-// use System.currentTimeMillis() to have a unique ID for the pending intent
-        PendingIntent pIntent = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intent, 0);
-        initSmallNotification(pIntent, track);
-        initLargeNotification(pIntent, track);
+        initSmallNotification(pIntentStop, track, bitmap);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
-                .setContentText(track.getName())
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContent(playerViewSmall)
-                .setContentTitle(track.getName())
-                .setOngoing(true)
-                .setCustomBigContentView(playerViewLarge)
-                .setWhen(when);
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(track.getName())
+                        .setContentText(track.getArtistName())
+                        .setPriority(Notification.PRIORITY_MAX)
+                        .setContent(playerViewSmall)
+                        .setWhen(System.currentTimeMillis())
+                        .setAutoCancel(false)
+                        .setOngoing(true)
+                        .setGroup("Phone")
+                        .setLargeIcon(bitmap)
+                        .setContentIntent(viewPendingIntent);
+
+        NotificationCompat.Builder notificationBuilderWear =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(track.getName())
+                        .setContentText(track.getArtistName())
+                        .setPriority(Notification.PRIORITY_MAX)
+                        .setContent(playerViewSmall)
+                        .setWhen(System.currentTimeMillis())
+                        .setAutoCancel(false)
+                        .setGroup("Wear")
+                        .setLargeIcon(bitmap)
+                        .setContentIntent(viewPendingIntent)
+                        .extend(extender);
 
 // Build the notification and issues it with notification manager.
         notificationManager.notify(notificationId, notificationBuilder.build());
-
-        notification = notificationBuilder.build();
-
-        loadSmallImage(notification, track);
-        loadLargeImage(notification, track);
-
-        return notification;
-
-    }
-
-    /**
-     * @param notification
-     * @param track
-     */
-    private void loadSmallImage(Notification notification, Track track) {
-        NotificationTarget notificationTarget = new NotificationTarget(
-                context,
-                playerViewSmall,
-                R.id.remote_view_iv_track,
-                notification,
-                notificationId);
-        handler.post(() -> Glide.with(context)
-                .load(track.getImageUrl())
-                .asBitmap()
-                .into(notificationTarget));
-    }
-
-    /**
-     * @param notification
-     * @param track
-     */
-    private void loadLargeImage(Notification notification, Track track) {
-        NotificationTarget notificationTarget = new NotificationTarget(
-                context,
-                playerViewLarge,
-                R.id.remote_view_iv_track,
-                notification,
-                notificationId);
-        handler.post(() -> Glide.with(context)
-                .load(track.getImageUrl())
-                .asBitmap()
-                .into(notificationTarget));
-    }
-
-    /***
-     * @param pIntent
-     * @param track
-     */
-    private void initLargeNotification(PendingIntent pIntent, Track track) {
-        playerViewLarge = new RemoteViews(context.getPackageName(), R.layout.view_notification_player);
-        playerViewLarge.setOnClickPendingIntent(R.id.iv_stop, pIntent);
-        playerViewLarge.setTextViewText(R.id.tv_artist, track.getArtistName());
-        playerViewLarge.setTextViewText(R.id.tv_track, track.getName());
-
-        Intent intentPause = new Intent(context, NotificationPauseResumeReceiver.class);
-// use System.currentTimeMillis() to have a unique ID for the pending intent
-        PendingIntent pIntentPause = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentPause, PendingIntent.FLAG_UPDATE_CURRENT);
-        playerViewLarge.setOnClickPendingIntent(R.id.iv_play, pIntentPause);
-        playerViewLarge.setImageViewResource(R.id.iv_play, R.drawable.ic_pause);
-        Intent intentNext = new Intent(context, NextPlayerReceiver.class);
-// use System.currentTimeMillis() to have a unique ID for the pending intent
-        PendingIntent pIntentNext = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentNext, PendingIntent.FLAG_UPDATE_CURRENT);
-        playerViewLarge.setOnClickPendingIntent(R.id.iv_next, pIntentNext);
-
-
-        Intent intentPrevious = new Intent(context, PreviousPlayerReceiver.class);
-// use System.currentTimeMillis() to have a unique ID for the pending intent
-        PendingIntent pIntentPrevious = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentPrevious, PendingIntent.FLAG_UPDATE_CURRENT);
-        playerViewLarge.setOnClickPendingIntent(R.id.iv_previous, pIntentPrevious);
-
-
-    }
-
-    /***
-     * @param showPlay
-     */
-    public void updatePlayStatus(boolean showPlay) {
-        playerViewLarge.setImageViewResource(R.id.iv_play, showPlay ? R.drawable.ic_play_arrow : R.drawable.ic_pause);
-        if (showPlay) {
-            Intent intentResume = new Intent(context, NotificationPauseResumeReceiver.class);
-            PendingIntent pIntentResume = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentResume, PendingIntent.FLAG_UPDATE_CURRENT);
-            playerViewLarge.setOnClickPendingIntent(R.id.iv_play, pIntentResume);
-        } else {
-            Intent intentPause = new Intent(context, NotificationPauseResumeReceiver.class);
-            PendingIntent pIntentPause = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentPause, PendingIntent.FLAG_UPDATE_CURRENT);
-            playerViewLarge.setOnClickPendingIntent(R.id.iv_play, pIntentPause);
-        }
-        notification.bigContentView = playerViewLarge;
-        notificationManager.notify(notificationId, notification);
-
+        notificationManager.notify(notificationId, notificationBuilderWear.build());
     }
 
 
@@ -221,11 +135,12 @@ public class PlayerNotification {
      * @param pIntent
      * @param track
      */
-    private void initSmallNotification(PendingIntent pIntent, Track track) {
+    private void initSmallNotification(PendingIntent pIntent, Track track, Bitmap bitmap) {
         playerViewSmall = new RemoteViews(context.getPackageName(), R.layout.view_notification_player_small);
         playerViewSmall.setOnClickPendingIntent(R.id.iv_stop, pIntent);
         playerViewSmall.setTextViewText(R.id.tv_artist, track.getArtistName());
         playerViewSmall.setTextViewText(R.id.tv_track, track.getName());
+        playerViewSmall.setImageViewBitmap(R.id.remote_view_iv_track,bitmap);
     }
 
 

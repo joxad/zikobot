@@ -66,7 +66,7 @@ public class PlayerVM extends BaseObservable implements IVM {
         behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                Logger.d("%d",newState);
+                Logger.d("%d", newState);
                 if (newState == BottomSheetBehavior.STATE_EXPANDED)
                     isExpanded.set(true);
                 else {
@@ -112,7 +112,9 @@ public class PlayerVM extends BaseObservable implements IVM {
 
 
     public void playPause(View view) {
-        playerService.pause();
+        if (isPlaying())
+            playerService.pause();
+        else playerService.resume();
         notifyChange();
     }
 
@@ -196,7 +198,7 @@ public class PlayerVM extends BaseObservable implements IVM {
 
     public boolean onBackPressed() {
 
-        if(behavior.getState()==BottomSheetBehavior.STATE_EXPANDED) {
+        if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             return false;
         }
