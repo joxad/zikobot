@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">ZikobotWear</string>
     <string name="hello_world">Hello World!</string>
+
+    <string name="hello">Hello World!</string>
+    <string name="title">Hello Notification!</string>
+    <string name="notification_posted">Notification posted</string>
 </resources>

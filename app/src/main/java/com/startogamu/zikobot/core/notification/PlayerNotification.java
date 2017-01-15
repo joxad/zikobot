@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -16,20 +14,16 @@ import android.widget.RemoteViews;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.NotificationTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.core.model.Track;
-import com.startogamu.zikobot.core.receiver.NextPlayerReceiver;
-import com.startogamu.zikobot.core.receiver.NotificationPauseResumeReceiver;
+import com.startogamu.zikobot.core.receiver.NotificationDismissedReceiver;
 import com.startogamu.zikobot.core.receiver.PausePlayerReceiver;
-import com.startogamu.zikobot.core.receiver.PreviousPlayerReceiver;
 import com.startogamu.zikobot.core.receiver.ResumePlayerReceiver;
 import com.startogamu.zikobot.core.receiver.StopPlayerReceiver;
 import com.startogamu.zikobot.home.ActivityMain;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import lombok.Getter;
 
@@ -41,6 +35,8 @@ public class PlayerNotification {
     private final ArrayList actions;
     @Getter
     private int notificationId = 42;
+    @Getter
+    private int notificationIdWear = 43;
 
     private Context context;
     private NotificationManagerCompat notificationManager;
@@ -48,7 +44,7 @@ public class PlayerNotification {
 
     public PlayerNotification(Context context) {
         this.context = context;
-// Get an instance of the NotificationManager service
+        // Get an instance of the NotificationManager service
         notificationManager = NotificationManagerCompat.from(context);
         Intent viewIntent = new Intent(context, ActivityMain.class);
         viewPendingIntent = PendingIntent.getActivity(context, 0, viewIntent, 0);
@@ -80,7 +76,7 @@ public class PlayerNotification {
                     @Override
                     public void onLoadFailed(Exception e, Drawable errorDrawable) {
                         super.onLoadFailed(e, errorDrawable);
-                        showNotification(track, extender, viewPendingIntent,  BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_vinyl) );
+                        showNotification(track, extender, viewPendingIntent, BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_vinyl));
                     }
 
                     @Override
@@ -90,6 +86,16 @@ public class PlayerNotification {
                 });
 
     }
+    private PendingIntent createOnDismissedIntent(Context context, int notificationId) {
+        Intent intent = new Intent(context, NotificationDismissedReceiver.class);
+        intent.putExtra("notificationId", notificationId);
+
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(context.getApplicationContext(),
+                        notificationId, intent, 0);
+        return pendingIntent;
+    }
+
 
     private void showNotification(Track track, NotificationCompat.WearableExtender extender, PendingIntent intent, @Nullable Bitmap bitmap) {
         Intent intentStop = new Intent(context, StopPlayerReceiver.class);
@@ -106,28 +112,15 @@ public class PlayerNotification {
                         .setContent(playerViewSmall)
                         .setWhen(System.currentTimeMillis())
                         .setAutoCancel(false)
-                        .setOngoing(true)
-                        .setGroup("Phone")
+                        .setDeleteIntent(createOnDismissedIntent(context, notificationId))
                         .setLargeIcon(bitmap)
-                        .setContentIntent(viewPendingIntent);
+                        .extend(extender)
+                        .setContentIntent(intent);
 
-        NotificationCompat.Builder notificationBuilderWear =
-                new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle(track.getName())
-                        .setContentText(track.getArtistName())
-                        .setPriority(Notification.PRIORITY_MAX)
-                        .setContent(playerViewSmall)
-                        .setWhen(System.currentTimeMillis())
-                        .setAutoCancel(false)
-                        .setGroup("Wear")
-                        .setLargeIcon(bitmap)
-                        .setContentIntent(viewPendingIntent)
-                        .extend(extender);
 
+       // GoogleApiManager.INSTANCE.sendTrack(track, bitmap);
 // Build the notification and issues it with notification manager.
         notificationManager.notify(notificationId, notificationBuilder.build());
-        notificationManager.notify(notificationId, notificationBuilderWear.build());
     }
 
 
@@ -140,7 +133,7 @@ public class PlayerNotification {
         playerViewSmall.setOnClickPendingIntent(R.id.iv_stop, pIntent);
         playerViewSmall.setTextViewText(R.id.tv_artist, track.getArtistName());
         playerViewSmall.setTextViewText(R.id.tv_track, track.getName());
-        playerViewSmall.setImageViewBitmap(R.id.remote_view_iv_track,bitmap);
+        playerViewSmall.setImageViewBitmap(R.id.remote_view_iv_track, bitmap);
     }
 
 

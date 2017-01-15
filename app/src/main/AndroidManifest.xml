@@ -195,6 +195,10 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".core.receiver.NotificationDismissedReceiver"
+            android:exported="false" >
+        </receiver>
     </application>
 
 </manifest>
