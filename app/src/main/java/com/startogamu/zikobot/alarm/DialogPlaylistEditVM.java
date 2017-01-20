@@ -61,33 +61,11 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
         binding.viewAlarm.swRepeat.setChecked(alarm.getRepeated() == 1);
         binding.viewAlarm.swRandom.setChecked(alarm.getRandomTrack() == 1);
         initHour();
-        initSelectedDays();
         RxCompoundButton.checkedChanges(binding.viewAlarm.swRepeat).subscribe(aBoolean -> {
             alarmVM.updateRepeated(aBoolean);
         });
         RxCompoundButton.checkedChanges(binding.viewAlarm.swRandom).subscribe(aBoolean -> {
             alarmVM.updateRandom(aBoolean);
-        });
-        RxView.clicks(binding.viewAlarm.cbMonday).subscribe(aVoid -> {
-            alarmVM.handleTextClickDay(binding.viewAlarm.cbMonday, Calendar.MONDAY);
-        });
-        RxView.clicks(binding.viewAlarm.cbTuesday).subscribe(aVoid -> {
-            alarmVM.handleTextClickDay(binding.viewAlarm.cbTuesday, Calendar.TUESDAY);
-        });
-        RxView.clicks(binding.viewAlarm.cbWednesday).subscribe(aVoid -> {
-            alarmVM.handleTextClickDay(binding.viewAlarm.cbWednesday, Calendar.WEDNESDAY);
-        });
-        RxView.clicks(binding.viewAlarm.cbThursday).subscribe(aVoid -> {
-            alarmVM.handleTextClickDay(binding.viewAlarm.cbThursday, Calendar.THURSDAY);
-        });
-        RxView.clicks(binding.viewAlarm.cbFriday).subscribe(aVoid -> {
-            alarmVM.handleTextClickDay(binding.viewAlarm.cbFriday, Calendar.FRIDAY);
-        });
-        RxView.clicks(binding.viewAlarm.cbSaturday).subscribe(aVoid -> {
-            alarmVM.handleTextClickDay(binding.viewAlarm.cbSaturday, Calendar.SATURDAY);
-        });
-        RxView.clicks(binding.viewAlarm.cbSunday).subscribe(aVoid -> {
-            alarmVM.handleTextClickDay(binding.viewAlarm.cbSunday, Calendar.SUNDAY);
         });
 
         binding.viewAlarm.seekBarVolume.setOnSeekBarChangeListener(new SimpleSeekBarListener() {
@@ -111,18 +89,6 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
     }
 
 
-    /***
-     * Check the activated days
-     */
-    private void initSelectedDays() {
-        binding.viewAlarm.cbMonday.setSelected(alarmVM.isDayActive(Calendar.MONDAY));
-        binding.viewAlarm.cbTuesday.setSelected(alarmVM.isDayActive(Calendar.TUESDAY));
-        binding.viewAlarm.cbWednesday.setSelected(alarmVM.isDayActive(Calendar.WEDNESDAY));
-        binding.viewAlarm.cbThursday.setSelected(alarmVM.isDayActive(Calendar.THURSDAY));
-        binding.viewAlarm.cbFriday.setSelected(alarmVM.isDayActive(Calendar.FRIDAY));
-        binding.viewAlarm.cbSaturday.setSelected(alarmVM.isDayActive(Calendar.SATURDAY));
-        binding.viewAlarm.cbSunday.setSelected(alarmVM.isDayActive(Calendar.SUNDAY));
-    }
 
     public void onSave(View view) {
         save().subscribe(alarm1 -> {

@@ -117,4 +117,5 @@
     <string name="dialog_options">Options</string>
     <string name="title_add_playlist">Ajouter à une playlist</string>
     <string name="title_playing">Lecture en cours</string>
+    <string name="alarm_confirm_edit">L\'alarme a été mise à jour</string>
 </resources>

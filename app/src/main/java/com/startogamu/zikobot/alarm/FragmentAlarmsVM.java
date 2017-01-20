@@ -10,11 +10,15 @@ import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.startogamu.zikobot.BR;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.fragmentmanager.EventRefreshAlarms;
 import com.startogamu.zikobot.core.model.Alarm;
 import com.startogamu.zikobot.core.module.spotify_auth.manager.SpotifyAuthManager;
 import com.startogamu.zikobot.core.utils.AppPrefs;
 import com.startogamu.zikobot.core.viewutils.SnackUtils;
 import com.startogamu.zikobot.databinding.FragmentAlarmsBinding;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.UnsupportedEncodingException;
 
@@ -54,6 +58,26 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
         }
         createSwipeToDismiss();
         swipeToDismissTouchHelper.attachToRecyclerView(binding.alarmRecyclerView);
+        loadAlarms();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+
+    @Subscribe
+    public void onEvent(EventRefreshAlarms eventRefreshAlarms) {
+        for (AlarmVM alarmVM : itemsVM) {
+            if (alarmVM.getModel().getId() == eventRefreshAlarms.getAlarmId()) {
+                AlarmManager.getAlarmById(eventRefreshAlarms.getAlarmId()).subscribe(alarmVM::updateModel,
+                        throwable -> {
+
+                        });
+            }
+        }
     }
 
     private void createSwipeToDismiss() {
@@ -82,13 +106,6 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
 
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        showTuto.set(false);
-        loadAlarms();
     }
 
 
@@ -120,4 +137,9 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
         });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
 }

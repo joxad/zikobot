@@ -7,21 +7,24 @@ import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.base.BaseVM;
 import com.orhanobut.logger.Logger;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.alarm.event.EventEditAlarm;
 import com.startogamu.zikobot.core.event.alarm.EventAlarmSelect;
+import com.startogamu.zikobot.core.model.Alarm;
+import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.core.receiver.AlarmReceiver;
 import com.startogamu.zikobot.core.utils.EXTRA;
 import com.startogamu.zikobot.core.utils.ZikoUtils;
-import com.startogamu.zikobot.core.model.Alarm;
-import com.startogamu.zikobot.core.model.Track;
 import com.startogamu.zikobot.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Calendar;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -34,11 +37,13 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     public ObservableArrayList<TrackVM> tracksVms;
     public ObservableBoolean isExpanded;
+
     public abstract ItemView itemView();
 
     public Alarm getModel() {
         return model;
     }
+
     /***
      * @param context
      * @param model
@@ -127,6 +132,11 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         EventBus.getDefault().post(new EventAlarmSelect(model, view.findViewById(R.id.iv_playlist)));
     }
 
+    public void showDialog(View view) {
+        EventBus.getDefault().post(new EventEditAlarm(model));
+
+    }
+
     @Bindable
     public String getName() {
         return model.getName();
@@ -134,7 +144,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     @Bindable
     public String getAlarmTime() {
-        return String.format("%02d: %02d",ZikoUtils.amPmHour(model.getHour()), model.getMinute());
+        return String.format("%02d: %02d", ZikoUtils.amPmHour(model.getHour()), model.getMinute());
     }
 
     @Bindable
@@ -160,15 +170,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         return model.getActive() == 1;
     }
 
-    /***
-     * @param textView
-     * @param day
-     */
-    public void handleTextClickDay(TextView textView, int day) {
-        boolean status = !model.isDayActive(day);
-        textView.setSelected(status);
-        activeDay(day, status);
-    }
 
     public void activeDay(int day, Boolean aBoolean) {
         model.activeDay(day, aBoolean);
@@ -176,16 +177,84 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     }
 
 
+    @Bindable
     public int getMinute() {
         return model.getMinute();
     }
 
+    @Bindable
     public int getHour() {
         return model.getHour();
     }
 
-    public boolean isDayActive(int day) {
-        return model.isDayActive(day);
+    public void activeMonday(View view) {
+        activeDay(Calendar.MONDAY, !isMondayActive());
+        notifyPropertyChanged(BR.mondayActive);
+    }
+
+    public void activeTuesday(View view) {
+        activeDay(Calendar.TUESDAY, !isTuesdayActive());
+        notifyPropertyChanged(BR.tuesdayActive);
+    }
+
+    public void activeWed(View view) {
+        activeDay(Calendar.WEDNESDAY, !isWedActive());
+        notifyPropertyChanged(BR.wedActive);
+    }
+
+    public void activeThursday(View view) {
+        activeDay(Calendar.THURSDAY, !isThursdayActive());
+        notifyPropertyChanged(BR.thursdayActive);
+    }
+
+    public void activeFriday(View view) {
+        activeDay(Calendar.FRIDAY, !isFridayActive());
+        notifyPropertyChanged(BR.fridayActive);
+    }
+
+    public void activeSaturday(View view) {
+        activeDay(Calendar.SATURDAY, !isSaturdayActive());
+        notifyPropertyChanged(BR.saturdayActive);
+    }
+
+    public void activeSunday(View view) {
+        activeDay(Calendar.SUNDAY, !isSundayActive());
+        notifyPropertyChanged(BR.sundayActive);
+    }
+
+    @Bindable
+    public boolean isMondayActive() {
+        return model.isDayActive(Calendar.MONDAY);
+    }
+
+    @Bindable
+    public boolean isTuesdayActive() {
+        return model.isDayActive(Calendar.TUESDAY);
+    }
+
+    @Bindable
+    public boolean isWedActive() {
+        return model.isDayActive(Calendar.WEDNESDAY);
+    }
+
+    @Bindable
+    public boolean isThursdayActive() {
+        return model.isDayActive(Calendar.THURSDAY);
+    }
+
+    @Bindable
+    public boolean isFridayActive() {
+        return model.isDayActive(Calendar.FRIDAY);
+    }
+
+    @Bindable
+    public boolean isSaturdayActive() {
+        return model.isDayActive(Calendar.SATURDAY);
+    }
+
+    @Bindable
+    public boolean isSundayActive() {
+        return model.isDayActive(Calendar.SUNDAY);
     }
 
     public boolean hasTracks() {
@@ -204,7 +273,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     @Bindable
     public String getImageUrl() {
-        if ( !model.getTracks().isEmpty()){
+        if (!model.getTracks().isEmpty()) {
             return model.getTracks().get(0).getImageUrl();
         }
         return null;
@@ -215,7 +284,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         notifyChange();
     }
 
-    public void expand(View view){
+    public void expand(View view) {
         isExpanded.set(!isExpanded.get());
     }
 
@@ -236,6 +305,12 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     @Bindable
     public String getTransition() {
-        return context.getString(R.string.transition)+model.getId();
+        return context.getString(R.string.transition) + model.getId();
+    }
+
+
+    public void updateModel(Alarm alarm) {
+        model = alarm;
+        notifyChange();
     }
 }

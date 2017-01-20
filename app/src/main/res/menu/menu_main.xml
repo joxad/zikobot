@@ -4,17 +4,25 @@
 
 
     <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:orderInCategory="20"
+        android:title="@string/drawer_account_add"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_account"
         android:icon="@drawable/ic_account"
         android:orderInCategory="50"
-        app:showAsAction="collapseActionView|ifRoom"
-        android:title="@string/drawer_account_add" />
+        android:title="@string/drawer_account_add"
+        app:showAsAction="always" />
 
 
     <item
         android:id="@+id/action_about"
         android:orderInCategory="50"
-        app:showAsAction="never"
-        android:title="@string/menu_about" />
+        android:icon="@drawable/ic_info"
+        android:title="@string/menu_about"
+        app:showAsAction="always" />
 
 </menu>

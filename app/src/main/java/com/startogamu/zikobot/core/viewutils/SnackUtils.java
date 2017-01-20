@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.github.andrewlord1990.snackbarbuilder.SnackbarBuilder;
 import com.github.andrewlord1990.snackbarbuilder.callback.SnackbarDismissCallback;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.core.model.Alarm;
 
 public class SnackUtils {
 
@@ -30,6 +31,18 @@ public class SnackUtils {
         TextView snackbarActionTextView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_action);
         snackbarActionTextView.setTypeface(snackbarActionTextView.getTypeface(), Typeface.BOLD);
 
+        snackbar.show();
+    }
+
+    public static void showConfirm(View view, @StringRes int message) {
+        Snackbar snackbar = new SnackbarBuilder(view)
+                .backgroundColorRes(R.color.colorPrimary)
+                .message(message)
+                .build();
+        View snackbarView = snackbar.getView();
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) snackbarView.getLayoutParams();
+        params.bottomMargin = view.getContext().getResources().getDimensionPixelSize(R.dimen.view_player_height);
+        snackbarView.setLayoutParams(params);
         snackbar.show();
     }
 }

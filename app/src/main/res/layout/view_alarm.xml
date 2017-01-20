@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -67,84 +68,10 @@
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="7">
-
-                <TextView
-                    android:id="@+id/cb_monday"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:enabled="@{alarmVM.repeated}"
-                    android:text="@string/monday"
-                    android:textColor="@color/text_color_days" />
-
-                <TextView
-                    android:id="@+id/cb_tuesday"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:enabled="@{alarmVM.repeated}"
-                    android:text="@string/tuesday"
-                    android:textColor="@color/text_color_days" />
-
-                <TextView
-                    android:id="@+id/cb_wednesday"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:enabled="@{alarmVM.repeated}"
-
-                    android:text="@string/wednesday"
-                    android:textColor="@color/text_color_days" />
-
-                <TextView
-                    android:id="@+id/cb_thursday"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:enabled="@{alarmVM.repeated}"
-                    android:text="@string/thursday"
-                    android:textColor="@color/text_color_days" />
-
-                <TextView
-                    android:id="@+id/cb_friday"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:enabled="@{alarmVM.repeated}"
-                    android:text="@string/friday"
-
-                    android:textColor="@color/text_color_days" />
-
-                <TextView
-                    android:id="@+id/cb_saturday"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:enabled="@{alarmVM.repeated}"
-                    android:text="@string/saturday"
-                    android:textColor="@color/text_color_days" />
-
-                <TextView
-                    android:id="@+id/cb_sunday"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:enabled="@{alarmVM.repeated}"
-                    android:text="@string/sunday"
-                    android:textColor="@color/text_color_days" />
-
-            </LinearLayout>
+            <include
+                android:id="@+id/view_days"
+                layout="@layout/view_alarm_days"
+                app:itemAlarmVM="@{alarmVM}" />
 
             <View
                 android:layout_width="match_parent"

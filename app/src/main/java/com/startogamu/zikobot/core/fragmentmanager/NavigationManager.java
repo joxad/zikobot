@@ -6,10 +6,15 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
 
 import com.deezer.sdk.model.Playlist;
+import com.github.andrewlord1990.snackbarbuilder.SnackbarBuilder;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.startogamu.zikobot.R;
+import com.startogamu.zikobot.alarm.AlarmManager;
+import com.startogamu.zikobot.alarm.DialogFragmentSettings;
+import com.startogamu.zikobot.alarm.DialogPlaylistEdit;
+import com.startogamu.zikobot.alarm.event.EventEditAlarm;
 import com.startogamu.zikobot.core.event.EventSelectItemNetwork;
 import com.startogamu.zikobot.core.event.EventShowArtistDetail;
 import com.startogamu.zikobot.core.event.LocalAlbumSelectEvent;
@@ -20,12 +25,12 @@ import com.startogamu.zikobot.core.event.dialog.EventShowDialogAlbumSettings;
 import com.startogamu.zikobot.core.event.dialog.EventShowDialogSettings;
 import com.startogamu.zikobot.core.event.player.EventShowTab;
 import com.startogamu.zikobot.core.event.soundcloud.SelectSCItemPlaylistEvent;
-import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.core.module.soundcloud.model.SoundCloudPlaylist;
 import com.startogamu.zikobot.core.module.spotify_api.model.Item;
 import com.startogamu.zikobot.core.module.tablature.TablatureManager;
+import com.startogamu.zikobot.core.viewutils.SnackUtils;
+import com.startogamu.zikobot.databinding.ActivityMainBinding;
 import com.startogamu.zikobot.home.ActivityMain;
-import com.startogamu.zikobot.alarm.DialogFragmentSettings;
 import com.startogamu.zikobot.home.ActivityMainVM;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,6 +46,7 @@ public class NavigationManager implements IPermission {
 
 
     Handler handler = new Handler(Looper.getMainLooper());
+
 
     public enum Account {local, spotify, deezer, soundcloud}
 
@@ -62,6 +68,10 @@ public class NavigationManager implements IPermission {
 
     public void showAccounts() {
         activity.startActivity(IntentManager.goToSettings());
+    }
+
+    public void goToSearch() {
+        activity.startActivity(IntentManager.goToSearch());
     }
 
     @Subscribe
@@ -86,9 +96,19 @@ public class NavigationManager implements IPermission {
     public void onEvent(EventShowArtistDetail eventShowArtistDetail) {
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(activity, eventShowArtistDetail.getView(), activity.getString(R.string.transition));
-        activity.startActivity(IntentManager.goToArtist(eventShowArtistDetail.getArtist()),options.toBundle());
+        activity.startActivity(IntentManager.goToArtist(eventShowArtistDetail.getArtist()), options.toBundle());
     }
 
+
+    @Subscribe
+    public void onEvent(EventEditAlarm editAlarm) {
+        DialogPlaylistEdit dialogPlaylistEdit = DialogPlaylistEdit.newInstance(editAlarm.getAlarm());
+        dialogPlaylistEdit.show(activity.getSupportFragmentManager(), DialogPlaylistEdit.TAG);
+        dialogPlaylistEdit.setOnDismissListener(() -> {
+            SnackUtils.showConfirm(binding.getRoot(),R.string.alarm_confirm_edit);
+            EventBus.getDefault().post(new EventRefreshAlarms(editAlarm.getAlarm().getId()));
+        });
+    }
 
     @Subscribe
     public void onEvent(EventAlarmSelect eventAlarmSelect) {
@@ -101,7 +121,7 @@ public class NavigationManager implements IPermission {
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(activity, localAlbumSelectEvent.getView(), activity.getString(R.string.transition));
-        activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()),options.toBundle());
+        activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()), options.toBundle());
     }
 
     @Subscribe
