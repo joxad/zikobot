@@ -48,10 +48,6 @@ public class FragmentLocalArtistsVM extends FragmentBaseVM<FragmentLocalArtists,
     @Override
     public void onCreate() {
         EventBus.getDefault().register(this);
-        initData();
-    }
-
-    void initData() {
         items = new ObservableArrayList<>();
         binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(), 2));
         binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
@@ -60,6 +56,10 @@ public class FragmentLocalArtistsVM extends FragmentBaseVM<FragmentLocalArtists,
                 loadLocalMusic(15, totalItemsCount);
             }
         });
+        initData();
+    }
+
+    void initData() {
         if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             updateMessage(fragment.getString(R.string.permission_local));
             binding.zmv.setOnClickListener(v -> askPermission());
