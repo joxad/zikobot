@@ -6,17 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
-import com.joxad.zikobot.app.core.event.player.EventAddList;
-import com.joxad.zikobot.app.core.event.player.EventPlayListClicked;
-import com.joxad.zikobot.app.core.model.Track;
-import com.joxad.zikobot.app.core.module.mock.Mock;
-import com.joxad.zikobot.app.core.module.spotify_api.model.Item;
+import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.app.player.event.EventPlayListClicked;
+import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.app.core.mock.Mock;
+import com.joxad.zikobot.data.module.spotify_api.model.Item;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.databinding.FragmentSpotifyTracksBinding;
 
-import com.joxad.zikobot.app.core.module.spotify_api.manager.SpotifyApiManager;
-import com.joxad.zikobot.app.core.module.spotify_api.model.SpotifyPlaylistItem;
+import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylistItem;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

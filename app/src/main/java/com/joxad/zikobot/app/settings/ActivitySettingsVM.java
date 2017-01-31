@@ -12,17 +12,17 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.joxad.android_easy_spotify.Scope;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.zikobot.app.core.module.deezer.DeezerManager;
-import com.joxad.zikobot.app.core.module.spotify_auth.manager.SpotifyAuthManager;
+import com.joxad.zikobot.data.module.deezer.DeezerManager;
+import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
 import com.joxad.zikobot.app.soundcloud.SoundCloudLoginActivity;
 import com.orhanobut.logger.Logger;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.core.utils.AppPrefs;
+import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.app.databinding.ActivitySettingsBinding;
 
-import com.joxad.zikobot.app.core.module.soundcloud.manager.SoundCloudApiManager;
-import com.joxad.zikobot.app.core.module.spotify_api.manager.SpotifyApiManager;
-import com.joxad.zikobot.app.core.module.spotify_auth.model.SpotifyRequestToken;
+import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
+import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
+import com.joxad.zikobot.data.module.spotify_auth.model.SpotifyRequestToken;
 import com.joxad.zikobot.app.core.general.FragmentWebView;
 
 import java.io.UnsupportedEncodingException;

@@ -1,8 +1,6 @@
 package com.joxad.zikobot.app.home;
 
 import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -10,14 +8,13 @@ import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.joxad.zikobot.app.alarm.FragmentAlarms;
 import com.joxad.zikobot.app.album.FragmentLocalAlbums;
-import com.joxad.zikobot.app.core.event.EventShowMessage;
-import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
+import com.joxad.zikobot.data.event.EventShowMessage;
 import com.joxad.zikobot.app.core.fragmentmanager.NavigationManager;
-import com.joxad.zikobot.app.core.module.spotify_auth.manager.SpotifyAuthManager;
+import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
 import com.joxad.zikobot.app.deezer.FragmentDeezerPlaylists;
 import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.core.utils.AppPrefs;
+import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.app.databinding.ActivityMainBinding;
 import com.joxad.zikobot.app.artist.FragmentLocalArtists;
 import com.joxad.zikobot.app.localtracks.FragmentLocalTracks;

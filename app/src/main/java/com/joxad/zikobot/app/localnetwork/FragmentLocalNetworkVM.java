@@ -5,14 +5,13 @@ import android.net.Uri;
 import android.support.v7.widget.GridLayoutManager;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
+import com.joxad.zikobot.data.model.ItemNetwork;
 import com.orhanobut.logger.Logger;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.FragmentLocalNetworkBinding;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;

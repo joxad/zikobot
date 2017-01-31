@@ -5,10 +5,10 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
-import com.joxad.zikobot.app.core.event.EventSelectItemNetwork;
+import com.joxad.zikobot.data.event.EventSelectItemNetwork;
+import com.joxad.zikobot.data.model.ItemNetwork;
 
 import org.greenrobot.eventbus.EventBus;
-import org.videolan.libvlc.Media;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

@@ -12,18 +12,18 @@ import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
-import com.joxad.zikobot.app.core.event.player.EventAddList;
-import com.joxad.zikobot.app.core.event.player.EventPlayListClicked;
-import com.joxad.zikobot.app.core.module.localmusic.manager.LocalMusicManager;
-import com.joxad.zikobot.app.core.module.localmusic.model.LocalAlbum;
+import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.app.player.event.EventPlayListClicked;
+import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.app.core.utils.Constants;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.joxad.zikobot.app.databinding.FragmentLocalTracksBinding;
 
-import com.joxad.zikobot.app.core.module.localmusic.model.LocalTrack;
-import com.joxad.zikobot.app.core.model.Track;
+import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
+import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

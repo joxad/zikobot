@@ -23,8 +23,8 @@ import android.widget.RelativeLayout;
 
 import com.orhanobut.logger.Logger;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.core.utils.AppPrefs;
-import com.joxad.zikobot.app.core.module.soundcloud.manager.SoundCloudApiManager;
+import com.joxad.zikobot.data.AppPrefs;
+import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
 
 
 public class SoundCloudLoginActivity extends AppCompatActivity {

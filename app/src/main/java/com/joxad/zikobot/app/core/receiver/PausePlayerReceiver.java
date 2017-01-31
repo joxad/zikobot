@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.joxad.zikobot.app.core.event.player.EventPauseMediaButton;
+import com.joxad.zikobot.app.player.event.EventPauseMediaButton;
 
 import org.greenrobot.eventbus.EventBus;
 

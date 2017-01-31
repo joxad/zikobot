@@ -4,16 +4,16 @@ import android.databinding.ObservableArrayList;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.joxad.zikobot.app.album.AlbumVM;
-import com.joxad.zikobot.app.core.event.search.EventQueryChange;
+import com.joxad.zikobot.data.event.search.EventQueryChange;
 import com.orhanobut.logger.Logger;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.ISearch;
 import com.joxad.zikobot.app.databinding.FragmentSpotifySearchBinding;
 
-import com.joxad.zikobot.app.core.module.spotify_api.manager.SpotifyApiManager;
-import com.joxad.zikobot.app.core.module.spotify_api.model.SpotifyTrack;
-import com.joxad.zikobot.app.core.model.Track;
+import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
+import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.app.search.SearchManager;
 import com.joxad.zikobot.app.artist.ArtistVM;
 import com.joxad.zikobot.app.localtracks.TrackVM;

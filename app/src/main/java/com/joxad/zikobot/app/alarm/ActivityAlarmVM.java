@@ -7,10 +7,10 @@ import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.zikobot.app.core.event.dialog.EventShowDialogSettings;
-import com.joxad.zikobot.app.core.event.player.EventAddList;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
+import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
-import com.joxad.zikobot.app.core.model.Alarm;
+import com.joxad.zikobot.data.model.Alarm;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.player.PlayerVM;

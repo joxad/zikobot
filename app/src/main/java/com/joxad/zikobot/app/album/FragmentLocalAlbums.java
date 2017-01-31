@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBase;
-import com.joxad.zikobot.app.core.module.localmusic.model.LocalArtist;
+import com.joxad.zikobot.data.module.localmusic.model.LocalArtist;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.EXTRA;

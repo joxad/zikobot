@@ -4,7 +4,7 @@ import android.databinding.ObservableArrayList;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.joxad.zikobot.app.album.AlbumVM;
-import com.joxad.zikobot.app.core.event.search.EventQueryChange;
+import com.joxad.zikobot.data.event.search.EventQueryChange;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.ISearch;

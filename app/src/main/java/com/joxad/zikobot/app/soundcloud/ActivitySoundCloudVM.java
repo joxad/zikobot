@@ -5,11 +5,11 @@ import android.view.View;
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.zikobot.app.alarm.DialogFragmentSettings;
-import com.joxad.zikobot.app.core.event.dialog.EventShowDialogSettings;
-import com.joxad.zikobot.app.core.event.player.EventAddList;
-import com.joxad.zikobot.app.core.model.Track;
-import com.joxad.zikobot.app.core.module.soundcloud.model.SoundCloudPlaylist;
-import com.joxad.zikobot.app.core.module.soundcloud.model.SoundCloudTrack;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
+import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.localtracks.TrackVM;

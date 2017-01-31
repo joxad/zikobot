@@ -5,8 +5,8 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
-import com.joxad.zikobot.app.core.event.soundcloud.SelectSCItemPlaylistEvent;
-import com.joxad.zikobot.app.core.module.soundcloud.model.SoundCloudPlaylist;
+import com.joxad.zikobot.data.event.soundcloud.SelectSCItemPlaylistEvent;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.app.R;
 
 import org.greenrobot.eventbus.EventBus;

@@ -13,10 +13,10 @@ import android.util.Log;
 import android.view.View;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
-import com.joxad.zikobot.app.core.event.EventShowArtistDetail;
-import com.joxad.zikobot.app.core.module.localmusic.manager.LocalMusicManager;
-import com.joxad.zikobot.app.core.module.localmusic.model.LocalAlbum;
-import com.joxad.zikobot.app.core.module.localmusic.model.LocalArtist;
+import com.joxad.zikobot.data.event.EventShowArtistDetail;
+import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
+import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
+import com.joxad.zikobot.data.module.localmusic.model.LocalArtist;
 import com.joxad.zikobot.app.core.utils.Constants;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.BR;

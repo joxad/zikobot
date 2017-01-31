@@ -88,7 +88,6 @@ dependencies {
     compile libs.dbFlow
     compile libs.design
     compile libs.dialogTimePicker
-    compile libs.easyPrefs
     compile libs.easyDataBinding
     compile libs.eventBus
     compile libs.gson
@@ -126,5 +125,6 @@ dependencies {
     compile 'com.github.andrewlord1990:snackbarbuilder:0.7.0'
     wearApp project(':wear')
 
+    compile project(path: ':data')
 }
 

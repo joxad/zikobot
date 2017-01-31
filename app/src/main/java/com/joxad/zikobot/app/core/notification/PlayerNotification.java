@@ -15,7 +15,7 @@ import android.widget.RemoteViews;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.joxad.zikobot.app.core.model.Track;
+import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.app.core.receiver.NotificationDismissedReceiver;
 import com.joxad.zikobot.app.core.receiver.PausePlayerReceiver;
 import com.joxad.zikobot.app.core.receiver.ResumePlayerReceiver;

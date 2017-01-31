@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.core.event.SelectItemPlaylistEvent;
-import com.joxad.zikobot.app.core.module.spotify_api.model.Item;
+import com.joxad.zikobot.data.event.SelectItemPlaylistEvent;
+import com.joxad.zikobot.data.module.spotify_api.model.Item;
 
 import org.greenrobot.eventbus.EventBus;
 

@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 
 import com.github.paolorotolo.appintro.AppIntro;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.core.utils.AppPrefs;
+import com.joxad.zikobot.data.AppPrefs;
 
 /**
  * Created by josh on 02/06/16.

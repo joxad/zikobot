@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
@@ -19,6 +21,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -28,4 +34,27 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
+    apt libs.dbFlowProc
+    apt libs.parceler
+    compile libs.eventBus
+    compile libs.support
+    compile libs.customTabs
+    compile libs.easyPrefs
+
+    compile libs.dbFlowCore
+    compile libs.dbFlow
+    compile libs.logger
+    compile libs.parcelerApi
+    compile libs.okHttpInterceptor
+
+    compile libs.retrofit
+    compile libs.retrofitConverterGson
+    compile libs.retrofitAdapterRxJava
+    compile libs.rxAndroid
+
+    provided libs.lombok
+    compile(name: 'vlc-android-sdk', ext: 'aar')
+    compile 'com.deezer.sdk:deezer-sdk:0.10.20@aar'
+
+
 }

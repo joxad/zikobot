@@ -7,10 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
-import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBaseVM;
-import com.joxad.zikobot.app.core.model.Alarm;
+import com.joxad.zikobot.data.model.Alarm;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.SimpleSeekBarListener;
 import com.joxad.zikobot.app.databinding.DialogPlaylistEditBinding;

@@ -9,14 +9,14 @@ import android.view.WindowManager;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.zikobot.app.core.event.player.EventAddList;
-import com.joxad.zikobot.app.core.model.Alarm;
-import com.joxad.zikobot.app.core.module.mock.Mock;
+import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.data.model.Alarm;
+import com.joxad.zikobot.app.core.mock.Mock;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.AlarmVM;
-import com.joxad.zikobot.app.core.model.Track;
+import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.app.core.utils.AnimationEndListener;
 import com.joxad.zikobot.app.databinding.ActivityWakeUpBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;

@@ -18,14 +18,14 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import com.joxad.easydatabinding.base.IVM;
-import com.joxad.zikobot.app.core.event.player.EventPosition;
-import com.joxad.zikobot.app.core.event.player.EventPreviousTrack;
-import com.joxad.zikobot.app.core.event.player.EventRefreshPlayer;
+import com.joxad.zikobot.app.player.event.EventPosition;
+import com.joxad.zikobot.app.player.event.EventPreviousTrack;
+import com.joxad.zikobot.app.player.event.EventRefreshPlayer;
 import com.orhanobut.logger.Logger;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.core.event.player.EventNextTrack;
-import com.joxad.zikobot.app.core.event.player.TrackChangeEvent;
+import com.joxad.zikobot.app.player.event.EventNextTrack;
+import com.joxad.zikobot.app.player.event.TrackChangeEvent;
 import com.joxad.zikobot.app.databinding.ViewPlayerSimpleBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 

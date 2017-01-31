@@ -6,13 +6,13 @@ import android.support.annotation.Nullable;
 
 import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
-import com.joxad.zikobot.app.core.event.player.EventAddList;
-import com.joxad.zikobot.app.core.event.player.EventPlayListClicked;
-import com.joxad.zikobot.app.core.module.deezer.DeezerManager;
+import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.app.player.event.EventPlayListClicked;
+import com.joxad.zikobot.data.module.deezer.DeezerManager;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.databinding.FragmentDeezerTracksBinding;
-import com.joxad.zikobot.app.core.model.Track;
+import com.joxad.zikobot.data.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

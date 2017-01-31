@@ -1,7 +1,6 @@
 package com.joxad.zikobot.app.alarm;
 
-import com.orhanobut.logger.Logger;
-import com.joxad.zikobot.app.core.model.Track;
+import com.joxad.zikobot.data.model.Track;
 
 import java.util.ArrayList;
 import java.util.List;

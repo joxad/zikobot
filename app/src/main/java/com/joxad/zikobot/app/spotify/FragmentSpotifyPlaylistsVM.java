@@ -8,12 +8,12 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
-import com.joxad.zikobot.app.core.utils.AppPrefs;
+import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.app.databinding.FragmentSpotifyPlaylistsBinding;
 
-import com.joxad.zikobot.app.core.module.mock.Mock;
-import com.joxad.zikobot.app.core.module.spotify_api.manager.SpotifyApiManager;
-import com.joxad.zikobot.app.core.module.spotify_api.model.Item;
+import com.joxad.zikobot.app.core.mock.Mock;
+import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
+import com.joxad.zikobot.data.module.spotify_api.model.Item;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 

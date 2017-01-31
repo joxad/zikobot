@@ -5,14 +5,14 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
-import com.joxad.zikobot.app.core.event.player.EventAddList;
-import com.joxad.zikobot.app.core.event.player.EventPlayListClicked;
+import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.app.player.event.EventPlayListClicked;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.databinding.FragmentSoundCloudTracksBinding;
-import com.joxad.zikobot.app.core.module.soundcloud.model.SoundCloudPlaylist;
-import com.joxad.zikobot.app.core.module.soundcloud.model.SoundCloudTrack;
-import com.joxad.zikobot.app.core.model.Track;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
+import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;

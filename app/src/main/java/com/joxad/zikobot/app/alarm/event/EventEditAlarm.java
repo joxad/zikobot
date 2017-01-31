@@ -1,6 +1,6 @@
 package com.joxad.zikobot.app.alarm.event;
 
-import com.joxad.zikobot.app.core.model.Alarm;
+import com.joxad.zikobot.data.model.Alarm;
 
 import lombok.Data;
 

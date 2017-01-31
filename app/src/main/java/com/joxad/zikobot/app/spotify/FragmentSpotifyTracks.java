@@ -7,7 +7,7 @@ import android.view.MenuInflater;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.v4.FragmentBase;
-import com.joxad.zikobot.app.core.module.spotify_api.model.Item;
+import com.joxad.zikobot.data.module.spotify_api.model.Item;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.databinding.FragmentSpotifyTracksBinding;

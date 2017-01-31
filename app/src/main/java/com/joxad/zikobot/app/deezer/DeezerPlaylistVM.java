@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.base.BaseVM;
-import com.joxad.zikobot.app.core.event.deezer.SelectDeezerItemPlaylistEvent;
+import com.joxad.zikobot.app.deezer.event.SelectDeezerItemPlaylistEvent;
 import com.joxad.zikobot.app.R;
 
 import org.greenrobot.eventbus.EventBus;

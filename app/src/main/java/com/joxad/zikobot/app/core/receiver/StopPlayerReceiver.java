@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.joxad.zikobot.app.core.event.player.EventStopPlayer;
+import com.joxad.zikobot.app.player.event.EventStopPlayer;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;

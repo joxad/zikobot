@@ -8,7 +8,7 @@ import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.DialogPlaylistEditBinding;
-import com.joxad.zikobot.app.core.model.Alarm;
+import com.joxad.zikobot.data.model.Alarm;
 
 import org.parceler.Parcels;
 

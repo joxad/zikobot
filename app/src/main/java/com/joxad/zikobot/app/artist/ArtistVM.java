@@ -5,9 +5,9 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
-import com.joxad.zikobot.app.core.event.EventShowArtistDetail;
+import com.joxad.zikobot.data.event.EventShowArtistDetail;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.core.model.Artist;
+import com.joxad.zikobot.data.model.Artist;
 
 import org.greenrobot.eventbus.EventBus;
 

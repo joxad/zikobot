@@ -5,12 +5,12 @@ import android.databinding.ObservableArrayList;
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.joxad.zikobot.app.album.AlbumVM;
 import com.joxad.zikobot.app.artist.ArtistVM;
-import com.joxad.zikobot.app.core.event.search.EventQueryChange;
-import com.joxad.zikobot.app.core.model.Track;
-import com.joxad.zikobot.app.core.module.localmusic.manager.LocalMusicManager;
-import com.joxad.zikobot.app.core.module.localmusic.model.LocalAlbum;
-import com.joxad.zikobot.app.core.module.localmusic.model.LocalArtist;
-import com.joxad.zikobot.app.core.module.localmusic.model.LocalTrack;
+import com.joxad.zikobot.data.event.search.EventQueryChange;
+import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
+import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
+import com.joxad.zikobot.data.module.localmusic.model.LocalArtist;
+import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.orhanobut.logger.Logger;
 import com.joxad.zikobot.app.BR;
@@ -18,7 +18,7 @@ import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.ISearch;
 import com.joxad.zikobot.app.databinding.FragmentSearchBinding;
 
-import com.joxad.zikobot.app.core.model.Artist;
+import com.joxad.zikobot.data.model.Artist;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

@@ -1,15 +1,15 @@
 package com.joxad.zikobot.app.search;
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.zikobot.app.core.event.LocalAlbumSelectEvent;
-import com.joxad.zikobot.app.core.event.search.EventQueryChange;
+import com.joxad.zikobot.data.event.LocalAlbumSelectEvent;
+import com.joxad.zikobot.data.event.search.EventQueryChange;
 import com.joxad.zikobot.app.spotify.FragmentSpotifySearch;
 import com.lapism.searchview.SearchView;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.core.event.EventShowArtistDetail;
-import com.joxad.zikobot.app.core.event.dialog.EventShowDialogSettings;
+import com.joxad.zikobot.data.event.EventShowArtistDetail;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
-import com.joxad.zikobot.app.core.utils.AppPrefs;
+import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.app.databinding.ActivitySearchBinding;
 import com.joxad.zikobot.app.soundcloud.FragmentSoundCloudSearch;
 import com.joxad.zikobot.app.home.ViewPagerAdapter;

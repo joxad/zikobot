@@ -1,9 +1,7 @@
 package com.joxad.zikobot.app.localnetwork;
 
-import android.support.v4.app.Fragment;
-
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.zikobot.app.core.event.EventSelectItemNetwork;
+import com.joxad.zikobot.data.event.EventSelectItemNetwork;
 import com.joxad.zikobot.app.core.fragmentmanager.FragmentManager;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.orhanobut.logger.Logger;

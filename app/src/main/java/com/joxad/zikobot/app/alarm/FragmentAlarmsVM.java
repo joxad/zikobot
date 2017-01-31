@@ -7,13 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
-import com.joxad.zikobot.app.core.model.Alarm;
-import com.joxad.zikobot.app.core.module.spotify_auth.manager.SpotifyAuthManager;
+import com.joxad.zikobot.data.model.Alarm;
+import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.fragmentmanager.EventRefreshAlarms;
-import com.joxad.zikobot.app.core.utils.AppPrefs;
+import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.app.core.viewutils.SnackUtils;
 import com.joxad.zikobot.app.databinding.FragmentAlarmsBinding;
 
