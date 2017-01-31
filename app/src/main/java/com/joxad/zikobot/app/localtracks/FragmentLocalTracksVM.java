@@ -24,6 +24,7 @@ import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,6 +42,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
     private static final String TAG = FragmentLocalTracksVM.class.getSimpleName();
     public ObservableArrayList<TrackVM> items;
     public String zmvMessage;
+    private RxPermissions rxPermissions;
 
     /***
      * @param fragment
@@ -53,6 +55,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
 
     @Override
     public void onCreate() {
+        rxPermissions = new RxPermissions(fragment.getActivity());
         Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.LOCAL_ALBUM);
         localAlbum = parcelable != null ? Parcels.unwrap(parcelable) : null;
         zmvMessage = "";
@@ -69,7 +72,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
     }
 
     private void initData() {
-        if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (!rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
             updateMessage(fragment.getString(R.string.permission_local));
             binding.zmv.setOnClickListener(v -> askPermission());
             return;
