@@ -111,11 +111,11 @@ dependencies {
     compile('com.mikepenz:aboutlibraries:5.6.7@aar') {
         transitive = true
     }
-    compile 'com.github.paolorotolo:appintro:4.0.0'
-    //https://openclassrooms.com/courses/bruits-et-nombres-aleatoires-coherents
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+   compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
+
     compile 'com.deezer.sdk:deezer-sdk:0.10.20@aar'
     compile 'com.lapism:searchview:3.8'
     compile 'com.github.claucookie.miniequalizer:library:1.0.0'

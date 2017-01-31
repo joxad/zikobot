@@ -109,14 +109,6 @@ public class AppPrefs {
 
     /*******************************************************************************************/
 
-    public static boolean isFirstStart() {
-        return Prefs.getBoolean(FIRST_START, true);
-    }
-
-    public static void saveFirstStart(final boolean state) {
-        Prefs.putBoolean(FIRST_START, state);
-    }
-
 
     /***
      * Init the prefs

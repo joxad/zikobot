@@ -6,24 +6,24 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
+import android.view.View;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
-import com.joxad.zikobot.app.player.event.EventAddList;
-import com.joxad.zikobot.app.player.event.EventPlayListClicked;
-import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
-import com.joxad.zikobot.app.core.utils.Constants;
-import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.joxad.zikobot.app.databinding.FragmentLocalTracksBinding;
-
-import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
+import com.joxad.zikobot.app.home.event.EventAskPermissionStorage;
+import com.joxad.zikobot.app.home.event.EventPermissionRefresh;
+import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.app.player.event.EventPlayListClicked;
 import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
+import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -40,9 +40,6 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
     LocalAlbum localAlbum;
     private static final String TAG = FragmentLocalTracksVM.class.getSimpleName();
     public ObservableArrayList<TrackVM> items;
-
-    public ObservableBoolean showZmvMessage;
-
     public String zmvMessage;
 
     /***
@@ -58,7 +55,6 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
     public void onCreate() {
         Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.LOCAL_ALBUM);
         localAlbum = parcelable != null ? Parcels.unwrap(parcelable) : null;
-        showZmvMessage = new ObservableBoolean(false);
         zmvMessage = "";
         items = new ObservableArrayList<>();
         binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(), 1));
@@ -68,41 +64,43 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
                 loadLocalMusic(15, totalItemsCount);
             }
         });
+        EventBus.getDefault().register(this);
+        initData();
+    }
+
+    private void initData() {
         if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             updateMessage(fragment.getString(R.string.permission_local));
             binding.zmv.setOnClickListener(v -> askPermission());
             return;
+        } else {
+            binding.zmv.setVisibility(View.GONE);
         }
         items.clear();
         loadLocalMusic(15, 0);
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        EventBus.getDefault().register(this);
-
-    }
-
 
     @Subscribe
     public void onEvent(EventPlayListClicked eventPlayListClicked) {
         EventBus.getDefault().post(new EventAddList(items));
     }
 
-    @Override
-    public void onPause() {
-        EventBus.getDefault().unregister(this);
-        super.onPause();
+
+    @Subscribe
+    public void onEvent(EventPermissionRefresh eventPermissionRefresh) {
+        initData();
     }
 
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
     /***
      * Method to ask storage perm
      */
     private void askPermission() {
-        ActivityCompat.requestPermissions(fragment.getActivity(), new String[]{
-                Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.PERMISSION_STORAGE_TRACKS);
-
+        EventBus.getDefault().post(new EventAskPermissionStorage());
     }
 
     /***
@@ -116,11 +114,8 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
                     for (LocalTrack localTrack : localTracks) {
                         items.add(new TrackVM(fragment.getContext(), Track.from(localTrack)));
                     }
-
                     if (localTracks.isEmpty() && offset == 0) {
                         updateMessage(fragment.getString(R.string.no_music));
-                    } else {
-                        showZmvMessage.set(false);
                     }
                 }, throwable -> {
                     if (offset == 0)
@@ -135,7 +130,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
      * @param string
      */
     private void updateMessage(String string) {
-        showZmvMessage.set(true);
+        binding.zmv.setVisibility(View.VISIBLE);
         zmvMessage = string;
         binding.zmv.setZmvMessage(zmvMessage);
     }

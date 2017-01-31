@@ -1,25 +1,24 @@
 package com.joxad.zikobot.app.home;
 
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.easydatabinding.activity.IPermission;
+import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.FragmentAlarms;
 import com.joxad.zikobot.app.album.FragmentLocalAlbums;
-import com.joxad.zikobot.data.event.EventShowMessage;
-import com.joxad.zikobot.app.core.fragmentmanager.NavigationManager;
-import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
-import com.joxad.zikobot.app.deezer.FragmentDeezerPlaylists;
-import com.joxad.zikobot.app.player.PlayerVM;
-import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.data.AppPrefs;
-import com.joxad.zikobot.app.databinding.ActivityMainBinding;
 import com.joxad.zikobot.app.artist.FragmentLocalArtists;
+import com.joxad.zikobot.app.core.fragmentmanager.NavigationManager;
+import com.joxad.zikobot.app.databinding.ActivityMainBinding;
+import com.joxad.zikobot.app.deezer.FragmentDeezerPlaylists;
 import com.joxad.zikobot.app.localtracks.FragmentLocalTracks;
+import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.soundcloud.FragmentSoundCloudPlaylists;
 import com.joxad.zikobot.app.spotify.FragmentSpotifyPlaylists;
+import com.joxad.zikobot.data.AppPrefs;
+import com.joxad.zikobot.data.event.EventShowMessage;
+import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,7 +28,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by josh on 08/06/16.
  */
-public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBinding> implements IPermission {
+public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBinding> {
 
     public NavigationManager navigationManager;
     public PlayerVM playerVM;
@@ -54,10 +53,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         initToolbar();
         initMenu();
 
-        if (AppPrefs.isFirstStart()) {
-//            activity.startActivity(IntentManager.goToTuto());
-        }
-       
     }
 
     private void initTabLayout() {
@@ -66,12 +61,11 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         binding.viewPager.setAdapter(tabAdapter);
         // Give the TabLayout the ViewPager
         binding.tabLayout.setupWithViewPager(binding.viewPager);
-
         tabAdapter.addFragment(activity.getString(R.string.drawer_my_playlists), FragmentAlarms.newInstance());
         tabAdapter.addFragment(activity.getString(R.string.drawer_filter_artiste), FragmentLocalArtists.newInstance());
         tabAdapter.addFragment(activity.getString(R.string.drawer_filter_album), FragmentLocalAlbums.newInstance(null));
         tabAdapter.addFragment(activity.getString(R.string.drawer_filter_tracks), FragmentLocalTracks.newInstance(null, BR.trackVM, R.layout.item_track));
-      //  tabAdapter.addFragment(activity.getString(R.string.drawer_filter_network), FragmentLocalNetwork.newInstance(null, null));
+        //  tabAdapter.addFragment(activity.getString(R.string.drawer_filter_network), FragmentLocalNetwork.newInstance(null, null));
     }
 
     /***
@@ -90,7 +84,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
 
     private void initNavigationManager() {
-        navigationManager = new NavigationManager(this, activity, binding, activity.getSupportFragmentManager());
+        navigationManager = new NavigationManager(new RxPermissions(activity), this, activity, binding, activity.getSupportFragmentManager());
     }
 
     /***
@@ -104,7 +98,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      *
      */
     private void initPlayerVM() {
-        playerVM = new PlayerVM(activity,binding.viewPlayer);
+        playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
 
     /**
@@ -164,11 +158,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         playerVM.onPause();
         navigationManager.onPause();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        navigationManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

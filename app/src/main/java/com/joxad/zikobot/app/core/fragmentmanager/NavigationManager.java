@@ -1,5 +1,6 @@
 package com.joxad.zikobot.app.core.fragmentmanager;
 
+import android.Manifest;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -8,6 +9,8 @@ import android.support.v4.app.ActivityOptionsCompat;
 import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.activity.IPermission;
 import com.joxad.zikobot.app.alarm.DialogPlaylistEdit;
+import com.joxad.zikobot.app.home.event.EventAskPermissionStorage;
+import com.joxad.zikobot.app.home.event.EventPermissionRefresh;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.joxad.zikobot.app.R;
@@ -30,22 +33,24 @@ import com.joxad.zikobot.app.core.viewutils.SnackUtils;
 import com.joxad.zikobot.app.databinding.ActivityMainBinding;
 import com.joxad.zikobot.app.home.ActivityMain;
 import com.joxad.zikobot.app.home.ActivityMainVM;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import lombok.Data;
+import rx.functions.Action1;
 
 /**
  * Created by josh on 10/06/16.
  */
 @Data
-public class NavigationManager implements IPermission {
+public class NavigationManager  {
 
 
     Handler handler = new Handler(Looper.getMainLooper());
 
-
+    private final RxPermissions rxPermissions;
     public enum Account {local, spotify, deezer, soundcloud}
 
     private Account current = Account.local;
@@ -152,9 +157,13 @@ public class NavigationManager implements IPermission {
         EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
+    @Subscribe
+    public void onReceive(EventAskPermissionStorage eventAskPermissionStorage) {
+        rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(granted -> {
+            if (granted) {
+                EventBus.getDefault().post(new EventPermissionRefresh());
+            }
+        });
     }
 
 }

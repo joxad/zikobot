@@ -7,7 +7,6 @@ import com.deezer.sdk.model.Playlist;
 import com.joxad.zikobot.data.model.Alarm;
 import com.joxad.zikobot.data.model.Album;
 import com.joxad.zikobot.app.core.utils.EXTRA;
-import com.joxad.zikobot.app.intro.ActivityFirstStart;
 import com.joxad.zikobot.app.search.ActivitySearch;
 import com.joxad.zikobot.app.spotify.ActivitySpotify;
 import com.joxad.zikobot.app.album.ActivityAlbum;
@@ -51,10 +50,6 @@ public class IntentManager {
 
     public static Intent goToMainFromWidget() {
         return new Intent(context, ActivityMain.class);
-    }
-
-    public static Intent goToTuto() {
-        return new Intent(context, ActivityFirstStart.class);
     }
 
     public static Intent goToSettings() {

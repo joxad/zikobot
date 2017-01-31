@@ -91,10 +91,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity android:name=".soundcloud.SoundCloudLoginActivity" />
-        <activity
-            android:name=".intro.ActivityFirstStart"
-            android:launchMode="singleInstance" />
-        <!-- Will not be called unless the application explicitly enables it -->
         <activity android:name=".spotify.ActivitySpotify" />
         <activity android:name=".soundcloud.ActivitySoundCloud" />
         <activity android:name=".localnetwork.ActivityLocalNetwork" />

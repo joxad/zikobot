@@ -1,30 +1,30 @@
 package com.joxad.zikobot.app.album;
 
 import android.Manifest;
-import android.content.pm.PackageManager;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
+import com.joxad.zikobot.app.BR;
+import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.app.core.utils.EXTRA;
+import com.joxad.zikobot.app.core.viewutils.EndlessRecyclerViewScrollListener;
+import com.joxad.zikobot.app.databinding.FragmentLocalAlbumsBinding;
+import com.joxad.zikobot.app.home.event.EventAskPermissionStorage;
+import com.joxad.zikobot.app.home.event.EventPermissionRefresh;
 import com.joxad.zikobot.data.event.EventShowArtistDetail;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 import com.joxad.zikobot.data.module.localmusic.model.LocalArtist;
-import com.joxad.zikobot.app.core.utils.Constants;
-import com.joxad.zikobot.app.core.utils.EXTRA;
-import com.joxad.zikobot.app.BR;
-import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.core.viewutils.EndlessRecyclerViewScrollListener;
-import com.joxad.zikobot.app.databinding.FragmentLocalAlbumsBinding;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -38,10 +38,9 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
     LocalArtist localArtist;
 
     public static final String TAG = "FragmentLocalAlbumsVM";
-    public ObservableBoolean showZmvMessage;
-
     public String zmvMessage;
 
+    private RxPermissions rxPermissions;
     public ItemView itemView = ItemView.of(BR.albumVM, R.layout.item_album);
     public ObservableArrayList<AlbumVM> items;
 
@@ -56,10 +55,10 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
 
     @Override
     public void onCreate() {
+        EventBus.getDefault().register(this);
         Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.LOCAL_ARTIST);
         localArtist = parcelable != null ? Parcels.unwrap(parcelable) : null;
         items = new ObservableArrayList<>();
-        showZmvMessage = new ObservableBoolean(false);
         zmvMessage = "";
         binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(), 2));
         binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
@@ -68,19 +67,32 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
                 loadLocalMusic(15, totalItemsCount);
             }
         });
-        if (ContextCompat.checkSelfPermission(fragment.getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        rxPermissions = new RxPermissions(fragment.getActivity());
+        initData();
+    }
+
+    private void initData() {
+        if (!rxPermissions.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
             updateMessage(fragment.getString(R.string.permission_local));
             binding.zmv.setOnClickListener(v -> askPermission());
             return;
+        } else {
+            binding.zmv.setVisibility(View.GONE);
         }
         items.clear();
         loadLocalMusic(15, 0);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
+    @Subscribe
+    public void onReceive(EventPermissionRefresh eventPermission) {
+        initData();
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     public void onClick(View view) {
@@ -101,8 +113,6 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
             }
             if (localAlbums.isEmpty() && offset == 0) {
                 updateMessage(fragment.getString(R.string.no_music));
-            } else {
-                showZmvMessage.set(false);
             }
         }, throwable -> {
             if (offset == 0)
@@ -117,7 +127,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
      * @param string
      */
     private void updateMessage(String string) {
-        showZmvMessage.set(true);
+        binding.zmv.setVisibility(View.VISIBLE);
         zmvMessage = string;
         binding.zmv.setZmvMessage(zmvMessage);
     }
@@ -126,9 +136,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
      * Method to ask storage perm
      */
     private void askPermission() {
-        ActivityCompat.requestPermissions(fragment.getActivity(), new String[]{
-                Manifest.permission.READ_EXTERNAL_STORAGE}, Constants.PERMISSION_STORAGE_ALBUM);
-
+        EventBus.getDefault().post(new EventAskPermissionStorage());
     }
 
-  }
+}
