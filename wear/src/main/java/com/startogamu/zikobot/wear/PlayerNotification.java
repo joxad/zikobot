@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.wear;
+package com.joxad.zikobot.wear;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;

@@ -12,7 +12,7 @@
 
         <variable
             name="fragmentLocalNetworkVM"
-            type="com.startogamu.zikobot.localnetwork.FragmentLocalNetworkVM" />
+            type="com.joxad.zikobot.app.localnetwork.FragmentLocalNetworkVM" />
 
     </data>
 
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.startogamu.zikobot.core.viewutils.FlingNestedScrollView
+        <com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -33,7 +33,7 @@
                 android:orientation="vertical">
 
 
-                <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+                <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
                     android:id="@+id/rv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -46,7 +46,7 @@
 
             </LinearLayout>
 
-        </com.startogamu.zikobot.core.viewutils.FlingNestedScrollView>
+        </com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView>
 
 
         <ProgressBar

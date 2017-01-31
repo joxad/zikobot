@@ -11,7 +11,7 @@
 
         <variable
             name="fragmentLocalArtistsVM"
-            type="com.startogamu.zikobot.artist.FragmentLocalArtistsVM" />
+            type="com.joxad.zikobot.app.artist.FragmentLocalArtistsVM" />
     </data>
 
     <RelativeLayout
@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+        <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,7 +30,7 @@
             app:items="@{fragmentLocalArtistsVM.items}"
             tools:listitem="@layout/item_artist" />
 
-        <com.startogamu.zikobot.core.viewutils.ZikobotMessageView
+        <com.joxad.zikobot.app.core.viewutils.ZikobotMessageView
             android:id="@+id/zmv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

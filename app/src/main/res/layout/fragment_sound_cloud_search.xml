@@ -14,11 +14,11 @@
 
         <variable
             name="fragmentSearchVM"
-            type="com.startogamu.zikobot.soundcloud.FragmentSoundCloudSearchVM" />
+            type="com.joxad.zikobot.app.soundcloud.FragmentSoundCloudSearchVM" />
 
     </data>
 
-    <com.startogamu.zikobot.core.viewutils.FlingNestedScrollView
+    <com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView
 
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -45,7 +45,7 @@
                 android:background="@color/colorAccent"
                 android:visibility="@{fragmentSearchVM.artists.size() >0 ? v.VISIBLE : v.GONE}" />
 
-            <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+            <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
                 android:id="@+id/rv_artists"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                 android:background="@color/colorAccent"
                 android:visibility="@{fragmentSearchVM.albums.size() >0 ? v.VISIBLE : v.GONE}" />
 
-            <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+            <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
                 android:id="@+id/rv_albums"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                 android:background="@color/colorAccent"
                 android:visibility="@{fragmentSearchVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
 
-            <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+            <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
                 android:id="@+id/rv_tracks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,5 +119,5 @@
 
         </LinearLayout>
 
-    </com.startogamu.zikobot.core.viewutils.FlingNestedScrollView>
+    </com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView>
 </layout>

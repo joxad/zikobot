@@ -12,11 +12,11 @@
 
         <variable
             name="playerVM"
-            type="com.startogamu.zikobot.player.PlayerVM" />
+            type="com.joxad.zikobot.app.player.PlayerVM" />
 
         <variable
             name="trackVM"
-            type="com.startogamu.zikobot.localtracks.TrackVM" />
+            type="com.joxad.zikobot.app.localtracks.TrackVM" />
     </data>
 
 
@@ -92,7 +92,7 @@
             android:layout_height="match_parent"
             android:visibility="@{playerVM.empty ? v.VISIBLE: v.GONE}">
 
-            <com.startogamu.zikobot.core.viewutils.ZikobotMessageView
+            <com.joxad.zikobot.app.core.viewutils.ZikobotMessageView
                 android:layout_width="250dp"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"

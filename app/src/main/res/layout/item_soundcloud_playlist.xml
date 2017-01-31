@@ -7,7 +7,7 @@
 
         <variable
             name="playlistVM"
-            type="com.startogamu.zikobot.soundcloud.SoundCloudPlaylistVM" />
+            type="com.joxad.zikobot.app.soundcloud.SoundCloudPlaylistVM" />
     </data>
 
     <android.support.v7.widget.CardView

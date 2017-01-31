@@ -12,11 +12,11 @@
 
         <variable
             name="itemPlaylistViewModel"
-            type="com.startogamu.zikobot.deezer.DeezerPlaylistVM" />
+            type="com.joxad.zikobot.app.deezer.DeezerPlaylistVM" />
 
         <variable
             name="fragmentDeezerPlaylistsVM"
-            type="com.startogamu.zikobot.deezer.FragmentDeezerPlaylistsVM" />
+            type="com.joxad.zikobot.app.deezer.FragmentDeezerPlaylistsVM" />
     </data>
 
     <RelativeLayout
@@ -24,7 +24,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+        <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -37,7 +37,7 @@
             tools:listitem="@layout/item_playlist" />
 
 
-        <com.startogamu.zikobot.core.viewutils.ZikobotMessageView
+        <com.joxad.zikobot.app.core.viewutils.ZikobotMessageView
             android:id="@+id/zmv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

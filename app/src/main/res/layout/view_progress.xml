@@ -5,14 +5,14 @@
 
     <data>
 
-        <import type="com.startogamu.zikobot.core.utils.ZikoUtils"/>
+        <import type="com.joxad.zikobot.app.core.utils.ZikoUtils"/>
         <import
             alias="v"
             type="android.view.View" />
 
         <variable
             name="playerVM"
-            type="com.startogamu.zikobot.player.PlayerVM" />
+            type="com.joxad.zikobot.app.player.PlayerVM" />
     </data>
 
     <LinearLayout

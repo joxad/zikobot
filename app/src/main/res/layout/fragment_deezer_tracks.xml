@@ -9,7 +9,7 @@
 
         <variable
             name="fragmentDeezerTracksVM"
-            type="com.startogamu.zikobot.deezer.FragmentDeezerTracksVM" />
+            type="com.joxad.zikobot.app.deezer.FragmentDeezerTracksVM" />
     </data>
 
     <LinearLayout
@@ -18,7 +18,7 @@
         android:orientation="vertical">
 
 
-        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+        <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -14,11 +14,11 @@
 
         <import
             alias="R"
-            type="com.startogamu.zikobot.R" />
+            type="com.joxad.zikobot.app.R" />
 
         <variable
             name="fragmentSettingsVM"
-            type="com.startogamu.zikobot.alarm.DialogFragmentSettingsVM" />
+            type="com.joxad.zikobot.app.alarm.DialogFragmentSettingsVM" />
     </data>
 
     <RelativeLayout
@@ -78,7 +78,7 @@
         </android.support.v7.widget.CardView>
 
 
-        <com.startogamu.zikobot.core.viewutils.FlingNestedScrollView
+        <com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/cv">
@@ -115,7 +115,7 @@
                     app:onClick="@{fragmentSettingsVM.newAlarmClicked}"
                     app:title="@{fragmentSettingsVM.getString(R.string.activity_alarm_new)}" />
 
-                <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+                <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
                     android:id="@+id/alarm_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -128,7 +128,7 @@
                     tools:listitem="@layout/item_alarm_dialog" />
 
             </LinearLayout>
-        </com.startogamu.zikobot.core.viewutils.FlingNestedScrollView>
+        </com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView>
 
 
     </RelativeLayout>

@@ -14,7 +14,7 @@
 
         <variable
             name="activitySoundCloudVM"
-            type="com.startogamu.zikobot.soundcloud.ActivitySoundCloudVM" />
+            type="com.joxad.zikobot.app.soundcloud.ActivitySoundCloudVM" />
     </data>
 
 
@@ -35,7 +35,7 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <com.startogamu.zikobot.core.viewutils.FlingNestedScrollView
+                <com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -76,7 +76,7 @@
 
                     </LinearLayout>
 
-                </com.startogamu.zikobot.core.viewutils.FlingNestedScrollView>
+                </com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView>
 
             </FrameLayout>
             <android.support.v7.widget.CardView

@@ -9,7 +9,7 @@
 
         <variable
             name="fragmentSpotifyTracksVM"
-            type="com.startogamu.zikobot.spotify.FragmentSpotifyTracksVM" />
+            type="com.joxad.zikobot.app.spotify.FragmentSpotifyTracksVM" />
     </data>
 
     <LinearLayout
@@ -18,7 +18,7 @@
         android:orientation="vertical">
 
 
-        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+        <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -12,7 +12,7 @@
 
         <variable
             name="fragmentAlarmsVM"
-            type="com.startogamu.zikobot.alarm.FragmentAlarmsVM" />
+            type="com.joxad.zikobot.app.alarm.FragmentAlarmsVM" />
     </data>
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:scrollbars="vertical"
-            app:adapter='@{"com.startogamu.zikobot.alarm.AlarmAdapter"}'
+            app:adapter='@{"com.joxad.zikobot.app.alarm.AlarmAdapter"}'
             app:itemView="@{fragmentAlarmsVM.itemView}"
             app:items="@{fragmentAlarmsVM.itemsVM}"
             app:layoutManager="@{LayoutManagers.grid(1)}"
@@ -37,7 +37,7 @@
             tools:listitem="@layout/item_alarm" />
 
 
-        <com.startogamu.zikobot.core.viewutils.ZikobotMessageView
+        <com.joxad.zikobot.app.core.viewutils.ZikobotMessageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

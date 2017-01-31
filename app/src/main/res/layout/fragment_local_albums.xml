@@ -12,7 +12,7 @@
 
         <variable
             name="fragmentLocalAlbumsVM"
-            type="com.startogamu.zikobot.album.FragmentLocalAlbumsVM" />
+            type="com.joxad.zikobot.app.album.FragmentLocalAlbumsVM" />
     </data>
 
     <RelativeLayout
@@ -21,7 +21,7 @@
         android:orientation="vertical">
 
 
-        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+        <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,7 +32,7 @@
             app:items="@{fragmentLocalAlbumsVM.items}"
             tools:listitem="@layout/item_artist" />
 
-        <com.startogamu.zikobot.core.viewutils.ZikobotMessageView
+        <com.joxad.zikobot.app.core.viewutils.ZikobotMessageView
             android:id="@+id/zmv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

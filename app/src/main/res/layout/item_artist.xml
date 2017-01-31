@@ -7,7 +7,7 @@
 
         <variable
             name="artistVM"
-            type="com.startogamu.zikobot.artist.ArtistVM" />
+            type="com.joxad.zikobot.app.artist.ArtistVM" />
     </data>
 
     <android.support.v7.widget.CardView

@@ -1,4 +1,4 @@
-package com.startogamu.zikobot;
+package com.joxad.zikobot;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

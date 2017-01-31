@@ -14,7 +14,7 @@
 
         <variable
             name="activitySearchVM"
-            type="com.startogamu.zikobot.search.ActivitySearchVM" />
+            type="com.joxad.zikobot.app.search.ActivitySearchVM" />
     </data>
 
 

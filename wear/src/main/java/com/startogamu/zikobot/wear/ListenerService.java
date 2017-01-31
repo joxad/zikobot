@@ -1,4 +1,4 @@
-package com.startogamu.zikobot.wear;
+package com.joxad.zikobot.wear;
 
 import com.google.android.gms.wearable.WearableListenerService;
 

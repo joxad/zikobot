@@ -12,7 +12,7 @@
 
         <variable
             name="activitySettingsVM"
-            type="com.startogamu.zikobot.settings.ActivitySettingsVM" />
+            type="com.joxad.zikobot.app.settings.ActivitySettingsVM" />
     </data>
 
 
@@ -45,7 +45,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:bindingContext="com.startogamu.zikobot.settings.ActivitySettings">
+            tools:bindingContext="com.joxad.zikobot.app.settings.ActivitySettings">
 
             <include
                 android:id="@+id/cv_deezer"

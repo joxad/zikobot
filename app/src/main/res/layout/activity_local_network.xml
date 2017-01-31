@@ -6,7 +6,7 @@
 
         <variable
             name="activityLocalNetworkVM"
-            type="com.startogamu.zikobot.localnetwork.ActivityLocalNetworkVM" />
+            type="com.joxad.zikobot.app.localnetwork.ActivityLocalNetworkVM" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout

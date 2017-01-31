@@ -11,7 +11,7 @@
 
         <variable
             name="itemNetworkVM"
-            type="com.startogamu.zikobot.localnetwork.ItemNetworkVM" />
+            type="com.joxad.zikobot.app.localnetwork.ItemNetworkVM" />
     </data>
 
     <com.balysv.materialripple.MaterialRippleLayout

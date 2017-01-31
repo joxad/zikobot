@@ -14,7 +14,7 @@
 
         <variable
             name="activityArtistVM"
-            type="com.startogamu.zikobot.artist.ActivityArtistVM" />
+            type="com.joxad.zikobot.app.artist.ActivityArtistVM" />
     </data>
 
 
@@ -36,7 +36,7 @@
 
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <com.startogamu.zikobot.core.viewutils.FlingNestedScrollView
+                <com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -63,7 +63,7 @@
                             android:visibility="@{activityArtistVM.albums.size() >0 ? v.VISIBLE : v.GONE}" />
 
 
-                        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+                        <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
                             android:id="@+id/rv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -93,7 +93,7 @@
                             android:background="@color/colorAccent"
                             android:visibility="@{activityArtistVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
 
-                        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+                        <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
                             android:id="@+id/rv_tracks"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
 
                     </LinearLayout>
 
-                </com.startogamu.zikobot.core.viewutils.FlingNestedScrollView>
+                </com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView>
 
             </FrameLayout>
 

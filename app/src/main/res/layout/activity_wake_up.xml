@@ -6,16 +6,16 @@
 
         <variable
             name="activityWakeUpVM"
-            type="com.startogamu.zikobot.wakeup.ActivityWakeUpVM" />
+            type="com.joxad.zikobot.app.wakeup.ActivityWakeUpVM" />
 
 
         <variable
             name="alarmTrackVM"
-            type="com.startogamu.zikobot.localtracks.TrackVM" />
+            type="com.joxad.zikobot.app.localtracks.TrackVM" />
 
         <variable
             name="alarmVM"
-            type="com.startogamu.zikobot.alarm.AlarmVM" />
+            type="com.joxad.zikobot.app.alarm.AlarmVM" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -102,7 +102,7 @@
             </RelativeLayout>
 
 
-            <com.startogamu.zikobot.core.viewutils.MaterialButtonView
+            <com.joxad.zikobot.app.core.viewutils.MaterialButtonView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

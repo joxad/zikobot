@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.startogamu.zikobot"
+        applicationId "com.joxad.zikobot.app"
         minSdkVersion rootProject.ext.androidMinSdkVersion
         targetSdkVersion rootProject.ext.androidTargetSdkVersion
         versionCode buildVersionCode()
@@ -46,7 +46,6 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-            applicationIdSuffix ".debug"
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     output.outputFile = new File(output.outputFile.parent,

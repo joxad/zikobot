@@ -7,7 +7,7 @@
 
         <variable
             name="playlistVM"
-            type="com.startogamu.zikobot.spotify.ItemPlaylistViewModel" />
+            type="com.joxad.zikobot.app.spotify.ItemPlaylistViewModel" />
     </data>
 
     <android.support.v7.widget.CardView

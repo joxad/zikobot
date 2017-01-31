@@ -11,5 +11,5 @@
 </appwidget-provider>
 
     <!--
-        android:configure="com.startogamu.zikobot.view.activity.ActivityWidget"
+        android:configure="com.joxad.zikobot.view.activity.ActivityWidget"
     -->

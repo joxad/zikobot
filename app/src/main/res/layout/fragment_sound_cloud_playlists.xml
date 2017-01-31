@@ -9,17 +9,15 @@
             alias="v"
             type="android.view.View" />
 
-        
-
         <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
 
         <variable
             name="itemPlaylistViewModel"
-            type="com.startogamu.zikobot.soundcloud.SoundCloudPlaylistVM" />
+            type="com.joxad.zikobot.app.soundcloud.SoundCloudPlaylistVM" />
 
         <variable
             name="fragmentSoundCloudPlaylistsVM"
-            type="com.startogamu.zikobot.soundcloud.FragmentSoundCloudPlaylistsVM" />
+            type="com.joxad.zikobot.app.soundcloud.FragmentSoundCloudPlaylistsVM" />
     </data>
 
     <RelativeLayout
@@ -27,7 +25,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.startogamu.zikobot.core.viewutils.AnimatedGridRecyclerView
+        <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -40,7 +38,7 @@
             tools:listitem="@layout/item_playlist" />
 
 
-        <com.startogamu.zikobot.core.viewutils.ZikobotMessageView
+        <com.joxad.zikobot.app.core.viewutils.ZikobotMessageView
             android:id="@+id/zmv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

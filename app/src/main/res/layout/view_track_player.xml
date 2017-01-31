@@ -5,7 +5,7 @@
 
         <variable
             name="trackVM"
-            type="com.startogamu.zikobot.localtracks.TrackVM" />
+            type="com.joxad.zikobot.app.localtracks.TrackVM" />
     </data>
 
     <RelativeLayout
