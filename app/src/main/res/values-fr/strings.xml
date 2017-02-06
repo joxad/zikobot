@@ -34,6 +34,7 @@
     <string name="activity_music_local">Ma bibliothèque musicale</string>
     <string name="activity_music_spotify">Spotify</string>
     <string name="activity_music_deezer">Deezer</string>
+    <string name="activity_music_soundcloud">SoundCloud</string>
     <string name="activity_my_account">Mes comptes</string>
 
     <!--> ActivityAlarm <-->

@@ -10,8 +10,25 @@
             type="android.view.View" />
 
         <variable
-            name="activitySettingsVM"
-            type="com.joxad.zikobot.app.settings.ActivitySettingsVM" />
+            name="show"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="onClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="title"
+            type="java.lang.String" />
+
+        <variable
+            name="icon"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="color"
+            type="java.lang.Integer" />
+
     </data>
 
     <android.support.v7.widget.CardView
@@ -33,35 +50,36 @@
                     android:layout_width="@dimen/icon_medium"
                     android:layout_height="@dimen/icon_medium"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/ic_deezer" />
+                    android:layout_margin="@dimen/margin_medium"
+                    android:src="@{icon}" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_margin="@dimen/margin_medium"
-                    android:text="@string/activity_music_deezer"
-                    android:textColor="@color/colorDeezer"
+                    android:text="@{title}"
+                    android:textColor="@{color}"
                     android:textSize="24sp" />
 
             </RelativeLayout>
 
-            <com.joxad.zikobot.app.core.viewutils.MaterialButtonView
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
-                android:onClick="@{activitySettingsVM.onButtonDeezerConnect}"
-                android:visibility="@{activitySettingsVM.showDeezerConnect ? v.VISIBLE :  v.GONE}"
-                app:mbv_text="@string/connect"
-                app:mbv_text_color="@android:color/white"
-                app:mrl_rippleBackground="@color/colorDeezer" />
+                android:onClick="@{onClick}"
+                android:visibility="@{show ? v.VISIBLE :  v.GONE}"
+                android:text="@string/connect"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@{color}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
                 android:orientation="horizontal"
-                android:visibility="@{activitySettingsVM.showDeezerConnect ? v.GONE :  v.VISIBLE}">
+                android:visibility="@{show ? v.GONE :  v.VISIBLE}">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_user"

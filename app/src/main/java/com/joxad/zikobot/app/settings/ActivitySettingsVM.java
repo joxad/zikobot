@@ -76,7 +76,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
     /***
      * @param view
      */
-    public void onButtonConnectClick(View view) {
+    public void onButtonSpotifyConnect(View view) {
         String apiKey = activity.getString(R.string.api_spotify_id);
         String redirect_uri = activity.getString(R.string.api_spotify_callback_web_view);
         String baseUrl = activity.getString(R.string.spotify_web_view);
@@ -172,8 +172,8 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
      */
     public void getSoundCloudMe() {
         SoundCloudApiManager.getInstance().me().subscribe(soundCloudUser -> {
-            binding.cvSoundcloud.tvUserSoundcloud.setText(soundCloudUser.getUserName());
-            Glide.with(activity).load(soundCloudUser.getAvatarUrl()).into(binding.cvSoundcloud.ivUserSoundcloud);
+            binding.cvSoundcloud.tvUser.setText(soundCloudUser.getUserName());
+            Glide.with(activity).load(soundCloudUser.getAvatarUrl()).into(binding.cvSoundcloud.ivUser);
             AppPrefs.soundCloudUser(soundCloudUser);
             showSoundCloudConnect.set(false);
         }, throwable -> {

@@ -4,16 +4,22 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
-
+import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.orhanobut.logger.Logger;
-import com.joxad.zikobot.app.R;
 
 import lombok.Setter;
 
@@ -26,7 +32,7 @@ public class FragmentWebView extends BottomSheetDialogFragment {
     String url;
 
     WebView webView;
-
+    ProgressBar progressBar;
     @Setter
     IntentListener intentListener;
 
@@ -38,10 +44,20 @@ public class FragmentWebView extends BottomSheetDialogFragment {
         return fragment;
     }
 
+
     @Override
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
-        webView = (WebView) LayoutInflater.from(getContext()).inflate(R.layout.fragment_web_view, null, false);
+        dialog.setOnShowListener(dialog1 -> {
+            BottomSheetDialog d = (BottomSheetDialog) dialog1;
+
+            FrameLayout bottomSheet = (FrameLayout) d.findViewById(android.support.design.R.id.design_bottom_sheet);
+            BottomSheetBehavior.from(bottomSheet).setState(BottomSheetBehavior.STATE_EXPANDED);
+        });
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_web_view, null, false);
+        webView = (WebView) view.findViewById(R.id.web_view);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
+
         url = getArguments().getString(EXTRA.URL);
         WebViewClient webViewClient = new WebViewClient() {
             @Override
@@ -60,6 +76,12 @@ public class FragmentWebView extends BottomSheetDialogFragment {
                     return true;
                 }
                 return super.shouldOverrideUrlLoading(view, url);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                new Handler(Looper.getMainLooper()).post(() -> progressBar.setVisibility(View.GONE));
             }
         };
         WebSettings webSettings = webView.getSettings();

@@ -49,18 +49,30 @@
 
             <include
                 android:id="@+id/cv_deezer"
-                layout="@layout/card_view_deezer_account"
-                app:activitySettingsVM="@{activitySettingsVM}" />
+                layout="@layout/card_view_account"
+                app:color="@{@color/colorDeezer}"
+                app:icon="@{@drawable/ic_deezer}"
+                app:onClick="@{activitySettingsVM.onButtonDeezerConnect}"
+                app:show="@{activitySettingsVM.showDeezerConnect}"
+                app:title="@{@string/activity_music_deezer}" />
 
             <include
                 android:id="@+id/cv_spotify"
-                layout="@layout/card_view_spotify_account"
-                app:activitySettingsVM="@{activitySettingsVM}" />
+                layout="@layout/card_view_account"
+                app:color="@{@color/colorSpotify}"
+                app:icon="@{@drawable/ic_spotify_green}"
+                app:onClick="@{activitySettingsVM.onButtonSpotifyConnect}"
+                app:show="@{activitySettingsVM.showSpotifyConnect}"
+                app:title="@{@string/activity_music_spotify}" />
 
             <include
                 android:id="@+id/cv_soundcloud"
-                layout="@layout/card_view_soundcloud_account"
-                app:activitySettingsVM="@{activitySettingsVM}" />
+                layout="@layout/card_view_account"
+                app:color="@{@color/colorSoundCloud}"
+                app:icon="@{@drawable/logo_soundcloud}"
+                app:onClick="@{activitySettingsVM.onButtonSoundCloudConnect}"
+                app:show="@{activitySettingsVM.showSoundCloudConnect}"
+                app:title="@{@string/activity_music_soundcloud}" />
 
 
         </LinearLayout>
