@@ -1,22 +1,27 @@
 package com.joxad.zikobot.app.search;
 
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.zikobot.data.event.LocalAlbumSelectEvent;
-import com.joxad.zikobot.data.event.search.EventQueryChange;
-import com.joxad.zikobot.app.spotify.FragmentSpotifySearch;
-import com.lapism.searchview.SearchView;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.data.event.EventShowArtistDetail;
-import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
-import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
-import com.joxad.zikobot.data.AppPrefs;
-import com.joxad.zikobot.app.databinding.ActivitySearchBinding;
-import com.joxad.zikobot.app.soundcloud.FragmentSoundCloudSearch;
-import com.joxad.zikobot.app.home.ViewPagerAdapter;
 import com.joxad.zikobot.app.alarm.DialogFragmentSettings;
+import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
+import com.joxad.zikobot.app.databinding.ActivitySearchBinding;
+import com.joxad.zikobot.app.home.ViewPagerAdapter;
+import com.joxad.zikobot.app.soundcloud.FragmentSoundCloudSearch;
+import com.joxad.zikobot.app.spotify.FragmentSpotifySearch;
+import com.joxad.zikobot.data.AppPrefs;
+import com.joxad.zikobot.data.event.EventShowArtistDetail;
+import com.joxad.zikobot.data.event.LocalAlbumSelectEvent;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
+import com.joxad.zikobot.data.event.search.EventQueryChange;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.concurrent.TimeUnit;
+
+import rx.functions.Action1;
 
 /**
  * Created by josh on 12/08/16.
@@ -36,28 +41,22 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     public void onCreate() {
         initSearch();
         initTabLayout();
-        uiHandler.postDelayed(() -> binding.searchView.showKeyboard(), 100);
 
     }
 
     private void initSearch() {
-        binding.searchView.setVoiceText("Set permission on Android 6+ !");
-        binding.searchView.setOnMenuClickListener(() -> activity.finish());
-        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                SearchManager.QUERY = newText;
-                EventBus.getDefault().post(new EventQueryChange(newText));
-                return false;
-            }
+        RxTextView
+                .afterTextChangeEvents(binding.etSearch)
+                .debounce(300, TimeUnit.MILLISECONDS)       // wait 300ms before executing
+                .map(event -> event.editable().toString())
+                .subscribe(this::search, throwable -> {
+                    Logger.e(throwable.getLocalizedMessage());
+                });
+    }
 
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                binding.searchView.hideKeyboard();
-                return true;
-            }
-        });
-        binding.searchView.open(true);
+    private void search(String s) {
+        if (s.length() > 3)
+            EventBus.getDefault().post(new EventQueryChange(s));
     }
 
 
@@ -108,7 +107,7 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
 
     public void onPause() {
         EventBus.getDefault().unregister(this);
-        SearchManager.QUERY="";
+        SearchManager.QUERY = "";
     }
 
 }

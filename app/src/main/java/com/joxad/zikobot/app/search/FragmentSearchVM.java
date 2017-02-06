@@ -3,25 +3,25 @@ package com.joxad.zikobot.app.search;
 import android.databinding.ObservableArrayList;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
+import com.joxad.zikobot.app.BR;
+import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.album.AlbumVM;
 import com.joxad.zikobot.app.artist.ArtistVM;
+import com.joxad.zikobot.app.core.utils.ISearch;
+import com.joxad.zikobot.app.databinding.FragmentSearchBinding;
+import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.data.event.search.EventQueryChange;
+import com.joxad.zikobot.data.model.Artist;
 import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 import com.joxad.zikobot.data.module.localmusic.model.LocalArtist;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
-import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.orhanobut.logger.Logger;
-import com.joxad.zikobot.app.BR;
-import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.core.utils.ISearch;
-import com.joxad.zikobot.app.databinding.FragmentSearchBinding;
-
-import com.joxad.zikobot.data.model.Artist;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -38,7 +38,8 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
     public ItemView itemViewAlbum = ItemView.of(BR.albumVM, R.layout.item_album);
     public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
 
-    public String query="";
+    public String query = "";
+
     /***
      * @param fragment
      * @param binding
@@ -68,7 +69,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
     }
 
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceive(EventQueryChange event) {
         query(event.getQuery());
     }
@@ -81,20 +82,20 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
 
     @Override
     public void query(String query) {
-        if( query.length()<2) {
+        if (query.length() < 2) {
             clearAll();
             return;
         }
         this.query = query;
-        loadArtists(15,0);
-        loadAlbums(15,0);
-        loadTracks(15,0);
+        loadArtists(15, 0);
+        loadAlbums(15, 0);
+        loadTracks(15, 0);
 
 
     }
 
-    public void loadArtists(final int limit, final int offset){
-        LocalMusicManager.getInstance().getLocalArtists(15,0,query).subscribe(localArtists -> {
+    public void loadArtists(final int limit, final int offset) {
+        LocalMusicManager.getInstance().getLocalArtists(15, 0, query).subscribe(localArtists -> {
             Logger.d(TAG, "" + localArtists.size());
             artists.clear();
             for (LocalArtist localArtist : localArtists) {
@@ -108,8 +109,8 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
         });
     }
 
-    public void loadAlbums(final int limit, final int offset){
-        LocalMusicManager.getInstance().getLocalAlbums(15,0,null, query).subscribe(localArtists -> {
+    public void loadAlbums(final int limit, final int offset) {
+        LocalMusicManager.getInstance().getLocalAlbums(15, 0, null, query).subscribe(localArtists -> {
             Logger.d(TAG, "" + localArtists.size());
             albums.clear();
             for (LocalAlbum localAlbum : localArtists) {
@@ -122,8 +123,8 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
         });
     }
 
-    public void loadTracks(final int limit, final int offset){
-        LocalMusicManager.getInstance().getLocalTracks(10,0,null,-1, query).subscribe(localTracks -> {
+    public void loadTracks(final int limit, final int offset) {
+        LocalMusicManager.getInstance().getLocalTracks(10, 0, null, -1, query).subscribe(localTracks -> {
             Logger.d("" + localTracks.size());
             tracks.clear();
             for (LocalTrack localTrack : localTracks) {

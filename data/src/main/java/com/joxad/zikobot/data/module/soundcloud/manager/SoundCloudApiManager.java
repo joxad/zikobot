@@ -3,16 +3,14 @@ package com.joxad.zikobot.data.module.soundcloud.manager;
 import android.content.Context;
 
 import com.joxad.zikobot.data.R;
-import com.joxad.zikobot.data.module.soundcloud.resource.SoundCloudApiService;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudToken;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudUser;
+import com.joxad.zikobot.data.module.soundcloud.resource.SoundCloudApiEndpoint;
 import com.joxad.zikobot.data.module.soundcloud.resource.SoundCloudApiInterceptor;
 
 import java.util.ArrayList;
-
-
 
 import retrofit2.Retrofit;
 import rx.Observable;
@@ -25,7 +23,7 @@ import rx.schedulers.Schedulers;
 
 public class SoundCloudApiManager {
 
-    public SoundCloudApiService soundCloudApiService;
+    public SoundCloudApiEndpoint soundCloudApiEndpoint;
 
     private Context context;
     private Retrofit retrofit;
@@ -52,36 +50,42 @@ public class SoundCloudApiManager {
         this.context = context;
         SoundCloudRetrofit soundCloudRetrofit = new SoundCloudRetrofit(context.getString(R.string.soundcloud_base_api_url), new SoundCloudApiInterceptor(context));
         this.retrofit = soundCloudRetrofit.retrofit();
-        soundCloudApiService = retrofit.create(SoundCloudApiService.class);
+        soundCloudApiEndpoint = retrofit.create(SoundCloudApiEndpoint.class);
     }
 
     /***
-     *
      * @param id
      * @return
      */
     public Observable<ArrayList<SoundCloudTrack>> userTracks(final long id) {
-        return soundCloudApiService.userTracks(id).subscribeOn(Schedulers.io())
+        return soundCloudApiEndpoint.userTracks(id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
+
+    /***
+     * @param filter
+     * @return
+     */
+    public Observable<ArrayList<SoundCloudTrack>> search(final String filter) {
+        return soundCloudApiEndpoint.search(filter).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
 
 
     /***
-     *
      * @param id
      * @return
      */
     public Observable<ArrayList<SoundCloudPlaylist>> userPlaylists(final long id) {
-        return soundCloudApiService.userPlaylists(id).subscribeOn(Schedulers.io())
+        return soundCloudApiEndpoint.userPlaylists(id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
 
 
-
     /***
-     *
      * @param clientId
      * @param clientSecret
      * @param redirectUri
@@ -94,13 +98,13 @@ public class SoundCloudApiManager {
                                              final String redirectUri,
                                              final String code,
                                              final String authorization_code) {
-        return soundCloudApiService.token(clientId, clientSecret, redirectUri, code, authorization_code).subscribeOn(Schedulers.io())
+        return soundCloudApiEndpoint.token(clientId, clientSecret, redirectUri, code, authorization_code).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
 
     public Observable<SoundCloudUser> me() {
-        return soundCloudApiService.getMe().subscribeOn(Schedulers.io())
+        return soundCloudApiEndpoint.getMe().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }

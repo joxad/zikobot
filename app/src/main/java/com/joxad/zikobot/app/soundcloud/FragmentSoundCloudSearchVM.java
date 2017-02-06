@@ -3,18 +3,22 @@ package com.joxad.zikobot.app.soundcloud;
 import android.databinding.ObservableArrayList;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
-import com.joxad.zikobot.app.album.AlbumVM;
-import com.joxad.zikobot.data.event.search.EventQueryChange;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.app.album.AlbumVM;
+import com.joxad.zikobot.app.artist.ArtistVM;
 import com.joxad.zikobot.app.core.utils.ISearch;
 import com.joxad.zikobot.app.databinding.FragmentSoundCloudSearchBinding;
-import com.joxad.zikobot.app.search.SearchManager;
-import com.joxad.zikobot.app.artist.ArtistVM;
 import com.joxad.zikobot.app.localtracks.TrackVM;
+import com.joxad.zikobot.app.search.SearchManager;
+import com.joxad.zikobot.data.event.search.EventQueryChange;
+import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -54,13 +58,10 @@ public class FragmentSoundCloudSearchVM extends FragmentBaseVM<FragmentSoundClou
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-        if (!SearchManager.QUERY.isEmpty()) {
-            query(SearchManager.QUERY);
-        }
     }
 
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceive(EventQueryChange event) {
         query(event.getQuery());
     }
@@ -73,7 +74,14 @@ public class FragmentSoundCloudSearchVM extends FragmentBaseVM<FragmentSoundClou
 
     @Override
     public void query(String query) {
+        tracks.clear();
+        SoundCloudApiManager.getInstance().search(query).subscribe(soundCloudTracks -> {
+            for (SoundCloudTrack soundCloudTrack : soundCloudTracks) {
+                tracks.add(new TrackVM(fragment.getContext(), Track.from(soundCloudTrack, fragment.getString(R.string.soundcloud_id))));
+            }
+        }, throwable -> {
 
+        });
     }
 
 }
