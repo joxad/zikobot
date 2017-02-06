@@ -129,7 +129,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
      * @param view
      */
     public void onItemClick(View view) {
-        EventBus.getDefault().post(new EventAlarmSelect(model, view.findViewById(R.id.iv_playlist)));
+        EventBus.getDefault().post(new EventAlarmSelect(model, view));
     }
 
     public void showDialog(View view) {
@@ -173,6 +173,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     public void activeDay(int day, Boolean aBoolean) {
         model.activeDay(day, aBoolean);
+        model.save();
         notifyChange();
     }
 

@@ -85,8 +85,10 @@ public class NavigationManager  {
 
     @Subscribe
     public void onEvent(SelectSCItemPlaylistEvent selectItemPlaylistEvent) {
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(activity, selectItemPlaylistEvent.getView(), activity.getString(R.string.transition));
         SoundCloudPlaylist item = selectItemPlaylistEvent.getItem();
-        activity.startActivity(IntentManager.goToSoundCloudPlaylist(item));
+        activity.startActivity(IntentManager.goToSoundCloudPlaylist(item), options.toBundle());
     }
 
     @Subscribe
@@ -117,7 +119,7 @@ public class NavigationManager  {
     public void onEvent(EventAlarmSelect eventAlarmSelect) {
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(activity, eventAlarmSelect.getView(), activity.getString(R.string.transition));
-        activity.startActivity(IntentManager.goToAlarm(eventAlarmSelect.getModel()));
+        activity.startActivity(IntentManager.goToAlarm(eventAlarmSelect.getModel()),options.toBundle());
     }
 
     @Subscribe

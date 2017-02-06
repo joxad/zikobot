@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.app.player.event.EventStopPlayer;
 import com.joxad.zikobot.data.model.Alarm;
 import com.joxad.zikobot.app.core.mock.Mock;
 import com.joxad.zikobot.app.core.utils.EXTRA;
@@ -118,6 +119,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      * @param view
      */
     public void stop(View view) {
+        EventBus.getDefault().post(new EventStopPlayer());
         activity.finish();
     }
 

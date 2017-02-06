@@ -5,9 +5,9 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
+import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.data.event.soundcloud.SelectSCItemPlaylistEvent;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
-import com.joxad.zikobot.app.R;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -37,7 +37,7 @@ public class SoundCloudPlaylistVM extends BaseVM<SoundCloudPlaylist> {
      * @param view
      */
     public void onItemClick(View view) {
-        EventBus.getDefault().post(new SelectSCItemPlaylistEvent(model));
+        EventBus.getDefault().post(new SelectSCItemPlaylistEvent(model, view));
     }
 
 

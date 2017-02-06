@@ -28,7 +28,7 @@
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax">
 
-                <android.support.v7.widget.AppCompatImageView
+                <ImageView
                     android:id="@+id/iv_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"

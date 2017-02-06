@@ -39,16 +39,15 @@ public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundC
     @Override
     public void onCreate() {
         userPlaylists = new ObservableArrayList<>();
+        loadUserPlaylist();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        loadUserPlaylist();
     }
 
     /***
-     * Call {@link com.joxad.zikobot.module.spotify_api.manager.SpotifyApiManager} to find the current user playlists
      */
     private void loadUserPlaylist() {
         if (AppPrefs.soundCloudUser() == null) return;

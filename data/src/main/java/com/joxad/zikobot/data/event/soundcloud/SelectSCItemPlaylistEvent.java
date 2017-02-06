@@ -1,5 +1,7 @@
 package com.joxad.zikobot.data.event.soundcloud;
 
+import android.view.View;
+
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 
 import lombok.AllArgsConstructor;
@@ -12,4 +14,5 @@ import lombok.Data;
 @AllArgsConstructor(suppressConstructorProperties = true)
 public class SelectSCItemPlaylistEvent {
     private final SoundCloudPlaylist item;
+    private final View view;
 }

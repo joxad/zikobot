@@ -58,12 +58,12 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
         }
         createSwipeToDismiss();
         swipeToDismissTouchHelper.attachToRecyclerView(binding.alarmRecyclerView);
-        loadAlarms();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        loadAlarms();
     }
 
 

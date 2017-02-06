@@ -45,11 +45,11 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     @Override
     public void onCreate() {
         alarm = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.ALARM));
+        initPlayerVM();
         initToolbar();
+
         initMenu();
         initViews();
-        initPlayerVM();
-
     }
 
     private void initToolbar() {
