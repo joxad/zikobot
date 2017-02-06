@@ -9,9 +9,7 @@ public interface IMusicPlayer {
     void pause();
     void resume();
     void stop();
+    void seekTo(float percent);
     void seekTo(int position);
-    int position();
-    int positionMax();
-    void next();
-    void previous();
+
 }

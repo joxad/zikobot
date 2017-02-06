@@ -77,27 +77,28 @@ public class DeezerPlayer implements IMusicPlayer {
     }
 
     @Override
+    public void seekTo(float percent) {
+
+    }
+
+    @Override
     public void seekTo(int position) {
         trackPlayer.seek(position);
     }
 
-    @Override
     public int position() {
         return (int)trackPlayer.getPosition();
     }
 
-    @Override
     public int positionMax() {
         return 0;
     }
 
 
-    @Override
     public void next() {
         EventBus.getDefault().post(new EventNextTrack());
     }
 
-    @Override
     public void previous() {
 
     }

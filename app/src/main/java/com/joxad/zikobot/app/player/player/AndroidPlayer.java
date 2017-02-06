@@ -1,30 +1,24 @@
 package com.joxad.zikobot.app.player.player;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.net.Uri;
-import android.os.IBinder;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.PowerManager;
 
 import com.joxad.zikobot.app.player.event.EventNextTrack;
-import com.joxad.zikobot.data.service.MediaPlayerService;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.io.IOException;
 
 /**
  * Created by josh on 28/08/16.
  */
-public class AndroidPlayer implements IMusicPlayer {
+public class AndroidPlayer implements IMusicPlayer, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
 
-    private MediaPlayerService mediaPlayerService;
-    private boolean mediaPlayerServiceBound = false;
-
-    /***
-     * service connexion that will handle the binding with the {@link MediaPlayerService} service
-     */
-    private ServiceConnection musicConnection;
     private Context context;
+    private MediaPlayer mediaPlayer;
+    private MediaPlayer.OnCompletionListener onCompletionListener;
 
     public AndroidPlayer(Context context) {
         this.context = context;
@@ -34,104 +28,71 @@ public class AndroidPlayer implements IMusicPlayer {
 
     @Override
     public void init() {
-        initMediaPlayer(context);
-    }
-
-    /***
-     * @param context
-     */
-    private void initMediaPlayer(Context context) {
-        musicConnection = new ServiceConnection() {
-
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                MediaPlayerService.MediaPlayerServiceBinder binder = (MediaPlayerService.MediaPlayerServiceBinder) service;
-                //get service
-                mediaPlayerService = binder.getService();
-                mediaPlayerService.setOnCompletionListener(mp -> next());
-                mediaPlayerService.setOnDisconnectListener(() -> {
-                    mediaPlayerService = null;
-                    mediaPlayerServiceBound = false;
-                });
-                //pass list
-                mediaPlayerServiceBound = true;
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                mediaPlayerService = null;
-                mediaPlayerServiceBound = false;
-            }
-        };
-
-        Intent playIntent = new Intent(context, MediaPlayerService.class);
-        context.bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-        context.startService(playIntent);
-
-    }
-
-
-    public void play(Uri ref) {
-        if (mediaPlayerService == null) {
-            initMediaPlayer(context);
-        } else {
-            mediaPlayerService.playSong(ref);
-        }
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setWakeMode(context,
+                PowerManager.PARTIAL_WAKE_LOCK);
+        onCompletionListener = mediaPlayer1 -> EventBus.getDefault().post(new EventNextTrack());
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setOnPreparedListener(this);
+        mediaPlayer.setOnErrorListener(this);
     }
 
     @Override
     public void play(String ref) {
-        if (mediaPlayerService == null) {
-            initMediaPlayer(context);
-        } else {
-            mediaPlayerService.playUrlSong(ref);
+        //play
+        mediaPlayer.reset();
+        //set the data source
+        try {
+            mediaPlayer.setDataSource(ref);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        mediaPlayer.prepareAsync();
     }
 
     @Override
     public void pause() {
-        if (mediaPlayerService != null) {
-            mediaPlayerService.pause();
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
         }
     }
 
     @Override
     public void resume() {
-        if (mediaPlayerService != null) {
-            mediaPlayerService.resume();
+        if (mediaPlayer != null) {
+            mediaPlayer.start();
         }
     }
 
     @Override
     public void stop() {
-        mediaPlayerService.stop();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+    }
+
+    @Override
+    public void seekTo(float percent) {
 
     }
 
     @Override
     public void seekTo(int position) {
-        mediaPlayerService.seek(position);
+        mediaPlayer.seekTo(position);
+    }
+
+
+    @Override
+    public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+        return false;
     }
 
     @Override
-    public int position() {
-        return mediaPlayerService.getCurrentPosition();
+    public void onPrepared(MediaPlayer mediaPlayer) {
+        this.mediaPlayer = mediaPlayer;
+        mediaPlayer.start();
+        if (onCompletionListener != null)
+            mediaPlayer.setOnCompletionListener(onCompletionListener);
     }
-
-    @Override
-    public int positionMax() {
-        return 0;
-    }
-
-    @Override
-    public void next() {
-        EventBus.getDefault().post(new EventNextTrack());
-    }
-
-    @Override
-    public void previous() {
-
-    }
-
-
 }

@@ -82,37 +82,29 @@ public class SpotifyPlayer implements IMusicPlayer {
     }
 
     @Override
+    public void seekTo(float percent) {
+
+    }
+
+    @Override
     public void seekTo(int position) {
         SpotifyPlayerManager.player().seekToPosition(position);
     }
 
-    @Override
     public int position() {
         return currentPosition;
     }
 
-    @Override
     public int positionMax() {
         return 0;
     }
-
-    @Override
-    public void next() {
-        EventBus.getDefault().post(new EventNextTrack());
-    }
-
-    @Override
-    public void previous() {
-
-    }
-
 
     PlayerNotificationCallback playerNotificationCallback = new PlayerNotificationCallback() {
         @Override
         public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
             currentPosition = playerState.positionInMs;
             if (playerState.positionInMs >= playerState.durationInMs && playerState.durationInMs > 0)
-                next();
+                EventBus.getDefault().post(new EventNextTrack());
             Logger.d(String.format("Player state %s - activeDevice %s : current duration %d total duration %s", playerState.trackUri, playerState.activeDevice, playerState.positionInMs, playerState.durationInMs));
         }
 

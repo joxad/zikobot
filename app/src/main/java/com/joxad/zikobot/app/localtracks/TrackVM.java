@@ -56,6 +56,10 @@ public class TrackVM extends BaseVM<Track> {
     }
 
     @Bindable
+    public int getType() {
+        return model.getType();
+    }
+    @Bindable
     public long getDuration() {
         return model.getDuration();
     }

@@ -14,8 +14,9 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
-import com.joxad.zikobot.app.player.event.EventPreviousTrack;
-import com.orhanobut.logger.Logger;
+import com.joxad.zikobot.app.core.notification.PlayerNotification;
+import com.joxad.zikobot.app.core.receiver.ZikoMediaCallback;
+import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.app.player.event.EventAddTrackToCurrent;
 import com.joxad.zikobot.app.player.event.EventAddTrackToEndOfCurrent;
@@ -24,19 +25,17 @@ import com.joxad.zikobot.app.player.event.EventPauseMediaButton;
 import com.joxad.zikobot.app.player.event.EventPlayMediaButton;
 import com.joxad.zikobot.app.player.event.EventPlayTrack;
 import com.joxad.zikobot.app.player.event.EventPosition;
+import com.joxad.zikobot.app.player.event.EventPreviousTrack;
 import com.joxad.zikobot.app.player.event.EventRefreshPlayer;
 import com.joxad.zikobot.app.player.event.EventStopPlayer;
 import com.joxad.zikobot.app.player.event.TrackChangeEvent;
+import com.joxad.zikobot.app.player.player.AndroidPlayer;
 import com.joxad.zikobot.app.player.player.IMusicPlayer;
-import com.joxad.zikobot.app.core.notification.PlayerNotification;
-import com.joxad.zikobot.app.core.receiver.ZikoMediaCallback;
-import com.joxad.zikobot.app.localtracks.TrackVM;
+import com.joxad.zikobot.app.player.player.VLCPlayer;
+import com.joxad.zikobot.data.model.TYPE;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.MediaPlayer;
 
 /**
  * Created by Jocelyn on 12/12/2016.
@@ -46,16 +45,17 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     public ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList<>();
     public TrackVM currentTrackVM;
-    private MediaPlayer vlcPlayer;
     PlayerNotification playerNotification;
     private int currentIndex = 0;
-    LibVLC libVLC;
     public ObservableBoolean playing = new ObservableBoolean(false);
     private final IBinder musicBind = new PlayerService.PlayerBinder();
     private int currentProgress = 0;
     public static final int DELAY = 200;
     private MediaSessionCompat mediaSession;
     private Handler timeHandler;
+    VLCPlayer vlcPlayer;
+    AndroidPlayer androidPlayer;
+    private IMusicPlayer currentPlayer;
 
     public class PlayerBinder extends Binder {
         public PlayerService getService() {
@@ -66,6 +66,9 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Override
     public void onCreate() {
         super.onCreate();
+        vlcPlayer = new VLCPlayer();
+        androidPlayer = new AndroidPlayer(this);
+
         mediaSession = new MediaSessionCompat(this, "PlayerService");
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
                 MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
@@ -95,24 +98,15 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     @Override
     public void init() {
-        libVLC = new LibVLC();
-        vlcPlayer = new MediaPlayer(libVLC);
-        vlcPlayer.setEventListener(event -> {
-            switch (event.type) {
-                case MediaPlayer.Event.EncounteredError:
-                    Logger.d(event.toString());
-                    break;
-                case MediaPlayer.Event.MediaChanged:
-                    Logger.d("VLC Media changed");
-                    break;
-                case MediaPlayer.Event.EndReached:
-                    Logger.d("VLOC Media ended");
-                    next();
-                    break;
-            }
-        });
+
         playerNotification = new PlayerNotification(this);
         timeHandler = new Handler();
+        vlcPlayer.init();
+        androidPlayer.init();
+        currentPlayer = vlcPlayer;
+        //TODO test if other player needed
+
+
     }
 
     @Subscribe
@@ -218,14 +212,24 @@ public class PlayerService extends Service implements IMusicPlayer {
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, currentTrackVM.getName())
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, currentTrackVM.getDuration())
                 .build());
-
+        updatePlayer(currentTrackVM);
         play(currentTrackVM.getRef());
+    }
+
+    private void updatePlayer(TrackVM currentTrackVM) {
+        switch (currentTrackVM.getType()) {
+            case TYPE.LOCAL:
+                currentPlayer = vlcPlayer;
+                break;
+            case TYPE.SOUNDCLOUD:
+                currentPlayer = androidPlayer;
+                break;
+        }
     }
 
     @Override
     public void play(String ref) {
-        vlcPlayer.setMedia(new Media(libVLC, ref));
-        vlcPlayer.play();
+        currentPlayer.play(ref);
         playing.set(true);
         if (currentTrackVM != null) {
             playerNotification.prepareNotification(currentTrackVM.getModel());
@@ -245,7 +249,7 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     @Override
     public void pause() {
-        vlcPlayer.pause();
+        currentPlayer.pause();
         playing.set(false);
         EventBus.getDefault().post(new EventRefreshPlayer());
 
@@ -253,7 +257,7 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     @Override
     public void resume() {
-        vlcPlayer.play();
+        currentPlayer.resume();
         playing.set(true);
         EventBus.getDefault().post(new EventRefreshPlayer());
     }
@@ -261,7 +265,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Override
     public void stop() {
         stopPreviousTrack();
-        vlcPlayer.stop();
+        currentPlayer.stop();
         playing.set(false);
         currentProgress = 0;
         playerNotification.cancel();
@@ -270,24 +274,27 @@ public class PlayerService extends Service implements IMusicPlayer {
     }
 
     @Override
-    public void seekTo(int position) {
-        currentProgress = position;
-        float p = (float) position / (float) positionMax();
-        vlcPlayer.setPosition(p);
+    public void seekTo(float position) {
+        vlcPlayer.seekTo(position);
     }
 
     @Override
+    public void seekTo(int position) {
+        currentProgress = position;
+        if (currentPlayer instanceof VLCPlayer) seekTo((float) position / (float) positionMax());
+        else currentPlayer.seekTo(position);
+
+    }
+
     public int position() {
         return currentProgress;
     }
 
-    @Override
     public int positionMax() {
         if (currentTrackVM == null) return 0;
         return (int) currentTrackVM.getModel().getDuration();
     }
 
-    @Override
     public void next() {
         if (currentIndex < trackVMs.size() - 1) {
             stopPreviousTrack();
@@ -298,7 +305,6 @@ public class PlayerService extends Service implements IMusicPlayer {
         }
     }
 
-    @Override
     public void previous() {
         if (currentIndex > 0) {
             stopPreviousTrack();
@@ -318,7 +324,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
-        vlcPlayer.release();
+
         super.onDestroy();
     }
 
