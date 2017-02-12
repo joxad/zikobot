@@ -9,20 +9,20 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBaseVM;
-import com.joxad.zikobot.data.model.Album;
-import com.orhanobut.logger.Logger;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.event.EventAlarmSelect;
-import com.joxad.zikobot.app.player.event.EventAddTrackToCurrent;
-import com.joxad.zikobot.app.player.event.EventAddTrackToEndOfCurrent;
-import com.joxad.zikobot.data.model.Alarm;
-import com.joxad.zikobot.data.model.Track;
-import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
-import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.DialogFragmentSettingsBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
+import com.joxad.zikobot.app.player.event.EventAddTrackToCurrent;
+import com.joxad.zikobot.app.player.event.EventAddTrackToEndOfCurrent;
+import com.joxad.zikobot.data.model.Alarm;
+import com.joxad.zikobot.data.model.Album;
+import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
+import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -109,7 +109,10 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
         allTracks.addAll(alarm.getTracks());
         allTracks.addAll(AlarmTrackManager.tracks());
         AlarmManager.saveAlarm(alarm, allTracks).subscribe(alarm1 -> {
-            Toast.makeText(fragment.getContext(), track.getName() + " a été ajoutée à la playlist " + alarm.getName(), Toast.LENGTH_SHORT).show();
+            if (track != null)
+                Toast.makeText(fragment.getContext(), track.getName() + " a été ajoutée à la playlist " + alarm.getName(), Toast.LENGTH_SHORT).show();
+            if (album != null)
+                Toast.makeText(fragment.getContext(), album.getName() + " a été ajouté à la playlist " + alarm.getName(), Toast.LENGTH_SHORT).show();
             dismiss();
         }, throwable -> {
             Toast.makeText(fragment.getContext(), "Oops j'ai eu un souci", Toast.LENGTH_SHORT).show();

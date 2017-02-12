@@ -51,6 +51,7 @@
                 android:id="@+id/cv_deezer"
                 layout="@layout/card_view_account"
                 app:color="@{@color/colorDeezer}"
+                app:deleteClick="@{activitySettingsVM.deleteDeezer}"
                 app:icon="@{@drawable/ic_deezer}"
                 app:onClick="@{activitySettingsVM.onButtonDeezerConnect}"
                 app:show="@{activitySettingsVM.showDeezerConnect}"
@@ -60,7 +61,9 @@
                 android:id="@+id/cv_spotify"
                 layout="@layout/card_view_account"
                 app:color="@{@color/colorSpotify}"
+                app:deleteClick="@{activitySettingsVM.deleteSpotify}"
                 app:icon="@{@drawable/ic_spotify_green}"
+
                 app:onClick="@{activitySettingsVM.onButtonSpotifyConnect}"
                 app:show="@{activitySettingsVM.showSpotifyConnect}"
                 app:title="@{@string/activity_music_spotify}" />
@@ -69,6 +72,7 @@
                 android:id="@+id/cv_soundcloud"
                 layout="@layout/card_view_account"
                 app:color="@{@color/colorSoundCloud}"
+                app:deleteClick="@{activitySettingsVM.deleteSoundCloud}"
                 app:icon="@{@drawable/logo_soundcloud}"
                 app:onClick="@{activitySettingsVM.onButtonSoundCloudConnect}"
                 app:show="@{activitySettingsVM.showSoundCloudConnect}"

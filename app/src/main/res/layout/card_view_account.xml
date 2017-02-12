@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -28,6 +27,10 @@
         <variable
             name="color"
             type="java.lang.Integer" />
+
+        <variable
+            name="deleteClick"
+            type="android.view.View.OnClickListener" />
 
     </data>
 
@@ -68,13 +71,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
+                android:backgroundTint="@{color}"
                 android:onClick="@{onClick}"
-                android:visibility="@{show ? v.VISIBLE :  v.GONE}"
                 android:text="@string/connect"
                 android:textColor="@android:color/white"
-                android:backgroundTint="@{color}" />
+                android:visibility="@{show ? v.VISIBLE :  v.GONE}" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
@@ -86,9 +89,20 @@
                     android:layout_width="@dimen/avatar_size"
                     android:layout_height="@dimen/avatar_size" />
 
+                <ImageView
+                    android:id="@+id/iv_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:onClick="@{deleteClick}"
+                    android:src="@drawable/ic_clear_48" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/iv_user"
+                    android:layout_toStartOf="@id/iv_clear"
                     android:orientation="vertical">
 
                     <TextView
@@ -122,7 +136,7 @@
                             android:textColor="@color/colorDeezer" />
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

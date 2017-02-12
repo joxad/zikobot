@@ -91,7 +91,7 @@ public class FragmentWebView extends BottomSheetDialogFragment {
         webView.setWebViewClient(webViewClient);
 
         webView.loadUrl(url);
-        dialog.setContentView(webView);
+        dialog.setContentView(view);
 
     }
 

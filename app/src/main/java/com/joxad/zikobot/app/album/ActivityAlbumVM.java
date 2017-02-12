@@ -5,22 +5,22 @@ import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.zikobot.app.player.event.EventAddList;
-import com.joxad.zikobot.data.model.Album;
-import com.orhanobut.logger.Logger;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.DialogFragmentSettings;
-import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
-import com.joxad.zikobot.data.model.Track;
-import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
-import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.joxad.zikobot.app.databinding.ActivityAlbumBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.PlayerVM;
+import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
+import com.joxad.zikobot.data.model.Album;
+import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
+import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -62,8 +62,23 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
             }
         });
         initToolbar();
+        initMenu();
         initPlayerVM();
     }
+
+    private void initMenu() {
+        binding.customToolbar.toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_edit:
+                    showDialogEdit();
+                    break;
+
+            }
+            return false;
+        });
+
+    }
+
 
     @Override
     public void onEnterAnimationComplete() {
@@ -82,10 +97,13 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
     private void initToolbar() {
         ZikoUtils.prepareToolbar(activity, binding.customToolbar, album.getName(), album.getImage());
         binding.customToolbar.mainCollapsing.setOnClickListener(v -> {
-            DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(album);
-            dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
-
+            showDialogEdit();
         });
+    }
+
+    private void showDialogEdit() {
+        DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(album);
+        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
     }
 
 

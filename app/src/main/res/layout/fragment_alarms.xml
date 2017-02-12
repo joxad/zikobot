@@ -22,16 +22,16 @@
         tools:bindingContext=".core.MainActivity">
 
 
-        <android.support.v7.widget.RecyclerView
+        <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
             android:id="@+id/alarm_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:scrollbars="vertical"
-            app:adapter='@{"com.joxad.zikobot.app.alarm.AlarmAdapter"}'
+            android:layoutAnimation="@anim/grid_animation"
             app:itemView="@{fragmentAlarmsVM.itemView}"
             app:items="@{fragmentAlarmsVM.itemsVM}"
-            app:layoutManager="@{LayoutManagers.grid(1)}"
+            app:layoutManager="@{LayoutManagers.grid(2)}"
             android:paddingBottom="@dimen/margin_player"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/item_alarm" />

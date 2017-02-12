@@ -12,18 +12,21 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.joxad.android_easy_spotify.Scope;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.zikobot.data.module.deezer.DeezerManager;
-import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
-import com.joxad.zikobot.app.soundcloud.SoundCloudLoginActivity;
-import com.orhanobut.logger.Logger;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.data.AppPrefs;
+import com.joxad.zikobot.app.core.general.FragmentWebView;
 import com.joxad.zikobot.app.databinding.ActivitySettingsBinding;
-
+import com.joxad.zikobot.app.player.event.EventAccountConnect;
+import com.joxad.zikobot.app.soundcloud.SoundCloudLoginActivity;
+import com.joxad.zikobot.data.AppPrefs;
+import com.joxad.zikobot.data.model.TYPE;
+import com.joxad.zikobot.data.module.deezer.DeezerManager;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
+import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
 import com.joxad.zikobot.data.module.spotify_auth.model.SpotifyRequestToken;
-import com.joxad.zikobot.app.core.general.FragmentWebView;
+import com.orhanobut.logger.Logger;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.UnsupportedEncodingException;
 
@@ -71,6 +74,26 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
             getSoundCloudMe();
         }
         getDeezerMe();
+    }
+
+
+    public void deleteSpotify(View view) {
+        AppPrefs.spotifyUser(null);
+        AppPrefs.saveAccessCode(null);
+        AppPrefs.saveAccessToken(null);
+        notifyChange();
+    }
+
+    public void deleteSoundCloud(View view) {
+        AppPrefs.soundCloudUser(null);
+        AppPrefs.saveSoundCloudAccessToken(null);
+        notifyChange();
+    }
+
+    public void deleteDeezer(View view) {
+        AppPrefs.deezerUser(null);
+        DeezerManager.getInstance().logout();
+        notifyChange();
     }
 
     /***
@@ -145,6 +168,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
             String accessToken = spotifyToken.getAccessToken();
             AppPrefs.saveAccessToken(accessToken);
             AppPrefs.saveRefreshToken(spotifyToken.getRefreshToken());
+            EventBus.getDefault().post(new EventAccountConnect(TYPE.SPOTIFY));
             getSpotifyMe();
         }, throwable -> {
             Logger.e(throwable.getLocalizedMessage());
@@ -175,6 +199,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
             binding.cvSoundcloud.tvUser.setText(soundCloudUser.getUserName());
             Glide.with(activity).load(soundCloudUser.getAvatarUrl()).into(binding.cvSoundcloud.ivUser);
             AppPrefs.soundCloudUser(soundCloudUser);
+            EventBus.getDefault().post(new EventAccountConnect(TYPE.SOUNDCLOUD));
             showSoundCloudConnect.set(false);
         }, throwable -> {
             Logger.e(throwable.getLocalizedMessage());

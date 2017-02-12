@@ -17,6 +17,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import com.joxad.zikobot.app.core.notification.PlayerNotification;
 import com.joxad.zikobot.app.core.receiver.ZikoMediaCallback;
 import com.joxad.zikobot.app.localtracks.TrackVM;
+import com.joxad.zikobot.app.player.event.EventAccountConnect;
 import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.app.player.event.EventAddTrackToCurrent;
 import com.joxad.zikobot.app.player.event.EventAddTrackToEndOfCurrent;
@@ -31,7 +32,9 @@ import com.joxad.zikobot.app.player.event.EventStopPlayer;
 import com.joxad.zikobot.app.player.event.TrackChangeEvent;
 import com.joxad.zikobot.app.player.player.AndroidPlayer;
 import com.joxad.zikobot.app.player.player.IMusicPlayer;
+import com.joxad.zikobot.app.player.player.SpotifyPlayer;
 import com.joxad.zikobot.app.player.player.VLCPlayer;
+import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.model.TYPE;
 
 import org.greenrobot.eventbus.EventBus;
@@ -55,6 +58,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     private Handler timeHandler;
     VLCPlayer vlcPlayer;
     AndroidPlayer androidPlayer;
+    SpotifyPlayer spotifyPlayer;
     private IMusicPlayer currentPlayer;
 
     public class PlayerBinder extends Binder {
@@ -68,7 +72,7 @@ public class PlayerService extends Service implements IMusicPlayer {
         super.onCreate();
         vlcPlayer = new VLCPlayer();
         androidPlayer = new AndroidPlayer(this);
-
+        spotifyPlayer = new SpotifyPlayer(this);
         mediaSession = new MediaSessionCompat(this, "PlayerService");
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
                 MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
@@ -102,11 +106,28 @@ public class PlayerService extends Service implements IMusicPlayer {
         playerNotification = new PlayerNotification(this);
         timeHandler = new Handler();
         vlcPlayer.init();
-        androidPlayer.init();
+        if (AppPrefs.spotifyUser() != null) {
+            spotifyPlayer.init();
+        }
+        if (AppPrefs.soundCloudUser() != null) {
+            androidPlayer.init();
+        }
         currentPlayer = vlcPlayer;
-        //TODO test if other player needed
 
 
+    }
+
+
+    @Subscribe
+    public void onEvent(EventAccountConnect event) {
+        switch (event.getType()) {
+            case TYPE.SOUNDCLOUD:
+                androidPlayer.init();
+                break;
+            case TYPE.SPOTIFY:
+                spotifyPlayer.init();
+                break;
+        }
     }
 
     @Subscribe
@@ -117,7 +138,7 @@ public class PlayerService extends Service implements IMusicPlayer {
         if (!trackVMs.isEmpty()) {
             for (int i = 0; i < trackVMs.size(); i++) {
                 TrackVM trackVM = trackVMs.get(i);
-                if (trackVM.getModel().getId() == eventPlayTrack.getTrack().getModel().getId()) {
+                if (trackVM.getModel().getRef().equals(eventPlayTrack.getTrack().getModel().getRef()) && trackVM.getType() == eventPlayTrack.getTrack().getType()) {
                     currentTrackVM = trackVM;
                     foundInCurrentList = true;
                 }
@@ -217,12 +238,16 @@ public class PlayerService extends Service implements IMusicPlayer {
     }
 
     private void updatePlayer(TrackVM currentTrackVM) {
+        currentPlayer.stop();
         switch (currentTrackVM.getType()) {
             case TYPE.LOCAL:
                 currentPlayer = vlcPlayer;
                 break;
             case TYPE.SOUNDCLOUD:
                 currentPlayer = androidPlayer;
+                break;
+            case TYPE.SPOTIFY:
+                currentPlayer = spotifyPlayer;
                 break;
         }
     }
@@ -302,6 +327,8 @@ public class PlayerService extends Service implements IMusicPlayer {
             currentTrackVM = trackVMs.get(currentIndex);
             play(currentTrackVM);
             EventBus.getDefault().post(new TrackChangeEvent());
+        } else {
+            stop();
         }
     }
 

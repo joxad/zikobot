@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.joxad.android_easy_spotify.SpotifyManager;
-import com.joxad.android_easy_spotify.SpotifyPlayerManager;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.player.event.EventNextTrack;
 import com.joxad.zikobot.data.AppPrefs;
@@ -24,13 +23,11 @@ import org.greenrobot.eventbus.EventBus;
 public class SpotifyPlayer implements IMusicPlayer {
 
     private final Context context;
-    protected int currentPosition;
 
     protected Player player;
 
     public SpotifyPlayer(Context context) {
         this.context = context;
-        init();
     }
 
     @Override
@@ -52,32 +49,26 @@ public class SpotifyPlayer implements IMusicPlayer {
         });
     }
 
-    /***
-     * Method called when the token is updated for spotify
-     */
-    public void refreshAccessTokenPlayer() {
-        SpotifyPlayerManager.updateToken(AppPrefs.getSpotifyAccessToken());
-    }
 
 
     @Override
     public void play(String ref) {
-        SpotifyPlayerManager.play(ref);
+        player.play(ref);
     }
 
     @Override
     public void pause() {
-        SpotifyPlayerManager.pause();
+        player.pause();
     }
 
     @Override
     public void resume() {
-        SpotifyPlayerManager.resume();
+        player.resume();
     }
 
     @Override
     public void stop() {
-        SpotifyPlayerManager.pause();
+        player.pause();
 
     }
 
@@ -88,21 +79,12 @@ public class SpotifyPlayer implements IMusicPlayer {
 
     @Override
     public void seekTo(int position) {
-        SpotifyPlayerManager.player().seekToPosition(position);
-    }
-
-    public int position() {
-        return currentPosition;
-    }
-
-    public int positionMax() {
-        return 0;
+        player.seekToPosition(position);
     }
 
     PlayerNotificationCallback playerNotificationCallback = new PlayerNotificationCallback() {
         @Override
         public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
-            currentPosition = playerState.positionInMs;
             if (playerState.positionInMs >= playerState.durationInMs && playerState.durationInMs > 0)
                 EventBus.getDefault().post(new EventNextTrack());
             Logger.d(String.format("Player state %s - activeDevice %s : current duration %d total duration %s", playerState.trackUri, playerState.activeDevice, playerState.positionInMs, playerState.durationInMs));

@@ -56,10 +56,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:onClick="@{itemAlarmVM.expand}"
-                        android:src="@drawable/ic_expand_accent" />
+                        android:onClick="@{itemAlarmVM.showDialog}"
+                        android:src="@{itemAlarmVM.activated ? @drawable/ic_alarm_selected : @drawable/ic_alarm }" />
 
                     <TextView
                         android:id="@+id/tv_title"
@@ -79,85 +78,7 @@
 
                 </RelativeLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="@{itemAlarmVM.isExpanded ? v.VISIBLE : v.GONE}">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <CheckBox
-                            android:id="@+id/sw_activated"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/margin_medium"
-                            android:layout_marginStart="@dimen/margin_medium"
-                            android:button="@drawable/selector_alarm"
-                            android:checked="@{itemAlarmVM.activated}"
-                            android:gravity="center_vertical" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginEnd="@dimen/margin_medium"
-                            android:layout_marginRight="@dimen/margin_medium"
-                            android:onClick="@{itemAlarmVM.showDialog}}"
-                            android:orientation="horizontal">
-
-
-                            <TextView
-                                android:id="@+id/tv_hour"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:text="@{itemAlarmVM.alarmTime}"
-                                android:textAllCaps="true"
-                                android:textColor="@{itemAlarmVM.activated ? @color/colorAccent : @color/divider}"
-                                android:textSize="40sp"
-                                tools:text="8 : 00" />
-
-                            <TextView
-                                android:id="@+id/tv_am_pm"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_medium"
-                                android:layout_marginStart="@dimen/margin_medium"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:text="@{itemAlarmVM.alarmTimeAmPm}"
-                                android:textAllCaps="true"
-                                android:textColor="@{itemAlarmVM.activated ? @color/colorAccent : @color/divider}"
-                                android:textSize="25sp"
-                                tools:text="AM" />
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{itemAlarmVM.showDialog}">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/colorPrimaryDark" />
-
-                        <include
-                            android:id="@+id/view_days"
-                            layout="@layout/view_alarm_days"
-                            app:itemAlarmVM="@{itemAlarmVM}" />
-                    </FrameLayout>
-                </LinearLayout>
             </LinearLayout>
 
         </RelativeLayout>

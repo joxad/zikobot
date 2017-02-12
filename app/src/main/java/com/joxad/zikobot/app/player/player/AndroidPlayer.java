@@ -22,7 +22,6 @@ public class AndroidPlayer implements IMusicPlayer, MediaPlayer.OnPreparedListen
 
     public AndroidPlayer(Context context) {
         this.context = context;
-        init();
     }
 
 

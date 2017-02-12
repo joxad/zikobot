@@ -32,6 +32,10 @@ public class DeezerManager {
     private Context context;
     private String appId;
 
+    public void logout() {
+        deezerConnect.logout(context);
+    }
+
     /**
      * Holder
      */
