@@ -1,6 +1,9 @@
 package com.joxad.zikobot.data.module.soundcloud.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import org.parceler.Parcel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,17 +11,32 @@ import lombok.Data;
 /**
  * Created by josh on 15/06/16.
  */
+@Parcel
 @Data
 @AllArgsConstructor(suppressConstructorProperties = true)
 public class SoundCloudUser {
 
+
+    public SoundCloudUser() {}
     @SerializedName("id")
-    private final long id;
-
+    @Expose
+    public Integer id;
+    @SerializedName("kind")
+    @Expose
+    public String kind;
+    @SerializedName("permalink")
+    @Expose
+    public String permalink;
     @SerializedName("username")
-    private final String userName;
-
+    @Expose
+    public String username;
+    @SerializedName("uri")
+    @Expose
+    public String uri;
+    @SerializedName("permalink_url")
+    @Expose
+    public String permalinkUrl;
     @SerializedName("avatar_url")
-    private final String avatarUrl;
-
+    @Expose
+    public String avatarUrl;
 }

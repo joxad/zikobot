@@ -28,6 +28,12 @@ public interface SoundCloudApiEndpoint {
 
     @GET("tracks")
     Observable<ArrayList<SoundCloudTrack>> search(@Query("q") final String searchFilter);
+    
+    @GET("playlists")
+    Observable<ArrayList<SoundCloudPlaylist>> searchPlaylist(@Query("q") final String searchFilter);
+
+    @GET("users")
+    Observable<ArrayList<SoundCloudUser>> searchUser(@Query("q") final String searchFilter);
 
     @FormUrlEncoded
     @POST("oauth2/token")

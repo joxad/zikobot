@@ -73,6 +73,25 @@ public class SoundCloudApiManager {
                 .unsubscribeOn(Schedulers.io());
     }
 
+    /***
+     * @param search
+     * @return
+     */
+    public Observable<ArrayList<SoundCloudUser>> searchUsers(final String search) {
+        return soundCloudApiEndpoint.searchUser(search).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
+
+    /***
+     * @param search
+     * @return
+     */
+    public Observable<ArrayList<SoundCloudPlaylist>> searchPlaylists(final String search) {
+        return soundCloudApiEndpoint.searchPlaylist(search).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
 
     /***
      * @param id

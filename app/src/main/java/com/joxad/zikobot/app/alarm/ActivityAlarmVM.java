@@ -7,15 +7,15 @@ import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
-import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
-import com.joxad.zikobot.data.model.Alarm;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
-import com.joxad.zikobot.app.player.PlayerVM;
-import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.databinding.ActivityAlarmBinding;
+import com.joxad.zikobot.app.player.PlayerVM;
+import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
+import com.joxad.zikobot.data.model.Alarm;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -188,6 +188,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     protected boolean onBackPressed() {
         if (playerVM.onBackPressed()) {
             binding.fabPlay.setVisibility(View.GONE);
+            binding.swActivated.setVisibility(View.GONE);
             return true;
         }
         return false;

@@ -90,7 +90,7 @@ public class SoundCloudPlaylist {
     public String artworkUrl;
     @SerializedName("user")
     @Expose
-    public User user;
+    public SoundCloudUser user;
     @SerializedName("tracks")
     @Expose
     public List<SoundCloudTrack> soundCloudTracks = new ArrayList<SoundCloudTrack>();

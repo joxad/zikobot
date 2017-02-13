@@ -91,7 +91,7 @@ public class SoundCloudTrack {
     public String uri;
     @SerializedName("user")
     @Expose
-    public User user;
+    public SoundCloudUser user;
     @SerializedName("created_with")
     @Expose
     public CreatedWith createdWith;

@@ -196,7 +196,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
      */
     public void getSoundCloudMe() {
         SoundCloudApiManager.getInstance().me().subscribe(soundCloudUser -> {
-            binding.cvSoundcloud.tvUser.setText(soundCloudUser.getUserName());
+            binding.cvSoundcloud.tvUser.setText(soundCloudUser.getUsername());
             Glide.with(activity).load(soundCloudUser.getAvatarUrl()).into(binding.cvSoundcloud.ivUser);
             AppPrefs.soundCloudUser(soundCloudUser);
             EventBus.getDefault().post(new EventAccountConnect(TYPE.SOUNDCLOUD));

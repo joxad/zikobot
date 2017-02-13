@@ -10,11 +10,13 @@ import com.joxad.zikobot.app.artist.ArtistVM;
 import com.joxad.zikobot.app.core.utils.ISearch;
 import com.joxad.zikobot.app.databinding.FragmentSoundCloudSearchBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
-import com.joxad.zikobot.app.search.SearchManager;
 import com.joxad.zikobot.data.event.search.EventQueryChange;
+import com.joxad.zikobot.data.model.Artist;
 import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudUser;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -74,10 +76,30 @@ public class FragmentSoundCloudSearchVM extends FragmentBaseVM<FragmentSoundClou
 
     @Override
     public void query(String query) {
-        tracks.clear();
         SoundCloudApiManager.getInstance().search(query).subscribe(soundCloudTracks -> {
+            tracks.clear();
+
             for (SoundCloudTrack soundCloudTrack : soundCloudTracks) {
                 tracks.add(new TrackVM(fragment.getContext(), Track.from(soundCloudTrack, fragment.getString(R.string.soundcloud_id))));
+            }
+        }, throwable -> {
+
+        });
+
+        SoundCloudApiManager.getInstance().searchPlaylists(query).subscribe(soundCloudTracks -> {
+            for (SoundCloudPlaylist soundCloudTrack : soundCloudTracks) {
+                //albums.add(new AlbumVM(fragment.getContext(), Album.from(, fragment.getString(R.string.soundcloud_id))));
+            }
+        }, throwable -> {
+
+        });
+
+
+        SoundCloudApiManager.getInstance().searchUsers(query).subscribe(soundCloudUsers -> {
+            artists.clear();
+
+            for (SoundCloudUser soundCloudUser : soundCloudUsers) {
+                artists.add(new ArtistVM(fragment.getContext(), Artist.from(soundCloudUser)));
             }
         }, throwable -> {
 

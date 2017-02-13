@@ -1,7 +1,7 @@
 package com.joxad.zikobot.data.model;
 
 import com.joxad.zikobot.data.module.localmusic.model.LocalArtist;
-import com.joxad.zikobot.data.module.soundcloud.model.User;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudUser;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyArtist;
 
 import org.parceler.Parcel;
@@ -39,7 +39,7 @@ public class Artist {
         return artist;
     }
 
-    public Artist from(SpotifyArtist spotifyArtist) {
+    public static  Artist from(SpotifyArtist spotifyArtist) {
         Artist artist = new Artist();
 
         artist.id = Long.parseLong(spotifyArtist.getHref());
@@ -48,7 +48,7 @@ public class Artist {
         return artist;
     }
 
-    public Artist from(com.deezer.sdk.model.Artist deezerArtist) {
+    public static Artist from(com.deezer.sdk.model.Artist deezerArtist) {
         Artist artist = new Artist();
         artist.id = deezerArtist.getId();
         artist.type = TYPE.DEEZER;
@@ -57,11 +57,12 @@ public class Artist {
 
     }
 
-    public Artist from(User user) {
+    public static Artist from(SoundCloudUser user) {
         Artist artist = new Artist();
         artist.id = user.getId();
         artist.type = TYPE.SOUNDCLOUD;
         artist.name = user.getUsername();
+        artist.image = user.getAvatarUrl();
         return artist;
     }
 }
