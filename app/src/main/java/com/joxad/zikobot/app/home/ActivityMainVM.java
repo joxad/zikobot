@@ -1,5 +1,6 @@
 package com.joxad.zikobot.app.home;
 
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -35,6 +36,8 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     private AlertDialog alertDialog;
 
     private ViewPagerAdapter tabAdapter;
+    private FragmentAlarms fragmentAlarms;
+    private int currentPosition;
 
     /***
      * @param activity
@@ -56,16 +59,32 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     }
 
     private void initTabLayout() {
+        fragmentAlarms = FragmentAlarms.newInstance();
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         tabAdapter = new ViewPagerAdapter(activity, activity.getSupportFragmentManager());
         binding.viewPager.setAdapter(tabAdapter);
         // Give the TabLayout the ViewPager
         binding.tabLayout.setupWithViewPager(binding.viewPager);
-        tabAdapter.addFragment(activity.getString(R.string.drawer_my_playlists), FragmentAlarms.newInstance());
+        tabAdapter.addFragment(activity.getString(R.string.drawer_my_playlists), fragmentAlarms);
         tabAdapter.addFragment(activity.getString(R.string.drawer_filter_artiste), FragmentLocalArtists.newInstance());
         tabAdapter.addFragment(activity.getString(R.string.drawer_filter_album), FragmentLocalAlbums.newInstance(null));
         tabAdapter.addFragment(activity.getString(R.string.drawer_filter_tracks), FragmentLocalTracks.newInstance(null, BR.trackVM, R.layout.item_track));
-        //  tabAdapter.addFragment(activity.getString(R.string.drawer_filter_network), FragmentLocalNetwork.newInstance(null, null));
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                currentPosition = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     /***
@@ -124,9 +143,11 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     @Override
     public void onResume() {
         super.onResume();
+        EventBus.getDefault().register(this);
+        if (currentPosition == 0 || currentPosition == 1)
+            fragmentAlarms.refreshAlarms();
         navigationManager.onResume();
         playerVM.onResume();
-        EventBus.getDefault().register(this);
 
         if (AppPrefs.spotifyUser() != null)
             tabAdapter.addFragment(activity.getString(R.string.activity_music_spotify), FragmentSpotifyPlaylists.newInstance());

@@ -21,8 +21,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.concurrent.TimeUnit;
 
-import rx.functions.Action1;
-
 /**
  * Created by josh on 12/08/16.
  */
@@ -41,9 +39,11 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     public void onCreate() {
         initSearch();
         initTabLayout();
-
     }
 
+    /**
+     * Init the search using the event on the edittext
+     */
     private void initSearch() {
         RxTextView
                 .afterTextChangeEvents(binding.etSearch)
@@ -54,11 +54,15 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
                 });
     }
 
+    /***
+     * @param s
+     */
     private void search(String s) {
-        if (s.length() > 3)
+        if (s.length() > 3) {
             EventBus.getDefault().post(new EventQueryChange(s));
+            SearchManager.QUERY = s;
+        }
     }
-
 
     private void initTabLayout() {
         // Get the ViewPager and set it's PagerAdapter so that it can display items
@@ -66,11 +70,8 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
         binding.viewPager.setAdapter(tabAdapter);
         // Give the TabLayout the ViewPager
         binding.tabLayout.setupWithViewPager(binding.viewPager);
-
         tabAdapter.addFragment(activity.getString(R.string.activity_music_local), FragmentSearch.newInstance());
-
     }
-
 
     public void onResume() {
         EventBus.getDefault().register(this);
@@ -83,7 +84,6 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
             tabAdapter.addFragment(activity.getString(R.string.activity_music_deezer), FragmentDeezerSearch.newInstance());
         }
         tabAdapter.notifyDataSetChanged();
-
     }
 
     @Subscribe
@@ -95,19 +95,20 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     public void onEvent(EventShowDialogSettings event) {
         DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
         dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
-
     }
-
 
     @Subscribe
     public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
-
         activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()));
     }
 
     public void onPause() {
         EventBus.getDefault().unregister(this);
-        SearchManager.QUERY = "";
     }
 
+    @Override
+    protected boolean onBackPressed() {
+        SearchManager.QUERY = "";
+        return super.onBackPressed();
+    }
 }

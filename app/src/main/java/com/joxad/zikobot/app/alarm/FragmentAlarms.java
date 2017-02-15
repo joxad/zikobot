@@ -33,6 +33,12 @@ public class FragmentAlarms extends FragmentBase<FragmentAlarmsBinding, Fragment
 
     @Override
     public FragmentAlarmsVM baseFragmentVM(FragmentAlarmsBinding bindingé) {
-        return  new FragmentAlarmsVM(this, binding);
+        return new FragmentAlarmsVM(this, binding);
+    }
+
+
+    public void refreshAlarms() {
+        if (vm != null)
+            vm.refreshAlarms();
     }
 }

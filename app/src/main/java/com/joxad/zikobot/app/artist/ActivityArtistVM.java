@@ -27,6 +27,7 @@ import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
@@ -96,6 +97,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     }
 
     private void loadSoundCloudData() {
+        loadSoundCloudTracks();
         loadSoundCloudPlaylist();
     }
 
@@ -152,6 +154,17 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     }
 
 
+
+    /***
+     * Load the local music
+     */
+    private void loadSoundCloudTracks() {
+        SoundCloudApiManager.getInstance().userTracks(artist.getId()).subscribe(soundCloudTracks -> {
+            for (SoundCloudTrack soundCloudTrack : soundCloudTracks) {
+                tracks.add(new TrackVM(activity, Track.from(soundCloudTrack, activity.getString(R.string.soundcloud_id))));
+            }
+        }, throwable -> Logger.e(throwable.getLocalizedMessage()));
+    }
     /***
      * Load the local music
      */

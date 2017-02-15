@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="@{itemAlarmVM.repeated &amp;&amp; itemAlarmVM.activated  ? v.VISIBLE : v.GONE}">
+        android:visibility="@{itemAlarmVM.repeated ? v.VISIBLE : v.GONE}">
 
 
         <LinearLayout

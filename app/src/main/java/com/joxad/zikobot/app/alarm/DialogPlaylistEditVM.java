@@ -9,10 +9,10 @@ import android.widget.SeekBar;
 
 import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBaseVM;
-import com.joxad.zikobot.data.model.Alarm;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.SimpleSeekBarListener;
 import com.joxad.zikobot.app.databinding.DialogPlaylistEditBinding;
+import com.joxad.zikobot.data.model.Alarm;
 
 import org.parceler.Parcels;
 
@@ -75,6 +75,11 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
     }
 
 
+    public void editAlarm(@SuppressWarnings("unused") View view) {
+        alarmVM.updateStatus(!alarmVM.isActivated());
+        notifyChange();
+    }
+
     private void initHour() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             binding.viewAlarm.timePicker.setMinute(alarmVM.getMinute());
@@ -84,7 +89,6 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
             binding.viewAlarm.timePicker.setCurrentMinute(Integer.valueOf(alarmVM.getMinute()));
         }
     }
-
 
 
     public void onSave(View view) {
@@ -99,7 +103,6 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
     public String getAlarmName() {
         return alarm.getName();
     }
-
 
 
     /***

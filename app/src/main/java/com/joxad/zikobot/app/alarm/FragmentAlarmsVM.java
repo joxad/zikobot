@@ -62,12 +62,6 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-
     @Subscribe
     public void onEvent(EventRefreshAlarms eventRefreshAlarms) {
         for (AlarmVM alarmVM : itemsVM) {
@@ -103,7 +97,6 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
                         alarmVM.delete();
                     }
                 });
-
             }
         });
     }
@@ -141,5 +134,14 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * Method to update the existing alarms if needed
+     */
+    public void refreshAlarms() {
+        for (AlarmVM alarmVM : itemsVM) {
+            AlarmManager.getAlarmById(alarmVM.getModel().getId()).subscribe(alarmVM::updateModel);
+        }
     }
 }
