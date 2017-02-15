@@ -27,8 +27,6 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  * Created by josh on 29/05/16.
  */
 public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarmBinding> {
-    private static String TAG = ActivityAlarmVM.class.getSimpleName();
-
 
     public AlarmVM alarmVM;
     public PlayerVM playerVM;
@@ -61,12 +59,13 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         ZikoUtils.animateScale(binding.fabPlay);
         ZikoUtils.animateScale(binding.swActivated);
         ZikoUtils.animateFade(binding.customToolbar.rlOverlay);
-        binding.customToolbar.mainCollapsing.setOnClickListener(v -> {
-            showDialogEdit();
-        });
+        binding.customToolbar.mainCollapsing.setOnClickListener(v -> showDialogEdit());
     }
 
 
+    /**
+     *
+     */
     private void initMenu() {
         binding.customToolbar.toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -77,18 +76,25 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
                     delete();
                     break;
                 case R.id.action_play:
-                    if (alarmVM.hasTracks()) {
-                        activity.startActivity(IntentManager.goToWakeUp(alarmVM.getModel()));
-                    } else {
-                        Snackbar.make(binding.getRoot(), R.string.add_tracks, Snackbar.LENGTH_SHORT).show();
-                    }
+                    startAlarm();
+                    break;
+                default:
                     break;
             }
             return false;
         });
-        binding.swActivated.setOnClickListener(v -> {
-            alarmVM.updateStatus(!alarmVM.isActivated());
-        });
+        binding.swActivated.setOnClickListener(v -> alarmVM.updateStatus(!alarmVM.isActivated()));
+    }
+
+    /***
+     *
+     */
+    private void startAlarm() {
+        if (alarmVM.hasTracks()) {
+            activity.startActivity(IntentManager.goToWakeUp(alarmVM.getModel()));
+        } else {
+            Snackbar.make(binding.getRoot(), R.string.add_tracks, Snackbar.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -148,7 +154,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
      *
      * @param view
      */
-    public void onPlay(View view) {
+    public void onPlay(@SuppressWarnings("unused") View view) {
         EventBus.getDefault().post(new EventAddList(alarmVM.tracksVms));
     }
 

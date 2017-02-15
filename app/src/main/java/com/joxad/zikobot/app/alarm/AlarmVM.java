@@ -11,16 +11,16 @@ import android.widget.Toast;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.base.BaseVM;
-import com.joxad.zikobot.app.alarm.event.EventEditAlarm;
+import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.event.EventAlarmSelect;
-import com.joxad.zikobot.data.model.Alarm;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.app.alarm.event.EventEditAlarm;
 import com.joxad.zikobot.app.core.receiver.AlarmReceiver;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.localtracks.TrackVM;
+import com.joxad.zikobot.data.model.Alarm;
+import com.joxad.zikobot.data.model.Track;
 import com.orhanobut.logger.Logger;
-import com.joxad.zikobot.app.R;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -188,37 +188,37 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         return model.getHour();
     }
 
-    public void activeMonday(View view) {
+    public void activeMonday(@SuppressWarnings("unused") View view) {
         activeDay(Calendar.MONDAY, !isMondayActive());
         notifyPropertyChanged(BR.mondayActive);
     }
 
-    public void activeTuesday(View view) {
+    public void activeTuesday(@SuppressWarnings("unused") View view) {
         activeDay(Calendar.TUESDAY, !isTuesdayActive());
         notifyPropertyChanged(BR.tuesdayActive);
     }
 
-    public void activeWed(View view) {
+    public void activeWed(@SuppressWarnings("unused") View view) {
         activeDay(Calendar.WEDNESDAY, !isWedActive());
         notifyPropertyChanged(BR.wedActive);
     }
 
-    public void activeThursday(View view) {
+    public void activeThursday(@SuppressWarnings("unused") View view) {
         activeDay(Calendar.THURSDAY, !isThursdayActive());
         notifyPropertyChanged(BR.thursdayActive);
     }
 
-    public void activeFriday(View view) {
+    public void activeFriday(@SuppressWarnings("unused") View view) {
         activeDay(Calendar.FRIDAY, !isFridayActive());
         notifyPropertyChanged(BR.fridayActive);
     }
 
-    public void activeSaturday(View view) {
+    public void activeSaturday(@SuppressWarnings("unused") View view) {
         activeDay(Calendar.SATURDAY, !isSaturdayActive());
         notifyPropertyChanged(BR.saturdayActive);
     }
 
-    public void activeSunday(View view) {
+    public void activeSunday(@SuppressWarnings("unused") View view) {
         activeDay(Calendar.SUNDAY, !isSundayActive());
         notifyPropertyChanged(BR.sundayActive);
     }
@@ -283,10 +283,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     public void updateRandom(boolean checked) {
         model.setRandomTrack(checked ? 1 : 0);
         notifyChange();
-    }
-
-    public void expand(View view) {
-        isExpanded.set(!isExpanded.get());
     }
 
     @Bindable

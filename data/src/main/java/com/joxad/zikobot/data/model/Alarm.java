@@ -103,6 +103,9 @@ public class Alarm extends BaseModel {
 
 
 
+    public boolean isRandom() {
+        return randomTrack==1;
+    }
 
 
 

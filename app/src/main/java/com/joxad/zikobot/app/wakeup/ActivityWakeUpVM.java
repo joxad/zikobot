@@ -9,21 +9,26 @@ import android.view.WindowManager;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
+import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.app.alarm.AlarmVM;
+import com.joxad.zikobot.app.core.mock.Mock;
+import com.joxad.zikobot.app.core.utils.AnimationEndListener;
+import com.joxad.zikobot.app.core.utils.EXTRA;
+import com.joxad.zikobot.app.databinding.ActivityWakeUpBinding;
+import com.joxad.zikobot.app.localtracks.TrackVM;
+import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.app.player.event.EventStopPlayer;
 import com.joxad.zikobot.data.model.Alarm;
-import com.joxad.zikobot.app.core.mock.Mock;
-import com.joxad.zikobot.app.core.utils.EXTRA;
-import com.joxad.zikobot.app.player.PlayerVM;
-import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.alarm.AlarmVM;
 import com.joxad.zikobot.data.model.Track;
-import com.joxad.zikobot.app.core.utils.AnimationEndListener;
-import com.joxad.zikobot.app.databinding.ActivityWakeUpBinding;
-import com.joxad.zikobot.app.localtracks.TrackVM;
+import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.parceler.Parcels;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -34,12 +39,9 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
 
 
     private static final int ROTATION = 2;
-    private static final int DELAY = 10;//MS
     Alarm alarm;
     AudioManager am;
     public PlayerVM playerVM;
-
-    int rotation = ROTATION;
     public AlarmVM alarmVM;
     public TrackVM trackVM;
 
@@ -55,6 +57,11 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
 
     @Override
     public void onCreate() {
+        try {
+            SpotifyAuthManager.getInstance().refreshToken(activity, () -> Logger.d("Token refreshed"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         playerVM = new PlayerVM(activity, null);
         am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
@@ -99,6 +106,9 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         for (Track track : alarm.getTracks()) {
             trackVMs.add(new TrackVM(activity, track));
         }
+        if (alarm.isRandom()) {
+            Collections.shuffle(trackVMs);
+        }
         EventBus.getDefault().post(new EventAddList(trackVMs));
         rotateCD();
     }
@@ -107,7 +117,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      *
      */
     private void rotateCD() {
-        binding.rlPlayer.animate().rotationBy(rotation).setDuration(50).setListener(new AnimationEndListener() {
+        binding.rlPlayer.animate().rotationBy(ROTATION).setDuration(50).setListener(new AnimationEndListener() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 rotateCD();
@@ -120,7 +130,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      */
     public void stop(View view) {
         EventBus.getDefault().post(new EventStopPlayer());
-        activity.finish();
     }
 
 
@@ -128,7 +137,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     protected boolean onBackPressed() {
         stop(null);
         return super.onBackPressed();
-
     }
 
     @Override

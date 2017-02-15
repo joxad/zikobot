@@ -44,7 +44,6 @@
                         style="@style/textSection"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_medium"
                         android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:text="@string/drawer_filter_album"
@@ -68,14 +67,45 @@
                         android:visibility="@{activityArtistVM.albums.size() >0 ? v.VISIBLE : v.GONE}"
                         app:itemView="@{activityArtistVM.itemViewAlbum}"
                         app:items="@{activityArtistVM.albums}"
+                        app:layoutManager="@{LayoutManagers.grid(2)}"
                         app:nestedScrollingEnabled="@{false}"
-                        tools:listitem="@layout/item_artist" />
+                        tools:listitem="@layout/item_album" />
 
                     <TextView
                         style="@style/textSection"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:text="@string/drawer_filter_playlist"
+                        android:visibility="@{activityArtistVM.soundCloudPlaylistVMs.size() >0 ? v.VISIBLE : v.GONE}" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:background="@color/colorAccent"
+                        android:visibility="@{activityArtistVM.soundCloudPlaylistVMs.size() >0 ? v.VISIBLE : v.GONE}" />
+
+                    <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
+                        android:id="@+id/rv_sc_playlist"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:layoutAnimation="@anim/grid_animation"
+                        android:paddingBottom="@dimen/actionBarSizeNormal"
+                        android:visibility="@{activityArtistVM.soundCloudPlaylistVMs.size() >0 ? v.VISIBLE : v.GONE}"
+                        app:itemView="@{activityArtistVM.itemViewSCPlaylist}"
+                        app:items="@{activityArtistVM.soundCloudPlaylistVMs}"
+                        app:layoutManager="@{LayoutManagers.grid(2)}"
+                        app:nestedScrollingEnabled="@{false}"
+                        tools:listitem="@layout/item_soundcloud_playlist" />
+
+
+                    <TextView
+                        style="@style/textSection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:text="@string/drawer_filter_tracks"
@@ -98,6 +128,7 @@
                         android:visibility="@{activityArtistVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
                         app:itemView="@{activityArtistVM.itemViewTrack}"
                         app:items="@{activityArtistVM.tracks}"
+                        app:layoutManager="@{LayoutManagers.grid(1)}"
                         app:nestedScrollingEnabled="@{false}"
                         tools:listitem="@layout/item_artist" />
 
