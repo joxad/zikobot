@@ -1,5 +1,6 @@
 package com.joxad.zikobot.app.soundcloud;
 
+import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
@@ -18,13 +19,13 @@ import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudUser;
-import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
+import rx.Observable;
 import rx.Subscription;
 
 /**
@@ -40,7 +41,7 @@ public class FragmentSoundCloudSearchVM extends FragmentBaseVM<FragmentSoundClou
     public ItemView itemViewAlbum = ItemView.of(BR.albumVM, R.layout.item_album);
     public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
 
-    Subscription artistSubscription, trackSubscription, playlistSubscription;
+    Subscription subscription;
 
     /***
      * @param fragment
@@ -84,48 +85,45 @@ public class FragmentSoundCloudSearchVM extends FragmentBaseVM<FragmentSoundClou
     @Override
     public void query(String query) {
 
-        if (artistSubscription != null)
-            artistSubscription.unsubscribe();
-        if (trackSubscription != null)
-            trackSubscription.unsubscribe();
-        if (playlistSubscription != null)
-            playlistSubscription.unsubscribe();
-        if (query.length()<2) {
+        if (subscription != null)
+            subscription.unsubscribe();
+
+        if (query.length() <= 2) {
             tracks.clear();
             albums.clear();
             artists.clear();
+            notifyPropertyChanged(BR.showNoResult);
             return;
         }
-        trackSubscription = SoundCloudApiManager.getInstance().search(query).subscribe(soundCloudTracks -> {
-            tracks.clear();
+        subscription = Observable.zip(SoundCloudApiManager.getInstance().search(query)
+                , SoundCloudApiManager.getInstance().searchUsers(query),
+                SoundCloudApiManager.getInstance().searchPlaylists(query), (soundCloudTracks, soundCloudUsers, soundCloudPlaylists) -> {
+                    tracks.clear();
+                    artists.clear();
+                    albums.clear();
+                    for (SoundCloudTrack soundCloudTrack : soundCloudTracks) {
+                        tracks.add(new TrackVM(fragment.getContext(), Track.from(soundCloudTrack, fragment.getString(R.string.soundcloud_id))));
+                    }
+                    for (SoundCloudPlaylist soundCloudPlaylist : soundCloudPlaylists) {
+                        //albums.add(new AlbumVM(fragment.getContext(), Album.from(, fragment.getString(R.string.soundcloud_id))));
+                    }
 
-            for (SoundCloudTrack soundCloudTrack : soundCloudTracks) {
-                tracks.add(new TrackVM(fragment.getContext(), Track.from(soundCloudTrack, fragment.getString(R.string.soundcloud_id))));
-            }
+                    for (SoundCloudUser soundCloudUser : soundCloudUsers) {
+                        artists.add(new ArtistVM(fragment.getContext(), Artist.from(soundCloudUser)));
+                    }
+
+                    return null;
+                }).subscribe(o -> {
+            notifyPropertyChanged(BR.showNoResult);
         }, throwable -> {
-            Logger.e(throwable.getLocalizedMessage());
+            notifyPropertyChanged(BR.showNoResult);
+
         });
 
-        playlistSubscription = SoundCloudApiManager.getInstance().searchPlaylists(query).subscribe(soundCloudTracks -> {
-            for (SoundCloudPlaylist soundCloudTrack : soundCloudTracks) {
-                //albums.add(new AlbumVM(fragment.getContext(), Album.from(, fragment.getString(R.string.soundcloud_id))));
-            }
-        }, throwable -> {
-            Logger.e(throwable.getLocalizedMessage());
-
-        });
-
-
-        artistSubscription = SoundCloudApiManager.getInstance().searchUsers(query).subscribe(soundCloudUsers -> {
-            artists.clear();
-
-            for (SoundCloudUser soundCloudUser : soundCloudUsers) {
-                artists.add(new ArtistVM(fragment.getContext(), Artist.from(soundCloudUser)));
-            }
-        }, throwable -> {
-            Logger.e(throwable.getLocalizedMessage());
-
-        });
     }
 
+    @Bindable
+    public boolean getShowNoResult() {
+        return SearchManager.QUERY.length() >2 && artists.isEmpty() && albums.isEmpty() && tracks.isEmpty();
+    }
 }

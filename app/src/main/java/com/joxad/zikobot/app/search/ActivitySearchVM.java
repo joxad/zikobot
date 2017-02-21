@@ -7,6 +7,7 @@ import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.DialogFragmentSettings;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
+import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.databinding.ActivitySearchBinding;
 import com.joxad.zikobot.app.home.ViewPagerAdapter;
 import com.joxad.zikobot.app.soundcloud.FragmentSoundCloudSearch;
@@ -43,6 +44,9 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
         isSearchValid = new ObservableBoolean(false);
         initSearch();
         initTabLayout();
+        binding.etSearch.requestFocus();
+        ZikoUtils.showKeyboard(binding.etSearch);
+
     }
 
     /**
@@ -112,6 +116,7 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     @Override
     protected boolean onBackPressed() {
         SearchManager.QUERY = "";
+        ZikoUtils.hideKeyboard(binding.etSearch);
         return super.onBackPressed();
     }
 }

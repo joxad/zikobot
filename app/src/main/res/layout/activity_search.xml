@@ -80,9 +80,9 @@
             <com.joxad.zikobot.app.core.viewutils.ZikobotMessageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_marginTop="100dp"
                 android:visibility="@{activitySearchVM.isSearchValid ? v.GONE: v.VISIBLE}"
-                app:zmv_message="Effectue ta recherche (minimum 3 lettres pour lancer une recherche!)" />
+                app:zmv_message="Effectue ta recherche (il faut au moins 3 charactères!)" />
         </RelativeLayout>
 
         <android.support.v7.widget.CardView
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_medium"
                     android:background="@android:color/white"
-                    android:hint="Rechercher"
+                    android:hint="@string/drawer_filter_search"
                     android:imeOptions="actionSearch"
                     android:inputType="textAutoComplete"
                     android:maxLines="1" />

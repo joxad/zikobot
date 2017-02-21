@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -18,106 +18,117 @@
 
     </data>
 
-    <com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView
-
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <TextView
-                style="@style/textSection"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/drawer_filter_artiste"
-                android:visibility="@{fragmentSearchVM.artists.size() >0 ? v.VISIBLE : v.GONE}" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="@dimen/margin_medium"
-                android:background="@color/colorAccent"
-                android:visibility="@{fragmentSearchVM.artists.size() >0 ? v.VISIBLE : v.GONE}" />
+                <TextView
+                    style="@style/textSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/drawer_filter_artiste"
+                    android:visibility="@{fragmentSearchVM.artists.size() >0 ? v.VISIBLE : v.GONE}" />
 
-            <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
-                android:id="@+id/rv_artists"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:layoutAnimation="@anim/grid_animation"
-                android:visibility="@{fragmentSearchVM.artists.size() >0 ? v.VISIBLE : v.GONE}"
-                app:itemView="@{fragmentSearchVM.itemViewArtist}"
-                app:items="@{fragmentSearchVM.artists}"
-                app:layoutManager="@{LayoutManagers.grid(2)}"
-                tools:listitem="@layout/item_artist" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:background="@color/colorAccent"
+                    android:visibility="@{fragmentSearchVM.artists.size() >0 ? v.VISIBLE : v.GONE}" />
 
-            <TextView
-                style="@style/textSection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/drawer_filter_album"
-                android:visibility="@{fragmentSearchVM.albums.size() >0 ? v.VISIBLE : v.GONE}" />
+                <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
+                    android:id="@+id/rv_artists"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:layoutAnimation="@anim/grid_animation"
+                    android:visibility="@{fragmentSearchVM.artists.size() >0 ? v.VISIBLE : v.GONE}"
+                    app:itemView="@{fragmentSearchVM.itemViewArtist}"
+                    app:items="@{fragmentSearchVM.artists}"
+                    app:layoutManager="@{LayoutManagers.grid(2)}"
+                    tools:listitem="@layout/item_artist" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="@dimen/margin_medium"
-                android:background="@color/colorAccent"
-                android:visibility="@{fragmentSearchVM.albums.size() >0 ? v.VISIBLE : v.GONE}" />
+                <TextView
+                    style="@style/textSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/drawer_filter_album"
+                    android:visibility="@{fragmentSearchVM.albums.size() >0 ? v.VISIBLE : v.GONE}" />
 
-            <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
-                android:id="@+id/rv_albums"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:layoutAnimation="@anim/grid_animation"
-                android:visibility="@{fragmentSearchVM.albums.size() >0 ? v.VISIBLE : v.GONE}"
-                app:itemView="@{fragmentSearchVM.itemViewAlbum}"
-                app:items="@{fragmentSearchVM.albums}"
-                app:layoutManager="@{LayoutManagers.grid(2)}"
-                tools:listitem="@layout/item_artist" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:background="@color/colorAccent"
+                    android:visibility="@{fragmentSearchVM.albums.size() >0 ? v.VISIBLE : v.GONE}" />
 
-
-            <TextView
-                style="@style/textSection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/drawer_filter_tracks"
-                android:visibility="@{fragmentSearchVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="@dimen/margin_medium"
-                android:background="@color/colorAccent"
-                android:visibility="@{fragmentSearchVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
-
-            <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
-                android:id="@+id/rv_tracks"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:layoutAnimation="@anim/grid_animation"
-                android:visibility="@{fragmentSearchVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
-                app:itemView="@{fragmentSearchVM.itemViewTrack}"
-                app:items="@{fragmentSearchVM.tracks}"
-                app:layoutManager="@{LayoutManagers.grid(1)}"
-                tools:listitem="@layout/item_artist" />
+                <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
+                    android:id="@+id/rv_albums"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:layoutAnimation="@anim/grid_animation"
+                    android:visibility="@{fragmentSearchVM.albums.size() >0 ? v.VISIBLE : v.GONE}"
+                    app:itemView="@{fragmentSearchVM.itemViewAlbum}"
+                    app:items="@{fragmentSearchVM.albums}"
+                    app:layoutManager="@{LayoutManagers.grid(2)}"
+                    tools:listitem="@layout/item_artist" />
 
 
-        </LinearLayout>
+                <TextView
+                    style="@style/textSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/drawer_filter_tracks"
+                    android:visibility="@{fragmentSearchVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
 
-    </com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:background="@color/colorAccent"
+                    android:visibility="@{fragmentSearchVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
+
+                <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
+                    android:id="@+id/rv_tracks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:layoutAnimation="@anim/grid_animation"
+                    android:visibility="@{fragmentSearchVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
+                    app:itemView="@{fragmentSearchVM.itemViewTrack}"
+                    app:items="@{fragmentSearchVM.tracks}"
+                    app:layoutManager="@{LayoutManagers.grid(1)}"
+                    tools:listitem="@layout/item_artist" />
+
+
+            </LinearLayout>
+
+        </com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView>
+
+        <com.joxad.zikobot.app.core.viewutils.ZikobotMessageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:visibility="@{fragmentSearchVM.showNoResult ? v.VISIBLE:v.GONE}"
+            app:zmv_message="@string/no_result" />
+    </RelativeLayout>
 </layout>

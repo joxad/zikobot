@@ -1,5 +1,6 @@
 package com.joxad.zikobot.app.spotify;
 
+import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
@@ -90,9 +91,15 @@ public class FragmentSpotifySearchVM extends FragmentBaseVM<FragmentSpotifySearc
             for (SpotifyTrack item : spotifySearchResult.tracks.getItems()) {
                 tracks.add(new TrackVM(fragment.getContext(), Track.from(item)));
             }
+            notifyPropertyChanged(BR.showNoResult);
         }, throwable -> {
             Logger.d(throwable.getMessage());
         });
+    }
+
+    @Bindable
+    public boolean getShowNoResult() {
+        return SearchManager.QUERY.length() > 2 && artists.isEmpty() && albums.isEmpty() && tracks.isEmpty();
     }
 
 }
