@@ -1,5 +1,7 @@
 package com.joxad.zikobot.app.search;
 
+import android.databinding.ObservableBoolean;
+
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.zikobot.app.R;
@@ -26,6 +28,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySearchBinding> {
     private ViewPagerAdapter tabAdapter;
+    public ObservableBoolean isSearchValid;
 
     /***
      * @param activity
@@ -37,6 +40,7 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
 
     @Override
     public void onCreate() {
+        isSearchValid = new ObservableBoolean(false);
         initSearch();
         initTabLayout();
     }
@@ -47,7 +51,7 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     private void initSearch() {
         RxTextView
                 .afterTextChangeEvents(binding.etSearch)
-                .debounce(300, TimeUnit.MILLISECONDS)       // wait 300ms before executing
+                .debounce(600, TimeUnit.MILLISECONDS)       // wait 300ms before executing
                 .map(event -> event.editable().toString())
                 .subscribe(this::search, throwable -> {
                     Logger.e(throwable.getLocalizedMessage());
@@ -58,10 +62,9 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
      * @param s
      */
     private void search(String s) {
-        if (s.length() > 3) {
-            EventBus.getDefault().post(new EventQueryChange(s));
-            SearchManager.QUERY = s;
-        }
+        EventBus.getDefault().post(new EventQueryChange(s));
+        isSearchValid.set(s.length() > 2);
+        SearchManager.QUERY = s;
     }
 
     private void initTabLayout() {

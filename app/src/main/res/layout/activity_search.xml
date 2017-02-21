@@ -66,14 +66,26 @@
             app:tabTextColor="@android:color/white" />
 
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
+        <RelativeLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tabLayout" />
+            android:layout_below="@id/tabLayout">
 
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            <com.joxad.zikobot.app.core.viewutils.ZikobotMessageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="@{activitySearchVM.isSearchValid ? v.GONE: v.VISIBLE}"
+                app:zmv_message="Effectue ta recherche (minimum 3 lettres pour lancer une recherche!)" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
