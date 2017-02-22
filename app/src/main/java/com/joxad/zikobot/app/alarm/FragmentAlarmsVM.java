@@ -62,6 +62,17 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    /**
+     * This event allows to refresh the alarms when updating the alarm from the list
+     * with the bottom sheet view
+     * @param eventRefreshAlarms
+     */
     @Subscribe
     public void onEvent(EventRefreshAlarms eventRefreshAlarms) {
         for (AlarmVM alarmVM : itemsVM) {
