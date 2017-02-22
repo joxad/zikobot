@@ -1,45 +1,39 @@
 package com.joxad.zikobot.app.core.fragmentmanager;
 
 import android.Manifest;
+import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
 
 import com.deezer.sdk.model.Playlist;
-import com.joxad.easydatabinding.activity.IPermission;
-import com.joxad.zikobot.app.alarm.DialogPlaylistEdit;
-import com.joxad.zikobot.app.home.event.EventAskPermissionStorage;
-import com.joxad.zikobot.app.home.event.EventPermissionRefresh;
-import com.mikepenz.aboutlibraries.Libs;
-import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.DialogFragmentSettings;
+import com.joxad.zikobot.app.alarm.DialogPlaylistEdit;
+import com.joxad.zikobot.app.alarm.event.EventAlarmSelect;
 import com.joxad.zikobot.app.alarm.event.EventEditAlarm;
+import com.joxad.zikobot.app.deezer.event.SelectDeezerItemPlaylistEvent;
+import com.joxad.zikobot.app.home.event.EventAskPermissionStorage;
+import com.joxad.zikobot.app.home.event.EventPermissionRefresh;
+import com.joxad.zikobot.app.player.event.EventShowTab;
 import com.joxad.zikobot.data.event.EventSelectItemNetwork;
 import com.joxad.zikobot.data.event.EventShowArtistDetail;
 import com.joxad.zikobot.data.event.LocalAlbumSelectEvent;
 import com.joxad.zikobot.data.event.SelectItemPlaylistEvent;
-import com.joxad.zikobot.app.alarm.event.EventAlarmSelect;
-import com.joxad.zikobot.app.deezer.event.SelectDeezerItemPlaylistEvent;
 import com.joxad.zikobot.data.event.dialog.EventShowDialogAlbumSettings;
 import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
-import com.joxad.zikobot.app.player.event.EventShowTab;
 import com.joxad.zikobot.data.event.soundcloud.SelectSCItemPlaylistEvent;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
 import com.joxad.zikobot.data.module.tablature.TablatureManager;
-import com.joxad.zikobot.app.core.viewutils.SnackUtils;
-import com.joxad.zikobot.app.databinding.ActivityMainBinding;
-import com.joxad.zikobot.app.home.ActivityMain;
-import com.joxad.zikobot.app.home.ActivityMainVM;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import lombok.Data;
-import rx.functions.Action1;
 
 /**
  * Created by josh on 10/06/16.
@@ -55,9 +49,7 @@ public class NavigationManager  {
 
     private Account current = Account.local;
 
-    private final ActivityMainVM activityMainVM;
-    private final ActivityMain activity;
-    private final ActivityMainBinding binding;
+    private final Activity activity;
     private final android.support.v4.app.FragmentManager supportFragmentManager;
 
     /***
@@ -108,9 +100,9 @@ public class NavigationManager  {
     @Subscribe
     public void onEvent(EventEditAlarm editAlarm) {
         DialogPlaylistEdit dialogPlaylistEdit = DialogPlaylistEdit.newInstance(editAlarm.getAlarm());
-        dialogPlaylistEdit.show(activity.getSupportFragmentManager(), DialogPlaylistEdit.TAG);
+        dialogPlaylistEdit.show(supportFragmentManager, DialogPlaylistEdit.TAG);
         dialogPlaylistEdit.setOnDismissListener(() -> {
-            SnackUtils.showConfirm(binding.getRoot(),R.string.alarm_confirm_edit);
+           // SnackUtils.showConfirm(binding.getRoot(),R.string.alarm_confirm_edit);
             EventBus.getDefault().post(new EventRefreshAlarms(editAlarm.getAlarm().getId()));
         });
     }
@@ -137,13 +129,13 @@ public class NavigationManager  {
     @Subscribe
     public void onEvent(EventShowDialogSettings event) {
         DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
-        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
+        dialogFragmentSettings.show(supportFragmentManager, DialogFragmentSettings.TAG);
     }
 
     @Subscribe
     public void onEvent(EventShowDialogAlbumSettings event) {
         DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
-        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
+        dialogFragmentSettings.show(supportFragmentManager, DialogFragmentSettings.TAG);
     }
 
     @Subscribe

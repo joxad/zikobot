@@ -41,7 +41,8 @@ public class FragmentSoundCloudSearchVM extends FragmentBaseVM<FragmentSoundClou
     public ItemView itemViewAlbum = ItemView.of(BR.albumVM, R.layout.item_album);
     public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
 
-    Subscription subscription;
+    private Subscription subscription;
+    private String currentQuery;
 
     /***
      * @param fragment
@@ -53,6 +54,7 @@ public class FragmentSoundCloudSearchVM extends FragmentBaseVM<FragmentSoundClou
 
     @Override
     public void onCreate() {
+        currentQuery = "";
         artists = new ObservableArrayList<>();
         albums = new ObservableArrayList<>();
         tracks = new ObservableArrayList<>();
@@ -66,8 +68,7 @@ public class FragmentSoundCloudSearchVM extends FragmentBaseVM<FragmentSoundClou
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-        if (SearchManager.QUERY.length() > 2)
-            query(SearchManager.QUERY);
+        query(SearchManager.QUERY);
     }
 
 
@@ -87,6 +88,15 @@ public class FragmentSoundCloudSearchVM extends FragmentBaseVM<FragmentSoundClou
 
         if (subscription != null)
             subscription.unsubscribe();
+        if (currentQuery.equals("")) {
+            currentQuery = query;
+        } else {
+            if (currentQuery.equals(query)) {
+                return;
+            } else {
+                currentQuery = query;
+            }
+        }
 
         if (query.length() <= 2) {
             tracks.clear();
@@ -124,6 +134,6 @@ public class FragmentSoundCloudSearchVM extends FragmentBaseVM<FragmentSoundClou
 
     @Bindable
     public boolean getShowNoResult() {
-        return SearchManager.QUERY.length() >2 && artists.isEmpty() && albums.isEmpty() && tracks.isEmpty();
+        return SearchManager.QUERY.length() > 2 && artists.isEmpty() && albums.isEmpty() && tracks.isEmpty();
     }
 }

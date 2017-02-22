@@ -18,17 +18,14 @@ import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 import com.joxad.zikobot.data.module.localmusic.model.LocalArtist;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
 import me.tatarka.bindingcollectionadapter.ItemView;
-import rx.Observable;
 import rx.Subscription;
-import rx.functions.Func3;
 
 /**
  * Created by josh on 01/08/16.
@@ -43,8 +40,8 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
     public ItemView itemViewAlbum = ItemView.of(BR.albumVM, R.layout.item_album);
     public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
 
-    public String query = "";
-    private Subscription subscription;
+    public String currentQuery = "";
+    private Subscription artistSubscription, trackSubscription, albumSubscription,trackByArtistSubscription;
 
     /***
      * @param fragment
@@ -69,9 +66,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-        if (!SearchManager.QUERY.isEmpty()) {
-            query(SearchManager.QUERY);
-        }
+        query(SearchManager.QUERY);
     }
 
 
@@ -88,43 +83,105 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
 
     @Override
     public void query(String query) {
+
+
+        if (currentQuery.equals("")) {
+            currentQuery = query;
+        } else {
+            if (currentQuery.equals(query)) {
+                return;
+            } else {
+                currentQuery = query;
+            }
+        }
+
         if (query.length() < 2) {
             clearAll();
             notifyPropertyChanged(BR.showNoResult);
             return;
         }
-        this.query = query;
-        if (subscription != null)
-            subscription.unsubscribe();
+        if (artistSubscription != null)
+            artistSubscription.unsubscribe();
 
-        subscription = Observable.zip(LocalMusicManager.getInstance().getLocalArtists(15, 0, query),
-                LocalMusicManager.getInstance().getLocalAlbums(15, 0, null, query),
-                LocalMusicManager.getInstance().getLocalTracks(10, 0, null, -1, query), new Func3<List<LocalArtist>, List<LocalAlbum>, List<LocalTrack>, Object>() {
-                    @Override
-                    public Object call(List<LocalArtist> localArtists, List<LocalAlbum> localAlbums, List<LocalTrack> localTracks) {
-                        artists.clear();
-                        for (LocalArtist localArtist : localArtists) {
-                            artists.add(new ArtistVM(fragment.getContext(), Artist.from(localArtist)));
-                        }
-                        albums.clear();
-                        for (LocalAlbum localAlbum : localAlbums) {
-                            albums.add(new AlbumVM(fragment.getContext(), localAlbum));
-                        }
-                        tracks.clear();
-                        for (LocalTrack localTrack : localTracks) {
-                            tracks.add(new TrackVM(fragment.getContext(), Track.from(localTrack)));
-                        }
-                        return null;
-                    }
-                }).subscribe(o -> {
-            notifyPropertyChanged(BR.showNoResult);
-        }, throwable -> {
-            notifyPropertyChanged(BR.showNoResult);
-
-        });
+        loadArtists(15, 0);
+        loadAlbums(15, 0);
+        loadTracks(15, 0);
 
 
     }
+
+    public void loadArtists(final int limit, final int offset) {
+        if (artistSubscription != null)
+            artistSubscription.unsubscribe();
+        artistSubscription = LocalMusicManager.getInstance().getLocalArtists(limit, offset, currentQuery).subscribe(localArtists -> {
+            Logger.d(TAG, "" + localArtists.size());
+            artists.clear();
+            for (LocalArtist localArtist : localArtists) {
+                artists.add(new ArtistVM(fragment.getContext(), Artist.from(localArtist)));
+            }
+
+            notifyPropertyChanged(BR.showNoResult);
+        }, throwable -> {
+            Logger.e(throwable.getMessage());
+            artists.clear();
+
+            notifyPropertyChanged(BR.showNoResult);
+        });
+    }
+
+    public void loadAlbums(final int limit, final int offset) {
+        if (albumSubscription != null)
+            albumSubscription.unsubscribe();
+        albumSubscription = LocalMusicManager.getInstance().getLocalAlbums(15, 0, null, currentQuery).subscribe(localArtists -> {
+            Logger.d(TAG, "" + localArtists.size());
+            albums.clear();
+            for (LocalAlbum localAlbum : localArtists) {
+                albums.add(new AlbumVM(fragment.getContext(), localAlbum));
+            }
+
+            notifyPropertyChanged(BR.showNoResult);
+        }, throwable -> {
+            Logger.e(throwable.getMessage());
+            albums.clear();
+
+            notifyPropertyChanged(BR.showNoResult);
+        });
+    }
+
+    public void loadTracks(final int limit, final int offset) {
+        if (trackSubscription != null)
+            trackSubscription.unsubscribe();
+        tracks.clear();
+
+        trackSubscription = LocalMusicManager.getInstance().getLocalTracks(10, 0, null, -1, currentQuery).subscribe(localTracks -> {
+            Logger.d("" + localTracks.size());
+            for (LocalTrack localTrack : localTracks) {
+                tracks.add(new TrackVM(fragment.getContext(), Track.from(localTrack)));
+            }
+
+            notifyPropertyChanged(BR.showNoResult);
+        }, throwable -> {
+            Logger.e(throwable.getMessage());
+
+            notifyPropertyChanged(BR.showNoResult);
+        });
+        if (trackByArtistSubscription != null)
+            trackByArtistSubscription.unsubscribe();
+
+        trackByArtistSubscription =  LocalMusicManager.getInstance().getLocalTracks(10, 0, currentQuery, -1, null).subscribe(localTracks -> {
+            Logger.d("" + localTracks.size());
+            for (LocalTrack localTrack : localTracks) {
+                tracks.add(new TrackVM(fragment.getContext(), Track.from(localTrack)));
+            }
+
+            notifyPropertyChanged(BR.showNoResult);
+        }, throwable -> {
+            Logger.e(throwable.getMessage());
+            notifyPropertyChanged(BR.showNoResult);
+        });
+    }
+
+
 
     private void clearAll() {
         artists.clear();

@@ -38,7 +38,8 @@ public class FragmentSpotifySearchVM extends FragmentBaseVM<FragmentSpotifySearc
     public ItemView itemViewAlbum = ItemView.of(BR.albumVM, R.layout.item_album);
     public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
 
-    Subscription trackSubscription;
+    private Subscription trackSubscription;
+    private String currentQuery;
 
     /***
      * @param fragment
@@ -50,6 +51,7 @@ public class FragmentSpotifySearchVM extends FragmentBaseVM<FragmentSpotifySearc
 
     @Override
     public void onCreate() {
+        currentQuery = "";
         artists = new ObservableArrayList<>();
         albums = new ObservableArrayList<>();
         tracks = new ObservableArrayList<>();
@@ -63,9 +65,8 @@ public class FragmentSpotifySearchVM extends FragmentBaseVM<FragmentSpotifySearc
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-        if (SearchManager.QUERY.length() > 2) {
-            query(SearchManager.QUERY);
-        }
+        query(SearchManager.QUERY);
+
     }
 
 
@@ -86,13 +87,30 @@ public class FragmentSpotifySearchVM extends FragmentBaseVM<FragmentSpotifySearc
         if (trackSubscription != null) {
             trackSubscription.unsubscribe();
         }
-        tracks.clear();
+        if (currentQuery.equals("")) {
+            currentQuery = query;
+        } else {
+            if (currentQuery.equals(query)) {
+                return;
+            } else {
+                currentQuery = query;
+            }
+        }
+
+        if (query.length() < 2) {
+            tracks.clear();
+            notifyPropertyChanged(BR.showNoResult);
+            return;
+        }
+
         trackSubscription = SpotifyApiManager.getInstance().search(10, 0, query).subscribe(spotifySearchResult -> {
+            tracks.clear();
             for (SpotifyTrack item : spotifySearchResult.tracks.getItems()) {
                 tracks.add(new TrackVM(fragment.getContext(), Track.from(item)));
             }
             notifyPropertyChanged(BR.showNoResult);
         }, throwable -> {
+            notifyPropertyChanged(BR.showNoResult);
             Logger.d(throwable.getMessage());
         });
     }

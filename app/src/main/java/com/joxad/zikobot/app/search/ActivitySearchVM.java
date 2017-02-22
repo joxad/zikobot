@@ -5,22 +5,18 @@ import android.databinding.ObservableBoolean;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.alarm.DialogFragmentSettings;
-import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
+import com.joxad.zikobot.app.core.fragmentmanager.NavigationManager;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.databinding.ActivitySearchBinding;
 import com.joxad.zikobot.app.home.ViewPagerAdapter;
 import com.joxad.zikobot.app.soundcloud.FragmentSoundCloudSearch;
 import com.joxad.zikobot.app.spotify.FragmentSpotifySearch;
 import com.joxad.zikobot.data.AppPrefs;
-import com.joxad.zikobot.data.event.EventShowArtistDetail;
-import com.joxad.zikobot.data.event.LocalAlbumSelectEvent;
-import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
 import com.joxad.zikobot.data.event.search.EventQueryChange;
 import com.orhanobut.logger.Logger;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySearchBinding> {
     private ViewPagerAdapter tabAdapter;
     public ObservableBoolean isSearchValid;
+    private NavigationManager navigationManager;
 
     /***
      * @param activity
@@ -43,10 +40,23 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     public void onCreate() {
         isSearchValid = new ObservableBoolean(false);
         initSearch();
+        initNavigationManager();
         initTabLayout();
         binding.etSearch.requestFocus();
         ZikoUtils.showKeyboard(binding.etSearch);
+        if (AppPrefs.spotifyUser() != null)
+            tabAdapter.addFragment(activity.getString(R.string.activity_music_spotify), FragmentSpotifySearch.newInstance());
+        if (AppPrefs.soundCloudUser() != null) {
+            tabAdapter.addFragment(activity.getString(R.string.soundcloud), FragmentSoundCloudSearch.newInstance());
+        }
+        if (AppPrefs.deezerUser() != null) {
+            tabAdapter.addFragment(activity.getString(R.string.activity_music_deezer), FragmentDeezerSearch.newInstance());
+        }
+        tabAdapter.notifyDataSetChanged();
+    }
 
+    private void initNavigationManager() {
+        navigationManager = new NavigationManager(new RxPermissions(activity), activity, activity.getSupportFragmentManager());
     }
 
     /**
@@ -80,43 +90,21 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
         tabAdapter.addFragment(activity.getString(R.string.activity_music_local), FragmentSearch.newInstance());
     }
 
+    @Override
     public void onResume() {
-        EventBus.getDefault().register(this);
-        if (AppPrefs.spotifyUser() != null)
-            tabAdapter.addFragment(activity.getString(R.string.activity_music_spotify), FragmentSpotifySearch.newInstance());
-        if (AppPrefs.soundCloudUser() != null) {
-            tabAdapter.addFragment(activity.getString(R.string.soundcloud), FragmentSoundCloudSearch.newInstance());
-        }
-        if (AppPrefs.deezerUser() != null) {
-            tabAdapter.addFragment(activity.getString(R.string.activity_music_deezer), FragmentDeezerSearch.newInstance());
-        }
-        tabAdapter.notifyDataSetChanged();
+        navigationManager.onResume();
+
     }
 
-    @Subscribe
-    public void onEvent(EventShowArtistDetail eventShowArtistDetail) {
-        activity.startActivity(IntentManager.goToArtist(eventShowArtistDetail.getArtist()));
-    }
-
-    @Subscribe
-    public void onEvent(EventShowDialogSettings event) {
-        DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
-        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
-    }
-
-    @Subscribe
-    public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
-        activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()));
-    }
-
+    @Override
     public void onPause() {
-        EventBus.getDefault().unregister(this);
+        navigationManager.onPause();
+        ZikoUtils.hideKeyboard(binding.etSearch);
     }
 
     @Override
     protected boolean onBackPressed() {
         SearchManager.QUERY = "";
-        ZikoUtils.hideKeyboard(binding.etSearch);
         return super.onBackPressed();
     }
 }
