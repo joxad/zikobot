@@ -20,6 +20,8 @@ import com.joxad.zikobot.data.model.Album;
 import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
+import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,6 +29,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
+import rx.android.schedulers.AndroidSchedulers;
+
+import static com.joxad.zikobot.data.model.TYPE.LOCAL;
+import static com.joxad.zikobot.data.model.TYPE.SPOTIFY;
 
 /**
  * Created by josh on 09/08/16.
@@ -58,13 +64,19 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
         binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                loadLocalMusic(15, totalItemsCount);
+                switch (album.getType()) {
+                    case LOCAL:
+                        loadLocalMusic(15, totalItemsCount);
+                        break;
+                }
+
             }
         });
         initToolbar();
         initMenu();
         initPlayerVM();
     }
+
 
     private void initMenu() {
         binding.customToolbar.toolbar.setOnMenuItemClickListener(item -> {
@@ -86,7 +98,15 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
         handler.postDelayed(() -> {
             ZikoUtils.animateScale(binding.fabPlay);
             ZikoUtils.animateFade(binding.customToolbar.rlOverlay);
-            loadLocalMusic(15, 0);
+            switch (album.getType()) {
+                case LOCAL:
+                    loadLocalMusic(15, 0);
+                    break;
+                case SPOTIFY:
+                    loadSpotifyTracks();
+                    break;
+            }
+
         }, 400);
 
     }
@@ -145,7 +165,7 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
      * @param offset
      */
     public void loadLocalMusic(int limit, int offset) {
-        LocalMusicManager.getInstance().getLocalTracks(limit, offset, null, album.getId(), null).subscribe(localTracks -> {
+        LocalMusicManager.getInstance().getLocalTracks(limit, offset, null, Long.parseLong(album.getId()), null).subscribe(localTracks -> {
             Logger.d(TAG, "" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 tracks.add(new TrackVM(activity, Track.from(localTrack)));
@@ -153,6 +173,16 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
 
         }, throwable -> {
             Logger.d(TAG, throwable.getLocalizedMessage());
+        });
+    }
+    private void loadSpotifyTracks() {
+
+        SpotifyApiManager.getInstance().getAlbumTracks(album.getId()).subscribe(spotifyResultAlbum -> {
+            for (SpotifyTrack track : spotifyResultAlbum.getTracks()) {
+                tracks.add(new TrackVM(activity, Track.from(track)));
+            }
+        }, throwable -> {
+            Logger.e(throwable.getLocalizedMessage());
         });
     }
 

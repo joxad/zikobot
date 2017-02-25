@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="albumVM"
             type="com.joxad.zikobot.app.album.AlbumVM" />
@@ -17,97 +19,93 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin">
 
-        <com.balysv.materialripple.MaterialRippleLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{albumVM.onClick}"
-            android:onLongClick="@{albumVM::onLongClick}">
+
+            android:onLongClick="@{albumVM::onLongClick}"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_album"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/image_card_height_large"
+                    android:scaleType="centerCrop"
+                    android:transitionName="@{albumVM.transition}"
+                    app:imageUrl="@{albumVM.imageUrl}"
+                    tools:src="@drawable/ic_picture_loading" />
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/iv_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:padding="4dp">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:onClick="@{albumVM.onMoreClicked}"
+                        android:src="@drawable/ic_more" />
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+
+            </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/layout_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/iv_album"
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/image_card_height_large"
-                        android:scaleType="centerCrop"
-                        android:transitionName="@{albumVM.transition}"
-                        app:imageUrl="@{albumVM.imageUrl}"
-                        tools:src="@drawable/ic_picture_loading" />
-
-                    <com.balysv.materialripple.MaterialRippleLayout
-                        android:id="@+id/iv_more"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:padding="4dp">
+                        android:layout_margin="@dimen/margin_medium"
+                        android:orientation="vertical">
 
-                        <android.support.v7.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/tv_title"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="end|center_vertical"
-                            android:onClick="@{albumVM.onMoreClicked}"
-                            android:src="@drawable/ic_more" />
-                    </com.balysv.materialripple.MaterialRippleLayout>
+                            android:singleLine="true"
+                            android:text="@{albumVM.name}"
+                            android:textSize="20dp"
+                            tools:text="Nom de l'album" />
+
+                        <TextView
+                            android:id="@+id/tv_artist"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="4dp"
+                            android:drawableStart="@drawable/ic_karaoke"
+                            android:gravity="center_vertical"
+                            android:text="@{albumVM.artist}"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="14sp"
+                            tools:text="12 chansons" />
+
+
+                    </LinearLayout>
 
 
                 </RelativeLayout>
 
-                <LinearLayout
-                    android:id="@+id/layout_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_medium"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/tv_title"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text="@{albumVM.name}"
-                                android:textSize="20dp"
-                                tools:text="Nom de l'album" />
-
-                            <TextView
-                                android:id="@+id/tv_artist"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_queue_music"
-                                android:drawablePadding="4dp"
-                                android:drawableStart="@drawable/ic_queue_music"
-                                android:gravity="center_vertical"
-                                android:text="@{albumVM.nbTracks}"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="14sp"
-                                tools:text="12 chansons" />
-
-
-                        </LinearLayout>
-
-
-                    </RelativeLayout>
-
-                </LinearLayout>
             </LinearLayout>
-        </com.balysv.materialripple.MaterialRippleLayout>
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 

@@ -13,8 +13,12 @@ import com.joxad.zikobot.app.databinding.FragmentSpotifySearchBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.search.SearchManager;
 import com.joxad.zikobot.data.event.search.EventQueryChange;
+import com.joxad.zikobot.data.model.Album;
+import com.joxad.zikobot.data.model.Artist;
 import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyAlbum;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyArtist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
 import com.orhanobut.logger.Logger;
 
@@ -107,6 +111,14 @@ public class FragmentSpotifySearchVM extends FragmentBaseVM<FragmentSpotifySearc
             tracks.clear();
             for (SpotifyTrack item : spotifySearchResult.tracks.getItems()) {
                 tracks.add(new TrackVM(fragment.getContext(), Track.from(item)));
+            }
+            artists.clear();
+            for (SpotifyArtist artist : spotifySearchResult.artists.items) {
+                artists.add(new ArtistVM(fragment.getContext(), Artist.from(artist)));
+            }
+            albums.clear();
+            for (SpotifyAlbum album : spotifySearchResult.albums.items) {
+                albums.add(new AlbumVM(fragment.getContext(), Album.from(album)));
             }
             notifyPropertyChanged(BR.showNoResult);
         }, throwable -> {

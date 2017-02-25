@@ -65,7 +65,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
             Parcelable parcelableAlbum = fragment.getArguments().getParcelable(EXTRA.LOCAL_ALBUM);
             album = (parcelableAlbum != null ? Parcels.unwrap(parcelableAlbum) : null);
             tracks = new ArrayList<>();
-            LocalMusicManager.getInstance().getLocalTracks(100, 0, null, album.getId(), null).subscribe(localTracks -> {
+            LocalMusicManager.getInstance().getLocalTracks(100, 0, null, Long.parseLong(album.getId()), null).subscribe(localTracks -> {
                 for (LocalTrack localTrack : localTracks) {
                     tracks.add(Track.from(localTrack));
                 }

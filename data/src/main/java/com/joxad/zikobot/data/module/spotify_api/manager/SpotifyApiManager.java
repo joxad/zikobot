@@ -7,9 +7,10 @@ import com.joxad.zikobot.data.R;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyFeaturedPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylistWithTrack;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyResultAlbum;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifySearchResult;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyUser;
-import com.joxad.zikobot.data.module.spotify_api.resource.SpotifyAPIService;
+import com.joxad.zikobot.data.module.spotify_api.resource.SpotifyAPIEndpoint;
 import com.joxad.zikobot.data.module.spotify_api.resource.SpotifyApiInterceptor;
 
 import retrofit2.Retrofit;
@@ -19,14 +20,19 @@ import rx.schedulers.Schedulers;
 
 /***
  * {@link SpotifyApiManager} est initialisé au lancement de l'application et permet d'utiliser les méthodes
- * {@link SpotifyAPIService}
+ * {@link SpotifyAPIEndpoint}
  */
 
 public class SpotifyApiManager {
 
-    private SpotifyAPIService spotifyAPIService;
+    private SpotifyAPIEndpoint spotifyAPIEndpoint;
     private Context context;
     private Retrofit retrofit;
+
+    public Observable<SpotifyResultAlbum> getAlbumTracks(String id) {
+        return spotifyAPIEndpoint.getTracksAlbum(id).subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
 
     /**
      * Holder
@@ -50,13 +56,13 @@ public class SpotifyApiManager {
         this.context = context;
         SpotifyRetrofit spotifyRetrofit = new SpotifyRetrofit(context.getString(R.string.spotify_base_api_url), new SpotifyApiInterceptor());
         this.retrofit = spotifyRetrofit.retrofit();
-        spotifyAPIService = retrofit.create(SpotifyAPIService.class);
+        spotifyAPIEndpoint = retrofit.create(SpotifyAPIEndpoint.class);
     }
 
     /***
      */
     public Observable<SpotifyUser> getMe() {
-        return spotifyAPIService.getMe().subscribeOn(Schedulers.io())
+        return spotifyAPIEndpoint.getMe().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
@@ -66,7 +72,7 @@ public class SpotifyApiManager {
      * 1     *
      */
     public Observable<SpotifyPlaylist> getUserPlaylists() {
-        return spotifyAPIService.getUserPlaylists()
+        return spotifyAPIEndpoint.getUserPlaylists()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
@@ -76,21 +82,21 @@ public class SpotifyApiManager {
      * @param playlistId
      */
     public Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(final String playlistId) {
-        return spotifyAPIService.getPlaylistTracks(AppPrefs.spotifyUser().getId(), playlistId).subscribeOn(Schedulers.io())
+        return spotifyAPIEndpoint.getPlaylistTracks(AppPrefs.spotifyUser().getId(), playlistId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
 
 
     public Observable<SpotifySearchResult> search(final int limit, final int offset, final String search) {
-        return spotifyAPIService.search(limit, offset, search, "album,artist,track").subscribeOn(Schedulers.io())
+        return spotifyAPIEndpoint.search(limit, offset, search, "album,artist,track").subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
 
 
     public Observable<SpotifyFeaturedPlaylist> getFeaturedPlaylists() {
-        return spotifyAPIService.getFeaturedPlaylists().subscribeOn(Schedulers.io())
+        return spotifyAPIEndpoint.getFeaturedPlaylists().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }

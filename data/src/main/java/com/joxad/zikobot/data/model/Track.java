@@ -4,11 +4,11 @@ package com.joxad.zikobot.data.model;
 import com.joxad.zikobot.data.db.MusicAlarmDatabase;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 import com.raizlabs.android.dbflow.structure.container.ForeignKeyContainer;
@@ -91,15 +91,16 @@ public class Track extends BaseModel {
         Track track = new Track();
         track.setType(TYPE.SPOTIFY);
         track.setRef("spotify:track:" + spotifyTrack.getId());
-        track.setImageUrl(spotifyTrack.getAlbum().getImages().get(0).url);
-        track.setArtistName(spotifyTrack.getArtists().get(0).getName());
+        if (spotifyTrack.getAlbum() != null)
+            track.setImageUrl(spotifyTrack.getAlbum().getImages().get(0).url);
+        if (spotifyTrack.getArtists() != null)
+            track.setArtistName(spotifyTrack.getArtists().get(0).getName());
         track.setName(spotifyTrack.getName());
         track.setDuration(spotifyTrack.getDuration());
         return track;
     }
 
     /***
-     * 
      * @param deezerTrack
      * @return
      */
@@ -110,13 +111,12 @@ public class Track extends BaseModel {
         track.setImageUrl(deezerTrack.getAlbum().getMediumImageUrl());
         track.setArtistName(deezerTrack.getArtist().getName());
         track.setName(deezerTrack.getTitle());
-        track.setDuration(deezerTrack.getDuration()*1000);
+        track.setDuration(deezerTrack.getDuration() * 1000);
         return track;
     }
 
 
     /***
-     *
      * @param soundCloudTrack
      * @param clientId
      * @return

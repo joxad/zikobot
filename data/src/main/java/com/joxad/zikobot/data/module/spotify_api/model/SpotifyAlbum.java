@@ -6,12 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Generated;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Generated("org.jsonschema2pojo")
 @Data
 @AllArgsConstructor(suppressConstructorProperties = true)
 public class SpotifyAlbum {
@@ -22,9 +19,14 @@ public class SpotifyAlbum {
     @SerializedName("images")
     public List<Image> images = new ArrayList<Image>();
 
-    @SerializedName("limit")
-    public Integer limit;
+    @SerializedName("artists")
+    public List<SpotifyArtist> artists = new ArrayList<SpotifyArtist>();
 
+    @SerializedName("limit")
+    public int limit;
+
+    @SerializedName("total")
+    public int total;
     @SerializedName("name")
     public String name;
     @SerializedName("type")

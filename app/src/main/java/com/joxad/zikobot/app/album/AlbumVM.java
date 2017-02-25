@@ -16,13 +16,13 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * Created by josh on 06/06/16.
  */
-public class AlbumVM extends BaseVM<LocalAlbum> {
+public class AlbumVM extends BaseVM<Album> {
 
     /***
      * @param context
      * @param model
      */
-    public AlbumVM(Context context, LocalAlbum model) {
+    public AlbumVM(Context context, Album model) {
         super(context, model);
     }
 
@@ -42,7 +42,7 @@ public class AlbumVM extends BaseVM<LocalAlbum> {
 
     public void onClick(View view) {
         //TODO sendevent
-        EventBus.getDefault().post(new LocalAlbumSelectEvent(Album.from(model), view.findViewById(R.id.iv_album)));
+        EventBus.getDefault().post(new LocalAlbumSelectEvent(model, view.findViewById(R.id.iv_album)));
     }
 
     @Bindable
@@ -51,6 +51,10 @@ public class AlbumVM extends BaseVM<LocalAlbum> {
     }
 
 
+    @Bindable
+    public int getNbTracksNumber() {
+        return model.getNbTracks();
+    }
     @Bindable
     public String getNbTracks() {
         return String.format("%d %s", model.getNbTracks(), context.getString(R.string.tracks));

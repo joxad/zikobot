@@ -99,7 +99,6 @@ public class PlayerService extends Service implements IMusicPlayer {
         return musicBind;
     }
 
-
     @Override
     public void init() {
 
@@ -149,7 +148,6 @@ public class PlayerService extends Service implements IMusicPlayer {
             trackVMs.add(currentTrackVM);
         }
         play(currentTrackVM);
-        EventBus.getDefault().post(new TrackChangeEvent());
     }
 
 
@@ -234,7 +232,6 @@ public class PlayerService extends Service implements IMusicPlayer {
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, currentTrackVM.getDuration())
                 .build());
         updatePlayer(currentTrackVM);
-        play(currentTrackVM.getRef());
     }
 
     private void updatePlayer(TrackVM currentTrackVM) {
@@ -242,12 +239,19 @@ public class PlayerService extends Service implements IMusicPlayer {
         switch (currentTrackVM.getType()) {
             case TYPE.LOCAL:
                 currentPlayer = vlcPlayer;
+                play(currentTrackVM.getRef());
                 break;
             case TYPE.SOUNDCLOUD:
                 currentPlayer = androidPlayer;
+                play(currentTrackVM.getRef());
                 break;
             case TYPE.SPOTIFY:
-                currentPlayer = spotifyPlayer;
+                spotifyPlayer.updateToken().subscribe(b -> {
+                    if (b) {
+                        currentPlayer = spotifyPlayer;
+                        play(currentTrackVM.getRef());
+                    }
+                });
                 break;
         }
     }
@@ -260,6 +264,7 @@ public class PlayerService extends Service implements IMusicPlayer {
             playerNotification.prepareNotification(currentTrackVM.getModel());
         }
         currentProgress = 0;
+        EventBus.getDefault().post(new EventRefreshPlayer());
 
     }
 

@@ -62,7 +62,6 @@
                             android:id="@+id/tv_artist"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_queue_music"
                             android:drawablePadding="4dp"
                             android:drawableStart="@drawable/ic_queue_music"
                             android:gravity="center_vertical"

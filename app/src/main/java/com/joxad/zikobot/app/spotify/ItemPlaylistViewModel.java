@@ -38,7 +38,7 @@ public class ItemPlaylistViewModel extends BaseVM<Item> {
      */
     public void onItemClick(View view) {
         if (model.getId() != null)
-            EventBus.getDefault().post(new SelectItemPlaylistEvent(model));
+            EventBus.getDefault().post(new SelectItemPlaylistEvent(view.findViewById(R.id.iv_album), model));
     }
 
 
@@ -63,6 +63,6 @@ public class ItemPlaylistViewModel extends BaseVM<Item> {
 
     @Bindable
     public String getTransition() {
-        return context.getString(R.string.transition)+model.getId();
+        return context.getString(R.string.transition) + model.getId();
     }
 }

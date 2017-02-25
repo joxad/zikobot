@@ -12,6 +12,7 @@ import com.joxad.zikobot.app.core.utils.ISearch;
 import com.joxad.zikobot.app.databinding.FragmentSearchBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.data.event.search.EventQueryChange;
+import com.joxad.zikobot.data.model.Album;
 import com.joxad.zikobot.data.model.Artist;
 import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
@@ -41,7 +42,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
     public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
 
     public String currentQuery = "";
-    private Subscription artistSubscription, trackSubscription, albumSubscription,trackByArtistSubscription;
+    private Subscription artistSubscription, trackSubscription, albumSubscription, trackByArtistSubscription;
 
     /***
      * @param fragment
@@ -136,7 +137,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
             Logger.d(TAG, "" + localArtists.size());
             albums.clear();
             for (LocalAlbum localAlbum : localArtists) {
-                albums.add(new AlbumVM(fragment.getContext(), localAlbum));
+                albums.add(new AlbumVM(fragment.getContext(), Album.from(localAlbum)));
             }
 
             notifyPropertyChanged(BR.showNoResult);
@@ -168,7 +169,7 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
         if (trackByArtistSubscription != null)
             trackByArtistSubscription.unsubscribe();
 
-        trackByArtistSubscription =  LocalMusicManager.getInstance().getLocalTracks(10, 0, currentQuery, -1, null).subscribe(localTracks -> {
+        trackByArtistSubscription = LocalMusicManager.getInstance().getLocalTracks(10, 0, currentQuery, -1, null).subscribe(localTracks -> {
             Logger.d("" + localTracks.size());
             for (LocalTrack localTrack : localTracks) {
                 tracks.add(new TrackVM(fragment.getContext(), Track.from(localTrack)));
@@ -180,7 +181,6 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
             notifyPropertyChanged(BR.showNoResult);
         });
     }
-
 
 
     private void clearAll() {

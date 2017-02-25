@@ -2,6 +2,8 @@ package com.joxad.zikobot.data.module.spotify_api.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -22,4 +24,6 @@ public class SpotifyArtist {
     private String type;
     @SerializedName("uri")
     private String uri;
+    @SerializedName("images")
+    private List<Image> images;
 }

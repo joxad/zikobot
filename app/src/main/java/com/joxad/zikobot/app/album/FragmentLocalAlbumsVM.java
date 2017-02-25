@@ -18,6 +18,7 @@ import com.joxad.zikobot.app.databinding.FragmentLocalAlbumsBinding;
 import com.joxad.zikobot.app.home.event.EventAskPermissionStorage;
 import com.joxad.zikobot.app.home.event.EventPermissionRefresh;
 import com.joxad.zikobot.data.event.EventShowArtistDetail;
+import com.joxad.zikobot.data.model.Album;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 import com.joxad.zikobot.data.module.localmusic.model.LocalArtist;
@@ -109,7 +110,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
         LocalMusicManager.getInstance().getLocalAlbums(limit, offset, localArtist != null ? localArtist.getName() : null, null).subscribe(localAlbums -> {
             Log.d(TAG, "" + localAlbums.size());
             for (LocalAlbum localAlbum : localAlbums) {
-                items.add(new AlbumVM(fragment.getContext(), localAlbum));
+                items.add(new AlbumVM(fragment.getContext(), Album.from(localAlbum)));
             }
             if (localAlbums.isEmpty() && offset == 0) {
                 updateMessage(fragment.getString(R.string.no_music));

@@ -1,6 +1,6 @@
 package com.joxad.zikobot.data.event.dialog;
 
-import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
+import com.joxad.zikobot.data.model.Album;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,5 +11,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor(suppressConstructorProperties = true)
 public class EventShowDialogAlbumSettings {
-    protected final LocalAlbum model;
+    protected final Album model;
 }

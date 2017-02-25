@@ -7,6 +7,7 @@ import com.joxad.android_easy_spotify.SpotifyManager;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.player.event.EventNextTrack;
 import com.joxad.zikobot.data.AppPrefs;
+import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
 import com.orhanobut.logger.Logger;
 import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
@@ -16,6 +17,11 @@ import com.spotify.sdk.android.player.PlayerState;
 import com.spotify.sdk.android.player.Spotify;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.io.UnsupportedEncodingException;
+
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by josh on 28/08/16.
@@ -47,6 +53,7 @@ public class SpotifyPlayer implements IMusicPlayer {
 
             }
         });
+
     }
 
 
@@ -123,4 +130,18 @@ public class SpotifyPlayer implements IMusicPlayer {
         }
     };
 
+    public Observable<Boolean> updateToken() {
+        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+            @Override
+            public void call(Subscriber<? super Boolean> subscriber) {
+                try {
+                    SpotifyAuthManager.getInstance().refreshToken(context, () -> {
+                        subscriber.onNext(true);
+                    });
+                } catch (UnsupportedEncodingException e) {
+                    subscriber.onError(new Throwable("UnsupportedEncodingException"));
+                }
+            }
+        });
+    }
 }

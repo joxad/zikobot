@@ -71,8 +71,10 @@ public class NavigationManager  {
 
     @Subscribe
     public void onEvent(SelectItemPlaylistEvent selectItemPlaylistEvent) {
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(activity, selectItemPlaylistEvent.getView(), activity.getString(R.string.transition));
         Item item = selectItemPlaylistEvent.getItem();
-        activity.startActivity(IntentManager.goToSpotifyPlaylist(item));
+        activity.startActivity(IntentManager.goToSpotifyPlaylist(item), options.toBundle());
     }
 
     @Subscribe

@@ -39,13 +39,10 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
     @Override
     public void onCreate() {
         userPlaylists = new ObservableArrayList<>();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         loadUserPlaylist();
     }
+
+
 
     /***
      * Call {@link com.joxad.zikobot.module.spotify_api.manager.SpotifyApiManager} to find the current user playlists
@@ -53,7 +50,7 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
     private void loadUserPlaylist() {
         if (AppPrefs.spotifyUser()==null)return;
         userPlaylists.clear();
-        userPlaylists.addAll(Mock.playlists(fragment.getContext()));
+       // userPlaylists.addAll(Mock.playlists(fragment.getContext()));
         SpotifyApiManager.getInstance().getUserPlaylists().subscribe(spotifyPlaylist -> {
             userPlaylists.clear();
             for (Item playlist : spotifyPlaylist.getItems()) {

@@ -52,7 +52,7 @@ public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundC
     private void loadUserPlaylist() {
         if (AppPrefs.soundCloudUser() == null) return;
         userPlaylists.clear();
-        userPlaylists.addAll(Mock.scPlaylists(fragment.getContext()));
+        //userPlaylists.addAll(Mock.scPlaylists(fragment.getContext()));
         SoundCloudApiManager.getInstance().userPlaylists(AppPrefs.soundCloudUser().getId()).subscribe(soundCloudPlaylists -> {
             userPlaylists.clear();
             for (SoundCloudPlaylist playlist : soundCloudPlaylists) {

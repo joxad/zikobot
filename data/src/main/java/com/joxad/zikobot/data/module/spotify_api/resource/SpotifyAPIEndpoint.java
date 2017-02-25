@@ -1,11 +1,16 @@
 package com.joxad.zikobot.data.module.spotify_api.resource;
 
 
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyAlbum;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyFeaturedPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylistWithTrack;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyResultAlbum;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifySearchResult;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyUser;
+
+import java.util.List;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -19,11 +24,14 @@ import rx.Observable;
  * Interface using retrofit to call Spotify API
  * </p>
  */
-public interface SpotifyAPIService {
+public interface SpotifyAPIEndpoint {
 
     @GET("me")
     Observable<SpotifyUser> getMe();
 
+
+    @GET("albums/{id}/tracks")
+    Observable<SpotifyResultAlbum> getTracksAlbum(@Path("id") final String id);
 
     @GET("me/playlists")
     Observable<SpotifyPlaylist> getUserPlaylists();

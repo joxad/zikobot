@@ -19,6 +19,7 @@ import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.app.soundcloud.SoundCloudPlaylistVM;
 import com.joxad.zikobot.data.event.LocalAlbumSelectEvent;
 import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
+import com.joxad.zikobot.data.model.Album;
 import com.joxad.zikobot.data.model.Artist;
 import com.joxad.zikobot.data.model.TYPE;
 import com.joxad.zikobot.data.model.Track;
@@ -154,22 +155,22 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     }
 
 
-
     /***
      * Load the local music
      */
     private void loadSoundCloudTracks() {
-        SoundCloudApiManager.getInstance().userTracks(artist.getId()).subscribe(soundCloudTracks -> {
+        SoundCloudApiManager.getInstance().userTracks(Long.parseLong(artist.getId())).subscribe(soundCloudTracks -> {
             for (SoundCloudTrack soundCloudTrack : soundCloudTracks) {
                 tracks.add(new TrackVM(activity, Track.from(soundCloudTrack, activity.getString(R.string.soundcloud_id))));
             }
         }, throwable -> Logger.e(throwable.getLocalizedMessage()));
     }
+
     /***
      * Load the local music
      */
     private void loadSoundCloudPlaylist() {
-        SoundCloudApiManager.getInstance().userPlaylists(artist.getId()).subscribe(soundCloudPlaylists -> {
+        SoundCloudApiManager.getInstance().userPlaylists(Long.parseLong(artist.getId())).subscribe(soundCloudPlaylists -> {
             for (SoundCloudPlaylist soundCloudPlaylist : soundCloudPlaylists) {
                 soundCloudPlaylistVMs.add(new SoundCloudPlaylistVM(activity, soundCloudPlaylist));
             }
@@ -182,7 +183,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     private void loadLocalAlbums(int limit, int offset) {
         LocalMusicManager.getInstance().getLocalAlbums(limit, offset, artist != null ? artist.getName() : null, null).subscribe(localAlbums -> {
             for (LocalAlbum localAlbum : localAlbums) {
-                albums.add(new AlbumVM(activity, localAlbum));
+                albums.add(new AlbumVM(activity, Album.from(localAlbum)));
             }
         }, throwable -> {
             Logger.e(throwable.getLocalizedMessage());
