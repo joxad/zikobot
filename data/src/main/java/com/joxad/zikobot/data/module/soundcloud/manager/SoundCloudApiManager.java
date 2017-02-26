@@ -73,6 +73,17 @@ public class SoundCloudApiManager {
                 .unsubscribeOn(Schedulers.io());
     }
 
+
+    /***
+     * @param id
+     * @return
+     */
+    public Observable<SoundCloudUser> userById(final long id) {
+        return soundCloudApiEndpoint.user(id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
+
     /***
      * @param search
      * @return

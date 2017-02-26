@@ -42,7 +42,7 @@
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/actionBarSizeNormal"
+                android:layout_height="48dp"
                 android:background="@color/colorPrimary"
                 app:tabBackground="@color/colorPrimary"
                 app:tabGravity="fill"

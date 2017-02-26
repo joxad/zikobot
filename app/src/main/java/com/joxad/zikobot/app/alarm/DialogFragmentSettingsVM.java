@@ -12,16 +12,22 @@ import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBaseVM;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.event.EventAlarmSelect;
+import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.DialogFragmentSettingsBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
+import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.app.player.event.EventAddTrackToCurrent;
 import com.joxad.zikobot.app.player.event.EventAddTrackToEndOfCurrent;
 import com.joxad.zikobot.data.model.Alarm;
 import com.joxad.zikobot.data.model.Album;
+import com.joxad.zikobot.data.model.Artist;
 import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
+import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
+import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,6 +37,10 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
+
+import static com.joxad.zikobot.data.model.TYPE.LOCAL;
+import static com.joxad.zikobot.data.model.TYPE.SOUNDCLOUD;
+import static com.joxad.zikobot.data.model.TYPE.SPOTIFY;
 
 /**
  * Created by josh on 09/03/16.
@@ -65,17 +75,41 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
             Parcelable parcelableAlbum = fragment.getArguments().getParcelable(EXTRA.LOCAL_ALBUM);
             album = (parcelableAlbum != null ? Parcels.unwrap(parcelableAlbum) : null);
             tracks = new ArrayList<>();
-            LocalMusicManager.getInstance().getLocalTracks(100, 0, null, Long.parseLong(album.getId()), null).subscribe(localTracks -> {
-                for (LocalTrack localTrack : localTracks) {
-                    tracks.add(Track.from(localTrack));
-                }
-            }, throwable -> {
-                Logger.d(TAG, throwable.getLocalizedMessage());
-            });
+            switch (album.getType()) {
+                case LOCAL:
+                    loadLocalTracks();
+                    break;
+                case SPOTIFY:
+                    loadSpotifyTracks();
+                    break;
+            }
+
         }
         itemsVM = new ObservableArrayList<>();
         notifyChange();
         loadAlarms();
+    }
+
+
+    private void loadSpotifyTracks() {
+
+        SpotifyApiManager.getInstance().getAlbumTracks(album.getId()).subscribe(spotifyResultAlbum -> {
+            for (SpotifyTrack track : spotifyResultAlbum.getTracks()) {
+                tracks.add(Track.from(track, album.getImage()));
+            }
+        }, throwable -> {
+            Logger.e(throwable.getLocalizedMessage());
+        });
+    }
+
+    private void loadLocalTracks() {
+        LocalMusicManager.getInstance().getLocalTracks(100, 0, null, Long.parseLong(album.getId()), null).subscribe(localTracks -> {
+            for (LocalTrack localTrack : localTracks) {
+                tracks.add(Track.from(localTrack));
+            }
+        }, throwable -> {
+            Logger.d(TAG, throwable.getLocalizedMessage());
+        });
     }
 
     @Override
@@ -125,16 +159,36 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
      * add the current track to the current list direct next of playing track
      */
     public void addTrackToCurrent(@SuppressWarnings("unused") View view) {
-        EventBus.getDefault().post(new EventAddTrackToCurrent(new TrackVM(fragment.getContext(), track)));
+        if (track != null)
+            EventBus.getDefault().post(new EventAddTrackToCurrent(new TrackVM(fragment.getContext(), track)));
+        if (album != null) {
+            ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList();
+            for (Track track : tracks) {
+                trackVMs.add(new TrackVM(fragment.getContext(), track));
+            }
+            EventBus.getDefault().post(new EventAddList(trackVMs));
+        }
+
+
         dismiss();
     }
 
     /***
      * add the current track to the current list of playing track
+     *
      * @param view
      */
     public void addTrackToEndOfCurrent(@SuppressWarnings("unused") View view) {
-        EventBus.getDefault().post(new EventAddTrackToEndOfCurrent(new TrackVM(fragment.getContext(), track)));
+        if (track != null)
+            EventBus.getDefault().post(new EventAddTrackToEndOfCurrent(new TrackVM(fragment.getContext(), track)));
+        if (album != null) {
+            ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList();
+            for (Track track : tracks) {
+                trackVMs.add(new TrackVM(fragment.getContext(), track));
+            }
+            EventBus.getDefault().post(new EventAddList(trackVMs));
+        }
+
         dismiss();
     }
 
@@ -148,6 +202,59 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
      */
     public void showArtist(@SuppressWarnings("unused") View view) {
 //TODO
+        if (track != null)
+            switch (track.getType()) {
+                case LOCAL:
+                    showLocalArtist(track.getArtistName());
+                    break;
+                case SPOTIFY:
+                    showSpotifyArtist(track.getArtistId());
+                    break;
+                case SOUNDCLOUD:
+                    showSoundCloudArtist(track.getArtistId());
+                    break;
+            }
+        if (album != null) {
+            switch (album.getType()) {
+                case LOCAL:
+                    showLocalArtist(album.getArtist());
+                    break;
+                case SPOTIFY:
+                    showSpotifyArtist(album.getArtistId());
+                    break;
+                case SOUNDCLOUD:
+                    showSoundCloudArtist(album.getArtistId());
+                    break;
+            }
+        }
+    }
+
+    /**
+     *
+     * @param artistId
+     */
+    private void showSoundCloudArtist(String artistId) {
+        SoundCloudApiManager.getInstance().userById(Long.parseLong(artistId)).subscribe(soundCloudUser -> {
+            fragment.startActivity(IntentManager.goToArtist(Artist.from(soundCloudUser)));
+        }, throwable -> {
+            Logger.e(throwable.getLocalizedMessage());
+        });
+    }
+
+    private void showSpotifyArtist(String artistId) {
+        SpotifyApiManager.getInstance().getArtist(artistId).subscribe(spotifyArtist -> {
+            fragment.startActivity(IntentManager.goToArtist(Artist.from(spotifyArtist)));
+        }, throwable -> {
+            Logger.e(throwable.getLocalizedMessage());
+        });
+    }
+
+    private void showLocalArtist(String artistName) {
+        LocalMusicManager.getInstance().getLocalArtists(1, 0, artistName).subscribe(localArtists -> {
+            fragment.startActivity(IntentManager.goToArtist(Artist.from(localArtists.get(0))));
+        }, throwable -> {
+            Logger.e(throwable.getLocalizedMessage());
+        });
     }
 
     /**

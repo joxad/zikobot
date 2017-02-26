@@ -5,6 +5,7 @@ import android.content.Context;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.R;
 import com.joxad.zikobot.data.module.spotify_api.model.Albums;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyArtist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyFeaturedPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylistWithTrack;
@@ -71,6 +72,17 @@ public class SpotifyApiManager {
     /***
      * 1     *
      */
+    public Observable<SpotifyArtist> getArtist(final String artistId) {
+        return spotifyAPIEndpoint.getArtist(artistId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
+
+
+    /***
+     * 1     *
+     */
     public Observable<SpotifyPlaylist> getUserPlaylists() {
         return spotifyAPIEndpoint.getUserPlaylists()
                 .subscribeOn(Schedulers.io())
@@ -78,6 +90,12 @@ public class SpotifyApiManager {
                 .unsubscribeOn(Schedulers.io());
     }
 
+    /**
+     * Get tracks from an album using its id
+     *
+     * @param id
+     * @return
+     */
     public Observable<SpotifyResultAlbum> getAlbumTracks(String id) {
         return spotifyAPIEndpoint.getTracksAlbum(id).subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
@@ -87,8 +105,8 @@ public class SpotifyApiManager {
      * @param idArtist
      * @return
      */
-    public Observable<Albums> getAlbums(String idArtist) {
-        return spotifyAPIEndpoint.getAlbums(idArtist, Locale.getDefault().getCountry()).subscribeOn(Schedulers.io())
+    public Observable<Albums> getAlbums(String idArtist, int limit, int offset) {
+        return spotifyAPIEndpoint.getAlbums(idArtist, Locale.getDefault().getCountry(), limit, offset).subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 

@@ -15,7 +15,7 @@
     <dimen name="footer_height">170dp</dimen>
     <dimen name="avatar_size">80dp</dimen>
     <dimen name="zikobot_size_mini">50dp</dimen>
-    <dimen name="actionBarSizeNormal">48dp</dimen>
+    <dimen name="paddingBottom">56dp</dimen>
     <dimen name="actionBarSizeSearch">56dp</dimen>
     <dimen name="playerHeight">60dp</dimen>
     <dimen name="margin_player">72dp</dimen>

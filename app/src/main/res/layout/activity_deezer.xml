@@ -63,7 +63,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clipToPadding="false"
-                        android:paddingBottom="@dimen/actionBarSizeNormal"
+                        android:paddingBottom="@dimen/paddingBottom"
                         android:visibility="@{activityDeezerVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
                         app:itemView="@{activityDeezerVM.itemViewTrack}"
                         app:items="@{activityDeezerVM.tracks}"

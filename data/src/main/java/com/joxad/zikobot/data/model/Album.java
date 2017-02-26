@@ -21,6 +21,7 @@ public class Album {
     protected int type;
     protected int nbTracks;
     protected String artist;
+    protected String artistId;
 
     public Album() {
     }
@@ -45,6 +46,7 @@ public class Album {
         album.image = spotifyAlbum.getImages().get(0).getUrl();
         album.nbTracks = spotifyAlbum.getTotal();
         album.artist = spotifyAlbum.getArtists().get(0).getName();
+        album.artistId = spotifyAlbum.getArtists().get(0).getId();
         return album;
     }
 }

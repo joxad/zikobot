@@ -1,10 +1,10 @@
 package com.joxad.zikobot.app.core.fragmentmanager;
 
 import android.Manifest;
-import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AppCompatActivity;
 
 import com.deezer.sdk.model.Playlist;
 import com.joxad.zikobot.app.R;
@@ -39,18 +39,22 @@ import lombok.Data;
  * Created by josh on 10/06/16.
  */
 @Data
-public class NavigationManager  {
+public class NavigationManager {
 
 
     Handler handler = new Handler(Looper.getMainLooper());
 
-    private final RxPermissions rxPermissions;
     public enum Account {local, spotify, deezer, soundcloud}
 
     private Account current = Account.local;
 
-    private final Activity activity;
-    private final android.support.v4.app.FragmentManager supportFragmentManager;
+    private final AppCompatActivity activity;
+    private RxPermissions rxPermissions;
+
+    public NavigationManager(AppCompatActivity activity) {
+        this.activity = activity;
+        rxPermissions = new RxPermissions(activity);
+    }
 
     /***
      * Show the libs used in the projects
@@ -102,9 +106,9 @@ public class NavigationManager  {
     @Subscribe
     public void onEvent(EventEditAlarm editAlarm) {
         DialogPlaylistEdit dialogPlaylistEdit = DialogPlaylistEdit.newInstance(editAlarm.getAlarm());
-        dialogPlaylistEdit.show(supportFragmentManager, DialogPlaylistEdit.TAG);
+        dialogPlaylistEdit.show(activity.getSupportFragmentManager(), DialogPlaylistEdit.TAG);
         dialogPlaylistEdit.setOnDismissListener(() -> {
-           // SnackUtils.showConfirm(binding.getRoot(),R.string.alarm_confirm_edit);
+            // SnackUtils.showConfirm(binding.getRoot(),R.string.alarm_confirm_edit);
             EventBus.getDefault().post(new EventRefreshAlarms(editAlarm.getAlarm().getId()));
         });
     }
@@ -113,7 +117,7 @@ public class NavigationManager  {
     public void onEvent(EventAlarmSelect eventAlarmSelect) {
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(activity, eventAlarmSelect.getView(), activity.getString(R.string.transition));
-        activity.startActivity(IntentManager.goToAlarm(eventAlarmSelect.getModel()),options.toBundle());
+        activity.startActivity(IntentManager.goToAlarm(eventAlarmSelect.getModel()), options.toBundle());
     }
 
     @Subscribe
@@ -131,13 +135,13 @@ public class NavigationManager  {
     @Subscribe
     public void onEvent(EventShowDialogSettings event) {
         DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
-        dialogFragmentSettings.show(supportFragmentManager, DialogFragmentSettings.TAG);
+        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
     }
 
     @Subscribe
     public void onEvent(EventShowDialogAlbumSettings event) {
         DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
-        dialogFragmentSettings.show(supportFragmentManager, DialogFragmentSettings.TAG);
+        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
     }
 
     @Subscribe

@@ -19,6 +19,8 @@ import rx.Observable;
  * Created by josh on 15/06/16.
  */
 public interface SoundCloudApiEndpoint {
+    @GET("users/{id}")
+    Observable<SoundCloudUser> user(@Path("id") final long userId);
 
     @GET("users/{id}/playlists")
     Observable<ArrayList<SoundCloudPlaylist>> userPlaylists(@Path("id") final long userId);
@@ -28,7 +30,7 @@ public interface SoundCloudApiEndpoint {
 
     @GET("tracks")
     Observable<ArrayList<SoundCloudTrack>> search(@Query("q") final String searchFilter);
-    
+
     @GET("playlists")
     Observable<ArrayList<SoundCloudPlaylist>> searchPlaylist(@Query("q") final String searchFilter);
 

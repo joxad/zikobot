@@ -27,7 +27,7 @@
             android:id="@+id/fnsv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:descendantFocusability="beforeDescendants"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -40,9 +40,15 @@
                     style="@style/textSection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:text="@string/drawer_filter_tracks"
-                    android:visibility="@{activityAlarmVM.alarmVM.tracksVms.size() >0 ? v.VISIBLE : v.GONE}" />
+                    />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:background="@color/colorAccent" />
 
                 <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
                     android:id="@+id/rv_tracks"

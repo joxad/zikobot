@@ -1,15 +1,14 @@
 package com.joxad.zikobot.app.artist;
 
 import android.databinding.ObservableArrayList;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.alarm.DialogFragmentSettings;
 import com.joxad.zikobot.app.album.AlbumVM;
-import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
+import com.joxad.zikobot.app.core.fragmentmanager.NavigationManager;
+import com.joxad.zikobot.app.core.utils.Constants;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.databinding.ActivityArtistBinding;
@@ -17,8 +16,6 @@ import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.app.soundcloud.SoundCloudPlaylistVM;
-import com.joxad.zikobot.data.event.LocalAlbumSelectEvent;
-import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
 import com.joxad.zikobot.data.model.Album;
 import com.joxad.zikobot.data.model.Artist;
 import com.joxad.zikobot.data.model.TYPE;
@@ -35,7 +32,6 @@ import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -56,6 +52,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
 
     Artist artist;
     boolean loaded = false;
+    NavigationManager navigationManager;
 
     /***
      * @param activity
@@ -71,6 +68,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         albums = new ObservableArrayList<>();
         tracks = new ObservableArrayList<>();
         soundCloudPlaylistVMs = new ObservableArrayList<>();
+        navigationManager = new NavigationManager(activity);
         initToolbar();
         initPlayerVM();
 
@@ -105,7 +103,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
 
     private void loadSpotifyData() {
         loadSpotifyTracks();
-        loadSpotifyAlbums();
+        loadSpotifyAlbums(0);
     }
 
 
@@ -139,31 +137,16 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     @Override
     public void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
+        navigationManager.onResume();
         playerVM.onResume();
 
-    }
-
-
-    @Subscribe
-    public void onEvent(LocalAlbumSelectEvent localAlbumSelectEvent) {
-        ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation(activity, localAlbumSelectEvent.getView(), activity.getString(R.string.transition));
-        activity.startActivity(IntentManager.goToAlbum(localAlbumSelectEvent.getModel()), options.toBundle());
-    }
-
-
-    @Subscribe
-    public void onEvent(EventShowDialogSettings event) {
-        DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
-        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        EventBus.getDefault().unregister(this);
         playerVM.onPause();
+        navigationManager.onPause();
     }
 
     /**
@@ -177,8 +160,8 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         }, throwable -> Logger.e(throwable.getLocalizedMessage()));
     }
 
-    private void loadSpotifyAlbums() {
-        SpotifyApiManager.getInstance().getAlbums(artist.getId()).subscribe(spotifyArtistAlbums -> {
+    private void loadSpotifyAlbums(int offset) {
+        SpotifyApiManager.getInstance().getAlbums(artist.getId(), Constants.ALBUM_LIMIT, offset).subscribe(spotifyArtistAlbums -> {
             for (SpotifyAlbum album : spotifyArtistAlbums.items) {
                 albums.add(new AlbumVM(activity, Album.from(album)));
             }

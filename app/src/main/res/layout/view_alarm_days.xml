@@ -22,10 +22,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="@dimen/margin_medium"
             android:orientation="horizontal"
-            android:weightSum="7">
+            android:weightSum="4">
 
             <TextView
                 android:id="@+id/tv_monday"
@@ -33,8 +33,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/monday"
                 android:onClick="@{itemAlarmVM.activeMonday}"
+                android:text="@string/monday"
                 android:textColor="@{itemAlarmVM.mondayActive ? @color/colorAccent : @color/secondaryText}" />
 
             <TextView
@@ -43,8 +43,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/tuesday"
                 android:onClick="@{itemAlarmVM.activeTuesday}"
+                android:text="@string/tuesday"
                 android:textColor="@{itemAlarmVM.tuesdayActive ? @color/colorAccent : @color/secondaryText}" />
 
 
@@ -54,8 +54,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/wednesday"
                 android:onClick="@{itemAlarmVM.activeWed}"
+                android:text="@string/wednesday"
                 android:textColor="@{itemAlarmVM.wedActive ? @color/colorAccent : @color/secondaryText}" />
 
             <TextView
@@ -64,9 +64,17 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/thursday"
                 android:onClick="@{itemAlarmVM.activeThursday}"
+                android:text="@string/thursday"
                 android:textColor="@{itemAlarmVM.thursdayActive ? @color/colorAccent : @color/secondaryText}" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="3">
 
             <TextView
                 android:id="@+id/tv_friday"
@@ -74,8 +82,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/friday"
                 android:onClick="@{itemAlarmVM.activeFriday}"
+                android:text="@string/friday"
                 android:textColor="@{itemAlarmVM.fridayActive ? @color/colorAccent : @color/secondaryText}" />
 
 
@@ -85,9 +93,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/saturday"
                 android:onClick="@{itemAlarmVM.activeSaturday}"
-                android:textColor="@{itemAlarmVM.saturdayActive ? @color/colorAccent : @color/secondaryText}"/>
+                android:text="@string/saturday"
+                android:textColor="@{itemAlarmVM.saturdayActive ? @color/colorAccent : @color/secondaryText}" />
 
 
             <TextView
@@ -96,9 +104,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/sunday"
                 android:onClick="@{itemAlarmVM.activeSunday}"
-                android:textColor="@{itemAlarmVM.sundayActive ? @color/colorAccent : @color/secondaryText}"/>
+                android:text="@string/sunday"
+                android:textColor="@{itemAlarmVM.sundayActive ? @color/colorAccent : @color/secondaryText}" />
 
         </LinearLayout>
 

@@ -103,7 +103,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
 
     private void initNavigationManager() {
-        navigationManager = new NavigationManager(new RxPermissions(activity), activity, activity.getSupportFragmentManager());
+        navigationManager = new NavigationManager(activity);
     }
 
     /***

@@ -57,6 +57,11 @@ public class Track extends BaseModel {
     @Column
     @Getter
     @Setter
+    protected String artistId;
+
+    @Column
+    @Getter
+    @Setter
     protected String activated;
 
     @Column
@@ -93,8 +98,10 @@ public class Track extends BaseModel {
         track.setRef("spotify:track:" + spotifyTrack.getId());
         if (spotifyTrack.getAlbum() != null)
             track.setImageUrl(spotifyTrack.getAlbum().getImages().get(0).url);
-        if (spotifyTrack.getArtists() != null)
+        if (spotifyTrack.getArtists() != null) {
             track.setArtistName(spotifyTrack.getArtists().get(0).getName());
+            track.setArtistId(spotifyTrack.getArtists().get(0).getId());
+        }
         track.setName(spotifyTrack.getName());
         track.setDuration(spotifyTrack.getDuration());
         return track;
@@ -127,6 +134,7 @@ public class Track extends BaseModel {
         track.setRef(soundCloudTrack.getStreamUrl() + "?client_id=" + clientId);
         track.setImageUrl(soundCloudTrack.getArtworkUrl());
         track.setArtistName(soundCloudTrack.getUser().getUsername());
+        track.setArtistId("" + soundCloudTrack.getUser().getId());
         track.setName(soundCloudTrack.getTitle());
         track.setDuration(soundCloudTrack.getDuration());
         return track;
@@ -154,8 +162,10 @@ public class Track extends BaseModel {
         track.setType(TYPE.SPOTIFY);
         track.setRef("spotify:track:" + spotifyTrack.getId());
         track.setImageUrl(image);
-        if (spotifyTrack.getArtists() != null)
+        if (spotifyTrack.getArtists() != null) {
             track.setArtistName(spotifyTrack.getArtists().get(0).getName());
+            track.setArtistId(spotifyTrack.getArtists().get(0).getId());
+        }
         track.setName(spotifyTrack.getName());
         track.setDuration(spotifyTrack.getDuration());
         return track;

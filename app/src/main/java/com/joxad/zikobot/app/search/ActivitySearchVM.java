@@ -9,12 +9,12 @@ import com.joxad.zikobot.app.core.fragmentmanager.NavigationManager;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.databinding.ActivitySearchBinding;
 import com.joxad.zikobot.app.home.ViewPagerAdapter;
+import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.soundcloud.FragmentSoundCloudSearch;
 import com.joxad.zikobot.app.spotify.FragmentSpotifySearch;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.event.search.EventQueryChange;
 import com.orhanobut.logger.Logger;
-import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -27,6 +27,7 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     private ViewPagerAdapter tabAdapter;
     public ObservableBoolean isSearchValid;
     private NavigationManager navigationManager;
+    public PlayerVM playerVM;
 
     /***
      * @param activity
@@ -42,6 +43,7 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
         initSearch();
         initNavigationManager();
         initTabLayout();
+        playerVM = new PlayerVM(activity, binding.viewPlayer);
         binding.etSearch.requestFocus();
         ZikoUtils.showKeyboard(binding.etSearch);
         if (AppPrefs.spotifyUser() != null)
@@ -56,7 +58,7 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     }
 
     private void initNavigationManager() {
-        navigationManager = new NavigationManager(new RxPermissions(activity), activity, activity.getSupportFragmentManager());
+        navigationManager = new NavigationManager(activity);
     }
 
     /**
@@ -93,6 +95,7 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     @Override
     public void onResume() {
         navigationManager.onResume();
+        playerVM.onResume();
 
     }
 
@@ -100,6 +103,7 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     public void onPause() {
         navigationManager.onPause();
         ZikoUtils.hideKeyboard(binding.etSearch);
+        playerVM.onPause();
     }
 
     @Override

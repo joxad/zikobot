@@ -63,7 +63,7 @@
                         android:layout_height="match_parent"
                         android:clipToPadding="false"
                         android:layoutAnimation="@anim/grid_animation"
-                        android:paddingBottom="@dimen/actionBarSizeNormal"
+                        android:paddingBottom="@dimen/paddingBottom"
                         android:visibility="@{activityArtistVM.albums.size() >0 ? v.VISIBLE : v.GONE}"
                         app:itemView="@{activityArtistVM.itemViewAlbum}"
                         app:items="@{activityArtistVM.albums}"
@@ -93,7 +93,7 @@
                         android:layout_height="match_parent"
                         android:clipToPadding="false"
                         android:layoutAnimation="@anim/grid_animation"
-                        android:paddingBottom="@dimen/actionBarSizeNormal"
+                        android:paddingBottom="@dimen/paddingBottom"
                         android:visibility="@{activityArtistVM.soundCloudPlaylistVMs.size() >0 ? v.VISIBLE : v.GONE}"
                         app:itemView="@{activityArtistVM.itemViewSCPlaylist}"
                         app:items="@{activityArtistVM.soundCloudPlaylistVMs}"
@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:clipToPadding="false"
                         android:layoutAnimation="@anim/grid_animation"
-                        android:paddingBottom="@dimen/actionBarSizeNormal"
+                        android:paddingBottom="@dimen/paddingBottom"
                         android:visibility="@{activityArtistVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
                         app:itemView="@{activityArtistVM.itemViewTrack}"
                         app:items="@{activityArtistVM.tracks}"
@@ -167,22 +167,4 @@
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

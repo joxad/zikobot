@@ -18,4 +18,5 @@ public class Constants {
     public static final int FILTER_TAB=2;
     public static final int ROTATION=2;
 
+    public static final int ALBUM_LIMIT = 10;
 }

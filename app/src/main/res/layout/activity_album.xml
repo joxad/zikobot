@@ -25,55 +25,51 @@
             android:id="@+id/custom_toolbar"
             layout="@layout/view_toolbar_image" />
 
-        <FrameLayout
+
+        <com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:descendantFocusability="beforeDescendants"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
+                    style="@style/textSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/drawer_filter_tracks"
+                    android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:background="@color/colorAccent"
+                    android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
+
+
+                <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
+                    android:id="@+id/rv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:clipToPadding="false"
+                    android:layoutAnimation="@anim/grid_animation"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingBottom="@dimen/paddingBottom"
+                    android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
+                    app:itemView="@{activityAlbumVM.itemViewTrack}"
+                    app:items="@{activityAlbumVM.tracks}"
+                    tools:listitem="@layout/item_artist" />
 
-                    <TextView
-                        style="@style/textSection"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:text="@string/drawer_filter_album"
-                        android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
+            </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:background="@color/colorAccent"
-                        android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
-
-
-                    <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
-                        android:id="@+id/rv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToPadding="false"
-                        android:layoutAnimation="@anim/grid_animation"
-                        android:nestedScrollingEnabled="false"
-                        android:paddingBottom="@dimen/actionBarSizeNormal"
-                        android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
-                        app:itemView="@{activityAlbumVM.itemViewTrack}"
-                        app:items="@{activityAlbumVM.tracks}"
-                        tools:listitem="@layout/item_artist" />
-
-                </LinearLayout>
-
-            </com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView>
-
-        </FrameLayout>
+        </com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/bottom"
@@ -108,22 +104,3 @@
 
 
 </layout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

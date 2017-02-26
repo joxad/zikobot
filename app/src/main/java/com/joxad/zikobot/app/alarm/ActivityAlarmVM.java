@@ -9,6 +9,7 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
+import com.joxad.zikobot.app.core.fragmentmanager.NavigationManager;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.databinding.ActivityAlarmBinding;
@@ -31,7 +32,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     public AlarmVM alarmVM;
     public PlayerVM playerVM;
     Alarm alarm;
-
+    NavigationManager navigationManager;
     /***
      * @param activity
      * @param binding
@@ -43,9 +44,15 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     @Override
     public void onCreate() {
         alarm = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.ALARM));
+        alarmVM = new AlarmVM(activity, alarm) {
+            @Override
+            public ItemView itemView() {
+                return ItemView.of(BR.trackVM, R.layout.item_track);
+            }
+        };
         initPlayerVM();
         initToolbar();
-
+        navigationManager = new NavigationManager(activity);
         initMenu();
         initViews();
     }
@@ -127,28 +134,23 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
 
-
     @Override
-    public void onResume() {
-        super.onResume();
-        EventBus.getDefault().register(this);
-        playerVM.onResume();
-        alarmVM = new AlarmVM(activity, alarm) {
-            @Override
-            public ItemView itemView() {
-                return ItemView.of(BR.trackVM, R.layout.item_track);
-            }
-        };
+    public void onEnterAnimationComplete() {
+        super.onEnterAnimationComplete();
+
         alarmVM.refreshTracks();
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        navigationManager.onResume();
+        playerVM.onResume();
 
-    @Subscribe
-    public void onEvent(EventShowDialogSettings event) {
-        DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
-        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
     }
+
+
 
     /**
      * Play all the tracks of the album
@@ -164,7 +166,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     public void onPause() {
         super.onPause();
         playerVM.onPause();
-        EventBus.getDefault().unregister(this);
+        navigationManager.onPause();
     }
 
 
