@@ -75,7 +75,7 @@
 
     <string name="no_music">Sorry I did not find any music on your phone</string>
     <string name="add_tracks">I need you to add songs to start the alarm</string>
-    <string name="permission_local">I need your permission to access your music :)</string>
+    <string name="permission_local">I need your permission to access your music :) Click here to give me this power ! </string>
     <string name="album">album(s)</string>
     <string name="random_music">Random mode</string>
     <string name="volume_alarm">Volume</string>

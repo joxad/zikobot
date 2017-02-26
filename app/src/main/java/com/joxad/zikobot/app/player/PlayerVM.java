@@ -110,6 +110,7 @@ public class PlayerVM extends BaseObservable implements IVM {
             }
         };
         activity.bindService(intent, musicConnection, Context.BIND_AUTO_CREATE);
+        if (binding!=null)
         rotateCD();
     }
 

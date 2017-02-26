@@ -116,7 +116,8 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      *
      */
     private void rotateCD() {
-        binding.layoutPlayer.layoutVinyl.rlPlayer.animate().rotationBy(Constants.ROTATION).setDuration(50).setListener(new AnimationEndListener() {
+        binding.layoutPlayer.layoutVinyl.rlPlayer.animate().rotationBy(playerVM.isPlaying() ? Constants.ROTATION : 0)
+                .setDuration(50).setListener(new AnimationEndListener() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 rotateCD();
@@ -127,8 +128,9 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     /***
      * @param view
      */
-    public void stop(View view) {
+    public void stop(@SuppressWarnings("unused") View view) {
         EventBus.getDefault().post(new EventStopPlayer());
+
     }
 
 
