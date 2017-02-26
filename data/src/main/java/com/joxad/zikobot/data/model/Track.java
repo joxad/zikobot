@@ -148,4 +148,16 @@ public class Track extends BaseModel {
         track.setName(title);
         return track;
     }
+
+    public static Track from(SpotifyTrack spotifyTrack, String image) {
+        Track track = new Track();
+        track.setType(TYPE.SPOTIFY);
+        track.setRef("spotify:track:" + spotifyTrack.getId());
+        track.setImageUrl(image);
+        if (spotifyTrack.getArtists() != null)
+            track.setArtistName(spotifyTrack.getArtists().get(0).getName());
+        track.setName(spotifyTrack.getName());
+        track.setDuration(spotifyTrack.getDuration());
+        return track;
+    }
 }

@@ -77,20 +77,20 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
     }
 
 
-    public void deleteSpotify(View view) {
+    public void deleteSpotify(@SuppressWarnings("unused") View view) {
         AppPrefs.spotifyUser(null);
         AppPrefs.saveAccessCode(null);
         AppPrefs.saveAccessToken(null);
         notifyChange();
     }
 
-    public void deleteSoundCloud(View view) {
+    public void deleteSoundCloud(@SuppressWarnings("unused") View view) {
         AppPrefs.soundCloudUser(null);
         AppPrefs.saveSoundCloudAccessToken(null);
         notifyChange();
     }
 
-    public void deleteDeezer(View view) {
+    public void deleteDeezer(@SuppressWarnings("unused") View view) {
         AppPrefs.deezerUser(null);
         DeezerManager.getInstance().logout();
         notifyChange();
@@ -99,7 +99,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
     /***
      * @param view
      */
-    public void onButtonSpotifyConnect(View view) {
+    public void onButtonSpotifyConnect(@SuppressWarnings("unused") View view) {
         String apiKey = activity.getString(R.string.api_spotify_id);
         String redirect_uri = activity.getString(R.string.api_spotify_callback_web_view);
         String baseUrl = activity.getString(R.string.spotify_web_view);
@@ -124,22 +124,21 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
     /***
      * @param view
      */
-    public void onButtonSoundCloudConnect(View view) {
-
+    public void onButtonSoundCloudConnect(@SuppressWarnings("unused") View view) {
         activity.startActivity(new Intent(activity, SoundCloudLoginActivity.class));
     }
 
     /***
      * @param view
      */
-    public void onButtonDeezerConnect(View view) {
-        DeezerManager.getInstance().login(activity).subscribe(bundle -> {
+    public void onButtonDeezerConnect(@SuppressWarnings("unused") View view) {
+        /*DeezerManager.getInstance().login(activity).subscribe(bundle -> {
             getDeezerMe();
         }, throwable -> {
             Logger.e(throwable.getMessage());
 
         });
-
+*/
     }
 
 

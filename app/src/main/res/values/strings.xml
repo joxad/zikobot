@@ -23,6 +23,7 @@
     <string name="menu_put_add_as_playlist">Make an alarm</string>
     <string name="menu_add_to_current_play">Add after current playing track</string>
     <string name="menu_add_to_end_of_current_play">Add at the end of current playing track</string>
+    <string name="menu_info_artist">See the artist page</string>
     <string name="menu_delete">delete</string>
     <string name="menu_tablature">See guitar tab</string>
     <string name="drawer_filter_network">network</string>
@@ -32,8 +33,6 @@
 
     <!--> Titles <-->
     <string name="activity_music_local">My personal music</string>
-    <string name="activity_music_spotify">Spotify</string>
-    <string name="activity_music_deezer">Deezer</string>
     <string name="activity_my_account">My accounts</string>
 
 
@@ -112,12 +111,13 @@
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">Zikobot, Android musical assistant</string>
     <string name="options">settings</string>
-    <string name="cancel">Annuler</string>
-    <string name="playlist_deleted">Ta playlist a été supprimée</string>
-    <string name="dialog_options">Options</string>
-    <string name="title_add_playlist">Ajouter à une playlist</string>
-    <string name="title_playing">Lecture en cours</string>
-    <string name="alarm_confirm_edit">Ta playlist a été mise à jour</string>
-    <string name="zmb_activate_alarm">Active l\'alarme pour éditer ses horaires</string>
-    <string name="no_result">Pas de résultats</string>
+    <string name="cancel">Cancel</string>
+    <string name="playlist_deleted">Your playlist have been deleted</string>
+    <string name="dialog_options">Settings</string>
+    <string name="title_add_playlist">Add to a playlist</string>
+    <string name="title_playing">Add to current music</string>
+    <string name="alarm_confirm_edit">Your playlist has been updated</string>
+    <string name="zmb_activate_alarm">Activate the alarm mode to update it</string>
+    <string name="no_result">Sorry, I did not find any results :(</string>
+    <string name="title_infos">Informations</string>
 </resources>

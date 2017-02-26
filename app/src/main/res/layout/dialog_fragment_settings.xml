@@ -88,6 +88,18 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+
+                <TextView
+                    style="@style/textSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_infos" />
+
+                <include
+                    layout="@layout/custom_dialog_button"
+                    app:onClick="@{fragmentSettingsVM.showArtist}"
+                    app:title="@{fragmentSettingsVM.getString(R.string.menu_info_artist)}" />
+
                 <TextView
                     style="@style/textSection"
                     android:layout_width="match_parent"

@@ -53,20 +53,10 @@
                 app:color="@{@color/colorDeezer}"
                 app:deleteClick="@{activitySettingsVM.deleteDeezer}"
                 app:icon="@{@drawable/ic_deezer}"
+                app:buttonText="@{@string/coming_soon}"
                 app:onClick="@{activitySettingsVM.onButtonDeezerConnect}"
                 app:show="@{activitySettingsVM.showDeezerConnect}"
                 app:title="@{@string/activity_music_deezer}" />
-
-            <include
-                android:id="@+id/cv_spotify"
-                layout="@layout/card_view_account"
-                app:color="@{@color/colorSpotify}"
-                app:deleteClick="@{activitySettingsVM.deleteSpotify}"
-                app:icon="@{@drawable/ic_spotify_green}"
-
-                app:onClick="@{activitySettingsVM.onButtonSpotifyConnect}"
-                app:show="@{activitySettingsVM.showSpotifyConnect}"
-                app:title="@{@string/activity_music_spotify}" />
 
             <include
                 android:id="@+id/cv_soundcloud"
@@ -74,10 +64,21 @@
                 app:color="@{@color/colorSoundCloud}"
                 app:deleteClick="@{activitySettingsVM.deleteSoundCloud}"
                 app:icon="@{@drawable/logo_soundcloud}"
+                app:buttonText="@{@string/connect}"
                 app:onClick="@{activitySettingsVM.onButtonSoundCloudConnect}"
                 app:show="@{activitySettingsVM.showSoundCloudConnect}"
                 app:title="@{@string/activity_music_soundcloud}" />
 
+            <include
+                android:id="@+id/cv_spotify"
+                layout="@layout/card_view_account"
+                app:color="@{@color/colorSpotify}"
+                app:deleteClick="@{activitySettingsVM.deleteSpotify}"
+                app:icon="@{@drawable/ic_spotify_green}"
+                app:buttonText="@{@string/connect}"
+                app:onClick="@{activitySettingsVM.onButtonSpotifyConnect}"
+                app:show="@{activitySettingsVM.showSpotifyConnect}"
+                app:title="@{@string/activity_music_spotify}" />
 
         </LinearLayout>
 

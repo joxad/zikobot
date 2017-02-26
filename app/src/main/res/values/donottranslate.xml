@@ -24,5 +24,8 @@
     <string translatable="false" name="soundcloud_secret">886e39be025adf6dad25afc1a3f4a7a6</string>
     <string translatable="false" name="api_spotify_id">ab915fed01e14e5cbb008ca9e5c5d9c8</string>
     <string translatable="false" name="api_spotify_secret">606372d8884d493a9c9112a4ac12a9ec</string>
+    <string name="activity_music_spotify">Spotify</string>
+    <string name="activity_music_deezer">Deezer</string>
+    <string name="activity_music_soundcloud">SoundCloud</string>
 
 </resources>

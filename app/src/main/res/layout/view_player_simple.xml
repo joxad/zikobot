@@ -18,6 +18,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:onClick="@{playerVM.trickClick}"
         android:layout_gravity="bottom">
 
 
@@ -43,6 +44,7 @@
                 android:id="@+id/rv_tracks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="@{playerVM.showList ? v.VISIBLE : v.GONE}"
                 app:itemView="@{playerVM.itemView}"
                 app:items="@{playerVM.trackVMs}"
                 app:layoutManager="@{LayoutManagers.grid(1)}" />
@@ -52,7 +54,8 @@
                 android:id="@+id/fl_vinyl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
+                android:layout_centerInParent="true"
+                android:visibility="@{playerVM.showList ? v.GONE : v.VISIBLE}">
 
                 <include
                     android:id="@+id/layout_vinyl"
@@ -63,13 +66,6 @@
 
         </RelativeLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="40dp"
-            android:layout_marginTop="45dp"
-            android:onClick="@{playerVM.showListTracks}"
-            android:src="@drawable/ic_queue_music_white" />
+
     </RelativeLayout>
 </layout>

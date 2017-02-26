@@ -57,7 +57,6 @@ public class SpotifyPlayer implements IMusicPlayer {
     }
 
 
-
     @Override
     public void play(String ref) {
         player.play(ref);
@@ -99,7 +98,7 @@ public class SpotifyPlayer implements IMusicPlayer {
 
         @Override
         public void onPlaybackError(ErrorType errorType, String s) {
-
+            Logger.e(errorType.name() + " " + s);
         }
     };
 

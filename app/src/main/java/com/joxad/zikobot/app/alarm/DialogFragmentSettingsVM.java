@@ -121,12 +121,19 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
 
     }
 
-    public void addTrackToCurrent(View view) {
+    /**
+     * add the current track to the current list direct next of playing track
+     */
+    public void addTrackToCurrent(@SuppressWarnings("unused") View view) {
         EventBus.getDefault().post(new EventAddTrackToCurrent(new TrackVM(fragment.getContext(), track)));
         dismiss();
     }
 
-    public void addTrackToEndOfCurrent(View view) {
+    /***
+     * add the current track to the current list of playing track
+     * @param view
+     */
+    public void addTrackToEndOfCurrent(@SuppressWarnings("unused") View view) {
         EventBus.getDefault().post(new EventAddTrackToEndOfCurrent(new TrackVM(fragment.getContext(), track)));
         dismiss();
     }
@@ -136,7 +143,19 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
         fragment.dismiss();
     }
 
-    public void newAlarmClicked(View view) {
+    /***
+     * @param view
+     */
+    public void showArtist(@SuppressWarnings("unused") View view) {
+//TODO
+    }
+
+    /**
+     * Create a new alarm using the current track
+     *
+     * @param view
+     */
+    public void newAlarmClicked(@SuppressWarnings("unused") View view) {
         Alarm alarm = new Alarm();
         AlarmTrackManager.clear();
         if (track != null) {

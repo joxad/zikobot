@@ -52,8 +52,8 @@ public class PlayerVM extends BaseObservable implements IVM {
     private Intent intent;
     private BottomSheetBehavior<View> behavior;
     public ObservableField<Integer> seekBarValue = new ObservableField<>(0);
-    public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_track);
-
+    public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_track_player);
+    public ObservableBoolean showList;
 
     public PlayerVM(AppCompatActivity activity, ViewPlayerSimpleBinding binding) {
         this.activity = activity;
@@ -63,6 +63,7 @@ public class PlayerVM extends BaseObservable implements IVM {
 
     @Override
     public void onCreate() {
+        showList = new ObservableBoolean(false);
         intent = new Intent(activity, PlayerService.class);
         if (binding == null)
             return;
@@ -109,6 +110,7 @@ public class PlayerVM extends BaseObservable implements IVM {
             }
         };
         activity.bindService(intent, musicConnection, Context.BIND_AUTO_CREATE);
+        rotateCD();
     }
 
     private void refresh() {
@@ -221,30 +223,30 @@ public class PlayerVM extends BaseObservable implements IVM {
 
 
     /**
-     *TODO call this somewhere
+     * TODO call this somewhere
      */
     private void rotateCD() {
-        if (isPlaying())
-            binding.layoutVinyl.rlPlayer.animate().rotationBy(Constants.ROTATION).setDuration(50).setListener(new AnimationEndListener() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    rotateCD();
-                }
-            });
+
+        binding.layoutVinyl.rlPlayer.animate().rotationBy(isPlaying() ? Constants.ROTATION : 0).setDuration(50).setListener(new AnimationEndListener() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                rotateCD();
+            }
+        });
     }
 
+    /**
+     * Trick click to avoid to click items below the player
+     * @param view
+     */
+    public void trickClick(@SuppressWarnings("unused") View view) {
 
+    }
     /***
      * @param view
      */
-    public void showListTracks(View view) {
-        if (binding.rvTracks.getVisibility() == View.VISIBLE) {
-            binding.rvTracks.setVisibility(View.INVISIBLE);
-            binding.flVinyl.setVisibility(View.VISIBLE);
-        } else {
-            binding.rvTracks.setVisibility(View.VISIBLE);
-            binding.flVinyl.setVisibility(View.INVISIBLE);
-        }
+    public void showListTracks(@SuppressWarnings("unused") View view) {
+        showList.set(!showList.get());
     }
 
 }

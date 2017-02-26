@@ -179,7 +179,7 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
 
         SpotifyApiManager.getInstance().getAlbumTracks(album.getId()).subscribe(spotifyResultAlbum -> {
             for (SpotifyTrack track : spotifyResultAlbum.getTracks()) {
-                tracks.add(new TrackVM(activity, Track.from(track)));
+                tracks.add(new TrackVM(activity, Track.from(track,album.getImage())));
             }
         }, throwable -> {
             Logger.e(throwable.getLocalizedMessage());

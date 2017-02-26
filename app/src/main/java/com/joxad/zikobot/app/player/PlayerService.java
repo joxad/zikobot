@@ -280,6 +280,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Override
     public void pause() {
         currentPlayer.pause();
+        currentTrackVM.isPlaying.set(false);
         playing.set(false);
         EventBus.getDefault().post(new EventRefreshPlayer());
 
@@ -288,6 +289,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Override
     public void resume() {
         currentPlayer.resume();
+        currentTrackVM.isPlaying.set(true);
         playing.set(true);
         EventBus.getDefault().post(new EventRefreshPlayer());
     }

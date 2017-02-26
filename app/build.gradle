@@ -49,7 +49,7 @@ android {
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     output.outputFile = new File(output.outputFile.parent,
-                            output.outputFile.name.replace("app-debug", APP_NAME + "-" + VERSION_NAME +"-DEBUG")
+                            output.outputFile.name.replace("app-debug", APP_NAME + "-" + VERSION_NAME + "-DEBUG")
                     )
                 }
             }
@@ -111,7 +111,7 @@ dependencies {
     compile('com.mikepenz:aboutlibraries:5.6.7@aar') {
         transitive = true
     }
-   compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
@@ -122,7 +122,8 @@ dependencies {
     compile(name: 'vlc-android-sdk', ext: 'aar')
     compile 'com.rokpetek.breadcrumbtoolbar:breadcrumb-toolbar:1.0'
     compile 'com.github.andrewlord1990:snackbarbuilder:0.7.0'
-    wearApp project(':wear')
+    debugWearApp project(path: ':wear', configuration: 'debugApk')
+    releaseWearApp project(path: ':wear', configuration: 'releaseApk')
 
     compile project(path: ':data')
 }

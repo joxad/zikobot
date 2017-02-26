@@ -24,6 +24,7 @@
     <string name="menu_put_add_as_playlist">Ajouter à une playlist</string>
     <string name="menu_add_to_current_play">Ajouter à la suite</string>
     <string name="menu_add_to_end_of_current_play">Ajouter à la fin</string>
+    <string name="menu_info_artist">Voir la page de l\'artiste</string>
     <string name="menu_delete">Supprimer</string>
     <string name="menu_tablature">Voir la tablature</string>
     <string name="drawer_filter_network">Réseau</string>
@@ -32,9 +33,6 @@
 
     <!--> Titles <-->
     <string name="activity_music_local">Ma bibliothèque musicale</string>
-    <string name="activity_music_spotify">Spotify</string>
-    <string name="activity_music_deezer">Deezer</string>
-    <string name="activity_music_soundcloud">SoundCloud</string>
     <string name="activity_my_account">Mes comptes</string>
 
     <!--> ActivityAlarm <-->
@@ -70,7 +68,7 @@
     <string name="playlist_total_tracks">%d chansons</string>
     <string name="tracks">chanson(s)</string>
 
-    <string name="coming_soon">Coming soon...</string>
+    <string name="coming_soon">Bientôt disponible...</string>
     <string name="play">Jouer l\'alarme</string>
 
     <string name="no_music">Désolé je n\'ai trouvé aucune musique sur ton téléphone</string>
@@ -113,5 +111,16 @@
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">Zikobot, assistant musical pour Android</string>
     <string name="options">options</string>
+
+
+    <string name="cancel">Annuler</string>
+    <string name="playlist_deleted">Ta playlist a été supprimée</string>
+    <string name="dialog_options">Options</string>
+    <string name="title_add_playlist">Ajouter à une playlist</string>
+    <string name="title_playing">Ajouter à la lecture en cours</string>
+    <string name="alarm_confirm_edit">Ta playlist a été mise à jour</string>
+    <string name="zmb_activate_alarm">Active l\'alarme pour éditer ses horaires</string>
+    <string name="no_result">Désolé, je n\'ai trouvé aucun résultat :(</string>
+    <string name="title_infos">Informations</string>
 
 </resources>

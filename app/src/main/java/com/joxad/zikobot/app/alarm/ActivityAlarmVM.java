@@ -131,6 +131,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     @Override
     public void onResume() {
         super.onResume();
+        EventBus.getDefault().register(this);
         playerVM.onResume();
         alarmVM = new AlarmVM(activity, alarm) {
             @Override
@@ -163,7 +164,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     public void onPause() {
         super.onPause();
         playerVM.onPause();
-
+        EventBus.getDefault().unregister(this);
     }
 
 
