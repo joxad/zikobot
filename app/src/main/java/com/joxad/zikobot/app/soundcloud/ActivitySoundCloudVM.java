@@ -121,7 +121,10 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
 
     @Override
     protected boolean onBackPressed() {
-
+        if (playerVM.onBackPressed()) {
+            binding.fabPlay.setVisibility(View.GONE);
+            return true;
+        }
         return super.onBackPressed();
     }
 }

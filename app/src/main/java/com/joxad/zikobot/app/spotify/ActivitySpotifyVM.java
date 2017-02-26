@@ -148,7 +148,10 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
 
     @Override
     protected boolean onBackPressed() {
-
+        if (playerVM.onBackPressed()) {
+            binding.fabPlay.setVisibility(View.GONE);
+            return true;
+        }
         return super.onBackPressed();
     }
 }
