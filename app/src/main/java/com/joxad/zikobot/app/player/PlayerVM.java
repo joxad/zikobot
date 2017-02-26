@@ -1,5 +1,6 @@
 package com.joxad.zikobot.app.player;
 
+import android.animation.Animator;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -18,16 +19,18 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import com.joxad.easydatabinding.base.IVM;
+import com.joxad.zikobot.app.BR;
+import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.app.core.utils.AnimationEndListener;
+import com.joxad.zikobot.app.core.utils.Constants;
+import com.joxad.zikobot.app.databinding.ViewPlayerSimpleBinding;
+import com.joxad.zikobot.app.localtracks.TrackVM;
+import com.joxad.zikobot.app.player.event.EventNextTrack;
 import com.joxad.zikobot.app.player.event.EventPosition;
 import com.joxad.zikobot.app.player.event.EventPreviousTrack;
 import com.joxad.zikobot.app.player.event.EventRefreshPlayer;
-import com.orhanobut.logger.Logger;
-import com.joxad.zikobot.app.BR;
-import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.player.event.EventNextTrack;
 import com.joxad.zikobot.app.player.event.TrackChangeEvent;
-import com.joxad.zikobot.app.databinding.ViewPlayerSimpleBinding;
-import com.joxad.zikobot.app.localtracks.TrackVM;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -51,6 +54,7 @@ public class PlayerVM extends BaseObservable implements IVM {
     public ObservableField<Integer> seekBarValue = new ObservableField<>(0);
     public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_track);
 
+
     public PlayerVM(AppCompatActivity activity, ViewPlayerSimpleBinding binding) {
         this.activity = activity;
         this.binding = binding;
@@ -60,8 +64,8 @@ public class PlayerVM extends BaseObservable implements IVM {
     @Override
     public void onCreate() {
         intent = new Intent(activity, PlayerService.class);
-
-        if (binding == null) return;
+        if (binding == null)
+            return;
         behavior = BottomSheetBehavior.from((CardView) binding.getRoot().getParent());
         behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -88,7 +92,8 @@ public class PlayerVM extends BaseObservable implements IVM {
     public void onResume() {
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
-        if (isBound.get()) return;
+        if (isBound.get())
+            return;
         musicConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -103,7 +108,7 @@ public class PlayerVM extends BaseObservable implements IVM {
                 isBound.set(false);
             }
         };
-        boolean b = activity.bindService(intent, musicConnection, Context.BIND_AUTO_CREATE);
+        activity.bindService(intent, musicConnection, Context.BIND_AUTO_CREATE);
     }
 
     private void refresh() {
@@ -154,31 +159,36 @@ public class PlayerVM extends BaseObservable implements IVM {
 
     @Bindable
     public boolean isPlaying() {
-        if (!isBound.get()) return false;
+        if (!isBound.get())
+            return false;
         return playerService.playing.get();
     }
 
     @Bindable
     public boolean isEmpty() {
-        if (!isBound.get()) return true;
+        if (!isBound.get())
+            return true;
         return playerService.isEmpty();
     }
 
     @Bindable
     public int getPosition() {
-        if (!isBound.get()) return 0;
+        if (!isBound.get())
+            return 0;
         return seekBarValue.get();
     }
 
     @Bindable
     public int getPositionMax() {
-        if (!isBound.get()) return 0;
+        if (!isBound.get())
+            return 0;
         return playerService.positionMax();
     }
 
     @Bindable
     public ObservableArrayList<TrackVM> getTrackVMs() {
-        if (!isBound.get()) return new ObservableArrayList<>();
+        if (!isBound.get())
+            return new ObservableArrayList<>();
         return playerService.trackVMs;
     }
 
@@ -196,12 +206,45 @@ public class PlayerVM extends BaseObservable implements IVM {
             playerService.seekTo(progresValue);
     }
 
+    /**
+     * Handle the back press
+     *
+     * @return
+     */
     public boolean onBackPressed() {
-
         if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             return false;
         }
         return true;
     }
+
+
+    /**
+     *TODO call this somewhere
+     */
+    private void rotateCD() {
+        if (isPlaying())
+            binding.layoutVinyl.rlPlayer.animate().rotationBy(Constants.ROTATION).setDuration(50).setListener(new AnimationEndListener() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    rotateCD();
+                }
+            });
+    }
+
+
+    /***
+     * @param view
+     */
+    public void showListTracks(View view) {
+        if (binding.rvTracks.getVisibility() == View.VISIBLE) {
+            binding.rvTracks.setVisibility(View.INVISIBLE);
+            binding.flVinyl.setVisibility(View.VISIBLE);
+        } else {
+            binding.rvTracks.setVisibility(View.VISIBLE);
+            binding.flVinyl.setVisibility(View.INVISIBLE);
+        }
+    }
+
 }

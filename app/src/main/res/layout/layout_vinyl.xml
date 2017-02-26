@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="playerVM"
+            type="com.joxad.zikobot.app.player.PlayerVM" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rl_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_disk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_vinyl" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
+            android:layout_centerInParent="true"
+            app:imageUrl="@{playerVM.currentTrackVM.imageUrl}" />
+
+    </RelativeLayout>
+</layout>

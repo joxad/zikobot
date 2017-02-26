@@ -103,6 +103,8 @@ public class FragmentSpotifySearchVM extends FragmentBaseVM<FragmentSpotifySearc
 
         if (query.length() < 2) {
             tracks.clear();
+            artists.clear();
+            albums.clear();
             notifyPropertyChanged(BR.showNoResult);
             return;
         }

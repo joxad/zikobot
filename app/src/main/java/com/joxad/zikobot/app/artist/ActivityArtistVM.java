@@ -29,6 +29,9 @@ import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
+import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyAlbum;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
@@ -89,6 +92,9 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
                 case TYPE.LOCAL:
                     loadLocalData();
                     break;
+                case TYPE.SPOTIFY:
+                    loadSpotifyData();
+                    break;
                 default:
                     break;
             }
@@ -96,6 +102,12 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
             loaded = true;
         }, 400);
     }
+
+    private void loadSpotifyData() {
+        loadSpotifyTracks();
+        loadSpotifyAlbums();
+    }
+
 
     private void loadSoundCloudData() {
         loadSoundCloudTracks();
@@ -154,9 +166,27 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
         playerVM.onPause();
     }
 
+    /**
+     *
+     */
+    private void loadSpotifyTracks() {
+        SpotifyApiManager.getInstance().getTopTracks(artist.getId()).subscribe(spotifyTopTracks -> {
+            for (SpotifyTrack spotifyTrack : spotifyTopTracks.getTracks()) {
+                tracks.add(new TrackVM(activity, Track.from(spotifyTrack)));
+            }
+        }, throwable -> Logger.e(throwable.getLocalizedMessage()));
+    }
+
+    private void loadSpotifyAlbums() {
+        SpotifyApiManager.getInstance().getAlbums(artist.getId()).subscribe(spotifyArtistAlbums -> {
+            for (SpotifyAlbum album : spotifyArtistAlbums.items) {
+                albums.add(new AlbumVM(activity, Album.from(album)));
+            }
+        }, throwable -> Logger.e(throwable.getLocalizedMessage()));
+    }
 
     /***
-     * Load the local music
+     * Load the soundcloud music
      */
     private void loadSoundCloudTracks() {
         SoundCloudApiManager.getInstance().userTracks(Long.parseLong(artist.getId())).subscribe(soundCloudTracks -> {
@@ -167,7 +197,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     }
 
     /***
-     * Load the local music
+     * Load the soundcloud music
      */
     private void loadSoundCloudPlaylist() {
         SoundCloudApiManager.getInstance().userPlaylists(Long.parseLong(artist.getId())).subscribe(soundCloudPlaylists -> {

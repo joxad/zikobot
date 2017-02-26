@@ -13,6 +13,7 @@ import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.AlarmVM;
 import com.joxad.zikobot.app.core.mock.Mock;
 import com.joxad.zikobot.app.core.utils.AnimationEndListener;
+import com.joxad.zikobot.app.core.utils.Constants;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.ActivityWakeUpBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
@@ -37,8 +38,6 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWakeUpBinding> {
 
-
-    private static final int ROTATION = 2;
     Alarm alarm;
     AudioManager am;
     public PlayerVM playerVM;
@@ -117,7 +116,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
      *
      */
     private void rotateCD() {
-        binding.rlPlayer.animate().rotationBy(ROTATION).setDuration(50).setListener(new AnimationEndListener() {
+        binding.layoutPlayer.layoutVinyl.rlPlayer.animate().rotationBy(Constants.ROTATION).setDuration(50).setListener(new AnimationEndListener() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 rotateCD();

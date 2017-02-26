@@ -16,5 +16,6 @@ public class Constants {
     public static final int FILTER_LIST=0;
     public static final int FILTER_LYRICS=1;
     public static final int FILTER_TAB=2;
+    public static final int ROTATION=2;
 
 }

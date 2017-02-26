@@ -1,16 +1,14 @@
 package com.joxad.zikobot.data.module.spotify_api.resource;
 
 
-import com.joxad.zikobot.data.module.spotify_api.model.SpotifyAlbum;
+import com.joxad.zikobot.data.module.spotify_api.model.Albums;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyFeaturedPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylistWithTrack;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyResultAlbum;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifySearchResult;
-import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTopTracks;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyUser;
-
-import java.util.List;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -43,5 +41,11 @@ public interface SpotifyAPIEndpoint {
     Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(@Path("spotifyUser") String userId, @Path("playlistId") final String playlistId);
 
     @GET("search")
-    Observable<SpotifySearchResult> search(@Query("limit") int limit, @Query("offset") int offset, @Query("q") String search, @Query("type")String type);
+    Observable<SpotifySearchResult> search(@Query("limit") int limit, @Query("offset") int offset, @Query("q") String search, @Query("type") String type, @Query("market") final String market);
+
+    @GET("artists/{id}/top-tracks")
+    Observable<SpotifyTopTracks> getTopTracks(@Path("id") String idArtist, @Query("country") final String country);
+
+    @GET("artists/{id}/albums")
+    Observable<Albums> getAlbums(@Path("id") String idArtist, @Query("market") final String country);
 }
