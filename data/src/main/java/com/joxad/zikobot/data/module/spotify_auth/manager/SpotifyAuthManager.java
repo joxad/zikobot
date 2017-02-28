@@ -95,14 +95,19 @@ public class SpotifyAuthManager {
 
                     @Override
                     public void onNext(SpotifyToken spotifyToken) {
-                        AppPrefs.saveAccessToken(spotifyToken.getAccessToken());
-                        listener.onDone();
+                        String oldToken  = AppPrefs.getSpotifyAccessToken();
+                        String newToken = spotifyToken.getAccessToken();
+                        AppPrefs.saveAccessToken(newToken);
+                        listener.onDone(newToken, oldToken.equals(newToken));
                     }
                 });
     }
 
+    /**
+     * Listener to get info about the refresh token
+     */
     public interface Listener {
-        void onDone();
+        void onDone(String newToken, boolean tokenIdentical);
     }
 
 

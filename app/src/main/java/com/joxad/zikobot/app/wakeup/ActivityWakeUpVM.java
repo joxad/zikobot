@@ -57,7 +57,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     @Override
     public void onCreate() {
         try {
-            SpotifyAuthManager.getInstance().refreshToken(activity, () -> Logger.d("Token refreshed"));
+            SpotifyAuthManager.getInstance().refreshToken(activity, (newToken, tokenIdentical) -> Logger.d("Token refreshed"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

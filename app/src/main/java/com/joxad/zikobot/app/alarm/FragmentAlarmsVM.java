@@ -136,7 +136,7 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     }
 
     private void refreshAccessToken() throws UnsupportedEncodingException {
-        SpotifyAuthManager.getInstance().refreshToken(fragment.getContext(), () -> {
+        SpotifyAuthManager.getInstance().refreshToken(fragment.getContext(), (newt, tokenIdentical) -> {
 
         });
     }

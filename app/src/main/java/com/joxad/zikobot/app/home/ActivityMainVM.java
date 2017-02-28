@@ -94,7 +94,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         if (AppPrefs.spotifyUser() == null)
             return;
         try {
-            SpotifyAuthManager.getInstance().refreshToken(activity, () -> {
+            SpotifyAuthManager.getInstance().refreshToken(activity, (newToken,tokenIdentical) -> {
             });
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

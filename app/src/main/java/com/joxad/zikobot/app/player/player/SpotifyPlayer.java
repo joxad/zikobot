@@ -134,8 +134,24 @@ public class SpotifyPlayer implements IMusicPlayer {
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
                 try {
-                    SpotifyAuthManager.getInstance().refreshToken(context, () -> {
-                        subscriber.onNext(true);
+                    SpotifyAuthManager.getInstance().refreshToken(context, (newToken,tokenIdentical) -> {
+                        if (!tokenIdentical) {
+                            Config playerConfig = new Config(context, newToken, context.getString(R.string.api_spotify_id));
+                            Spotify.getPlayer(playerConfig, context, new Player.InitializationObserver() {
+                                @Override
+                                public void onInitialized(Player pl) {
+                                    player = pl;
+                                    subscriber.onNext(true);
+                                }
+
+                                @Override
+                                public void onError(Throwable throwable) {
+                                    subscriber.onError(throwable);
+                                }
+                            });
+                        } else {
+                            subscriber.onNext(true);
+                        }
                     });
                 } catch (UnsupportedEncodingException e) {
                     subscriber.onError(new Throwable("UnsupportedEncodingException"));
