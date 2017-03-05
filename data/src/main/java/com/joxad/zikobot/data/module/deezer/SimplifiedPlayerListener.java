@@ -19,7 +19,7 @@ public abstract class SimplifiedPlayerListener implements PlayerWrapperListener 
     }
 
     @Override
-    public abstract void onTrackEnded(PlayableEntity playableEntity) ;
+    public abstract void onTrackEnded(PlayableEntity playableEntity);
 
     @Override
     public void onRequestException(Exception e, Object o) {

@@ -5,11 +5,10 @@ import android.util.Base64;
 
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.R;
-import com.joxad.zikobot.data.module.spotify_auth.resource.SpotifyAuthInterceptor;
-
 import com.joxad.zikobot.data.module.spotify_auth.model.SpotifyRefreshToken;
 import com.joxad.zikobot.data.module.spotify_auth.model.SpotifyRequestToken;
 import com.joxad.zikobot.data.module.spotify_auth.model.SpotifyToken;
+import com.joxad.zikobot.data.module.spotify_auth.resource.SpotifyAuthInterceptor;
 import com.joxad.zikobot.data.module.spotify_auth.resource.SpotifyAuthService;
 
 import java.io.UnsupportedEncodingException;
@@ -28,15 +27,6 @@ public class SpotifyAuthManager {
     SpotifyAuthService spotifyAuthService;
     Context context;
     Retrofit retrofit;
-    /**
-     * Holder
-     */
-    private static class SpotifyAuthManagerHolder {
-        /**
-         * Instance unique non préinitialisée
-         */
-        private final static SpotifyAuthManager instance = new SpotifyAuthManager();
-    }
 
     /**
      * Point d'accès pour l'instance unique du singleton
@@ -44,6 +34,7 @@ public class SpotifyAuthManager {
     public static SpotifyAuthManager getInstance() {
         return SpotifyAuthManager.SpotifyAuthManagerHolder.instance;
     }
+
     public void init(Context context, String appId, String secret) {
         this.context = context;
         SpotifyAuthRetrofit authRetrofit = new SpotifyAuthRetrofit(context.getString(R.string.spotify_base_auth_url),
@@ -63,7 +54,6 @@ public class SpotifyAuthManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
-
 
     public void refreshToken(Context context, Listener listener) throws UnsupportedEncodingException {
 
@@ -95,7 +85,7 @@ public class SpotifyAuthManager {
 
                     @Override
                     public void onNext(SpotifyToken spotifyToken) {
-                        String oldToken  = AppPrefs.getSpotifyAccessToken();
+                        String oldToken = AppPrefs.getSpotifyAccessToken();
                         String newToken = spotifyToken.getAccessToken();
                         AppPrefs.saveAccessToken(newToken);
                         listener.onDone(newToken, oldToken.equals(newToken));
@@ -103,11 +93,22 @@ public class SpotifyAuthManager {
                 });
     }
 
+
     /**
      * Listener to get info about the refresh token
      */
     public interface Listener {
         void onDone(String newToken, boolean tokenIdentical);
+    }
+
+    /**
+     * Holder
+     */
+    private static class SpotifyAuthManagerHolder {
+        /**
+         * Instance unique non préinitialisée
+         */
+        private final static SpotifyAuthManager instance = new SpotifyAuthManager();
     }
 
 

@@ -71,7 +71,7 @@
                         android:lines="1"
                         android:text="@{fragmentSettingsVM.subtitle}"
                         android:textColor="@android:color/white"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/textSizeTitleItem"
                         tools:text="Oasis" />
                 </LinearLayout>
             </LinearLayout>

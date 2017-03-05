@@ -3,13 +3,12 @@ package com.joxad.zikobot.app.album;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-
 import com.joxad.easydatabinding.fragment.v4.FragmentBase;
-import com.joxad.zikobot.data.module.localmusic.model.LocalArtist;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.FragmentLocalAlbumsBinding;
+import com.joxad.zikobot.data.module.localmusic.model.LocalArtist;
 
 import org.parceler.Parcels;
 

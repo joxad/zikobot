@@ -8,10 +8,8 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
-import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.app.databinding.FragmentSoundCloudPlaylistsBinding;
-
-import com.joxad.zikobot.app.core.mock.Mock;
+import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 

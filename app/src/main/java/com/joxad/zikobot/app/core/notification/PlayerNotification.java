@@ -15,13 +15,13 @@ import android.widget.RemoteViews;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.receiver.NotificationDismissedReceiver;
 import com.joxad.zikobot.app.core.receiver.PausePlayerReceiver;
 import com.joxad.zikobot.app.core.receiver.ResumePlayerReceiver;
 import com.joxad.zikobot.app.core.receiver.StopPlayerReceiver;
 import com.joxad.zikobot.app.home.ActivityMain;
-import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.data.model.Track;
 
 import java.util.ArrayList;
 
@@ -86,6 +86,7 @@ public class PlayerNotification {
                 });
 
     }
+
     private PendingIntent createOnDismissedIntent(Context context, int notificationId) {
         Intent intent = new Intent(context, NotificationDismissedReceiver.class);
         intent.putExtra("notificationId", notificationId);
@@ -118,7 +119,7 @@ public class PlayerNotification {
                         .setContentIntent(intent);
 
 
-       // GoogleApiManager.INSTANCE.sendTrack(track, bitmap);
+        // GoogleApiManager.INSTANCE.sendTrack(track, bitmap);
 // Build the notification and issues it with notification manager.
         notificationManager.notify(notificationId, notificationBuilder.build());
     }

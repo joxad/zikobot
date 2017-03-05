@@ -21,7 +21,8 @@ public class LocalAlbum {
     @Getter
     private int nbTracks;
 
-    public LocalAlbum() {}
+    public LocalAlbum() {
+    }
 
     /***
      *

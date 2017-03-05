@@ -10,19 +10,19 @@ import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
 import com.joxad.android_easy_spotify.SpotifyManager;
-import com.joxad.zikobot.data.module.deezer.DeezerManager;
-import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
-import com.joxad.zikobot.app.player.PlayerService;
-import com.orhanobut.logger.Logger;
-import com.raizlabs.android.dbflow.config.FlowConfig;
-import com.raizlabs.android.dbflow.config.FlowManager;
 import com.joxad.zikobot.app.alarm.AlarmManager;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
+import com.joxad.zikobot.app.player.PlayerService;
+import com.joxad.zikobot.data.AppPrefs;
+import com.joxad.zikobot.data.module.deezer.DeezerManager;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.lyrics.manager.LyricsManager;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
-import com.joxad.zikobot.data.AppPrefs;
+import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
+import com.orhanobut.logger.Logger;
+import com.raizlabs.android.dbflow.config.FlowConfig;
+import com.raizlabs.android.dbflow.config.FlowManager;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -33,6 +33,10 @@ public class ZikobotApp extends Application {
 
     private ServiceConnection musicConnection;
     private PlayerService playerService;
+
+    public static ZikobotApp get(Context context) {
+        return (ZikobotApp) context.getApplicationContext();
+    }
 
     @Override
     public void onCreate() {
@@ -74,10 +78,6 @@ public class ZikobotApp extends Application {
     protected void attachBaseContext(Context base) {
         MultiDex.install(base);
         super.attachBaseContext(base);
-    }
-
-    public static ZikobotApp get(Context context) {
-        return (ZikobotApp) context.getApplicationContext();
     }
 
 

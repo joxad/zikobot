@@ -23,6 +23,21 @@ public class WifiP2PService extends Service {
     WifiP2pManager.Channel mChannel;
     private WifiP2pManager mManager;
     private WiFiDirectBroadcastReceiver receiver;
+    private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
+    private WifiP2pManager.PeerListListener peerListListener = new WifiP2pManager.PeerListListener() {
+        @Override
+        public void onPeersAvailable(WifiP2pDeviceList peerList) {
+
+            // Out with the old, in with the new.
+            peers.clear();
+            peers.addAll(peerList.getDeviceList());
+            Logger.d(peerList.toString());
+            // If an AdapterView is backed by this data, notify it
+            // of the change.  For instance, if you have a ListView of available
+            // peers, trigger an update.
+
+        }
+    };
 
     private void initWifiP2P() {
         //  Indicates a change in the Wi-Fi P2P status.
@@ -60,22 +75,6 @@ public class WifiP2PService extends Service {
         });
     }
 
-    private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
-
-    private WifiP2pManager.PeerListListener peerListListener = new WifiP2pManager.PeerListListener() {
-        @Override
-        public void onPeersAvailable(WifiP2pDeviceList peerList) {
-
-            // Out with the old, in with the new.
-            peers.clear();
-            peers.addAll(peerList.getDeviceList());
-            Logger.d(peerList.toString());
-            // If an AdapterView is backed by this data, notify it
-            // of the change.  For instance, if you have a ListView of available
-            // peers, trigger an update.
-
-        }
-    };
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return super.onStartCommand(intent, flags, startId);

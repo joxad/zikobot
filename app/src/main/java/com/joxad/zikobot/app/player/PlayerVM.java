@@ -43,17 +43,17 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 
 public class PlayerVM extends BaseObservable implements IVM {
 
-    private final ViewPlayerSimpleBinding binding;
-    private ServiceConnection musicConnection;
-    private AppCompatActivity activity;
-    private PlayerService playerService;
     public final ObservableBoolean isBound = new ObservableBoolean(false);
     public final ObservableBoolean isExpanded = new ObservableBoolean(false);
-    private Intent intent;
-    private BottomSheetBehavior<View> behavior;
+    private final ViewPlayerSimpleBinding binding;
     public ObservableField<Integer> seekBarValue = new ObservableField<>(0);
     public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_track_player);
     public ObservableBoolean showList;
+    private ServiceConnection musicConnection;
+    private AppCompatActivity activity;
+    private PlayerService playerService;
+    private Intent intent;
+    private BottomSheetBehavior<View> behavior;
 
     public PlayerVM(AppCompatActivity activity, ViewPlayerSimpleBinding binding) {
         this.activity = activity;
@@ -110,8 +110,8 @@ public class PlayerVM extends BaseObservable implements IVM {
             }
         };
         activity.bindService(intent, musicConnection, Context.BIND_AUTO_CREATE);
-        if (binding!=null)
-        rotateCD();
+        if (binding != null)
+            rotateCD();
     }
 
     private void refresh() {
@@ -119,11 +119,14 @@ public class PlayerVM extends BaseObservable implements IVM {
     }
 
 
-    public void playPause(View view) {
+    /**
+     * @param view
+     */
+    public void playPause(@SuppressWarnings("unused") View view) {
         if (isPlaying())
             playerService.pause();
         else playerService.resume();
-        notifyChange();
+        notifyPropertyChanged(BR.playing);
     }
 
     @Subscribe
@@ -238,11 +241,13 @@ public class PlayerVM extends BaseObservable implements IVM {
 
     /**
      * Trick click to avoid to click items below the player
+     *
      * @param view
      */
     public void trickClick(@SuppressWarnings("unused") View view) {
 
     }
+
     /***
      * @param view
      */

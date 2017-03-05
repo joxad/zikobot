@@ -2,7 +2,6 @@ package com.joxad.zikobot.app.album;
 
 import android.Manifest;
 import android.databinding.ObservableArrayList;
-import android.databinding.ObservableBoolean;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -35,15 +34,13 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, FragmentLocalAlbumsBinding> {
 
-    @Nullable
-    LocalArtist localArtist;
-
     public static final String TAG = "FragmentLocalAlbumsVM";
     public String zmvMessage;
-
-    private RxPermissions rxPermissions;
     public ItemView itemView = ItemView.of(BR.albumVM, R.layout.item_album);
     public ObservableArrayList<AlbumVM> items;
+    @Nullable
+    LocalArtist localArtist;
+    private RxPermissions rxPermissions;
 
     /***
      * @param fragment

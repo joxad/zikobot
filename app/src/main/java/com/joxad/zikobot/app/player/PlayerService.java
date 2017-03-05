@@ -46,26 +46,20 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class PlayerService extends Service implements IMusicPlayer {
 
+    public static final int DELAY = 200;
+    private final IBinder musicBind = new PlayerService.PlayerBinder();
     public ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList<>();
     public TrackVM currentTrackVM;
-    PlayerNotification playerNotification;
-    private int currentIndex = 0;
     public ObservableBoolean playing = new ObservableBoolean(false);
-    private final IBinder musicBind = new PlayerService.PlayerBinder();
-    private int currentProgress = 0;
-    public static final int DELAY = 200;
-    private MediaSessionCompat mediaSession;
-    private Handler timeHandler;
+    PlayerNotification playerNotification;
     VLCPlayer vlcPlayer;
     AndroidPlayer androidPlayer;
     SpotifyPlayer spotifyPlayer;
+    private int currentIndex = 0;
+    private int currentProgress = 0;
+    private MediaSessionCompat mediaSession;
+    private Handler timeHandler;
     private IMusicPlayer currentPlayer;
-
-    public class PlayerBinder extends Binder {
-        public PlayerService getService() {
-            return PlayerService.this;
-        }
-    }
 
     @Override
     public void onCreate() {
@@ -116,7 +110,6 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     }
 
-
     @Subscribe
     public void onEvent(EventAccountConnect event) {
         switch (event.getType()) {
@@ -149,7 +142,6 @@ public class PlayerService extends Service implements IMusicPlayer {
         }
         play(currentTrackVM);
     }
-
 
     @Subscribe
     public void onEvent(EventAddList eventAddList) {
@@ -282,7 +274,6 @@ public class PlayerService extends Service implements IMusicPlayer {
         currentPlayer.pause();
         currentTrackVM.isPlaying.set(false);
         playing.set(false);
-        EventBus.getDefault().post(new EventRefreshPlayer());
 
     }
 
@@ -291,7 +282,6 @@ public class PlayerService extends Service implements IMusicPlayer {
         currentPlayer.resume();
         currentTrackVM.isPlaying.set(true);
         playing.set(true);
-        EventBus.getDefault().post(new EventRefreshPlayer());
     }
 
     @Override
@@ -301,7 +291,6 @@ public class PlayerService extends Service implements IMusicPlayer {
         playing.set(false);
         currentProgress = 0;
         playerNotification.cancel();
-        EventBus.getDefault().post(new EventRefreshPlayer());
 
     }
 
@@ -362,9 +351,14 @@ public class PlayerService extends Service implements IMusicPlayer {
         super.onDestroy();
     }
 
-
     public boolean isEmpty() {
         return trackVMs.isEmpty();
+    }
+
+    public class PlayerBinder extends Binder {
+        public PlayerService getService() {
+            return PlayerService.this;
+        }
     }
 
 

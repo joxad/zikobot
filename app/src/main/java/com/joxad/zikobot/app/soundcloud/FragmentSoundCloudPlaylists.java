@@ -1,7 +1,6 @@
 package com.joxad.zikobot.app.soundcloud;
 
 import com.android.databinding.library.baseAdapters.BR;
-
 import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.databinding.FragmentSoundCloudPlaylistsBinding;

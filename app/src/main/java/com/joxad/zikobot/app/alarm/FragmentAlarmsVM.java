@@ -71,6 +71,7 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     /**
      * This event allows to refresh the alarms when updating the alarm from the list
      * with the bottom sheet view
+     *
      * @param eventRefreshAlarms
      */
     @Subscribe

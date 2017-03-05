@@ -91,7 +91,7 @@
                         android:lines="1"
                         android:text="@{trackVM.artistName}"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/textSizeTitleItem"
                         tools:text="Oasis" />
                 </LinearLayout>
             </LinearLayout>

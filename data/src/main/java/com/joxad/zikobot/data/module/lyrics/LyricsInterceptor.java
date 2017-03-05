@@ -26,7 +26,7 @@ public class LyricsInterceptor implements Interceptor {
 
         HttpUrl originalHttpUrl = original.url();
         HttpUrl.Builder urlBuilder = originalHttpUrl.newBuilder();
-        
+
         HttpUrl url = urlBuilder.build();
 
         Request.Builder requestBuilder = original.newBuilder()

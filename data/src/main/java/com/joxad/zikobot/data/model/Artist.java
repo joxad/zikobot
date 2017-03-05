@@ -14,6 +14,9 @@ import lombok.Setter;
  */
 @Parcel
 public class Artist {
+    @Getter
+    @Setter
+    protected int type;
     @Setter
     @Getter
     private String id;
@@ -23,23 +26,20 @@ public class Artist {
     @Getter
     @Setter
     private String image;
-    @Getter
-    @Setter
-    protected int type;
 
     public Artist() {
     }
 
     public static Artist from(LocalArtist localArtist) {
         Artist artist = new Artist();
-        artist.id = ""+localArtist.getId();
+        artist.id = "" + localArtist.getId();
         artist.type = TYPE.LOCAL;
         artist.name = localArtist.getName();
         artist.image = localArtist.getImage();
         return artist;
     }
 
-    public static  Artist from(SpotifyArtist spotifyArtist) {
+    public static Artist from(SpotifyArtist spotifyArtist) {
         Artist artist = new Artist();
         artist.id = spotifyArtist.getId();
         artist.type = TYPE.SPOTIFY;
@@ -50,7 +50,7 @@ public class Artist {
 
     public static Artist from(com.deezer.sdk.model.Artist deezerArtist) {
         Artist artist = new Artist();
-        artist.id = ""+deezerArtist.getId();
+        artist.id = "" + deezerArtist.getId();
         artist.type = TYPE.DEEZER;
         artist.name = deezerArtist.getName();
         return artist;
@@ -59,7 +59,7 @@ public class Artist {
 
     public static Artist from(SoundCloudUser user) {
         Artist artist = new Artist();
-        artist.id = ""+user.getId();
+        artist.id = "" + user.getId();
         artist.type = TYPE.SOUNDCLOUD;
         artist.name = user.getUsername();
         artist.image = user.getAvatarUrl();

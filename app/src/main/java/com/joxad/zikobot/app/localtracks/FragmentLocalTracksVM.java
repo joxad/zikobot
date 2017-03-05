@@ -1,12 +1,9 @@
 package com.joxad.zikobot.app.localtracks;
 
 import android.Manifest;
-import android.content.pm.PackageManager;
 import android.databinding.ObservableArrayList;
-import android.databinding.ObservableBoolean;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -37,11 +34,11 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocalTracks, FragmentLocalTracksBinding> {
 
-    @Nullable
-    LocalAlbum localAlbum;
     private static final String TAG = FragmentLocalTracksVM.class.getSimpleName();
     public ObservableArrayList<TrackVM> items;
     public String zmvMessage;
+    @Nullable
+    LocalAlbum localAlbum;
     private RxPermissions rxPermissions;
 
     /***
@@ -99,6 +96,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+
     /***
      * Method to ask storage perm
      */

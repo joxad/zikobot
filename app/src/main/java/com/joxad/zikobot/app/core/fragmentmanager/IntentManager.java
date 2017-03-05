@@ -4,23 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.deezer.sdk.model.Playlist;
-import com.joxad.zikobot.data.model.Alarm;
-import com.joxad.zikobot.data.model.Album;
-import com.joxad.zikobot.app.core.utils.EXTRA;
-import com.joxad.zikobot.app.search.ActivitySearch;
-import com.joxad.zikobot.app.spotify.ActivitySpotify;
+import com.joxad.zikobot.app.alarm.ActivityAlarm;
 import com.joxad.zikobot.app.album.ActivityAlbum;
 import com.joxad.zikobot.app.artist.ActivityArtist;
+import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.deezer.ActivityDeezer;
+import com.joxad.zikobot.app.home.ActivityMain;
 import com.joxad.zikobot.app.localnetwork.ActivityLocalNetwork;
-import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
-import com.joxad.zikobot.data.module.spotify_api.model.Item;
-import com.joxad.zikobot.data.model.Artist;
+import com.joxad.zikobot.app.search.ActivitySearch;
 import com.joxad.zikobot.app.settings.ActivitySettings;
 import com.joxad.zikobot.app.soundcloud.ActivitySoundCloud;
-import com.joxad.zikobot.app.alarm.ActivityAlarm;
-import com.joxad.zikobot.app.home.ActivityMain;
+import com.joxad.zikobot.app.spotify.ActivitySpotify;
 import com.joxad.zikobot.app.wakeup.ActivityWakeUp;
+import com.joxad.zikobot.data.model.Alarm;
+import com.joxad.zikobot.data.model.Album;
+import com.joxad.zikobot.data.model.Artist;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
+import com.joxad.zikobot.data.module.spotify_api.model.Item;
 
 import org.parceler.Parcels;
 

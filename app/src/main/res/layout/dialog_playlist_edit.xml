@@ -110,10 +110,10 @@
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginRight="@dimen/margin_medium">
 
-                        <include
-                            android:id="@+id/view_alarm"
-                            layout="@layout/view_alarm"
-                            app:alarmVM="@{dialogPlaylistEditVM.alarmVM}" />
+                    <include
+                        android:id="@+id/view_alarm"
+                        layout="@layout/view_alarm"
+                        app:alarmVM="@{dialogPlaylistEditVM.alarmVM}" />
 
                 </android.support.v7.widget.CardView>
 

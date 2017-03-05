@@ -41,8 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:text="@string/drawer_filter_tracks"
-                    />
+                    android:text="@string/drawer_filter_tracks" />
 
                 <View
                     android:layout_width="match_parent"

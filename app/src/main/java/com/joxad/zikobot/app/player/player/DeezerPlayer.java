@@ -9,10 +9,10 @@ import com.deezer.sdk.network.request.event.DeezerError;
 import com.deezer.sdk.player.TrackPlayer;
 import com.deezer.sdk.player.exception.TooManyPlayersExceptions;
 import com.deezer.sdk.player.networkcheck.WifiAndMobileNetworkStateChecker;
-import com.joxad.zikobot.data.R;
 import com.joxad.zikobot.app.player.event.EventNextTrack;
-import com.orhanobut.logger.Logger;
+import com.joxad.zikobot.data.R;
 import com.joxad.zikobot.data.module.deezer.SimplifiedPlayerListener;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -43,7 +43,7 @@ public class DeezerPlayer implements IMusicPlayer {
             deezerError.printStackTrace();
         }
 
-        trackPlayer.addOnPlayerStateChangeListener((playerState, l) -> Logger.d("Player state %s" ,playerState.name()));
+        trackPlayer.addOnPlayerStateChangeListener((playerState, l) -> Logger.d("Player state %s", playerState.name()));
         trackPlayer.addOnPlayerErrorListener((e, l) -> {
             Logger.e(e.getLocalizedMessage());
         });
@@ -51,7 +51,7 @@ public class DeezerPlayer implements IMusicPlayer {
         trackPlayer.addPlayerListener(new SimplifiedPlayerListener() {
             @Override
             public void onTrackEnded(PlayableEntity playableEntity) {
-              //  next();
+                //  next();
             }
         });
     }
@@ -87,7 +87,7 @@ public class DeezerPlayer implements IMusicPlayer {
     }
 
     public int position() {
-        return (int)trackPlayer.getPosition();
+        return (int) trackPlayer.getPosition();
     }
 
     public int positionMax() {

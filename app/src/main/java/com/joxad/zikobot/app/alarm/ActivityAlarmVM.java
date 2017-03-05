@@ -15,11 +15,9 @@ import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.databinding.ActivityAlarmBinding;
 import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
-import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
 import com.joxad.zikobot.data.model.Alarm;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -33,6 +31,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     public PlayerVM playerVM;
     Alarm alarm;
     NavigationManager navigationManager;
+
     /***
      * @param activity
      * @param binding
@@ -149,7 +148,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         playerVM.onResume();
 
     }
-
 
 
     /**

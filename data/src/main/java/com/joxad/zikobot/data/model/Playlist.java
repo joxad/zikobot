@@ -41,7 +41,7 @@ public class Playlist {
                 .name(soundCloudPlaylist.getTitle())
                 .nbTracks(soundCloudPlaylist.getSoundCloudTracks().size())
                 .type(TYPE.SOUNDCLOUD)
-            //    .href(soundCloudPlaylist.getId())
+                //    .href(soundCloudPlaylist.getId())
                 .imageUrl(soundCloudPlaylist.getArtworkUrl()).build();
     }
 

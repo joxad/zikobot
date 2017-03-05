@@ -6,16 +6,15 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
+import com.joxad.zikobot.app.core.mock.Mock;
+import com.joxad.zikobot.app.core.utils.EXTRA;
+import com.joxad.zikobot.app.databinding.FragmentSpotifyTracksBinding;
+import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.app.player.event.EventPlayListClicked;
 import com.joxad.zikobot.data.model.Track;
-import com.joxad.zikobot.app.core.mock.Mock;
-import com.joxad.zikobot.data.module.spotify_api.model.Item;
-import com.joxad.zikobot.app.core.utils.EXTRA;
-import com.joxad.zikobot.app.localtracks.TrackVM;
-import com.joxad.zikobot.app.databinding.FragmentSpotifyTracksBinding;
-
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
+import com.joxad.zikobot.data.module.spotify_api.model.Item;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylistItem;
 
 import org.greenrobot.eventbus.EventBus;
@@ -32,15 +31,14 @@ public abstract class FragmentSpotifyTracksVM extends FragmentBaseVM<FragmentSpo
 
     private static final String TAG = FragmentSpotifyTracksVM.class.getSimpleName();
     public ObservableArrayList<TrackVM> items;
-
-    public abstract ItemView getItemView();
-
     @Nullable
     Item playlist;
 
     public FragmentSpotifyTracksVM(FragmentSpotifyTracks fragment, FragmentSpotifyTracksBinding binding) {
         super(fragment, binding);
     }
+
+    public abstract ItemView getItemView();
 
     @Override
     public void onCreate() {

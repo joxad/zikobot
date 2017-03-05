@@ -19,7 +19,7 @@ ext {
         def (major, minor, patch) = VERSION_NAME.toLowerCase().replaceAll('-', '').tokenize('.')
         if (patch.endsWith("snapshot")) {
             candidate = "0"
-            patch = patch.replaceAll("[^0-9]","")
+            patch = patch.replaceAll("[^0-9]", "")
         } else {
             def rc
             (patch, rc) = patch.tokenize("rc")
@@ -28,7 +28,9 @@ ext {
             }
         }
 
-        (major, minor, patch, candidate) = [major, minor, patch, candidate].collect{it.toInteger()}
+        (major, minor, patch, candidate) = [major, minor, patch, candidate].collect {
+            it.toInteger()
+        }
 
         (major * 1000000) + (minor * 10000) + (patch * 100) + candidate;
     }
@@ -44,7 +46,7 @@ ext {
         def (major, minor, patch) = VERSION_NAME_MOBILE.toLowerCase().replaceAll('-', '').tokenize('.')
         if (patch.endsWith("snapshot")) {
             candidate = "0"
-            patch = patch.replaceAll("[^0-9]","")
+            patch = patch.replaceAll("[^0-9]", "")
         } else {
             def rc
             (patch, rc) = patch.tokenize("rc")
@@ -53,7 +55,9 @@ ext {
             }
         }
 
-        (major, minor, patch, candidate) = [major, minor, patch, candidate].collect{it.toInteger()}
+        (major, minor, patch, candidate) = [major, minor, patch, candidate].collect {
+            it.toInteger()
+        }
 
         (major * 1000000) + (minor * 10000) + (patch * 100) + candidate;
     }

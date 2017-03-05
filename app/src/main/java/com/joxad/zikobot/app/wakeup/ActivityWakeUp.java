@@ -3,6 +3,7 @@ package com.joxad.zikobot.app.wakeup;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.WindowManager;
+
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;

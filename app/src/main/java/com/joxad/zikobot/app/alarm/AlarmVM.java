@@ -38,12 +38,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     public ObservableArrayList<TrackVM> tracksVms;
     public ObservableBoolean isExpanded;
 
-    public abstract ItemView itemView();
-
-    public Alarm getModel() {
-        return model;
-    }
-
     /***
      * @param context
      * @param model
@@ -52,6 +46,11 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         super(context, model);
     }
 
+    public abstract ItemView itemView();
+
+    public Alarm getModel() {
+        return model;
+    }
 
     @Override
     public void onCreate() {

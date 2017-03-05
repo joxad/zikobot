@@ -48,6 +48,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_margin="@dimen/margin_medium"
                         android:orientation="vertical">
 
@@ -55,22 +56,20 @@
                             android:id="@+id/tv_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:singleLine="true"
+                            android:lines="1"
+                            android:maxLines="1"
                             android:text="@{playlistVM.name}"
-                            android:textSize="20dp"
+                            android:textSize="@dimen/textSizeTitleItem"
                             tools:text="Nom de l'album" />
 
                         <TextView
                             android:id="@+id/tv_artist"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_queue_music"
-                            android:drawablePadding="4dp"
-                            android:drawableStart="@drawable/ic_queue_music"
                             android:gravity="center_vertical"
                             android:text="@{playlistVM.nbSongs}"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/textSizeSubtitleItem"
                             tools:text="12 chansons" />
 
 

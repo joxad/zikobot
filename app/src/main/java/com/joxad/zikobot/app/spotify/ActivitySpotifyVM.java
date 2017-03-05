@@ -8,21 +8,20 @@ import android.view.View;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.data.event.EventShowMessage;
-import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
-import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.app.alarm.DialogFragmentSettings;
+import com.joxad.zikobot.app.core.mock.Mock;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.databinding.ActivitySpotifyBinding;
-
-import com.joxad.zikobot.app.core.mock.Mock;
+import com.joxad.zikobot.app.localtracks.TrackVM;
+import com.joxad.zikobot.app.player.PlayerVM;
+import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.data.event.EventShowMessage;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
+import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylistItem;
-import com.joxad.zikobot.data.model.Track;
-import com.joxad.zikobot.app.alarm.DialogFragmentSettings;
-import com.joxad.zikobot.app.localtracks.TrackVM;
-import com.joxad.zikobot.app.player.PlayerVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,9 +40,8 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
 
     public PlayerVM playerVM;
     public ObservableArrayList<TrackVM> tracks;
-    private AlertDialog alertDialog;
-
     public Item album;
+    private AlertDialog alertDialog;
 
     /***
      * @param activity
@@ -110,7 +108,6 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
                 .create();
         alertDialog.show();
     }
-
 
 
     @Override

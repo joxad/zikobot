@@ -34,17 +34,6 @@ public class SpotifyApiManager {
     private Context context;
     private Retrofit retrofit;
 
-
-    /**
-     * Holder
-     */
-    private static class SpotifyApiManagerHolder {
-        /**
-         * Instance unique non préinitialisée
-         */
-        private final static SpotifyApiManager instance = new SpotifyApiManager();
-    }
-
     /**
      * Point d'accès pour l'instance unique du singleton
      */
@@ -68,7 +57,6 @@ public class SpotifyApiManager {
                 .unsubscribeOn(Schedulers.io());
     }
 
-
     /***
      * 1     *
      */
@@ -78,7 +66,6 @@ public class SpotifyApiManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
-
 
     /***
      * 1     *
@@ -128,18 +115,26 @@ public class SpotifyApiManager {
                 .unsubscribeOn(Schedulers.io());
     }
 
-
     public Observable<SpotifySearchResult> search(final int limit, final int offset, final String search) {
         return spotifyAPIEndpoint.search(limit, offset, search, "album,artist,track", Locale.getDefault().getCountry()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
 
-
     public Observable<SpotifyFeaturedPlaylist> getFeaturedPlaylists() {
         return spotifyAPIEndpoint.getFeaturedPlaylists().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Holder
+     */
+    private static class SpotifyApiManagerHolder {
+        /**
+         * Instance unique non préinitialisée
+         */
+        private final static SpotifyApiManager instance = new SpotifyApiManager();
     }
 
 

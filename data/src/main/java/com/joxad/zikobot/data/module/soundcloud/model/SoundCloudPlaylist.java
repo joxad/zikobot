@@ -1,4 +1,3 @@
-
 package com.joxad.zikobot.data.module.soundcloud.model;
 
 import com.google.gson.annotations.Expose;
@@ -9,7 +8,6 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Parcel

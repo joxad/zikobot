@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor(suppressConstructorProperties = true)
-public class SpotifyUser  {
+public class SpotifyUser {
 
     @SerializedName("country")
     public String country;

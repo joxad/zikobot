@@ -12,9 +12,9 @@ import rx.Observable;
  */
 public interface LyricsService {
 
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("wikia.php?controller=LyricsApi&method=getSong")
-    Observable<LyricResult> search(@Query(value = "artist",encoded = true) final String artist,
-                                   @Query(value = "song",encoded = true) final String song);
+    Observable<LyricResult> search(@Query(value = "artist", encoded = true) final String artist,
+                                   @Query(value = "song", encoded = true) final String song);
 
 }

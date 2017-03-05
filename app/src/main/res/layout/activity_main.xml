@@ -19,8 +19,7 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
 
         <android.support.design.widget.AppBarLayout
@@ -70,11 +69,11 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/bottom"
-            app:cardElevation="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             app:behavior_peekHeight="@dimen/view_player_height"
+            app:cardElevation="16dp"
             app:layout_behavior="@string/bottom_sheet_behavior">
 
             <include
@@ -83,7 +82,6 @@
                 app:playerVM="@{activityMainVM.playerVM}" />
 
         </android.support.v7.widget.CardView>
-
 
 
     </android.support.design.widget.CoordinatorLayout>

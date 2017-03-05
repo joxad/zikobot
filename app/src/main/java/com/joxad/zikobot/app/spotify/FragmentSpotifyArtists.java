@@ -26,7 +26,7 @@ public class FragmentSpotifyArtists extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View viewGroup = inflater.inflate(R.layout.fragment_spotify_artists, container,false);
+        View viewGroup = inflater.inflate(R.layout.fragment_spotify_artists, container, false);
         return viewGroup;
     }
 }

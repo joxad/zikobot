@@ -19,7 +19,6 @@ import com.joxad.zikobot.app.spotify.FragmentSpotifyPlaylists;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.event.EventShowMessage;
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
-import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -94,7 +93,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         if (AppPrefs.spotifyUser() == null)
             return;
         try {
-            SpotifyAuthManager.getInstance().refreshToken(activity, (newToken,tokenIdentical) -> {
+            SpotifyAuthManager.getInstance().refreshToken(activity, (newToken, tokenIdentical) -> {
             });
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

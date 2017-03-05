@@ -6,13 +6,13 @@ import android.support.annotation.Nullable;
 
 import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
+import com.joxad.zikobot.app.core.utils.EXTRA;
+import com.joxad.zikobot.app.databinding.FragmentDeezerTracksBinding;
+import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.app.player.event.EventPlayListClicked;
-import com.joxad.zikobot.data.module.deezer.DeezerManager;
-import com.joxad.zikobot.app.core.utils.EXTRA;
-import com.joxad.zikobot.app.localtracks.TrackVM;
-import com.joxad.zikobot.app.databinding.FragmentDeezerTracksBinding;
 import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.module.deezer.DeezerManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -28,15 +28,14 @@ public abstract class FragmentDeezerTracksVM extends FragmentBaseVM<FragmentDeez
 
     private static final String TAG = FragmentDeezerTracksVM.class.getSimpleName();
     public ObservableArrayList<TrackVM> items;
-
-    public abstract ItemView getItemView();
-
     @Nullable
     Playlist playlist;
 
     public FragmentDeezerTracksVM(FragmentDeezerTracks fragment, FragmentDeezerTracksBinding binding) {
         super(fragment, binding);
     }
+
+    public abstract ItemView getItemView();
 
     @Override
     public void onCreate() {

@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.base.BaseVM;
-import com.joxad.zikobot.app.deezer.event.SelectDeezerItemPlaylistEvent;
 import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.app.deezer.event.SelectDeezerItemPlaylistEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -25,7 +25,6 @@ public class DeezerPlaylistVM extends BaseVM<Playlist> {
     public DeezerPlaylistVM(Context context, Playlist model) {
         super(context, model);
     }
-
 
 
     @Override

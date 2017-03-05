@@ -29,7 +29,7 @@ public class LocalNetworkDiscoveryService extends Service {
             //  Called as soon as service discovery begins.
             @Override
             public void onDiscoveryStarted(String regType) {
-                Logger.d( "Service discovery started");
+                Logger.d("Service discovery started");
             }
 
             @Override

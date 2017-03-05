@@ -23,8 +23,8 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylistEdit, DialogPlaylistEditBinding> {
 
-    Alarm alarm;
     public AlarmVM alarmVM;
+    Alarm alarm;
     private AudioManager am;
 
     /***

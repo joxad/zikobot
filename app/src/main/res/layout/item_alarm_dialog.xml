@@ -51,7 +51,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@{itemAlarmVM.name}"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/textSizeSubtitleItem"
                     tools:text="Nom de la playlist" />
 
                 <LinearLayout

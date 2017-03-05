@@ -3,13 +3,13 @@ package com.joxad.zikobot.app.alarm;
 import android.os.Bundle;
 
 import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBase;
-import com.joxad.zikobot.data.model.Album;
-import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.DialogFragmentSettingsBinding;
+import com.joxad.zikobot.data.model.Album;
+import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 
 import org.parceler.Parcels;
 

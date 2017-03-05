@@ -17,8 +17,10 @@ import lombok.Setter;
 /**
  * Created by josh on 16/08/16.
  */
-public class DialogPlaylistEdit extends DialogBottomSheetBase<DialogPlaylistEditBinding ,DialogPlaylistEditVM> {
+public class DialogPlaylistEdit extends DialogBottomSheetBase<DialogPlaylistEditBinding, DialogPlaylistEditVM> {
     public static final String TAG = DialogPlaylistEdit.class.getSimpleName();
+    @Setter
+    public OnDismissListener onDismissListener;
 
     public static DialogPlaylistEdit newInstance(Alarm alarm) {
         Bundle args = new Bundle();
@@ -28,15 +30,16 @@ public class DialogPlaylistEdit extends DialogBottomSheetBase<DialogPlaylistEdit
         return fragment;
     }
 
-
     @Override
     public int data() {
         return BR.dialogPlaylistEditVM;
     }
+
     @Override
     public int layoutResources() {
         return R.layout.dialog_playlist_edit;
     }
+
     @Override
     public DialogPlaylistEditVM baseFragmentVM(DialogPlaylistEditBinding binding) {
         return new DialogPlaylistEditVM(this, binding);
@@ -48,9 +51,6 @@ public class DialogPlaylistEdit extends DialogBottomSheetBase<DialogPlaylistEdit
         onDismissListener.onDismiss();
     }
 
-
-    @Setter
-    public OnDismissListener onDismissListener;
     public interface OnDismissListener {
         void onDismiss();
     }

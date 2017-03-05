@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import type="com.joxad.zikobot.app.core.utils.ZikoUtils"/>
+        <import type="com.joxad.zikobot.app.core.utils.ZikoUtils" />
+
         <import
             alias="v"
             type="android.view.View" />
@@ -48,10 +48,10 @@
                 android:id="@+id/progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:progress="@{playerVM.seekBarValue}"
+                android:layout_below="@id/tv_duration"
                 android:max="@{playerVM.positionMax}"
                 android:onProgressChanged="@{playerVM.onValueChanged}"
-                android:layout_below="@id/tv_duration" />
+                android:progress="@{playerVM.seekBarValue}" />
 
         </RelativeLayout>
 
@@ -79,6 +79,7 @@
                 android:layout_weight="1"
                 android:onClick="@{playerVM.playPause}"
                 android:src="@{playerVM.isPlaying ? @drawable/ic_pause : @drawable/ic_play_arrow, default = @drawable/ic_play_arrow}" />
+
             <ImageView
                 android:id="@+id/iv_next"
                 android:layout_width="0dp"

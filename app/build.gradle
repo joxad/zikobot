@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.joxad.zikobot.app"
+        applicationId "com.startogamu.zikobot"
         minSdkVersion rootProject.ext.androidMinSdkVersion
         targetSdkVersion rootProject.ext.androidTargetSdkVersion
         versionCode buildVersionCode()

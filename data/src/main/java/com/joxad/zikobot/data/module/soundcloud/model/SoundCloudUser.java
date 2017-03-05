@@ -17,7 +17,6 @@ import lombok.Data;
 public class SoundCloudUser {
 
 
-    public SoundCloudUser() {}
     @SerializedName("id")
     @Expose
     public Integer id;
@@ -39,4 +38,6 @@ public class SoundCloudUser {
     @SerializedName("avatar_url")
     @Expose
     public String avatarUrl;
+    public SoundCloudUser() {
+    }
 }

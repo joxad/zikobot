@@ -27,11 +27,13 @@ import lombok.Setter;
 @Parcel
 public class Track extends BaseModel {
 
+    @Transient
+    @ForeignKey(saveForeignKeyModel = false)
+    public ForeignKeyContainer<Alarm> alarmForeignKeyContainer;
     @PrimaryKey(autoincrement = true)
     @Getter
     @Setter
     protected long id;
-
     @Column
     @Getter
     @Setter
@@ -48,30 +50,22 @@ public class Track extends BaseModel {
     @Getter
     @Setter
     protected String imageUrl;
-
     @Column
     @Getter
     @Setter
     protected String artistName;
-
     @Column
     @Getter
     @Setter
     protected String artistId;
-
     @Column
     @Getter
     @Setter
     protected String activated;
-
     @Column
     @Getter
     @Setter
     protected long duration;
-
-    @Transient
-    @ForeignKey(saveForeignKeyModel = false)
-    public ForeignKeyContainer<Alarm> alarmForeignKeyContainer;
 
     public Track() {
         setType(TYPE.LOCAL);
@@ -140,15 +134,6 @@ public class Track extends BaseModel {
         return track;
     }
 
-    public void associateAlarm(Alarm alarm) {
-        alarmForeignKeyContainer = FlowManager.getContainerAdapter(Alarm.class).toForeignKeyContainer(alarm);
-    }
-
-    public ForeignKeyContainer<Alarm> getAlarmForeignKeyContainer() {
-        return alarmForeignKeyContainer;
-    }
-
-
     public static Track from(Media media, String title) {
         Track track = new Track();
         track.setType(TYPE.LOCAL);
@@ -169,5 +154,13 @@ public class Track extends BaseModel {
         track.setName(spotifyTrack.getName());
         track.setDuration(spotifyTrack.getDuration());
         return track;
+    }
+
+    public void associateAlarm(Alarm alarm) {
+        alarmForeignKeyContainer = FlowManager.getContainerAdapter(Alarm.class).toForeignKeyContainer(alarm);
+    }
+
+    public ForeignKeyContainer<Alarm> getAlarmForeignKeyContainer() {
+        return alarmForeignKeyContainer;
     }
 }

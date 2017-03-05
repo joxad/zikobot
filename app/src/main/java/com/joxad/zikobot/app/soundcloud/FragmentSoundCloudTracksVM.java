@@ -5,15 +5,15 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
+import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.app.core.utils.EXTRA;
+import com.joxad.zikobot.app.databinding.FragmentSoundCloudTracksBinding;
+import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.app.player.event.EventPlayListClicked;
-import com.joxad.zikobot.app.core.utils.EXTRA;
-import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.databinding.FragmentSoundCloudTracksBinding;
+import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
-import com.joxad.zikobot.data.model.Track;
-import com.joxad.zikobot.app.localtracks.TrackVM;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,15 +29,14 @@ public abstract class FragmentSoundCloudTracksVM extends FragmentBaseVM<Fragment
 
     private static final String TAG = FragmentSoundCloudTracksVM.class.getSimpleName();
     public ObservableArrayList<TrackVM> items;
-
-    public abstract ItemView getItemView();
-
     @Nullable
     SoundCloudPlaylist playlist;
 
     public FragmentSoundCloudTracksVM(FragmentSoundCloudTracks fragment, FragmentSoundCloudTracksBinding binding) {
         super(fragment, binding);
     }
+
+    public abstract ItemView getItemView();
 
     @Override
     public void onCreate() {

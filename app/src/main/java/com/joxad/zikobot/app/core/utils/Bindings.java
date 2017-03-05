@@ -18,6 +18,16 @@ import es.claucookie.miniequalizerlibrary.EqualizerView;
  */
 public class Bindings {
 
+
+    @BindingAdapter({"imageUrlNoError"})
+    public static void loadImageNoError(ImageView view, String imageUrl) {
+        Glide.with(view.getContext())
+                .load(imageUrl)
+                .skipMemoryCache(true)
+                .dontTransform()
+                .dontAnimate()
+                .into(view);
+    }
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {
         Glide.with(view.getContext())

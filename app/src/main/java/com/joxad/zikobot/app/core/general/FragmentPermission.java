@@ -9,9 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.viewutils.ZikobotMessageView;
 
 import butterknife.Bind;
@@ -22,8 +21,11 @@ import butterknife.ButterKnife;
  */
 public class FragmentPermission extends Fragment {
 
+    @Bind(R.id.zmv)
+    public ZikobotMessageView zmv;
     String message;
     int permission;
+
     public static FragmentPermission newInstance(final String message, final int permission) {
         FragmentPermission fragment = new FragmentPermission();
         Bundle bundle = new Bundle();
@@ -33,14 +35,11 @@ public class FragmentPermission extends Fragment {
         return fragment;
     }
 
-    @Bind(R.id.zmv)
-    public ZikobotMessageView zmv;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_permission, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         message = getArguments().getString(EXTRA.MESSAGE);
         permission = getArguments().getInt(EXTRA.PERMISSION);
         zmv.setZmvMessage(message);

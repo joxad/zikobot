@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.joxad.easydatabinding.activity.ActivityBase;
-import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.BR;
+import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.databinding.ActivityAlarmBinding;
 
 /**

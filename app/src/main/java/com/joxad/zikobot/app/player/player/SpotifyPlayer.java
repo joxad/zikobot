@@ -31,6 +31,46 @@ public class SpotifyPlayer implements IMusicPlayer {
     private final Context context;
 
     protected Player player;
+    PlayerNotificationCallback playerNotificationCallback = new PlayerNotificationCallback() {
+        @Override
+        public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
+            if (playerState.positionInMs >= playerState.durationInMs && playerState.durationInMs > 0)
+                EventBus.getDefault().post(new EventNextTrack());
+            Logger.d(String.format("Player state %s - activeDevice %s : current duration %d total duration %s", playerState.trackUri, playerState.activeDevice, playerState.positionInMs, playerState.durationInMs));
+        }
+
+        @Override
+        public void onPlaybackError(ErrorType errorType, String s) {
+            Logger.e(errorType.name() + " " + s);
+        }
+    };
+    private ConnectionStateCallback connexionStateCallback = new ConnectionStateCallback() {
+        @Override
+        public void onLoggedIn() {
+            Logger.d("LoggedIn");
+        }
+
+        @Override
+        public void onLoggedOut() {
+            Logger.d("LoggedOut");
+        }
+
+        @Override
+        public void onLoginFailed(Throwable throwable) {
+            Logger.d("onLoginFailed %s", throwable.getLocalizedMessage());
+        }
+
+        @Override
+        public void onTemporaryError() {
+            Logger.d("onTemporaryError");
+        }
+
+        @Override
+        public void onConnectionMessage(String s) {
+            Logger.d("onConnectionMessage %s", s);
+        }
+    };
+
 
     public SpotifyPlayer(Context context) {
         this.context = context;
@@ -55,7 +95,6 @@ public class SpotifyPlayer implements IMusicPlayer {
         });
 
     }
-
 
     @Override
     public void play(String ref) {
@@ -88,53 +127,12 @@ public class SpotifyPlayer implements IMusicPlayer {
         player.seekToPosition(position);
     }
 
-    PlayerNotificationCallback playerNotificationCallback = new PlayerNotificationCallback() {
-        @Override
-        public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
-            if (playerState.positionInMs >= playerState.durationInMs && playerState.durationInMs > 0)
-                EventBus.getDefault().post(new EventNextTrack());
-            Logger.d(String.format("Player state %s - activeDevice %s : current duration %d total duration %s", playerState.trackUri, playerState.activeDevice, playerState.positionInMs, playerState.durationInMs));
-        }
-
-        @Override
-        public void onPlaybackError(ErrorType errorType, String s) {
-            Logger.e(errorType.name() + " " + s);
-        }
-    };
-
-    private ConnectionStateCallback connexionStateCallback = new ConnectionStateCallback() {
-        @Override
-        public void onLoggedIn() {
-
-        }
-
-        @Override
-        public void onLoggedOut() {
-
-        }
-
-        @Override
-        public void onLoginFailed(Throwable throwable) {
-
-        }
-
-        @Override
-        public void onTemporaryError() {
-
-        }
-
-        @Override
-        public void onConnectionMessage(String s) {
-
-        }
-    };
-
     public Observable<Boolean> updateToken() {
         return Observable.create(new Observable.OnSubscribe<Boolean>() {
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
                 try {
-                    SpotifyAuthManager.getInstance().refreshToken(context, (newToken,tokenIdentical) -> {
+                    SpotifyAuthManager.getInstance().refreshToken(context, (newToken, tokenIdentical) -> {
                         if (!tokenIdentical) {
                             Config playerConfig = new Config(context, newToken, context.getString(R.string.api_spotify_id));
                             Spotify.getPlayer(playerConfig, context, new Player.InitializationObserver() {

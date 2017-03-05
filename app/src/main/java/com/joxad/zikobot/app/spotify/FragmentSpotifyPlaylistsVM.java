@@ -8,10 +8,8 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
-import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.app.databinding.FragmentSpotifyPlaylistsBinding;
-
-import com.joxad.zikobot.app.core.mock.Mock;
+import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
 
@@ -43,14 +41,13 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
     }
 
 
-
     /***
      * Call {@link com.joxad.zikobot.module.spotify_api.manager.SpotifyApiManager} to find the current user playlists
      */
     private void loadUserPlaylist() {
-        if (AppPrefs.spotifyUser()==null)return;
+        if (AppPrefs.spotifyUser() == null) return;
         userPlaylists.clear();
-       // userPlaylists.addAll(Mock.playlists(fragment.getContext()));
+        // userPlaylists.addAll(Mock.playlists(fragment.getContext()));
         SpotifyApiManager.getInstance().getUserPlaylists().subscribe(spotifyPlaylist -> {
             userPlaylists.clear();
             for (Item playlist : spotifyPlaylist.getItems()) {
@@ -60,8 +57,6 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
             Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
         });
     }
-
-
 
 
     public void goToSettings(View view) {

@@ -41,20 +41,16 @@
                     app:imageUrl="@{albumVM.imageUrl}"
                     tools:src="@drawable/ic_picture_loading" />
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/iv_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:onClick="@{albumVM.onMoreClicked}"
                     android:padding="4dp">
 
-                    <android.support.v7.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|center_vertical"
-                        android:onClick="@{albumVM.onMoreClicked}"
-                        android:src="@drawable/ic_more" />
-                </com.balysv.materialripple.MaterialRippleLayout>
+                    <include layout="@layout/layout_overflow" />
+                </FrameLayout>
 
 
             </RelativeLayout>
@@ -81,21 +77,20 @@
                             android:id="@+id/tv_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:singleLine="true"
+                            android:lines="1"
+                            android:maxLines="1"
                             android:text="@{albumVM.name}"
-                            android:textSize="20dp"
+                            android:textSize="@dimen/textSizeTitleItem"
                             tools:text="Nom de l'album" />
 
                         <TextView
                             android:id="@+id/tv_artist"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawablePadding="4dp"
-                            android:drawableStart="@drawable/ic_karaoke"
                             android:gravity="center_vertical"
                             android:text="@{albumVM.artist}"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/textSizeSubtitleItem"
                             tools:text="12 chansons" />
 
 

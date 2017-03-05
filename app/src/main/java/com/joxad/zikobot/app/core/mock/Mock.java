@@ -6,11 +6,10 @@ import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.soundcloud.SoundCloudPlaylistVM;
 import com.joxad.zikobot.app.spotify.ItemPlaylistViewModel;
-
+import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
 import com.joxad.zikobot.data.module.spotify_api.model.Tracks;
-import com.joxad.zikobot.data.model.Track;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,7 +18,6 @@ import java.util.Collection;
  * Created by josh on 03/06/16.
  */
 public class Mock {
-
 
 
     public static SoundCloudPlaylist scPlaylist(Context context) {

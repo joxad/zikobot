@@ -37,7 +37,7 @@
             android:maxLines="1"
             android:text="@{title}"
             android:textAllCaps="true"
-            android:textSize="14sp"
+            android:textSize="@dimen/textSizeSubtitleItem"
             tools:text="Nom du réveil" />
 
     </RelativeLayout>

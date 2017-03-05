@@ -85,7 +85,7 @@ public class Alarm extends BaseModel {
         hour = 8;
         minute = 0;
         active = 0;
-        volume=-1;
+        volume = -1;
     }
 
     /****
@@ -102,11 +102,9 @@ public class Alarm extends BaseModel {
     }
 
 
-
     public boolean isRandom() {
-        return randomTrack==1;
+        return randomTrack == 1;
     }
-
 
 
     public boolean isDayActive(int day) {

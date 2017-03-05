@@ -17,6 +17,7 @@ public class NextPlayerReceiver extends BroadcastReceiver {
 
 
     public static final String TAG = NextPlayerReceiver.class.getSimpleName();
+
     public NextPlayerReceiver() {
         super();
     }

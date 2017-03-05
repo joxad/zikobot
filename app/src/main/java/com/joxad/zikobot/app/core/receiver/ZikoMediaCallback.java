@@ -5,10 +5,10 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.joxad.zikobot.app.player.event.EventPlayMediaButton;
-import com.joxad.zikobot.app.player.event.EventPreviousTrack;
 import com.joxad.zikobot.app.player.event.EventNextTrack;
 import com.joxad.zikobot.app.player.event.EventPauseMediaButton;
+import com.joxad.zikobot.app.player.event.EventPlayMediaButton;
+import com.joxad.zikobot.app.player.event.EventPreviousTrack;
 
 import org.greenrobot.eventbus.EventBus;
 

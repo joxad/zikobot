@@ -42,15 +42,10 @@ import lombok.Data;
 public class NavigationManager {
 
 
-    Handler handler = new Handler(Looper.getMainLooper());
-
-    public enum Account {local, spotify, deezer, soundcloud}
-
-    private Account current = Account.local;
-
     private final AppCompatActivity activity;
+    Handler handler = new Handler(Looper.getMainLooper());
+    private Account current = Account.local;
     private RxPermissions rxPermissions;
-
     public NavigationManager(AppCompatActivity activity) {
         this.activity = activity;
         rxPermissions = new RxPermissions(activity);
@@ -101,7 +96,6 @@ public class NavigationManager {
                 makeSceneTransitionAnimation(activity, eventShowArtistDetail.getView(), activity.getString(R.string.transition));
         activity.startActivity(IntentManager.goToArtist(eventShowArtistDetail.getArtist()), options.toBundle());
     }
-
 
     @Subscribe
     public void onEvent(EventEditAlarm editAlarm) {
@@ -165,5 +159,7 @@ public class NavigationManager {
             }
         });
     }
+
+    public enum Account {local, spotify, deezer, soundcloud}
 
 }

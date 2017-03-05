@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
 
@@ -17,11 +16,11 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="sans-serif-thin"
-            android:textColor="@android:color/white"
             android:shadowColor="@android:color/darker_gray"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="1"
+            android:textColor="@android:color/white"
             android:textSize="60sp" />
 
 

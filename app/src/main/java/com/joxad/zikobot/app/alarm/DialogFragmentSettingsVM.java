@@ -230,7 +230,6 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
     }
 
     /**
-     *
      * @param artistId
      */
     private void showSoundCloudArtist(String artistId) {

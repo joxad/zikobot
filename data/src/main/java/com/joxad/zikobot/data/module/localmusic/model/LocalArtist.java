@@ -20,7 +20,8 @@ public class LocalArtist {
     @Setter
     private String image;
 
-    public LocalArtist(){}
+    public LocalArtist() {
+    }
 
     public LocalArtist(long id, String name, int nbAlbums) {
         this.id = id;

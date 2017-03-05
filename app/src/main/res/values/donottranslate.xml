@@ -18,12 +18,12 @@
     <string name="lyrics_wikia_url">http://lyrics.wikia.com/</string>
     <string name="transition">transition</string>
 
-    <string translatable="false" name="deezer_id">184802</string>
-    <string translatable="false" name="deezer_secret">32825de47df8af8b3c5a9facc0d98c01</string>
-    <string translatable="false" name="soundcloud_id">c6cbaa6a6e431c11c4b0e6e0cffb4ff5</string>
-    <string translatable="false" name="soundcloud_secret">886e39be025adf6dad25afc1a3f4a7a6</string>
-    <string translatable="false" name="api_spotify_id">ab915fed01e14e5cbb008ca9e5c5d9c8</string>
-    <string translatable="false" name="api_spotify_secret">606372d8884d493a9c9112a4ac12a9ec</string>
+    <string name="deezer_id" translatable="false">184802</string>
+    <string name="deezer_secret" translatable="false">32825de47df8af8b3c5a9facc0d98c01</string>
+    <string name="soundcloud_id" translatable="false">c6cbaa6a6e431c11c4b0e6e0cffb4ff5</string>
+    <string name="soundcloud_secret" translatable="false">886e39be025adf6dad25afc1a3f4a7a6</string>
+    <string name="api_spotify_id" translatable="false">ab915fed01e14e5cbb008ca9e5c5d9c8</string>
+    <string name="api_spotify_secret" translatable="false">606372d8884d493a9c9112a4ac12a9ec</string>
     <string name="activity_music_spotify">Spotify</string>
     <string name="activity_music_deezer">Deezer</string>
     <string name="activity_music_soundcloud">SoundCloud</string>

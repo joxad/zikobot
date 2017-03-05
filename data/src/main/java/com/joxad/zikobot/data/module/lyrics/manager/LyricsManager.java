@@ -18,20 +18,9 @@ import rx.schedulers.Schedulers;
 
 public class LyricsManager {
 
+    protected LyricsService lyricsService;
     private Context context;
     private Retrofit retrofit;
-    protected LyricsService lyricsService;
-
-
-    /**
-     * Holder
-     */
-    private static class LyricsManagerHolder {
-        /**
-         * Instance unique non préinitialisée
-         */
-        private final static LyricsManager instance = new LyricsManager();
-    }
 
     /**
      * Point d'accès pour l'instance unique du singleton
@@ -59,5 +48,15 @@ public class LyricsManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
 
+    }
+
+    /**
+     * Holder
+     */
+    private static class LyricsManagerHolder {
+        /**
+         * Instance unique non préinitialisée
+         */
+        private final static LyricsManager instance = new LyricsManager();
     }
 }

@@ -29,7 +29,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
-import rx.android.schedulers.AndroidSchedulers;
 
 import static com.joxad.zikobot.data.model.TYPE.LOCAL;
 import static com.joxad.zikobot.data.model.TYPE.SPOTIFY;
@@ -175,11 +174,12 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
             Logger.d(TAG, throwable.getLocalizedMessage());
         });
     }
+
     private void loadSpotifyTracks() {
 
         SpotifyApiManager.getInstance().getAlbumTracks(album.getId()).subscribe(spotifyResultAlbum -> {
             for (SpotifyTrack track : spotifyResultAlbum.getTracks()) {
-                tracks.add(new TrackVM(activity, Track.from(track,album.getImage())));
+                tracks.add(new TrackVM(activity, Track.from(track, album.getImage())));
             }
         }, throwable -> {
             Logger.e(throwable.getLocalizedMessage());

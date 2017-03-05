@@ -61,7 +61,7 @@ public class FragmentManager {
     public static Fragment fragmentByName(String fragmentName) throws IllegalAccessException, InstantiationException {
         Class<?> className = null;
         try {
-            className  = Class.forName(fragmentName);
+            className = Class.forName(fragmentName);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

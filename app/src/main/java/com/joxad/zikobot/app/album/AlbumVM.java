@@ -5,11 +5,10 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
-import com.joxad.zikobot.data.model.Album;
-import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.data.event.LocalAlbumSelectEvent;
 import com.joxad.zikobot.data.event.dialog.EventShowDialogAlbumSettings;
+import com.joxad.zikobot.data.model.Album;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -55,6 +54,7 @@ public class AlbumVM extends BaseVM<Album> {
     public int getNbTracksNumber() {
         return model.getNbTracks();
     }
+
     @Bindable
     public String getNbTracks() {
         return String.format("%d %s", model.getNbTracks(), context.getString(R.string.tracks));

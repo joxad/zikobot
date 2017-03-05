@@ -3,13 +3,12 @@
     android:id="@+id/ll_alarm"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal">
 
     <ImageView
         android:layout_width="@dimen/zikobot_size_mini"
-        android:layout_gravity="center_vertical"
         android:layout_height="@dimen/zikobot_size_mini"
+        android:layout_gravity="center_vertical"
         android:src="@drawable/zikobot_large" />
 
     <RelativeLayout
@@ -26,8 +25,6 @@
             android:src="@drawable/triangle" />
 
         <include layout="@layout/view_next_alarm" />
-
-
 
 
     </RelativeLayout>

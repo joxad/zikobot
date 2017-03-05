@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/textSizeTitleItem"
                     tools:text="Oasis" />
             </LinearLayout>
         </LinearLayout>

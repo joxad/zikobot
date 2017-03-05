@@ -24,10 +24,10 @@ import java.util.concurrent.TimeUnit;
  * Created by josh on 12/08/16.
  */
 public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySearchBinding> {
-    private ViewPagerAdapter tabAdapter;
     public ObservableBoolean isSearchValid;
-    private NavigationManager navigationManager;
     public PlayerVM playerVM;
+    private ViewPagerAdapter tabAdapter;
+    private NavigationManager navigationManager;
 
     /***
      * @param activity

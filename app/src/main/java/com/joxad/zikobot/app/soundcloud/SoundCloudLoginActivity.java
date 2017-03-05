@@ -21,10 +21,10 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import com.orhanobut.logger.Logger;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
+import com.orhanobut.logger.Logger;
 
 
 public class SoundCloudLoginActivity extends AppCompatActivity {
@@ -33,6 +33,34 @@ public class SoundCloudLoginActivity extends AppCompatActivity {
 
     //todo - create a project in the SoundCloud developer portal: https://soundcloud.com/you/apps/
     private static final String STATE = SoundCloudLoginActivity.class.getCanonicalName();
+
+    /**
+     * @param context the WebView must be given an activity context (instead of application context)
+     *                or it will crash in versions less than 4.4
+     * @return a {@link WebView} suitable for the soundcloud login process
+     */
+    private static WebView createWebView(Context context) {
+        final WebView webView = new WebView(context);
+
+        final WebSettings settings = webView.getSettings();
+
+        // this allows the username and password validation to work
+        settings.setJavaScriptEnabled(true);
+
+        // these 2 are for login with google support
+        // which needs to open a second window
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setSupportMultipleWindows(true);
+
+        // prevent caching of user data
+        settings.setSaveFormData(false);
+
+        // prevents the webview asking the user if they want to save their password
+        // needed for pre 18 devices
+        settings.setSavePassword(false);
+
+        return webView;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,33 +190,17 @@ public class SoundCloudLoginActivity extends AppCompatActivity {
 
     }
 
-
-    /**
-     * @param context the WebView must be given an activity context (instead of application context)
-     *                or it will crash in versions less than 4.4
-     * @return a {@link WebView} suitable for the soundcloud login process
-     */
-    private static WebView createWebView(Context context) {
-        final WebView webView = new WebView(context);
-
-        final WebSettings settings = webView.getSettings();
-
-        // this allows the username and password validation to work
-        settings.setJavaScriptEnabled(true);
-
-        // these 2 are for login with google support
-        // which needs to open a second window
-        settings.setJavaScriptCanOpenWindowsAutomatically(true);
-        settings.setSupportMultipleWindows(true);
-
-        // prevent caching of user data
-        settings.setSaveFormData(false);
-
-        // prevents the webview asking the user if they want to save their password
-        // needed for pre 18 devices
-        settings.setSavePassword(false);
-
-        return webView;
+    private void getSoundCloudTokenFromCode() {
+        String appId = getString(R.string.soundcloud_id);
+        String appSecret = getString(R.string.soundcloud_secret);
+        String redirectUrl = getString(R.string.api_soundcloud_callback);
+        SoundCloudApiManager.getInstance().token(appId, appSecret, redirectUrl, AppPrefs.getSoundCloundAccesCode(), "authorization_code")
+                .subscribe(soundCloudToken -> {
+                    AppPrefs.saveSoundCloudAccessToken(soundCloudToken.getAccessToken());
+                    finish();
+                }, throwable -> {
+                    Logger.e(throwable.getMessage());
+                });
     }
 
     private static class LoadingHud {
@@ -243,18 +255,5 @@ public class SoundCloudLoginActivity extends AppCompatActivity {
                 container.setAlpha(noAlpha);
             }
         }
-    }
-
-    private void getSoundCloudTokenFromCode() {
-        String appId = getString(R.string.soundcloud_id);
-        String appSecret = getString(R.string.soundcloud_secret);
-        String redirectUrl = getString(R.string.api_soundcloud_callback);
-        SoundCloudApiManager.getInstance().token(appId, appSecret, redirectUrl, AppPrefs.getSoundCloundAccesCode(), "authorization_code")
-                .subscribe(soundCloudToken -> {
-                    AppPrefs.saveSoundCloudAccessToken(soundCloudToken.getAccessToken());
-                    finish();
-                }, throwable -> {
-                    Logger.e(throwable.getMessage());
-                });
     }
 }

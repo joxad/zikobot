@@ -7,8 +7,8 @@ import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
 import com.joxad.zikobot.app.alarm.AlarmTrackManager;
-import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
 import com.joxad.zikobot.app.player.event.EventPlayTrack;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
 import com.joxad.zikobot.data.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
@@ -59,6 +59,7 @@ public class TrackVM extends BaseVM<Track> {
     public int getType() {
         return model.getType();
     }
+
     @Bindable
     public long getDuration() {
         return model.getDuration();

@@ -11,15 +11,15 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private ArrayList<String> titles = new ArrayList<>();
 
+    public ViewPagerAdapter(Activity activity, android.support.v4.app.FragmentManager fragmentManager) {
+        super(fragmentManager);
+        this.activity = activity;
+    }
+
     public void addFragment(String title, Fragment fragment) {
         if (titles.contains(title)) return;
         titles.add(title);
         fragments.add(fragment);
-    }
-
-    public ViewPagerAdapter(Activity activity, android.support.v4.app.FragmentManager fragmentManager) {
-        super(fragmentManager);
-        this.activity = activity;
     }
 
     // Returns total number of pages

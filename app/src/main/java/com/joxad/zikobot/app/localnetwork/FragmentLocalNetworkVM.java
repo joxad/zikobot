@@ -5,12 +5,12 @@ import android.net.Uri;
 import android.support.v7.widget.GridLayoutManager;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
-import com.joxad.zikobot.data.model.ItemNetwork;
-import com.orhanobut.logger.Logger;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.FragmentLocalNetworkBinding;
+import com.joxad.zikobot.data.model.ItemNetwork;
+import com.orhanobut.logger.Logger;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -22,11 +22,12 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  * Created by josh on 29/08/16.
  */
 public class FragmentLocalNetworkVM extends FragmentBaseVM<FragmentLocalNetwork, FragmentLocalNetworkBinding> implements MediaBrowser.EventListener {
-    protected MediaBrowser mMediaBrowser;
     public ItemView itemNetwork = ItemView.of(BR.itemNetworkVM, R.layout.item_network);
     public ObservableArrayList<ItemNetworkVM> networkItems;
+    protected MediaBrowser mMediaBrowser;
     private String path;
     private String current;
+
     /***
      * @param fragment
      * @param binding
@@ -63,12 +64,11 @@ public class FragmentLocalNetworkVM extends FragmentBaseVM<FragmentLocalNetwork,
     }
 
 
-
     @Override
     public void onMediaAdded(int i, Media media) {
         Logger.d("Added" + media.toString() + media.getUri().toString());
         String title = media.getUri().toString();
-        if (title!=null && current!=null) {
+        if (title != null && current != null) {
             title = title.replace(current, "");
         }
         networkItems.add(new ItemNetworkVM(fragment.getContext(), new ItemNetwork(title, media)));

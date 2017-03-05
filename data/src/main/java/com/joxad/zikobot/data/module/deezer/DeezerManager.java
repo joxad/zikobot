@@ -32,25 +32,15 @@ public class DeezerManager {
     private Context context;
     private String appId;
 
-    public void logout() {
-        deezerConnect.logout(context);
-    }
-
-    /**
-     * Holder
-     */
-    private static class DeezerManagerHolder {
-        /**
-         * Instance unique non préinitialisée
-         */
-        private final static DeezerManager instance = new DeezerManager();
-    }
-
     /**
      * Point d'accès pour l'instance unique du singleton
      */
     public static DeezerManager getInstance() {
         return DeezerManager.DeezerManagerHolder.instance;
+    }
+
+    public void logout() {
+        deezerConnect.logout(context);
     }
 
     public void init(Context context, String appId) {
@@ -59,7 +49,6 @@ public class DeezerManager {
         deezerConnect = DeezerConnect.forApp(appId).build();
         sessionStore = new SessionStore();
     }
-
 
     /***
      * @param activity
@@ -202,6 +191,16 @@ public class DeezerManager {
                 task.execute(request);
             }
         });
+    }
+
+    /**
+     * Holder
+     */
+    private static class DeezerManagerHolder {
+        /**
+         * Instance unique non préinitialisée
+         */
+        private final static DeezerManager instance = new DeezerManager();
     }
 
 }

@@ -38,11 +38,11 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWakeUpBinding> {
 
-    Alarm alarm;
-    AudioManager am;
     public PlayerVM playerVM;
     public AlarmVM alarmVM;
     public TrackVM trackVM;
+    Alarm alarm;
+    AudioManager am;
 
 
     /***

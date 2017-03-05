@@ -4,19 +4,19 @@ import android.databinding.ObservableArrayList;
 import android.view.View;
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
+import com.joxad.zikobot.app.BR;
+import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.DialogFragmentSettings;
-import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
+import com.joxad.zikobot.app.core.utils.EXTRA;
+import com.joxad.zikobot.app.core.utils.ZikoUtils;
+import com.joxad.zikobot.app.databinding.ActivitySoundCloudBinding;
+import com.joxad.zikobot.app.localtracks.TrackVM;
+import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
 import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
-import com.joxad.zikobot.app.core.utils.EXTRA;
-import com.joxad.zikobot.app.core.utils.ZikoUtils;
-import com.joxad.zikobot.app.localtracks.TrackVM;
-import com.joxad.zikobot.app.player.PlayerVM;
-import com.joxad.zikobot.app.BR;
-import com.joxad.zikobot.app.R;
-import com.joxad.zikobot.app.databinding.ActivitySoundCloudBinding;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

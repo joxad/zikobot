@@ -5,8 +5,8 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
-import com.joxad.zikobot.data.event.EventShowArtistDetail;
 import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.data.event.EventShowArtistDetail;
 import com.joxad.zikobot.data.model.Artist;
 
 import org.greenrobot.eventbus.EventBus;
@@ -25,8 +25,7 @@ public class ArtistVM extends BaseVM<Artist> {
     }
 
 
-
-    public void onClick(View view){
+    public void onClick(View view) {
 
         EventBus.getDefault().post(new EventShowArtistDetail(model, view.findViewById(R.id.iv_artist)));
     }
@@ -49,8 +48,9 @@ public class ArtistVM extends BaseVM<Artist> {
 
     @Bindable
     public String getTransition() {
-        return context.getString(R.string.transition)+model.getId();
+        return context.getString(R.string.transition) + model.getId();
     }
+
     @Override
     public void onCreate() {
 

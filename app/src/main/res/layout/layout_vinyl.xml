@@ -24,7 +24,7 @@
             android:layout_width="@dimen/avatar_size"
             android:layout_height="@dimen/avatar_size"
             android:layout_centerInParent="true"
-            app:imageUrl="@{playerVM.currentTrackVM.imageUrl}" />
+            app:imageUrlNoError="@{playerVM.currentTrackVM.imageUrl}" />
 
     </RelativeLayout>
 </layout>

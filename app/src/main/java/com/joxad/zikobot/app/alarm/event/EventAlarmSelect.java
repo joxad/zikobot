@@ -2,7 +2,6 @@ package com.joxad.zikobot.app.alarm.event;
 
 import android.view.View;
 
-
 import com.joxad.zikobot.data.model.Alarm;
 
 import lombok.AllArgsConstructor;

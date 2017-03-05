@@ -4,14 +4,13 @@ import android.databinding.ObservableArrayList;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-
 import com.deezer.sdk.model.Playlist;
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
-import com.joxad.zikobot.data.module.deezer.DeezerManager;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
 import com.joxad.zikobot.app.databinding.FragmentDeezerPlaylistsBinding;
+import com.joxad.zikobot.data.module.deezer.DeezerManager;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 

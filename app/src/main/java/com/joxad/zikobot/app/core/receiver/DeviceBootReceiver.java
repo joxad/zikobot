@@ -11,7 +11,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
 
             //TODO reschedule the alarms
-           // context.startService(new )
+            // context.startService(new )
             /* Setting the alarm here */
            /* Intent alarmIntent = new Intent(context, AlarmReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);

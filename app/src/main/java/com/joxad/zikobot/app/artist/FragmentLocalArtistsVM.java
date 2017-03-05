@@ -1,9 +1,7 @@
 package com.joxad.zikobot.app.artist;
 
 import android.Manifest;
-import android.content.pm.PackageManager;
 import android.databinding.ObservableArrayList;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -31,12 +29,10 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 public class FragmentLocalArtistsVM extends FragmentBaseVM<FragmentLocalArtists, FragmentLocalArtistsBinding> {
 
     private static final String TAG = FragmentLocalArtistsVM.class.getSimpleName();
-
-    private RxPermissions rxPermissions;
     public ItemView itemView = ItemView.of(BR.artistVM, R.layout.item_artist);
     public ObservableArrayList<ArtistVM> items;
-
     public String zmvMessage;
+    private RxPermissions rxPermissions;
 
     /***
      * @param fragment
@@ -48,7 +44,7 @@ public class FragmentLocalArtistsVM extends FragmentBaseVM<FragmentLocalArtists,
 
     @Override
     public void onCreate() {
-        rxPermissions=new RxPermissions(fragment.getActivity());
+        rxPermissions = new RxPermissions(fragment.getActivity());
         EventBus.getDefault().register(this);
         items = new ObservableArrayList<>();
         binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(), 2));

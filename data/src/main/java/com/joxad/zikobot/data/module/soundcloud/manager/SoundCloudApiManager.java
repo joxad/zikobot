@@ -28,17 +28,6 @@ public class SoundCloudApiManager {
     private Context context;
     private Retrofit retrofit;
 
-
-    /**
-     * Holder
-     */
-    private static class SoundCloudApiManagerHolder {
-        /**
-         * Instance unique non préinitialisée
-         */
-        private final static SoundCloudApiManager instance = new SoundCloudApiManager();
-    }
-
     /**
      * Point d'accès pour l'instance unique du singleton
      */
@@ -72,7 +61,6 @@ public class SoundCloudApiManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
-
 
     /***
      * @param id
@@ -114,7 +102,6 @@ public class SoundCloudApiManager {
                 .unsubscribeOn(Schedulers.io());
     }
 
-
     /***
      * @param clientId
      * @param clientSecret
@@ -137,5 +124,15 @@ public class SoundCloudApiManager {
         return soundCloudApiEndpoint.getMe().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
+    }
+
+    /**
+     * Holder
+     */
+    private static class SoundCloudApiManagerHolder {
+        /**
+         * Instance unique non préinitialisée
+         */
+        private final static SoundCloudApiManager instance = new SoundCloudApiManager();
     }
 }

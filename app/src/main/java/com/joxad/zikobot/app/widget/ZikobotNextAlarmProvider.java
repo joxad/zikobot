@@ -7,10 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
+import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.AlarmManager;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
 import com.joxad.zikobot.data.model.Alarm;
-import com.joxad.zikobot.app.R;
 
 import java.util.Collections;
 import java.util.Date;

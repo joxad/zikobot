@@ -39,7 +39,7 @@ public class ItemNetworkVM extends BaseVM<ItemNetwork> {
     public String getName() {
         String decoded = null;
         try {
-            String title= model.getTitle();
+            String title = model.getTitle();
             if (title.startsWith("/")) {
                 title = title.substring(1);
             }

@@ -15,8 +15,6 @@ import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 import rx.Observable;
 import rx.Subscriber;
 
@@ -31,15 +29,6 @@ public class LocalMusicManager {
 
     private static final String TAG = LocalMusicManager.class.getSimpleName();
     ContentResolver contentResolver;
-    /**
-     * Holder
-     */
-    private static class LocalMusicManagerHolder {
-        /**
-         * Instance unique non préinitialisée
-         */
-        private final static LocalMusicManager instance = new LocalMusicManager();
-    }
 
     /**
      * Point d'accès pour l'instance unique du singleton
@@ -48,11 +37,9 @@ public class LocalMusicManager {
         return LocalMusicManager.LocalMusicManagerHolder.instance;
     }
 
-
     public void init(Context context) {
         this.contentResolver = context.getContentResolver();
     }
-
 
     private Uri contentUri(Uri externalContentUri, final int limit, final int offset) {
         return externalContentUri.buildUpon()
@@ -62,6 +49,7 @@ public class LocalMusicManager {
                         String.valueOf(offset))
                 .build();
     }
+
     /***
      * Give a list of tracks according to an album
      *
@@ -94,7 +82,7 @@ public class LocalMusicManager {
                 if (query != null) {
                     selection += " AND " + MediaStore.Audio.Media.TITLE + " like '%" + query + "%'";
                 }
-                String sortOrder = MediaStore.Audio.Media.TITLE + " ASC limit "+limit+ " offset "+offset;
+                String sortOrder = MediaStore.Audio.Media.TITLE + " ASC limit " + limit + " offset " + offset;
                 Cursor cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
                 if (cursor == null) {
                     Log.e(TAG, "Failed to retrieve music: cursor is null :-(");
@@ -133,7 +121,6 @@ public class LocalMusicManager {
         });
     }
 
-
     /***
      * @return
      */
@@ -151,7 +138,7 @@ public class LocalMusicManager {
                     selection = "" + MediaStore.Audio.Artists.ARTIST + " like '%" + query + "%'";
                 }
                 String[] selectionArgs = null;
-                String sortOrder = MediaStore.Audio.Media.ARTIST + " ASC limit "+limit+ " offset "+offset;
+                String sortOrder = MediaStore.Audio.Media.ARTIST + " ASC limit " + limit + " offset " + offset;
                 Cursor cursor = contentResolver.query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
                 if (cursor == null) {
                     Log.e(TAG, "Failed to retrieve music: cursor is null :-(");
@@ -183,7 +170,7 @@ public class LocalMusicManager {
      * @param artist null to get all
      * @return
      */
-    public Observable<List<LocalAlbum>> getLocalAlbums(int limit, int offset , @Nullable final String artist, @Nullable final String query) {
+    public Observable<List<LocalAlbum>> getLocalAlbums(int limit, int offset, @Nullable final String artist, @Nullable final String query) {
 
         return Observable.create(new Observable.OnSubscribe<List<LocalAlbum>>() {
             @Override
@@ -204,7 +191,7 @@ public class LocalMusicManager {
                     selection = MediaStore.Audio.Albums.ARTIST + " like '%" + query + "%'";
                     selection += " OR " + MediaStore.Audio.Albums.ALBUM + " like '%" + query + "%'";
                 }
-                String sortOrder = MediaStore.Audio.Media.ALBUM + " ASC limit "+limit+ " offset "+offset;
+                String sortOrder = MediaStore.Audio.Media.ALBUM + " ASC limit " + limit + " offset " + offset;
                 Cursor cursor = contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, sortOrder);
 
                 if (cursor == null) {
@@ -262,7 +249,6 @@ public class LocalMusicManager {
         return path;
     }
 
-
     /***
      * @param artistName
      * @return
@@ -284,6 +270,16 @@ public class LocalMusicManager {
         }
 
         return path;
+    }
+
+    /**
+     * Holder
+     */
+    private static class LocalMusicManagerHolder {
+        /**
+         * Instance unique non préinitialisée
+         */
+        private final static LocalMusicManager instance = new LocalMusicManager();
     }
 
 }

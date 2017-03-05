@@ -10,6 +10,5 @@ public class MusicAlarmDatabase {
     public static final int VERSION = 1;
 
 
-
 }
 

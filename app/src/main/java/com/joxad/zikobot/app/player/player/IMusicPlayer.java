@@ -5,11 +5,17 @@ package com.joxad.zikobot.app.player.player;
  */
 public interface IMusicPlayer {
     void init();
+
     void play(String ref);
+
     void pause();
+
     void resume();
+
     void stop();
+
     void seekTo(float percent);
+
     void seekTo(int position);
 
 }

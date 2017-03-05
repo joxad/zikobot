@@ -3,16 +3,15 @@ package com.joxad.zikobot.app.localnetwork;
 import android.os.Bundle;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBase;
-import com.joxad.zikobot.app.core.utils.EXTRA;
-import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.BR;
-
+import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.FragmentLocalNetworkBinding;
 
 /**
  * Created by josh on 19/08/16.
  */
-public class FragmentLocalNetwork extends FragmentBase<FragmentLocalNetworkBinding, FragmentLocalNetworkVM>{
+public class FragmentLocalNetwork extends FragmentBase<FragmentLocalNetworkBinding, FragmentLocalNetworkVM> {
 
 
     public static FragmentLocalNetwork newInstance(final String current, final String media) {
@@ -37,7 +36,7 @@ public class FragmentLocalNetwork extends FragmentBase<FragmentLocalNetworkBindi
 
     @Override
     public FragmentLocalNetworkVM baseFragmentVM(FragmentLocalNetworkBinding binding) {
-        return new FragmentLocalNetworkVM(this,binding);
+        return new FragmentLocalNetworkVM(this, binding);
     }
 
 }

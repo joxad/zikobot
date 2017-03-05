@@ -23,6 +23,6 @@ public class ActivityDeezer extends ActivityBase<ActivityDeezerBinding, Activity
 
     @Override
     public ActivityDeezerVM baseActivityVM(ActivityDeezerBinding binding, Bundle savedInstanceState) {
-        return new ActivityDeezerVM(this,binding);
+        return new ActivityDeezerVM(this, binding);
     }
 }

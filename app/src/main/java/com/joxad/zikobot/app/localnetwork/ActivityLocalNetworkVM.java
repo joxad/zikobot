@@ -1,13 +1,13 @@
 package com.joxad.zikobot.app.localnetwork;
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.zikobot.data.event.EventSelectItemNetwork;
 import com.joxad.zikobot.app.core.fragmentmanager.FragmentManager;
 import com.joxad.zikobot.app.core.utils.EXTRA;
+import com.joxad.zikobot.app.databinding.ActivityLocalNetworkBinding;
+import com.joxad.zikobot.data.event.EventSelectItemNetwork;
 import com.orhanobut.logger.Logger;
 import com.rokpetek.breadcrumbtoolbar.BreadcrumbToolbar;
 import com.rokpetek.breadcrumbtoolbar.BreadcrumbToolbarItem;
-import com.joxad.zikobot.app.databinding.ActivityLocalNetworkBinding;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -85,7 +85,7 @@ public class ActivityLocalNetworkVM extends ActivityBaseVM<ActivityLocalNetwork,
         for (String s : medias) {
             path += s;
         }
-        FragmentManager.replaceFragment(activity, FragmentLocalNetwork.newInstance(null ,path), false, true);
+        FragmentManager.replaceFragment(activity, FragmentLocalNetwork.newInstance(null, path), false, true);
     }
 
     @Override

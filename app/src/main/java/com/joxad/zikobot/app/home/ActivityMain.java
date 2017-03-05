@@ -3,6 +3,7 @@ package com.joxad.zikobot.app.home;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
+
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
@@ -31,7 +32,6 @@ public class ActivityMain extends ActivityBase<ActivityMainBinding, ActivityMain
     public ActivityMainVM baseActivityVM(ActivityMainBinding binding, Bundle savedInstanceState) {
         return new ActivityMainVM(this, binding);
     }
-
 
 
     @Override

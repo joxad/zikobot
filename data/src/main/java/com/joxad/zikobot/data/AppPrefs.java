@@ -15,19 +15,22 @@ import com.pixplicity.easyprefs.library.Prefs;
 public class AppPrefs {
 
 
-    static Gson gson = new Gson();
-
     public static final String FIRST_START = "FIRST_START";
-
-
     /***
      * SPOTIFY
      */
     public static final String SPOTIFY_ACCESS_CODE = "SPOTIFY_ACCESS_CODE";
     public static final String SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN";
     public static final String REFRESH_TOKEN = "REFRESH_TOKEN";
+    /***
+     *
+     */
+    public static final String SOUNDCLOUD_ACCESS_TOKEN = "SOUNDCLOUD_ACCESS_TOKEN";
     private static final String SPOTIFY_USER = "SPOTIFY_USER";
     private static final String DEEZER_USER = "DEEZER_USER";
+    private static final String SOUNDCLOUD_ACCESS_CODE = "SOUNDCLOUD_ACCESS_CODE";
+    private static final String SOUNDCLOUD_USER = "SOUNDCLOUD_USER";
+    static Gson gson = new Gson();
 
     public static void saveRefreshToken(final String refreshToken) {
         Prefs.putString(REFRESH_TOKEN, refreshToken);
@@ -74,13 +77,6 @@ public class AppPrefs {
             return null;
         return gson.fromJson(user, User.class);
     }
-
-    /***
-     *
-     */
-    public static final String SOUNDCLOUD_ACCESS_TOKEN = "SOUNDCLOUD_ACCESS_TOKEN";
-    private static final String SOUNDCLOUD_ACCESS_CODE = "SOUNDCLOUD_ACCESS_CODE";
-    private static final String SOUNDCLOUD_USER = "SOUNDCLOUD_USER";
 
     public static void saveSoundCloudAccessToken(String accessToken) {
         Prefs.putString(SOUNDCLOUD_ACCESS_TOKEN, accessToken);

@@ -2,7 +2,6 @@ package com.joxad.zikobot.data.event;
 
 import android.view.View;
 
-
 import com.joxad.zikobot.data.model.Album;
 
 import lombok.AllArgsConstructor;
