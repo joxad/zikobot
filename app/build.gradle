@@ -93,7 +93,6 @@ dependencies {
     compile libs.gson
     compile libs.glide
     compile libs.logger
-    compile libs.easySpotify
     compile libs.materialRipple
     compile libs.okHttpInterceptor
     compile libs.parcelerApi
@@ -124,6 +123,7 @@ dependencies {
     compile 'com.github.andrewlord1990:snackbarbuilder:0.7.0'
     debugWearApp project(path: ':wear', configuration: 'debugApk')
     releaseWearApp project(path: ':wear', configuration: 'releaseApk')
+    compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
 
     compile project(path: ':data')
 }

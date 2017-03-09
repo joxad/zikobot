@@ -132,6 +132,7 @@ public class PlayerService extends Service implements IMusicPlayer {
                 TrackVM trackVM = trackVMs.get(i);
                 if (trackVM.getModel().getRef().equals(eventPlayTrack.getTrack().getModel().getRef()) && trackVM.getType() == eventPlayTrack.getTrack().getType()) {
                     currentTrackVM = trackVM;
+                    currentIndex = i;
                     foundInCurrentList = true;
                 }
             }

@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.joxad.android_easy_spotify.Scope;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.general.FragmentWebView;
@@ -31,7 +30,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.UnsupportedEncodingException;
 
 /***
- * {@link ActivitySettingsVM}  make the link between {@link ActivitySettings} and {@link com.joxad.zikobot.module.spotify_api.manager.SpotifyApiManager}
+ * {@link ActivitySettingsVM}  make the link between {@link ActivitySettings}
  */
 public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, ActivitySettingsBinding> {
 
@@ -104,7 +103,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         String redirect_uri = activity.getString(R.string.api_spotify_callback_web_view);
         String baseUrl = activity.getString(R.string.spotify_web_view);
 
-        FragmentWebView fragmentWebView = FragmentWebView.newInstance(String.format(baseUrl, apiKey, redirect_uri, Scope.USER_READ_PRIVATE + "%20" + Scope.STREAMING));
+        FragmentWebView fragmentWebView = FragmentWebView.newInstance(String.format(baseUrl, apiKey, redirect_uri, "user-read-private" + "%20" + "streaming"));
         fragmentWebView.setIntentListener(intent -> {
             fragmentWebView.dismiss();
             String code = intent.getData().getQueryParameter("code");

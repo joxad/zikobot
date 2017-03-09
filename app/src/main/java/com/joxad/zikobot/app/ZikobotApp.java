@@ -9,7 +9,6 @@ import android.os.IBinder;
 import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
-import com.joxad.android_easy_spotify.SpotifyManager;
 import com.joxad.zikobot.app.alarm.AlarmManager;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
 import com.joxad.zikobot.app.player.PlayerService;
