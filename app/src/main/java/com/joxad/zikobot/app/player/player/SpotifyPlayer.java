@@ -19,9 +19,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.UnsupportedEncodingException;
 
-import rx.Observable;
-import rx.Subscriber;
-
 /**
  * Created by josh on 28/08/16.
  */
@@ -29,6 +26,8 @@ public class SpotifyPlayer implements IMusicPlayer {
 
     private final Context context;
 
+    boolean hasRefreshed = false;
+    private String lastRef;
     protected Player player;
     private final Player.OperationCallback mOperationCallback = new Player.OperationCallback() {
         @Override
@@ -71,11 +70,26 @@ public class SpotifyPlayer implements IMusicPlayer {
     private ConnectionStateCallback connexionStateCallback = new ConnectionStateCallback() {
         @Override
         public void onLoggedIn() {
-            Logger.d("LoggedIn");
+            Logger.d("loggedin");
+            if (lastRef != null) {
+                player.playUri(mOperationCallback, lastRef, 0, 0);
+                lastRef = null;
+            }
         }
 
         @Override
         public void onLoggedOut() {
+//            try {
+//                SpotifyAuthManager.getInstance().refreshToken(context, (newToken, tokenIdentical) -> {
+//                    if (!tokenIdentical) {
+//                        player.login(newToken);
+//                    }
+//                });
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+            player.login(AppPrefs.getSpotifyAccessToken());
+
             Logger.d("LoggedOut");
         }
 
@@ -105,7 +119,7 @@ public class SpotifyPlayer implements IMusicPlayer {
     @Override
     public void init() {
         Config playerConfig = new Config(context, AppPrefs.getSpotifyAccessToken(), context.getString(R.string.api_spotify_id));
-        Spotify.getPlayer(playerConfig, context, new com.spotify.sdk.android.player.SpotifyPlayer.InitializationObserver() {
+        Spotify.getPlayer(playerConfig, this, new com.spotify.sdk.android.player.SpotifyPlayer.InitializationObserver() {
             @Override
             public void onInitialized(com.spotify.sdk.android.player.SpotifyPlayer pl) {
                 player = pl;
@@ -124,7 +138,20 @@ public class SpotifyPlayer implements IMusicPlayer {
 
     @Override
     public void play(String ref) {
-        player.playUri(mOperationCallback, ref, 0, 0);
+        lastRef = ref;
+        try {
+            SpotifyAuthManager.getInstance().refreshToken(context, (newToken, tokenIdentical) -> {
+                if (!tokenIdentical) {
+                    hasRefreshed = true;
+                    player.logout();
+
+                }
+            });
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override
@@ -153,39 +180,4 @@ public class SpotifyPlayer implements IMusicPlayer {
         player.seekToPosition(mOperationCallback, position);
     }
 
-    public Observable<Boolean> updateToken() {
-        return Observable.create(new Observable.OnSubscribe<Boolean>() {
-            @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
-                try {
-                    SpotifyAuthManager.getInstance().refreshToken(context, (newToken, tokenIdentical) -> {
-                        if (!tokenIdentical) {
-                            Config playerConfig = new Config(context, newToken, context.getString(R.string.api_spotify_id));
-                            Spotify.getPlayer(playerConfig, context, new com.spotify.sdk.android.player.SpotifyPlayer.InitializationObserver() {
-                                @Override
-                                public void onInitialized(com.spotify.sdk.android.player.SpotifyPlayer pl) {
-                                    player = pl;
-                                    player.addNotificationCallback(notificationCallback);
-                                    player.addConnectionStateCallback(connexionStateCallback);
-                                    subscriber.onNext(true);
-
-                                }
-
-                                @Override
-                                public void onError(Throwable throwable) {
-                                    Log.e(SpotifyPlayer.class.getSimpleName(), "Could not initialize player: " + throwable.getMessage());
-                                    subscriber.onError(throwable);
-
-                                }
-                            });
-                        } else {
-                            subscriber.onNext(true);
-                        }
-                    });
-                } catch (UnsupportedEncodingException e) {
-                    subscriber.onError(new Throwable("UnsupportedEncodingException"));
-                }
-            }
-        });
-    }
 }

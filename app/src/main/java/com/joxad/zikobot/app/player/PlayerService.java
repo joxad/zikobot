@@ -232,21 +232,15 @@ public class PlayerService extends Service implements IMusicPlayer {
         switch (currentTrackVM.getType()) {
             case TYPE.LOCAL:
                 currentPlayer = vlcPlayer;
-                play(currentTrackVM.getRef());
                 break;
             case TYPE.SOUNDCLOUD:
                 currentPlayer = androidPlayer;
-                play(currentTrackVM.getRef());
                 break;
             case TYPE.SPOTIFY:
-                spotifyPlayer.updateToken().subscribe(b -> {
-                    if (b) {
-                        currentPlayer = spotifyPlayer;
-                        play(currentTrackVM.getRef());
-                    }
-                });
+                currentPlayer = spotifyPlayer;
                 break;
         }
+        play(currentTrackVM.getRef());
     }
 
     @Override
