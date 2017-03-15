@@ -44,7 +44,7 @@
 
             <include
                 android:id="@+id/layout_player"
-                layout="@layout/layout_player"
+                layout="@layout/layout_wake_player"
                 app:playerVM="@{activityWakeUpVM.playerVM}" />
 
             <com.joxad.zikobot.app.core.viewutils.MaterialButtonView

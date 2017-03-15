@@ -1,4 +1,4 @@
-package com.joxad.zikobot.app.player;
+package com.joxad.zikobot.app.player.alarm;
 
 import android.app.Service;
 import android.content.Context;
@@ -18,37 +18,31 @@ import com.joxad.zikobot.app.core.notification.PlayerNotification;
 import com.joxad.zikobot.app.core.receiver.ZikoMediaCallback;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.event.EventAccountConnect;
-import com.joxad.zikobot.app.player.event.EventAddList;
-import com.joxad.zikobot.app.player.event.EventAddTrackToCurrent;
-import com.joxad.zikobot.app.player.event.EventAddTrackToEndOfCurrent;
-import com.joxad.zikobot.app.player.event.EventForceRefreshPlayerSpotify;
-import com.joxad.zikobot.app.player.event.EventNextTrack;
 import com.joxad.zikobot.app.player.event.EventPauseMediaButton;
 import com.joxad.zikobot.app.player.event.EventPlayMediaButton;
 import com.joxad.zikobot.app.player.event.EventPlayTrack;
-import com.joxad.zikobot.app.player.event.EventPosition;
-import com.joxad.zikobot.app.player.event.EventPreviousTrack;
-import com.joxad.zikobot.app.player.event.EventRefreshPlayer;
 import com.joxad.zikobot.app.player.event.EventStopPlayer;
-import com.joxad.zikobot.app.player.event.TrackChangeEvent;
 import com.joxad.zikobot.app.player.player.AndroidPlayer;
 import com.joxad.zikobot.app.player.player.IMusicPlayer;
 import com.joxad.zikobot.app.player.player.SpotifyPlayer;
 import com.joxad.zikobot.app.player.player.VLCPlayer;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.model.TYPE;
+import com.joxad.zikobot.data.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 /**
  * Created by Jocelyn on 12/12/2016.
  */
 
-public class PlayerService extends Service implements IMusicPlayer {
+public class WakePlayerService extends Service implements IMusicPlayer {
 
     public static final int DELAY = 200;
-    private final IBinder musicBind = new PlayerService.PlayerBinder();
+    private final IBinder musicBind = new WakePlayerService.WakePlayerBinder();
     public ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList<>();
     public TrackVM currentTrackVM;
     public ObservableBoolean playing = new ObservableBoolean(false);
@@ -68,7 +62,7 @@ public class PlayerService extends Service implements IMusicPlayer {
         vlcPlayer = new VLCPlayer();
         androidPlayer = new AndroidPlayer(this);
         spotifyPlayer = new SpotifyPlayer(this);
-        mediaSession = new MediaSessionCompat(this, "PlayerService");
+        mediaSession = new MediaSessionCompat(this, "WakePlayerService");
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
                 MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         mediaSession.setCallback(new ZikoMediaCallback());
@@ -124,10 +118,6 @@ public class PlayerService extends Service implements IMusicPlayer {
     }
 
     @Subscribe
-    public void onEvent(EventForceRefreshPlayerSpotify eventForceRefreshPlayerSpotify) {
-
-    }
-    @Subscribe
     public void onEvent(EventPlayTrack eventPlayTrack) {
         stopPreviousTrack();
 
@@ -149,53 +139,21 @@ public class PlayerService extends Service implements IMusicPlayer {
         play(currentTrackVM);
     }
 
-    @Subscribe
-    public void onEvent(EventAddList eventAddList) {
+    public void startAlarm(List<Track> trackList) {
         stopPreviousTrack();
-        trackVMs = eventAddList.getItems();
+        for (Track track:trackList) {
+            trackVMs.add(new TrackVM(this,track));
+        }
         currentIndex = 0;
         currentTrackVM = trackVMs.get(currentIndex);
         play(currentTrackVM);
-        EventBus.getDefault().post(new TrackChangeEvent());
     }
 
-    @Subscribe
-    public void onEvent(EventAddTrackToCurrent eventPlayTrack) {
-        if (trackVMs.isEmpty()) {
-            trackVMs.add(eventPlayTrack.getTrackVM());
-            currentIndex = 0;
-            currentTrackVM = trackVMs.get(currentIndex);
-            play(currentTrackVM);
-            EventBus.getDefault().post(new TrackChangeEvent());
-        } else {
-            trackVMs.add(currentIndex + 1, eventPlayTrack.getTrackVM());
-        }
-
-    }
-
-    @Subscribe
-    public void onEvent(EventAddTrackToEndOfCurrent eventPlayTrack) {
-        if (trackVMs.isEmpty()) {
-            trackVMs.add(eventPlayTrack.getTrackVM());
-            currentIndex = 0;
-            currentTrackVM = trackVMs.get(currentIndex);
-            play(currentTrackVM);
-            EventBus.getDefault().post(new TrackChangeEvent());
-        } else {
-            trackVMs.add(eventPlayTrack.getTrackVM());
-        }
-
-    }
 
     @Subscribe
     public void onEvent(EventStopPlayer eventStopPlayer) {
         stopForeground(true);
         stop();
-    }
-
-    @Subscribe
-    public void onEvent(EventNextTrack eventNextTrack) {
-        next();
     }
 
     @Subscribe
@@ -211,12 +169,6 @@ public class PlayerService extends Service implements IMusicPlayer {
 
         }
     }
-
-    @Subscribe
-    public void onEvent(EventPreviousTrack eventPreviousTrack) {
-        previous();
-    }
-
     private void stopPreviousTrack() {
         if (currentTrackVM != null)
             currentTrackVM.isPlaying.set(false);
@@ -256,7 +208,7 @@ public class PlayerService extends Service implements IMusicPlayer {
             playerNotification.prepareNotification(currentTrackVM.getModel());
         }
         currentProgress = 0;
-        EventBus.getDefault().post(new EventRefreshPlayer());
+        EventBus.getDefault().post(new WakeTrackChangeEvent());
 
     }
 
@@ -264,7 +216,6 @@ public class PlayerService extends Service implements IMusicPlayer {
         timeHandler.postDelayed(() -> {
             if (playing.get())
                 currentProgress += DELAY;
-            EventBus.getDefault().post(new EventPosition(currentProgress));
             runHandler();
         }, DELAY);
     }
@@ -316,28 +267,6 @@ public class PlayerService extends Service implements IMusicPlayer {
         return (int) currentTrackVM.getModel().getDuration();
     }
 
-    public void next() {
-        if (currentIndex < trackVMs.size() - 1) {
-            stopPreviousTrack();
-            currentIndex++;
-            currentTrackVM = trackVMs.get(currentIndex);
-            play(currentTrackVM);
-            EventBus.getDefault().post(new TrackChangeEvent());
-        } else {
-            stop();
-        }
-    }
-
-    public void previous() {
-        if (currentIndex > 0) {
-            stopPreviousTrack();
-            currentIndex--;
-            currentTrackVM = trackVMs.get(currentIndex);
-            play(currentTrackVM);
-            EventBus.getDefault().post(new TrackChangeEvent());
-        }
-    }
-
     @Override
     public boolean onUnbind(Intent intent) {
         stopForeground(true);
@@ -355,9 +284,9 @@ public class PlayerService extends Service implements IMusicPlayer {
         return trackVMs.isEmpty();
     }
 
-    public class PlayerBinder extends Binder {
-        public PlayerService getService() {
-            return PlayerService.this;
+    public class WakePlayerBinder extends Binder {
+        public WakePlayerService getService() {
+            return WakePlayerService.this;
         }
     }
 

@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="playerVM"
-            type="com.joxad.zikobot.app.player.PlayerVM" />
+            name="trackVM"
+            type="com.joxad.zikobot.app.localtracks.TrackVM" />
     </data>
 
     <RelativeLayout
@@ -24,7 +24,7 @@
             android:layout_width="@dimen/avatar_size"
             android:layout_height="@dimen/avatar_size"
             android:layout_centerInParent="true"
-            app:imageUrlNoError="@{playerVM.currentTrackVM.imageUrl}" />
+            app:imageUrlNoError="@{trackVM.imageUrl}" />
 
     </RelativeLayout>
 </layout>

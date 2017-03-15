@@ -18,7 +18,9 @@ import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.ActivityWakeUpBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.PlayerVM;
+import com.joxad.zikobot.app.player.alarm.WakePlayerVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
+import com.joxad.zikobot.app.player.event.EventForceRefreshPlayerSpotify;
 import com.joxad.zikobot.app.player.event.EventStopPlayer;
 import com.joxad.zikobot.data.model.Alarm;
 import com.joxad.zikobot.data.model.Track;
@@ -38,7 +40,7 @@ import me.tatarka.bindingcollectionadapter.ItemView;
  */
 public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWakeUpBinding> {
 
-    public PlayerVM playerVM;
+    public WakePlayerVM playerVM;
     public AlarmVM alarmVM;
     public TrackVM trackVM;
     Alarm alarm;
@@ -56,12 +58,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
 
     @Override
     public void onCreate() {
-        try {
-            SpotifyAuthManager.getInstance().refreshToken(activity, (newToken, tokenIdentical) -> Logger.d("Token refreshed"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        playerVM = new PlayerVM(activity, null);
         am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
@@ -70,6 +66,8 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
 //For Normal mode
         am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         alarm = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.ALARM));
+        playerVM = new WakePlayerVM(activity, null, alarm);
+
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(listener -> onBackPressed());
@@ -88,7 +86,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         }
         am.setStreamVolume(AudioManager.STREAM_MUSIC, alarm.getVolume(), alarm.getVolume());
 
-        startAlarm(alarm);
+        rotateCD();
     }
 
     @Override
@@ -97,20 +95,6 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         playerVM.onResume();
     }
 
-    /**
-     * @param alarm
-     */
-    private void startAlarm(Alarm alarm) {
-        ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList<>();
-        for (Track track : alarm.getTracks()) {
-            trackVMs.add(new TrackVM(activity, track));
-        }
-        if (alarm.isRandom()) {
-            Collections.shuffle(trackVMs);
-        }
-        EventBus.getDefault().post(new EventAddList(trackVMs));
-        rotateCD();
-    }
 
     /**
      *

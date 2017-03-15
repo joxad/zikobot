@@ -60,7 +60,7 @@
                 <include
                     android:id="@+id/layout_vinyl"
                     layout="@layout/layout_vinyl"
-                    app:playerVM="@{playerVM}" />
+                    app:trackVM="@{playerVM.currentTrackVM}" />
             </FrameLayout>
 
 

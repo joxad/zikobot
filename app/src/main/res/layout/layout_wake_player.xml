@@ -6,7 +6,7 @@
 
         <variable
             name="playerVM"
-            type="com.joxad.zikobot.app.player.PlayerVM" />
+            type="com.joxad.zikobot.app.player.alarm.WakePlayerVM" />
     </data>
 
 
