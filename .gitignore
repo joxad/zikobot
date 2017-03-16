@@ -36,3 +36,9 @@ crashlytics.properties
 /app/src/main/res/values/spotify_config.xml
 Supprimerait app/fabric.properties
 Supprimerait app/keystore.jks
+/fastlane/.env
+data/src/main/res/drawable/
+docs/
+fastlane/actions/
+wear/libs/
+wear/src/main/res/drawable/

@@ -1,0 +1,108 @@
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
+# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "1.110.0"
+
+default_platform :android
+
+platform :android do
+
+
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Building a new release version of the proto"
+        lane :build_release do
+          gradle(task: "clean")
+          gradle(task: "assembleRelease")
+          commit = last_git_commit
+          crashlytics(
+            api_token: ENV["CRASHLYTICS_API_TOKEN"],
+            build_secret: ENV["CRASHLYTICS_BUILD_SECRET"],
+            notes: commit[:message]
+          )
+  end
+
+  desc "Building a new release candidate version of the proto"
+      lane :build_rc do
+        gradle(task: "clean")
+        gradle(task: "assembleReleaseCandidate")
+        send_crashlytics
+        send_slack(message:"New Release Candidate version of Decathlon Android available")
+  end
+
+
+  desc "Building a new release candidate version of the proto"
+        lane :build_nightly do
+          gradle(task: "clean")
+          gradle(task: "assembleNightly")
+          send_crashlytics
+          send_slack(message:"New Nightly version of Decathlon Android available")
+    end
+
+  desc ""
+  private_lane :send_crashlytics do
+    commit = last_git_commit[:message]
+    sh("cd .. && touch changelog.txt")
+    File.write("./changelog.txt", commit)
+    crashlytics(
+      api_token: ENV["CRASHLYTICS_API_TOKEN"],
+      build_secret: ENV["CRASHLYTICS_BUILD_SECRET"],
+      notes_path: "./changelog.txt",
+      groups: ["dev-team"]
+    )
+  end
+
+  desc ""
+  private_lane :send_slack do |options|
+
+    slack(
+      slack_url: ENV["SLACK_URL"],
+      message: options[:message]
+    )
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "assembleRelease")
+    supply
+  end
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+
+    # slack(
+    #   message: "Successfully deployed new App Update."
+    # )
+  end
+
+  error do |lane, exception|
+    # slack(
+    #   message: exception.message,
+    #   success: false
+    # )
+  end
+end
+
+
+# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
+# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
+
+# fastlane reports which actions are used
+# No personal data is sent or shared. Learn more at https://github.com/fastlane/enhancer
