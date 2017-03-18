@@ -18,10 +18,12 @@ import com.joxad.zikobot.app.core.notification.PlayerNotification;
 import com.joxad.zikobot.app.core.receiver.ZikoMediaCallback;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.event.EventAccountConnect;
+import com.joxad.zikobot.app.player.event.EventNextTrack;
 import com.joxad.zikobot.app.player.event.EventPauseMediaButton;
 import com.joxad.zikobot.app.player.event.EventPlayMediaButton;
 import com.joxad.zikobot.app.player.event.EventPlayTrack;
 import com.joxad.zikobot.app.player.event.EventStopPlayer;
+import com.joxad.zikobot.app.player.event.TrackChangeEvent;
 import com.joxad.zikobot.app.player.player.AndroidPlayer;
 import com.joxad.zikobot.app.player.player.IMusicPlayer;
 import com.joxad.zikobot.app.player.player.SpotifyPlayer;
@@ -95,6 +97,7 @@ public class WakePlayerService extends Service implements IMusicPlayer {
         timeHandler = new Handler();
         vlcPlayer.init();
         if (AppPrefs.spotifyUser() != null) {
+
             spotifyPlayer.init();
         }
         if (AppPrefs.soundCloudUser() != null) {
@@ -114,6 +117,25 @@ public class WakePlayerService extends Service implements IMusicPlayer {
             case TYPE.SPOTIFY:
                 spotifyPlayer.init();
                 break;
+        }
+    }
+
+
+    @Subscribe(priority = 10)
+    public void onEvent(EventNextTrack eventNextTrack) {
+        EventBus.getDefault().cancelEventDelivery(eventNextTrack);
+        next();
+    }
+
+    public void next() {
+        if (currentIndex < trackVMs.size() - 1) {
+            stopPreviousTrack();
+            currentIndex++;
+            currentTrackVM = trackVMs.get(currentIndex);
+            play(currentTrackVM);
+            EventBus.getDefault().post(new TrackChangeEvent());
+        } else {
+            stop();
         }
     }
 
@@ -141,8 +163,8 @@ public class WakePlayerService extends Service implements IMusicPlayer {
 
     public void startAlarm(List<Track> trackList) {
         stopPreviousTrack();
-        for (Track track:trackList) {
-            trackVMs.add(new TrackVM(this,track));
+        for (Track track : trackList) {
+            trackVMs.add(new TrackVM(this, track));
         }
         currentIndex = 0;
         currentTrackVM = trackVMs.get(currentIndex);
@@ -169,6 +191,7 @@ public class WakePlayerService extends Service implements IMusicPlayer {
 
         }
     }
+
     private void stopPreviousTrack() {
         if (currentTrackVM != null)
             currentTrackVM.isPlaying.set(false);

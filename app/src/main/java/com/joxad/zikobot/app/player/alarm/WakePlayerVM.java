@@ -16,7 +16,6 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.widget.SeekBar;
 
 import com.joxad.easydatabinding.base.IVM;
 import com.joxad.zikobot.app.BR;
@@ -25,20 +24,17 @@ import com.joxad.zikobot.app.core.utils.AnimationEndListener;
 import com.joxad.zikobot.app.core.utils.Constants;
 import com.joxad.zikobot.app.databinding.ViewPlayerSimpleBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
-import com.joxad.zikobot.app.player.PlayerService;
-import com.joxad.zikobot.app.player.event.EventAddList;
-import com.joxad.zikobot.app.player.event.EventNextTrack;
 import com.joxad.zikobot.app.player.event.EventPosition;
-import com.joxad.zikobot.app.player.event.EventPreviousTrack;
-import com.joxad.zikobot.app.player.event.EventRefreshPlayer;
-import com.joxad.zikobot.app.player.event.TrackChangeEvent;
+import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.model.Alarm;
 import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
@@ -101,6 +97,22 @@ public class WakePlayerVM extends BaseObservable implements IVM {
             EventBus.getDefault().register(this);
         if (isBound.get())
             return;
+        if (AppPrefs.spotifyUser() != null) {
+            try {
+                SpotifyAuthManager.getInstance().refreshToken(activity, (newToken, tokenIdentical) -> {
+                    initService();
+                });
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        } else {
+            initService();
+        }
+        if (binding != null)
+            rotateCD();
+    }
+
+    private void initService() {
         musicConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -117,8 +129,6 @@ public class WakePlayerVM extends BaseObservable implements IVM {
             }
         };
         activity.bindService(intent, musicConnection, Context.BIND_AUTO_CREATE);
-        if (binding != null)
-            rotateCD();
     }
 
     private void startAlarm(Alarm alarm) {
@@ -129,7 +139,7 @@ public class WakePlayerVM extends BaseObservable implements IVM {
         if (alarm.isRandom()) {
             Collections.shuffle(trackVMs);
         }
-    playerService.startAlarm(alarm.getTracks());
+        playerService.startAlarm(alarm.getTracks());
     }
 
     private void refresh() {
