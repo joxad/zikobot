@@ -31,48 +31,43 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/textSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/drawer_filter_album"
+                    android:visibility="@{activitySpotifyVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:background="@color/colorAccent"
+                    android:visibility="@{activitySpotifyVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
+
+
+                <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
+                    android:id="@+id/rv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:clipToPadding="false"
+                    android:layoutAnimation="@anim/grid_animation"
+                    android:paddingBottom="@dimen/paddingBottom"
+                    android:visibility="@{activitySpotifyVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
+                    app:itemView="@{activitySpotifyVM.itemViewTrack}"
+                    app:items="@{activitySpotifyVM.tracks}"
+                    tools:listitem="@layout/item_artist" />
 
-                    <TextView
-                        style="@style/textSection"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_medium"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:text="@string/drawer_filter_album"
-                        android:visibility="@{activitySpotifyVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:background="@color/colorAccent"
-                        android:visibility="@{activitySpotifyVM.tracks.size() >0 ? v.VISIBLE : v.GONE}" />
-
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToPadding="false"
-                        android:paddingBottom="@dimen/paddingBottom"
-                        android:visibility="@{activitySpotifyVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
-                        app:itemView="@{activitySpotifyVM.itemViewTrack}"
-                        app:items="@{activitySpotifyVM.tracks}"
-                        app:layoutManager="@{LayoutManagers.grid(1)}"
-                        tools:listitem="@layout/item_artist" />
-
-                </LinearLayout>
-
-            </com.joxad.zikobot.app.core.viewutils.FlingNestedScrollView>
+            </LinearLayout>
 
         </FrameLayout>
 

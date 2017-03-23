@@ -80,6 +80,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         AppPrefs.spotifyUser(null);
         AppPrefs.saveAccessCode(null);
         AppPrefs.saveAccessToken(null);
+        showSpotifyConnect.set(true);
         notifyChange();
     }
 

@@ -201,6 +201,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Subscribe
     public void onEvent(EventPauseMediaButton eventPauseMediaButton) {
         pause();
+        EventBus.getDefault().post(new EventRefreshPlayer());
     }
 
     @Subscribe

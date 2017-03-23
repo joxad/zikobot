@@ -27,6 +27,7 @@ import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
+import com.joxad.zikobot.data.module.spotify_api.model.Item;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
 import com.orhanobut.logger.Logger;
 
@@ -56,6 +57,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
 
     private Album album;
     private ArrayList<Track> tracks;
+    private Item playlist;
 
     /***
      * @param fragment
@@ -84,6 +86,13 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
                     break;
             }
 
+        }
+
+        if (fragment.getArguments().containsKey(EXTRA.PLAYLIST)) {
+            Parcelable parcelablePlaylist = fragment.getArguments().getParcelable(EXTRA.PLAYLIST);
+            playlist = (parcelablePlaylist != null ? Parcels.unwrap(parcelablePlaylist) : null);
+            tracks = new ArrayList<>();
+           loadSpotifyTracks();
         }
         itemsVM = new ObservableArrayList<>();
         notifyChange();
@@ -139,6 +148,11 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
                 AlarmTrackManager.selectTrack(track);
             }
         }
+        if (playlist != null) {
+            for (Track track : tracks) {
+                AlarmTrackManager.selectTrack(track);
+            }
+        }
         ArrayList<Track> allTracks = new ArrayList<>();
         allTracks.addAll(alarm.getTracks());
         allTracks.addAll(AlarmTrackManager.tracks());
@@ -147,6 +161,8 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
                 Toast.makeText(fragment.getContext(), track.getName() + " a été ajoutée à la playlist " + alarm.getName(), Toast.LENGTH_SHORT).show();
             if (album != null)
                 Toast.makeText(fragment.getContext(), album.getName() + " a été ajouté à la playlist " + alarm.getName(), Toast.LENGTH_SHORT).show();
+            if (playlist != null)
+                Toast.makeText(fragment.getContext(), playlist.getName() + " a été ajouté à la playlist " + alarm.getName(), Toast.LENGTH_SHORT).show();
             dismiss();
         }, throwable -> {
             Toast.makeText(fragment.getContext(), "Oops j'ai eu un souci", Toast.LENGTH_SHORT).show();
@@ -168,8 +184,13 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
             }
             EventBus.getDefault().post(new EventAddList(trackVMs));
         }
-
-
+        if (playlist != null) {
+            ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList();
+            for (Track track : tracks) {
+                trackVMs.add(new TrackVM(fragment.getContext(), track));
+            }
+            EventBus.getDefault().post(new EventAddList(trackVMs));
+        }
         dismiss();
     }
 
@@ -182,6 +203,13 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
         if (track != null)
             EventBus.getDefault().post(new EventAddTrackToEndOfCurrent(new TrackVM(fragment.getContext(), track)));
         if (album != null) {
+            ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList();
+            for (Track track : tracks) {
+                trackVMs.add(new TrackVM(fragment.getContext(), track));
+            }
+            EventBus.getDefault().post(new EventAddList(trackVMs));
+        }
+        if (playlist != null) {
             ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList();
             for (Track track : tracks) {
                 trackVMs.add(new TrackVM(fragment.getContext(), track));
@@ -201,7 +229,6 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
      * @param view
      */
     public void showArtist(@SuppressWarnings("unused") View view) {
-//TODO
         if (track != null)
             switch (track.getType()) {
                 case LOCAL:
@@ -226,6 +253,9 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
                     showSoundCloudArtist(album.getArtistId());
                     break;
             }
+        }
+        if (playlist != null) {
+            Toast.makeText(fragment.getContext(), "Pas d'artiste ", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -318,6 +348,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
     public String getImage() {
         if (track != null) return track.getImageUrl();
         if (album != null) return album.getImage();
+        if (playlist != null) return playlist.getImages().get(0).getUrl();
         return "";
     }
 
@@ -325,6 +356,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
     public String getTitle() {
         if (track != null) return track.getName();
         if (album != null) return album.getName();
+        if (playlist != null) return playlist.getName();
         return "";
     }
 

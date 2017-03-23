@@ -47,19 +47,16 @@ public class AlarmManager {
      */
     public static Observable<Alarm> getAlarmById(final long id) {
 
-        return Observable.create(new Observable.OnSubscribe<Alarm>() {
-            @Override
-            public void call(Subscriber<? super Alarm> subscriber) {
-                Alarm alarm = new Select().from(Alarm.class).where(Alarm_Table.id.eq(id)).querySingle();
+        return Observable.create(subscriber -> {
+            Alarm alarm = new Select().from(Alarm.class).where(Alarm_Table.id.eq(id)).querySingle();
 
-                if (alarm == null) {
-                    subscriber.onError(new Throwable("No alarm"));
-                    return;
-                }
-                alarm.getTracks();
-                if (subscriber.isUnsubscribed()) return;
-                subscriber.onNext(alarm);
+            if (alarm == null) {
+                subscriber.onError(new Throwable("No alarm"));
+                return;
             }
+            alarm.getTracks();
+            if (subscriber.isUnsubscribed()) return;
+            subscriber.onNext(alarm);
         });
     }
 
@@ -78,13 +75,10 @@ public class AlarmManager {
      * @return
      */
     public static Observable<List<Alarm>> loadAlarms() {
-        return Observable.create(new Observable.OnSubscribe<List<Alarm>>() {
-            @Override
-            public void call(Subscriber<? super List<Alarm>> subscriber) {
-                List<Alarm> organizationList = new Select().from(Alarm.class).queryList();
-                if (subscriber.isUnsubscribed()) return;
-                subscriber.onNext(organizationList);
-            }
+        return Observable.create(subscriber -> {
+            List<Alarm> organizationList = new Select().from(Alarm.class).queryList();
+            if (subscriber.isUnsubscribed()) return;
+            subscriber.onNext(organizationList);
         });
     }
 
@@ -94,13 +88,10 @@ public class AlarmManager {
      * @return
      */
     public static Observable<Alarm> refreshAlarm(final long id) {
-        return Observable.create(new Observable.OnSubscribe<Alarm>() {
-            @Override
-            public void call(Subscriber<? super Alarm> subscriber) {
-                Alarm alarm = new Select().from(Alarm.class).where(Alarm_Table.id.eq(id)).querySingle();
-                if (subscriber.isUnsubscribed()) return;
-                subscriber.onNext(alarm);
-            }
+        return Observable.create(subscriber -> {
+            Alarm alarm = new Select().from(Alarm.class).where(Alarm_Table.id.eq(id)).querySingle();
+            if (subscriber.isUnsubscribed()) return;
+            subscriber.onNext(alarm);
         });
     }
 
@@ -109,13 +100,10 @@ public class AlarmManager {
      */
     public static Observable<Alarm> saveAlarm(Alarm alarm) {
 
-        return Observable.create(new Observable.OnSubscribe<Alarm>() {
-            @Override
-            public void call(Subscriber<? super Alarm> subscriber) {
-                alarm.save();
-                AppWidgetHelper.update(context);
-                subscriber.onNext(alarm);
-            }
+        return Observable.create(subscriber -> {
+            alarm.save();
+            AppWidgetHelper.update(context);
+            subscriber.onNext(alarm);
         });
 
     }
@@ -127,18 +115,15 @@ public class AlarmManager {
      */
     public static Observable<Alarm> saveAlarm(Alarm alarm, List<Track> trackList) {
 
-        return Observable.create(new Observable.OnSubscribe<Alarm>() {
-            @Override
-            public void call(Subscriber<? super Alarm> subscriber) {
-                alarm.save();
-                SQLite.delete().from(Track.class).where(Track_Table.alarmForeignKeyContainer_id.eq(alarm.getId())).query();
-                for (Track track : trackList) {
-                    track.associateAlarm(alarm);
-                    track.save();
-                }
-                AppWidgetHelper.update(context);
-                subscriber.onNext(alarm);
+        return Observable.create(subscriber -> {
+            alarm.save();
+            SQLite.delete().from(Track.class).where(Track_Table.alarmForeignKeyContainer_id.eq(alarm.getId())).query();
+            for (Track track : trackList) {
+                track.associateAlarm(alarm);
+                track.save();
             }
+            AppWidgetHelper.update(context);
+            subscriber.onNext(alarm);
         });
 
     }

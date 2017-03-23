@@ -8,8 +8,10 @@ import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.DialogFragmentSettingsBinding;
 import com.joxad.zikobot.data.model.Album;
+import com.joxad.zikobot.data.model.Playlist;
 import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
+import com.joxad.zikobot.data.module.spotify_api.model.Item;
 
 import org.parceler.Parcels;
 
@@ -21,6 +23,15 @@ public class DialogFragmentSettings extends DialogBottomSheetBase<DialogFragment
 
     public static final String TAG = DialogFragmentSettings.class.getSimpleName();
 
+
+
+    public static DialogFragmentSettings newInstance(Item track) {
+        DialogFragmentSettings fragment = new DialogFragmentSettings();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(EXTRA.PLAYLIST, Parcels.wrap(track));
+        fragment.setArguments(bundle);
+        return fragment;
+    }
     public static DialogFragmentSettings newInstance(Track track) {
         DialogFragmentSettings fragment = new DialogFragmentSettings();
         Bundle bundle = new Bundle();

@@ -3,6 +3,7 @@ package com.joxad.zikobot.app.spotify;
 import android.databinding.ObservableArrayList;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -10,8 +11,10 @@ import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.DialogFragmentSettings;
 import com.joxad.zikobot.app.core.mock.Mock;
+import com.joxad.zikobot.app.core.utils.Constants;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
+import com.joxad.zikobot.app.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.joxad.zikobot.app.databinding.ActivitySpotifyBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.PlayerVM;
@@ -22,6 +25,7 @@ import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylistItem;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -43,6 +47,7 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
     public Item album;
     private AlertDialog alertDialog;
 
+    private int lastItem=0;
     /***
      * @param activity
      * @param binding
@@ -55,7 +60,15 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
     public void onCreate() {
         album = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.PLAYLIST));
         tracks = new ObservableArrayList<>();
-        binding.rv.setNestedScrollingEnabled(false);
+
+        binding.rv.setLayoutManager(new GridLayoutManager(activity,1));
+        binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                Logger.d("Page %d",page);
+                loadTracks(album, Constants.PAGINATION_LIMIT, page*Constants.PAGINATION_LIMIT);
+            }
+        });
         initToolbar();
         initPlayerVM();
     }
@@ -78,14 +91,18 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
         playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
 
+    @Override
+    public void onEnterAnimationComplete() {
+        super.onEnterAnimationComplete();
+        loadTracks(album,Constants.PAGINATION_LIMIT,0);
+
+    }
 
     @Override
     public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
         playerVM.onResume();
-        loadTracks(album);
-        //TODO getinfos on the album
     }
 
 
@@ -122,10 +139,8 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
      *
      * @param playlist
      */
-    private void loadTracks(Item playlist) {
-        tracks.addAll(Mock.tracks(activity, playlist.tracks.getTotal()));
-        SpotifyApiManager.getInstance().getPlaylistTracks(playlist.getId()).subscribe(spotifyPlaylistWithTrack -> {
-            tracks.clear();
+    private void loadTracks(Item playlist, int limit,int offset) {
+        SpotifyApiManager.getInstance().getPlaylistTracks(playlist.getId(),limit,offset).subscribe(spotifyPlaylistWithTrack -> {
             for (SpotifyPlaylistItem playlistItem : spotifyPlaylistWithTrack.getItems()) {
                 tracks.add(new TrackVM(activity, Track.from(playlistItem.track)));
             }

@@ -39,7 +39,7 @@ public interface SpotifyAPIEndpoint {
     Observable<SpotifyFeaturedPlaylist> getFeaturedPlaylists();
 
     @GET("users/{spotifyUser}/playlists/{playlistId}/tracks")
-    Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(@Path("spotifyUser") String userId, @Path("playlistId") final String playlistId);
+    Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(@Path("spotifyUser") String userId, @Path("playlistId") final String playlistId, @Query("limit") int limit, @Query("offset") int offset);
 
     @GET("search")
     Observable<SpotifySearchResult> search(@Query("limit") int limit, @Query("offset") int offset, @Query("q") String search, @Query("type") String type, @Query("market") final String market);

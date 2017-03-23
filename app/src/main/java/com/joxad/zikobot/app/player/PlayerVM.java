@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.joxad.easydatabinding.base.IVM;
 import com.joxad.zikobot.app.BR;
@@ -29,6 +30,7 @@ import com.joxad.zikobot.app.player.event.EventNextTrack;
 import com.joxad.zikobot.app.player.event.EventPosition;
 import com.joxad.zikobot.app.player.event.EventPreviousTrack;
 import com.joxad.zikobot.app.player.event.EventRefreshPlayer;
+import com.joxad.zikobot.app.player.event.EventShowError;
 import com.joxad.zikobot.app.player.event.TrackChangeEvent;
 import com.orhanobut.logger.Logger;
 
@@ -112,6 +114,12 @@ public class PlayerVM extends BaseObservable implements IVM {
         activity.bindService(intent, musicConnection, Context.BIND_AUTO_CREATE);
         if (binding != null)
             rotateCD();
+    }
+
+
+    @Subscribe
+    public void onReceive(EventShowError eventShowError) {
+        Toast.makeText(activity, eventShowError.getString(), Toast.LENGTH_LONG).show();
     }
 
     private void refresh() {

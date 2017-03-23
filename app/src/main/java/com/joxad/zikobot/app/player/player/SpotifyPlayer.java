@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.player.event.EventNextTrack;
+import com.joxad.zikobot.app.player.event.EventShowError;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
 import com.orhanobut.logger.Logger;
@@ -32,13 +33,30 @@ public class SpotifyPlayer implements IMusicPlayer {
     private final Player.OperationCallback mOperationCallback = new Player.OperationCallback() {
         @Override
         public void onSuccess() {
-            //logStatus("OK!");
             Logger.d("OK");
         }
 
         @Override
         public void onError(Error error) {
             Logger.e("OK");
+            switch (error) {
+                case kSpErrorNotActiveDevice:
+                    player.removeConnectionStateCallback(connexionStateCallback);
+                    player.removeNotificationCallback(notificationCallback);
+                    player.addNotificationCallback(notificationCallback);
+                    player.addConnectionStateCallback(connexionStateCallback);
+                    player.login(AppPrefs.getSpotifyAccessToken());
+                    break;
+                case kSpErrorNeedsPremium:
+                    EventBus.getDefault().post(new EventShowError(context.getString(R.string.error_spotify_premium)));
+                    break;
+                case kSpErrorCorruptTrack:
+                    EventBus.getDefault().post(new EventShowError(context.getString(R.string.error_corrupt_track)));
+                    break;
+                default:
+                    EventBus.getDefault().post(new EventShowError(context.getString(R.string.error_generic_error)));
+                    break;
+            }
         }
     };
 
@@ -54,19 +72,7 @@ public class SpotifyPlayer implements IMusicPlayer {
 
         }
     };
-    //    PlayerNotificationCallback playerNotificationCallback = new PlayerNotificationCallback() {
-//        @Override
-//        public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
-//            if (playerState.positionInMs >= playerState.durationInMs && playerState.durationInMs > 0)
-//                EventBus.getDefault().post(new EventNextTrack());
-//            Logger.d(String.format("Player state %s - activeDevice %s : current duration %d total duration %s", playerState.trackUri, playerState.activeDevice, playerState.positionInMs, playerState.durationInMs));
-//        }
-//
-//        @Override
-//        public void onPlaybackError(ErrorType errorType, String s) {
-//            Logger.e(errorType.name() + " " + s);
-//        }
-//    };
+
     private ConnectionStateCallback connexionStateCallback = new ConnectionStateCallback() {
         @Override
         public void onLoggedIn() {
@@ -79,15 +85,6 @@ public class SpotifyPlayer implements IMusicPlayer {
 
         @Override
         public void onLoggedOut() {
-//            try {
-//                SpotifyAuthManager.getInstance().refreshToken(context, (newToken, tokenIdentical) -> {
-//                    if (!tokenIdentical) {
-//                        player.login(newToken);
-//                    }
-//                });
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            }
             player.login(AppPrefs.getSpotifyAccessToken());
 
             Logger.d("LoggedOut");
@@ -97,6 +94,11 @@ public class SpotifyPlayer implements IMusicPlayer {
         public void onLoginFailed(Error error) {
             Logger.d("onLoginFailed %s", error.toString());
 
+            switch (error) {
+                case kSpErrorNeedsPremium:
+                    EventBus.getDefault().post(new EventShowError(context.getString(R.string.error_spotify_premium)));
+                    break;
+            }
         }
 
 
@@ -143,8 +145,7 @@ public class SpotifyPlayer implements IMusicPlayer {
             SpotifyAuthManager.getInstance().refreshToken(context, (newToken, tokenIdentical) -> {
                 if (!tokenIdentical) {
                     hasRefreshed = true;
-                    player.logout();
-
+                    player.playUri(mOperationCallback, ref, 0, 0);
                 }
             });
         } catch (UnsupportedEncodingException e) {

@@ -16,6 +16,8 @@ import com.joxad.zikobot.data.module.spotify_api.model.SpotifyUser;
 import com.joxad.zikobot.data.module.spotify_api.resource.SpotifyAPIEndpoint;
 import com.joxad.zikobot.data.module.spotify_api.resource.SpotifyApiInterceptor;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Locale;
 
 import retrofit2.Retrofit;
@@ -109,8 +111,15 @@ public class SpotifyApiManager {
     /***
      * @param playlistId
      */
-    public Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(final String playlistId) {
-        return spotifyAPIEndpoint.getPlaylistTracks(AppPrefs.spotifyUser().getId(), playlistId).subscribeOn(Schedulers.io())
+    public Observable<SpotifyPlaylistWithTrack> getPlaylistTracks(final String playlistId, final int limit, final int offset) {
+
+        String userEncoded = "";
+        try {
+            userEncoded = URLEncoder.encode(AppPrefs.spotifyUser().getId(),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return spotifyAPIEndpoint.getPlaylistTracks(userEncoded, playlistId,limit,offset).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }

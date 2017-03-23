@@ -7,12 +7,9 @@ import org.parceler.Parcel;
 
 import java.util.ArrayList;
 
-import javax.annotation.Generated;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Generated("org.jsonschema2pojo")
 @Data
 @Parcel
 @AllArgsConstructor(suppressConstructorProperties = true)

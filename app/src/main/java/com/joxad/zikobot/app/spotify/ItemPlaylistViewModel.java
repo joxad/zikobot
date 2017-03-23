@@ -7,6 +7,7 @@ import android.view.View;
 import com.joxad.easydatabinding.base.BaseVM;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.data.event.SelectItemPlaylistEvent;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogPlaylistSettings;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,6 +61,16 @@ public class ItemPlaylistViewModel extends BaseVM<Item> {
         return String.format(context.getString(R.string.playlist_total_tracks),
                 model.tracks.total);
     }
+
+    public void onMoreClicked(View view) {
+        onLongClick(view);
+    }
+
+    public boolean onLongClick(View view) {
+        EventBus.getDefault().post(new EventShowDialogPlaylistSettings(model));
+        return true;
+    }
+
 
     @Bindable
     public String getTransition() {
