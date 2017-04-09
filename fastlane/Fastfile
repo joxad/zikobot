@@ -35,23 +35,6 @@ platform :android do
           )
   end
 
-  desc "Building a new release candidate version of the proto"
-      lane :build_rc do
-        gradle(task: "clean")
-        gradle(task: "assembleReleaseCandidate")
-        send_crashlytics
-        send_slack(message:"New Release Candidate version of Decathlon Android available")
-  end
-
-
-  desc "Building a new release candidate version of the proto"
-        lane :build_nightly do
-          gradle(task: "clean")
-          gradle(task: "assembleNightly")
-          send_crashlytics
-          send_slack(message:"New Nightly version of Decathlon Android available")
-    end
-
   desc ""
   private_lane :send_crashlytics do
     commit = last_git_commit[:message]

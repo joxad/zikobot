@@ -1,6 +1,7 @@
 package com.joxad.zikobot.app.soundcloud;
 
 import android.databinding.ObservableArrayList;
+import android.util.Log;
 import android.view.View;
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -60,7 +61,13 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
      * Init the toolar
      */
     private void initToolbar() {
-        ZikoUtils.prepareToolbar(activity, binding.customToolbar, soundCloudPlaylist.getTitle(), soundCloudPlaylist.getSoundCloudTracks().get(0).getArtworkUrl());
+        String playlistImage = null;
+        try {
+            playlistImage = soundCloudPlaylist.getSoundCloudTracks().get(0).getArtworkUrl();
+        } catch (Exception e) {
+            Log.e("SC", e.getLocalizedMessage());
+        }
+        ZikoUtils.prepareToolbar(activity, binding.customToolbar, soundCloudPlaylist.getTitle(), playlistImage);
         ZikoUtils.animateScale(binding.fabPlay);
     }
 
