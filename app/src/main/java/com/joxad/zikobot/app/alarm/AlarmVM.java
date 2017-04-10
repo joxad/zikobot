@@ -1,11 +1,13 @@
 package com.joxad.zikobot.app.alarm;
 
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
+import android.os.Build;
 import android.view.View;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     public ObservableArrayList<TrackVM> tracksVms;
     public ObservableBoolean isExpanded;
+    private NotificationManager notificationManager;
 
     /***
      * @param context
@@ -56,6 +59,8 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     public void onCreate() {
         isExpanded = new ObservableBoolean(false);
         tracksVms = new ObservableArrayList<>();
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
     }
 
     public void updateTimeSelected(int currentHour, int currentMin) {
@@ -158,11 +163,24 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         } else {
             model.setActive(active ? 1 : 0);
             AlarmManager.prepareAlarm(context, model);
+//test notification
+            if (model.getActive() == 1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                        && !notificationManager.isNotificationPolicyAccessGranted()) {
+
+                    Intent intent = new Intent(
+                            android.provider.Settings
+                                    .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+
+                    context.startActivity(intent);
+                }
+            }
 
         }
         model.save();
         notifyChange();
     }
+
 
     @Bindable
     public boolean isActivated() {

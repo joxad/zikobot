@@ -31,7 +31,6 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     public PlayerVM playerVM;
     Alarm alarm;
     NavigationManager navigationManager;
-
     /***
      * @param activity
      * @param binding
@@ -42,7 +41,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
     @Override
     public void onCreate() {
-        alarm = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.ALARM));
+     alarm = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.ALARM));
         alarmVM = new AlarmVM(activity, alarm) {
             @Override
             public ItemView itemView() {
@@ -89,7 +88,11 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
             }
             return false;
         });
-        binding.swActivated.setOnClickListener(v -> alarmVM.updateStatus(!alarmVM.isActivated()));
+        binding.swActivated.setOnClickListener(v -> {
+            alarmVM.updateStatus(!alarmVM.isActivated());
+
+
+        });
     }
 
     /***

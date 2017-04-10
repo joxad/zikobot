@@ -10,12 +10,9 @@ import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.view.View;
 
 import com.joxad.easydatabinding.base.IVM;
 import com.joxad.zikobot.app.BR;
@@ -29,7 +26,6 @@ import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.model.Alarm;
 import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
-import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,16 +42,12 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 public class WakePlayerVM extends BaseObservable implements IVM {
 
     public final ObservableBoolean isBound = new ObservableBoolean(false);
-    public final ObservableBoolean isExpanded = new ObservableBoolean(false);
     private final ViewPlayerSimpleBinding binding;
     public ObservableField<Integer> seekBarValue = new ObservableField<>(0);
     public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_track_player);
-    public ObservableBoolean showList;
     private ServiceConnection musicConnection;
     private AppCompatActivity activity;
     private WakePlayerService playerService;
-    private Intent intent;
-    private BottomSheetBehavior<View> behavior;
     private Alarm alarm;
 
     public WakePlayerVM(AppCompatActivity activity, ViewPlayerSimpleBinding binding, Alarm alarm) {
@@ -67,28 +59,7 @@ public class WakePlayerVM extends BaseObservable implements IVM {
 
     @Override
     public void onCreate() {
-        showList = new ObservableBoolean(false);
-        intent = new Intent(activity, WakePlayerService.class);
-        if (binding == null)
-            return;
-        behavior = BottomSheetBehavior.from((CardView) binding.getRoot().getParent());
-        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                Logger.d("%d", newState);
-                if (newState == BottomSheetBehavior.STATE_EXPANDED)
-                    isExpanded.set(true);
-                else {
-                    if (isExpanded.get())
-                        isExpanded.set(false);
-                }
-            }
 
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-            }
-        });
     }
 
     @Override
@@ -100,14 +71,14 @@ public class WakePlayerVM extends BaseObservable implements IVM {
         if (AppPrefs.spotifyUser() != null) {
             try {
                 SpotifyAuthManager.getInstance().refreshToken(activity, (newToken, tokenIdentical) -> {
-                    initService();
                 });
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-        } else {
-            initService();
         }
+
+        new Handler().postDelayed(this::initService, 1000);
+
         if (binding != null)
             rotateCD();
     }
@@ -128,7 +99,7 @@ public class WakePlayerVM extends BaseObservable implements IVM {
                 isBound.set(false);
             }
         };
-        activity.bindService(intent, musicConnection, Context.BIND_AUTO_CREATE);
+        activity.bindService(new Intent(activity, WakePlayerService.class), musicConnection, Context.BIND_AUTO_CREATE);
     }
 
     private void startAlarm(Alarm alarm) {
@@ -216,10 +187,6 @@ public class WakePlayerVM extends BaseObservable implements IVM {
      * @return
      */
     public boolean onBackPressed() {
-        if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            return false;
-        }
         return true;
     }
 
