@@ -125,6 +125,16 @@ dependencies {
     debugWearApp project(path: ':wear', configuration: 'debugApk')
     releaseWearApp project(path: ':wear', configuration: 'releaseApk')
     compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
+    compile ('com.google.apis:google-api-services-youtube:v3-rev183-1.22.0') {
+        exclude module: 'httpclient' //by artifact name
+        exclude group: 'org.apache.httpcomponents' //by group
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient' //by both name and group
+
+    }
+    compile ('com.github.Commit451.YouTubeExtractor:youtubeextractor:2.1.0') {
+        transitive false
+    }
+    compile 'com.github.Commit451.YouTubeExtractor:rxyoutubeextractor:2.1.0'
 
     compile project(path: ':data')
 }

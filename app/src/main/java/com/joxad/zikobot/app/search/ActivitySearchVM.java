@@ -12,6 +12,7 @@ import com.joxad.zikobot.app.home.ViewPagerAdapter;
 import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.soundcloud.FragmentSoundCloudSearch;
 import com.joxad.zikobot.app.spotify.FragmentSpotifySearch;
+import com.joxad.zikobot.app.youtube.FragmentYoutubeSearch;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.event.search.EventQueryChange;
 import com.orhanobut.logger.Logger;
@@ -54,6 +55,7 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
         if (AppPrefs.deezerUser() != null) {
             tabAdapter.addFragment(activity.getString(R.string.activity_music_deezer), FragmentDeezerSearch.newInstance());
         }
+        tabAdapter.addFragment("Youtube", FragmentYoutubeSearch.newInstance());
         tabAdapter.notifyDataSetChanged();
     }
 

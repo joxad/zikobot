@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+
+        <import
+            alias="v"
+            type="android.view.View" />
+
+        <variable
+            name="fragmentYoutubeSearchVM"
+            type="com.joxad.zikobot.app.youtube.FragmentYoutubeSearchVM" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
+            android:id="@+id/rv_youtube"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/grid_animation"
+            app:itemView="@{fragmentYoutubeSearchVM.itemViewYoutube}"
+            app:items="@{fragmentYoutubeSearchVM.youtubeItemVMs}"
+            app:layoutManager="@{LayoutManagers.grid(2)}"
+            tools:listitem="@layout/item_artist" />
+
+
+        <com.joxad.zikobot.app.core.viewutils.ZikobotMessageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:visibility="@{fragmentYoutubeSearchVM.showNoResult ? v.VISIBLE:v.GONE}"
+            app:zmv_message="@string/no_result" />
+
+    </RelativeLayout>
+
+</layout>
