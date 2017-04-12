@@ -77,7 +77,7 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
     public void onReceive(EventSelectItemYt eventSelectItemYt) {
         VideoItem model = eventSelectItemYt.getModel();
         yc.detailObservable(model.getId()).subscribe(videoItem -> {
-            EventBus.getDefault().post(new EventPlayTrack(new TrackVM(fragment.getContext(), Track.from(model))));
+            EventBus.getDefault().post(new EventPlayTrack(new TrackVM(fragment.getContext(), Track.from(videoItem))));
         }, throwable -> {
             Toast.makeText(fragment.getContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         });
@@ -131,10 +131,11 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
                 query.setMaxResults(50L);
                 query.setType("video");
                 query.setFields("items(id/videoId,snippet/title,snippet/description,snippet/thumbnails/default/url)");
-                videos = youtube.videos().list("id,snippet");
+                videos = youtube.videos().list("id,contentDetails,snippet,statistics");
                 videos.setKey(KEY);
-                videos.setMaxResults(1L);
-                videos.setFields("items(id/videoId,snippet/title,snippet/description,snippet/thumbnails/default/url, snippet/contentDetails)");
+                videos.setMaxResults((long) 1);
+                videos.setFields("items(id,contentDetails,snippet,statistics)");
+
             } catch (IOException e) {
                 Log.d("YC", "Could not initialize: " + e);
             }
