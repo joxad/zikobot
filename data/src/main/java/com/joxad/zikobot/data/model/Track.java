@@ -5,6 +5,7 @@ import com.joxad.zikobot.data.db.MusicAlarmDatabase;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
+import com.joxad.zikobot.data.module.youtube.VideoItem;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -113,6 +114,21 @@ public class Track extends BaseModel {
         track.setArtistName(deezerTrack.getArtist().getName());
         track.setName(deezerTrack.getTitle());
         track.setDuration(deezerTrack.getDuration() * 1000);
+        return track;
+    }
+
+    /***
+     * @param videoItem
+     * @return
+     */
+    public static Track from(VideoItem videoItem) {
+        Track track = new Track();
+        track.setType(TYPE.YOUTUBE);
+        track.setRef(videoItem.getRef());
+        track.setImageUrl(videoItem.getThumbnailURL());
+        track.setArtistName(videoItem.getDescription());
+        track.setName(videoItem.getTitle());
+        track.setDuration(videoItem.getDuration());
         return track;
     }
 

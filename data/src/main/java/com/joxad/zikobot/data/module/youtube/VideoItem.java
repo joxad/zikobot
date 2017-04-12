@@ -5,6 +5,8 @@ public class VideoItem {
     private String description;
     private String thumbnailURL;
     private String id;
+    private String ref;
+    private Long duration;
      
     public String getId() {
         return id;
@@ -13,7 +15,23 @@ public class VideoItem {
     public void setId(String id) {
         this.id = id;
     }
-     
+
+    public String getRef() {
+        return ref;
+    }
+
+    public Long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Long duration) {
+        this.duration = duration;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
+
     public String getTitle() {
         return title;
     }

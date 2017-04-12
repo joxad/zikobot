@@ -4,20 +4,24 @@ import android.content.Context;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
+import com.google.api.services.youtube.model.Video;
+import com.google.api.services.youtube.model.VideoListResponse;
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.databinding.FragmentYoutubeSearchBinding;
+import com.joxad.zikobot.app.localtracks.TrackVM;
+import com.joxad.zikobot.app.player.event.EventPlayTrack;
 import com.joxad.zikobot.app.search.SearchManager;
 import com.joxad.zikobot.data.event.search.EventQueryChange;
+import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.youtube.VideoItem;
 import com.orhanobut.logger.Logger;
 
@@ -69,6 +73,16 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
     }
 
 
+    @Subscribe
+    public void onReceive(EventSelectItemYt eventSelectItemYt) {
+        VideoItem model = eventSelectItemYt.getModel();
+        yc.detailObservable(model.getId()).subscribe(videoItem -> {
+            EventBus.getDefault().post(new EventPlayTrack(new TrackVM(fragment.getContext(), Track.from(model))));
+        }, throwable -> {
+            Toast.makeText(fragment.getContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        });
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceive(EventQueryChange event) {
         query(event.getQuery());
@@ -81,7 +95,14 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
     }
 
     public void query(final String query) {
+
+        if (query.length() < 2) {
+            youtubeItemVMs.clear();
+            notifyPropertyChanged(BR.showNoResult);
+            return;
+        }
         youtubeItemVMs.clear();
+
         youtubeSubscription = yc.queryObservable(query).subscribe(videoItems -> {
             for (VideoItem videoItem : videoItems) {
                 youtubeItemVMs.add(new YoutubeItemVM(fragment.getContext(), videoItem));
@@ -94,17 +115,14 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
     class YoutubeConnector {
         private YouTube youtube;
         private YouTube.Search.List query;
-
+        private YouTube.Videos.List videos;
         // Your developer key goes here
         public static final String KEY
                 = "AIzaSyBFCKu0kRnhluh4_BIXOzXgUUk8v66_6yg";
 
         public YoutubeConnector(Context context) {
             youtube = new YouTube.Builder(new NetHttpTransport(),
-                    new JacksonFactory(), new HttpRequestInitializer() {
-                @Override
-                public void initialize(HttpRequest hr) throws IOException {
-                }
+                    new JacksonFactory(), hr -> {
             }).setApplicationName(context.getString(R.string.app_name)).build();
 
             try {
@@ -113,9 +131,20 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
                 query.setMaxResults(50L);
                 query.setType("video");
                 query.setFields("items(id/videoId,snippet/title,snippet/description,snippet/thumbnails/default/url)");
+                videos = youtube.videos().list("id,snippet");
+                videos.setKey(KEY);
+                videos.setMaxResults(1L);
+                videos.setFields("items(id/videoId,snippet/title,snippet/description,snippet/thumbnails/default/url, snippet/contentDetails)");
             } catch (IOException e) {
                 Log.d("YC", "Could not initialize: " + e);
             }
+        }
+
+        public Observable<VideoItem> detailObservable(String id) {
+            return Observable.fromCallable(() -> getDetail(id))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .unsubscribeOn(Schedulers.io());
         }
 
         public Observable<List<VideoItem>> queryObservable(String keywords) {
@@ -125,7 +154,51 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
                     .unsubscribeOn(Schedulers.io());
         }
 
+
+        public VideoItem getDetail(String id) {
+
+            videos.setId(id);
+            try {
+                VideoListResponse response = videos.execute();
+                List<Video> results = response.getItems();
+
+                List<VideoItem> items = new ArrayList<VideoItem>();
+                for (Video result : results) {
+                    VideoItem item = new VideoItem();
+                    item.setTitle(result.getSnippet().getTitle());
+                    item.setDescription(result.getSnippet().getDescription());
+                    item.setThumbnailURL(result.getSnippet().getThumbnails().getDefault().getUrl());
+                    item.setId(id);
+                    item.setDuration(durationFrom(result.getContentDetails().getDuration()));
+                    items.add(item);
+                }
+                return items.get(0);
+            } catch (IOException e) {
+                Log.d("YC", "Could not search: " + e);
+                return null;
+            }
+
+
+        }
+
+        private long durationFrom(String ytDuration) {
+            String time = ytDuration.substring(2);
+            long duration = 0L;
+            Object[][] indexs = new Object[][]{{"H", 3600}, {"M", 60}, {"S", 1}};
+            for (int i = 0; i < indexs.length; i++) {
+                int index = time.indexOf((String) indexs[i][0]);
+                if (index != -1) {
+                    String value = time.substring(0, index);
+                    duration += Integer.parseInt(value) * (int) indexs[i][1] * 1000;
+                    time = time.substring(value.length() + 1);
+                }
+            }
+            return duration;
+
+        }
+
         public List<VideoItem> query(String keywords) {
+
             query.setQ(keywords);
             try {
                 SearchListResponse response = query.execute();

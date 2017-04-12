@@ -127,6 +127,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     public void onEvent(EventForceRefreshPlayerSpotify eventForceRefreshPlayerSpotify) {
 
     }
+
     @Subscribe
     public void onEvent(EventPlayTrack eventPlayTrack) {
         stopPreviousTrack();
@@ -244,6 +245,9 @@ public class PlayerService extends Service implements IMusicPlayer {
                 break;
             case TYPE.SPOTIFY:
                 currentPlayer = spotifyPlayer;
+                break;
+            case TYPE.YOUTUBE:
+                currentPlayer = androidPlayer;
                 break;
         }
         play(currentTrackVM.getRef());
