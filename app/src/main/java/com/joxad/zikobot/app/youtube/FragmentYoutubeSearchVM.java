@@ -76,7 +76,9 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
     @Subscribe
     public void onReceive(EventSelectItemYt eventSelectItemYt) {
         VideoItem model = eventSelectItemYt.getModel();
+
         yc.detailObservable(model.getId()).subscribe(videoItem -> {
+            videoItem.setRef(model.getRef());
             EventBus.getDefault().post(new EventPlayTrack(new TrackVM(fragment.getContext(), Track.from(videoItem))));
         }, throwable -> {
             Toast.makeText(fragment.getContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();

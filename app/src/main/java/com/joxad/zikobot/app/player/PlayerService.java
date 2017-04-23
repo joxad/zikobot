@@ -103,9 +103,8 @@ public class PlayerService extends Service implements IMusicPlayer {
         if (AppPrefs.spotifyUser() != null) {
             spotifyPlayer.init();
         }
-        if (AppPrefs.soundCloudUser() != null) {
-            androidPlayer.init();
-        }
+        androidPlayer.init();
+
         currentPlayer = vlcPlayer;
 
 
@@ -114,9 +113,6 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Subscribe
     public void onEvent(EventAccountConnect event) {
         switch (event.getType()) {
-            case TYPE.SOUNDCLOUD:
-                androidPlayer.init();
-                break;
             case TYPE.SPOTIFY:
                 spotifyPlayer.init();
                 break;
