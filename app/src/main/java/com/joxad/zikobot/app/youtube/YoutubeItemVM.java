@@ -49,6 +49,7 @@ public class YoutubeItemVM extends BaseVM<VideoItem> {
     }
 
     public void onClick(View view) {
+        EventBus.getDefault().post(new EventSelectItemYt(model));
         String youtubeLink = "http://youtube.com/watch?v=" + model.getId();
         new YouTubeExtractor(context) {
             @Override
@@ -60,7 +61,7 @@ public class YoutubeItemVM extends BaseVM<VideoItem> {
                 }
                 YtFile ytFile = getBestStream(ytFiles);
                 model.setRef(ytFile.getUrl());
-                EventBus.getDefault().post(new EventSelectItemYt(model));
+                EventBus.getDefault().post(new EventSelectItemYtLoaded(model));
 
             }
         }.extract(youtubeLink,true,true);

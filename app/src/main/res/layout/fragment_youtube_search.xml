@@ -40,6 +40,22 @@
             android:visibility="@{fragmentYoutubeSearchVM.showNoResult ? v.VISIBLE:v.GONE}"
             app:zmv_message="@string/no_result" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#88FFFFFF"
+            android:visibility="@{fragmentYoutubeSearchVM.loading ? v.VISIBLE:v.GONE}">
+
+            <com.joxad.zikobot.app.core.viewutils.ZikobotMessageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="@{fragmentYoutubeSearchVM.loading ? v.VISIBLE:v.GONE}"
+                app:zmv_message="Je charge ta chanson sur Youtube ;)" />
+
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
 </layout>

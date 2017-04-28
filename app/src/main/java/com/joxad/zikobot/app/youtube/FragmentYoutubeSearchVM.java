@@ -3,6 +3,7 @@ package com.joxad.zikobot.app.youtube;
 import android.content.Context;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
     public ObservableArrayList<YoutubeItemVM> youtubeItemVMs;
     private Subscription youtubeSubscription;
     private YoutubeConnector yc;
+    public ObservableBoolean loading;
 
     /***
      * @param fragment
@@ -61,7 +63,7 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
     public void onCreate() {
         youtubeItemVMs = new ObservableArrayList<>();
         yc = new YoutubeConnector(fragment.getContext());
-
+        loading = new ObservableBoolean(false);
     }
 
 
@@ -75,12 +77,20 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
 
     @Subscribe
     public void onReceive(EventSelectItemYt eventSelectItemYt) {
-        VideoItem model = eventSelectItemYt.getModel();
+        //we call the detail in order to get the duration of the item
+        loading.set(true);
+    }
 
+    @Subscribe
+    public void onReceive(EventSelectItemYtLoaded eventSelectItemYtLoaded) {
+        VideoItem model = eventSelectItemYtLoaded.getModel();
         yc.detailObservable(model.getId()).subscribe(videoItem -> {
+            loading.set(false);
             videoItem.setRef(model.getRef());
             EventBus.getDefault().post(new EventPlayTrack(new TrackVM(fragment.getContext(), Track.from(videoItem))));
         }, throwable -> {
+            loading.set(false);
+
             Toast.makeText(fragment.getContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         });
     }
