@@ -3,7 +3,9 @@ package com.joxad.zikobot.app.alarm;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
+import android.os.PowerManager;
 import android.provider.Settings;
 
 import com.joxad.zikobot.app.core.receiver.AlarmReceiver;
@@ -175,17 +177,13 @@ public class AlarmManager {
      */
     public static void prepareAlarm(Context context, Alarm model) {
         init(context);
+
         if (model.getActive() == 1) {
             cancel(context, model);
             long triggerMillis = nextTrigger(model);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                android.app.AlarmManager.AlarmClockInfo alarmClockInfo = new android.app.AlarmManager.AlarmClockInfo(triggerMillis, alarmIntent);
-                alarmMgr.setAlarmClock(alarmClockInfo, alarmIntent);
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                alarmMgr.setExact(android.app.AlarmManager.RTC_WAKEUP, triggerMillis, alarmIntent);
-            } else {
-                alarmMgr.set(android.app.AlarmManager.RTC_WAKEUP, triggerMillis, alarmIntent);
-            }
+            // Wakes up the device in Doze Mode
+            alarmMgr.setAlarmClock(new android.app.AlarmManager.AlarmClockInfo(triggerMillis, alarmIntent), alarmIntent);
+
             model.setTimeInMillis(triggerMillis);
             model.save();
             Logger.d(model.getName() + model.getHour() + "h " + model.getMinute() + "m" + "prepared");

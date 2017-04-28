@@ -1,5 +1,11 @@
 package com.joxad.zikobot.app.alarm;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -31,6 +37,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     public PlayerVM playerVM;
     Alarm alarm;
     NavigationManager navigationManager;
+
     /***
      * @param activity
      * @param binding
@@ -41,7 +48,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
     @Override
     public void onCreate() {
-     alarm = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.ALARM));
+        alarm = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.ALARM));
         alarmVM = new AlarmVM(activity, alarm) {
             @Override
             public ItemView itemView() {
@@ -89,6 +96,23 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
             return false;
         });
         binding.swActivated.setOnClickListener(v -> {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                Intent intent = new Intent();
+                String packageName = activity.getPackageName();
+                PowerManager pm = (PowerManager) activity.getSystemService(Context.POWER_SERVICE);
+                if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                  //  intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+             //   else {
+                    intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                    intent.setData(Uri.parse("package:" + packageName));
+                    activity.startActivity(intent);
+                }
+
+            }
+
+
             alarmVM.updateStatus(!alarmVM.isActivated());
 
 
