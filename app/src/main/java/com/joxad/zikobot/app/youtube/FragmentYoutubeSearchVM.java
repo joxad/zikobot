@@ -129,8 +129,7 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
         private YouTube.Search.List query;
         private YouTube.Videos.List videos;
         // Your developer key goes here
-        public static final String KEY
-                = "AIzaSyBFCKu0kRnhluh4_BIXOzXgUUk8v66_6yg";
+
 
         public YoutubeConnector(Context context) {
             youtube = new YouTube.Builder(new NetHttpTransport(),
@@ -139,12 +138,12 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
 
             try {
                 query = youtube.search().list("id,snippet");
-                query.setKey(KEY);
+                query.setKey(context.getString(R.string.youtube_key));
                 query.setMaxResults(50L);
                 query.setType("video");
                 query.setFields("items(id/videoId,snippet/title,snippet/description,snippet/thumbnails/default/url)");
                 videos = youtube.videos().list("id,contentDetails,snippet,statistics");
-                videos.setKey(KEY);
+                videos.setKey(context.getString(R.string.youtube_key));
                 videos.setMaxResults((long) 1);
                 videos.setFields("items(id,contentDetails,snippet,statistics)");
 

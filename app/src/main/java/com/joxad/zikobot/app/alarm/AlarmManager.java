@@ -136,14 +136,11 @@ public class AlarmManager {
      * @return
      */
     public static Observable<Alarm> editAlarmName(String text, Alarm alarm) {
-        return Observable.create(new Observable.OnSubscribe<Alarm>() {
-            @Override
-            public void call(Subscriber<? super Alarm> subscriber) {
-                alarm.setName(text);
-                alarm.save();
-                AppWidgetHelper.update(context);
-                subscriber.onNext(alarm);
-            }
+        return Observable.create(subscriber -> {
+            alarm.setName(text);
+            alarm.save();
+            AppWidgetHelper.update(context);
+            subscriber.onNext(alarm);
         });
     }
 
@@ -182,7 +179,12 @@ public class AlarmManager {
             cancel(context, model);
             long triggerMillis = nextTrigger(model);
             // Wakes up the device in Doze Mode
-            alarmMgr.setAlarmClock(new android.app.AlarmManager.AlarmClockInfo(triggerMillis, alarmIntent), alarmIntent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmMgr.setExactAndAllowWhileIdle(android.app.AlarmManager.RTC_WAKEUP, triggerMillis, alarmIntent);
+            } else {
+                alarmMgr.setExact(android.app.AlarmManager.RTC_WAKEUP, triggerMillis, alarmIntent);
+
+            }
 
             model.setTimeInMillis(triggerMillis);
             model.save();

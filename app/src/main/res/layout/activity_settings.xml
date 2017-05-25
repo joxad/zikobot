@@ -80,6 +80,17 @@
                 app:show="@{activitySettingsVM.showSpotifyConnect}"
                 app:title="@{@string/activity_music_spotify}" />
 
+            <include
+                android:id="@+id/cv_youtube"
+                layout="@layout/card_view_account"
+                app:buttonText="@{@string/connect}"
+                app:color="@{@color/colorYoutube}"
+                app:deleteClick="@{activitySettingsVM.deleteYoutube}"
+                app:icon="@{@drawable/logo_youtube}"
+                app:onClick="@{activitySettingsVM.onButtonYoutubeClick}"
+                app:show="@{activitySettingsVM.showYoutubeConnect}"
+                app:title="@{@string/activity_music_youtube}" />
+
         </LinearLayout>
 
 

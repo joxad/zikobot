@@ -24,8 +24,10 @@
     <string name="soundcloud_secret" translatable="false">886e39be025adf6dad25afc1a3f4a7a6</string>
     <string name="api_spotify_id" translatable="false">ab915fed01e14e5cbb008ca9e5c5d9c8</string>
     <string name="api_spotify_secret" translatable="false">606372d8884d493a9c9112a4ac12a9ec</string>
+    <string name="youtube_key" translatable="false">AIzaSyBFCKu0kRnhluh4_BIXOzXgUUk8v66_6yg</string>
     <string name="activity_music_spotify">Spotify</string>
     <string name="activity_music_deezer">Deezer</string>
     <string name="activity_music_soundcloud">SoundCloud</string>
+    <string name="activity_music_youtube">Youtube</string>
 
 </resources>

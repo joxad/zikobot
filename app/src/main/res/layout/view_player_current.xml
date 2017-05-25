@@ -29,34 +29,38 @@
             android:layout_height="match_parent"
             android:visibility="@{playerVM.empty ? v.GONE: v.VISIBLE}">
 
-            <ImageView
-                android:id="@+id/iv_status"
+            <FrameLayout
+                android:id="@+id/fl_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_margin="@dimen/margin_medium"
-                android:onClick="@{playerVM.playPause}"
-                android:src="@{playerVM.isPlaying ? @drawable/ic_pause : @drawable/ic_play_arrow, default = @drawable/ic_play_arrow}"
-                android:visibility="@{playerVM.isExpanded ? v.GONE:v.VISIBLE}" />
+                android:layout_margin="@dimen/margin_medium">
 
-            <ImageView
-                android:id="@+id/iv_show_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/margin_medium"
-                android:onClick="@{playerVM.showListTracks}"
-                android:src="@{playerVM.showList ? @drawable/ic_queue_music_accent : @drawable/ic_queue_music_off}"
-                android:visibility="@{playerVM.isExpanded ? v.VISIBLE:v.GONE}" />
+                <ImageView
+                    android:id="@+id/iv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:onClick="@{playerVM.playPause}"
+                    android:src="@{playerVM.isPlaying ? @drawable/ic_pause : @drawable/ic_play_arrow, default = @drawable/ic_play_arrow}"
+                    android:visibility="@{playerVM.isExpanded ? v.GONE:v.VISIBLE}" />
+
+                <ImageView
+                    android:id="@+id/iv_show_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{playerVM.showListTracks}"
+                    android:src="@{playerVM.showList ? @drawable/ic_queue_music_accent : @drawable/ic_queue_music_off}"
+                    android:visibility="@{playerVM.isExpanded ? v.VISIBLE:v.GONE}" />
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/iv_status"
-                android:layout_toStartOf="@id/iv_status"
+                android:layout_toLeftOf="@id/fl_btn"
+                android:layout_toStartOf="@id/fl_btn"
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.AppCompatImageView
@@ -79,7 +83,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:ellipsize="end"
                         android:lines="1"
+                        android:maxLines="1"
                         android:text="@{trackVM.name}"
                         android:textSize="18sp"
                         tools:text="Wonderwall" />
@@ -88,7 +94,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:ellipsize="end"
                         android:lines="1"
+                        android:maxLines="1"
                         android:text="@{trackVM.artistName}"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/textSizeTitleItem"

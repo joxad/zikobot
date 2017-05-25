@@ -125,6 +125,10 @@ dependencies {
     debugWearApp project(path: ':wear', configuration: 'debugApk')
     releaseWearApp project(path: ':wear', configuration: 'releaseApk')
     compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
+    compile 'com.google.android.gms:play-services-auth:10.2.1'
+    compile('com.google.api-client:google-api-client-android:1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
     compile ('com.google.apis:google-api-services-youtube:v3-rev183-1.22.0') {
         exclude module: 'httpclient' //by artifact name
         exclude group: 'org.apache.httpcomponents' //by group

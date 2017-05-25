@@ -37,9 +37,12 @@ import com.joxad.zikobot.app.player.player.SpotifyPlayer;
 import com.joxad.zikobot.app.player.player.VLCPlayer;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.model.TYPE;
+import com.joxad.zikobot.data.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 /**
  * Created by Jocelyn on 12/12/2016.
@@ -354,6 +357,17 @@ public class PlayerService extends Service implements IMusicPlayer {
 
     public boolean isEmpty() {
         return trackVMs.isEmpty();
+    }
+
+    public void playTracks(List<Track> models) {
+        stopPreviousTrack();
+        for (Track track : models) {
+            trackVMs.add(new TrackVM(this, track));
+        }
+        currentIndex = 0;
+        currentTrackVM = trackVMs.get(currentIndex);
+        play(currentTrackVM);
+        EventBus.getDefault().post(new TrackChangeEvent());
     }
 
     public class PlayerBinder extends Binder {
