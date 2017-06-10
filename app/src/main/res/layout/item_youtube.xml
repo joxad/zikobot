@@ -14,19 +14,19 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin">
+        android:layout_marginBottom="@dimen/margin_medium">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{youtubeItemVM.onClick}"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
 
             <ImageView
                 android:id="@+id/iv_artist"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/image_card_height_large"
+                android:layout_width="@dimen/item_icon_size"
+                android:layout_height="@dimen/item_icon_size"
                 android:scaleType="centerCrop"
                 android:transitionName="@string/transition"
                 app:imageUrl="@{youtubeItemVM.imageUrl}"
@@ -35,30 +35,35 @@
             <LinearLayout
                 android:id="@+id/layout_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tv_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:orientation="vertical">
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="48dp"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:text="@{youtubeItemVM.name}"
+                        android:textSize="@dimen/textSizeTitleItem"
+                        tools:text="Nom de l'artiste" />
 
-                        <TextView
-                            android:id="@+id/tv_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@{youtubeItemVM.name}"
-                            android:textSize="@dimen/textSizeTitleItem"
-                            tools:text="Nom de l'artiste" />
 
-                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:onClick="@{youtubeItemVM.download}"
+                        android:src="@drawable/ic_file_download" />
 
                 </RelativeLayout>
 

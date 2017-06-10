@@ -29,7 +29,7 @@
             android:layoutAnimation="@anim/grid_animation"
             app:itemView="@{fragmentYoutubeSearchVM.itemViewYoutube}"
             app:items="@{fragmentYoutubeSearchVM.youtubeItemVMs}"
-            app:layoutManager="@{LayoutManagers.grid(2)}"
+            app:layoutManager="@{LayoutManagers.grid(1)}"
             tools:listitem="@layout/item_artist" />
 
 

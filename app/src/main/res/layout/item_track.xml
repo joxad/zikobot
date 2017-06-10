@@ -14,95 +14,95 @@
             type="com.joxad.zikobot.app.localtracks.TrackVM" />
     </data>
 
-    <RelativeLayout
-        android:id="@+id/layout_content"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:gravity="center_vertical"
-        android:onClick="@{trackVM.onTrackPlay}"
-        android:onLongClick="@{trackVM::onLongClick}">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_medium">
 
         <RelativeLayout
-            android:id="@+id/rl_player"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true">
+            android:id="@+id/layout_content"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:gravity="center_vertical"
+            android:onClick="@{trackVM.onTrackPlay}"
+            android:onLongClick="@{trackVM::onLongClick}">
 
-
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_centerInParent="true"
-                app:imageUrl="@{trackVM.imageUrl}" />
-
-            <es.claucookie.miniequalizerlibrary.EqualizerView
-                android:id="@+id/equalizer_view"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerInParent="true"
-                android:visibility="@{trackVM.isPlaying ? v.VISIBLE: v.GONE}"
-                app:animDuration="3500"
-                app:animatePlay="@{trackVM.isPlaying}"
-                app:foregroundColor="@color/colorAccent" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/iv_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:onClick="@{trackVM.onMoreClicked}"
-            android:padding="4dp">
-
-            <include
-                layout="@layout/layout_overflow"
+            <RelativeLayout
+                android:id="@+id/rl_player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical" />
+                android:layout_centerVertical="true">
 
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toEndOf="@id/rl_player"
-            android:layout_toStartOf="@id/iv_more">
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerInParent="true"
+                    app:imageUrl="@{trackVM.imageUrl}" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+                <es.claucookie.miniequalizerlibrary.EqualizerView
+                    android:id="@+id/equalizer_view"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="@{trackVM.isPlaying ? v.VISIBLE: v.GONE}"
+                    app:animDuration="3500"
+                    app:animatePlay="@{trackVM.isPlaying}"
+                    app:foregroundColor="@color/colorAccent" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/iv_more"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_margin="@dimen/margin_medium"
-                android:orientation="vertical">
+                android:onClick="@{trackVM.onMoreClicked}"
+                android:padding="4dp">
 
-                <TextView
-                    android:id="@+id/tv_title"
+                <include
+                    layout="@layout/layout_overflow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/rl_player"
+                android:layout_toStartOf="@id/iv_more">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:text="@{trackVM.name}"
-                    android:textSize="@dimen/textSizeTitleItem"
-                    tools:text="Nom de la musique" />
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_artist"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="@{trackVM.artistName}"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/textSizeSubtitleItem"
-                    tools:text="Artiste" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="@{trackVM.name}"
+                        android:textSize="@dimen/textSizeTitleItem"
+                        tools:text="Nom de la musique" />
+
+                    <TextView
+                        android:id="@+id/tv_artist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@{trackVM.artistName}"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/textSizeSubtitleItem"
+                        tools:text="Artiste" />
+                </LinearLayout>
+            </RelativeLayout>
+
         </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/gray_light" />
-    </RelativeLayout>
-
+    </android.support.v7.widget.CardView>
 </layout>
