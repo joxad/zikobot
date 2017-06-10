@@ -32,6 +32,7 @@ import com.joxad.zikobot.app.player.event.EventPreviousTrack;
 import com.joxad.zikobot.app.player.event.EventRefreshPlayer;
 import com.joxad.zikobot.app.player.event.EventShowError;
 import com.joxad.zikobot.app.player.event.TrackChangeEvent;
+import com.joxad.zikobot.data.AppPrefs;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
@@ -261,6 +262,15 @@ public class PlayerVM extends BaseObservable implements IVM {
      */
     public void showListTracks(@SuppressWarnings("unused") View view) {
         showList.set(!showList.get());
+    }
+
+    public void clickVinyl(View view) {
+        if (!AppPrefs.bonusModeActivated()) {
+            AppPrefs.bonusMode(AppPrefs.bonusMode() + 1);
+        } else {
+            if (AppPrefs.bonusMode() == 9)
+                Toast.makeText(activity, "Bonus mode activated, have fun :)", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

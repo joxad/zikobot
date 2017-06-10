@@ -54,6 +54,8 @@
                 android:id="@+id/fl_vinyl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{playerVM.clickVinyl}"
+
                 android:layout_centerInParent="true"
                 android:visibility="@{playerVM.showList ? v.GONE : v.VISIBLE}">
 

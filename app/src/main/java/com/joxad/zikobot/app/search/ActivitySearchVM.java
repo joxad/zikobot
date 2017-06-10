@@ -55,7 +55,8 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
         if (AppPrefs.deezerUser() != null) {
             tabAdapter.addFragment(activity.getString(R.string.activity_music_deezer), FragmentDeezerSearch.newInstance());
         }
-        tabAdapter.addFragment("Youtube", FragmentYoutubeSearch.newInstance());
+        if (AppPrefs.bonusModeActivated())
+            tabAdapter.addFragment("Youtube", FragmentYoutubeSearch.newInstance());
         tabAdapter.notifyDataSetChanged();
     }
 

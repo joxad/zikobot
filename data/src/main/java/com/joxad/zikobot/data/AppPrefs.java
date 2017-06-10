@@ -120,4 +120,15 @@ public class AppPrefs {
                 .build();
     }
 
+    public static int bonusMode() {
+        return Prefs.getInt("bonus", 0);
+    }
+
+    public static boolean bonusModeActivated() {
+        return bonusMode() > 8;
+    }
+
+    public static void bonusMode(int bonusValue) {
+        Prefs.putInt("bonus", bonusValue);
+    }
 }

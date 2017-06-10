@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.media.AudioManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -26,6 +27,7 @@ public class AlarmService extends IntentService {
 
     private PlayerService playerService;
     private ServiceConnection musicConnection;
+    private AudioManager am;
 
     public AlarmService() {
         super(AlarmService.class.getName());
@@ -38,11 +40,14 @@ public class AlarmService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
         long alarmId = intent.getLongExtra("id", 0);
         AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
             AlarmManager.prepareAlarm(this, alarm);
             if (AlarmManager.canStart(alarm)) {
                 Logger.d("AlarmReceiver" + alarm.getName());
+                am.setStreamVolume(AudioManager.STREAM_MUSIC, alarm.getVolume(), alarm.getVolume());
                 if (alarm.getRepeated() == 0) {
                     alarm.setActive(0);
                     alarm.save();

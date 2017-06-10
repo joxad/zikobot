@@ -19,11 +19,11 @@ import java.util.List;
  * An asynchronous task that handles the YouTube Data API call.
  * Placing the API calls in their own task ensures the UI stays responsive.
  */
-public class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
+public class YoutubeTask extends AsyncTask<Void, Void, List<String>> {
     private com.google.api.services.youtube.YouTube mService = null;
     private Exception mLastError = null;
 
-    MakeRequestTask(GoogleAccountCredential credential) {
+    YoutubeTask(GoogleAccountCredential credential) {
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         mService = new com.google.api.services.youtube.YouTube.Builder(
@@ -88,9 +88,9 @@ public class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
     @Override
     protected void onCancelled() {
         if (mLastError != null) {
-            Log.d(MakeRequestTask.class.getSimpleName(), mLastError.getLocalizedMessage());
+            Log.d(YoutubeTask.class.getSimpleName(), mLastError.getLocalizedMessage());
         } else {
-            Log.d(MakeRequestTask.class.getSimpleName(), "cancel");
+            Log.d(YoutubeTask.class.getSimpleName(), "cancel");
         }
     }
 }
