@@ -61,7 +61,7 @@ public class WakePlayerService extends Service implements IMusicPlayer {
     @Override
     public void onCreate() {
         super.onCreate();
-        vlcPlayer = new VLCPlayer();
+        vlcPlayer = new VLCPlayer(this);
         androidPlayer = new AndroidPlayer(this);
         spotifyPlayer = new SpotifyPlayer(this);
         mediaSession = new MediaSessionCompat(this, "WakePlayerService");

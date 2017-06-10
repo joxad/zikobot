@@ -7,6 +7,7 @@ import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.joxad.zikobot.app.core.notification.DownloadNotification;
+import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.tonyodev.fetch.Fetch;
 import com.tonyodev.fetch.request.Request;
 
@@ -28,7 +29,7 @@ public enum YoutubeDownloader {
         fetch = Fetch.newInstance(context);
     }
 
-    public void download(String trackId, String name) {
+    public void download(String trackId, String name, String artist) {
         String folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
                 .toString() + "/zikobot";
         Toast.makeText(context, "Try to start download to " + folder, Toast.LENGTH_SHORT).show();
@@ -45,7 +46,7 @@ public enum YoutubeDownloader {
                     return;
                 }
                 YtFile ytFile = getBestStream(ytFiles);
-                Request request = new Request(ytFile.getUrl(), folder, name+".mp3");
+                Request request = new Request(ytFile.getUrl(), folder, name + ".mp3");
                 long downloadId = fetch.enqueue(request);
 
                 if (downloadId != Fetch.ENQUEUE_ERROR_ID) {
@@ -53,6 +54,11 @@ public enum YoutubeDownloader {
                     DownloadNotification downloadNotification = new DownloadNotification(context, name, downloadId);
                     fetch.addFetchListener((id, status, progress, downloadedBytes, fileSize, error) -> {
                         downloadNotification.updateProgress(progress);
+                        if (progress == 100) {
+
+                            downloadNotification.cancel();
+                            LocalMusicManager.getInstance().update(folder, name,artist);
+                        }
                     });
                 }
             }

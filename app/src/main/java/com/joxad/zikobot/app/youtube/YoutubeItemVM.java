@@ -41,7 +41,8 @@ public class YoutubeItemVM extends BaseVM<VideoItem> {
 
     public void download(View view) {
         YoutubeDownloader.INSTANCE.init(view.getContext());
-        YoutubeDownloader.INSTANCE.download(model.getId(), getName());
+        //TODO add dialog
+        YoutubeDownloader.INSTANCE.download(model.getId(), getName(), "Jack Johnson");
     }
 
     public void onClick(View view) {

@@ -68,7 +68,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Override
     public void onCreate() {
         super.onCreate();
-        vlcPlayer = new VLCPlayer();
+        vlcPlayer = new VLCPlayer(this);
         androidPlayer = new AndroidPlayer(this);
         spotifyPlayer = new SpotifyPlayer(this);
         mediaSession = new MediaSessionCompat(this, "PlayerService");
@@ -237,7 +237,10 @@ public class PlayerService extends Service implements IMusicPlayer {
         currentPlayer.stop();
         switch (currentTrackVM.getType()) {
             case TYPE.LOCAL:
-                currentPlayer = vlcPlayer;
+                if (currentTrackVM.getModel().getRef().contains(".mp3"))
+                    currentPlayer = androidPlayer;
+                else
+                    currentPlayer = vlcPlayer;
                 break;
             case TYPE.SOUNDCLOUD:
                 currentPlayer = androidPlayer;

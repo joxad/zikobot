@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by Josh on 06/04/2016.
@@ -262,6 +261,19 @@ public class LocalMusicManager {
         }
 
         return path;
+    }
+
+    public void update(String folder, String name, String artist) {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Audio.Media.ARTIST, artist);
+        values.put(MediaStore.Audio.Media.ALBUM, "album");
+        values.put(MediaStore.Audio.Media.DATA, folder +"/"+ name+".mp3");
+        values.put(MediaStore.Audio.Media.IS_MUSIC, true);
+        values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/mp3");
+        values.put(MediaStore.Audio.Media.TITLE, name);
+        contentResolver.insert(MediaStore.Audio.Media.getContentUriForPath(folder +"/"+ name+".mp3"), values);
+
+
     }
 
     /***

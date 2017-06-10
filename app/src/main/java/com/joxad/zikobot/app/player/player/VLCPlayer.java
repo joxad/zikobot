@@ -1,5 +1,7 @@
 package com.joxad.zikobot.app.player.player;
 
+import android.content.Context;
+
 import com.joxad.zikobot.app.player.event.EventNextTrack;
 import com.orhanobut.logger.Logger;
 
@@ -15,10 +17,15 @@ import org.videolan.libvlc.MediaPlayer;
 public class VLCPlayer implements IMusicPlayer {
     LibVLC libVLC;
     private MediaPlayer vlcPlayer;
+    private Context context;
+
+    public VLCPlayer(Context context) {
+        this.context = context;
+    }
 
     @Override
     public void init() {
-        libVLC = new LibVLC();
+        libVLC = new LibVLC(context);
 
         vlcPlayer = new MediaPlayer(libVLC);
         vlcPlayer.setEventListener(event -> {

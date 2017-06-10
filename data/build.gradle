@@ -53,7 +53,7 @@ dependencies {
     compile libs.rxAndroid
 
     provided libs.lombok
-    compile(name: 'vlc-android-sdk', ext: 'aar')
+    compile 'de.mrmaffen:vlc-android-sdk:2.0.6'
     compile 'com.deezer.sdk:deezer-sdk:0.10.20@aar'
     compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
 
