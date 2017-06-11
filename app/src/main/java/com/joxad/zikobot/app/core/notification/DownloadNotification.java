@@ -23,8 +23,8 @@ public class DownloadNotification {
         notificationManager = NotificationManagerCompat.from(context);
         this.id = id;
         mBuilder = new NotificationCompat.Builder(context);
-        mBuilder.setContentTitle("Download track")
-                .setContentText(track + "Download in progress")
+        mBuilder.setContentTitle("Downloading track")
+                .setContentText(track + " in progress")
                 .setProgress(100, 0, false)
                 .setSmallIcon(R.mipmap.ic_launcher);
 

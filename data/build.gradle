@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
@@ -34,8 +33,8 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
-    apt libs.dbFlowProc
-    apt libs.parceler
+    annotationProcessor libs.dbFlowProc
+    annotationProcessor libs.parceler
     compile libs.eventBus
     compile libs.support
     compile libs.customTabs
@@ -53,7 +52,7 @@ dependencies {
     compile libs.rxAndroid
 
     provided libs.lombok
-    compile 'de.mrmaffen:vlc-android-sdk:2.0.6'
+    compile(name: 'vlc-android-sdk', ext: 'aar')
     compile 'com.deezer.sdk:deezer-sdk:0.10.20@aar'
     compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
 

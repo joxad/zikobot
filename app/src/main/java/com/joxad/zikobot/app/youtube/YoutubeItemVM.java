@@ -5,6 +5,7 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
+import com.joxad.zikobot.app.youtube.download.EventSelectItemYtDownload;
 import com.joxad.zikobot.data.module.youtube.VideoItem;
 
 import org.greenrobot.eventbus.EventBus;
@@ -19,8 +20,7 @@ public class YoutubeItemVM extends BaseVM<VideoItem> {
      * @param context
      * @param model
      */
-    public YoutubeItemVM(Context context, VideoItem model
-    ) {
+    public YoutubeItemVM(Context context, VideoItem model) {
         super(context, model);
     }
 
@@ -40,9 +40,7 @@ public class YoutubeItemVM extends BaseVM<VideoItem> {
     }
 
     public void download(View view) {
-        YoutubeDownloader.INSTANCE.init(view.getContext());
-        //TODO add dialog
-        YoutubeDownloader.INSTANCE.download(model.getId(), getName(), "Jack Johnson");
+        EventBus.getDefault().post(new EventSelectItemYtDownload(model));
     }
 
     public void onClick(View view) {

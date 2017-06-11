@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 
@@ -79,8 +78,8 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // compile project(":deezersdk")
     testCompile 'junit:junit:4.12'
-    apt libs.dbFlowProc
-    apt libs.parceler
+    annotationProcessor libs.dbFlowProc
+    annotationProcessor libs.parceler
     compile libs.appCompat
     compile libs.butterKnife
     compile libs.circleIV
@@ -119,7 +118,7 @@ dependencies {
     compile 'com.deezer.sdk:deezer-sdk:0.10.20@aar'
     compile 'com.github.claucookie.miniequalizer:library:1.0.0'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'de.mrmaffen:vlc-android-sdk:2.0.6'
+    compile(name: 'vlc-android-sdk', ext: 'aar')
     compile 'com.rokpetek.breadcrumbtoolbar:breadcrumb-toolbar:1.0'
     compile 'com.github.andrewlord1990:snackbarbuilder:0.7.0'
     debugWearApp project(path: ':wear', configuration: 'debugApk')

@@ -2,6 +2,7 @@ package com.joxad.zikobot.app.home;
 
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -16,12 +17,14 @@ import com.joxad.zikobot.app.localtracks.FragmentLocalTracks;
 import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.soundcloud.FragmentSoundCloudPlaylists;
 import com.joxad.zikobot.app.spotify.FragmentSpotifyPlaylists;
+import com.joxad.zikobot.app.youtube.download.EventDownloadDone;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.event.EventShowMessage;
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.UnsupportedEncodingException;
 
@@ -171,6 +174,11 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         alertDialog.show();
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceive(EventDownloadDone e) {
+        Toast.makeText(activity, "Download done", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void onPause() {

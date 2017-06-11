@@ -21,6 +21,9 @@ import com.joxad.zikobot.app.databinding.FragmentYoutubeSearchBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.event.EventPlayTrack;
 import com.joxad.zikobot.app.search.SearchManager;
+import com.joxad.zikobot.app.youtube.download.EventSelectItemYtDownload;
+import com.joxad.zikobot.app.youtube.download.FragmentDownload;
+import com.joxad.zikobot.app.youtube.download.FragmentDownloadVM;
 import com.joxad.zikobot.data.event.search.EventQueryChange;
 import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.youtube.VideoItem;
@@ -73,7 +76,11 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
         EventBus.getDefault().register(this);
         query(SearchManager.QUERY);
     }
-
+    @Subscribe
+    public void onReceive(EventSelectItemYtDownload eventSelectItemYt) {
+        //we call the detail in order to get the duration of the item
+        FragmentDownload.newInstance(eventSelectItemYt.getVideoItem()).show(fragment.getFragmentManager(), FragmentDownloadVM.TAG);
+    }
 
     @Subscribe
     public void onReceive(EventSelectItemYt eventSelectItemYt) {

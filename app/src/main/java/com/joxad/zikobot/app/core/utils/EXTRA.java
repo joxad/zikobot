@@ -20,4 +20,5 @@ public class EXTRA {
     public static final String PERMISSION = "PERMISSION";
     public static final java.lang.String FRAGMENT_TITLE = "FRAGMENT_TITLE";
     public static final String MEDIA = "MEDIA";
+    public static final String VIDEO = "VIDEO";
 }

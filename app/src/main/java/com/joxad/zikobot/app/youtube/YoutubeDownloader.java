@@ -7,9 +7,13 @@ import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.joxad.zikobot.app.core.notification.DownloadNotification;
+import com.joxad.zikobot.app.youtube.download.EventDownloadDone;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
+import com.joxad.zikobot.data.module.youtube.VideoItem;
 import com.tonyodev.fetch.Fetch;
 import com.tonyodev.fetch.request.Request;
+
+import org.greenrobot.eventbus.EventBus;
 
 import at.huber.youtubeExtractor.VideoMeta;
 import at.huber.youtubeExtractor.YouTubeExtractor;
@@ -29,13 +33,13 @@ public enum YoutubeDownloader {
         fetch = Fetch.newInstance(context);
     }
 
-    public void download(String trackId, String name, String artist) {
+    public void download(VideoItem model, String artist, String album) {
         String folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
                 .toString() + "/zikobot";
         Toast.makeText(context, "Try to start download to " + folder, Toast.LENGTH_SHORT).show();
         Fetch fetch = Fetch.newInstance(context);
         fetch.enableLogging(true);
-        String youtubeLink = "http://youtube.com/watch?v=" + trackId;
+        String youtubeLink = "http://youtube.com/watch?v=" + model.getId();
         Log.d("Download", folder);
         new YouTubeExtractor(context) {
             @Override
@@ -46,18 +50,19 @@ public enum YoutubeDownloader {
                     return;
                 }
                 YtFile ytFile = getBestStream(ytFiles);
-                Request request = new Request(ytFile.getUrl(), folder, name + ".mp3");
+                Request request = new Request(ytFile.getUrl(), folder, model.getTitle() + ".mp3");
                 long downloadId = fetch.enqueue(request);
 
                 if (downloadId != Fetch.ENQUEUE_ERROR_ID) {
                     //Download was successfully queued for download.
-                    DownloadNotification downloadNotification = new DownloadNotification(context, name, downloadId);
+                    DownloadNotification downloadNotification = new DownloadNotification(context, model.getTitle(), downloadId);
                     fetch.addFetchListener((id, status, progress, downloadedBytes, fileSize, error) -> {
                         downloadNotification.updateProgress(progress);
                         if (progress == 100) {
 
                             downloadNotification.cancel();
-                            LocalMusicManager.getInstance().update(folder, name,artist);
+                            EventBus.getDefault().post(new EventDownloadDone());
+                            LocalMusicManager.getInstance().update(folder, model, artist, album == null ? artist : album);
                         }
                     });
                 }

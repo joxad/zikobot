@@ -167,7 +167,8 @@ public class SpotifyPlayer implements IMusicPlayer {
 
     @Override
     public void stop() {
-        player.pause(mOperationCallback);
+        if (player != null)
+            player.pause(mOperationCallback);
 
     }
 

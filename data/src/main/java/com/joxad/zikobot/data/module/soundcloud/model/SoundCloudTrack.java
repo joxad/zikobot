@@ -11,6 +11,9 @@ import lombok.Data;
 @Data
 public class SoundCloudTrack {
 
+    public SoundCloudTrack() {
+    }
+
     @SerializedName("kind")
     @Expose
     public String kind;

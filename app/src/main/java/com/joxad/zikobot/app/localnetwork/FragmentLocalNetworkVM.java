@@ -40,7 +40,7 @@ public class FragmentLocalNetworkVM extends FragmentBaseVM<FragmentLocalNetwork,
     public void onCreate() {
         binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(), 1));
         binding.rv.setNestedScrollingEnabled(false);
-        LibVLC libVLC = new LibVLC(fragment.getContext());
+        LibVLC libVLC = new LibVLC();
         networkItems = new ObservableArrayList<>();
         current = fragment.getArguments().getString(EXTRA.FRAGMENT_TITLE);
         path = fragment.getArguments().getString(EXTRA.MEDIA);

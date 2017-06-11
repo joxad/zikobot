@@ -12,6 +12,7 @@ import android.util.Log;
 import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 import com.joxad.zikobot.data.module.localmusic.model.LocalArtist;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
+import com.joxad.zikobot.data.module.youtube.VideoItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -263,17 +264,24 @@ public class LocalMusicManager {
         return path;
     }
 
-    public void update(String folder, String name, String artist) {
+    public void update(String folder, VideoItem videoItem, String artist, String album) {
         ContentValues values = new ContentValues();
         values.put(MediaStore.Audio.Media.ARTIST, artist);
-        values.put(MediaStore.Audio.Media.ALBUM, "album");
-        values.put(MediaStore.Audio.Media.DATA, folder +"/"+ name+".mp3");
+        values.put(MediaStore.Audio.Media.ALBUM, album);
+        values.put(MediaStore.Audio.Media.DATA, folder + "/" + videoItem.getTitle() + ".mp3");
         values.put(MediaStore.Audio.Media.IS_MUSIC, true);
+        values.put(MediaStore.Audio.Media.DURATION, videoItem.getDuration());
         values.put(MediaStore.Audio.Media.MIME_TYPE, "audio/mp3");
-        values.put(MediaStore.Audio.Media.TITLE, name);
-        contentResolver.insert(MediaStore.Audio.Media.getContentUriForPath(folder +"/"+ name+".mp3"), values);
+        values.put(MediaStore.Audio.Media.TITLE, videoItem.getTitle());
+        contentResolver.insert(MediaStore.Audio.Media.getContentUriForPath(folder + "/" + videoItem.getTitle() + ".mp3"), values);
 
+        ContentValues imageValues = new ContentValues();
+        values.put(MediaStore.Audio.Albums.ARTIST, artist);
+        values.put(MediaStore.Audio.Albums.ALBUM_ART, videoItem.getThumbnailURL());
 
+        Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+
+        contentResolver.insert(sArtworkUri, imageValues);
     }
 
     /***

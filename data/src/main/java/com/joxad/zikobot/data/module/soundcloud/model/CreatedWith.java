@@ -11,6 +11,9 @@ import lombok.Data;
 @Data
 public class CreatedWith {
 
+    public CreatedWith() {
+    }
+
     @SerializedName("id")
     @Expose
     public Integer id;

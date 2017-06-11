@@ -25,7 +25,7 @@ public class VLCPlayer implements IMusicPlayer {
 
     @Override
     public void init() {
-        libVLC = new LibVLC(context);
+        libVLC = new LibVLC();
 
         vlcPlayer = new MediaPlayer(libVLC);
         vlcPlayer.setEventListener(event -> {

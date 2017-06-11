@@ -17,9 +17,8 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
         classpath 'io.fabric.tools:gradle:1.+'
 
 
@@ -49,8 +48,8 @@ apply from: 'gradle/tasks/imports.gradle'
 
 
 ext {
-    androidCompileSdkVersion = 24
-    androidBuildToolsVersion = '24.0.1'
+    androidCompileSdkVersion = 25
+    androidBuildToolsVersion = '25.0.2'
     androidMinSdkVersion = 21
-    androidTargetSdkVersion = 24
+    androidTargetSdkVersion = 25
 }

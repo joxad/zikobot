@@ -1,13 +1,39 @@
 package com.joxad.zikobot.data.module.youtube;
 
-public class VideoItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class VideoItem implements Parcelable {
     private String title;
     private String description;
     private String thumbnailURL;
     private String id;
     private String ref;
     private Long duration;
-     
+
+    public VideoItem() {
+    }
+
+    protected VideoItem(Parcel in) {
+        title = in.readString();
+        description = in.readString();
+        thumbnailURL = in.readString();
+        id = in.readString();
+        ref = in.readString();
+    }
+
+    public static final Creator<VideoItem> CREATOR = new Creator<VideoItem>() {
+        @Override
+        public VideoItem createFromParcel(Parcel in) {
+            return new VideoItem(in);
+        }
+
+        @Override
+        public VideoItem[] newArray(int size) {
+            return new VideoItem[size];
+        }
+    };
+
     public String getId() {
         return id;
     }
@@ -55,5 +81,18 @@ public class VideoItem {
     public void setThumbnailURL(String thumbnail) {
         this.thumbnailURL = thumbnail;      
     }
-         
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeString(thumbnailURL);
+        parcel.writeString(id);
+        parcel.writeString(ref);
+    }
 }
