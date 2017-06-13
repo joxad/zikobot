@@ -1,6 +1,7 @@
 package com.joxad.zikobot.app.spotify;
 
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -12,6 +13,9 @@ import com.joxad.zikobot.app.databinding.FragmentSpotifyPlaylistsBinding;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
+import com.novoda.merlin.Merlin;
+import com.novoda.merlin.MerlinsBeard;
+import com.orhanobut.logger.Logger;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -23,6 +27,8 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
     private static final String TAG = "FragmentSpotifyPlaylists";
     public ObservableArrayList<ItemPlaylistViewModel> userPlaylists;
     public ItemView itemPlaylist = ItemView.of(BR.playlistVM, R.layout.item_playlist);
+    private Merlin merlin;
+    public ObservableBoolean isConnectedToInternet;
 
     /***
      * View model use to get the playlist of the user
@@ -36,13 +42,35 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
 
     @Override
     public void onCreate() {
+        merlin = new Merlin.Builder().withAllCallbacks().build(fragment.getContext());
+
+        isConnectedToInternet = new ObservableBoolean(MerlinsBeard.from(fragment.getContext()).isConnected());
+
         userPlaylists = new ObservableArrayList<>();
-        loadUserPlaylist();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        merlin.bind();
+        merlin.registerConnectable(() -> {
+            loadUserPlaylist();
+            isConnectedToInternet.set(true);
+        });
+        merlin.registerDisconnectable(() -> isConnectedToInternet.set(false));
+        merlin.registerBindable(networkStatus -> {
+            Logger.d("networkstatus" + networkStatus.isAvailable());
+        });
+    }
+
+    @Override
+    public void onPause() {
+        merlin.unbind();
+        super.onPause();
+    }
 
     /***
-     * Call {@link com.joxad.zikobot.module.spotify_api.manager.SpotifyApiManager} to find the current user playlists
+     * Call {@link com.joxad.zikobot} to find the current user playlists
      */
     private void loadUserPlaylist() {
         if (AppPrefs.spotifyUser() == null) return;

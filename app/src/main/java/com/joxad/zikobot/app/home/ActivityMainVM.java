@@ -13,6 +13,7 @@ import com.joxad.zikobot.app.artist.FragmentLocalArtists;
 import com.joxad.zikobot.app.core.fragmentmanager.NavigationManager;
 import com.joxad.zikobot.app.databinding.ActivityMainBinding;
 import com.joxad.zikobot.app.deezer.FragmentDeezerPlaylists;
+import com.joxad.zikobot.app.home.event.EventNoInternet;
 import com.joxad.zikobot.app.localtracks.FragmentLocalTracks;
 import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.soundcloud.FragmentSoundCloudPlaylists;
@@ -21,12 +22,15 @@ import com.joxad.zikobot.app.youtube.download.EventDownloadDone;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.event.EventShowMessage;
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
+import com.joxad.zikobot.data.module.spotify_auth.model.SpotifyToken;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.UnsupportedEncodingException;
+
+import rx.functions.Action1;
 
 /**
  * Created by josh on 08/06/16.
@@ -51,7 +55,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
 
     @Override
     public void onCreate() {
-        initSpotify();
         initNavigationManager();
         initTabLayout();
         initPlayerVM();
@@ -89,19 +92,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         });
     }
 
-    /***
-     * Refresh token of spotify if existing
-     */
-    private void initSpotify() {
-        if (AppPrefs.spotifyUser() == null)
-            return;
-        try {
-            SpotifyAuthManager.getInstance().refreshToken(activity, (newToken, tokenIdentical) -> {
-            });
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     private void initNavigationManager() {
@@ -179,6 +169,7 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
     public void onReceive(EventDownloadDone e) {
         Toast.makeText(activity, "Download done", Toast.LENGTH_SHORT).show();
     }
+
 
     @Override
     public void onPause() {

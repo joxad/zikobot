@@ -55,7 +55,7 @@ public class SpotifyAuthManager {
                 .unsubscribeOn(Schedulers.io());
     }
 
-    public void refreshToken(Context context, Listener listener) throws UnsupportedEncodingException {
+    public Observable<SpotifyToken> refreshToken(Context context) throws UnsupportedEncodingException {
 
         SpotifyRefreshToken spotifyRefreshToken = new SpotifyRefreshToken("refresh_token", AppPrefs.getRefreshToken(),
                 context.getString(R.string.api_spotify_callback_web_view),
@@ -65,32 +65,13 @@ public class SpotifyAuthManager {
         String id_secret = spotifyRefreshToken.getCliendId() + ":" + spotifyRefreshToken.getClientSecret();
         String b64 = Base64.encodeToString(id_secret.getBytes("UTF-8"), Base64.NO_WRAP);
         header += b64;
-        spotifyAuthService.refreshToken(
+        return spotifyAuthService.refreshToken(
                 spotifyRefreshToken.getRefreshToken(),
                 spotifyRefreshToken.getGrantType(),
                 spotifyRefreshToken.getRedirectUri())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<SpotifyToken>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(SpotifyToken spotifyToken) {
-                        String oldToken = AppPrefs.getSpotifyAccessToken();
-                        String newToken = spotifyToken.getAccessToken();
-                        AppPrefs.saveAccessToken(newToken);
-                        listener.onDone(newToken, oldToken.equals(newToken));
-                    }
-                });
+                .unsubscribeOn(Schedulers.io());
     }
 
 

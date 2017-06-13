@@ -68,14 +68,14 @@ public class WakePlayerVM extends BaseObservable implements IVM {
             EventBus.getDefault().register(this);
         if (isBound.get())
             return;
-        if (AppPrefs.spotifyUser() != null) {
-            try {
-                SpotifyAuthManager.getInstance().refreshToken(activity, (newToken, tokenIdentical) -> {
-                });
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (AppPrefs.spotifyUser() != null) {
+//            try {
+//                SpotifyAuthManager.getInstance().refreshToken(activity, (newToken, tokenIdentical) -> {
+//                });
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         new Handler().postDelayed(this::initService, 1000);
 

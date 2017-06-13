@@ -13,9 +13,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.widget.Toast;
 
+import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.notification.PlayerNotification;
 import com.joxad.zikobot.app.core.receiver.ZikoMediaCallback;
+import com.joxad.zikobot.app.home.event.EventNoInternet;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.event.EventAccountConnect;
 import com.joxad.zikobot.app.player.event.EventAddList;
@@ -42,6 +45,7 @@ import com.joxad.zikobot.data.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -391,5 +395,10 @@ public class PlayerService extends Service implements IMusicPlayer {
         }
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceive(EventNoInternet e) {
+        Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show();
+    }
 
 }

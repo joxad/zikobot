@@ -136,6 +136,7 @@ dependencies {
     }
     compile 'com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT'
     compile 'com.tonyodev.fetch:fetch:1.1.2'
+    compile 'com.novoda:merlin:1.0.0'
 
     compile project(path: ':data')
 }

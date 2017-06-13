@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.app.home.event.EventNoInternet;
 import com.joxad.zikobot.app.player.event.EventNextTrack;
 import com.joxad.zikobot.app.player.event.EventShowError;
 import com.joxad.zikobot.data.AppPrefs;
@@ -19,6 +20,9 @@ import com.spotify.sdk.android.player.Spotify;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.UnsupportedEncodingException;
+import java.net.UnknownHostException;
+
+import rx.functions.Action0;
 
 /**
  * Created by josh on 28/08/16.
@@ -34,7 +38,6 @@ public class SpotifyPlayer implements IMusicPlayer {
         @Override
         public void onSuccess() {
             Logger.d("OK");
-            nbFail=0;
             lastRef = null;
         }
 
@@ -60,14 +63,11 @@ public class SpotifyPlayer implements IMusicPlayer {
     };
 
     private int nbFail;
+
     private void tryAgain() {
         nbFail++;
-        if (nbFail<10) {
-            player.removeConnectionStateCallback(connexionStateCallback);
-            player.removeNotificationCallback(notificationCallback);
-            player.addNotificationCallback(notificationCallback);
-            player.addConnectionStateCallback(connexionStateCallback);
-            player.login(AppPrefs.getSpotifyAccessToken());
+        if (nbFail < 10) {
+            play(lastRef);
         } else {
             EventBus.getDefault().post(new EventSpotifyFail());
         }
@@ -82,7 +82,7 @@ public class SpotifyPlayer implements IMusicPlayer {
 
         @Override
         public void onPlaybackError(Error error) {
-
+            Log.e(SpotifyPlayer.class.getSimpleName(), error.name());
         }
     };
 
@@ -120,7 +120,7 @@ public class SpotifyPlayer implements IMusicPlayer {
         @Override
         public void onTemporaryError() {
             nbFail++;
-            if (nbFail>5) {
+            if (nbFail > 5) {
                 EventBus.getDefault().post(new EventSpotifyFail());
             }
             Logger.d("onTemporaryError");
@@ -140,34 +140,54 @@ public class SpotifyPlayer implements IMusicPlayer {
     @Override
     public void init() {
         nbFail = 0;
+
+    }
+
+    private void refreshPlayer(Action0 action0) {
         Config playerConfig = new Config(context, AppPrefs.getSpotifyAccessToken(), context.getString(R.string.api_spotify_id));
         Spotify.getPlayer(playerConfig, this, new com.spotify.sdk.android.player.SpotifyPlayer.InitializationObserver() {
             @Override
             public void onInitialized(com.spotify.sdk.android.player.SpotifyPlayer pl) {
                 player = pl;
-                nbFail=0;
+                nbFail = 0;
                 player.addNotificationCallback(notificationCallback);
                 player.addConnectionStateCallback(connexionStateCallback);
+                action0.call();
             }
 
             @Override
             public void onError(Throwable throwable) {
+                nbFail++;
                 Log.e(SpotifyPlayer.class.getSimpleName(), "Could not initialize player: " + throwable.getMessage());
 
             }
         });
-
     }
 
     @Override
     public void play(String ref) {
         lastRef = ref;
+
         try {
-            SpotifyAuthManager.getInstance().refreshToken(context, (newToken, tokenIdentical) -> {
-                if (!tokenIdentical) {
+            SpotifyAuthManager.getInstance().refreshToken(context).subscribe(spotifyToken -> {
+                String oldToken = AppPrefs.getSpotifyAccessToken();
+                String newToken = spotifyToken.getAccessToken();
+                AppPrefs.saveAccessToken(newToken);
+                if (!oldToken.equals(newToken)) {
                     hasRefreshed = true;
-                    player.playUri(mOperationCallback, ref, 0, 0);
+                    refreshPlayer(() -> {
+                        player.playUri(mOperationCallback, ref, 0, 0);
+                    });
                 }
+            }, throwable -> {
+                if (throwable instanceof UnknownHostException) {
+                    // NO INTERNET => handle this case
+                    EventBus.getDefault().post(new EventSpotifyFail());
+                    EventBus.getDefault().post(new EventNoInternet());
+                } else {
+
+                }
+                Logger.e(SpotifyPlayer.class.getName(), throwable.getLocalizedMessage());
             });
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

@@ -49,13 +49,6 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     public void onCreate() {
         itemsVM = new ObservableArrayList<>();
         showTuto = new ObservableBoolean(false);
-        if (Prefs.contains(AppPrefs.SPOTIFY_ACCESS_CODE)) {
-            try {
-                refreshAccessToken();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
         createSwipeToDismiss();
         swipeToDismissTouchHelper.attachToRecyclerView(binding.alarmRecyclerView);
         loadAlarms();
@@ -133,12 +126,6 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
             }
         }, throwable -> {
             showTuto.set(true);
-        });
-    }
-
-    private void refreshAccessToken() throws UnsupportedEncodingException {
-        SpotifyAuthManager.getInstance().refreshToken(fragment.getContext(), (newt, tokenIdentical) -> {
-
         });
     }
 
