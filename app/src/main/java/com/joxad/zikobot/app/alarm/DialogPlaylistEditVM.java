@@ -55,12 +55,9 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
         int max = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         binding.viewAlarm.seekBarVolume.setMax(am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
         binding.viewAlarm.seekBarVolume.setProgress(alarm.getVolume() == -1 ? ((int) (max * 0.5f)) : alarm.getVolume());
-        binding.viewAlarm.swRepeat.setChecked(alarm.getRepeated() == 1);
         binding.viewAlarm.swRandom.setChecked(alarm.getRandomTrack() == 1);
         initHour();
-        RxCompoundButton.checkedChanges(binding.viewAlarm.swRepeat).subscribe(aBoolean -> {
-            alarmVM.updateRepeated(aBoolean);
-        });
+
         RxCompoundButton.checkedChanges(binding.viewAlarm.swRandom).subscribe(aBoolean -> {
             alarmVM.updateRandom(aBoolean);
         });
@@ -124,8 +121,8 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
         Log.d(AlarmVM.class.getSimpleName(), "hours " + hour + "minu" + min);
         alarmVM.updateName(binding.etName.getText().toString());
         alarmVM.updateTimeSelected(hour, min);
-        alarmVM.updateRepeated(binding.viewAlarm.swRepeat.isChecked());
         alarmVM.updateStatus(alarmVM.isActivated());
+        alarmVM.updateRepeated(true);
         return alarmVM.save();
     }
 }

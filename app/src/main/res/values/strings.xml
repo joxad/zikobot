@@ -52,7 +52,7 @@
     <string name="friday">FRI</string>
     <string name="saturday">SAT</string>
     <string name="sunday">SUN</string>
-    <string name="repeat">Repeat</string>
+    <string name="repeat">Schedule</string>
 
 
     <!--> Activity Wake Up <-->

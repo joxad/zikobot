@@ -110,6 +110,7 @@ public class PlayerNotification {
                         .setContentTitle(track.getName())
                         .setContentText(track.getArtistName())
                         .setPriority(Notification.PRIORITY_MAX)
+                        .setOngoing(true)
                         .setContent(playerViewSmall)
                         .setWhen(System.currentTimeMillis())
                         .setAutoCancel(false)

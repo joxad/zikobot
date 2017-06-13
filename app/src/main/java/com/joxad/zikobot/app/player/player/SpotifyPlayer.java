@@ -34,6 +34,8 @@ public class SpotifyPlayer implements IMusicPlayer {
         @Override
         public void onSuccess() {
             Logger.d("OK");
+            nbFail=0;
+            lastRef = null;
         }
 
         @Override
@@ -41,11 +43,7 @@ public class SpotifyPlayer implements IMusicPlayer {
             Logger.e("OK");
             switch (error) {
                 case kSpErrorNotActiveDevice:
-                    player.removeConnectionStateCallback(connexionStateCallback);
-                    player.removeNotificationCallback(notificationCallback);
-                    player.addNotificationCallback(notificationCallback);
-                    player.addConnectionStateCallback(connexionStateCallback);
-                    player.login(AppPrefs.getSpotifyAccessToken());
+                    tryAgain();
                     break;
                 case kSpErrorNeedsPremium:
                     EventBus.getDefault().post(new EventShowError(context.getString(R.string.error_spotify_premium)));
@@ -54,11 +52,26 @@ public class SpotifyPlayer implements IMusicPlayer {
                     EventBus.getDefault().post(new EventShowError(context.getString(R.string.error_corrupt_track)));
                     break;
                 default:
+                    tryAgain();
                     EventBus.getDefault().post(new EventShowError(context.getString(R.string.error_generic_error)));
                     break;
             }
         }
     };
+
+    private int nbFail;
+    private void tryAgain() {
+        nbFail++;
+        if (nbFail<10) {
+            player.removeConnectionStateCallback(connexionStateCallback);
+            player.removeNotificationCallback(notificationCallback);
+            player.addNotificationCallback(notificationCallback);
+            player.addConnectionStateCallback(connexionStateCallback);
+            player.login(AppPrefs.getSpotifyAccessToken());
+        } else {
+            EventBus.getDefault().post(new EventSpotifyFail());
+        }
+    }
 
     Player.NotificationCallback notificationCallback = new Player.NotificationCallback() {
         @Override
@@ -79,7 +92,6 @@ public class SpotifyPlayer implements IMusicPlayer {
             Logger.d("loggedin");
             if (lastRef != null) {
                 player.playUri(mOperationCallback, lastRef, 0, 0);
-                lastRef = null;
             }
         }
 
@@ -98,12 +110,19 @@ public class SpotifyPlayer implements IMusicPlayer {
                 case kSpErrorNeedsPremium:
                     EventBus.getDefault().post(new EventShowError(context.getString(R.string.error_spotify_premium)));
                     break;
+                default:
+                    tryAgain();
+                    break;
             }
         }
 
 
         @Override
         public void onTemporaryError() {
+            nbFail++;
+            if (nbFail>5) {
+                EventBus.getDefault().post(new EventSpotifyFail());
+            }
             Logger.d("onTemporaryError");
         }
 
@@ -120,11 +139,13 @@ public class SpotifyPlayer implements IMusicPlayer {
 
     @Override
     public void init() {
+        nbFail = 0;
         Config playerConfig = new Config(context, AppPrefs.getSpotifyAccessToken(), context.getString(R.string.api_spotify_id));
         Spotify.getPlayer(playerConfig, this, new com.spotify.sdk.android.player.SpotifyPlayer.InitializationObserver() {
             @Override
             public void onInitialized(com.spotify.sdk.android.player.SpotifyPlayer pl) {
                 player = pl;
+                nbFail=0;
                 player.addNotificationCallback(notificationCallback);
                 player.addConnectionStateCallback(connexionStateCallback);
             }

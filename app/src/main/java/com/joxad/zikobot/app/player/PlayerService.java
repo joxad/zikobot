@@ -32,6 +32,7 @@ import com.joxad.zikobot.app.player.event.EventRefreshPlayer;
 import com.joxad.zikobot.app.player.event.EventStopPlayer;
 import com.joxad.zikobot.app.player.event.TrackChangeEvent;
 import com.joxad.zikobot.app.player.player.AndroidPlayer;
+import com.joxad.zikobot.app.player.player.EventSpotifyFail;
 import com.joxad.zikobot.app.player.player.IMusicPlayer;
 import com.joxad.zikobot.app.player.player.SpotifyPlayer;
 import com.joxad.zikobot.app.player.player.VLCPlayer;
@@ -213,6 +214,16 @@ public class PlayerService extends Service implements IMusicPlayer {
         }
     }
 
+    @Subscribe(priority = 10)
+    public void onEvent(EventSpotifyFail eventSpotifyFail) {
+        if (currentPlayer instanceof SpotifyPlayer) {
+
+        } else {
+            EventBus.getDefault().cancelEventDelivery(eventSpotifyFail);
+        }
+    }
+
+
     @Subscribe
     public void onEvent(EventPreviousTrack eventPreviousTrack) {
         previous();
@@ -266,6 +277,7 @@ public class PlayerService extends Service implements IMusicPlayer {
         EventBus.getDefault().post(new EventRefreshPlayer());
 
     }
+
 
     private void runHandler() {
         timeHandler.postDelayed(() -> {
