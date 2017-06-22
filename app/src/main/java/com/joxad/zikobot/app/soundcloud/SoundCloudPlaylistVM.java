@@ -28,7 +28,6 @@ public class SoundCloudPlaylistVM extends BaseVM<SoundCloudPlaylist> {
 
     @Override
     public void onCreate() {
-
     }
 
     /***

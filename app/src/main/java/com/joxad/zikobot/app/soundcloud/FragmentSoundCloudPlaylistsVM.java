@@ -1,7 +1,6 @@
 package com.joxad.zikobot.app.soundcloud;
 
 import android.databinding.ObservableArrayList;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -12,6 +11,7 @@ import com.joxad.zikobot.app.databinding.FragmentSoundCloudPlaylistsBinding;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
+import com.orhanobut.logger.Logger;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -50,16 +50,20 @@ public class FragmentSoundCloudPlaylistsVM extends FragmentBaseVM<FragmentSoundC
     private void loadUserPlaylist() {
         if (AppPrefs.soundCloudUser() == null) return;
         userPlaylists.clear();
-        //userPlaylists.addAll(Mock.scPlaylists(fragment.getContext()));
-        SoundCloudApiManager.getInstance().userPlaylists(AppPrefs.soundCloudUser().getId()).subscribe(soundCloudPlaylists -> {
-            userPlaylists.clear();
-            for (SoundCloudPlaylist playlist : soundCloudPlaylists) {
-                if (!playlist.getSoundCloudTracks().isEmpty())
-                    userPlaylists.add(new SoundCloudPlaylistVM(fragment.getContext(), playlist));
-            }
-        }, throwable -> {
-            Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
-        });
+        SoundCloudApiManager.getInstance().userPlaylists(AppPrefs.soundCloudUser().getId())
+                .zipWith(SoundCloudApiManager.getInstance().favoriteTracks(AppPrefs.soundCloudUser().getId()),
+                        (soundCloudPlaylists, soundCloudTracks) -> {
+                            userPlaylists.clear();
+                            if (!soundCloudTracks.isEmpty())
+                                userPlaylists.add(new SoundCloudPlaylistVM(fragment.getContext(),
+                                        SoundCloudPlaylist.favorite(AppPrefs.soundCloudUser(), soundCloudTracks)));
+                            for (SoundCloudPlaylist playlist : soundCloudPlaylists) {
+                                if (!playlist.getSoundCloudTracks().isEmpty())
+                                    userPlaylists.add(new SoundCloudPlaylistVM(fragment.getContext(), playlist));
+                            }
+                            return true;
+                        }).subscribe(aBoolean -> Logger.d("Soundcloud " + aBoolean),
+                throwable -> Logger.e("Soundcloud " + throwable.getLocalizedMessage()));
     }
 
 

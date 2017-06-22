@@ -92,6 +92,16 @@ public class SoundCloudApiManager {
                 .unsubscribeOn(Schedulers.io());
     }
 
+
+    /***
+     * @param id
+     * @return
+     */
+    public Observable<ArrayList<SoundCloudTrack>> favoriteTracks(final long id) {
+        return soundCloudApiEndpoint.userFavoriteTracks(id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
     /***
      * @param id
      * @return

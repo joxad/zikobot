@@ -96,4 +96,13 @@ public class SoundCloudPlaylist {
     @Expose
     public List<SoundCloudTrack> soundCloudTracks = new ArrayList<SoundCloudTrack>();
 
+    public static SoundCloudPlaylist favorite(SoundCloudUser user, ArrayList<SoundCloudTrack> soundCloudTracks) {
+        SoundCloudPlaylist soundCloudPlaylist = new SoundCloudPlaylist();
+        soundCloudPlaylist.setUser(user);
+        soundCloudPlaylist.setTitle("Favoris");
+        soundCloudPlaylist.setArtworkUrl(user.getAvatarUrl());
+        soundCloudPlaylist.setSoundCloudTracks(soundCloudTracks);
+        soundCloudPlaylist.setTrackCount(soundCloudTracks.size());
+        return soundCloudPlaylist;
+    }
 }

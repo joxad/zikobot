@@ -48,4 +48,6 @@ public interface SoundCloudApiEndpoint {
     @GET("me")
     Observable<SoundCloudUser> getMe();
 
+    @GET("users/{id}/favorites")
+    Observable<ArrayList<SoundCloudTrack>> userFavoriteTracks(@Path("id") final long userId);
 }
