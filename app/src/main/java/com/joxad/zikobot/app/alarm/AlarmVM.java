@@ -1,7 +1,6 @@
 package com.joxad.zikobot.app.alarm;
 
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
@@ -16,8 +15,6 @@ import com.joxad.easydatabinding.base.BaseVM;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.event.EventAlarmSelect;
 import com.joxad.zikobot.app.alarm.event.EventEditAlarm;
-import com.joxad.zikobot.app.core.receiver.AlarmReceiver;
-import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.data.model.Alarm;
@@ -108,12 +105,8 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
      */
 
     public void delete() {
-        android.app.AlarmManager alarmMgr = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         AlarmManager.deleteAlarm(model);
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtra(EXTRA.ALARM_ID, model.getId());
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        alarmMgr.cancel(alarmIntent);
+
     }
 
 

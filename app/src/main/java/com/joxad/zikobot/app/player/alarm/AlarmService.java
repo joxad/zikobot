@@ -10,7 +10,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Vibrator;
 import android.support.annotation.Nullable;
 
 import com.joxad.zikobot.app.alarm.AlarmManager;
@@ -52,26 +51,28 @@ public class AlarmService extends NonStopIntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         safeAlarmOn = false;
-        long alarmId = intent.getLongExtra("id", 0);
-        AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
-            AlarmManager.prepareAlarm(this, alarm);
-            if (AlarmManager.canStart(alarm)) {
-                Logger.d("AlarmReceiver" + alarm.getName());
-                am.setStreamVolume(AudioManager.STREAM_MUSIC, alarm.getVolume(), alarm.getVolume());
-                am.setStreamVolume(AudioManager.STREAM_ALARM, alarm.getVolume(), alarm.getVolume());
+        long alarmId = 0;
+        if (intent != null) {
+            alarmId = intent.getLongExtra("id", 0);
+            AlarmManager.getAlarmById(alarmId).subscribe((alarm) -> {
+                AlarmManager.prepareAlarm(this, alarm);
+                if (AlarmManager.canStart(alarm)) {
+                    Logger.d("AlarmReceiver" + alarm.getName());
+                    am.setStreamVolume(AudioManager.STREAM_MUSIC, alarm.getVolume(), alarm.getVolume());
+                    am.setStreamVolume(AudioManager.STREAM_ALARM, alarm.getVolume(), alarm.getVolume());
 
-                if (alarm.getRepeated() == 0) {
-                    alarm.setActive(0);
-                    alarm.save();
+                    if (alarm.getRepeated() == 0) {
+                        alarm.setActive(0);
+                        alarm.save();
+                    }
+                    initService(alarm);
+                    new Handler().postDelayed(() -> initService(alarm), 1000);
                 }
-                initService(alarm);
-                new Handler().postDelayed(() -> initService(alarm), 1000);
-            }
-        }, throwable -> {
-            Logger.d(throwable.getMessage());
-        });
-
-        EventBus.getDefault().register(this);
+            }, throwable -> {
+                Logger.d(throwable.getMessage());
+            });
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Subscribe

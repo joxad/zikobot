@@ -147,6 +147,7 @@ public class AlarmManager {
     public static void deleteAlarm(Alarm alarm) {
         SQLite.delete(Alarm.class).where(Alarm_Table.id.is(alarm.getId())).query();
         AppWidgetHelper.update(context);
+        cancel(context, alarm);
     }
 
 
