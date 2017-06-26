@@ -1,4 +1,4 @@
-![ScreenShot](../images/light_playstore.png)
+![ScreenShot](https://github.com/joxad/zikobot/blob/master/images/light_playstore.png)
 
 
 # Zikobot
