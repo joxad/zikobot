@@ -41,20 +41,20 @@ The second  is to create alarms with the different players / account of the user
 I wanted to test different techn that are going to me amazing (or not), or which are already.
 So this project is a opportunity to make a clean architecture of a project, which regroups DB data + WebServices + Scheduled Tasks
 
-- Create Alarms using music
+- Create Alarms using music 
 
 - Create Alarm Scheduler with different media
-    - Local Music
+    - Local Music 
     - Spotify API + SDK (SDK implemented using android-easy-spotify)
     - Deezer (TODO)
-
+    
 - Connect to Spotify Auth (done)
     - Can it be donne better (I'm sure it can be, but I am still very new to Dagger)
 - Launch a Spotify Player
 
 # Major libs used
 
-- DataBinding
+- DataBinding 
 In order to test MVVM on Android
 - Rx
 - Retrofit
