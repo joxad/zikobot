@@ -124,4 +124,5 @@
     <string name="error_generic_error">Une erreur est survenue lors de la lecture de la piste</string>
     <string name="error_corrupt_track">Oops spotify m\'indique cette chanson est corrompue :s</string>
     <string name="no_internet">No data, check your connection</string>
+    <string name="settings_handle_phone_call">Handle phone call (this will pause the music when you receive a phone call)</string>
 </resources>

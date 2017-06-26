@@ -88,6 +88,8 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         showYoutubeConnect = new ObservableBoolean(true);
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setTitle(R.string.activity_my_account);
+        binding.switchPermissionPhone.setChecked(rxPermissions.isGranted(Manifest.permission.READ_PHONE_STATE));
+
     }
 
 
@@ -499,6 +501,14 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
                 Log.d("Task", "Request cancelled.");
             }
         }
+    }
+
+    public void askPermissionPhone(@SuppressWarnings("unused") View view) {
+        binding.switchPermissionPhone.setChecked(binding.switchPermissionPhone.isChecked());
+        rxPermissions.request(Manifest.permission.READ_PHONE_STATE).subscribe(granted -> {
+            binding.switchPermissionPhone.setChecked(granted);
+        }, error -> {
+        });
     }
 
 }

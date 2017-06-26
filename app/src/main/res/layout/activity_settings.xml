@@ -42,6 +42,7 @@
 
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -51,6 +52,21 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 tools:bindingContext="com.joxad.zikobot.app.settings.ActivitySettings">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal">
+
+
+                    <Switch
+                        android:id="@+id/switch_permission_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{activitySettingsVM.askPermissionPhone}"
+                        android:text="@string/settings_handle_phone_call" />
+                </LinearLayout>
 
                 <include
                     android:id="@+id/cv_deezer"
@@ -86,15 +102,15 @@
                     app:title="@{@string/activity_music_spotify}" />
 
                 <!--<include-->
-                    <!--android:id="@+id/cv_youtube"-->
-                    <!--layout="@layout/card_view_account"-->
-                    <!--app:buttonText="@{@string/connect}"-->
-                    <!--app:color="@{@color/colorYoutube}"-->
-                    <!--app:deleteClick="@{activitySettingsVM.deleteYoutube}"-->
-                    <!--app:icon="@{@drawable/logo_youtube}"-->
-                    <!--app:onClick="@{activitySettingsVM.onButtonYoutubeClick}"-->
-                    <!--app:show="@{activitySettingsVM.showYoutubeConnect}"-->
-                    <!--app:title="@{@string/activity_music_youtube}" />-->
+                <!--android:id="@+id/cv_youtube"-->
+                <!--layout="@layout/card_view_account"-->
+                <!--app:buttonText="@{@string/connect}"-->
+                <!--app:color="@{@color/colorYoutube}"-->
+                <!--app:deleteClick="@{activitySettingsVM.deleteYoutube}"-->
+                <!--app:icon="@{@drawable/logo_youtube}"-->
+                <!--app:onClick="@{activitySettingsVM.onButtonYoutubeClick}"-->
+                <!--app:show="@{activitySettingsVM.showYoutubeConnect}"-->
+                <!--app:title="@{@string/activity_music_youtube}" />-->
 
             </LinearLayout>
 

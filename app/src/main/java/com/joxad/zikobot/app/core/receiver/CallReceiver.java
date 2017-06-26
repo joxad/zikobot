@@ -2,6 +2,11 @@ package com.joxad.zikobot.app.core.receiver;
 
 import android.content.Context;
 
+import com.joxad.zikobot.app.player.event.EventPauseMediaButton;
+import com.joxad.zikobot.app.player.event.EventPlayMediaButton;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Date;
 
 /**
@@ -12,7 +17,7 @@ public class CallReceiver extends PhonecallReceiver {
 
     @Override
     protected void onIncomingCallReceived(Context ctx, String number, Date start) {
-        // PlayerMusicManager.getInstance().pause();
+        EventBus.getDefault().post(new EventPauseMediaButton());
     }
 
     @Override
@@ -22,18 +27,19 @@ public class CallReceiver extends PhonecallReceiver {
 
     @Override
     protected void onIncomingCallEnded(Context ctx, String number, Date start, Date end) {
+        EventBus.getDefault().post(new EventPlayMediaButton());
 
     }
 
     @Override
     protected void onOutgoingCallStarted(Context ctx, String number, Date start) {
-        //   PlayerMusicManager.getInstance().pause();
+        EventBus.getDefault().post(new EventPauseMediaButton());
 
     }
 
     @Override
     protected void onOutgoingCallEnded(Context ctx, String number, Date start, Date end) {
-        //  PlayerMusicManager.getInstance().resume();
+        EventBus.getDefault().post(new EventPlayMediaButton());
     }
 
     @Override
