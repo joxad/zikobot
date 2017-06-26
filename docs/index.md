@@ -6,13 +6,13 @@ layout: home
 ---
 
 
-![ScreenShot](../images/light_playstore.png)
+![ScreenShot](/images/light_playstore.png)
 
 # Zikobot
 
 This project is an open-source alarm using Spotify SDK + Databinding
 
-Link on the GooglePlay : https://play.google.com/apps/testing/com.joxad.zikobot
+[Link on the GooglePlay](https://play.google.com/apps/testing/com.joxad.zikobot)
 
 
 # Current Version
