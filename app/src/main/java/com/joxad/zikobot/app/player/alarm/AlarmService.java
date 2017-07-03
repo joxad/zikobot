@@ -71,7 +71,8 @@ public class AlarmService extends NonStopIntentService {
             }, throwable -> {
                 Logger.d(throwable.getMessage());
             });
-            EventBus.getDefault().register(this);
+            if (!EventBus.getDefault().isRegistered(this))
+                EventBus.getDefault().register(this);
         }
     }
 
