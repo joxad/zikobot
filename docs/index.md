@@ -5,6 +5,7 @@
 layout: home
 ---
 
+[![Build Status](https://www.bitrise.io/app/ace43e7608e6cea0/status.svg?token=Y3XbouQU8l_wbwOfbtirAg&branch=master)](https://www.bitrise.io/app/ace43e7608e6cea0)
 
 ![ScreenShot](/images/light_playstore.png)
 

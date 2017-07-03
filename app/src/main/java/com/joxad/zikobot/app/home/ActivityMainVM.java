@@ -60,7 +60,22 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
         initPlayerVM();
         initToolbar();
         initMenu();
+        refreshSpotify();
 
+    }
+
+    private void refreshSpotify() {
+        try {
+            SpotifyAuthManager.getInstance().refreshToken(activity).subscribe(spotifyToken -> {
+                String oldToken = AppPrefs.getSpotifyAccessToken();
+                String newToken = spotifyToken.getAccessToken();
+                AppPrefs.saveAccessToken(newToken);
+            }, throwable -> {
+
+            });
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initTabLayout() {
