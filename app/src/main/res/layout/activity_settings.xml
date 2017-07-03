@@ -64,7 +64,7 @@
                         android:id="@+id/switch_permission_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:onClick="@{activitySettingsVM.askPermissionPhone}"
+                        android:onClick="@{activitySettingsVM::askPermissionPhone}"
                         android:text="@string/settings_handle_phone_call" />
                 </LinearLayout>
 
@@ -75,7 +75,7 @@
                     app:color="@{@color/colorDeezer}"
                     app:deleteClick="@{activitySettingsVM.deleteDeezer}"
                     app:icon="@{@drawable/ic_deezer}"
-                    app:onClick="@{activitySettingsVM.onButtonDeezerConnect}"
+                    app:onClick="@{activitySettingsVM::onButtonDeezerConnect}"
                     app:show="@{activitySettingsVM.showDeezerConnect}"
                     app:title="@{@string/activity_music_deezer}" />
 
@@ -86,7 +86,7 @@
                     app:color="@{@color/colorSoundCloud}"
                     app:deleteClick="@{activitySettingsVM.deleteSoundCloud}"
                     app:icon="@{@drawable/logo_soundcloud}"
-                    app:onClick="@{activitySettingsVM.onButtonSoundCloudConnect}"
+                    app:onClick="@{activitySettingsVM::onButtonSoundCloudConnect}"
                     app:show="@{activitySettingsVM.showSoundCloudConnect}"
                     app:title="@{@string/activity_music_soundcloud}" />
 
@@ -97,7 +97,7 @@
                     app:color="@{@color/colorSpotify}"
                     app:deleteClick="@{activitySettingsVM.deleteSpotify}"
                     app:icon="@{@drawable/ic_spotify_green}"
-                    app:onClick="@{activitySettingsVM.onButtonSpotifyConnect}"
+                    app:onClick="@{activitySettingsVM::onButtonSpotifyConnect}"
                     app:show="@{activitySettingsVM.showSpotifyConnect}"
                     app:title="@{@string/activity_music_spotify}" />
 

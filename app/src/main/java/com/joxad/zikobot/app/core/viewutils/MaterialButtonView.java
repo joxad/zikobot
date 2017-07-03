@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.joxad.zikobot.app.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
  */
 public class MaterialButtonView extends MaterialRippleLayout {
 
-    @Bind(R.id.tv_button)
+    @BindView(R.id.tv_button)
     TextView tvButton;
 
     boolean enable;

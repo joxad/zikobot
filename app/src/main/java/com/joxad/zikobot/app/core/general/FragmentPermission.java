@@ -13,7 +13,7 @@ import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.viewutils.ZikobotMessageView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
  */
 public class FragmentPermission extends Fragment {
 
-    @Bind(R.id.zmv)
+    @BindView(R.id.zmv)
     public ZikobotMessageView zmv;
     String message;
     int permission;

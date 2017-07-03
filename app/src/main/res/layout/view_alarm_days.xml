@@ -32,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{itemAlarmVM.activeMonday}"
+                android:onClick="@{itemAlarmVM::activeMonday}"
                 android:text="@string/monday"
                 android:textColor="@{itemAlarmVM.mondayActive ? @color/colorAccent : @color/secondaryText}" />
 
@@ -42,7 +42,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{itemAlarmVM.activeTuesday}"
+                android:onClick="@{itemAlarmVM::activeTuesday}"
                 android:text="@string/tuesday"
                 android:textColor="@{itemAlarmVM.tuesdayActive ? @color/colorAccent : @color/secondaryText}" />
 
@@ -53,7 +53,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{itemAlarmVM.activeWed}"
+                android:onClick="@{itemAlarmVM::activeWed}"
                 android:text="@string/wednesday"
                 android:textColor="@{itemAlarmVM.wedActive ? @color/colorAccent : @color/secondaryText}" />
 
@@ -63,7 +63,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{itemAlarmVM.activeThursday}"
+                android:onClick="@{itemAlarmVM::activeThursday}"
                 android:text="@string/thursday"
                 android:textColor="@{itemAlarmVM.thursdayActive ? @color/colorAccent : @color/secondaryText}" />
 
@@ -81,7 +81,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{itemAlarmVM.activeFriday}"
+                android:onClick="@{itemAlarmVM::activeFriday}"
                 android:text="@string/friday"
                 android:textColor="@{itemAlarmVM.fridayActive ? @color/colorAccent : @color/secondaryText}" />
 
@@ -92,7 +92,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{itemAlarmVM.activeSaturday}"
+                android:onClick="@{itemAlarmVM::activeSaturday}"
                 android:text="@string/saturday"
                 android:textColor="@{itemAlarmVM.saturdayActive ? @color/colorAccent : @color/secondaryText}" />
 
@@ -103,7 +103,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{itemAlarmVM.activeSunday}"
+                android:onClick="@{itemAlarmVM::activeSunday}"
                 android:text="@string/sunday"
                 android:textColor="@{itemAlarmVM.sundayActive ? @color/colorAccent : @color/secondaryText}" />
 

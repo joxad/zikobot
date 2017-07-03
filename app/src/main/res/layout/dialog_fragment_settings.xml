@@ -97,7 +97,7 @@
 
                 <include
                     layout="@layout/custom_dialog_button"
-                    app:onClick="@{fragmentSettingsVM.showArtist}"
+                    app:onClick="@{fragmentSettingsVM::showArtist}"
                     app:title="@{fragmentSettingsVM.getString(R.string.menu_info_artist)}" />
 
                 <TextView
@@ -108,12 +108,12 @@
 
                 <include
                     layout="@layout/custom_dialog_button"
-                    app:onClick="@{fragmentSettingsVM.addTrackToCurrent}"
+                    app:onClick="@{fragmentSettingsVM::addTrackToCurrent}"
                     app:title="@{fragmentSettingsVM.getString(R.string.menu_add_to_current_play)}" />
 
                 <include
                     layout="@layout/custom_dialog_button"
-                    app:onClick="@{fragmentSettingsVM.addTrackToEndOfCurrent}"
+                    app:onClick="@{fragmentSettingsVM::addTrackToEndOfCurrent}"
                     app:title="@{fragmentSettingsVM.getString(R.string.menu_add_to_end_of_current_play)}" />
 
                 <TextView
@@ -124,7 +124,7 @@
 
                 <include
                     layout="@layout/custom_dialog_button"
-                    app:onClick="@{fragmentSettingsVM.newAlarmClicked}"
+                    app:onClick="@{fragmentSettingsVM::newAlarmClicked}"
                     app:title="@{fragmentSettingsVM.getString(R.string.activity_alarm_new)}" />
 
                 <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView

@@ -19,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{youtubeItemVM.onClick}"
+            android:onClick="@{youtubeItemVM::onClick}"
             android:orientation="horizontal">
 
 
@@ -62,7 +62,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:onClick="@{youtubeItemVM.download}"
+                        android:onClick="@{youtubeItemVM::download}"
                         android:src="@drawable/ic_file_download" />
 
                 </RelativeLayout>

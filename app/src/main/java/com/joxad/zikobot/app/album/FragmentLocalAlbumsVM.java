@@ -28,6 +28,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by josh on 06/06/16.
@@ -104,19 +106,22 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
     public void loadLocalMusic(int limit, int offset) {
 
 
-        LocalMusicManager.getInstance().getLocalAlbums(limit, offset, localArtist != null ? localArtist.getName() : null, null).subscribe(localAlbums -> {
-            Log.d(TAG, "" + localAlbums.size());
-            for (LocalAlbum localAlbum : localAlbums) {
-                items.add(new AlbumVM(fragment.getContext(), Album.from(localAlbum)));
-            }
-            if (localAlbums.isEmpty() && offset == 0) {
-                updateMessage(fragment.getString(R.string.no_music));
-            }
-        }, throwable -> {
-            if (offset == 0)
-                updateMessage(fragment.getString(R.string.no_music));
+        LocalMusicManager.getInstance().getLocalAlbums(limit, offset, localArtist != null ? localArtist.getName() : null, null)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(localAlbums -> {
+                    Log.d(TAG, "" + localAlbums.size());
+                    for (LocalAlbum localAlbum : localAlbums) {
+                        items.add(new AlbumVM(fragment.getContext(), Album.from(localAlbum)));
+                    }
+                    if (localAlbums.isEmpty() && offset == 0) {
+                        updateMessage(fragment.getString(R.string.no_music));
+                    }
+                }, throwable -> {
+                    if (offset == 0)
+                        updateMessage(fragment.getString(R.string.no_music));
 
-        });
+                });
     }
 
     /***

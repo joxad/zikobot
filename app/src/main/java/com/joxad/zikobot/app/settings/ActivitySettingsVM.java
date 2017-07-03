@@ -5,34 +5,16 @@ package com.joxad.zikobot.app.settings;
  */
 
 import android.Manifest;
-import android.accounts.AccountManager;
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.youtube.YouTubeScopes;
-import com.google.api.services.youtube.model.Channel;
-import com.google.api.services.youtube.model.ChannelListResponse;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
-import com.joxad.easydatabinding.activity.IResult;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.general.FragmentWebView;
 import com.joxad.zikobot.app.databinding.ActivitySettingsBinding;
@@ -50,16 +32,13 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /***
  * {@link ActivitySettingsVM}  make the link between {@link ActivitySettings}
  */
-public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, ActivitySettingsBinding> implements IResult {
+public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, ActivitySettingsBinding>  {
 
     public String TAG = ActivitySettingsVM.class.getSimpleName();
     GoogleAccountCredential mCredential;
@@ -69,10 +48,7 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
     public ObservableBoolean showDeezerConnect;
     public ObservableBoolean showYoutubeConnect;
     private static final String[] SCOPES = {YouTubeScopes.YOUTUBE_READONLY};
-    static final int REQUEST_ACCOUNT_PICKER = 1000;
-    static final int REQUEST_AUTHORIZATION = 1001;
-    static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
-    String accountName;
+
 
     public ActivitySettingsVM(ActivitySettings activity, ActivitySettingsBinding binding) {
         super(activity, binding);
@@ -148,7 +124,6 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
 
     public void onButtonYoutubeClick(View view) {
         view.setEnabled(false);
-        getResultsFromApi();
 
     }
 
@@ -273,235 +248,6 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
         });
     }
 
-
-    /**
-     * Attempt to call the API, after verifying that all the preconditions are
-     * satisfied. The preconditions are: Google Play Services installed, an
-     * account was selected and the device currently has online access. If any
-     * of the preconditions are not satisfied, the app will prompt the user as
-     * appropriate.
-     */
-    private void getResultsFromApi() {
-        if (!isGooglePlayServicesAvailable()) {
-            acquireGooglePlayServices();
-        } else if (mCredential.getSelectedAccountName() == null) {
-            chooseAccount();
-        } else if (!isDeviceOnline()) {
-            // mOutputText.setText("No network connection available.");
-        } else {
-            new MakeRequestTask(mCredential).execute();
-//            new YoutubeTask(mCredential).execute();
-        }
-    }
-
-    /**
-     * Attempts to set the account used with the API credentials. If an account
-     * name was previously saved it will use that one; otherwise an account
-     * picker dialog will be shown to the user. Note that the setting the
-     * account to use with the credentials object requires the app to have the
-     * GET_ACCOUNTS permission, which is requested here if it is not already
-     * present. The AfterPermissionGranted annotation indicates that this
-     * function will be rerun automatically whenever the GET_ACCOUNTS permission
-     * is granted.
-     */
-    private void chooseAccount() {
-        rxPermissions.request(Manifest.permission.GET_ACCOUNTS).subscribe(granted -> {
-//            String accountName = getPreferences(Context.MODE_PRIVATE)
-//                    .getString(PREF_ACCOUNT_NAME, null);
-            if (accountName != null) {
-                mCredential.setSelectedAccountName(accountName);
-                getResultsFromApi();
-            } else {
-                // Start a dialog from which the user can choose an account
-                activity.startActivityForResult(
-                        mCredential.newChooseAccountIntent(),
-                        REQUEST_ACCOUNT_PICKER);
-            }
-        });
-    }
-
-    /**
-     * Checks whether the device currently has a network connection.
-     *
-     * @return true if the device has a network connection, false otherwise.
-     */
-    private boolean isDeviceOnline() {
-        ConnectivityManager connMgr =
-                (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
-
-    /**
-     * Check that Google Play services APK is installed and up to date.
-     *
-     * @return true if Google Play Services is available and up to
-     * date on this device; false otherwise.
-     */
-    private boolean isGooglePlayServicesAvailable() {
-        GoogleApiAvailability apiAvailability =
-                GoogleApiAvailability.getInstance();
-        final int connectionStatusCode =
-                apiAvailability.isGooglePlayServicesAvailable(activity);
-        return connectionStatusCode == ConnectionResult.SUCCESS;
-    }
-
-    /**
-     * Attempt to resolve a missing, out-of-date, invalid or disabled Google
-     * Play Services installation via a user dialog, if possible.
-     */
-    private void acquireGooglePlayServices() {
-        GoogleApiAvailability apiAvailability =
-                GoogleApiAvailability.getInstance();
-        final int connectionStatusCode =
-                apiAvailability.isGooglePlayServicesAvailable(activity);
-        if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
-            showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
-        }
-    }
-
-
-    /**
-     * Display an error dialog showing that Google Play Services is missing
-     * or out of date.
-     *
-     * @param connectionStatusCode code describing the presence (or lack of)
-     *                             Google Play Services on this device.
-     */
-    void showGooglePlayServicesAvailabilityErrorDialog(
-            final int connectionStatusCode) {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        Dialog dialog = apiAvailability.getErrorDialog(
-                activity,
-                connectionStatusCode,
-                REQUEST_GOOGLE_PLAY_SERVICES);
-        dialog.show();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_GOOGLE_PLAY_SERVICES:
-                if (resultCode != Activity.RESULT_OK) {
-
-                } else {
-                    getResultsFromApi();
-                }
-                break;
-            case REQUEST_ACCOUNT_PICKER:
-                if (resultCode == Activity.RESULT_OK && data != null &&
-                        data.getExtras() != null) {
-                    String token = data.getStringExtra(AccountManager.KEY_AUTHTOKEN);
-                    String accountName =
-                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    //TODO AppPrefs.saveYoutube();
-
-                    if (accountName != null) {
-                        mCredential.setSelectedAccountName(accountName);
-                        getResultsFromApi();
-                    }
-                }
-                break;
-            case REQUEST_AUTHORIZATION:
-                if (resultCode == Activity.RESULT_OK) {
-                    getResultsFromApi();
-                }
-                break;
-        }
-    }
-
-
-    /**
-     * An asynchronous task that handles the YouTube Data API call.
-     * Placing the API calls in their own task ensures the UI stays responsive.
-     */
-    private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
-        private com.google.api.services.youtube.YouTube mService = null;
-        private Exception mLastError = null;
-
-        MakeRequestTask(GoogleAccountCredential credential) {
-            HttpTransport transport = AndroidHttp.newCompatibleTransport();
-            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-            mService = new com.google.api.services.youtube.YouTube.Builder(
-                    transport, jsonFactory, credential)
-                    .setApplicationName("YouTube Data API Android Quickstart")
-                    .build();
-        }
-
-        /**
-         * Background task to call YouTube Data API.
-         *
-         * @param params no parameters needed for this task.
-         */
-        @Override
-        protected List<String> doInBackground(Void... params) {
-            try {
-                return getDataFromApi();
-            } catch (Exception e) {
-                mLastError = e;
-                cancel(true);
-                return null;
-            }
-        }
-
-        /**
-         * Fetch information about the "GoogleDevelopers" YouTube channel.
-         *
-         * @return List of Strings containing information about the channel.
-         * @throws IOException
-         */
-        private List<String> getDataFromApi() throws IOException {
-            // Get a list of up to 10 files.
-            List<String> channelInfo = new ArrayList<String>();
-            ChannelListResponse result = mService.channels().list("snippet,contentDetails,statistics")
-                    .setForUsername("GoogleDevelopers")
-                    .execute();
-            List<Channel> channels = result.getItems();
-            if (channels != null) {
-                Channel channel = channels.get(0);
-                channelInfo.add("This channel's ID is " + channel.getId() + ". " +
-                        "Its title is '" + channel.getSnippet().getTitle() + ", " +
-                        "and it has " + channel.getStatistics().getViewCount() + " views.");
-            }
-            return channelInfo;
-        }
-
-
-        @Override
-        protected void onPreExecute() {
-//            mOutputText.setText("");
-//            mProgress.show();
-        }
-
-        @Override
-        protected void onPostExecute(List<String> output) {
-            if (output == null || output.size() == 0) {
-            } else {
-                output.add(0, "Data retrieved using the YouTube Data API:");
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-//            mProgress.hide();
-            if (mLastError != null) {
-                if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
-                    showGooglePlayServicesAvailabilityErrorDialog(
-                            ((GooglePlayServicesAvailabilityIOException) mLastError)
-                                    .getConnectionStatusCode());
-                } else if (mLastError instanceof UserRecoverableAuthIOException) {
-                    activity.startActivityForResult(
-                            ((UserRecoverableAuthIOException) mLastError).getIntent(),
-                            ActivitySettingsVM.REQUEST_AUTHORIZATION);
-                } else {
-                    Log.d("Task", "The following error occurred:\n"
-                            + mLastError.getMessage());
-                }
-            } else {
-                Log.d("Task", "Request cancelled.");
-            }
-        }
-    }
 
     public void askPermissionPhone(@SuppressWarnings("unused") View view) {
         binding.switchPermissionPhone.setChecked(binding.switchPermissionPhone.isChecked());

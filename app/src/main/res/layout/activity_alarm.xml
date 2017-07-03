@@ -87,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
-            android:onClick="@{activityAlarmVM.onPlay}"
+            android:onClick="@{activityAlarmVM::onPlay}"
             android:src="@drawable/ic_play_white"
             app:fabSize="normal"
             app:layout_anchor="@id/custom_toolbar"

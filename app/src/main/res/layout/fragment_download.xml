@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_horizontal_margin"
-                android:onClick="@{fragmentDownloadVM.download}"
+                android:onClick="@{fragmentDownloadVM::download}"
                 android:visibility="@{fragmentDownloadVM.downloading ? View.GONE: View.VISIBLE}"
                 app:mbv_text="Télécharger"
                 app:mbv_text_color="@android:color/white"

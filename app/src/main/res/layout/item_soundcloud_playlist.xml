@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/image_card_height_large"
 
-                android:onClick="@{playlistVM.onItemClick}"
+                android:onClick="@{playlistVM::onItemClick}"
                 android:scaleType="centerCrop"
                 app:imageUrl="@{playlistVM.imageUrl}"
                 tools:src="@drawable/ic_picture_loading" />

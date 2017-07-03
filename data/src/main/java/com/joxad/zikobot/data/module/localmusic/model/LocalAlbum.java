@@ -11,15 +11,15 @@ import lombok.Getter;
 public class LocalAlbum {
 
     @Getter
-    private long id;
+    protected long id;
     @Getter
-    private String name;
+    protected String name;
     @Getter
-    private String artist;
+    protected String artist;
     @Getter
-    private String image;
+    protected String image;
     @Getter
-    private int nbTracks;
+    protected int nbTracks;
 
     public LocalAlbum() {
     }

@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_margin="@dimen/activity_horizontal_margin"
-                android:onClick="@{activityWakeUpVM.stop}"
+                android:onClick="@{activityWakeUpVM::stop}"
                 app:mbv_text="@string/stop"
                 app:mbv_text_color="@android:color/white"
                 app:mrl_rippleBackground="@color/colorAccent" />

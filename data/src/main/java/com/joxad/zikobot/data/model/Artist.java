@@ -19,13 +19,13 @@ public class Artist {
     protected int type;
     @Setter
     @Getter
-    private String id;
+    protected String id;
     @Setter
     @Getter
-    private String name;
+    protected String name;
     @Getter
     @Setter
-    private String image;
+    protected String image;
 
     public Artist() {
     }

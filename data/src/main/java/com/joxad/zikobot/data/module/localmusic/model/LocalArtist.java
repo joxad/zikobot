@@ -11,14 +11,14 @@ import lombok.Setter;
 @Parcel
 public class LocalArtist {
     @Getter
-    private long id;
+    protected long id;
     @Getter
-    private String name;
+    protected String name;
     @Getter
-    private int nbAlbums;
+    protected int nbAlbums;
     @Getter
     @Setter
-    private String image;
+    protected String image;
 
     public LocalArtist() {
     }

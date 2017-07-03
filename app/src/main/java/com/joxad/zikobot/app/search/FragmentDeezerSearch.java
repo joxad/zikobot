@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.joxad.zikobot.app.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  */
 public class FragmentDeezerSearch extends Fragment {
 
-    @Bind(R.id.tv_search)
+    @BindView(R.id.tv_search)
     TextView tvSearch;
 
 

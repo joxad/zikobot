@@ -22,6 +22,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by josh on 06/06/16.
@@ -85,7 +87,10 @@ public class FragmentLocalArtistsVM extends FragmentBaseVM<FragmentLocalArtists,
      */
     public void loadLocalMusic(int limit, int offset) {
 
-        LocalMusicManager.getInstance().getLocalArtists(limit, offset, null).subscribe(localArtists -> {
+        LocalMusicManager.getInstance().getLocalArtists(limit, offset, null)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(localArtists -> {
             Log.d(TAG, "" + localArtists.size());
             for (LocalArtist localArtist : localArtists) {
                 items.add(new ArtistVM(fragment.getActivity(), Artist.from(localArtist)));

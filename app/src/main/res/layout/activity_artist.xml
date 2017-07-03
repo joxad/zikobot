@@ -159,7 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
-            android:onClick="@{activityArtistVM.onPlay}"
+            android:onClick="@{activityArtistVM::onPlay}"
             android:src="@drawable/ic_play_white"
             android:visibility="gone"
             app:layout_anchor="@id/custom_toolbar"

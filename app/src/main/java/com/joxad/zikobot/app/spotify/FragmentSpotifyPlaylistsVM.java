@@ -15,7 +15,6 @@ import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
 import com.novoda.merlin.Merlin;
 import com.novoda.merlin.MerlinsBeard;
-import com.orhanobut.logger.Logger;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
 
@@ -47,27 +46,9 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
         isConnectedToInternet = new ObservableBoolean(MerlinsBeard.from(fragment.getContext()).isConnected());
 
         userPlaylists = new ObservableArrayList<>();
+        loadUserPlaylist();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        merlin.bind();
-        merlin.registerConnectable(() -> {
-            loadUserPlaylist();
-            isConnectedToInternet.set(true);
-        });
-        merlin.registerDisconnectable(() -> isConnectedToInternet.set(false));
-        merlin.registerBindable(networkStatus -> {
-            Logger.d("networkstatus" + networkStatus.isAvailable());
-        });
-    }
-
-    @Override
-    public void onPause() {
-        merlin.unbind();
-        super.onPause();
-    }
 
     /***
      * Call {@link com.joxad.zikobot} to find the current user playlists

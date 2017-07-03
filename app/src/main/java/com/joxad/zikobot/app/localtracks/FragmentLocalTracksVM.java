@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.app.core.utils.Constants;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.joxad.zikobot.app.databinding.FragmentLocalTracksBinding;
@@ -28,6 +29,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
 import me.tatarka.bindingcollectionadapter.ItemView;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by josh on 26/03/16.
@@ -61,7 +64,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
         binding.rv.addOnScrollListener(new EndlessRecyclerViewScrollListener(binding.rv.getLayoutManager()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                loadLocalMusic(15, totalItemsCount);
+                loadLocalMusic(Constants.PAGINATION_LIMIT, totalItemsCount);
             }
         });
         EventBus.getDefault().register(this);
@@ -77,7 +80,7 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
             binding.zmv.setVisibility(View.GONE);
         }
         items.clear();
-        loadLocalMusic(15, 0);
+        loadLocalMusic(Constants.PAGINATION_LIMIT, 0);
     }
 
     @Subscribe
@@ -110,6 +113,8 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
     public void loadLocalMusic(int limit, int offset) {
 
         LocalMusicManager.getInstance().getLocalTracks(limit, offset, null, localAlbum != null ? localAlbum.getId() : -1, null)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .subscribe(localTracks -> {
                     Log.d(TAG, "" + localTracks.size());
                     for (LocalTrack localTrack : localTracks) {

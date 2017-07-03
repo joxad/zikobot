@@ -38,7 +38,7 @@
                 android:id="@+id/layout_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:onClick="@{itemAlarmVM.onItemClick}"
+                android:onClick="@{itemAlarmVM::onItemClick}"
                 android:padding="@dimen/margin_medium">
 
 

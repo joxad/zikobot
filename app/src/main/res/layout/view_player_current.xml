@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:onClick="@{playerVM.playPause}"
+                    android:onClick="@{playerVM::playPause}"
                     android:src="@{playerVM.isPlaying ? @drawable/ic_pause : @drawable/ic_play_arrow, default = @drawable/ic_play_arrow}"
                     android:visibility="@{playerVM.isExpanded ? v.GONE:v.VISIBLE}" />
 
@@ -50,7 +50,7 @@
                     android:id="@+id/iv_show_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{playerVM.showListTracks}"
+                    android:onClick="@{playerVM::showListTracks}"
                     android:src="@{playerVM.showList ? @drawable/ic_queue_music_accent : @drawable/ic_queue_music_off}"
                     android:visibility="@{playerVM.isExpanded ? v.VISIBLE:v.GONE}" />
             </FrameLayout>

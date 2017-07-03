@@ -6,8 +6,6 @@ import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.ActivityLocalNetworkBinding;
 import com.joxad.zikobot.data.event.EventSelectItemNetwork;
 import com.orhanobut.logger.Logger;
-import com.rokpetek.breadcrumbtoolbar.BreadcrumbToolbar;
-import com.rokpetek.breadcrumbtoolbar.BreadcrumbToolbarItem;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,27 +39,27 @@ public class ActivityLocalNetworkVM extends ActivityBaseVM<ActivityLocalNetwork,
     private void initToolbar() {
         mediaPath = activity.getIntent().getStringExtra(EXTRA.MEDIA);
         medias.add(mediaPath);
-        binding.toolbar.initToolbar(new BreadcrumbToolbarItem(mediaPath));
-        binding.toolbar.setBreadcrumbToolbarListener(new BreadcrumbToolbar.BreadcrumbToolbarListener() {
-            @Override
-            public void onBreadcrumbToolbarItemPop(int stackSize) {
-                FragmentManager.pop(activity);
-                if (stackSize == 1) {
-                    activity.finish();
-                }
-            }
-
-            @Override
-            public void onBreadcrumbToolbarEmpty() {
-                Logger.d("Empty");
-            }
-
-            @Override
-            public String getFragmentName() {
-                return medias.element();
-
-            }
-        });
+//        binding.toolbar.initToolbar(new BreadcrumbToolbarItem(mediaPath));
+//        binding.toolbar.setBreadcrumbToolbarListener(new BreadcrumbToolbar.BreadcrumbToolbarListener() {
+//            @Override
+//            public void onBreadcrumbToolbarItemPop(int stackSize) {
+//                FragmentManager.pop(activity);
+//                if (stackSize == 1) {
+//                    activity.finish();
+//                }
+//            }
+//
+//            @Override
+//            public void onBreadcrumbToolbarEmpty() {
+//                Logger.d("Empty");
+//            }
+//
+//            @Override
+//            public String getFragmentName() {
+//                return medias.element();
+//
+//            }
+//        });
     }
 
     private void initFragment() {
@@ -80,7 +78,7 @@ public class ActivityLocalNetworkVM extends ActivityBaseVM<ActivityLocalNetwork,
         String media = eventSelectItemNetwork.getModel().getTitle();
         media = media.replace(medias.element(), "");
         medias.add(media);
-        binding.toolbar.addItem(new BreadcrumbToolbarItem(media));
+//        binding.toolbar.addItem(new BreadcrumbToolbarItem(media));
         String path = "";
         for (String s : medias) {
             path += s;

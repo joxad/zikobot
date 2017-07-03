@@ -4,7 +4,6 @@ package com.joxad.zikobot.data.model;
 import com.joxad.zikobot.data.db.ItemListTrackConverter;
 import com.joxad.zikobot.data.db.MusicAlarmDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ModelContainer;
 import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
@@ -23,7 +22,6 @@ import lombok.Setter;
 /**
  * Created by josh on 08/03/16.
  */
-@ModelContainer
 @Table(database = MusicAlarmDatabase.class)
 @Parcel
 public class Alarm extends BaseModel {

@@ -12,7 +12,6 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.structure.BaseModel;
-import com.raizlabs.android.dbflow.structure.container.ForeignKeyContainer;
 
 import org.parceler.Parcel;
 import org.parceler.Transient;
@@ -29,8 +28,8 @@ import lombok.Setter;
 public class Track extends BaseModel {
 
     @Transient
-    @ForeignKey(saveForeignKeyModel = false)
-    public ForeignKeyContainer<Alarm> alarmForeignKeyContainer;
+    @ForeignKey(saveForeignKeyModel = false, stubbedRelationship = true)
+    public Alarm alarmForeignKeyContainer;
     @PrimaryKey(autoincrement = true)
     @Getter
     @Setter
@@ -173,10 +172,7 @@ public class Track extends BaseModel {
     }
 
     public void associateAlarm(Alarm alarm) {
-        alarmForeignKeyContainer = FlowManager.getContainerAdapter(Alarm.class).toForeignKeyContainer(alarm);
+        alarmForeignKeyContainer = alarm;
     }
 
-    public ForeignKeyContainer<Alarm> getAlarmForeignKeyContainer() {
-        return alarmForeignKeyContainer;
-    }
 }
