@@ -76,10 +76,24 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
         EventBus.getDefault().register(this);
         query(SearchManager.QUERY);
     }
+
     @Subscribe
     public void onReceive(EventSelectItemYtDownload eventSelectItemYt) {
+        VideoItem model = eventSelectItemYt.getVideoItem();
+        if (model == null) {
+            loading.set(false);
+        } else {
+            yc.detailObservable(model.getId()).subscribe(videoItem -> {
+                loading.set(false);
+                videoItem.setRef(model.getRef());
+                FragmentDownload.newInstance(videoItem).show(fragment.getFragmentManager(), FragmentDownloadVM.TAG);
+            }, throwable -> {
+                loading.set(false);
+
+                Toast.makeText(fragment.getContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            });
+        }
         //we call the detail in order to get the duration of the item
-        FragmentDownload.newInstance(eventSelectItemYt.getVideoItem()).show(fragment.getFragmentManager(), FragmentDownloadVM.TAG);
     }
 
     @Subscribe
@@ -91,15 +105,19 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
     @Subscribe
     public void onReceive(EventSelectItemYtLoaded eventSelectItemYtLoaded) {
         VideoItem model = eventSelectItemYtLoaded.getModel();
-        yc.detailObservable(model.getId()).subscribe(videoItem -> {
+        if (model == null) {
             loading.set(false);
-            videoItem.setRef(model.getRef());
-            EventBus.getDefault().post(new EventPlayTrack(new TrackVM(fragment.getContext(), Track.from(videoItem))));
-        }, throwable -> {
-            loading.set(false);
+        } else {
+            yc.detailObservable(model.getId()).subscribe(videoItem -> {
+                loading.set(false);
+                videoItem.setRef(model.getRef());
+                EventBus.getDefault().post(new EventPlayTrack(new TrackVM(fragment.getContext(), Track.from(videoItem))));
+            }, throwable -> {
+                loading.set(false);
 
-            Toast.makeText(fragment.getContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-        });
+                Toast.makeText(fragment.getContext(), throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            });
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -186,7 +204,7 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
                     VideoItem item = new VideoItem();
                     item.setTitle(result.getSnippet().getTitle());
                     item.setDescription(result.getSnippet().getDescription());
-                    item.setThumbnailURL(result.getSnippet().getThumbnails().getDefault().getUrl());
+                    item.setThumbnailURL(result.getSnippet().getThumbnails().getHigh().getUrl());
                     item.setId(id);
                     item.setDuration(durationFrom(result.getContentDetails().getDuration()));
                     items.add(item);

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
 
+import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.notification.DownloadNotification;
 import com.joxad.zikobot.app.youtube.download.EventDownloadDone;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
@@ -36,7 +37,6 @@ public enum YoutubeDownloader {
     public void download(VideoItem model, String artist, String album) {
         String folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
                 .toString() + "/zikobot";
-        Toast.makeText(context, "Try to start download to " + folder, Toast.LENGTH_SHORT).show();
         Fetch fetch = Fetch.newInstance(context);
         fetch.enableLogging(true);
         String youtubeLink = "http://youtube.com/watch?v=" + model.getId();
@@ -73,7 +73,6 @@ public enum YoutubeDownloader {
     public void getStream(String trackId, YtFileListener ytFileYtFileListener) {
         String folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
                 .toString() + "/zikobot";
-        Toast.makeText(context, "Try to start download to " + folder, Toast.LENGTH_SHORT).show();
         Fetch fetch = Fetch.newInstance(context);
         fetch.enableLogging(true);
         String youtubeLink = "http://youtube.com/watch?v=" + trackId;
@@ -83,7 +82,9 @@ public enum YoutubeDownloader {
             protected void onExtractionComplete(SparseArray<YtFile> ytFiles, VideoMeta videoMeta) {
                 if (ytFiles == null) {
                     // Something went wrong we got no urls. Always check this.
-                    Toast.makeText(context, "fail", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.download_fail, Toast.LENGTH_SHORT).show();
+                    ytFileYtFileListener.onReceived(null);
+
                     return;
                 }
                 YtFile ytFile = getBestStream(ytFiles);

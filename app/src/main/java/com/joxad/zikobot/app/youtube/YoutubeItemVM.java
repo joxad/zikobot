@@ -40,15 +40,29 @@ public class YoutubeItemVM extends BaseVM<VideoItem> {
     }
 
     public void download(View view) {
-        EventBus.getDefault().post(new EventSelectItemYtDownload(model));
+        YoutubeDownloader.INSTANCE.init(view.getContext());
+        EventBus.getDefault().post(new EventSelectItemYt(model));
+        YoutubeDownloader.INSTANCE.getStream(model.getId(), ytFile -> {
+            if (model == null) {
+                EventBus.getDefault().post(new EventSelectItemYtDownload(null));
+            } else {
+                model.setRef(ytFile.getUrl());
+                EventBus.getDefault().post(new EventSelectItemYtDownload(model));
+            }
+
+        });
     }
 
     public void onClick(View view) {
         YoutubeDownloader.INSTANCE.init(view.getContext());
         EventBus.getDefault().post(new EventSelectItemYt(model));
         YoutubeDownloader.INSTANCE.getStream(model.getId(), ytFile -> {
-            model.setRef(ytFile.getUrl());
-            EventBus.getDefault().post(new EventSelectItemYtLoaded(model));
+            if (model == null) {
+                EventBus.getDefault().post(new EventSelectItemYtLoaded(null));
+            } else {
+                model.setRef(ytFile.getUrl());
+                EventBus.getDefault().post(new EventSelectItemYtLoaded(model));
+            }
         });
 
     }

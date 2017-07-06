@@ -128,4 +128,7 @@
     <string name="error_corrupt_track">Oops spotify m\'indique cette chanson est corrompue :s</string>
     <string name="no_internet">Pas de connexion internet... Vérifie ton wifi ou tes données mobiles</string>
     <string name="settings_handle_phone_call">Gérer les appels téléphoniques (cela mettra en pause la musique)</string>
+
+    <string name="download_fail">Une erreur est survenue durant le téléchargement, réessayez. Il se peut que ce fichier ne soit pas disponible également…</string>
+
 </resources>
