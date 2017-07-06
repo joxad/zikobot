@@ -104,14 +104,18 @@
     <orderEntry type="library" exported="" name="baseLibrary-2.3.0" level="project" />
     <orderEntry type="library" exported="" name="snackbarbuilder-0.8.0" level="project" />
     <orderEntry type="library" exported="" name="merlin-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="jcodec-android-0.1.9" level="project" />
     <orderEntry type="library" exported="" name="library-1.3.1" level="project" />
     <orderEntry type="library" exported="" name="lib-1.0.5" level="project" />
+    <orderEntry type="library" exported="" name="mimecraft-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="fabric-1.3.14" level="project" />
     <orderEntry type="library" exported="" name="crashlytics-2.6.5" level="project" />
     <orderEntry type="library" exported="" name="butterknife-annotations-8.6.0" level="project" />
     <orderEntry type="library" exported="" name="google-api-client-1.22.0" level="project" />
+    <orderEntry type="library" exported="" name="instabug-4.2.2" level="project" />
     <orderEntry type="library" exported="" name="retrofit-2.0.1" level="project" />
-    <orderEntry type="library" exported="" name="rxandroid-1.1.0" level="project" />
+    <orderEntry type="library" exported="" name="jcodec-0.1.9" level="project" />
+    <orderEntry type="library" exported="" name="instabug-crash-4.2.2" level="project" />
     <orderEntry type="library" exported="" name="converter-gson-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="dbflow-4.0.4" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-2.1.3" level="project" />
@@ -128,6 +132,7 @@
     <orderEntry type="library" exported="" name="support-compat-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="bindingcollectionadapter-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="bindingcollectionadapter-recyclerview-2.0.1" level="project" />
+    <orderEntry type="library" exported="" name="instabug-survey-4.2.2" level="project" />
     <orderEntry type="library" exported="" name="gson-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-android-1.22.0" level="project" />
     <orderEntry type="library" exported="" name="spotify-player-24-noconnect-2.20b-" level="project" />
@@ -148,16 +153,18 @@
     <orderEntry type="library" exported="" name="support-core-utils-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="customtabs-25.1.0" level="project" />
+    <orderEntry type="library" exported="" name="instabug-core-4.2.2" level="project" />
     <orderEntry type="library" exported="" name="library-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="parceler-api-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="dialTimePicker-4386944980" level="project" />
+    <orderEntry type="library" exported="" name="rxjava-1.1.9" level="project" />
     <orderEntry type="library" exported="" name="beta-1.2.2" level="project" />
     <orderEntry type="library" exported="" name="android-youtubeExtractor-master-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-1.22.0" level="project" />
+    <orderEntry type="library" exported="" name="rxandroid-1.2.0" level="project" />
     <orderEntry type="library" exported="" name="adapter-rxjava-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="percent-25.1.0" level="project" />
     <orderEntry type="library" exported="" name="fetch-1.1.2" level="project" />
-    <orderEntry type="library" exported="" name="rxjava-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="answers-1.3.10" level="project" />
     <orderEntry type="library" exported="" name="eventbus-3.0.0" level="project" />
     <orderEntry type="library" exported="" name="circleimageview-2.0.0" level="project" />
@@ -192,8 +199,9 @@
     <orderEntry type="library" exported="" name="support-core-utils-25.1.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.2.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="rules-0.5" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-1.0.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="javax.inject-1" level="project" />
+    <orderEntry type="library" exported="" name="rxjava-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-25.1.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-25.1.0" level="project" />
   </component>

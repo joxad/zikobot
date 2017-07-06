@@ -9,6 +9,8 @@ import android.os.IBinder;
 import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
+import com.instabug.library.Instabug;
+import com.instabug.library.invocation.InstabugInvocationEvent;
 import com.joxad.zikobot.app.alarm.AlarmManager;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
 import com.joxad.zikobot.app.player.PlayerService;
@@ -55,6 +57,9 @@ public class ZikobotApp extends Application {
 
         Fabric.with(this, new Crashlytics());
         initPlayerService();
+        new Instabug.Builder(this, "572d90568bd0a8eaf0852fdd95d226a8")
+                .setInvocationEvent(InstabugInvocationEvent.SCREENSHOT_GESTURE)
+                .build();
     }
 
     private void initPlayerService() {
