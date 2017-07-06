@@ -199,8 +199,8 @@
     <orderEntry type="library" exported="" name="support-core-utils-25.1.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.2.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="rules-0.5" level="project" />
-    <orderEntry type="library" exported="" name="rxandroid-1.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.inject-1" level="project" />
+    <orderEntry type="library" exported="" name="rxandroid-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="rxjava-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-25.1.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-25.1.0" level="project" />

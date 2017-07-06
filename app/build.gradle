@@ -55,7 +55,7 @@ android {
         }
         release {
             minifyEnabled true
-            debuggable true
+            debuggable false
             signingConfig signingConfigs.release
             proguardFile 'proguard/proguard-butterknife.pro'
             proguardFile 'proguard/proguard-crashlytics.pro'
