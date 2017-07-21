@@ -14,7 +14,7 @@ layout: home
 This project is an open-source project of music & alarm alarm using Spotify & Soundcloud.
 It is free and it will stay free & ad-free !
 
-[Link on the GooglePlay](https://play.google.com/apps/testing/com.joxad.zikobot)
+[Link on the GooglePlay](https://play.google.com/store/apps/details?id=com.startogamu.zikobot)
 
 
 Hi I'm Zikobot,
