@@ -11,72 +11,30 @@ layout: home
 
 # Zikobot
 
-This project is an open-source alarm using Spotify SDK + Databinding
+This project is an open-source project of music & alarm alarm using Spotify & Soundcloud.
+It is free and it will stay free & ad-free !
 
 [Link on the GooglePlay](https://play.google.com/apps/testing/com.joxad.zikobot)
 
 
-# Current Version
+Hi I'm Zikobot,
 
-VERSION_NAME = 1.4.6
+I intend to help my future musical friends by offering them my different services!
 
-# How to Install
+I am above all a musical assistant who will provide you with various musical services:
 
-You will need Java 8 and at least version 1.5.1 of AndroidStudio
+- Music player (local files, Spotify®,SoundCloud®, et prochainement Deezer® ) :
+Get every song from your account ! Just log into your Spotify® or SoundCloud® account et i will synchronize everything for you :)
 
-In the file local.properties, you will need to add the location of your java 8 installation, in order
-to make retrolambda working
+- Alarms :
+Wake up in music every day ! You can create alarm with music from the account (Spotify , Soundcloud) you use !
+Create a playlist, and activate the alarm mode for all the songs you want and without limitation in number of alarms !
+You can disable and enable your alarms in 2 clics.
 
-local.properties
+- Musical Hub :
+Get your favorite playlists from your favorite music accounts (Spotify®, SoundCloud®)
 
-```groovy
-jdk.dir=/usr/lib/jvm/java-8-openjdk-amd64
-```
-# Goals
+In future releases, you will also be able to:
 
-Zikobot is first an application on music.
-
-The main goal is the play it on different support :
-
-- Local
-- Spotify
-- Soundcloud
-- Deezer
-....
-
-The second  is to create alarms with the different players / account of the user.
-
-I wanted to test different techn that are going to me amazing (or not), or which are already.
-So this project is a opportunity to make a clean architecture of a project, which regroups DB data + WebServices + Scheduled Tasks
-
-- Create Alarms using music
-
-- Create Alarm Scheduler with different media
-    - Local Music
-    - Spotify API + SDK (SDK implemented using android-easy-spotify)
-    - Deezer (TODO)
-
-- Connect to Spotify Auth (done)
-    - Can it be donne better (I'm sure it can be, but I am still very new to Dagger)
-- Launch a Spotify Player
-
-# Major libs used
-
-- DataBinding
-In order to test MVVM on Android
-- Rx
-- Retrofit
-
-# Thanks
-
-Some libs that made it possible (thanks to them)
-
-- https://github.com/mrmaffen/vlc-android-sdk
-- https://code.videolan.org/videolan/vlc-android
-- https://github.com/deezer/android-sample
-- https://github.com/spotify/android-sdk
-- https://github.com/lapism/SearchView
-
-# Contributing
-
-Feel free to contribute to this project :) Pull request are welcome !
+- Play your playlists in the sleep mode.
+- Transfer your playlists from Spotify to Deezer and vice versa.

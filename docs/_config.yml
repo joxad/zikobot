@@ -17,11 +17,10 @@ title: Zikobot
 email: contact@novajox.io
 description: > # this means to ignore newlines until "baseurl:"
   Zikobot is a music app which is a hub to all music lovers. Local tracks,Spotify, Soundcloud & more
-   are available in this application.
+   are available in this application. Create alarms and wake up in music !
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+github_username:  joxad
 
 # Build settings
 markdown: kramdown

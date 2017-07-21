@@ -9,7 +9,7 @@ Link on the GooglePlay : https://play.google.com/apps/testing/com.joxad.zikobot
 
 # Current Version
 
-VERSION_NAME = 1.4.6
+VERSION_NAME = 1.4.8
 
 # How to Install
 
