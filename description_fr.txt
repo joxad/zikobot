@@ -1,0 +1,48 @@
+Je compte aider mes futurs compagnons musicaux en leur proposant mes différents services!
+Je suis à ton service gratuitement et SANS publicité.
+
+Mes fonctionnalités : 
+
+--------------------
+!!! Pour utiliser Spotify totalement, tu as besoin d'un compte premium !!!
+
+Je suis avant tout un assistant musical qui te fournira différents services :
+
+- Lecteur musical 
+
+Différentes sources sont disponibles afin d'être un véritable Hub musical : fichiers locaux, Spotify , SoundCloud, et prochainement Deezer !
+Grâce à cela, retrouve toutes tes chansons favorites dans ta poche, je m'occupe de tout. Il suffit de te connecter avec ton compte Spotify ou SoundCloud et je synchronize tout :)
+
+- Réveil Matin
+
+Réveille toi en musique le matin ! Tu peux créer des réveils, alarmes musicales avec tes comptes préférées. Oui même avec tes playlists SoundCloud et Spotify !
+
+Crée une playlist, et active le mode alarme pour pouvoir te réveiller le matin. Le nombre de réveils configurable est illimité. 
+Tu peux activer et désactiver tes alarmes en deux clics.
+
+En quelque clics, choisis ta playlist, l'heure à laquelle tu veux lancer l'alarme et le volume !
+
+- Gestion des playlists 
+Récupére tes playlists favorites depuis tes comptes musicaux favoris ( Spotify , SoundCloud )
+Tu peux mélanger des chansons de sources différentes dans une même playlist.
+
+
+Permissions nécessaires :
+------------------------
+
+- Stockage local :
+Afin de récupérer la liste des chansons sur ton téléphone
+
+- Internet :
+Afin de te connecter à ton compte Spotify ou Deezer
+
+- Téléphone : 
+Pour couper la musique si tu reçois un appel
+
+A venir :
+---------
+
+Dans les prochaines versions, tu pourras en plus :
+
+- Lancer tes playlists en mode veilleuse.
+- Transférer tes playlists de Spotify à Deezer et inversement.
