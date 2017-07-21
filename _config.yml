@@ -19,7 +19,7 @@ description: > # this means to ignore newlines until "baseurl:"
   Zikobot is a music app which is a hub to all music lovers. Local tracks,Spotify, Soundcloud & more
    are available in this application. Create alarms and wake up in music !
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "http://www.joxad.fr/zikobot/" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  joxad
 
 # Build settings
