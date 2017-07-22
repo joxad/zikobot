@@ -40,7 +40,7 @@
                     android:clipToPadding="false"
                     android:layoutAnimation="@anim/grid_animation"
                     android:paddingBottom="@dimen/paddingBottom"
-                    app:itemView="@{fragmentLocalNetworkVM.itemNetwork}"
+                    app:itemBinding="@{fragmentLocalNetworkVM.itemNetwork}"
                     app:items="@{fragmentLocalNetworkVM.networkItems}"
                     tools:listitem="@layout/item_network" />
 

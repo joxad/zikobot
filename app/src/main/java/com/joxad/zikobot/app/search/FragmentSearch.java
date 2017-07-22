@@ -1,6 +1,7 @@
 package com.joxad.zikobot.app.search;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.joxad.zikobot.app.BR;
@@ -31,9 +32,10 @@ public class FragmentSearch extends FragmentBase<FragmentSearchBinding, Fragment
     }
 
     @Override
-    public FragmentSearchVM baseFragmentVM(FragmentSearchBinding binding) {
-        return new FragmentSearchVM(this, binding);
+    public FragmentSearchVM baseFragmentVM(FragmentSearchBinding binding, @Nullable Bundle savedInstance) {
+        return new FragmentSearchVM(this,binding,savedInstance);
     }
+
 
     @Override
     public void query(String string) {

@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <import
             alias="v"
@@ -63,7 +63,7 @@
                     android:nestedScrollingEnabled="false"
                     android:paddingBottom="@dimen/paddingBottom"
                     android:visibility="@{activityAlbumVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
-                    app:itemView="@{activityAlbumVM.itemViewTrack}"
+                    app:itemBinding="@{activityAlbumVM.itemViewTrack}"
                     app:items="@{activityAlbumVM.tracks}"
                     tools:listitem="@layout/item_artist" />
 

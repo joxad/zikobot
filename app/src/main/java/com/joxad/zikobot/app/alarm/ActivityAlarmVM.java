@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -19,6 +21,7 @@ import com.joxad.zikobot.app.core.fragmentmanager.NavigationManager;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.databinding.ActivityAlarmBinding;
+import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.data.model.Alarm;
@@ -26,7 +29,8 @@ import com.joxad.zikobot.data.model.Alarm;
 import org.greenrobot.eventbus.EventBus;
 import org.parceler.Parcels;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
+
 
 /**
  * Created by josh on 29/05/16.
@@ -39,20 +43,23 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
     NavigationManager navigationManager;
 
     /***
+
      * @param activity
      * @param binding
+     * @param savedInstance
      */
-    public ActivityAlarmVM(ActivityAlarm activity, ActivityAlarmBinding binding) {
-        super(activity, binding);
+    public ActivityAlarmVM(ActivityAlarm activity, ActivityAlarmBinding binding, @Nullable Bundle savedInstance
+    ) {
+        super(activity, binding, savedInstance);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle savedInstance) {
         alarm = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.ALARM));
         alarmVM = new AlarmVM(activity, alarm) {
             @Override
-            public ItemView itemView() {
-                return ItemView.of(BR.trackVM, R.layout.item_track);
+            public ItemBinding<TrackVM> itemView() {
+                return ItemBinding.of(BR.trackVM, R.layout.item_track);
             }
         };
         initPlayerVM();
@@ -167,6 +174,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
         alarmVM.refreshTracks();
 
     }
+
 
     @Override
     public void onResume() {

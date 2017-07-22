@@ -2,6 +2,7 @@ package com.joxad.zikobot.app.alarm;
 
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -37,7 +38,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 import static com.joxad.zikobot.data.model.TYPE.LOCAL;
 import static com.joxad.zikobot.data.model.TYPE.SOUNDCLOUD;
@@ -50,7 +51,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
     private static final String TAG = DialogFragmentSettingsVM.class.getSimpleName();
     public ObservableArrayList<AlarmVM> itemsVM;
 
-    public ItemView itemView = ItemView.of(BR.itemAlarmVM, R.layout.item_alarm_dialog);
+    public ItemBinding itemView = ItemBinding.of(BR.itemAlarmVM, R.layout.item_alarm_dialog);
 
     @Nullable
     Track track;
@@ -66,6 +67,11 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
     public DialogFragmentSettingsVM(DialogFragmentSettings fragment, DialogFragmentSettingsBinding binding) {
         super(fragment, binding);
     }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstance) {
+//unused
+    }
+
 
     @Override
     public void onCreate() {
@@ -120,6 +126,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
             Logger.d(TAG, throwable.getLocalizedMessage());
         });
     }
+
 
     @Override
     public void onResume() {
@@ -327,7 +334,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
             for (Alarm alarm : alarms) {
                 itemsVM.add(new AlarmVM(fragment.getContext(), alarm) {
                     @Override
-                    public ItemView itemView() {
+                    public ItemBinding itemView() {
                         return null;
                     }
                 });

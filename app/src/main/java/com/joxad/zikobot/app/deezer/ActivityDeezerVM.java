@@ -1,6 +1,8 @@
 package com.joxad.zikobot.app.deezer;
 
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.deezer.sdk.model.Playlist;
@@ -22,7 +24,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 25/08/16.
@@ -30,7 +32,7 @@ import me.tatarka.bindingcollectionadapter.ItemView;
 public class ActivityDeezerVM extends ActivityBaseVM<ActivityDeezer, ActivityDeezerBinding> {
 
 
-    public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
+    public ItemBinding itemViewTrack = ItemBinding.of(BR.trackVM, R.layout.item_track);
 
     public PlayerVM playerVM;
     public ObservableArrayList<TrackVM> tracks;
@@ -38,15 +40,18 @@ public class ActivityDeezerVM extends ActivityBaseVM<ActivityDeezer, ActivityDee
     public Playlist deezerPlaylist;
 
     /***
+
      * @param activity
      * @param binding
+     * @param savedInstance
      */
-    public ActivityDeezerVM(ActivityDeezer activity, ActivityDeezerBinding binding) {
-        super(activity, binding);
+    public ActivityDeezerVM(ActivityDeezer activity, ActivityDeezerBinding binding, @Nullable Bundle savedInstance) {
+        super(activity, binding, savedInstance);
     }
 
+
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle savedInstance) {
         deezerPlaylist = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.PLAYLIST));
         tracks = new ObservableArrayList<>();
         binding.rv.setNestedScrollingEnabled(false);
@@ -70,6 +75,7 @@ public class ActivityDeezerVM extends ActivityBaseVM<ActivityDeezer, ActivityDee
     private void initPlayerVM() {
         playerVM = new PlayerVM(activity, binding.viewPlayer);
     }
+
 
 
     @Override

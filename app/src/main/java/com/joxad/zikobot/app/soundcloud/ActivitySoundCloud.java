@@ -23,7 +23,7 @@ public class ActivitySoundCloud extends ActivityBase<ActivitySoundCloudBinding, 
 
     @Override
     public ActivitySoundCloudVM baseActivityVM(ActivitySoundCloudBinding binding, Bundle savedInstanceState) {
-        return new ActivitySoundCloudVM(this, binding);
+        return new ActivitySoundCloudVM(this,binding,savedInstanceState);
     }
 
 }

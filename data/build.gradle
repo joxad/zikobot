@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
@@ -52,6 +51,8 @@ dependencies {
     compile libs.rxAndroid
 
     provided libs.lombok
+    annotationProcessor libs.lombok
+
     compile(name: 'vlc-android-sdk', ext: 'aar')
     compile 'com.deezer.sdk:deezer-sdk:0.10.20@aar'
     compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'

@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <import
             alias="v"
@@ -30,7 +30,7 @@
             android:layoutAnimation="@anim/grid_animation"
             android:paddingBottom="@dimen/margin_player"
             android:scrollbars="vertical"
-            app:itemView="@{fragmentAlarmsVM.itemView}"
+            app:itemBinding="@{fragmentAlarmsVM.itemView}"
             app:items="@{fragmentAlarmsVM.itemsVM}"
             app:layoutManager="@{LayoutManagers.grid(2)}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"

@@ -10,8 +10,10 @@ import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.joxad.easydatabinding.base.IVM;
@@ -33,7 +35,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by Jocelyn on 12/12/2016.
@@ -44,7 +46,7 @@ public class WakePlayerVM extends BaseObservable implements IVM {
     public final ObservableBoolean isBound = new ObservableBoolean(false);
     private final ViewPlayerSimpleBinding binding;
     public ObservableField<Integer> seekBarValue = new ObservableField<>(0);
-    public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_track_player);
+    public ItemBinding itemView = ItemBinding.of(BR.trackVM, R.layout.item_track_player);
     private ServiceConnection musicConnection;
     private AppCompatActivity activity;
     private WakePlayerService playerService;
@@ -54,11 +56,12 @@ public class WakePlayerVM extends BaseObservable implements IVM {
         this.activity = activity;
         this.binding = binding;
         this.alarm = alarm;
-        onCreate();
+        onCreate(null);
     }
 
+
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle savedInstance) {
 
     }
 

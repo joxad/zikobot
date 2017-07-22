@@ -2,8 +2,9 @@ package com.joxad.zikobot.app.wakeup;
 
 import android.animation.Animator;
 import android.content.Context;
-import android.databinding.ObservableArrayList;
 import android.media.AudioManager;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -17,23 +18,14 @@ import com.joxad.zikobot.app.core.utils.Constants;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.ActivityWakeUpBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
-import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.player.alarm.WakePlayerVM;
-import com.joxad.zikobot.app.player.event.EventAddList;
-import com.joxad.zikobot.app.player.event.EventForceRefreshPlayerSpotify;
 import com.joxad.zikobot.app.player.event.EventStopPlayer;
 import com.joxad.zikobot.data.model.Alarm;
-import com.joxad.zikobot.data.model.Track;
-import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
-import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.parceler.Parcels;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Collections;
-
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 31/05/16.
@@ -46,18 +38,21 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     Alarm alarm;
     AudioManager am;
 
-
     /***
+
      * @param activity
      * @param binding
+     * @param savedInstance
      */
-    public ActivityWakeUpVM(ActivityWakeUp activity, ActivityWakeUpBinding binding) {
-        super(activity, binding);
-
+    public ActivityWakeUpVM(ActivityWakeUp activity,
+                            ActivityWakeUpBinding binding,
+                            @Nullable Bundle savedInstance) {
+        super(activity, binding, savedInstance);
     }
 
+
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle savedInstance) {
         am = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
@@ -74,8 +69,8 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
         activity.setTitle(alarm.getName());
         alarmVM = new AlarmVM(activity, alarm) {
             @Override
-            public ItemView itemView() {
-                return ItemView.of(BR.trackVM, R.layout.item_alarm_track);
+            public ItemBinding itemView() {
+                return ItemBinding.of(BR.trackVM, R.layout.item_alarm_track);
 
             }
         };

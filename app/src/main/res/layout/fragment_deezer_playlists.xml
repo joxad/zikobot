@@ -9,7 +9,7 @@
             alias="v"
             type="android.view.View" />
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <variable
             name="itemPlaylistViewModel"
@@ -32,7 +32,7 @@
             android:clipToPadding="false"
             android:layoutAnimation="@anim/grid_animation"
             android:paddingBottom="@dimen/paddingBottom"
-            app:itemView="@{fragmentDeezerPlaylistsVM.itemPlaylist}"
+            app:itemBinding="@{fragmentDeezerPlaylistsVM.itemPlaylist}"
             app:items="@{fragmentDeezerPlaylistsVM.userPlaylists}"
             app:layoutManager="@{LayoutManagers.grid(1)}"
             tools:listitem="@layout/item_playlist" />

@@ -8,7 +8,7 @@
             alias="v"
             type="android.view.View" />
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <variable
             name="activityAlarmVM"
@@ -56,7 +56,7 @@
                     android:clipToPadding="false"
                     android:layoutAnimation="@anim/grid_animation"
                     android:paddingBottom="@dimen/view_player_height"
-                    app:itemView="@{activityAlarmVM.alarmVM.itemView}"
+                    app:itemBinding="@{activityAlarmVM.alarmVM.itemView}"
                     app:items="@{activityAlarmVM.alarmVM.tracksVms}"
                     app:layoutManager="@{LayoutManagers.grid(1)}" />
 

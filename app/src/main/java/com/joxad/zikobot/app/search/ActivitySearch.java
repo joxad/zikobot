@@ -23,6 +23,6 @@ public class ActivitySearch extends ActivityBase<ActivitySearchBinding, Activity
 
     @Override
     public ActivitySearchVM baseActivityVM(ActivitySearchBinding binding, Bundle savedInstanceState) {
-        return new ActivitySearchVM(this, binding);
+        return new ActivitySearchVM(this,binding,savedInstanceState);
     }
 }

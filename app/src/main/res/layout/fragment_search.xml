@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <import
             alias="v"
@@ -54,7 +54,7 @@
                     android:clipToPadding="false"
                     android:layoutAnimation="@anim/grid_animation"
                     android:visibility="@{fragmentSearchVM.artists.size() >0 ? v.VISIBLE : v.GONE}"
-                    app:itemView="@{fragmentSearchVM.itemViewArtist}"
+                    app:itemBinding="@{fragmentSearchVM.itemViewArtist}"
                     app:items="@{fragmentSearchVM.artists}"
                     app:layoutManager="@{LayoutManagers.grid(2)}"
                     tools:listitem="@layout/item_artist" />
@@ -83,7 +83,7 @@
                     android:clipToPadding="false"
                     android:layoutAnimation="@anim/grid_animation"
                     android:visibility="@{fragmentSearchVM.albums.size() >0 ? v.VISIBLE : v.GONE}"
-                    app:itemView="@{fragmentSearchVM.itemViewAlbum}"
+                    app:itemBinding="@{fragmentSearchVM.itemViewAlbum}"
                     app:items="@{fragmentSearchVM.albums}"
                     app:layoutManager="@{LayoutManagers.grid(2)}"
                     tools:listitem="@layout/item_artist" />
@@ -113,7 +113,7 @@
                     android:clipToPadding="false"
                     android:layoutAnimation="@anim/grid_animation"
                     android:visibility="@{fragmentSearchVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
-                    app:itemView="@{fragmentSearchVM.itemViewTrack}"
+                    app:itemBinding="@{fragmentSearchVM.itemViewTrack}"
                     app:items="@{fragmentSearchVM.tracks}"
                     app:layoutManager="@{LayoutManagers.grid(1)}"
                     tools:listitem="@layout/item_artist" />

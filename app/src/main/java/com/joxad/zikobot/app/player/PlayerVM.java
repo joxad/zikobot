@@ -10,8 +10,10 @@ import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -38,7 +40,7 @@ import com.orhanobut.logger.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by Jocelyn on 12/12/2016.
@@ -50,7 +52,7 @@ public class PlayerVM extends BaseObservable implements IVM {
     public final ObservableBoolean isExpanded = new ObservableBoolean(false);
     private final ViewPlayerSimpleBinding binding;
     public ObservableField<Integer> seekBarValue = new ObservableField<>(0);
-    public ItemView itemView = ItemView.of(BR.trackVM, R.layout.item_track_player);
+    public ItemBinding itemView = ItemBinding.of(BR.trackVM, R.layout.item_track_player);
     public ObservableBoolean showList;
     private ServiceConnection musicConnection;
     private AppCompatActivity activity;
@@ -61,11 +63,11 @@ public class PlayerVM extends BaseObservable implements IVM {
     public PlayerVM(AppCompatActivity activity, ViewPlayerSimpleBinding binding) {
         this.activity = activity;
         this.binding = binding;
-        onCreate();
+        onCreate(null);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle savedInstance) {
         showList = new ObservableBoolean(false);
         intent = new Intent(activity, PlayerService.class);
         if (binding == null)
@@ -88,7 +90,6 @@ public class PlayerVM extends BaseObservable implements IVM {
 
             }
         });
-
 
     }
 

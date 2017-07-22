@@ -1,5 +1,7 @@
 package com.joxad.zikobot.app.home;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
@@ -49,12 +51,12 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
      * @param activity
      * @param binding
      */
-    public ActivityMainVM(ActivityMain activity, ActivityMainBinding binding) {
-        super(activity, binding);
+    public ActivityMainVM(ActivityMain activity, ActivityMainBinding binding,@Nullable Bundle saved) {
+        super(activity, binding,saved);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle saved) {
         initNavigationManager();
         initTabLayout();
         initPlayerVM();

@@ -28,7 +28,7 @@
             android:clipToPadding="false"
             android:layoutAnimation="@anim/grid_animation"
             android:paddingBottom="@dimen/view_player_height"
-            app:itemView="@{fragmentLocalAlbumsVM.itemView}"
+            app:itemBinding="@{fragmentLocalAlbumsVM.itemView}"
             app:items="@{fragmentLocalAlbumsVM.items}"
             tools:listitem="@layout/item_artist" />
 

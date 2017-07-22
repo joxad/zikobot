@@ -35,7 +35,7 @@ public class FragmentDownload extends DialogBottomSheetBase<FragmentDownloadBind
 
     @Override
     public FragmentDownloadVM baseFragmentVM(FragmentDownloadBinding binding) {
-        return new FragmentDownloadVM(this, binding);
+        return new FragmentDownloadVM(this,binding);
     }
 
 

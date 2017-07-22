@@ -1,6 +1,8 @@
 package com.joxad.zikobot.app.soundcloud;
 
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
@@ -23,7 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 09/08/16.
@@ -32,7 +34,7 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
 
 
     private static final String TAG = ActivitySoundCloudVM.class.getSimpleName();
-    public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
+    public ItemBinding itemViewTrack = ItemBinding.of(BR.trackVM, R.layout.item_track);
 
     public PlayerVM playerVM;
     public ObservableArrayList<TrackVM> tracks;
@@ -43,12 +45,12 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
      * @param activity
      * @param binding
      */
-    public ActivitySoundCloudVM(ActivitySoundCloud activity, ActivitySoundCloudBinding binding) {
-        super(activity, binding);
+    public ActivitySoundCloudVM(ActivitySoundCloud activity, ActivitySoundCloudBinding binding,@Nullable Bundle saved) {
+        super(activity, binding,saved);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle saved) {
         soundCloudPlaylist = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.PLAYLIST));
         tracks = new ObservableArrayList<>();
         binding.rv.setNestedScrollingEnabled(false);

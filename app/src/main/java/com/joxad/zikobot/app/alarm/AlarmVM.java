@@ -25,7 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.Calendar;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 29/05/16.
@@ -46,7 +46,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         super(context, model);
     }
 
-    public abstract ItemView itemView();
+    public abstract ItemBinding<TrackVM> itemView();
 
     public Alarm getModel() {
         return model;

@@ -37,8 +37,8 @@ public class FragmentLocalAlbums extends FragmentBase<FragmentLocalAlbumsBinding
     }
 
     @Override
-    public FragmentLocalAlbumsVM baseFragmentVM(FragmentLocalAlbumsBinding binding) {
-        return new FragmentLocalAlbumsVM(this, binding);
+    public FragmentLocalAlbumsVM baseFragmentVM(FragmentLocalAlbumsBinding binding,@Nullable Bundle saved) {
+        return new FragmentLocalAlbumsVM(this,binding,saved);
     }
 
 }

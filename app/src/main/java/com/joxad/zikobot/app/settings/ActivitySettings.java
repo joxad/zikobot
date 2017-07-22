@@ -25,7 +25,7 @@ public class ActivitySettings extends ActivityBase<ActivitySettingsBinding, Acti
 
     @Override
     public ActivitySettingsVM baseActivityVM(ActivitySettingsBinding binding, Bundle savedInstanceState) {
-        return new ActivitySettingsVM(this, binding);
+        return new ActivitySettingsVM(this,binding,savedInstanceState);
     }
 
 

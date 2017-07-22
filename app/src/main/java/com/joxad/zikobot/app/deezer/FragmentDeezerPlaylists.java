@@ -1,5 +1,8 @@
 package com.joxad.zikobot.app.deezer;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
 import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
@@ -26,7 +29,7 @@ public class FragmentDeezerPlaylists extends FragmentBase<FragmentDeezerPlaylist
     }
 
     @Override
-    public FragmentDeezerPlaylistsVM baseFragmentVM(FragmentDeezerPlaylistsBinding binding) {
-        return new FragmentDeezerPlaylistsVM(this, binding);
+    public FragmentDeezerPlaylistsVM baseFragmentVM(FragmentDeezerPlaylistsBinding binding,@Nullable Bundle saved) {
+        return new FragmentDeezerPlaylistsVM(this,binding,saved);
     }
 }

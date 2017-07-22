@@ -1,5 +1,8 @@
 package com.joxad.zikobot.app.spotify;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
 import com.android.databinding.library.baseAdapters.BR;
 import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.joxad.zikobot.app.R;
@@ -28,7 +31,7 @@ public class FragmentSpotifyPlaylists extends FragmentBase<FragmentSpotifyPlayli
     }
 
     @Override
-    public FragmentSpotifyPlaylistsVM baseFragmentVM(FragmentSpotifyPlaylistsBinding binding) {
-        return new FragmentSpotifyPlaylistsVM(this, binding);
+    public FragmentSpotifyPlaylistsVM baseFragmentVM(FragmentSpotifyPlaylistsBinding binding,@Nullable Bundle savedInstanceState) {
+        return new FragmentSpotifyPlaylistsVM(this,binding,savedInstanceState);
     }
 }

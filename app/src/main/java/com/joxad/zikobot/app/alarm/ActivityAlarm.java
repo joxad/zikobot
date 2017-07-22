@@ -26,7 +26,7 @@ public class ActivityAlarm extends ActivityBase<ActivityAlarmBinding, ActivityAl
 
     @Override
     public ActivityAlarmVM baseActivityVM(ActivityAlarmBinding binding, Bundle savedInstanceState) {
-        return new ActivityAlarmVM(this, binding);
+        return new ActivityAlarmVM(this, binding,savedInstanceState);
     }
 
 

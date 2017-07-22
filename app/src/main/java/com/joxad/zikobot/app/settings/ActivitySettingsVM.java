@@ -7,6 +7,8 @@ package com.joxad.zikobot.app.settings;
 import android.Manifest;
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
@@ -50,13 +52,13 @@ public class ActivitySettingsVM extends ActivityBaseVM<ActivitySettings, Activit
     private static final String[] SCOPES = {YouTubeScopes.YOUTUBE_READONLY};
 
 
-    public ActivitySettingsVM(ActivitySettings activity, ActivitySettingsBinding binding) {
-        super(activity, binding);
+    public ActivitySettingsVM(ActivitySettings activity, ActivitySettingsBinding binding,@Nullable Bundle saved) {
+        super(activity, binding,saved);
     }
 
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle saved) {
         rxPermissions = new RxPermissions(activity);
         showSpotifyConnect = new ObservableBoolean(false);
         showSoundCloudConnect = new ObservableBoolean(false);

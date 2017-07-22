@@ -13,7 +13,7 @@ import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 
 import org.parceler.Parcels;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 26/03/16.
@@ -44,12 +44,12 @@ public class FragmentLocalTracks extends FragmentBase<FragmentLocalTracksBinding
     }
 
     @Override
-    public FragmentLocalTracksVM baseFragmentVM(FragmentLocalTracksBinding binding) {
-        return new FragmentLocalTracksVM(this, binding) {
+    public FragmentLocalTracksVM baseFragmentVM(FragmentLocalTracksBinding binding, @Nullable Bundle savedInstance) {
+        return new FragmentLocalTracksVM(this,binding,savedInstance) {
             @Override
-            public ItemView getItemView() {
-                return ItemView.of(getArguments().getInt(EXTRA.DATA_VM), getArguments().getInt(EXTRA.LAYOUT));
+            public ItemBinding getItemView() {
+                return ItemBinding.of(getArguments().getInt(EXTRA.DATA_VM), getArguments().getInt(EXTRA.LAYOUT));
             }
-        };
-    }
+        };    }
+
 }

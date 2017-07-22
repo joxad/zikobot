@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <variable
             name="fragmentSoundCloudTracksVM"
@@ -25,7 +25,7 @@
             android:clipToPadding="false"
             android:layoutAnimation="@anim/grid_animation"
             android:paddingBottom="@dimen/paddingBottom"
-            app:itemView="@{fragmentSoundCloudTracksVM.itemView}"
+            app:itemBinding="@{fragmentSoundCloudTracksVM.itemView}"
             app:items="@{fragmentSoundCloudTracksVM.items}"
             app:layoutManager="@{LayoutManagers.grid(1)}"
             tools:listitem="@layout/item_playlist" />

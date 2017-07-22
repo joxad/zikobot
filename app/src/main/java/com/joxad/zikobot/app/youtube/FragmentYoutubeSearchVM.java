@@ -4,6 +4,8 @@ import android.content.Context;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -37,7 +39,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -48,7 +50,7 @@ import rx.schedulers.Schedulers;
  */
 public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearch, FragmentYoutubeSearchBinding> {
 
-    public ItemView itemViewYoutube = ItemView.of(BR.youtubeItemVM, R.layout.item_youtube);
+    public ItemBinding itemViewYoutube = ItemBinding.of(BR.youtubeItemVM, R.layout.item_youtube);
     public ObservableArrayList<YoutubeItemVM> youtubeItemVMs;
     private Subscription youtubeSubscription;
     private YoutubeConnector yc;
@@ -58,12 +60,12 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
      * @param fragment
      * @param binding
      */
-    public FragmentYoutubeSearchVM(FragmentYoutubeSearch fragment, FragmentYoutubeSearchBinding binding) {
-        super(fragment, binding);
+    public FragmentYoutubeSearchVM(FragmentYoutubeSearch fragment, FragmentYoutubeSearchBinding binding,@Nullable Bundle savedInstanceState) {
+        super(fragment, binding,savedInstanceState);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         youtubeItemVMs = new ObservableArrayList<>();
         yc = new YoutubeConnector(fragment.getContext());
         loading = new ObservableBoolean(false);

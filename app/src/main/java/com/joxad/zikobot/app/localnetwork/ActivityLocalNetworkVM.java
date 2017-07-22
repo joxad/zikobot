@@ -1,5 +1,8 @@
 package com.joxad.zikobot.app.localnetwork;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.joxad.zikobot.app.core.fragmentmanager.FragmentManager;
 import com.joxad.zikobot.app.core.utils.EXTRA;
@@ -25,12 +28,12 @@ public class ActivityLocalNetworkVM extends ActivityBaseVM<ActivityLocalNetwork,
      * @param activity
      * @param binding
      */
-    public ActivityLocalNetworkVM(ActivityLocalNetwork activity, ActivityLocalNetworkBinding binding) {
-        super(activity, binding);
+    public ActivityLocalNetworkVM(ActivityLocalNetwork activity, ActivityLocalNetworkBinding binding,@Nullable Bundle saved) {
+        super(activity, binding,saved);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle saved) {
         medias = new LinkedList<>();
         initToolbar();
         initFragment();

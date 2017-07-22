@@ -2,6 +2,7 @@ package com.joxad.zikobot.app.album;
 
 import android.Manifest;
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -27,7 +28,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -38,7 +39,7 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
 
     public static final String TAG = "FragmentLocalAlbumsVM";
     public String zmvMessage;
-    public ItemView itemView = ItemView.of(BR.albumVM, R.layout.item_album);
+    public ItemBinding itemView = ItemBinding.of(BR.albumVM, R.layout.item_album);
     public ObservableArrayList<AlbumVM> items;
     @Nullable
     LocalArtist localArtist;
@@ -48,13 +49,13 @@ public class FragmentLocalAlbumsVM extends FragmentBaseVM<FragmentLocalAlbums, F
      * @param fragment
      * @param binding
      */
-    public FragmentLocalAlbumsVM(FragmentLocalAlbums fragment, FragmentLocalAlbumsBinding binding) {
-        super(fragment, binding);
+    public FragmentLocalAlbumsVM(FragmentLocalAlbums fragment, FragmentLocalAlbumsBinding binding,@Nullable Bundle saved) {
+        super(fragment, binding,saved);
     }
 
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle saved) {
         EventBus.getDefault().register(this);
         Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.LOCAL_ARTIST);
         localArtist = parcelable != null ? Parcels.unwrap(parcelable) : null;

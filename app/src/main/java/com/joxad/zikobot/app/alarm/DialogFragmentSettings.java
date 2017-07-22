@@ -69,7 +69,7 @@ public class DialogFragmentSettings extends DialogBottomSheetBase<DialogFragment
 
     @Override
     public DialogFragmentSettingsVM baseFragmentVM(DialogFragmentSettingsBinding binding) {
-        return new DialogFragmentSettingsVM(this, binding);
+        return new DialogFragmentSettingsVM(this,binding);
     }
 
 

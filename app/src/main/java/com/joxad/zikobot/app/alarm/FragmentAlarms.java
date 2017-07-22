@@ -1,6 +1,7 @@
 package com.joxad.zikobot.app.alarm;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.joxad.zikobot.app.BR;
@@ -32,8 +33,8 @@ public class FragmentAlarms extends FragmentBase<FragmentAlarmsBinding, Fragment
     }
 
     @Override
-    public FragmentAlarmsVM baseFragmentVM(FragmentAlarmsBinding bindingé) {
-        return new FragmentAlarmsVM(this, binding);
+    public FragmentAlarmsVM baseFragmentVM(FragmentAlarmsBinding binding, @Nullable Bundle saved) {
+        return new FragmentAlarmsVM(this,binding,saved);
     }
 
 

@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <import
             alias="v"
@@ -65,7 +65,7 @@
                         android:clipToPadding="false"
                         android:paddingBottom="@dimen/paddingBottom"
                         android:visibility="@{activitySoundCloudVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
-                        app:itemView="@{activitySoundCloudVM.itemViewTrack}"
+                        app:itemBinding="@{activitySoundCloudVM.itemViewTrack}"
                         app:items="@{activitySoundCloudVM.tracks}"
                         app:layoutManager="@{LayoutManagers.grid(1)}"
                         tools:listitem="@layout/item_artist" />

@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <import
             alias="v"
@@ -134,7 +134,7 @@
                     android:clipToPadding="false"
                     android:nestedScrollingEnabled="false"
                     android:scrollbars="vertical"
-                    app:itemView="@{fragmentSettingsVM.itemView}"
+                    app:itemBinding="@{fragmentSettingsVM.itemView}"
                     app:items="@{fragmentSettingsVM.itemsVM}"
                     app:layoutManager="@{LayoutManagers.grid(1)}"
                     tools:listitem="@layout/item_alarm_dialog" />

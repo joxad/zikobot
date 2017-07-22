@@ -1,6 +1,8 @@
 package com.joxad.zikobot.app.deezer;
 
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -12,7 +14,7 @@ import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
 import com.joxad.zikobot.app.databinding.FragmentDeezerPlaylistsBinding;
 import com.joxad.zikobot.data.module.deezer.DeezerManager;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 07/07/16.
@@ -22,18 +24,18 @@ public class FragmentDeezerPlaylistsVM extends FragmentBaseVM<FragmentDeezerPlay
 
     private static final String TAG = "FragmentDeezerPlaylistsVM";
     public ObservableArrayList<DeezerPlaylistVM> userPlaylists;
-    public ItemView itemPlaylist = ItemView.of(BR.playlistVM, R.layout.item_playlist_deezer);
+    public ItemBinding itemPlaylist = ItemBinding.of(BR.playlistVM, R.layout.item_playlist_deezer);
 
     /***
      * @param fragment
      * @param binding
      */
-    public FragmentDeezerPlaylistsVM(FragmentDeezerPlaylists fragment, FragmentDeezerPlaylistsBinding binding) {
-        super(fragment, binding);
+    public FragmentDeezerPlaylistsVM(FragmentDeezerPlaylists fragment, FragmentDeezerPlaylistsBinding binding, @Nullable Bundle saved) {
+        super(fragment, binding, saved);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle saved) {
         userPlaylists = new ObservableArrayList<>();
     }
 

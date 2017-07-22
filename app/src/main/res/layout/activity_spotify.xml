@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <import
             alias="v"
@@ -63,7 +63,7 @@
                     android:layoutAnimation="@anim/grid_animation"
                     android:paddingBottom="@dimen/paddingBottom"
                     android:visibility="@{activitySpotifyVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
-                    app:itemView="@{activitySpotifyVM.itemViewTrack}"
+                    app:itemBinding="@{activitySpotifyVM.itemViewTrack}"
                     app:items="@{activitySpotifyVM.tracks}"
                     tools:listitem="@layout/item_artist" />
 

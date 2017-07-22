@@ -2,6 +2,8 @@ package com.joxad.zikobot.app.search;
 
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.joxad.zikobot.app.BR;
@@ -25,7 +27,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 import rx.Subscription;
 
 /**
@@ -37,23 +39,27 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
     public ObservableArrayList<ArtistVM> artists;
     public ObservableArrayList<AlbumVM> albums;
     public ObservableArrayList<TrackVM> tracks;
-    public ItemView itemViewArtist = ItemView.of(BR.artistVM, R.layout.item_artist);
-    public ItemView itemViewAlbum = ItemView.of(BR.albumVM, R.layout.item_album);
-    public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
+    public ItemBinding itemViewArtist = ItemBinding.of(BR.artistVM, R.layout.item_artist);
+    public ItemBinding itemViewAlbum = ItemBinding.of(BR.albumVM, R.layout.item_album);
+    public ItemBinding itemViewTrack = ItemBinding.of(BR.trackVM, R.layout.item_track);
 
     public String currentQuery = "";
     private Subscription artistSubscription, trackSubscription, albumSubscription, trackByArtistSubscription;
 
     /***
+
      * @param fragment
      * @param binding
+     * @param savedInstance
      */
-    public FragmentSearchVM(FragmentSearch fragment, FragmentSearchBinding binding) {
-        super(fragment, binding);
+    public FragmentSearchVM(FragmentSearch fragment, FragmentSearchBinding binding, @Nullable Bundle savedInstance
+    ) {
+        super(fragment, binding, savedInstance);
     }
 
+
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle savedInstance) {
         artists = new ObservableArrayList<>();
         albums = new ObservableArrayList<>();
         tracks = new ObservableArrayList<>();
@@ -61,7 +67,6 @@ public class FragmentSearchVM extends FragmentBaseVM<FragmentSearch, FragmentSea
         binding.rvTracks.setNestedScrollingEnabled(false);
         binding.rvArtists.setNestedScrollingEnabled(false);
     }
-
 
     @Override
     public void onResume() {

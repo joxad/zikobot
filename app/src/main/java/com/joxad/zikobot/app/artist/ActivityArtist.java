@@ -24,7 +24,7 @@ public class ActivityArtist extends ActivityBase<ActivityArtistBinding, Activity
 
     @Override
     public ActivityArtistVM baseActivityVM(ActivityArtistBinding binding, Bundle savedInstanceState) {
-        return new ActivityArtistVM(this, binding);
+        return new ActivityArtistVM(this,binding,savedInstanceState);
     }
 
 }

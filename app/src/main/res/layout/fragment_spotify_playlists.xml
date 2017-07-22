@@ -9,7 +9,7 @@
             alias="v"
             type="android.view.View" />
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <variable
             name="itemPlaylistViewModel"
@@ -34,7 +34,7 @@
             android:layoutAnimation="@anim/grid_animation"
             android:visibility="@{fragmentSpotifyPlaylistsVM.isConnectedToInternet ? v.VISIBLE : v.GONE}"
             android:paddingBottom="@dimen/paddingBottom"
-            app:itemView="@{fragmentSpotifyPlaylistsVM.itemPlaylist}"
+            app:itemBinding="@{fragmentSpotifyPlaylistsVM.itemPlaylist}"
             app:items="@{fragmentSpotifyPlaylistsVM.userPlaylists}"
             app:layoutManager="@{LayoutManagers.grid(2)}"
             tools:listitem="@layout/item_playlist" />

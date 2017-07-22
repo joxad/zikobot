@@ -2,6 +2,8 @@ package com.joxad.zikobot.app.alarm;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -22,7 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.UnsupportedEncodingException;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 09/03/16.
@@ -34,19 +36,19 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
     public ObservableBoolean showTuto;
     public ObservableArrayList<AlarmVM> itemsVM;
 
-    public ItemView itemView = ItemView.of(BR.itemAlarmVM, R.layout.item_alarm);
+    public ItemBinding itemView = ItemBinding.of(BR.itemAlarmVM, R.layout.item_alarm);
     ItemTouchHelper swipeToDismissTouchHelper;
 
     /***
      * @param activity
      * @param binding
      */
-    public FragmentAlarmsVM(FragmentAlarms activity, FragmentAlarmsBinding binding) {
-        super(activity, binding);
+    public FragmentAlarmsVM(FragmentAlarms activity, FragmentAlarmsBinding binding,@Nullable Bundle saved) {
+        super(activity, binding,saved);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle saved) {
         itemsVM = new ObservableArrayList<>();
         showTuto = new ObservableBoolean(false);
         createSwipeToDismiss();
@@ -116,7 +118,7 @@ public class FragmentAlarmsVM extends FragmentBaseVM<FragmentAlarms, FragmentAla
             for (Alarm alarm : alarms) {
                 itemsVM.add(new AlarmVM(fragment.getContext(), alarm) {
                     @Override
-                    public ItemView itemView() {
+                    public ItemBinding itemView() {
                         return null;
                     }
                 });

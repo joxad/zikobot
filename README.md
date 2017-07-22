@@ -22,6 +22,12 @@ local.properties
 
 ```groovy
 jdk.dir=/usr/lib/jvm/java-8-openjdk-amd64
+
+keystore.file=path/to/keystore
+file.password=passwordKeystore
+keystore.alias=passwordAlias
+keystore.password=password
+
 ```
 # Goals
 

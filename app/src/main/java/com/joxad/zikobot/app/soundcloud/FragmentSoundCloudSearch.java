@@ -1,6 +1,7 @@
 package com.joxad.zikobot.app.soundcloud;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.joxad.zikobot.app.BR;
@@ -32,7 +33,7 @@ public class FragmentSoundCloudSearch extends FragmentBase<FragmentSoundCloudSea
     }
 
     @Override
-    public FragmentSoundCloudSearchVM baseFragmentVM(FragmentSoundCloudSearchBinding binding) {
-        return new FragmentSoundCloudSearchVM(this, binding);
+    public FragmentSoundCloudSearchVM baseFragmentVM(FragmentSoundCloudSearchBinding binding,@Nullable Bundle savedInstanceState) {
+        return new FragmentSoundCloudSearchVM(this,binding,savedInstanceState);
     }
 }

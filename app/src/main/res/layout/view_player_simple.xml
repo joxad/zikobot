@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <import
             alias="v"
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="@{playerVM.showList ? v.VISIBLE : v.GONE}"
-                app:itemView="@{playerVM.itemView}"
+                app:itemBinding="@{playerVM.itemView}"
                 app:items="@{playerVM.trackVMs}"
                 app:layoutManager="@{LayoutManagers.grid(1)}" />
 

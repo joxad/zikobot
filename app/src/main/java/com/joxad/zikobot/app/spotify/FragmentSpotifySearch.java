@@ -1,6 +1,7 @@
 package com.joxad.zikobot.app.spotify;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.joxad.zikobot.app.BR;
@@ -32,7 +33,7 @@ public class FragmentSpotifySearch extends FragmentBase<FragmentSpotifySearchBin
     }
 
     @Override
-    public FragmentSpotifySearchVM baseFragmentVM(FragmentSpotifySearchBinding binding) {
-        return new FragmentSpotifySearchVM(this, binding);
+    public FragmentSpotifySearchVM baseFragmentVM(FragmentSpotifySearchBinding binding,@Nullable Bundle savedInstanceState) {
+        return new FragmentSpotifySearchVM(this,binding,savedInstanceState);
     }
 }

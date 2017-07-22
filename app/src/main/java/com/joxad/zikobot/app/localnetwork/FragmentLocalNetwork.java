@@ -1,6 +1,7 @@
 package com.joxad.zikobot.app.localnetwork;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.joxad.zikobot.app.BR;
@@ -35,8 +36,8 @@ public class FragmentLocalNetwork extends FragmentBase<FragmentLocalNetworkBindi
     }
 
     @Override
-    public FragmentLocalNetworkVM baseFragmentVM(FragmentLocalNetworkBinding binding) {
-        return new FragmentLocalNetworkVM(this, binding);
+    public FragmentLocalNetworkVM baseFragmentVM(FragmentLocalNetworkBinding binding,@Nullable Bundle saved) {
+        return new FragmentLocalNetworkVM(this,binding,saved);
     }
 
 }

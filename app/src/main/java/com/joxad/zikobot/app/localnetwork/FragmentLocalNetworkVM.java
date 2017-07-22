@@ -2,6 +2,8 @@ package com.joxad.zikobot.app.localnetwork;
 
 import android.databinding.ObservableArrayList;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
@@ -16,13 +18,13 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 29/08/16.
  */
 public class FragmentLocalNetworkVM extends FragmentBaseVM<FragmentLocalNetwork, FragmentLocalNetworkBinding> implements MediaBrowser.EventListener {
-    public ItemView itemNetwork = ItemView.of(BR.itemNetworkVM, R.layout.item_network);
+    public ItemBinding itemNetwork = ItemBinding.of(BR.itemNetworkVM, R.layout.item_network);
     public ObservableArrayList<ItemNetworkVM> networkItems;
     protected MediaBrowser mMediaBrowser;
     private String path;
@@ -32,12 +34,12 @@ public class FragmentLocalNetworkVM extends FragmentBaseVM<FragmentLocalNetwork,
      * @param fragment
      * @param binding
      */
-    public FragmentLocalNetworkVM(FragmentLocalNetwork fragment, FragmentLocalNetworkBinding binding) {
-        super(fragment, binding);
+    public FragmentLocalNetworkVM(FragmentLocalNetwork fragment, FragmentLocalNetworkBinding binding,@Nullable Bundle saved) {
+        super(fragment, binding,saved);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle saved) {
         binding.rv.setLayoutManager(new GridLayoutManager(fragment.getContext(), 1));
         binding.rv.setNestedScrollingEnabled(false);
         LibVLC libVLC = new LibVLC();

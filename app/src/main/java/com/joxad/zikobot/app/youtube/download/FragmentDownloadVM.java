@@ -1,6 +1,8 @@
 package com.joxad.zikobot.app.youtube.download;
 
 import android.databinding.ObservableBoolean;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -38,6 +40,11 @@ public class FragmentDownloadVM extends DialogBottomSheetBaseVM<FragmentDownload
         binding.etTrack.setText(model.getTitle());
         Glide.with(fragment.getContext()).load(model.getThumbnailURL()).into(binding.ivTrack);
 
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstance) {
 
     }
 

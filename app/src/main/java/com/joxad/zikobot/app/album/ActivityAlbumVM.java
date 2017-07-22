@@ -1,6 +1,8 @@
 package com.joxad.zikobot.app.album;
 
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
@@ -28,7 +30,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 import static com.joxad.zikobot.data.model.TYPE.LOCAL;
 import static com.joxad.zikobot.data.model.TYPE.SPOTIFY;
@@ -40,7 +42,7 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
 
 
     private static final String TAG = ActivityAlbumVM.class.getSimpleName();
-    public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
+    public ItemBinding itemViewTrack = ItemBinding.of(BR.trackVM, R.layout.item_track);
 
     public PlayerVM playerVM;
     public ObservableArrayList<TrackVM> tracks;
@@ -51,12 +53,12 @@ public class ActivityAlbumVM extends ActivityBaseVM<ActivityAlbum, ActivityAlbum
      * @param activity
      * @param binding
      */
-    public ActivityAlbumVM(ActivityAlbum activity, ActivityAlbumBinding binding) {
-        super(activity, binding);
+    public ActivityAlbumVM(ActivityAlbum activity, ActivityAlbumBinding binding,@Nullable Bundle saved) {
+        super(activity, binding,saved);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle saved) {
         album = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.LOCAL_ALBUM));
         tracks = new ObservableArrayList<>();
         binding.rv.setLayoutManager(new GridLayoutManager(activity, 1));

@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <import
             alias="v"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:layoutAnimation="@anim/grid_animation"
-            app:itemView="@{fragmentYoutubeSearchVM.itemViewYoutube}"
+            app:itemBinding="@{fragmentYoutubeSearchVM.itemViewYoutube}"
             app:items="@{fragmentYoutubeSearchVM.youtubeItemVMs}"
             app:layoutManager="@{LayoutManagers.grid(1)}"
             tools:listitem="@layout/item_artist" />

@@ -2,6 +2,8 @@ package com.joxad.zikobot.app.spotify;
 
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -16,7 +18,7 @@ import com.joxad.zikobot.data.module.spotify_api.model.Item;
 import com.novoda.merlin.Merlin;
 import com.novoda.merlin.MerlinsBeard;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 26/03/16.
@@ -25,7 +27,7 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
 
     private static final String TAG = "FragmentSpotifyPlaylists";
     public ObservableArrayList<ItemPlaylistViewModel> userPlaylists;
-    public ItemView itemPlaylist = ItemView.of(BR.playlistVM, R.layout.item_playlist);
+    public ItemBinding itemPlaylist = ItemBinding.of(BR.playlistVM, R.layout.item_playlist);
     private Merlin merlin;
     public ObservableBoolean isConnectedToInternet;
 
@@ -35,12 +37,12 @@ public class FragmentSpotifyPlaylistsVM extends FragmentBaseVM<FragmentSpotifyPl
      * @param fragment
      * @param binding
      */
-    public FragmentSpotifyPlaylistsVM(FragmentSpotifyPlaylists fragment, FragmentSpotifyPlaylistsBinding binding) {
-        super(fragment, binding);
+    public FragmentSpotifyPlaylistsVM(FragmentSpotifyPlaylists fragment, FragmentSpotifyPlaylistsBinding binding, @Nullable Bundle savedInstanceState) {
+        super(fragment, binding, savedInstanceState);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         merlin = new Merlin.Builder().withAllCallbacks().build(fragment.getContext());
 
         isConnectedToInternet = new ObservableBoolean(MerlinsBeard.from(fragment.getContext()).isConnected());

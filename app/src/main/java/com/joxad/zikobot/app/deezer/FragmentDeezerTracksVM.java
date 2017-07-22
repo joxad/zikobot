@@ -1,6 +1,7 @@
 package com.joxad.zikobot.app.deezer;
 
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
@@ -18,7 +19,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 
 /***
@@ -31,14 +32,14 @@ public abstract class FragmentDeezerTracksVM extends FragmentBaseVM<FragmentDeez
     @Nullable
     Playlist playlist;
 
-    public FragmentDeezerTracksVM(FragmentDeezerTracks fragment, FragmentDeezerTracksBinding binding) {
-        super(fragment, binding);
+    public FragmentDeezerTracksVM(FragmentDeezerTracks fragment, FragmentDeezerTracksBinding binding, @Nullable Bundle savedInstance) {
+        super(fragment, binding, savedInstance);
     }
 
-    public abstract ItemView getItemView();
+    public abstract ItemBinding<TrackVM> getItemView();
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle savedInstance) {
         Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.PLAYLIST);
         playlist = parcelable != null ? Parcels.unwrap(parcelable) : null;
         items = new ObservableArrayList<>();

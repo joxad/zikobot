@@ -24,6 +24,6 @@ public class ActivityLocalNetwork extends ActivityBase<ActivityLocalNetworkBindi
 
     @Override
     public ActivityLocalNetworkVM baseActivityVM(ActivityLocalNetworkBinding binding, Bundle savedInstanceState) {
-        return new ActivityLocalNetworkVM(this, binding);
+        return new ActivityLocalNetworkVM(this,binding,savedInstanceState);
     }
 }

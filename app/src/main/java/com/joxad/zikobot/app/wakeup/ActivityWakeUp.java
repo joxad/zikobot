@@ -33,7 +33,7 @@ public class ActivityWakeUp extends ActivityBase<ActivityWakeUpBinding, Activity
 
     @Override
     public ActivityWakeUpVM baseActivityVM(ActivityWakeUpBinding binding, Bundle savedInstanceState) {
-        return new ActivityWakeUpVM(this, binding);
+        return new ActivityWakeUpVM(this,binding,savedInstanceState);
     }
 
 

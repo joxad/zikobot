@@ -2,6 +2,8 @@ package com.joxad.zikobot.app.soundcloud;
 
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM;
 import com.joxad.zikobot.app.BR;
@@ -24,7 +26,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 import rx.Observable;
 import rx.Subscription;
 
@@ -37,9 +39,9 @@ public class FragmentSoundCloudSearchVM extends FragmentBaseVM<FragmentSoundClou
     public ObservableArrayList<ArtistVM> artists;
     public ObservableArrayList<AlbumVM> albums;
     public ObservableArrayList<TrackVM> tracks;
-    public ItemView itemViewArtist = ItemView.of(BR.artistVM, R.layout.item_artist);
-    public ItemView itemViewAlbum = ItemView.of(BR.albumVM, R.layout.item_album);
-    public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
+    public ItemBinding itemViewArtist = ItemBinding.of(BR.artistVM, R.layout.item_artist);
+    public ItemBinding itemViewAlbum = ItemBinding.of(BR.albumVM, R.layout.item_album);
+    public ItemBinding itemViewTrack = ItemBinding.of(BR.trackVM, R.layout.item_track);
 
     private Subscription subscription;
     private String currentQuery;
@@ -48,12 +50,12 @@ public class FragmentSoundCloudSearchVM extends FragmentBaseVM<FragmentSoundClou
      * @param fragment
      * @param binding
      */
-    public FragmentSoundCloudSearchVM(FragmentSoundCloudSearch fragment, FragmentSoundCloudSearchBinding binding) {
-        super(fragment, binding);
+    public FragmentSoundCloudSearchVM(FragmentSoundCloudSearch fragment, FragmentSoundCloudSearchBinding binding,@Nullable Bundle savedInstanceState) {
+        super(fragment, binding,savedInstanceState);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         currentQuery = "";
         artists = new ObservableArrayList<>();
         albums = new ObservableArrayList<>();

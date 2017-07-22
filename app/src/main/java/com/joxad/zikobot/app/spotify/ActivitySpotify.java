@@ -23,7 +23,7 @@ public class ActivitySpotify extends ActivityBase<ActivitySpotifyBinding, Activi
 
     @Override
     public ActivitySpotifyVM baseActivityVM(ActivitySpotifyBinding binding, Bundle savedInstanceState) {
-        return new ActivitySpotifyVM(this, binding);
+        return new ActivitySpotifyVM(this,binding,savedInstanceState);
     }
 
 }

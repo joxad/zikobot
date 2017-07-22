@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers" />
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <import
             alias="v"
@@ -65,7 +65,7 @@
                         android:layoutAnimation="@anim/grid_animation"
                         android:paddingBottom="@dimen/paddingBottom"
                         android:visibility="@{activityArtistVM.albums.size() >0 ? v.VISIBLE : v.GONE}"
-                        app:itemView="@{activityArtistVM.itemViewAlbum}"
+                        app:itemBinding="@{activityArtistVM.itemViewAlbum}"
                         app:items="@{activityArtistVM.albums}"
                         app:layoutManager="@{LayoutManagers.grid(2)}"
                         app:nestedScrollingEnabled="@{false}"
@@ -95,7 +95,7 @@
                         android:layoutAnimation="@anim/grid_animation"
                         android:paddingBottom="@dimen/paddingBottom"
                         android:visibility="@{activityArtistVM.soundCloudPlaylistVMs.size() >0 ? v.VISIBLE : v.GONE}"
-                        app:itemView="@{activityArtistVM.itemViewSCPlaylist}"
+                        app:itemBinding="@{activityArtistVM.itemViewSCPlaylist}"
                         app:items="@{activityArtistVM.soundCloudPlaylistVMs}"
                         app:layoutManager="@{LayoutManagers.grid(2)}"
                         app:nestedScrollingEnabled="@{false}"
@@ -126,7 +126,7 @@
                         android:layoutAnimation="@anim/grid_animation"
                         android:paddingBottom="@dimen/paddingBottom"
                         android:visibility="@{activityArtistVM.tracks.size() >0 ? v.VISIBLE : v.GONE}"
-                        app:itemView="@{activityArtistVM.itemViewTrack}"
+                        app:itemBinding="@{activityArtistVM.itemViewTrack}"
                         app:items="@{activityArtistVM.tracks}"
                         app:layoutManager="@{LayoutManagers.grid(1)}"
                         app:nestedScrollingEnabled="@{false}"

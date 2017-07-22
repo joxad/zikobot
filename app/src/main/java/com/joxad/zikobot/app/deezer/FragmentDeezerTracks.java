@@ -2,6 +2,7 @@ package com.joxad.zikobot.app.deezer;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 
@@ -11,10 +12,11 @@ import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.FragmentDeezerTracksBinding;
+import com.joxad.zikobot.app.localtracks.TrackVM;
 
 import org.parceler.Parcels;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 31/03/16.
@@ -46,11 +48,11 @@ public class FragmentDeezerTracks extends FragmentBase<FragmentDeezerTracksBindi
     }
 
     @Override
-    public FragmentDeezerTracksVM baseFragmentVM(FragmentDeezerTracksBinding binding) {
-        return new FragmentDeezerTracksVM(this, binding) {
+    public FragmentDeezerTracksVM baseFragmentVM(FragmentDeezerTracksBinding binding,@Nullable Bundle saved) {
+        return new FragmentDeezerTracksVM(this,binding,saved) {
             @Override
-            public ItemView getItemView() {
-                return ItemView.of(fragment.getArguments().getInt(EXTRA.DATA_VM), getArguments().getInt(EXTRA.LAYOUT));
+            public ItemBinding<TrackVM> getItemView() {
+                return ItemBinding.of(fragment.getArguments().getInt(EXTRA.DATA_VM), getArguments().getInt(EXTRA.LAYOUT));
             }
         };
     }

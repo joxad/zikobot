@@ -3,6 +3,8 @@ package com.joxad.zikobot.app.alarm;
 import android.content.Context;
 import android.databinding.Bindable;
 import android.media.AudioManager;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
@@ -16,7 +18,7 @@ import com.joxad.zikobot.data.model.Alarm;
 
 import org.parceler.Parcels;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 16/08/16.
@@ -42,7 +44,7 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
         alarm = Parcels.unwrap(fragment.getArguments().getParcelable(EXTRA.ALARM));
         alarmVM = new AlarmVM(fragment.getContext(), alarm) {
             @Override
-            public ItemView itemView() {
+            public ItemBinding itemView() {
                 return null;
             }
         };
@@ -124,5 +126,10 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
         alarmVM.updateStatus(alarmVM.isActivated());
         alarmVM.updateRepeated(true);
         return alarmVM.save();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstance) {
+        //Not used
     }
 }

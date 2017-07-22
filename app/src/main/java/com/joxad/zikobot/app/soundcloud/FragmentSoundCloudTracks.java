@@ -2,6 +2,7 @@ package com.joxad.zikobot.app.soundcloud;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 
@@ -14,7 +15,7 @@ import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 
 import org.parceler.Parcels;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 31/03/16.
@@ -47,11 +48,11 @@ public class FragmentSoundCloudTracks extends FragmentBase<FragmentSoundCloudTra
     }
 
     @Override
-    public FragmentSoundCloudTracksVM baseFragmentVM(FragmentSoundCloudTracksBinding binding) {
-        return new FragmentSoundCloudTracksVM(this, binding) {
+    public FragmentSoundCloudTracksVM baseFragmentVM(FragmentSoundCloudTracksBinding binding, @Nullable Bundle savedInstance) {
+        return new FragmentSoundCloudTracksVM(this, binding, savedInstance) {
             @Override
-            public ItemView getItemView() {
-                return ItemView.of(fragment.getArguments().getInt(EXTRA.DATA_VM), getArguments().getInt(EXTRA.LAYOUT));
+            public ItemBinding getItemView() {
+                return ItemBinding.of(fragment.getArguments().getInt(EXTRA.DATA_VM), getArguments().getInt(EXTRA.LAYOUT));
             }
         };
     }

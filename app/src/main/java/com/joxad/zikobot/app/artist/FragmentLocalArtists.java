@@ -1,6 +1,7 @@
 package com.joxad.zikobot.app.artist;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.joxad.easydatabinding.fragment.v4.FragmentBase;
 import com.joxad.zikobot.app.BR;
@@ -34,8 +35,8 @@ public class FragmentLocalArtists extends FragmentBase<FragmentLocalArtistsBindi
     }
 
     @Override
-    public FragmentLocalArtistsVM baseFragmentVM(FragmentLocalArtistsBinding binding) {
-        return new FragmentLocalArtistsVM(this, binding);
+    public FragmentLocalArtistsVM baseFragmentVM(FragmentLocalArtistsBinding binding,@Nullable Bundle saved) {
+        return new FragmentLocalArtistsVM(this,binding,saved);
     }
 
 }

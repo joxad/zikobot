@@ -30,7 +30,7 @@ public class ActivityMain extends ActivityBase<ActivityMainBinding, ActivityMain
 
     @Override
     public ActivityMainVM baseActivityVM(ActivityMainBinding binding, Bundle savedInstanceState) {
-        return new ActivityMainVM(this, binding);
+        return new ActivityMainVM(this,binding,savedInstanceState);
     }
 
 

@@ -1,6 +1,8 @@
 package com.joxad.zikobot.app.spotify;
 
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -31,7 +33,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 09/08/16.
@@ -40,7 +42,7 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
 
 
     private static final String TAG = ActivitySpotifyVM.class.getSimpleName();
-    public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
+    public ItemBinding itemViewTrack = ItemBinding.of(BR.trackVM, R.layout.item_track);
 
     public PlayerVM playerVM;
     public ObservableArrayList<TrackVM> tracks;
@@ -52,12 +54,12 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
      * @param activity
      * @param binding
      */
-    public ActivitySpotifyVM(ActivitySpotify activity, ActivitySpotifyBinding binding) {
-        super(activity, binding);
+    public ActivitySpotifyVM(ActivitySpotify activity, ActivitySpotifyBinding binding,@Nullable Bundle savedInstanceState) {
+        super(activity, binding,savedInstanceState);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         album = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.PLAYLIST));
         tracks = new ObservableArrayList<>();
 

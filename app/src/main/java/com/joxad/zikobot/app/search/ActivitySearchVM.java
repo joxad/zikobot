@@ -1,6 +1,8 @@
 package com.joxad.zikobot.app.search;
 
 import android.databinding.ObservableBoolean;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -31,15 +33,20 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
     private NavigationManager navigationManager;
 
     /***
+
      * @param activity
      * @param binding
+     * @param savedInstance
      */
-    public ActivitySearchVM(ActivitySearch activity, ActivitySearchBinding binding) {
-        super(activity, binding);
+    public ActivitySearchVM(ActivitySearch activity, ActivitySearchBinding binding, @Nullable Bundle savedInstance) {
+        super(activity, binding, savedInstance);
     }
 
+
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle savedInstance) {
+
+
         isSearchValid = new ObservableBoolean(false);
         initSearch();
         initNavigationManager();
@@ -94,6 +101,7 @@ public class ActivitySearchVM extends ActivityBaseVM<ActivitySearch, ActivitySea
         binding.tabLayout.setupWithViewPager(binding.viewPager);
         tabAdapter.addFragment(activity.getString(R.string.activity_music_local), FragmentSearch.newInstance());
     }
+
 
     @Override
     public void onResume() {

@@ -7,7 +7,7 @@ ext {
     dartVersion = "2.0.0"
     dbFlowVersion = "4.0.4"
     dialerTPVersion = "4386944980"
-    easyDataBindingVersion = "1.0.5"
+    easyDataBindingVersion = "1.1.0"
     easyGcmVersion = "1.0.4"
     easyPrefsVersion = "1.8.1"
     easySpotifyVersion = "1.1.1"

@@ -42,7 +42,7 @@ public class DialogPlaylistEdit extends DialogBottomSheetBase<DialogPlaylistEdit
 
     @Override
     public DialogPlaylistEditVM baseFragmentVM(DialogPlaylistEditBinding binding) {
-        return new DialogPlaylistEditVM(this, binding);
+        return new DialogPlaylistEditVM(this,binding);
     }
 
     @Override

@@ -24,7 +24,7 @@ public class ActivityAlbum extends ActivityBase<ActivityAlbumBinding, ActivityAl
 
     @Override
     public ActivityAlbumVM baseActivityVM(ActivityAlbumBinding binding, Bundle savedInstanceState) {
-        return new ActivityAlbumVM(this, binding);
+        return new ActivityAlbumVM(this,binding,savedInstanceState);
     }
 
     @Override

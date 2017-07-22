@@ -2,6 +2,8 @@ package com.joxad.zikobot.app.artist;
 
 import android.Manifest;
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +23,7 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -31,7 +33,7 @@ import rx.schedulers.Schedulers;
 public class FragmentLocalArtistsVM extends FragmentBaseVM<FragmentLocalArtists, FragmentLocalArtistsBinding> {
 
     private static final String TAG = FragmentLocalArtistsVM.class.getSimpleName();
-    public ItemView itemView = ItemView.of(BR.artistVM, R.layout.item_artist);
+    public ItemBinding itemView = ItemBinding.of(BR.artistVM, R.layout.item_artist);
     public ObservableArrayList<ArtistVM> items;
     public String zmvMessage;
     private RxPermissions rxPermissions;
@@ -40,12 +42,12 @@ public class FragmentLocalArtistsVM extends FragmentBaseVM<FragmentLocalArtists,
      * @param fragment
      * @param binding
      */
-    public FragmentLocalArtistsVM(FragmentLocalArtists fragment, FragmentLocalArtistsBinding binding) {
-        super(fragment, binding);
+    public FragmentLocalArtistsVM(FragmentLocalArtists fragment, FragmentLocalArtistsBinding binding,@Nullable Bundle saved) {
+        super(fragment, binding,saved);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle saved) {
         rxPermissions = new RxPermissions(fragment.getActivity());
         EventBus.getDefault().register(this);
         items = new ObservableArrayList<>();

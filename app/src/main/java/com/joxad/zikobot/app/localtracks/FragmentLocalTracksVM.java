@@ -2,6 +2,7 @@ package com.joxad.zikobot.app.localtracks;
 
 import android.Manifest;
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -28,7 +29,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.parceler.Parcels;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -48,13 +49,13 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
      * @param fragment
      * @param binding
      */
-    public FragmentLocalTracksVM(FragmentLocalTracks fragment, FragmentLocalTracksBinding binding) {
-        super(fragment, binding);
+    public FragmentLocalTracksVM(FragmentLocalTracks fragment, FragmentLocalTracksBinding binding, @Nullable Bundle saved) {
+        super(fragment, binding, saved);
     }
 
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle saved) {
         rxPermissions = new RxPermissions(fragment.getActivity());
         Parcelable parcelable = fragment.getArguments().getParcelable(EXTRA.LOCAL_ALBUM);
         localAlbum = parcelable != null ? Parcels.unwrap(parcelable) : null;
@@ -142,6 +143,6 @@ public abstract class FragmentLocalTracksVM extends FragmentBaseVM<FragmentLocal
     }
 
 
-    public abstract ItemView getItemView();
+    public abstract ItemBinding<TrackVM> getItemView();
 
 }

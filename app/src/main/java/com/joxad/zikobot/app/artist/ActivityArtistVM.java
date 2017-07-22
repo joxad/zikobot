@@ -1,6 +1,8 @@
 package com.joxad.zikobot.app.artist;
 
 import android.databinding.ObservableArrayList;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -34,16 +36,16 @@ import com.orhanobut.logger.Logger;
 import org.greenrobot.eventbus.EventBus;
 import org.parceler.Parcels;
 
-import me.tatarka.bindingcollectionadapter.ItemView;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by josh on 08/08/16.
  */
 public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArtistBinding> {
 
-    public ItemView itemViewAlbum = ItemView.of(BR.albumVM, R.layout.item_album);
-    public ItemView itemViewTrack = ItemView.of(BR.trackVM, R.layout.item_track);
-    public ItemView itemViewSCPlaylist = ItemView.of(BR.playlistVM, R.layout.item_soundcloud_playlist);
+    public ItemBinding itemViewAlbum = ItemBinding.of(BR.albumVM, R.layout.item_album);
+    public ItemBinding itemViewTrack = ItemBinding.of(BR.trackVM, R.layout.item_track);
+    public ItemBinding itemViewSCPlaylist = ItemBinding.of(BR.playlistVM, R.layout.item_soundcloud_playlist);
 
     public PlayerVM playerVM;
     public ObservableArrayList<AlbumVM> albums;
@@ -58,12 +60,12 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
      * @param activity
      * @param binding
      */
-    public ActivityArtistVM(ActivityArtist activity, ActivityArtistBinding binding) {
-        super(activity, binding);
+    public ActivityArtistVM(ActivityArtist activity, ActivityArtistBinding binding,@Nullable Bundle saved) {
+        super(activity, binding,saved);
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate(@Nullable Bundle saved) {
         artist = Parcels.unwrap(activity.getIntent().getParcelableExtra(EXTRA.LOCAL_ARTIST));
         albums = new ObservableArrayList<>();
         tracks = new ObservableArrayList<>();
