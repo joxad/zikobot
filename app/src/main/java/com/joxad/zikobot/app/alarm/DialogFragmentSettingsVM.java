@@ -27,6 +27,8 @@ import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
@@ -59,6 +61,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
     private Album album;
     private ArrayList<Track> tracks;
     private Item playlist;
+    private SoundCloudPlaylist scplaylist;
 
     /***
      * @param fragment
@@ -67,11 +70,12 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
     public DialogFragmentSettingsVM(DialogFragmentSettings fragment, DialogFragmentSettingsBinding binding) {
         super(fragment, binding);
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstance) {
 //unused
     }
-
+//TODO need refacto playlist using one model for all playlist
 
     @Override
     public void onCreate() {
@@ -98,7 +102,13 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
             Parcelable parcelablePlaylist = fragment.getArguments().getParcelable(EXTRA.PLAYLIST);
             playlist = (parcelablePlaylist != null ? Parcels.unwrap(parcelablePlaylist) : null);
             tracks = new ArrayList<>();
-           loadSpotifyTracks();
+            loadSpotifyTracks();
+        }
+        if (fragment.getArguments().containsKey(EXTRA.PLAYLIST_SC)) {
+            Parcelable parcelablePlaylist = fragment.getArguments().getParcelable(EXTRA.PLAYLIST_SC);
+            scplaylist = (parcelablePlaylist != null ? Parcels.unwrap(parcelablePlaylist) : null);
+            tracks = new ArrayList<>();
+            loadSoundcloudTracks();
         }
         itemsVM = new ObservableArrayList<>();
         notifyChange();
@@ -117,6 +127,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
         });
     }
 
+
     private void loadLocalTracks() {
         LocalMusicManager.getInstance().getLocalTracks(100, 0, null, Long.parseLong(album.getId()), null).subscribe(localTracks -> {
             for (LocalTrack localTrack : localTracks) {
@@ -127,6 +138,13 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
         });
     }
 
+
+    private void loadSoundcloudTracks() {
+        tracks.clear();
+        for (SoundCloudTrack track : scplaylist.getSoundCloudTracks()) {
+            tracks.add(Track.from(track, fragment.getString(R.string.soundcloud_id)));
+        }
+    }
 
     @Override
     public void onResume() {
@@ -155,7 +173,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
                 AlarmTrackManager.selectTrack(track);
             }
         }
-        if (playlist != null) {
+        if (playlist != null || scplaylist!=null) {
             for (Track track : tracks) {
                 AlarmTrackManager.selectTrack(track);
             }
@@ -191,7 +209,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
             }
             EventBus.getDefault().post(new EventAddList(trackVMs));
         }
-        if (playlist != null) {
+        if (playlist != null || scplaylist != null) {
             ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList();
             for (Track track : tracks) {
                 trackVMs.add(new TrackVM(fragment.getContext(), track));
@@ -216,7 +234,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
             }
             EventBus.getDefault().post(new EventAddList(trackVMs));
         }
-        if (playlist != null) {
+        if (playlist != null || scplaylist != null ){
             ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList();
             for (Track track : tracks) {
                 trackVMs.add(new TrackVM(fragment.getContext(), track));
@@ -310,6 +328,18 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
                 AlarmTrackManager.selectTrack(track);
             }
             alarm.setName(album.getName());
+        }
+        if (playlist != null) {
+            alarm.setName(playlist.getName());
+            for (Track track : tracks) {
+                AlarmTrackManager.selectTrack(track);
+            }
+        }
+        if (scplaylist != null) {
+            alarm.setName(scplaylist.getTitle());
+            for (Track track : tracks) {
+                AlarmTrackManager.selectTrack(track);
+            }
         }
         AlarmManager.saveAlarm(alarm, AlarmTrackManager.tracks()).subscribe(alarm1 -> {
             String name = "";

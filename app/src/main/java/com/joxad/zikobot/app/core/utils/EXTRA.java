@@ -5,6 +5,7 @@ package com.joxad.zikobot.app.core.utils;
  */
 public class EXTRA {
     public static final String PLAYLIST = "PLAYLIST";
+    public static final String PLAYLIST_SC = "PLAYLIST_SC";
     public static final String ALARM_ID = "ALARM_ID";
     public static final String ALARM = "ALARM";
     public static final String TRACK = "TRACK";

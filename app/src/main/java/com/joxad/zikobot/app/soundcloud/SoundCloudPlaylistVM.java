@@ -6,6 +6,8 @@ import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
 import com.joxad.zikobot.app.R;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogAlbumSettings;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogSCPlaylistSettings;
 import com.joxad.zikobot.data.event.soundcloud.SelectSCItemPlaylistEvent;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 
@@ -38,7 +40,15 @@ public class SoundCloudPlaylistVM extends BaseVM<SoundCloudPlaylist> {
     public void onItemClick(View view) {
         EventBus.getDefault().post(new SelectSCItemPlaylistEvent(model, view));
     }
+    public void onMoreClicked(View view) {
+        onLongClick(view);
+    }
 
+
+    public boolean onLongClick(View view) {
+        EventBus.getDefault().post(new EventShowDialogSCPlaylistSettings(model));
+        return true;
+    }
 
     @Bindable
     public String getName() {

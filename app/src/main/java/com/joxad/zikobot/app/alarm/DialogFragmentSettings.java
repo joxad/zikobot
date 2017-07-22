@@ -11,6 +11,7 @@ import com.joxad.zikobot.data.model.Album;
 import com.joxad.zikobot.data.model.Playlist;
 import com.joxad.zikobot.data.model.Track;
 import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
+import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
 
 import org.parceler.Parcels;
@@ -29,6 +30,15 @@ public class DialogFragmentSettings extends DialogBottomSheetBase<DialogFragment
         DialogFragmentSettings fragment = new DialogFragmentSettings();
         Bundle bundle = new Bundle();
         bundle.putParcelable(EXTRA.PLAYLIST, Parcels.wrap(track));
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+
+    public static DialogFragmentSettings newInstance(SoundCloudPlaylist track) {
+        DialogFragmentSettings fragment = new DialogFragmentSettings();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(EXTRA.PLAYLIST_SC, Parcels.wrap(track));
         fragment.setArguments(bundle);
         return fragment;
     }

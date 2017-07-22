@@ -22,6 +22,7 @@ import com.joxad.zikobot.data.event.LocalAlbumSelectEvent;
 import com.joxad.zikobot.data.event.SelectItemPlaylistEvent;
 import com.joxad.zikobot.data.event.dialog.EventShowDialogAlbumSettings;
 import com.joxad.zikobot.data.event.dialog.EventShowDialogPlaylistSettings;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogSCPlaylistSettings;
 import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
 import com.joxad.zikobot.data.event.soundcloud.SelectSCItemPlaylistEvent;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
@@ -142,6 +143,14 @@ public class NavigationManager {
 
     @Subscribe
     public void onEvent(EventShowDialogPlaylistSettings event) {
+        DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
+        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
+    }
+
+
+
+    @Subscribe
+    public void onEvent(EventShowDialogSCPlaylistSettings event) {
         DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(event.getModel());
         dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
     }
