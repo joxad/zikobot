@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylistItem;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
 import com.orhanobut.logger.Logger;
 
@@ -117,14 +119,23 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
 
 
     private void loadSpotifyTracks() {
-
+        if (album!= null) {
         SpotifyApiManager.getInstance().getAlbumTracks(album.getId()).subscribe(spotifyResultAlbum -> {
             for (SpotifyTrack track : spotifyResultAlbum.getTracks()) {
                 tracks.add(Track.from(track, album.getImage()));
             }
         }, throwable -> {
             Logger.e(throwable.getLocalizedMessage());
-        });
+        }); }
+        if (playlist != null){
+            SpotifyApiManager.getInstance().getPlaylistTracks(playlist.getId(),100,0).subscribe(spotifyPlaylistWithTrack -> {
+                for (SpotifyPlaylistItem playlistItem : spotifyPlaylistWithTrack.getItems()) {
+                    tracks.add( Track.from(playlistItem.track));
+                }
+            }, throwable -> {
+                Snackbar.make(binding.getRoot(), throwable.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
+            });
+        }
     }
 
 
