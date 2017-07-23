@@ -56,9 +56,26 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
         binding.rv.setNestedScrollingEnabled(false);
         initToolbar();
         initPlayerVM();
+        initMenu();
     }
 
 
+    private void initMenu() {
+        binding.customToolbar.toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_edit:
+                    showDialogEdit();
+                    break;
+
+            }
+            return false;
+        });
+
+    }
+    private void showDialogEdit() {
+        DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(soundCloudPlaylist);
+        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
+    }
     /***
      * Init the toolar
      */

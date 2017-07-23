@@ -8,6 +8,7 @@ import com.joxad.easydatabinding.base.BaseVM;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.data.event.SelectItemPlaylistEvent;
 import com.joxad.zikobot.data.event.dialog.EventShowDialogPlaylistSettings;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogSCPlaylistSettings;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,6 +42,7 @@ public class ItemPlaylistViewModel extends BaseVM<Item> {
         if (model.getId() != null)
             EventBus.getDefault().post(new SelectItemPlaylistEvent(view.findViewById(R.id.iv_album), model));
     }
+
 
 
     @Bindable
