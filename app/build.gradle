@@ -50,7 +50,7 @@ android {
             }
         }
         release {
-            minifyEnabled true
+            minifyEnabled false
             debuggable false
             signingConfig signingConfigs.release
             proguardFile 'proguard/proguard-butterknife.pro'
@@ -131,8 +131,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile(name: 'vlc-android-sdk', ext: 'aar')
     compile 'com.github.andrewlord1990:snackbarbuilder:0.8.0'
-    debugWearApp project(path: ':wear', configuration: 'debugApk')
-    releaseWearApp project(path: ':wear', configuration: 'releaseApk')
+    wearApp project(path: ':wear')
     compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'

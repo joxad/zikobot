@@ -15,3 +15,29 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keepattributes *Annotation*
+
+-keep class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
+}
+
+-keepnames class * implements android.os.Parcelable {
+  public static final ** CREATOR;
+}
+
+-keep class com.joxad.zikobot.data.** {
+    *;
+}
+-keep public class java.beans.ConstructorProperties
+-dontwarn java.beans.ConstructorProperties
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# Do not optimize/shrink LibVLC, because of native code
+-keep class org.videolan.libvlc.** { *; }
+# Same for MediaLibrary
+-keep class org.videolan.medialibrary.** { *; }
+-keep class com.spotify.sdk.android.** { *; }

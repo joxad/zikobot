@@ -14,17 +14,13 @@ import lombok.Setter;
  */
 @Parcel
 public class Artist {
-    @Getter
-    @Setter
+
     protected int type;
-    @Setter
-    @Getter
+
     protected String id;
-    @Setter
-    @Getter
+
     protected String name;
-    @Getter
-    @Setter
+
     protected String image;
 
     public Artist() {
@@ -64,5 +60,21 @@ public class Artist {
         artist.name = user.getUsername();
         artist.image = user.getAvatarUrl();
         return artist;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getImage() {
+        return image;
     }
 }
