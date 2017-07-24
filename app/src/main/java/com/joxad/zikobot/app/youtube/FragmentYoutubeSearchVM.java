@@ -146,8 +146,13 @@ public class FragmentYoutubeSearchVM extends FragmentBaseVM<FragmentYoutubeSearc
             for (VideoItem videoItem : videoItems) {
                 youtubeItemVMs.add(new YoutubeItemVM(fragment.getContext(), videoItem));
             }
+            notifyPropertyChanged(BR.showNoResult);
+
+
         }, throwable -> {
             Logger.e(throwable.getMessage());
+            notifyPropertyChanged(BR.showNoResult);
+
         });
     }
 
