@@ -1,6 +1,7 @@
 package com.joxad.zikobot.app.soundcloud;
 
 import android.os.Bundle;
+import android.view.Menu;
 
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.joxad.zikobot.app.BR;
@@ -25,5 +26,9 @@ public class ActivitySoundCloud extends ActivityBase<ActivitySoundCloudBinding, 
     public ActivitySoundCloudVM baseActivityVM(ActivitySoundCloudBinding binding, Bundle savedInstanceState) {
         return new ActivitySoundCloudVM(this,binding,savedInstanceState);
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_more, menu);
+        return true;
+    }
 }

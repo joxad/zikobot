@@ -29,7 +29,7 @@ public class ActivityAlbum extends ActivityBase<ActivityAlbumBinding, ActivityAl
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_album, menu);
+        getMenuInflater().inflate(R.menu.menu_more, menu);
         return true;
     }
 
