@@ -73,8 +73,24 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
         });
         initToolbar();
         initPlayerVM();
+        initMenu();
     }
+    private void initMenu() {
+        binding.customToolbar.toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_edit:
+                    showDialogEdit();
+                    break;
 
+            }
+            return false;
+        });
+
+    }
+    private void showDialogEdit() {
+        DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(album);
+        dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
+    }
 
     /***
      * Init the toolar
@@ -82,6 +98,9 @@ public class ActivitySpotifyVM extends ActivityBaseVM<ActivitySpotify, ActivityS
     private void initToolbar() {
         ZikoUtils.prepareToolbar(activity, binding.customToolbar, album.getName(), album.getImages().get(0).getUrl());
         ZikoUtils.animateScale(binding.fabPlay);
+        binding.customToolbar.mainCollapsing.setOnClickListener(v -> {
+            showDialogEdit();
+        });
     }
 
 

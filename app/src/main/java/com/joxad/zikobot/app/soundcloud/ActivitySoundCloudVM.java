@@ -88,6 +88,9 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
         }
         ZikoUtils.prepareToolbar(activity, binding.customToolbar, soundCloudPlaylist.getTitle(), playlistImage);
         ZikoUtils.animateScale(binding.fabPlay);
+        binding.customToolbar.mainCollapsing.setOnClickListener(v -> {
+            showDialogEdit();
+        });
     }
 
 

@@ -1,6 +1,7 @@
 package com.joxad.zikobot.app.spotify;
 
 import android.os.Bundle;
+import android.view.Menu;
 
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.joxad.zikobot.app.BR;
@@ -25,5 +26,9 @@ public class ActivitySpotify extends ActivityBase<ActivitySpotifyBinding, Activi
     public ActivitySpotifyVM baseActivityVM(ActivitySpotifyBinding binding, Bundle savedInstanceState) {
         return new ActivitySpotifyVM(this,binding,savedInstanceState);
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_more, menu);
+        return true;
+    }
 }
