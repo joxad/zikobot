@@ -17,6 +17,7 @@ import com.joxad.zikobot.app.player.PlayerService;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.module.deezer.DeezerManager;
 import com.joxad.zikobot.data.module.discogs.DiscogsManager;
+import com.joxad.zikobot.data.module.lastfm.discogs.LastFmManager;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.lyrics.manager.LyricsManager;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
@@ -53,6 +54,7 @@ public class ZikobotApp extends Application {
         LocalMusicManager.getInstance().init(this);
         LyricsManager.getInstance().init(this);
         DiscogsManager.INSTANCE.init(this);
+        LastFmManager.INSTANCE.init(this);
         AlarmManager.init(this);
 
         Logger.init(ZikobotApp.class.getSimpleName());

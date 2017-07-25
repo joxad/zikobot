@@ -2,6 +2,7 @@ package com.joxad.zikobot.app.artist;
 
 import android.content.Context;
 import android.databinding.Bindable;
+import android.util.Log;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
@@ -11,6 +12,7 @@ import com.joxad.zikobot.data.event.EventShowArtistDetail;
 import com.joxad.zikobot.data.model.Artist;
 import com.joxad.zikobot.data.module.discogs.DiscogsManager;
 import com.joxad.zikobot.data.module.discogs.model.DiscogsResult;
+import com.joxad.zikobot.data.module.lastfm.discogs.LastFmManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -66,13 +68,14 @@ public class ArtistVM extends BaseVM<Artist> {
     @Override
     public void onCreate() {
         imageUrl = null;
-        DiscogsManager.INSTANCE.findArtist(getName())
+        LastFmManager.INSTANCE.findArtist(getName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(discogsResult -> {
-                    imageUrl = discogsResult.getThumb();
+                    imageUrl = discogsResult.getImage().get(2).getText();
                     notifyPropertyChanged(BR.imageUrl);
                 }, throwable -> {
+                    Log.e("er", throwable.getLocalizedMessage());
                 });
     }
 }

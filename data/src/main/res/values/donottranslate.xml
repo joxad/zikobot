@@ -27,4 +27,9 @@
     <string name="discogs_base_url" translatable="false">https://api.discogs.com</string>
     <string name="discogs_key" translatable="false">LymlgvHrEhrCpxBjZbhc</string>
     <string name="discogs_secret" translatable="false">ZheVyMHgHoTxuAJckGBnpUkBtlPCePZZ</string>
+    <string name="lastfm_base_url" translatable="false">http://ws.audioscrobbler.com/</string>
+    <string name="lastfm_key" translatable="false">c0800eed7704138da6c5ccdeae2e8fd0</string>
+    <string name="lastfm_secret" translatable="false">6c5550434b028005fc92cf513068c048</string>
+
+
 </resources>
