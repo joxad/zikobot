@@ -126,4 +126,5 @@
     <string name="no_internet">No data, check your connection</string>
     <string name="settings_handle_phone_call">Handle phone call (this will pause the music when you receive a phone call)</string>
     <string name="download_fail">Error while trying to download, please retry. It may be possible this file cannot be downloaded…</string>
+    <string name="download_success">Your song has been downloaded</string>
 </resources>

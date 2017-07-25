@@ -5,16 +5,26 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
+import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.data.event.EventShowArtistDetail;
 import com.joxad.zikobot.data.model.Artist;
+import com.joxad.zikobot.data.module.discogs.DiscogsManager;
+import com.joxad.zikobot.data.module.discogs.model.DiscogsResult;
 
 import org.greenrobot.eventbus.EventBus;
+
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by josh on 06/06/16.
  */
 public class ArtistVM extends BaseVM<Artist> {
+
+    public String imageUrl;
 
     /***
      * @param context
@@ -43,7 +53,9 @@ public class ArtistVM extends BaseVM<Artist> {
 
     @Bindable
     public String getImageUrl() {
-        return model.getImage();
+        if (imageUrl == null)
+            return model.getImage();
+        return imageUrl;
     }
 
     @Bindable
@@ -53,6 +65,14 @@ public class ArtistVM extends BaseVM<Artist> {
 
     @Override
     public void onCreate() {
-
+        imageUrl = null;
+        DiscogsManager.INSTANCE.findArtist(getName())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(discogsResult -> {
+                    imageUrl = discogsResult.getThumb();
+                    notifyPropertyChanged(BR.imageUrl);
+                }, throwable -> {
+                });
     }
 }

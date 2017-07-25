@@ -2,6 +2,7 @@ package com.joxad.zikobot.app.core.viewutils;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -55,5 +56,13 @@ public class MaterialButtonView extends MaterialRippleLayout {
 
     }
 
+    public void setTitle(String title) {
+        tvButton.setText(title);
+    }
+
+
+    public void setTitle(@StringRes  int title) {
+        tvButton.setText(title);
+    }
 
 }

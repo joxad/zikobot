@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
 import com.joxad.zikobot.app.youtube.download.EventSelectItemYtDownload;
+import com.joxad.zikobot.data.event.dialog.EventShowDialogPlaylistSettings;
 import com.joxad.zikobot.data.module.youtube.VideoItem;
 
 import org.greenrobot.eventbus.EventBus;
@@ -65,6 +66,12 @@ public class YoutubeItemVM extends BaseVM<VideoItem> {
             }
         });
 
+    }
+
+
+    public boolean onLongClick(View view) {
+        download(view);
+        return true;
     }
 
 

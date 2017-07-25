@@ -276,12 +276,10 @@ public class LocalMusicManager {
         contentResolver.insert(MediaStore.Audio.Media.getContentUriForPath(folder + "/" + videoItem.getTitle() + ".mp3"), values);
 
         ContentValues imageValues = new ContentValues();
-        values.put(MediaStore.Audio.Albums.ARTIST, artist);
-        values.put(MediaStore.Audio.Albums.ALBUM_ART, videoItem.getThumbnailURL());
-
-        Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
-
-        contentResolver.insert(sArtworkUri, imageValues);
+        imageValues.put(MediaStore.Audio.Albums.ARTIST, artist);
+        imageValues.put(MediaStore.Audio.Albums.ALBUM_ART, videoItem.getThumbnailURL());
+        
+        contentResolver.insert(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, imageValues);
     }
 
     /***

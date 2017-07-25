@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBaseVM;
+import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.FragmentDownloadBinding;
 import com.joxad.zikobot.app.youtube.YoutubeDownloader;
@@ -58,7 +59,7 @@ public class FragmentDownloadVM extends DialogBottomSheetBaseVM<FragmentDownload
     @Subscribe
     public void onReceive(EventDownloadDone e) {
         downloading.set(false);
-
+        binding.mbvDownload.setTitle(R.string.download_fail);
     }
 
     @Override
@@ -68,7 +69,7 @@ public class FragmentDownloadVM extends DialogBottomSheetBaseVM<FragmentDownload
     }
 
     public void download(View view) {
-
+        view.setEnabled(false);
         view.animate().scaleX(0).setDuration(300).withEndAction(() -> {
             downloading.set(true);
         }).start();

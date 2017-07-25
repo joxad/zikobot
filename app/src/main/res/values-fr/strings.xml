@@ -130,5 +130,6 @@
     <string name="settings_handle_phone_call">Gérer les appels téléphoniques (cela mettra en pause la musique)</string>
 
     <string name="download_fail">Une erreur est survenue durant le téléchargement, réessayez. Il se peut que ce fichier ne soit pas disponible également…</string>
+    <string name="download_success">Ta chanson a été téléchargée ;)</string>
 
 </resources>
