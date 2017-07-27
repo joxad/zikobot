@@ -29,8 +29,8 @@ import com.joxad.zikobot.app.player.player.IMusicPlayer;
 import com.joxad.zikobot.app.player.player.SpotifyPlayer;
 import com.joxad.zikobot.app.player.player.VLCPlayer;
 import com.joxad.zikobot.data.AppPrefs;
-import com.joxad.zikobot.data.model.TYPE;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.TYPE;
+import com.joxad.zikobot.data.db.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

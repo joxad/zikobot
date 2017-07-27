@@ -8,7 +8,7 @@ import com.joxad.easydatabinding.base.BaseVM;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.data.event.LocalAlbumSelectEvent;
 import com.joxad.zikobot.data.event.dialog.EventShowDialogAlbumSettings;
-import com.joxad.zikobot.data.model.Album;
+import com.joxad.zikobot.data.db.model.Album;
 
 import org.greenrobot.eventbus.EventBus;
 

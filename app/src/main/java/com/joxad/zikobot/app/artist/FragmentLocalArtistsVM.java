@@ -15,7 +15,7 @@ import com.joxad.zikobot.app.core.viewutils.EndlessRecyclerViewScrollListener;
 import com.joxad.zikobot.app.databinding.FragmentLocalArtistsBinding;
 import com.joxad.zikobot.app.home.event.EventAskPermissionStorage;
 import com.joxad.zikobot.app.home.event.EventPermissionRefresh;
-import com.joxad.zikobot.data.model.Artist;
+import com.joxad.zikobot.data.db.model.Artist;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalArtist;
 import com.tbruyelle.rxpermissions.RxPermissions;

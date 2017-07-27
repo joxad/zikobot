@@ -1,4 +1,4 @@
-package com.joxad.zikobot.data.model;
+package com.joxad.zikobot.data.db.model;
 
 
 import com.joxad.zikobot.data.db.MusicAlarmDatabase;
@@ -10,11 +10,8 @@ import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import org.parceler.Parcel;
-import org.parceler.Transient;
 import org.videolan.libvlc.Media;
 
 import lombok.Getter;
@@ -23,13 +20,13 @@ import lombok.Setter;
 /**
  * Created by josh on 29/03/16.
  */
-@Table(database = MusicAlarmDatabase.class, name = "AlarmTrack")
-@Parcel
+@Table(database = MusicAlarmDatabase.class)
 public class Track extends BaseModel {
 
-    @Transient
     @ForeignKey(saveForeignKeyModel = false, stubbedRelationship = true)
-    public Alarm alarmForeignKeyContainer;
+    public ZikoPlaylist zikoPlaylistForeignKey;
+
+
     @PrimaryKey(autoincrement = true)
     @Getter
     @Setter
@@ -134,13 +131,12 @@ public class Track extends BaseModel {
 
     /***
      * @param soundCloudTrack
-     * @param clientId
      * @return
      */
-    public static Track from(SoundCloudTrack soundCloudTrack, String clientId) {
+    public static Track from(SoundCloudTrack soundCloudTrack) {
         Track track = new Track();
         track.setType(TYPE.SOUNDCLOUD);
-        track.setRef(soundCloudTrack.getStreamUrl() + "?client_id=" + clientId);
+        track.setRef(soundCloudTrack.getStreamUrl());
         track.setImageUrl(soundCloudTrack.getArtworkUrl());
         track.setArtistName(soundCloudTrack.getUser().getUsername());
         track.setArtistId("" + soundCloudTrack.getUser().getId());
@@ -171,8 +167,16 @@ public class Track extends BaseModel {
         return track;
     }
 
-    public void associateAlarm(Alarm alarm) {
-        alarmForeignKeyContainer = alarm;
+    public void associatePlaylist(ZikoPlaylist playlist) {
+        zikoPlaylistForeignKey = playlist;
+    }
+
+    public void associateAlbum(ZikoPlaylist playlist) {
+        zikoPlaylistForeignKey = playlist;
+    }
+
+    public void associateArtist(ZikoPlaylist playlist) {
+        zikoPlaylistForeignKey = playlist;
     }
 
 }

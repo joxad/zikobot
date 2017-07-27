@@ -20,7 +20,7 @@ import com.joxad.zikobot.app.databinding.ActivityWakeUpBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.alarm.WakePlayerVM;
 import com.joxad.zikobot.app.player.event.EventStopPlayer;
-import com.joxad.zikobot.data.model.Alarm;
+import com.joxad.zikobot.data.db.model.ZikoAlarm;
 
 import org.greenrobot.eventbus.EventBus;
 import org.parceler.Parcels;
@@ -35,7 +35,7 @@ public class ActivityWakeUpVM extends ActivityBaseVM<ActivityWakeUp, ActivityWak
     public WakePlayerVM playerVM;
     public AlarmVM alarmVM;
     public TrackVM trackVM;
-    Alarm alarm;
+    ZikoAlarm alarm;
     AudioManager am;
 
     /***

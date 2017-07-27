@@ -33,7 +33,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor libs.dbFlowProc
-    annotationProcessor libs.parceler
     compile libs.eventBus
     compile libs.support
     compile libs.customTabs
@@ -42,7 +41,6 @@ dependencies {
     compile libs.dbFlowCore
     compile libs.dbFlow
     compile libs.logger
-    compile libs.parcelerApi
     compile libs.okHttpInterceptor
 
     compile libs.retrofit

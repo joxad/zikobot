@@ -16,9 +16,9 @@ import com.joxad.zikobot.app.settings.ActivitySettings;
 import com.joxad.zikobot.app.soundcloud.ActivitySoundCloud;
 import com.joxad.zikobot.app.spotify.ActivitySpotify;
 import com.joxad.zikobot.app.wakeup.ActivityWakeUp;
-import com.joxad.zikobot.data.model.Alarm;
-import com.joxad.zikobot.data.model.Album;
-import com.joxad.zikobot.data.model.Artist;
+import com.joxad.zikobot.data.db.model.ZikoAlarm;
+import com.joxad.zikobot.data.db.model.Album;
+import com.joxad.zikobot.data.db.model.Artist;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
 
@@ -41,7 +41,7 @@ public class IntentManager {
         return intent;
     }
 
-    public static Intent goToAlarm(Alarm alarm) {
+    public static Intent goToAlarm(ZikoAlarm alarm) {
         Intent intent = new Intent(context, ActivityAlarm.class);
         intent.putExtra(EXTRA.ALARM, Parcels.wrap(alarm));
         return intent;
@@ -56,7 +56,7 @@ public class IntentManager {
         return new Intent(context, ActivitySettings.class);
     }
 
-    public static Intent goToWakeUp(Alarm alarm) {
+    public static Intent goToWakeUp(ZikoAlarm alarm) {
         return new Intent(context, ActivityWakeUp.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 .putExtra(EXTRA.ALARM, Parcels.wrap(alarm));

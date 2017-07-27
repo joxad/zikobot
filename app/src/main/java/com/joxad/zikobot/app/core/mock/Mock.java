@@ -6,7 +6,7 @@ import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.soundcloud.SoundCloudPlaylistVM;
 import com.joxad.zikobot.app.spotify.ItemPlaylistViewModel;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.Track;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.Item;
 import com.joxad.zikobot.data.module.spotify_api.model.Tracks;

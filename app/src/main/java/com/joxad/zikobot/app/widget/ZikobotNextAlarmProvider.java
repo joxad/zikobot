@@ -10,7 +10,7 @@ import android.widget.RemoteViews;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.alarm.AlarmManager;
 import com.joxad.zikobot.app.core.fragmentmanager.IntentManager;
-import com.joxad.zikobot.data.model.Alarm;
+import com.joxad.zikobot.data.db.model.ZikoAlarm;
 
 import java.util.Collections;
 import java.util.Date;
@@ -40,12 +40,12 @@ public abstract class ZikobotNextAlarmProvider extends AppWidgetProvider {
                     remoteViews.setTextViewText(R.id.tv_next, context.getString(R.string.no_alarm));
                     remoteViews.setTextViewText(R.id.tv_message, context.getString(R.string.add_alarm));
                     remoteViews.setOnClickPendingIntent(R.id.ll_alarm, PendingIntent.getActivity(context, 0,
-                            IntentManager.goToAlarm(new Alarm()), PendingIntent.FLAG_UPDATE_CURRENT));
+                            IntentManager.goToAlarm(new ZikoAlarm()), PendingIntent.FLAG_UPDATE_CURRENT));
 
                 } else {
                     Collections.sort(alarms, (a1, a2) -> new Date(a1.getTimeInMillis()).compareTo(new Date(a2.getTimeInMillis())));
                     boolean done = false;
-                    for (Alarm alarm : alarms) {
+                    for (ZikoAlarm alarm : alarms) {
                         if (alarm.getActive() == 1) {
                             remoteViews.setTextViewText(R.id.tv_next, context.getString(R.string.next_alarm));
                             AlarmManager.getNextAlarm();

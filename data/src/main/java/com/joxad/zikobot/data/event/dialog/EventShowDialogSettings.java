@@ -1,6 +1,6 @@
 package com.joxad.zikobot.data.event.dialog;
 
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.Track;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

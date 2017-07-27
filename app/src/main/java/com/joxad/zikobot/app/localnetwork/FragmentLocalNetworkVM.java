@@ -11,7 +11,7 @@ import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.FragmentLocalNetworkBinding;
-import com.joxad.zikobot.data.model.ItemNetwork;
+import com.joxad.zikobot.data.db.model.ItemNetwork;
 import com.orhanobut.logger.Logger;
 
 import org.videolan.libvlc.LibVLC;

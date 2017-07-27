@@ -16,8 +16,8 @@ import com.joxad.zikobot.app.alarm.AlarmManager;
 import com.joxad.zikobot.app.player.PlayerService;
 import com.joxad.zikobot.app.player.event.EventStopPlayer;
 import com.joxad.zikobot.app.player.player.EventSpotifyFail;
-import com.joxad.zikobot.data.model.Alarm;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.ZikoAlarm;
+import com.joxad.zikobot.data.db.model.Track;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
@@ -111,7 +111,7 @@ public class AlarmService extends NonStopIntentService {
         return null;
     }
 
-    private void initService(Alarm alarm) {
+    private void initService(ZikoAlarm alarm) {
         musicConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -127,7 +127,7 @@ public class AlarmService extends NonStopIntentService {
         bindService(new Intent(this, PlayerService.class), musicConnection, Context.BIND_AUTO_CREATE);
     }
 
-    private void start(Alarm alarm) {
+    private void start(ZikoAlarm alarm) {
         List<Track> models = alarm.getTracks();
         if (alarm.isRandom()) {
             Collections.shuffle(models);

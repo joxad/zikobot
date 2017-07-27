@@ -1,18 +1,13 @@
-package com.joxad.zikobot.data.model;
+package com.joxad.zikobot.data.db.model;
 
 import com.joxad.zikobot.data.module.localmusic.model.LocalArtist;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudUser;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyArtist;
 
-import org.parceler.Parcel;
-
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created by josh on 08/08/16.
  */
-@Parcel
 public class Artist {
 
     protected int type;

@@ -1,6 +1,6 @@
 package com.joxad.zikobot.app.alarm;
 
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.Track;
 
 import java.util.ArrayList;
 import java.util.List;

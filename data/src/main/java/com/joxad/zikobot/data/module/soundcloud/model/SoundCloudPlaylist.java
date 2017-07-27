@@ -3,14 +3,12 @@ package com.joxad.zikobot.data.module.soundcloud.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
 
-@Parcel
 @Data
 public class SoundCloudPlaylist {
 

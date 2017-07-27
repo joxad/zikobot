@@ -8,7 +8,7 @@ import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.databinding.DialogPlaylistEditBinding;
-import com.joxad.zikobot.data.model.Alarm;
+import com.joxad.zikobot.data.db.model.ZikoAlarm;
 
 import org.parceler.Parcels;
 
@@ -22,7 +22,7 @@ public class DialogPlaylistEdit extends DialogBottomSheetBase<DialogPlaylistEdit
     @Setter
     public OnDismissListener onDismissListener;
 
-    public static DialogPlaylistEdit newInstance(Alarm alarm) {
+    public static DialogPlaylistEdit newInstance(ZikoAlarm alarm) {
         Bundle args = new Bundle();
         args.putParcelable(EXTRA.ALARM, Parcels.wrap(alarm));
         DialogPlaylistEdit fragment = new DialogPlaylistEdit();

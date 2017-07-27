@@ -17,7 +17,7 @@ import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.Track;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
 
@@ -45,8 +45,8 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
      * @param activity
      * @param binding
      */
-    public ActivitySoundCloudVM(ActivitySoundCloud activity, ActivitySoundCloudBinding binding,@Nullable Bundle saved) {
-        super(activity, binding,saved);
+    public ActivitySoundCloudVM(ActivitySoundCloud activity, ActivitySoundCloudBinding binding, @Nullable Bundle saved) {
+        super(activity, binding, saved);
     }
 
     @Override
@@ -72,10 +72,12 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
         });
 
     }
+
     private void showDialogEdit() {
         DialogFragmentSettings dialogFragmentSettings = DialogFragmentSettings.newInstance(soundCloudPlaylist);
         dialogFragmentSettings.show(activity.getSupportFragmentManager(), DialogFragmentSettings.TAG);
     }
+
     /***
      * Init the toolar
      */
@@ -135,7 +137,7 @@ public class ActivitySoundCloudVM extends ActivityBaseVM<ActivitySoundCloud, Act
     private void loadTracks(SoundCloudPlaylist playlist) {
         tracks.clear();
         for (SoundCloudTrack track : playlist.getSoundCloudTracks()) {
-            tracks.add(new TrackVM(activity, Track.from(track, activity.getString(R.string.soundcloud_id))));
+            tracks.add(new TrackVM(activity, Track.from(track)));
         }
     }
 

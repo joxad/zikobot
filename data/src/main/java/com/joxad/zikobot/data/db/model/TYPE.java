@@ -1,4 +1,4 @@
-package com.joxad.zikobot.data.model;
+package com.joxad.zikobot.data.db.model;
 
 public class TYPE {
     public static final int SPOTIFY = 0;

@@ -1,13 +1,11 @@
 package com.joxad.zikobot.data.module.localmusic.model;
 
-import org.parceler.Parcel;
 
 import lombok.Getter;
 
 /**
  * Created by josh on 06/06/16.
  */
-@Parcel
 public class LocalAlbum {
 
     @Getter

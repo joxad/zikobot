@@ -17,8 +17,8 @@ import com.joxad.zikobot.app.alarm.event.EventAlarmSelect;
 import com.joxad.zikobot.app.alarm.event.EventEditAlarm;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.localtracks.TrackVM;
-import com.joxad.zikobot.data.model.Alarm;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.ZikoAlarm;
+import com.joxad.zikobot.data.db.model.Track;
 import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,11 +30,8 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding;
 /**
  * Created by josh on 29/05/16.
  */
-public abstract class AlarmVM extends BaseVM<Alarm> {
+public abstract class AlarmVM extends BaseVM<ZikoAlarm> {
 
-    public String alarmName;
-
-    public ObservableArrayList<TrackVM> tracksVms;
     public ObservableBoolean isExpanded;
     private NotificationManager notificationManager;
 
@@ -42,20 +39,19 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
      * @param context
      * @param model
      */
-    public AlarmVM(Context context, Alarm model) {
+    public AlarmVM(Context context, ZikoAlarm model) {
         super(context, model);
     }
 
     public abstract ItemBinding<TrackVM> itemView();
 
-    public Alarm getModel() {
+    public ZikoAlarm getModel() {
         return model;
     }
 
     @Override
     public void onCreate() {
         isExpanded = new ObservableBoolean(false);
-        tracksVms = new ObservableArrayList<>();
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
     }
@@ -65,40 +61,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         model.setHour(currentHour);
     }
 
-    /**
-     * Init the VM according to the alarm
-     */
-    public void initModel() {
-        alarmName = model.getName();
-        refreshTracks();
-    }
-
-
-    /***
-     *
-     */
-    public void refreshTracks() {
-        tracksVms.clear();
-        for (Track track : model.getTracks()) {
-            TrackVM itemTrackViewModel = new TrackVM(context, track);
-            tracksVms.add(itemTrackViewModel);
-        }
-    }
-
-
-    /***
-     * @param adapterPosition
-     */
-    public void removeTrack(int adapterPosition) {
-        AlarmTrackManager.removeTrack(tracksVms.get(adapterPosition).getModel());
-        try {
-            tracksVms.get(adapterPosition).getModel().delete();
-        } catch (Exception e) {
-            Logger.e(e.getMessage());
-        }
-        tracksVms.remove(adapterPosition);
-    }
-
 
     /***
      * DB Methods
@@ -106,7 +68,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
 
     public void delete() {
         AlarmManager.deleteAlarm(model);
-
     }
 
 
@@ -115,7 +76,7 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
      *
      * @return
      */
-    public rx.Observable<Alarm> save() {
+    public rx.Observable<ZikoAlarm> save() {
         return AlarmManager.saveAlarm(model);
     }
 
@@ -135,11 +96,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     }
 
     @Bindable
-    public String getName() {
-        return model.getName();
-    }
-
-    @Bindable
     public String getAlarmTime() {
         return String.format("%02d: %02d", ZikoUtils.amPmHour(model.getHour()), model.getMinute());
     }
@@ -150,26 +106,23 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     }
 
     public void updateStatus(boolean active) {
-        if (model.getTracks().isEmpty()) {
-            Toast.makeText(context, "Tu n'as pas de chanson sur cette alarme !", Toast.LENGTH_SHORT).show();
-            model.setActive(0);
-        } else {
-            model.setActive(active ? 1 : 0);
-            AlarmManager.prepareAlarm(context, model);
+
+        model.setActive(active ? 1 : 0);
+        AlarmManager.prepareAlarm(context, model);
 //test notification
-            if (model.getActive() == 1) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-                        && !notificationManager.isNotificationPolicyAccessGranted()) {
+        if (model.getActive() == 1) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                    && !notificationManager.isNotificationPolicyAccessGranted()) {
 
-                    Intent intent = new Intent(
-                            android.provider.Settings
-                                    .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                Intent intent = new Intent(
+                        android.provider.Settings
+                                .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
 
-                    context.startActivity(intent);
-                }
+                context.startActivity(intent);
             }
-
         }
+
+
         model.save();
         notifyChange();
     }
@@ -268,10 +221,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         return model.isDayActive(Calendar.SUNDAY);
     }
 
-    public boolean hasTracks() {
-        return tracksVms.size() > 0;
-    }
-
     @Bindable
     public int getVolume() {
         return model.getVolume();
@@ -280,14 +229,6 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
     public void updateRepeated(boolean checked) {
         model.setRepeated(checked ? 1 : 0);
         notifyChange();
-    }
-
-    @Bindable
-    public String getImageUrl() {
-        if (!model.getTracks().isEmpty()) {
-            return model.getTracks().get(0).getImageUrl();
-        }
-        return null;
     }
 
     public void updateRandom(boolean checked) {
@@ -305,18 +246,13 @@ public abstract class AlarmVM extends BaseVM<Alarm> {
         notifyChange();
     }
 
-    public void updateName(String name) {
-        model.setName(name);
-        notifyChange();
-    }
-
     @Bindable
     public String getTransition() {
         return context.getString(R.string.transition) + model.getId();
     }
 
 
-    public void updateModel(Alarm alarm) {
+    public void updateModel(ZikoAlarm alarm) {
         model = alarm;
         notifyChange();
     }

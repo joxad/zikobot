@@ -20,7 +20,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             int interval = 8000;
             manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
 
-            Toast.makeText(context, "Alarm Set", Toast.LENGTH_SHORT).show();*/
+            Toast.makeText(context, "ZikoAlarm Set", Toast.LENGTH_SHORT).show();*/
         }
     }
 }

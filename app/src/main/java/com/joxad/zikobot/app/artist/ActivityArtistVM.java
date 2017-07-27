@@ -18,10 +18,10 @@ import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.app.soundcloud.SoundCloudPlaylistVM;
-import com.joxad.zikobot.data.model.Album;
-import com.joxad.zikobot.data.model.Artist;
-import com.joxad.zikobot.data.model.TYPE;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.Album;
+import com.joxad.zikobot.data.db.model.Artist;
+import com.joxad.zikobot.data.db.model.TYPE;
+import com.joxad.zikobot.data.db.model.Track;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
@@ -176,7 +176,7 @@ public class ActivityArtistVM extends ActivityBaseVM<ActivityArtist, ActivityArt
     private void loadSoundCloudTracks() {
         SoundCloudApiManager.getInstance().userTracks(Long.parseLong(artist.getId())).subscribe(soundCloudTracks -> {
             for (SoundCloudTrack soundCloudTrack : soundCloudTracks) {
-                tracks.add(new TrackVM(activity, Track.from(soundCloudTrack, activity.getString(R.string.soundcloud_id))));
+                tracks.add(new TrackVM(activity, Track.from(soundCloudTrack)));
             }
         }, throwable -> Logger.e(throwable.getLocalizedMessage()));
     }

@@ -18,11 +18,4 @@
         app:showAsAction="always" />
 
 
-    <item
-        android:id="@+id/action_about"
-        android:icon="@drawable/ic_info"
-        android:orderInCategory="50"
-        android:title="@string/menu_about"
-        app:showAsAction="always" />
-
 </menu>

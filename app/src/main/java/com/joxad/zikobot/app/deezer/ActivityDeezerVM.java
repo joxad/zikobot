@@ -17,7 +17,7 @@ import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.data.event.dialog.EventShowDialogSettings;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.Track;
 import com.joxad.zikobot.data.module.deezer.DeezerManager;
 
 import org.greenrobot.eventbus.EventBus;

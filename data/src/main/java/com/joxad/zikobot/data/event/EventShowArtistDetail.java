@@ -2,7 +2,7 @@ package com.joxad.zikobot.data.event;
 
 import android.view.View;
 
-import com.joxad.zikobot.data.model.Artist;
+import com.joxad.zikobot.data.db.model.Artist;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

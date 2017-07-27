@@ -15,8 +15,8 @@ import com.joxad.zikobot.app.databinding.FragmentSoundCloudSearchBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.search.SearchManager;
 import com.joxad.zikobot.data.event.search.EventQueryChange;
-import com.joxad.zikobot.data.model.Artist;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.Artist;
+import com.joxad.zikobot.data.db.model.Track;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
@@ -114,7 +114,7 @@ public class FragmentSoundCloudSearchVM extends FragmentBaseVM<FragmentSoundClou
                     artists.clear();
                     albums.clear();
                     for (SoundCloudTrack soundCloudTrack : soundCloudTracks) {
-                        tracks.add(new TrackVM(fragment.getContext(), Track.from(soundCloudTrack, fragment.getString(R.string.soundcloud_id))));
+                        tracks.add(new TrackVM(fragment.getContext(), Track.from(soundCloudTrack)));
                     }
                     for (SoundCloudPlaylist soundCloudPlaylist : soundCloudPlaylists) {
                         //albums.add(new AlbumVM(fragment.getContext(), Album.from(, fragment.getString(R.string.soundcloud_id))));

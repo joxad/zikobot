@@ -24,15 +24,12 @@ import com.joxad.zikobot.app.core.utils.Constants;
 import com.joxad.zikobot.app.databinding.ViewPlayerSimpleBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.event.EventPosition;
-import com.joxad.zikobot.data.AppPrefs;
-import com.joxad.zikobot.data.model.Alarm;
-import com.joxad.zikobot.data.model.Track;
-import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
+import com.joxad.zikobot.data.db.model.ZikoAlarm;
+import com.joxad.zikobot.data.db.model.Track;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
@@ -50,9 +47,9 @@ public class WakePlayerVM extends BaseObservable implements IVM {
     private ServiceConnection musicConnection;
     private AppCompatActivity activity;
     private WakePlayerService playerService;
-    private Alarm alarm;
+    private ZikoAlarm alarm;
 
-    public WakePlayerVM(AppCompatActivity activity, ViewPlayerSimpleBinding binding, Alarm alarm) {
+    public WakePlayerVM(AppCompatActivity activity, ViewPlayerSimpleBinding binding, ZikoAlarm alarm) {
         this.activity = activity;
         this.binding = binding;
         this.alarm = alarm;
@@ -105,7 +102,7 @@ public class WakePlayerVM extends BaseObservable implements IVM {
         activity.bindService(new Intent(activity, WakePlayerService.class), musicConnection, Context.BIND_AUTO_CREATE);
     }
 
-    private void startAlarm(Alarm alarm) {
+    private void startAlarm(ZikoAlarm alarm) {
         ObservableArrayList<TrackVM> trackVMs = new ObservableArrayList<>();
         for (Track track : alarm.getTracks()) {
             trackVMs.add(new TrackVM(activity, track));

@@ -27,7 +27,7 @@ import com.joxad.zikobot.app.youtube.download.EventSelectItemYtDownload;
 import com.joxad.zikobot.app.youtube.download.FragmentDownload;
 import com.joxad.zikobot.app.youtube.download.FragmentDownloadVM;
 import com.joxad.zikobot.data.event.search.EventQueryChange;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.Track;
 import com.joxad.zikobot.data.module.youtube.VideoItem;
 import com.orhanobut.logger.Logger;
 

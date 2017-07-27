@@ -24,7 +24,7 @@ import com.joxad.zikobot.app.databinding.ActivityAlarmBinding;
 import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.PlayerVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
-import com.joxad.zikobot.data.model.Alarm;
+import com.joxad.zikobot.data.db.model.ZikoAlarm;
 
 import org.greenrobot.eventbus.EventBus;
 import org.parceler.Parcels;
@@ -39,7 +39,7 @@ public class ActivityAlarmVM extends ActivityBaseVM<ActivityAlarm, ActivityAlarm
 
     public AlarmVM alarmVM;
     public PlayerVM playerVM;
-    Alarm alarm;
+    ZikoAlarm alarm;
     NavigationManager navigationManager;
 
     /***

@@ -19,7 +19,7 @@ import com.joxad.zikobot.app.home.event.EventAskPermissionStorage;
 import com.joxad.zikobot.app.home.event.EventPermissionRefresh;
 import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.app.player.event.EventPlayListClicked;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.Track;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;

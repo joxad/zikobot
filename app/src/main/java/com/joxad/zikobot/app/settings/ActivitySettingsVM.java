@@ -23,7 +23,7 @@ import com.joxad.zikobot.app.databinding.ActivitySettingsBinding;
 import com.joxad.zikobot.app.player.event.EventAccountConnect;
 import com.joxad.zikobot.app.soundcloud.SoundCloudLoginActivity;
 import com.joxad.zikobot.data.AppPrefs;
-import com.joxad.zikobot.data.model.TYPE;
+import com.joxad.zikobot.data.db.model.TYPE;
 import com.joxad.zikobot.data.module.deezer.DeezerManager;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager;

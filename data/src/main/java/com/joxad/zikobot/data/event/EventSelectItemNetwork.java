@@ -1,7 +1,7 @@
 package com.joxad.zikobot.data.event;
 
 
-import com.joxad.zikobot.data.model.ItemNetwork;
+import com.joxad.zikobot.data.db.model.ItemNetwork;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

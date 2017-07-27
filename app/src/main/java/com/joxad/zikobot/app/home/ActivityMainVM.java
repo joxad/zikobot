@@ -138,9 +138,6 @@ public class ActivityMainVM extends ActivityBaseVM<ActivityMain, ActivityMainBin
                 case R.id.action_account:
                     navigationManager.showAccounts();
                     break;
-                case R.id.action_about:
-                    navigationManager.showAbout();
-                    break;
                 case R.id.action_search:
                     navigationManager.goToSearch();
                     break;

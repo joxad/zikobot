@@ -2,7 +2,7 @@ package com.joxad.zikobot.app.alarm.event;
 
 import android.view.View;
 
-import com.joxad.zikobot.data.model.Alarm;
+import com.joxad.zikobot.data.db.model.ZikoAlarm;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +13,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor(suppressConstructorProperties = true)
 public class EventAlarmSelect {
-    private final Alarm model;
+    private final ZikoAlarm model;
     private final View view;
 }

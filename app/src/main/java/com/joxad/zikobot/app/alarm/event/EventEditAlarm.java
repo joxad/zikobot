@@ -1,6 +1,6 @@
 package com.joxad.zikobot.app.alarm.event;
 
-import com.joxad.zikobot.data.model.Alarm;
+import com.joxad.zikobot.data.db.model.ZikoAlarm;
 
 import lombok.Data;
 
@@ -9,5 +9,5 @@ import lombok.Data;
  */
 @Data
 public class EventEditAlarm {
-    private final Alarm alarm;
+    private final ZikoAlarm alarm;
 }

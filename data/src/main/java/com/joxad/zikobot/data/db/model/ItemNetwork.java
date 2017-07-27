@@ -1,4 +1,4 @@
-package com.joxad.zikobot.data.model;
+package com.joxad.zikobot.data.db.model;
 
 import org.videolan.libvlc.Media;
 

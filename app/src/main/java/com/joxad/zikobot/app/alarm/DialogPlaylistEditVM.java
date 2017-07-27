@@ -14,7 +14,7 @@ import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBaseVM;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.SimpleSeekBarListener;
 import com.joxad.zikobot.app.databinding.DialogPlaylistEditBinding;
-import com.joxad.zikobot.data.model.Alarm;
+import com.joxad.zikobot.data.db.model.ZikoAlarm;
 
 import org.parceler.Parcels;
 
@@ -26,7 +26,7 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding;
 public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylistEdit, DialogPlaylistEditBinding> {
 
     public AlarmVM alarmVM;
-    Alarm alarm;
+    ZikoAlarm alarm;
     private AudioManager am;
 
     /***
@@ -107,7 +107,7 @@ public class DialogPlaylistEditVM extends DialogBottomSheetBaseVM<DialogPlaylist
     /***
      * Use this method to save the data
      */
-    public rx.Observable<Alarm> save() {
+    public rx.Observable<ZikoAlarm> save() {
 
         int min = 0;
         int hour = 0;

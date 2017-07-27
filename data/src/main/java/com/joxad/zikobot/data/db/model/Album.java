@@ -1,9 +1,8 @@
-package com.joxad.zikobot.data.model;
+package com.joxad.zikobot.data.db.model;
 
 import com.joxad.zikobot.data.module.localmusic.model.LocalAlbum;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyAlbum;
 
-import org.parceler.Parcel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +11,6 @@ import lombok.Data;
  * Created by josh on 08/08/16.
  */
 @Data
-@Parcel
 @AllArgsConstructor(suppressConstructorProperties = true)
 public class Album {
     protected String id;

@@ -3,19 +3,18 @@ package com.joxad.zikobot.app.alarm;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
-import android.os.PowerManager;
 import android.provider.Settings;
 
 import com.joxad.zikobot.app.core.receiver.AlarmReceiver;
 import com.joxad.zikobot.app.core.utils.EXTRA;
 import com.joxad.zikobot.app.core.utils.ZikoUtils;
 import com.joxad.zikobot.app.widget.AppWidgetHelper;
-import com.joxad.zikobot.data.model.Alarm;
-import com.joxad.zikobot.data.model.Alarm_Table;
-import com.joxad.zikobot.data.model.Track;
-import com.joxad.zikobot.data.model.Track_Table;
+import com.joxad.zikobot.data.db.model.ZikoAlarm;
+import com.joxad.zikobot.data.db.model.Track;
+import com.joxad.zikobot.data.db.model.Track_Table;
+import com.joxad.zikobot.data.db.model.ZikoAlarm_Table;
+import com.joxad.zikobot.data.db.model.ZikoPlaylist;
 import com.orhanobut.logger.Logger;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
@@ -24,7 +23,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by josh on 28/03/16.
@@ -47,16 +45,14 @@ public class AlarmManager {
      * @param id
      * @return
      */
-    public static Observable<Alarm> getAlarmById(final long id) {
+    public static Observable<ZikoAlarm> getAlarmById(final long id) {
 
         return Observable.create(subscriber -> {
-            Alarm alarm = new Select().from(Alarm.class).where(Alarm_Table.id.eq(id)).querySingle();
-
+            ZikoAlarm alarm = new Select().from(ZikoAlarm.class).where(ZikoAlarm_Table.id.eq(id)).querySingle();
             if (alarm == null) {
                 subscriber.onError(new Throwable("No alarm"));
                 return;
             }
-            alarm.getTracks();
             if (subscriber.isUnsubscribed()) return;
             subscriber.onNext(alarm);
         });
@@ -76,9 +72,9 @@ public class AlarmManager {
      *
      * @return
      */
-    public static Observable<List<Alarm>> loadAlarms() {
+    public static Observable<List<ZikoAlarm>> loadAlarms() {
         return Observable.create(subscriber -> {
-            List<Alarm> organizationList = new Select().from(Alarm.class).queryList();
+            List<ZikoAlarm> organizationList = new Select().from(ZikoAlarm.class).queryList();
             if (subscriber.isUnsubscribed()) return;
             subscriber.onNext(organizationList);
         });
@@ -89,9 +85,9 @@ public class AlarmManager {
      *
      * @return
      */
-    public static Observable<Alarm> refreshAlarm(final long id) {
+    public static Observable<ZikoAlarm> refreshAlarm(final long id) {
         return Observable.create(subscriber -> {
-            Alarm alarm = new Select().from(Alarm.class).where(Alarm_Table.id.eq(id)).querySingle();
+            ZikoAlarm alarm = new Select().from(ZikoAlarm.class).where(ZikoAlarm_Table.id.eq(id)).querySingle();
             if (subscriber.isUnsubscribed()) return;
             subscriber.onNext(alarm);
         });
@@ -100,7 +96,7 @@ public class AlarmManager {
     /***
      * @param alarm
      */
-    public static Observable<Alarm> saveAlarm(Alarm alarm) {
+    public static Observable<ZikoAlarm> saveAlarm(ZikoAlarm alarm) {
 
         return Observable.create(subscriber -> {
             alarm.save();
@@ -112,20 +108,20 @@ public class AlarmManager {
 
 
     /***
-     * @param alarm
+     * @param playlist
      * @param trackList
      */
-    public static Observable<Alarm> saveAlarm(Alarm alarm, List<Track> trackList) {
+    public static Observable<ZikoPlaylist> savePlaylist(ZikoPlaylist playlist, List<Track> trackList) {
 
         return Observable.create(subscriber -> {
-            alarm.save();
-            SQLite.delete().from(Track.class).where(Track_Table.alarmForeignKeyContainer_id.eq(alarm.getId())).query();
+            playlist.save();
+            SQLite.delete().from(Track.class).where(Track_Table.zikoPlaylistForeignKey_id.eq(playlist.getId())).query();
             for (Track track : trackList) {
-                track.associateAlarm(alarm);
+                track.associatePlaylist(playlist);
                 track.save();
             }
             AppWidgetHelper.update(context);
-            subscriber.onNext(alarm);
+            subscriber.onNext(playlist);
         });
 
     }
@@ -135,17 +131,16 @@ public class AlarmManager {
      * @param alarm
      * @return
      */
-    public static Observable<Alarm> editAlarmName(String text, Alarm alarm) {
+    public static Observable<ZikoAlarm> editPlaylist(String text, ZikoAlarm alarm) {
         return Observable.create(subscriber -> {
-            alarm.setName(text);
             alarm.save();
             AppWidgetHelper.update(context);
             subscriber.onNext(alarm);
         });
     }
 
-    public static void deleteAlarm(Alarm alarm) {
-        SQLite.delete(Alarm.class).where(Alarm_Table.id.is(alarm.getId())).query();
+    public static void deleteAlarm(ZikoAlarm alarm) {
+        SQLite.delete(ZikoAlarm.class).where(ZikoAlarm_Table.id.is(alarm.getId())).query();
         AppWidgetHelper.update(context);
         cancel(context, alarm);
     }
@@ -155,7 +150,7 @@ public class AlarmManager {
      * @param alarm
      * @return
      */
-    public static boolean canStart(Alarm alarm) {
+    public static boolean canStart(ZikoAlarm alarm) {
 
         boolean alarmOk, dayOk = false;
         Calendar calendar = Calendar.getInstance();
@@ -173,7 +168,7 @@ public class AlarmManager {
      * @param context
      * @param model
      */
-    public static void prepareAlarm(Context context, Alarm model) {
+    public static void prepareAlarm(Context context, ZikoAlarm model) {
         init(context);
 
         if (model.getActive() == 1) {
@@ -189,10 +184,10 @@ public class AlarmManager {
 
             model.setTimeInMillis(triggerMillis);
             model.save();
-            Logger.d(model.getName() + model.getHour() + "h " + model.getMinute() + "m" + "prepared");
+        //    Logger.d(model.getName() + model.getHour() + "h " + model.getMinute() + "m" + "prepared");
             AppWidgetHelper.update(context);
         } else {
-            Logger.d(model.getName() + model.getHour() + "h " + model.getMinute() + "m" + "cancelled");
+       //     Logger.d(model.getName() + model.getHour() + "h " + model.getMinute() + "m" + "cancelled");
             cancel(context, model);
         }
     }
@@ -203,7 +198,7 @@ public class AlarmManager {
      * @param context
      * @param alarm
      */
-    public static void cancel(Context context, Alarm alarm) {
+    public static void cancel(Context context, ZikoAlarm alarm) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
         alarmIntent = PendingIntent.getBroadcast(context, (int) alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -216,7 +211,7 @@ public class AlarmManager {
      * @param alarm
      * @return
      */
-    public static long nextTrigger(Alarm alarm) {
+    public static long nextTrigger(ZikoAlarm alarm) {
         Calendar calendarAlarm = Calendar.getInstance();
         Calendar calendarToday = Calendar.getInstance();
         long triggerMillis = System.currentTimeMillis();
@@ -237,7 +232,7 @@ public class AlarmManager {
      * @param calendarAlarmMs
      * @param calendarToday @return
      */
-    public static int findInterval(Alarm alarm, long calendarAlarmMs, Calendar calendarToday) {
+    public static int findInterval(ZikoAlarm alarm, long calendarAlarmMs, Calendar calendarToday) {
         String alarms = alarm.getDays();//-1111111
         int today = calendarToday.get(Calendar.DAY_OF_WEEK);//2 lundi 15H, alarme a 18h
         // si l'alarme est prévu plus tard aujoudhui

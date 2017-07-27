@@ -9,16 +9,12 @@ import com.joxad.easydatabinding.base.BaseVM;
 import com.joxad.zikobot.app.BR;
 import com.joxad.zikobot.app.R;
 import com.joxad.zikobot.data.event.EventShowArtistDetail;
-import com.joxad.zikobot.data.model.Artist;
-import com.joxad.zikobot.data.module.discogs.DiscogsManager;
-import com.joxad.zikobot.data.module.discogs.model.DiscogsResult;
+import com.joxad.zikobot.data.db.model.Artist;
 import com.joxad.zikobot.data.module.lastfm.discogs.LastFmManager;
 
 import org.greenrobot.eventbus.EventBus;
 
-import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**

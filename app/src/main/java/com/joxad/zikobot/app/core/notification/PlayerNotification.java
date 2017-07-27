@@ -21,7 +21,7 @@ import com.joxad.zikobot.app.core.receiver.PausePlayerReceiver;
 import com.joxad.zikobot.app.core.receiver.ResumePlayerReceiver;
 import com.joxad.zikobot.app.core.receiver.StopPlayerReceiver;
 import com.joxad.zikobot.app.home.ActivityMain;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.Track;
 
 import java.util.ArrayList;
 

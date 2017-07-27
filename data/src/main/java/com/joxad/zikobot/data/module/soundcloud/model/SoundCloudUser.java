@@ -3,7 +3,6 @@ package com.joxad.zikobot.data.module.soundcloud.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.parceler.Parcel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +10,6 @@ import lombok.Data;
 /**
  * Created by josh on 15/06/16.
  */
-@Parcel
 @Data
 @AllArgsConstructor(suppressConstructorProperties = true)
 public class SoundCloudUser {

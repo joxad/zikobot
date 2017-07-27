@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.joxad.easydatabinding.base.BaseVM;
 import com.joxad.zikobot.data.event.EventSelectItemNetwork;
-import com.joxad.zikobot.data.model.ItemNetwork;
+import com.joxad.zikobot.data.db.model.ItemNetwork;
 
 import org.greenrobot.eventbus.EventBus;
 

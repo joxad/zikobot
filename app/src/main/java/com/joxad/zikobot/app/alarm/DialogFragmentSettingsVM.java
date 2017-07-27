@@ -21,10 +21,11 @@ import com.joxad.zikobot.app.localtracks.TrackVM;
 import com.joxad.zikobot.app.player.event.EventAddList;
 import com.joxad.zikobot.app.player.event.EventAddTrackToCurrent;
 import com.joxad.zikobot.app.player.event.EventAddTrackToEndOfCurrent;
-import com.joxad.zikobot.data.model.Alarm;
-import com.joxad.zikobot.data.model.Album;
-import com.joxad.zikobot.data.model.Artist;
-import com.joxad.zikobot.data.model.Track;
+import com.joxad.zikobot.data.db.model.ZikoAlarm;
+import com.joxad.zikobot.data.db.model.Album;
+import com.joxad.zikobot.data.db.model.Artist;
+import com.joxad.zikobot.data.db.model.Track;
+import com.joxad.zikobot.data.db.model.ZikoPlaylist;
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 import com.joxad.zikobot.data.module.soundcloud.manager.SoundCloudApiManager;
@@ -44,9 +45,9 @@ import java.util.ArrayList;
 
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
-import static com.joxad.zikobot.data.model.TYPE.LOCAL;
-import static com.joxad.zikobot.data.model.TYPE.SOUNDCLOUD;
-import static com.joxad.zikobot.data.model.TYPE.SPOTIFY;
+import static com.joxad.zikobot.data.db.model.TYPE.LOCAL;
+import static com.joxad.zikobot.data.db.model.TYPE.SOUNDCLOUD;
+import static com.joxad.zikobot.data.db.model.TYPE.SPOTIFY;
 
 /**
  * Created by josh on 09/03/16.
@@ -153,7 +154,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
     private void loadSoundcloudTracks() {
         tracks.clear();
         for (SoundCloudTrack track : scplaylist.getSoundCloudTracks()) {
-            tracks.add(Track.from(track, fragment.getString(R.string.soundcloud_id)));
+            tracks.add(Track.from(track));
         }
     }
 
@@ -175,7 +176,8 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
         //TODO
         EventBus.getDefault().cancelEventDelivery(eventAlarmSelect);
 
-        Alarm alarm = eventAlarmSelect.getModel();
+        ZikoAlarm alarm = eventAlarmSelect.getModel();
+        ZikoPlaylist zikoPlaylist = new ZikoPlaylist();
         AlarmTrackManager.clear();
         if (track != null)
             AlarmTrackManager.selectTrack(track);
@@ -192,7 +194,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
         ArrayList<Track> allTracks = new ArrayList<>();
         allTracks.addAll(alarm.getTracks());
         allTracks.addAll(AlarmTrackManager.tracks());
-        AlarmManager.saveAlarm(alarm, allTracks).subscribe(alarm1 -> {
+        AlarmManager.savePlaylist(zikoPlaylist, allTracks).subscribe(alarm1 -> {
             if (track != null)
                 Toast.makeText(fragment.getContext(), track.getName() + " a été ajoutée à la playlist " + alarm.getName(), Toast.LENGTH_SHORT).show();
             if (album != null)
@@ -328,7 +330,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
      * @param view
      */
     public void newAlarmClicked(@SuppressWarnings("unused") View view) {
-        Alarm alarm = new Alarm();
+        ZikoAlarm alarm = new ZikoAlarm();
         AlarmTrackManager.clear();
         if (track != null) {
             AlarmTrackManager.selectTrack(track);
@@ -352,7 +354,9 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
                 AlarmTrackManager.selectTrack(track);
             }
         }
-        AlarmManager.saveAlarm(alarm, AlarmTrackManager.tracks()).subscribe(alarm1 -> {
+        ZikoPlaylist zikoPlaylist = new ZikoPlaylist();
+
+        AlarmManager.savePlaylist(zikoPlaylist, AlarmTrackManager.tracks()).subscribe(alarm1 -> {
             String name = "";
             if (track != null)
                 name = track.getName();
@@ -372,7 +376,7 @@ public class DialogFragmentSettingsVM extends DialogBottomSheetBaseVM<DialogFrag
     public void loadAlarms() {
         AlarmManager.loadAlarms().subscribe(alarms -> {
             itemsVM.clear();
-            for (Alarm alarm : alarms) {
+            for (ZikoAlarm alarm : alarms) {
                 itemsVM.add(new AlarmVM(fragment.getContext(), alarm) {
                     @Override
                     public ItemBinding itemView() {
