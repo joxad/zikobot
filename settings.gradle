@@ -1,1 +1,1 @@
-include ':app', ':wear', ':data', ':data'
+include ':app', ':data', ':androidcoreutils:core'

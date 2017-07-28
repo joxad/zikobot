@@ -7,8 +7,6 @@ import com.joxad.zikobot.data.R;
 
 import java.io.IOException;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -17,11 +15,13 @@ import okhttp3.Response;
 /**
  * Created by josh on 15/06/16.
  */
-@Data
-@AllArgsConstructor(suppressConstructorProperties = true)
 public class SoundCloudApiInterceptor implements Interceptor {
 
     private final Context context;
+
+    public SoundCloudApiInterceptor(Context context) {
+        this.context = context;
+    }
 
     @Override
     public Response intercept(Chain chain) throws IOException {

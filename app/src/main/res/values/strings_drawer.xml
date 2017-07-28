@@ -1,11 +1,11 @@
 <resources>
 
     <string name="drawer_filter">Filter</string>
-    <string name="drawer_filter_playlist">Playlist </string>
-    <string name="drawer_filter_album">Album </string>
-    <string name="drawer_filter_artiste">Artist </string>
-    <string name="drawer_filter_tracks">Track </string>
-    <string name="drawer_filter_search">Search </string>
+    <string name="drawer_filter_playlist">Playlists</string>
+    <string name="drawer_filter_album">Albums</string>
+    <string name="drawer_filter_artiste">Artists</string>
+    <string name="drawer_filter_tracks">Tracks</string>
+    <string name="drawer_filter_search">Search</string>
 
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>

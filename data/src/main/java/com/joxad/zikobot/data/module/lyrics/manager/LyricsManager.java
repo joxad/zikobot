@@ -2,8 +2,6 @@ package com.joxad.zikobot.data.module.lyrics.manager;
 
 import android.content.Context;
 
-import com.joxad.zikobot.data.R;
-import com.joxad.zikobot.data.module.lyrics.LyricsInterceptor;
 import com.joxad.zikobot.data.module.lyrics.LyricsService;
 import com.joxad.zikobot.data.module.lyrics.model.LyricResult;
 
@@ -31,8 +29,8 @@ public class LyricsManager {
 
     public void init(Context context) {
         this.context = context;
-        LyricsRetrofit lyricsRetrofit = new LyricsRetrofit(context.getString(R.string.lyrics_wikia_url), new LyricsInterceptor(context));
-        this.retrofit = lyricsRetrofit.retrofit();
+        //   LyricsRetrofit lyricsRetrofit = new LyricsRetrofit(context.getString(R.string.lyrics_wikia_url), new LyricsInterceptor(context));
+        // this.retrofit = lyricsRetrofit.retrofit();
         lyricsService = retrofit.create(LyricsService.class);
     }
 

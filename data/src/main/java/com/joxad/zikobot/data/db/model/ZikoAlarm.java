@@ -1,7 +1,7 @@
 package com.joxad.zikobot.data.db.model;
 
 
-import com.joxad.zikobot.data.db.MusicAlarmDatabase;
+import com.joxad.zikobot.data.db.ZikoDB;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -14,7 +14,7 @@ import lombok.Setter;
 /**
  * Created by josh on 08/03/16.
  */
-@Table(database = MusicAlarmDatabase.class)
+@Table(database = ZikoDB.class)
 public class ZikoAlarm extends BaseModel {
 
     @ForeignKey(stubbedRelationship = true)

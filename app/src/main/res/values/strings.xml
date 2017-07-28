@@ -36,7 +36,6 @@
     <string name="activity_my_account">My accounts</string>
 
 
-    <!--> ActivityAlarm <-->
     <string name="activity_alarm_new">Create a new playlist</string>
     <string name="alarm_hint_hour">Select the hour</string>
 

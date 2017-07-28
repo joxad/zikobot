@@ -14,11 +14,13 @@ import okhttp3.Response;
 /**
  * Created by josh on 15/06/16.
  */
-@Data
-@AllArgsConstructor(suppressConstructorProperties = true)
 public class LyricsInterceptor implements Interceptor {
 
     private final Context context;
+
+    public LyricsInterceptor(Context context) {
+        this.context = context;
+    }
 
     @Override
     public Response intercept(Chain chain) throws IOException {

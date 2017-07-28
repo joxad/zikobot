@@ -80,7 +80,7 @@ public class SpotifyApiManager {
     }
 
     /**
-     * Get tracks from an album using its id
+     * Get tracks local an album using its id
      *
      * @param id
      * @return

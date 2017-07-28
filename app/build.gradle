@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -8,6 +9,13 @@ def keystore_file = properties.getProperty('keystore.file')
 def file_password = properties.getProperty('file.password')
 def key_alias = properties.getProperty('keystore.alias')
 def key_password = properties.getProperty('keystore.password')
+
+def major = 2
+def minor = 0
+def patch = 0
+
+def version = "${major}.${minor}.${patch}"
+def code = major * 10000 + minor * 1000 + patch * 100;
 
 android {
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
@@ -20,8 +28,8 @@ android {
         applicationId "com.startogamu.zikobot"
         minSdkVersion rootProject.ext.androidMinSdkVersion
         targetSdkVersion rootProject.ext.androidTargetSdkVersion
-        versionCode buildVersionCode()
-        versionName VERSION_NAME
+        versionCode code
+        versionName version
         multiDexEnabled true
 
     }
@@ -63,7 +71,6 @@ android {
             proguardFile 'proguard/proguard-google-play-services.pro'
             proguardFile 'proguard/proguard-gson.pro'
             proguardFile 'proguard/proguard-joda-time-android.pro'
-            proguardFile 'proguard/proguard-parceler.pro'
             proguardFile 'proguard/proguard-realm.pro'
             proguardFile 'proguard/proguard-retrolambda.pro'
             proguardFile 'proguard/proguard-rx-android.pro'
@@ -87,51 +94,23 @@ android {
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    // compile project(":deezersdk")
     testCompile 'junit:junit:4.12'
-    compile libs.butterKnife
-    annotationProcessor libs.butterKnifeCompiler
-
-    annotationProcessor libs.dbFlowProc
-    annotationProcessor libs.parceler
     compile libs.appCompat
     compile libs.circleIV
-    compile libs.customTabs
-    compile libs.dbFlowCore
-    compile libs.dbFlow
+    compile libs.cardView
     compile libs.design
-    compile libs.dialogTimePicker
-    compile libs.easyDataBinding
-    compile libs.eventBus
-    compile libs.gson
-    compile libs.glide
-    compile libs.logger
-    compile libs.materialRipple
-    compile libs.okHttpInterceptor
-    compile libs.parcelerApi
-    compile libs.percent
     compile libs.recyclerView
-    compile libs.retrofit
-    compile libs.retrofitConverterGson
-    compile libs.retrofitAdapterRxJava
-    compile libs.rxAndroid
-    compile libs.rxBindings
     compile libs.support
     provided libs.javaxAnnotation
-    compile('com.mikepenz:aboutlibraries:5.9.6@aar') {
-        transitive = true
-    }
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
 
-    compile 'com.deezer.sdk:deezer-sdk:0.10.20@aar'
     compile 'com.github.claucookie.miniequalizer:library:1.0.0'
-    compile 'com.android.support:multidex:1.0.1'
     compile(name: 'vlc-android-sdk', ext: 'aar')
-    compile 'com.github.andrewlord1990:snackbarbuilder:0.8.0'
-    wearApp project(path: ':wear')
     compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
@@ -140,16 +119,13 @@ dependencies {
         exclude module: 'httpclient' //by artifact name
         exclude group: 'org.apache.httpcomponents' //by group
         exclude group: 'org.apache.httpcomponents', module: 'httpclient' //by both name and group
-
     }
     compile 'com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT'
-    compile 'com.tonyodev.fetch:fetch:1.1.2'
-    compile 'com.novoda:merlin:1.0.0'
-    compile 'com.instabug.library:instabug:4.2.2'
-
-    provided libs.lombok
-    annotationProcessor libs.lombok
-
     compile project(path: ':data')
+    kapt 'com.android.databinding:compiler:3.0.0-alpha8'
+
+    compile project(path: ':androidcoreutils:core')
+    compile 'com.facebook.stetho:stetho:1.5.0'
+
 }
 

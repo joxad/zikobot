@@ -11,20 +11,5 @@ public class LocalArtist {
     protected long id;
     @Getter
     protected String name;
-    @Getter
-    protected int nbAlbums;
-    @Getter
-    @Setter
-    protected String image;
-
-    public LocalArtist() {
-    }
-
-    public LocalArtist(long id, String name, int nbAlbums) {
-        this.id = id;
-        this.name = name;
-        this.nbAlbums = nbAlbums;
-    }
-
 
 }

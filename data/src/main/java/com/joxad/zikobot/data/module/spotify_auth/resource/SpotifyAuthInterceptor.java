@@ -13,13 +13,15 @@ import okhttp3.Response;
 /***
  *
  */
-@Data
-@AllArgsConstructor(suppressConstructorProperties = true)
 public class SpotifyAuthInterceptor implements Interceptor {
 
     private final String clientId;
     private final String clientSecret;
 
+    public SpotifyAuthInterceptor(String clientId, String clientSecret) {
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+    }
 
     @Override
     public Response intercept(Chain chain) throws IOException {

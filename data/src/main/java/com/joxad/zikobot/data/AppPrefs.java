@@ -3,7 +3,6 @@ package com.joxad.zikobot.data;
 import android.content.Context;
 import android.content.ContextWrapper;
 
-import com.deezer.sdk.model.User;
 import com.google.gson.Gson;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudUser;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyUser;
@@ -65,17 +64,6 @@ public class AppPrefs {
         if (user.equals(""))
             return null;
         return gson.fromJson(user, SpotifyUser.class);
-    }
-
-    public static void deezerUser(User deezerUser) {
-        Prefs.putString(DEEZER_USER, gson.toJson(deezerUser));
-    }
-
-    public static User deezerUser() {
-        String user = Prefs.getString(DEEZER_USER, "");
-        if (user.equals(""))
-            return null;
-        return gson.fromJson(user, User.class);
     }
 
     public static void saveSoundCloudAccessToken(String accessToken) {

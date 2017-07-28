@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 25
@@ -25,22 +27,17 @@ android {
     }
 }
 
+def dbflow_version = "4.0.4"
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
-    annotationProcessor libs.dbFlowProc
-    compile libs.eventBus
-    compile libs.support
-    compile libs.customTabs
     compile libs.easyPrefs
 
-    compile libs.dbFlowCore
-    compile libs.dbFlow
-    compile libs.logger
     compile libs.okHttpInterceptor
 
     compile libs.retrofit
@@ -50,10 +47,19 @@ dependencies {
 
     provided libs.lombok
     annotationProcessor libs.lombok
+    compile 'com.tonyodev.fetch:fetch:1.1.2'
 
     compile(name: 'vlc-android-sdk', ext: 'aar')
-    compile 'com.deezer.sdk:deezer-sdk:0.10.20@aar'
     compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
 
 
+}
+// if you're building with Kotlin
+kapt {
+    generateStubs = true
 }

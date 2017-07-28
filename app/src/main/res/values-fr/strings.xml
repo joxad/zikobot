@@ -35,7 +35,6 @@
     <string name="activity_music_local">Ma bibliothèque musicale</string>
     <string name="activity_my_account">Mes comptes</string>
 
-    <!--> ActivityAlarm <-->
     <string name="activity_alarm_new">Créer une nouvelle playlist</string>
     <string name="alarm_hint_hour">Sélectionner l\'heure</string>
 

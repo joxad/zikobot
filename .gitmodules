@@ -1,0 +1,3 @@
+[submodule "androidcoreutils"]
+	path = androidcoreutils
+	url = https://github.com/joxad/androidcoreutils.git
