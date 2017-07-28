@@ -23,7 +23,9 @@ android {
     dataBinding {
         enabled = true
     }
-
+    dexOptions {
+        preDexLibraries = false
+    }
     defaultConfig {
         applicationId "com.startogamu.zikobot"
         minSdkVersion rootProject.ext.androidMinSdkVersion
@@ -95,12 +97,8 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile libs.appCompat
     compile libs.circleIV
     compile libs.cardView
-    compile libs.design
-    compile libs.recyclerView
-    compile libs.support
     provided libs.javaxAnnotation
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 

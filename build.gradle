@@ -48,7 +48,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-apply from: 'gradle/tasks/imports.gradle'
+apply from: 'androidcoreutils/gradle/tasks/imports.gradle'
 
 
 ext {
