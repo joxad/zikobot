@@ -39,7 +39,9 @@ android {
         jni.srcDirs = []
         jniLibs.srcDir 'libs'
     }
-
+    kapt {
+        correctErrorTypes = true
+    }
 
     signingConfigs {
         release {

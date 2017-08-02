@@ -5,6 +5,7 @@
 
     <data>
 
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers"/>
         <variable
             name="artistsFragmentVM"
             type="com.startogamu.zikobot.home.artists.ArtistsFragmentVM" />
