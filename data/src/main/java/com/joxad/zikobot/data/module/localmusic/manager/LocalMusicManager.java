@@ -2,13 +2,18 @@ package com.joxad.zikobot.data.module.localmusic.manager;
 
 import android.content.Context;
 
-import com.joxad.zikobot.data.db.ZikoDB;
 import com.joxad.zikobot.data.db.model.ZikoAlbum;
+import com.joxad.zikobot.data.db.model.ZikoAlbum_Table;
 import com.joxad.zikobot.data.db.model.ZikoArtist;
 import com.joxad.zikobot.data.db.model.ZikoArtist_Table;
 import com.joxad.zikobot.data.db.model.ZikoTrack;
 import com.joxad.zikobot.data.db.model.ZikoTrack_Table;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
+import com.raizlabs.android.dbflow.sql.language.Select;
+
+import io.reactivex.Observable;
+import io.reactivex.observables.ConnectableObservable;
+
 
 /**
  * Created by Josh on 06/04/2016.
@@ -21,33 +26,54 @@ public enum LocalMusicManager {
 
     public void init(Context context) {
         this.context = context;
+
+    }
+
+    private Observable<Boolean> observeSynchro() {
+        return Observable.fromCallable(() -> {
+            syncLocalData();
+            return true;
+        });
+    }
+
+    public Observable<Boolean> share() {
+        return observeSynchro().share();
     }
 
     public void syncLocalData() {
         for (LocalTrack localTrack : TrackLoader.getAllTracks(context)) {
-            createTrack(localTrack);
-            createArtistIfNeed(localTrack.getArtistId(), localTrack.getArtistName());
-            //     createAlbumIfNeed(localTrack.getAlbumId(), localTrack.getAlbumName(), localTrack.getArtistId(), localTrack.getArtistName());
+            ZikoArtist zikoArtist = createArtistIfNeed(localTrack.getArtistId(), localTrack.getArtistName());
+            ZikoAlbum zikoAlbum = createAlbumIfNeed(localTrack.getAlbumId(), localTrack.getAlbumName(), zikoArtist);
+            createTrack(localTrack, zikoArtist, zikoAlbum);
         }
     }
 
-    private void createAlbumIfNeed(int albumId, String albumName, int artistId, String artistName) {
-        //if (!ZikoDB.exists(ZikoAlbum.class, ZikoAlbum))
-        ZikoAlbum zikoAlbum = new ZikoAlbum(albumId, albumName);
-        zikoAlbum.save();
-    }
 
-    private void createArtistIfNeed(long artistId, String artistName) {
-        if (!ZikoDB.exists(ZikoArtist.class, ZikoArtist_Table.localId.eq(artistId))) {
-            ZikoArtist zikoArtist = ZikoArtist.local(artistId, artistName);
+    private ZikoArtist createArtistIfNeed(long artistId, String artistName) {
+        ZikoArtist zikoArtist = new Select().from(ZikoArtist.class).where(ZikoArtist_Table.localId.eq(artistId)).querySingle();
+        if (zikoArtist == null) {
+            zikoArtist = ZikoArtist.local(artistId, artistName);
             zikoArtist.save();
         }
+        return zikoArtist;
     }
 
-    private void createTrack(LocalTrack localTrack) {
-        if (!ZikoDB.exists(ZikoTrack.class, ZikoTrack_Table.ref.eq(localTrack.getData()))) {
-            ZikoTrack zikoTrack = ZikoTrack.local(localTrack);
+    private ZikoAlbum createAlbumIfNeed(long albumId, String albumName, ZikoArtist zikoArtist) {
+        ZikoAlbum zikoAlbum = new Select().from(ZikoAlbum.class).where(ZikoAlbum_Table.localId.eq(albumId)).querySingle();
+        if (zikoAlbum == null) {
+            zikoAlbum = ZikoAlbum.Companion.local(albumId, albumName, zikoArtist);
+            zikoAlbum.save();
+        }
+        return zikoAlbum;
+    }
+
+
+    private ZikoTrack createTrack(LocalTrack localTrack, ZikoArtist artist, ZikoAlbum album) {
+        ZikoTrack zikoTrack = new Select().from(ZikoTrack.class).where(ZikoTrack_Table.localId.eq(localTrack.getId())).querySingle();
+        if (zikoTrack == null) {
+            zikoTrack = ZikoTrack.local(localTrack, artist, album);
             zikoTrack.save();
         }
+        return zikoTrack;
     }
 }

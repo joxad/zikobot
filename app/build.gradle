@@ -53,11 +53,7 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-            applicationVariants.all { variant ->
-                variant.outputs.all {
-                    outputFileName = "${variant.name}-${variant.versionName}.apk"
-                }
-            }
+
         }
         release {
             minifyEnabled false
@@ -101,11 +97,12 @@ dependencies {
     compile libs.cardView
     provided libs.javaxAnnotation
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile (libs.easyDataBinding)
 
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
+        transitive = true
     }
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
 
     compile 'com.github.claucookie.miniequalizer:library:1.0.0'
     compile(name: 'vlc-android-sdk', ext: 'aar')

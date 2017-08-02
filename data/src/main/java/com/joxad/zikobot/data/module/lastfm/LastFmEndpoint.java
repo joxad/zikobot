@@ -5,7 +5,7 @@ import com.joxad.zikobot.data.module.lastfm.model.LastFmSearchResult;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by linux on 7/25/17.

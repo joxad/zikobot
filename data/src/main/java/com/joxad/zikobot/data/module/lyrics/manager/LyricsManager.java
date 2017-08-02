@@ -5,10 +5,11 @@ import android.content.Context;
 import com.joxad.zikobot.data.module.lyrics.LyricsService;
 import com.joxad.zikobot.data.module.lyrics.model.LyricResult;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Retrofit;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by josh on 02/08/16.

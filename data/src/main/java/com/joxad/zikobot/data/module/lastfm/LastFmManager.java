@@ -10,7 +10,7 @@ import java.util.List;
 
 import okhttp3.HttpUrl;
 import okhttp3.Request;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by linux on 7/25/17.

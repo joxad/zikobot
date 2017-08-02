@@ -21,9 +21,9 @@ import java.net.URLEncoder;
 import java.util.Locale;
 
 import retrofit2.Retrofit;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /***
  * {@link SpotifyApiManager} est initialisé au lancement de l'application et permet d'utiliser les méthodes

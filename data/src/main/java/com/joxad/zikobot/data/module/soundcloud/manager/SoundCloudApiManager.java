@@ -13,9 +13,9 @@ import com.joxad.zikobot.data.module.soundcloud.resource.SoundCloudApiIntercepto
 import java.util.ArrayList;
 
 import retrofit2.Retrofit;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by josh on 15/06/16.

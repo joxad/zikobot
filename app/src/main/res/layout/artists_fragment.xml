@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
-        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
-
         <variable
-            name="albumsFragmentVM"
-            type="com.startogamu.zikobot.home.albums.AlbumsFragmentVM" />
+            name="artistsFragmentVM"
+            type="com.startogamu.zikobot.home.artists.ArtistsFragmentVM" />
     </data>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:itemBinding="@{albumsFragmentVM.itemBinding}"
-        app:items="@{albumsFragmentVM.items}"
+        app:itemBinding="@{artistsFragmentVM.itemBinding}"
+        app:items="@{artistsFragmentVM.items}"
         app:layoutManager="@{LayoutManagers.grid(1)}" />
 
 

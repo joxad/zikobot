@@ -11,7 +11,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 /**
  * Created by josh on 08/08/16.
  */
-@Table(database = ZikoDB.class, insertConflict = ConflictAction.IGNORE)
+@Table(database = ZikoDB.class, insertConflict = ConflictAction.REPLACE)
 public class ZikoArtist extends BaseModel {
 
     @PrimaryKey(autoincrement = true)

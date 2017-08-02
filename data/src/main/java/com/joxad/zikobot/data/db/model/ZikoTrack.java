@@ -7,6 +7,7 @@ import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack;
 import com.joxad.zikobot.data.module.youtube.VideoItem;
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ConflictAction;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
@@ -17,57 +18,55 @@ import org.videolan.libvlc.Media;
 /**
  * Created by josh on 29/03/16.
  */
-@Table(database = ZikoDB.class)
+@Table(database = ZikoDB.class, insertConflict = ConflictAction.REPLACE)
 public class ZikoTrack extends BaseModel {
 
-    @ForeignKey(saveForeignKeyModel = false, stubbedRelationship = true)
-    public ZikoPlaylist zikoPlaylistForeignKey;
 
     @PrimaryKey(autoincrement = true)
     @Column
     protected long id;
+
     @Column
-
-
     protected String name;
+
     @Column
+    protected int localId;
 
-
+    @Column
     protected int type;
     @Column
-
-
     protected String ref;
+
     @Column
-
-
-    protected String artistName;
-    @Column
-
-
-    protected String artistId;
-    @Column
-
-
     protected String activated;
     @Column
-
-
     protected long duration;
+
+    @Column
+    @ForeignKey(saveForeignKeyModel = false, stubbedRelationship = true)
+    public ZikoPlaylist zikoPlaylist;
+    @Column
+    @ForeignKey(saveForeignKeyModel = false, stubbedRelationship = true)
+    public ZikoArtist zikoArtist;
+    @Column
+    @ForeignKey(saveForeignKeyModel = false, stubbedRelationship = true)
+    public ZikoAlbum zikoAlbum;
+
 
     public ZikoTrack() {
         this.type = TYPE.LOCAL;
-        this.artistName = "Loading";
         this.name = "Loading";
     }
 
 
-    public static ZikoTrack local(LocalTrack localTrack) {
+    public static ZikoTrack local(LocalTrack localTrack, ZikoArtist zikoArtist, ZikoAlbum zikoAlbum) {
         ZikoTrack track = new ZikoTrack();
         track.setType(TYPE.LOCAL);
         track.setId(localTrack.getId());
         track.setRef(localTrack.getData());
-        track.setArtistName(localTrack.getArtistName());
+        track.setLocalId(localTrack.getId());
+        track.associateArtist(zikoArtist);
+        track.associateAlbum(zikoAlbum);
         track.setName(localTrack.getTitle());
         track.setDuration((int) localTrack.getDuration());
         return track;
@@ -78,8 +77,8 @@ public class ZikoTrack extends BaseModel {
         track.setType(TYPE.SPOTIFY);
         track.setRef("spotify:track:" + spotifyTrack.getId());
         if (spotifyTrack.getArtists() != null) {
-            track.setArtistName(spotifyTrack.getArtists().get(0).getName());
-            track.setArtistId(spotifyTrack.getArtists().get(0).getId());
+            //    track.setArtistName(spotifyTrack.getArtists().get(0).getName());
+            //  track.setArtistId(spotifyTrack.getArtists().get(0).getId());
         }
         track.setName(spotifyTrack.getName());
         track.setDuration(spotifyTrack.getDuration());
@@ -94,7 +93,7 @@ public class ZikoTrack extends BaseModel {
         ZikoTrack track = new ZikoTrack();
         track.setType(TYPE.YOUTUBE);
         track.setRef(videoItem.getRef());
-        track.setArtistName(videoItem.getDescription());
+        // track.setArtistName(videoItem.getDescription());
         track.setName(videoItem.getTitle());
         track.setDuration(videoItem.getDuration());
         return track;
@@ -108,8 +107,7 @@ public class ZikoTrack extends BaseModel {
         ZikoTrack track = new ZikoTrack();
         track.setType(TYPE.SOUNDCLOUD);
         track.setRef(soundCloudTrack.getStreamUrl());
-        track.setArtistName(soundCloudTrack.getUser().getUsername());
-        track.setArtistId("" + soundCloudTrack.getUser().getId());
+        //  track.associateArtist();
         track.setName(soundCloudTrack.getTitle());
         track.setDuration(soundCloudTrack.getDuration());
         return track;
@@ -124,15 +122,15 @@ public class ZikoTrack extends BaseModel {
     }
 
     public void associatePlaylist(ZikoPlaylist playlist) {
-        zikoPlaylistForeignKey = playlist;
+        zikoPlaylist = playlist;
     }
 
-    public void associateAlbum(ZikoPlaylist playlist) {
-        zikoPlaylistForeignKey = playlist;
+    public void associateAlbum(ZikoAlbum album) {
+        zikoAlbum = album;
     }
 
-    public void associateArtist(ZikoPlaylist playlist) {
-        zikoPlaylistForeignKey = playlist;
+    public void associateArtist(ZikoArtist artist) {
+        zikoArtist = artist;
     }
 
     public long getId() {
@@ -167,22 +165,6 @@ public class ZikoTrack extends BaseModel {
         this.ref = ref;
     }
 
-    public String getArtistName() {
-        return artistName;
-    }
-
-    public void setArtistName(String artistName) {
-        this.artistName = artistName;
-    }
-
-    public String getArtistId() {
-        return artistId;
-    }
-
-    public void setArtistId(String artistId) {
-        this.artistId = artistId;
-    }
-
     public String getActivated() {
         return activated;
     }
@@ -193,6 +175,10 @@ public class ZikoTrack extends BaseModel {
 
     public long getDuration() {
         return duration;
+    }
+
+    public void setLocalId(int localId) {
+        this.localId = localId;
     }
 
     public void setDuration(long duration) {

@@ -3,13 +3,16 @@ package com.startogamu.zikobot.home
 import android.os.Bundle
 import com.joxad.androidtemplate.core.adapter.GenericFragmentAdapter
 import com.joxad.androidtemplate.core.fragment.FragmentTab
-
+import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.activity.ActivityBaseVM
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.HomeActivityBinding
-import com.startogamu.zikobot.home.playlists.PlaylistsFragment
-import com.tbruyelle.rxpermissions.RxPermissions
+import com.startogamu.zikobot.home.albums.AlbumsFragment
+import com.startogamu.zikobot.home.artists.ArtistsFragment
+import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.schedulers.Schedulers
+
 
 /**
  * Created by Jocelyn on 27/07/2017.
@@ -25,8 +28,8 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
         val genericFragmentAdapter = object : GenericFragmentAdapter(activity) {
             override fun tabTitles(): List<FragmentTab>? {
                 return arrayListOf(
-                        FragmentTab(activity?.getString(R.string.drawer_my_playlists), PlaylistsFragment.newInstance()),
-                        FragmentTab(activity?.getString(R.string.drawer_filter_artiste), PlaylistsFragment.newInstance())
+                        FragmentTab(activity?.getString(R.string.drawer_filter_artiste), ArtistsFragment.newInstance()),
+                        FragmentTab(activity?.getString(R.string.drawer_filter_album), AlbumsFragment.newInstance())
                 )
             }
         }
@@ -37,7 +40,16 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
                 .subscribe({
                     granted ->
                     if (granted)
-                        LocalMusicManager.INSTANCE.syncLocalData()
+                        startSyncService()
+                })
+    }
+
+    private fun startSyncService() {
+        LocalMusicManager.INSTANCE.share()
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    done ->
+                    AppLog.INSTANCE.d("Synchro", "Done")
                 })
     }
 

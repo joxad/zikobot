@@ -3,9 +3,9 @@ package com.joxad.zikobot.data.module.discogs;
 import com.joxad.zikobot.data.module.discogs.model.DiscogsBaseSearchResult;
 
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * Created by linux on 7/25/17.

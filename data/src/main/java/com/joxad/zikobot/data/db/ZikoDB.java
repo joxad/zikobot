@@ -1,10 +1,9 @@
 package com.joxad.zikobot.data.db;
 
-import com.joxad.zikobot.data.db.model.ZikoArtist;
-import com.joxad.zikobot.data.db.model.ZikoArtist_Table;
 import com.raizlabs.android.dbflow.annotation.Database;
 import com.raizlabs.android.dbflow.sql.language.SQLOperator;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 @Database(name = ZikoDB.NAME, version = ZikoDB.VERSION)
 public class ZikoDB {
@@ -20,7 +19,7 @@ public class ZikoDB {
                 where(sqlOperator).
                 count();
 
-        return count>=0;
+        return count>0;
     }
 
 }

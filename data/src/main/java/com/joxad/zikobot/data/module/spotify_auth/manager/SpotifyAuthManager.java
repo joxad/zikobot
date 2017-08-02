@@ -14,10 +14,10 @@ import com.joxad.zikobot.data.module.spotify_auth.resource.SpotifyAuthService;
 import java.io.UnsupportedEncodingException;
 
 import retrofit2.Retrofit;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /****
  * {@link SpotifyAuthManager} will handle the connexion to the auth api of spotify

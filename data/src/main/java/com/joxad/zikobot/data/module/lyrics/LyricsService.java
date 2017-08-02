@@ -5,7 +5,7 @@ import com.joxad.zikobot.data.module.lyrics.model.LyricResult;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Query;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by josh on 02/08/16.

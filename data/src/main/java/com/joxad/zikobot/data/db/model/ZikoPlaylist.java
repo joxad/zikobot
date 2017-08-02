@@ -61,7 +61,7 @@ public class ZikoPlaylist extends BaseModel {
     public List<ZikoTrack> getTracks() {
         tracks = SQLite.select()
                 .from(ZikoTrack.class)
-                .where(ZikoTrack_Table.zikoPlaylistForeignKey_id.eq(id))
+                .where(ZikoTrack_Table.zikoPlaylist_id.eq(id))
                 .queryList();
 
         return tracks;
