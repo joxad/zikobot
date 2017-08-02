@@ -11,9 +11,10 @@
             type="com.startogamu.zikobot.home.albums.AlbumsFragmentVM" />
     </data>
 
-    <android.support.v7.widget.RecyclerView
+    <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layoutAnimation="@anim/grid_animation"
         app:itemBinding="@{albumsFragmentVM.itemBinding}"
         app:items="@{albumsFragmentVM.items}"
         app:layoutManager="@{LayoutManagers.grid(1)}" />

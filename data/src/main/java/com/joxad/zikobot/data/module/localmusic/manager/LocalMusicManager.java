@@ -12,7 +12,7 @@ import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import io.reactivex.Observable;
-import io.reactivex.observables.ConnectableObservable;
+import io.reactivex.subjects.BehaviorSubject;
 
 
 /**
@@ -24,21 +24,22 @@ public enum LocalMusicManager {
 
     private Context context;
 
+    public BehaviorSubject<Boolean> synchroDone;
+
     public void init(Context context) {
         this.context = context;
+        synchroDone = BehaviorSubject.create();
 
     }
 
-    private Observable<Boolean> observeSynchro() {
+    public Observable<Boolean> observeSynchro() {
         return Observable.fromCallable(() -> {
             syncLocalData();
+            synchroDone.onNext(true);
             return true;
         });
     }
 
-    public Observable<Boolean> share() {
-        return observeSynchro().share();
-    }
 
     public void syncLocalData() {
         for (LocalTrack localTrack : TrackLoader.getAllTracks(context)) {
@@ -59,7 +60,10 @@ public enum LocalMusicManager {
     }
 
     private ZikoAlbum createAlbumIfNeed(long albumId, String albumName, ZikoArtist zikoArtist) {
-        ZikoAlbum zikoAlbum = new Select().from(ZikoAlbum.class).where(ZikoAlbum_Table.localId.eq(albumId)).querySingle();
+        ZikoAlbum zikoAlbum = new Select().from(ZikoAlbum.class)
+                .where(ZikoAlbum_Table.localId.eq(albumId))
+                .or(ZikoAlbum_Table.name.like(albumName))
+                .querySingle();
         if (zikoAlbum == null) {
             zikoAlbum = ZikoAlbum.Companion.local(albumId, albumName, zikoArtist);
             zikoAlbum.save();

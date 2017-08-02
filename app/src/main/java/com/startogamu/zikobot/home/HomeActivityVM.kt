@@ -11,6 +11,7 @@ import com.startogamu.zikobot.databinding.HomeActivityBinding
 import com.startogamu.zikobot.home.albums.AlbumsFragment
 import com.startogamu.zikobot.home.artists.ArtistsFragment
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
@@ -36,20 +37,28 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
         binding.viewPager.adapter = genericFragmentAdapter
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         val rxPermission = RxPermissions(activity)
-        rxPermission.request(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                .subscribe({
-                    granted ->
-                    if (granted)
-                        startSyncService()
-                })
+        if (!rxPermission.isGranted(android.Manifest.permission.READ_EXTERNAL_STORAGE))
+            rxPermission.request(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .subscribe({
+                        granted ->
+                        if (granted) {
+                            binding.homeActivitySrl.isRefreshing = true
+                            startSyncService()
+                        }
+                    })
+        binding.homeActivitySrl.setOnRefreshListener {
+            startSyncService()
+        }
     }
 
     private fun startSyncService() {
-        LocalMusicManager.INSTANCE.share()
+        LocalMusicManager.INSTANCE.observeSynchro()
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     done ->
                     AppLog.INSTANCE.d("Synchro", "Done")
+                    binding.homeActivitySrl.isRefreshing=false
                 })
     }
 

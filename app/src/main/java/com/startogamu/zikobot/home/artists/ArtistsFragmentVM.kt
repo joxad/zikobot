@@ -2,9 +2,9 @@ package com.startogamu.zikobot.home.artists
 
 import android.os.Bundle
 import com.joxad.easydatabinding.fragment.v4.FragmentRecyclerBaseVM
-import com.joxad.zikobot.data.db.model.ZikoArtist
+import com.joxad.zikobot.data.db.ArtistManager
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager
-import com.raizlabs.android.dbflow.sql.language.SQLite
+import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.ArtistsFragmentBinding
@@ -28,17 +28,23 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
 
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
-        LocalMusicManager.INSTANCE.share().subscribeOn(Schedulers.io())
+        LocalMusicManager.INSTANCE.synchroDone
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { o ->
-                    val list = SQLite.select()
-                            .from(ZikoArtist::class.java)
-                            .queryList()
-                    items.clear()
+                .subscribe(this::updateList)
+    }
+
+    private fun updateList(done: Boolean) {
+        if (!done)
+            return
+        items.clear()
+        ArtistManager.findAll()
+                .list { list ->
                     for (artist in list) {
                         items.add(ArtistVM(fragment.context, artist))
                     }
                 }
+
     }
 
     companion object {
