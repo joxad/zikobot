@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName;
 public class LastFmResult {
 
 
-        @SerializedName("opensearch:totalResults")
-        @Expose
-        private String opensearchTotalResults;
+    @SerializedName("opensearch:totalResults")
+    @Expose
+    private String opensearchTotalResults;
     @SerializedName("opensearch:startIndex")
     @Expose
     private String opensearchStartIndex;
@@ -18,6 +18,9 @@ public class LastFmResult {
     @SerializedName("artistmatches")
     @Expose
     private Artistmatches artistmatches;
+    @SerializedName("albummatches")
+    @Expose
+    private Albummatches albummatches;
 
 
     public String getOpensearchTotalResults() {
@@ -48,7 +51,11 @@ public class LastFmResult {
         return artistmatches;
     }
 
+    public Albummatches getAlbummatches() {
+        return albummatches;
+    }
+
     public void setArtistmatches(Artistmatches artistmatches) {
         this.artistmatches = artistmatches;
     }
-    }
+}

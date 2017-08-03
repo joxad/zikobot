@@ -5,17 +5,17 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Artistmatches {
+public class Albummatches {
 
-    @SerializedName("artist")
+    @SerializedName("album")
     @Expose
-    private List<Artist> artist = null;
+    private List<Album> artist = null;
 
-    public List<Artist> getArtist() {
+    public List<Album> getAlbum() {
         return artist;
     }
 
-    public void setArtist(List<Artist> artist) {
+    public void setAlbum(List<Album> artist) {
         this.artist = artist;
     }
 

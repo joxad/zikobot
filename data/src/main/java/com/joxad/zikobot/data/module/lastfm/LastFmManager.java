@@ -3,14 +3,15 @@ package com.joxad.zikobot.data.module.lastfm;
 import android.content.Context;
 
 import com.joxad.zikobot.data.R;
+import com.joxad.zikobot.data.module.lastfm.model.Album;
 import com.joxad.zikobot.data.module.lastfm.model.Artist;
 import com.joxad.zikobot.data.ws.RetrofitBase;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
-import io.reactivex.Observable;
 
 /**
  * Created by linux on 7/25/17.
@@ -35,14 +36,27 @@ public enum LastFmManager {
     }
 
 
-    public Observable<List<Artist>> search(final String query, final String type) {
-        return endpoint.search(query, type).flatMap(discogsBaseSearchResult -> Observable.just(discogsBaseSearchResult.result.getArtistmatches().getArtist()));
+    public Observable<List<Artist>> searchArtist(final String type, final String name) {
+        return endpoint.searchArtist(type, name).flatMap(lastFmSearchResult -> Observable.just(lastFmSearchResult.result.getArtistmatches().getArtist()));
+    }
+
+    public Observable<List<Album>> searchAlbum(final String type, final String name) {
+        return endpoint.searchAlbum(type, name).flatMap(lastFmSearchResult -> Observable.just(lastFmSearchResult.result.getAlbummatches().getAlbum()));
     }
 
     public Observable<Artist> findArtist(final String name) {
-        return search("artist.search", name).flatMap(discogsResults -> {
-            if (!discogsResults.isEmpty())
-                return Observable.just(discogsResults.get(0));
+        return searchArtist("artist.search", name).flatMap(results -> {
+            if (!results.isEmpty())
+                return Observable.just(results.get(0));
+            else
+                return Observable.just(null);
+        });
+    }
+
+    public Observable<Album> findAlbum(final String name) {
+        return searchAlbum("album.search", name).flatMap(results -> {
+            if (!results.isEmpty())
+                return Observable.just(results.get(0));
             else
                 return Observable.just(null);
         });

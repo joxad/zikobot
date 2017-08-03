@@ -16,12 +16,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatImageView
                 android:layout_width="@dimen/image_card_height_large"
                 android:layout_height="@dimen/image_card_height_large"
-                app:srcCompat="@drawable/ic_vinyl_64" />
+                android:background="@drawable/ic_vinyl"
+                app:imageUrl="@{albumVM.image}"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

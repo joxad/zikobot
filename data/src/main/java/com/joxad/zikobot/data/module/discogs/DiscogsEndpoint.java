@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 
 interface DiscogsEndpoint {
 
-    @GET("database/search")
+    @GET("database/searchArtist")
     Observable<DiscogsBaseSearchResult> search(@Query("q") final String query, @Query("type") final String type);
 
 }

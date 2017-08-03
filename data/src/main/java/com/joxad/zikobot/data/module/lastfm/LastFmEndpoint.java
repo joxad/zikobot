@@ -14,6 +14,9 @@ import io.reactivex.Observable;
 interface LastFmEndpoint {
 
     @GET("2.0/")
-    Observable<LastFmSearchResult> search(@Query("method") final String query, @Query("artist") final String type);
+    Observable<LastFmSearchResult> searchArtist(@Query("method") final String query, @Query("artist") final String name);
+
+    @GET("2.0/")
+    Observable<LastFmSearchResult> searchAlbum(@Query("method") final String query, @Query("album") final String name);
 
 }

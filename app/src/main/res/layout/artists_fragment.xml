@@ -5,18 +5,20 @@
 
     <data>
 
-        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers"/>
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+
         <variable
             name="artistsFragmentVM"
             type="com.startogamu.zikobot.home.artists.ArtistsFragmentVM" />
     </data>
 
-    <android.support.v7.widget.RecyclerView
+    <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layoutAnimation="@anim/grid_animation"
         app:itemBinding="@{artistsFragmentVM.itemBinding}"
         app:items="@{artistsFragmentVM.items}"
-        app:layoutManager="@{LayoutManagers.grid(1)}" />
+        app:layoutManager="@{LayoutManagers.grid(2)}" />
 
 
 </layout>

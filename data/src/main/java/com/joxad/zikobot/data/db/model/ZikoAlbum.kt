@@ -1,5 +1,6 @@
 package com.joxad.zikobot.data.db.model
 
+import android.provider.MediaStore
 import com.joxad.zikobot.data.db.ZikoDB
 import com.raizlabs.android.dbflow.annotation.*
 import com.raizlabs.android.dbflow.structure.BaseModel
@@ -19,7 +20,7 @@ class ZikoAlbum : BaseModel() {
     @Column
     lateinit var name: String
     @Column
-    var image: String? = null
+    lateinit var image: String
     @Column
     @ForeignKey(stubbedRelationship = false)
     var artist: ZikoArtist? = null
@@ -31,6 +32,7 @@ class ZikoAlbum : BaseModel() {
             zikoAlbum.localId = localId
             zikoAlbum.name = name
             zikoAlbum.artist = artist
+
             return zikoAlbum
         }
     }
