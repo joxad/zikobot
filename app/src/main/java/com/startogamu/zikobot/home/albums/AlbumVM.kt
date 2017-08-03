@@ -22,7 +22,9 @@ class AlbumVM
  * *
  * @param model
  */
-(context: Context, model: ZikoAlbum) : BaseVM<ZikoAlbum>(context, model) {
+(section : Boolean, context: Context, model: ZikoAlbum) : BaseVM<ZikoAlbum>(context, model) {
+
+
 
     override fun onCreate() {
         if (getImage().isNullOrEmpty()) {

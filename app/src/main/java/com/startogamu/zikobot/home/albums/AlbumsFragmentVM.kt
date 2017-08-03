@@ -3,6 +3,7 @@ package com.startogamu.zikobot.home.albums
 import android.os.Bundle
 import com.joxad.easydatabinding.fragment.v4.FragmentRecyclerBaseVM
 import com.joxad.zikobot.data.db.AlbumManager
+import com.joxad.zikobot.data.db.model.ZikoAlbum
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.startogamu.zikobot.BR
@@ -26,6 +27,7 @@ class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding,
 
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
+        updateList(true)
         LocalMusicManager.INSTANCE.synchroDone
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -40,11 +42,12 @@ class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding,
         AlbumManager.findAll()
                 .list { list ->
                     for (album in list) {
-                        items.add(AlbumVM(fragment.context, album))
+                        items.add(AlbumVM(false,fragment.context, album))
                     }
                 }
 
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

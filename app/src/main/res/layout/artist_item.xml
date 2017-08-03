@@ -24,10 +24,13 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/image_card_height_large"
-                android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
+
+                android:scaleType="centerCrop"
                 android:transitionName="@string/transition"
-                app:imageUrl="@{artistVM.image}" />
+                app:imageError="@{@drawable/ic_vinyl_64}"
+                app:imageUrl="@{artistVM.image}"
+                app:srcCompat="@drawable/ic_vinyl_64" />
 
             <LinearLayout
                 android:layout_width="match_parent"

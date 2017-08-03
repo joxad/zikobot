@@ -28,6 +28,7 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
 
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
+        updateList(true)
         LocalMusicManager.INSTANCE.synchroDone
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

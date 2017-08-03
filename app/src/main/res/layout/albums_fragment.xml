@@ -17,7 +17,7 @@
         android:layoutAnimation="@anim/grid_animation"
         app:itemBinding="@{albumsFragmentVM.itemBinding}"
         app:items="@{albumsFragmentVM.items}"
-        app:layoutManager="@{LayoutManagers.grid(1)}" />
+        app:layoutManager="@{LayoutManagers.grid(2)}" />
 
 
 </layout>
