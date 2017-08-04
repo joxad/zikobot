@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="accountLinkFragmentVM"
+            type="com.startogamu.zikobot.ftu.AccountLinkFragmentVM" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/background"
+                android:orientation="horizontal"
+                android:padding="@dimen/activity_horizontal_margin">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_zikobot_large" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="@string/account_link_ftu_title" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Si ça t'intéresse, tu peux te connecter à tes comptes musicaux ! (Je ne conserverai pas tes données personnelles, ne t'inquiètes pas !)" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="Un compte Spotify ? C'est par ici ! "
+                    android:textColor="@color/colorSpotify" />
+
+                <include
+                    android:id="@+id/cv_spotify"
+                    layout="@layout/view_button_account"
+                    app:buttonText="@{@string/connect}"
+                    app:show="@{true}"
+                    app:onClick="@{accountLinkFragmentVM.clickSpotify}"
+                    app:color="@{@color/colorSpotify}"
+                    app:icon="@{@drawable/ic_spotify_green}"
+                    app:title="@{@string/activity_music_spotify}" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="Plutôt SoundCloud ? Je le gère aussi ! "
+                    android:textColor="@color/colorSoundCloud" />
+
+
+                <include
+                    android:id="@+id/cv_soundcloud"
+                    layout="@layout/view_button_account"
+                    app:buttonText="@{@string/connect}"
+                    app:color="@{@color/colorSoundCloud}"
+                    app:icon="@{@drawable/logo_soundcloud}"
+                    app:title="@{@string/activity_music_soundcloud}" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+
+</layout>

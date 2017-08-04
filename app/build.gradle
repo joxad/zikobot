@@ -109,6 +109,8 @@ dependencies {
     compile 'com.github.claucookie.miniequalizer:library:1.0.0'
     compile(name: 'vlc-android-sdk', ext: 'aar')
     compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
+    compile 'com.spotify.android:auth:1.0.0-alpha'
+
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }

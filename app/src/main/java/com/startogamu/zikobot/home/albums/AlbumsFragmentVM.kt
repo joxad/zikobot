@@ -48,13 +48,7 @@ class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding,
 
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     companion object {
-
         private val TAG = AlbumsFragmentVM::class.java.simpleName
     }
 }

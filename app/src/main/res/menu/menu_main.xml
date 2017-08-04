@@ -11,7 +11,7 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_account"
+        android:id="@+id/menu_account"
         android:icon="@drawable/ic_account"
         android:orderInCategory="50"
         android:title="@string/drawer_account_add"

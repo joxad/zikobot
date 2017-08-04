@@ -4,6 +4,7 @@ import android.app.Application
 
 import com.facebook.stetho.Stetho
 import com.joxad.androidtemplate.core.log.AppLog
+import com.joxad.zikobot.data.AppPrefs
 import com.joxad.zikobot.data.db.ZikoDB
 import com.joxad.zikobot.data.module.lastfm.LastFmManager
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager
@@ -20,6 +21,7 @@ class ZikobotApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        AppPrefs.init(this)
         val databaseConfig = DatabaseConfig.Builder(ZikoDB::class.java).modelNotifier(DirectModelNotifier.get()).build()
         FlowManager.init(FlowConfig.Builder(this).addDatabaseConfig(databaseConfig).build())
         LocalMusicManager.INSTANCE.init(this)

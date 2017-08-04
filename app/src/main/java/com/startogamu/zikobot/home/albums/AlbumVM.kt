@@ -25,7 +25,6 @@ class AlbumVM
 (section : Boolean, context: Context, model: ZikoAlbum) : BaseVM<ZikoAlbum>(context, model) {
 
 
-
     override fun onCreate() {
         if (getImage().isNullOrEmpty()) {
             LastFmManager.INSTANCE.findAlbum("${getName()} ${getArtist()}")
