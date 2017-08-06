@@ -10,7 +10,7 @@
 
     <string name="deezer_web_view" formatted="false">https://connect.deezer.com/oauth/auth.php?app_id=%s&amp;redirect_uri=%s&amp;perms=basic_access,email,offline_access</string>
     <string name="deezer_base_auth_url">https://connect.deezer.com/oauth/</string>
-    <string name="api_spotify_callback_settings">spotify-callback://settings-activity/</string>
+    <string name="api_spotify_callback_settings">zikobot://callback</string>
     <string name="api_spotify_callback_web_view">http://zikobot.com/callback</string>
     <string name="api_soundcloud_callback">http://zikobot.com/soundcloud/callback</string>
     <string name="deezer_base_api_url">https://api.soundcloud.com</string>
@@ -31,5 +31,12 @@
     <string name="lastfm_key" translatable="false">c0800eed7704138da6c5ccdeae2e8fd0</string>
     <string name="lastfm_secret" translatable="false">6c5550434b028005fc92cf513068c048</string>
 
+    <string name="youtube_key" translatable="false">AIzaSyBFCKu0kRnhluh4_BIXOzXgUUk8v66_6yg</string>
+    <string name="activity_music_spotify">Spotify</string>
+    <string name="activity_music_deezer">Deezer</string>
+    <string name="activity_music_soundcloud">SoundCloud</string>
+    <string name="activity_music_youtube">Youtube</string>
+    <string name="com_spotify_sdk_redirect_scheme">spotify-callback</string>
+    <string name="com_spotify_sdk_redirect_host">settings-activity</string>
 
 </resources>

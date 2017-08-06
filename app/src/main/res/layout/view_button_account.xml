@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -9,32 +10,9 @@
             type="android.view.View" />
 
         <variable
-            name="show"
-            type="java.lang.Boolean" />
+            name="accountVM"
+            type="com.startogamu.zikobot.ftu.AAccountVM" />
 
-        <variable
-            name="onClick"
-            type="android.view.View.OnClickListener" />
-
-        <variable
-            name="title"
-            type="java.lang.String" />
-
-        <variable
-            name="buttonText"
-            type="java.lang.String" />
-
-        <variable
-            name="icon"
-            type="android.graphics.drawable.Drawable" />
-
-        <variable
-            name="color"
-            type="java.lang.Integer" />
-
-        <variable
-            name="deleteClick"
-            type="android.view.View.OnClickListener" />
 
     </data>
 
@@ -52,21 +30,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_logo"
                     android:layout_width="@dimen/icon_medium"
                     android:layout_height="@dimen/icon_medium"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="@dimen/margin_medium"
-                    android:src="@{icon}" />
+                    app:imageResource="@{accountVM.icon}" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_margin="@dimen/margin_medium"
-                    android:text="@{title}"
-                    android:textColor="@{color}"
+                    android:text="@{accountVM.title}"
+                    android:textColor="@{accountVM.color}"
                     android:textSize="24sp" />
 
             </RelativeLayout>
@@ -75,23 +53,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
-                android:backgroundTint="@{color}"
-                android:onClick="@{onClick}"
-                android:text="@{buttonText}"
+                android:backgroundTint="@{accountVM.color}"
+                android:onClick="@{accountVM.onClick}"
+                android:text="@{accountVM.buttonText}"
                 android:textColor="@android:color/white"
-                android:visibility="@{show ? v.VISIBLE :  v.GONE}" />
+                android:visibility="@{accountVM.show ? v.VISIBLE :  v.GONE}" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
                 android:orientation="horizontal"
-                android:visibility="@{show ? v.GONE :  v.VISIBLE}">
+                android:visibility="@{accountVM.show ? v.GONE :  v.VISIBLE}">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_user"
                     android:layout_width="@dimen/avatar_size"
-                    android:layout_height="@dimen/avatar_size" />
+                    android:layout_height="@dimen/avatar_size"
+                    app:imageUrl="@{accountVM.userImage}" />
 
                 <ImageView
                     android:id="@+id/iv_clear"
@@ -99,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:onClick="@{deleteClick}"
+                    android:onClick="@{accountVM.deleteClick}"
                     android:src="@drawable/ic_clear_48" />
 
                 <LinearLayout
@@ -115,6 +94,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_margin="@dimen/margin_medium"
+                        android:text="@{accountVM.userName}"
                         android:textColor="@color/colorDeezer" />
 
                     <LinearLayout
@@ -129,7 +109,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_margin="@dimen/margin_medium"
-                            android:textColor="@color/colorDeezer" />
+                            android:textColor="@{accountVM.color}" />
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

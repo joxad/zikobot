@@ -33,12 +33,23 @@
 
         <activity
             android:name=".home.HomeActivity"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="callback"
+                    android:scheme="zikobot" />
+            </intent-filter>
+
         </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -47,9 +58,7 @@
 
         <activity android:name=".search.SearchActivity" />
 
-        <activity
-            android:name="com.spotify.sdk.android.authentication.LoginActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
     </application>
 
 </manifest>

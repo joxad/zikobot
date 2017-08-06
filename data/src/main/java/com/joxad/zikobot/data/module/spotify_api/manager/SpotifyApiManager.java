@@ -20,7 +20,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Locale;
 
-import retrofit2.Retrofit;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -30,25 +29,15 @@ import io.reactivex.schedulers.Schedulers;
  * {@link SpotifyAPIEndpoint}
  */
 
-public class SpotifyApiManager {
-
+public enum SpotifyApiManager {
+    INSTANCE;
     private SpotifyAPIEndpoint spotifyAPIEndpoint;
-    private Context context;
-    private Retrofit retrofit;
-
-    /**
-     * Point d'accès pour l'instance unique du singleton
-     */
-    public static SpotifyApiManager getInstance() {
-        return SpotifyApiManager.SpotifyApiManagerHolder.instance;
-    }
 
     public void init(Context context) {
+        SpotifyRetrofit spotifyRetrofit = new SpotifyRetrofit(context.getString(R.string.spotify_base_api_url),
+                new SpotifyApiInterceptor());
 
-        this.context = context;
-        SpotifyRetrofit spotifyRetrofit = new SpotifyRetrofit(context.getString(R.string.spotify_base_api_url), new SpotifyApiInterceptor());
-        this.retrofit = spotifyRetrofit.retrofit();
-        spotifyAPIEndpoint = retrofit.create(SpotifyAPIEndpoint.class);
+        spotifyAPIEndpoint = spotifyRetrofit.retrofit().create(SpotifyAPIEndpoint.class);
     }
 
     /***
@@ -115,11 +104,11 @@ public class SpotifyApiManager {
 
         String userEncoded = "";
         try {
-            userEncoded = URLEncoder.encode(AppPrefs.spotifyUser().getId(),"UTF-8");
+            userEncoded = URLEncoder.encode(AppPrefs.spotifyUser().getId(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return spotifyAPIEndpoint.getPlaylistTracks(userEncoded, playlistId,limit,offset).subscribeOn(Schedulers.io())
+        return spotifyAPIEndpoint.getPlaylistTracks(userEncoded, playlistId, limit, offset).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
@@ -135,16 +124,4 @@ public class SpotifyApiManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
-
-    /**
-     * Holder
-     */
-    private static class SpotifyApiManagerHolder {
-        /**
-         * Instance unique non préinitialisée
-         */
-        private final static SpotifyApiManager instance = new SpotifyApiManager();
-    }
-
-
 }

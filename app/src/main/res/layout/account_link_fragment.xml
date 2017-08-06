@@ -80,12 +80,7 @@
                 <include
                     android:id="@+id/cv_spotify"
                     layout="@layout/view_button_account"
-                    app:buttonText="@{@string/connect}"
-                    app:show="@{true}"
-                    app:onClick="@{accountLinkFragmentVM.clickSpotify}"
-                    app:color="@{@color/colorSpotify}"
-                    app:icon="@{@drawable/ic_spotify_green}"
-                    app:title="@{@string/activity_music_spotify}" />
+                    app:accountVM="@{accountLinkFragmentVM.spotifyAAccountVM}" />
 
 
                 <TextView
@@ -98,13 +93,6 @@
                     android:textColor="@color/colorSoundCloud" />
 
 
-                <include
-                    android:id="@+id/cv_soundcloud"
-                    layout="@layout/view_button_account"
-                    app:buttonText="@{@string/connect}"
-                    app:color="@{@color/colorSoundCloud}"
-                    app:icon="@{@drawable/logo_soundcloud}"
-                    app:title="@{@string/activity_music_soundcloud}" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

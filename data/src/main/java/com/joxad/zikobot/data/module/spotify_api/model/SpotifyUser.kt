@@ -25,4 +25,7 @@ class SpotifyUser {
     var type: String? = null
     @SerializedName("uri")
     var uri: String? = null
+
+
+
 }
