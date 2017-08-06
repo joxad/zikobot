@@ -8,20 +8,18 @@ import com.joxad.androidtemplate.core.fragment.FragmentTab
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.activity.ActivityBaseVM
 import com.joxad.easydatabinding.activity.INewIntent
-import com.joxad.easydatabinding.activity.IResult
 import com.joxad.zikobot.data.AppPrefs
 import com.joxad.zikobot.data.module.accounts.AccountManager
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager
-import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationResponse
-import com.startogamu.zikobot.Constants
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.HomeActivityBinding
 import com.startogamu.zikobot.ftu.AccountLinkFragment
 import com.startogamu.zikobot.home.albums.AlbumsFragment
 import com.startogamu.zikobot.home.artists.ArtistsFragment
+import com.startogamu.zikobot.home.playlists.PlaylistsFragment
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -32,21 +30,11 @@ import io.reactivex.schedulers.Schedulers
  */
 
 class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, savedInstance: Bundle?) :
-        ActivityBaseVM<HomeActivity, HomeActivityBinding>(activity, binding, savedInstance), IResult, INewIntent {
+        ActivityBaseVM<HomeActivity, HomeActivityBinding>(activity, binding, savedInstance), INewIntent {
     override fun onNewIntent(intent: Intent?) {
         val uri = intent?.data
         if (uri != null) {
             val response = AuthenticationResponse.fromUri(uri)
-            handleResponse(response)
-        }
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        // Check if result comes from the correct activity
-        if (requestCode == Constants.Result.SPOTIFY_CODE) {
-            val response = AuthenticationClient.getResponse(resultCode, data)
-
             handleResponse(response)
         }
     }
@@ -83,6 +71,7 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
         val genericFragmentAdapter = object : GenericFragmentAdapter(activity) {
             override fun tabTitles(): List<FragmentTab>? {
                 return arrayListOf(
+                        FragmentTab(activity?.getString(R.string.drawer_filter_playlist), PlaylistsFragment.newInstance()),
                         FragmentTab(activity?.getString(R.string.drawer_filter_artiste), ArtistsFragment.newInstance()),
                         FragmentTab(activity?.getString(R.string.drawer_filter_album), AlbumsFragment.newInstance())
                 )
@@ -96,13 +85,10 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
                     .subscribe({
                         granted ->
                         if (granted) {
-                            binding.homeActivitySrl.isRefreshing = true
                             startSyncService()
                         }
                     })
-        binding.homeActivitySrl.setOnRefreshListener {
-            startSyncService()
-        }
+
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_account -> showAccount()
@@ -121,7 +107,6 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
                 .subscribe({
                     done ->
                     AppLog.INSTANCE.d("Synchro", "Done")
-                    binding.homeActivitySrl.isRefreshing = false
                 })
     }
 

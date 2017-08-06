@@ -130,5 +130,7 @@
 
     <string name="download_fail">Une erreur est survenue durant le téléchargement, réessayez. Il se peut que ce fichier ne soit pas disponible également…</string>
     <string name="download_success">Ta chanson a été téléchargée ;)</string>
+    <string name="account_link_ftu_title">C\'est ici qu\'on gère les comptes! Rassure toi je ne conserve aucune donnée sensible!</string>
+    <string name="account_spotify_subtitle">Un compte Spotify ? Trop facile c\'est ici! (Tu as besoin d\'un compte premium pour jouer de la musique)</string>
 
 </resources>

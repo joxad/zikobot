@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <variable
             name="playlistsFragmentVM"
             type="com.startogamu.zikobot.home.playlists.PlaylistsFragmentVM" />
     </data>
 
-    <LinearLayout
+    <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
+        app:itemBinding="@{playlistsFragmentVM.itemBinding}"
+        app:items="@{playlistsFragmentVM.items}"
+        app:layoutManager="@{LayoutManagers.grid(2)}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="playlistsFragment" />
-    </LinearLayout>
+        android:layoutAnimation="@anim/grid_animation" />
 
 
 </layout>

@@ -126,5 +126,6 @@
     <string name="settings_handle_phone_call">Handle phone call (this will pause the music when you receive a phone call)</string>
     <string name="download_fail">Error while trying to download, please retry. It may be possible this file cannot be downloaded…</string>
     <string name="download_success">Your song has been downloaded</string>
-    <string name="account_link_ftu_title">Je suis en train de récupérer tes musiques !</string>
+    <string name="account_link_ftu_title">It\'s here I can manage your music accounts ! Don\'t worry I only keep the necessary to play music</string>
+    <string name="account_spotify_subtitle">You are a Spotify user? No problem! ( You will need premium to play music )</string>
 </resources>

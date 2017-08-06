@@ -34,23 +34,12 @@
                     app:srcCompat="@drawable/ic_zikobot_large" />
 
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/account_link_ftu_title" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-                        android:text="@string/account_link_ftu_title" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Si ça t'intéresse, tu peux te connecter à tes comptes musicaux ! (Je ne conserverai pas tes données personnelles, ne t'inquiètes pas !)" />
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -74,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:text="Un compte Spotify ? C'est par ici ! "
+                    android:text="@string/account_spotify_subtitle"
                     android:textColor="@color/colorSpotify" />
 
                 <include

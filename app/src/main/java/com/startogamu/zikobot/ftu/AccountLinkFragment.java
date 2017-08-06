@@ -1,6 +1,11 @@
 package com.startogamu.zikobot.ftu;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.content.ContextCompat;
+import android.widget.FrameLayout;
 
 import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBase;
 import com.startogamu.zikobot.BR;
@@ -38,17 +43,19 @@ public class AccountLinkFragment extends DialogBottomSheetBase<AccountLinkFragme
 
     /**
      * Use this part if you want to put the dialog fullscreen
-     @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
-     BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
-     dialog.setOnShowListener(dialog1 -> {
-     BottomSheetDialog d = (BottomSheetDialog) dialog1;
-     FrameLayout bottomSheet = (FrameLayout) d.findViewById(android.support.design.R.id.design_bottom_sheet);
-     BottomSheetBehavior<FrameLayout> bot = BottomSheetBehavior.from(bottomSheet);
-     bot.setState(BottomSheetBehavior.STATE_EXPANDED);
-     bottomSheet.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.transparent));
-
-     });
-     return dialog;
-     }
      */
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+        dialog.setOnShowListener(dialog1 -> {
+            BottomSheetDialog d = (BottomSheetDialog) dialog1;
+            FrameLayout bottomSheet = (FrameLayout) d.findViewById(android.support.design.R.id.design_bottom_sheet);
+            BottomSheetBehavior<FrameLayout> bot = BottomSheetBehavior.from(bottomSheet);
+            bot.setState(BottomSheetBehavior.STATE_EXPANDED);
+            bottomSheet.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.transparent));
+
+        });
+        return dialog;
+    }
+
 }
