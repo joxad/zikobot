@@ -19,10 +19,9 @@ enum class AccountManager {
         spotifyUserBehaviorSubject = BehaviorSubject.create()
     }
 
-    fun onSpotifyLogged(spotifyUser: SpotifyUser, token: SpotifyToken) {
+    fun onSpotifyLogged(spotifyUser: SpotifyUser) {
         AppPrefs.spotifyUser(spotifyUser)
-        AppPrefs.saveAccessToken(token.accessToken)
-        AppPrefs.saveRefreshToken(token.refreshToken)
+
         spotifyUserBehaviorSubject.onNext(spotifyUser)
     }
 
@@ -32,6 +31,11 @@ enum class AccountManager {
         AppPrefs.saveAccessToken(null)
         AppPrefs.saveRefreshToken(null)
         spotifyUserBehaviorSubject.onNext(SpotifyUser())
+    }
+
+    fun onSpotifyReceiveToken(token: SpotifyToken?) {
+        AppPrefs.saveAccessToken(token?.accessToken)
+        AppPrefs.saveRefreshToken(token?.refreshToken)
     }
 
 }

@@ -59,9 +59,10 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
                 SpotifyAuthManager.INSTANCE.requestToken(response.code, "authorization_code",
                         activity.getString(R.string.api_spotify_callback_settings)).subscribe({
                     token ->
+                    AccountManager.INSTANCE.onSpotifyReceiveToken(token)
                     SpotifyApiManager.INSTANCE.me.subscribe({
                         Toast.makeText(activity, "Welcome ${it.displayName}", Toast.LENGTH_SHORT).show()
-                        AccountManager.INSTANCE.onSpotifyLogged(it, token)
+                        AccountManager.INSTANCE.onSpotifyLogged(it)
                     }, {
                         Toast.makeText(activity, "Error ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
                     })

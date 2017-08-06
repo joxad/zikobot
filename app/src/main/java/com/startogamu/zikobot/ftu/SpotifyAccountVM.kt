@@ -5,6 +5,7 @@ import android.content.Context
 import android.databinding.Bindable
 import android.support.v4.content.ContextCompat
 import android.view.View
+import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.zikobot.data.module.accounts.AccountManager
 import com.joxad.zikobot.data.module.accounts.ZikoAccount
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyUser
@@ -12,6 +13,8 @@ import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.startogamu.zikobot.R
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by Jocelyn on 06/08/2017.
@@ -32,12 +35,33 @@ class SpotifyAccountVM
 
     override fun onCreate() {
         super.onCreate()
+        init()
+
+        AccountManager.INSTANCE.spotifyUserBehaviorSubject
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    user: SpotifyUser? ->
+                    model = ZikoAccount.fromSpotify(user)
+                    loading.set(false)
+                    init()
+                    notifyChange()
+                }, {
+                    AppLog.INSTANCE.e("Spotify", it.localizedMessage)
+                })
+    }
+
+    private fun init() {
+
         if (model.userName == null) {
             show.set(true)
+        } else {
+            show.set(false)
         }
     }
 
     override fun onClick(view: View) {
+        loading.set(true)
         val builder = AuthenticationRequest.Builder(context.getString(R.string.api_spotify_id),
                 AuthenticationResponse.Type.CODE,
                 context.getString(R.string.api_spotify_callback_settings))
@@ -63,5 +87,5 @@ class SpotifyAccountVM
 
     override val color: Int
         @Bindable
-        get() = ContextCompat.getColor(context,R.color.colorSpotify)
+        get() = ContextCompat.getColor(context, R.color.colorSpotify)
 }

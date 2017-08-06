@@ -49,15 +49,34 @@
 
             </RelativeLayout>
 
-            <Button
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
-                android:backgroundTint="@{accountVM.color}"
-                android:onClick="@{accountVM.onClick}"
-                android:text="@{accountVM.buttonText}"
-                android:textColor="@android:color/white"
-                android:visibility="@{accountVM.show ? v.VISIBLE :  v.GONE}" />
+                android:layout_margin="@dimen/margin_medium">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@{accountVM.color}"
+                    android:gravity="center"
+                    android:onClick="@{accountVM.onClick}"
+                    android:text="@{accountVM.buttonText}"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:visibility="@{accountVM.show ? v.VISIBLE :  v.GONE}" />
+
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:layout_width="@dimen/progress_size_small"
+                    android:layout_height="@dimen/progress_size_small"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:visibility="@{accountVM.loading ? v.VISIBLE : v.GONE}"
+                    app:indicatorColor="@android:color/white"
+                    app:indicatorName="BallTrianglePathIndicator" />
+
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"

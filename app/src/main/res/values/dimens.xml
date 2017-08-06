@@ -25,6 +25,7 @@
     <dimen name="padding_16">16dp</dimen>
     <dimen name="view_player_height">64dp</dimen>
     <dimen name="progress_size">64dp</dimen>
+    <dimen name="progress_size_small">24dp</dimen>
     <dimen name="textSizeTitleItem">16sp</dimen>
     <dimen name="textSizeSubtitleItem">14sp</dimen>
 </resources>

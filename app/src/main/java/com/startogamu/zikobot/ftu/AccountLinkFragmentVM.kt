@@ -30,14 +30,6 @@ class AccountLinkFragmentVM
 
     override fun onCreate() {
         spotifyAAccountVM = SpotifyAccountVM(fragment.activity, AppPrefs.spotifyUser())
-
-        AccountManager.INSTANCE.spotifyUserBehaviorSubject
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    user: SpotifyUser? ->
-                    spotifyAAccountVM = SpotifyAccountVM(fragment.activity, user)
-                })
     }
 
     override fun onCreate(savedInstance: Bundle?) {
