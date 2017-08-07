@@ -44,10 +44,7 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
             AuthenticationResponse.Type.CODE -> {
                 AppLog.INSTANCE.d("Callback spo", response.code)
                 AppPrefs.saveAccessCode(response.code)
-                SpotifyAuthManager.INSTANCE.requestToken(response.code, "authorization_code",
-                        activity.getString(R.string.api_spotify_callback_settings)).subscribe({
-                    token ->
-                    AccountManager.INSTANCE.onSpotifyReceiveToken(token)
+                SpotifyAuthManager.INSTANCE.requestToken(activity).subscribe({
                     SpotifyApiManager.INSTANCE.me.subscribe({
                         Toast.makeText(activity, "Welcome ${it.displayName}", Toast.LENGTH_SHORT).show()
                         AccountManager.INSTANCE.onSpotifyLogged(it)

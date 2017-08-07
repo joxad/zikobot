@@ -34,7 +34,7 @@ public enum SpotifyApiManager {
     private SpotifyAPIEndpoint spotifyAPIEndpoint;
 
     public void init(Context context) {
-        SpotifyRetrofit spotifyRetrofit = new SpotifyRetrofit(context.getString(R.string.spotify_base_api_url),
+        SpotifyRetrofit spotifyRetrofit = new SpotifyRetrofit(context, context.getString(R.string.spotify_base_api_url),
                 new SpotifyApiInterceptor());
 
         spotifyAPIEndpoint = spotifyRetrofit.retrofit().create(SpotifyAPIEndpoint.class);

@@ -1,10 +1,9 @@
 package com.joxad.zikobot.data.module.spotify_auth.manager
 
 import android.content.Context
-import android.util.Base64
 import com.joxad.zikobot.data.AppPrefs
 import com.joxad.zikobot.data.R
-import com.joxad.zikobot.data.module.spotify_auth.model.SpotifyRefreshToken
+import com.joxad.zikobot.data.module.accounts.AccountManager
 import com.joxad.zikobot.data.module.spotify_auth.model.SpotifyToken
 import com.joxad.zikobot.data.module.spotify_auth.resource.SpotifyAuthInterceptor
 import com.joxad.zikobot.data.module.spotify_auth.resource.SpotifyAuthService
@@ -27,28 +26,24 @@ enum class SpotifyAuthManager {
         spotifyAuthService = authRetrofit.create(SpotifyAuthService::class.java)
     }
 
-    fun requestToken(code: String, grant_type: String, redirect: String): Observable<SpotifyToken> {
-        val contentType = "application/x-www-form-urlencoded"
-        return spotifyAuthService.requestToken(contentType, code, grant_type, redirect)
+    fun requestToken(context: Context): Observable<SpotifyToken> {
+        val code = AppPrefs.getSpotifyAccessCode()
+        val grant_type = "authorization_code"
+        val redirect = context.getString(R.string.zikobot_callback)
+        return spotifyAuthService.requestToken(code, grant_type, redirect)
+                .flatMap({
+                    AccountManager.INSTANCE.onSpotifyReceiveToken(it)
+                    return@flatMap Observable.just(it)
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
     }
 
-    fun refreshToken(context: Context): Observable<SpotifyToken> {
-
-        val spotifyRefreshToken = SpotifyRefreshToken("refresh_token", AppPrefs.getRefreshToken(),
-                context.getString(R.string.api_spotify_callback_web_view),
-                context.getString(R.string.api_spotify_id),
-                context.getString(R.string.api_spotify_secret))
-        var header = "Basic "
-        val id_secret = spotifyRefreshToken.cliendId + ":" + spotifyRefreshToken.clientSecret
-        val b64 = Base64.encodeToString(id_secret.toByteArray(charset("UTF-8")), Base64.NO_WRAP)
-        header += b64
-        return spotifyAuthService.refreshToken(
-                spotifyRefreshToken.refreshToken,
-                spotifyRefreshToken.grantType,
-                spotifyRefreshToken.redirectUri)
+    fun refreshToken(): Observable<SpotifyToken> {
+        val refreshToken = AppPrefs.getRefreshToken()
+        return spotifyAuthService.refreshToken(refreshToken,
+                "refresh_token")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())

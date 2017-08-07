@@ -8,6 +8,7 @@ import com.joxad.zikobot.data.AppPrefs
 import com.joxad.zikobot.data.db.model.ZikoPlaylist
 import com.joxad.zikobot.data.module.accounts.AccountManager
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
+import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.PlaylistsFragmentBinding
@@ -38,7 +39,7 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
 
 
     private fun syncSpotify() {
-        if (AppPrefs.getSpotifyAccessToken() != null) {
+        if (!AppPrefs.getRefreshToken().isNullOrEmpty()) {
             SpotifyApiManager.INSTANCE.userPlaylists.
                     subscribe({
                         for (spo in it.items) {

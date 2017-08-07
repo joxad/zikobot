@@ -64,7 +64,7 @@ class SpotifyAccountVM
         loading.set(true)
         val builder = AuthenticationRequest.Builder(context.getString(R.string.api_spotify_id),
                 AuthenticationResponse.Type.CODE,
-                context.getString(R.string.api_spotify_callback_settings))
+                context.getString(R.string.zikobot_callback))
         builder.setShowDialog(true);
         builder.setScopes(arrayOf("streaming", "user-read-private"))
         val request = builder.build()

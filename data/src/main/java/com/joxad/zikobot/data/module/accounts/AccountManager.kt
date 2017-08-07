@@ -34,8 +34,10 @@ enum class AccountManager {
     }
 
     fun onSpotifyReceiveToken(token: SpotifyToken?) {
-        AppPrefs.saveAccessToken(token?.accessToken)
-        AppPrefs.saveRefreshToken(token?.refreshToken)
+        if (token?.accessToken != null)
+            AppPrefs.saveAccessToken(token.accessToken)
+        if (token?.refreshToken != null)
+            AppPrefs.saveRefreshToken(token.refreshToken)
     }
 
 }

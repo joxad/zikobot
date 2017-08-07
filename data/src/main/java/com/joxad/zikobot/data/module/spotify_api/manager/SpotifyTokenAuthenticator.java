@@ -18,12 +18,15 @@ public class SpotifyTokenAuthenticator implements Authenticator {
 
     private Context context;
 
+    public SpotifyTokenAuthenticator(Context context) {
+        this.context = context;
+    }
+
     @Nullable
     @Override
     public Request authenticate(Route route, Response response) throws IOException {
         // Refresh your access_token using a synchronous api request
-        SpotifyToken spotifyToken = SpotifyAuthManager.INSTANCE.refreshToken(context).blockingFirst();
-
+        SpotifyToken spotifyToken = SpotifyAuthManager.INSTANCE.refreshToken().blockingFirst();
         AccountManager.INSTANCE.onSpotifyReceiveToken(spotifyToken);
         // Add new header to rejected request and retry it
         return response.request().newBuilder()

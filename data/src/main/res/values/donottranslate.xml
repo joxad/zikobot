@@ -10,8 +10,7 @@
 
     <string name="deezer_web_view" formatted="false">https://connect.deezer.com/oauth/auth.php?app_id=%s&amp;redirect_uri=%s&amp;perms=basic_access,email,offline_access</string>
     <string name="deezer_base_auth_url">https://connect.deezer.com/oauth/</string>
-    <string name="api_spotify_callback_settings">zikobot://callback</string>
-    <string name="api_spotify_callback_web_view">http://zikobot.com/callback</string>
+    <string name="zikobot_callback">zikobot://callback</string>
     <string name="api_soundcloud_callback">http://zikobot.com/soundcloud/callback</string>
     <string name="deezer_base_api_url">https://api.soundcloud.com</string>
     <string name="api_deezer_callback">http://zikobot.com/deezer/callback</string>
