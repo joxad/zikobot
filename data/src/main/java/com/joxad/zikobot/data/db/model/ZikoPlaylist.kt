@@ -2,21 +2,12 @@ package com.joxad.zikobot.data.db.model
 
 import com.joxad.zikobot.data.db.ZikoDB
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudPlaylist
-import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack
 import com.joxad.zikobot.data.module.spotify_api.model.Item
-import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTrack
-import com.raizlabs.android.dbflow.annotation.Column
-import com.raizlabs.android.dbflow.annotation.ForeignKey
-import com.raizlabs.android.dbflow.annotation.OneToMany
-import com.raizlabs.android.dbflow.annotation.PrimaryKey
-import com.raizlabs.android.dbflow.annotation.Table
+import com.raizlabs.android.dbflow.annotation.*
 import com.raizlabs.android.dbflow.sql.language.SQLite
 import com.raizlabs.android.dbflow.structure.BaseModel
+import java.util.*
 
-import java.util.ArrayList
-
-import lombok.Getter
-import lombok.Setter
 
 /**
  * Created by josh on 19/06/16.
@@ -24,8 +15,6 @@ import lombok.Setter
 @Table(database = ZikoDB::class)
 class ZikoPlaylist : BaseModel {
     @PrimaryKey(autoincrement = true)
-    @Getter
-    @Setter
     var id: Long? = 0
     @Column
     var name: String? = ""
@@ -70,13 +59,11 @@ class ZikoPlaylist : BaseModel {
         fun fromSpotifyPlaylist(item: Item): ZikoPlaylist {
 
             val tracks = ArrayList<ZikoTrack>()
-           /* for (spotifyTrack in item.tracks!!.items!!) {
-                tracks.add(ZikoTrack.from(spotifyTrack))
-            }*/
             val zikoPlaylist = ZikoPlaylist(item.name, item.tracks?.total , item.images[0].url, tracks)
             zikoPlaylist.spotifyId = item.id
             return zikoPlaylist
         }
+
 
         fun fromSoundCloudPlaylist(soundCloudPlaylist: SoundCloudPlaylist): ZikoPlaylist {
             val tracks = ArrayList<ZikoTrack>()

@@ -2,6 +2,7 @@ package com.joxad.zikobot.data.ws;
 
 import android.support.annotation.Nullable;
 
+import okhttp3.Authenticator;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -17,15 +18,22 @@ public class RetrofitBase {
     private Retrofit retrofit;
 
     public RetrofitBase(String url) {
-        this(url, null);
+        this(url, null, null);
     }
 
-    public RetrofitBase(String url, @Nullable Interceptor interceptor) {
+    public RetrofitBase(String url, Interceptor interceptor) {
+        this(url, interceptor, null);
+    }
+
+    public RetrofitBase(String url, @Nullable Interceptor interceptor, @Nullable Authenticator authenticator) {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(httpLoggingInterceptor);
+
+        if (authenticator != null)
+            builder.authenticator(authenticator);
         if (interceptor != null)
             builder.addInterceptor(interceptor);
 

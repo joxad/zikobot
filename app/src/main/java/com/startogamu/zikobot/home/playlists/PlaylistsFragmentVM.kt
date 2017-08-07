@@ -42,7 +42,10 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
             SpotifyApiManager.INSTANCE.userPlaylists.
                     subscribe({
                         for (spo in it.items) {
-                            items.add(PlaylistVM(false, fragment.context, ZikoPlaylist.fromSpotifyPlaylist(spo)))
+                            val zikoP = ZikoPlaylist.fromSpotifyPlaylist(spo)
+                            zikoP.save()
+                            items.add(PlaylistVM(false, fragment.context, zikoP))
+
                         }
                     }, {
                         AppLog.INSTANCE.e("Spotify", it.localizedMessage)

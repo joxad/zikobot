@@ -12,6 +12,6 @@ import okhttp3.Interceptor;
 
 public class SpotifyRetrofit extends RetrofitBase {
     public SpotifyRetrofit(String url, @Nullable Interceptor interceptor) {
-        super(url, interceptor);
+        super(url, interceptor,new SpotifyTokenAuthenticator());
     }
 }

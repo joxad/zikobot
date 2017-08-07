@@ -59,7 +59,7 @@
                     android:layout_height="48dp"
                     android:background="@{accountVM.color}"
                     android:gravity="center"
-                    android:onClick="@{accountVM.onClick}"
+                    android:onClick="@{accountVM::onClick}"
                     android:text="@{accountVM.buttonText}"
                     android:textAllCaps="true"
                     android:textColor="@android:color/white"
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:onClick="@{accountVM.deleteClick}"
+                    android:onClick="@{accountVM::deleteClick}"
                     android:src="@drawable/ic_clear_48" />
 
                 <LinearLayout

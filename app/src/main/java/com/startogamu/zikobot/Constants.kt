@@ -8,4 +8,8 @@ class Constants {
     object Result {
         val SPOTIFY_CODE = 1337
     }
+
+    object Extra {
+        val PLAYLIST_ID = "PLAYLIST_ID"
+    }
 }

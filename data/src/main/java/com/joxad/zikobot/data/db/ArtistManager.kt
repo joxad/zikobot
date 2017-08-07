@@ -1,7 +1,7 @@
 package com.joxad.zikobot.data.db
 
-import com.joxad.zikobot.data.db.model.ZikoAlbum_Table
 import com.joxad.zikobot.data.db.model.ZikoArtist
+import com.joxad.zikobot.data.db.model.ZikoArtist_Table
 import com.raizlabs.android.dbflow.annotation.Collate
 import com.raizlabs.android.dbflow.kotlinextensions.select
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
@@ -16,7 +16,7 @@ object ArtistManager {
 
     fun findAll(): RXModelQueriableImpl<ZikoArtist> {
         return (select.from(ZikoArtist::class.java)
-                .orderBy(OrderBy.fromProperty(ZikoAlbum_Table.name).collate(Collate.NOCASE).ascending())
+                .orderBy(OrderBy.fromProperty(ZikoArtist_Table.name).collate(Collate.NOCASE).ascending())
                 .rx())
     }
 }
