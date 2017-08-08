@@ -108,7 +108,8 @@ public enum SpotifyApiManager {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return spotifyAPIEndpoint.getPlaylistTracks(userEncoded, playlistId, limit, offset).subscribeOn(Schedulers.io())
+        return spotifyAPIEndpoint.getPlaylistTracks(userEncoded, playlistId, limit, offset)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }

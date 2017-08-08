@@ -22,7 +22,7 @@ class PlaylistDetailActivity : ActivityBase<PlaylistDetailActivityBinding, Playl
         return R.layout.playlist_detail_activity
     }
 
-    override fun baseActivityVM(binding: PlaylistDetailActivityBinding, savedInstanceState: Bundle): PlaylistDetailActivityVM {
+    override fun baseActivityVM(binding: PlaylistDetailActivityBinding, savedInstanceState: Bundle?): PlaylistDetailActivityVM {
         return PlaylistDetailActivityVM(this, binding, savedInstanceState)
     }
 
@@ -32,7 +32,7 @@ class PlaylistDetailActivity : ActivityBase<PlaylistDetailActivityBinding, Playl
          * Generate the intent for the activity
          * Use this to start the activity
          */
-        fun newInstance(context: Context, playlistId: Long?): Intent {
+        fun newInstance(context: Context, playlistId: Long): Intent {
             return Intent(context, PlaylistDetailActivity::class.java)
                     .putExtra(Constants.Extra.PLAYLIST_ID, playlistId)
         }

@@ -52,8 +52,6 @@ public class AccountLinkFragment extends DialogBottomSheetBase<AccountLinkFragme
             FrameLayout bottomSheet = (FrameLayout) d.findViewById(android.support.design.R.id.design_bottom_sheet);
             BottomSheetBehavior<FrameLayout> bot = BottomSheetBehavior.from(bottomSheet);
             bot.setState(BottomSheetBehavior.STATE_EXPANDED);
-            bottomSheet.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.transparent));
-
         });
         return dialog;
     }

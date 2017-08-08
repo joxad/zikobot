@@ -1,10 +1,12 @@
 package com.startogamu.zikobot.home.playlists
 
+import android.app.Activity
 import android.content.Context
 import android.databinding.Bindable
 import android.view.View
 import com.joxad.easydatabinding.base.BaseVM
 import com.joxad.zikobot.data.db.model.ZikoPlaylist
+import com.startogamu.zikobot.NavigationManager
 import com.startogamu.zikobot.R
 
 /**
@@ -34,8 +36,14 @@ class PlaylistVM(section: Boolean, context: Context, model: ZikoPlaylist) : Base
         return null
     }
 
+    @Bindable
+    fun getNbTracks() : Int? {
+        return model.nbTracks
+    }
     fun onClick(@SuppressWarnings("unused") v: View) {
-        context.startActivity(PlaylistDetailActivity.newInstance(context, model.id))
+        NavigationManager.goToPlaylist(context as Activity, model
+                , v.findViewById(R.id.shared_element))
+
     }
 
 }

@@ -15,7 +15,7 @@ import java.util.*
 @Table(database = ZikoDB::class)
 class ZikoPlaylist : BaseModel {
     @PrimaryKey(autoincrement = true)
-    var id: Long? = 0
+    var id: Long = 0
     @Column
     var name: String? = ""
     @Column

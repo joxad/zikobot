@@ -1,13 +1,17 @@
 package com.startogamu.zikobot.home.playlists
 
 import android.databinding.ObservableArrayList
+import android.databinding.ObservableBoolean
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CoordinatorLayout
+import android.view.View
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.fragment.v4.FragmentRecyclerBaseVM
 import com.joxad.zikobot.data.AppPrefs
-import com.joxad.zikobot.data.db.model.ZikoPlaylist
+import com.joxad.zikobot.data.db.PlaylistManager
 import com.joxad.zikobot.data.module.accounts.AccountManager
-import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
+import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.PlaylistsFragmentBinding
@@ -17,6 +21,8 @@ import com.startogamu.zikobot.databinding.PlaylistsFragmentBinding
  */
 class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmentBinding, savedInstance: Bundle?)
     : FragmentRecyclerBaseVM<PlaylistVM, PlaylistsFragment, PlaylistsFragmentBinding>(fragment, binding, savedInstance) {
+
+    lateinit var showSpotify: ObservableBoolean
     override fun itemData(): Int {
         return BR.playlistVM
     }
@@ -26,30 +32,41 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
     }
 
     override fun onCreate(savedInstance: Bundle?) {
+        collapseToolbar()
         items = ObservableArrayList()
-        syncSpotify()
+        loadPlaylists()
+        showSpotify = ObservableBoolean(!AppPrefs.getSpotifyAccessToken().isNullOrEmpty())
         AccountManager.INSTANCE.spotifyUserBehaviorSubject.subscribe({
-            syncSpotify()
+            showSpotify.set(!AppPrefs.getSpotifyAccessToken().isNullOrEmpty())
+            loadPlaylists()
         }, {
             AppLog.INSTANCE.e("Spotify", it.localizedMessage)
         })
-
     }
 
+    fun collapseToolbar() {
+        binding.appBarLayout.setExpanded(false)
+        /*val params = binding.appBarLayout.getLayoutParams() as CoordinatorLayout.LayoutParams
+        val behavior = params.behavior as AppBarLayout.Behavior?
+        if (behavior != null) {
+            behavior.onNestedFling(binding.coordinator, binding.appBarLayout, null, 0f, 10000f, true)
+        }*/
+    }
 
-    private fun syncSpotify() {
-        if (!AppPrefs.getRefreshToken().isNullOrEmpty()) {
-            SpotifyApiManager.INSTANCE.userPlaylists.subscribe({
-                for (spo in it.items) {
-                    val zikoP = ZikoPlaylist.fromSpotifyPlaylist(spo)
-                    zikoP.save()
-                    items.add(PlaylistVM(false, fragment.context, zikoP))
-
-                }
-            }, {
-                AppLog.INSTANCE.e("Spotify", it.localizedMessage)
-            })
+    private fun loadPlaylists() {
+        PlaylistManager.findAll().list {
+            for (zikoP in it) {
+                items.add(PlaylistVM(false, fragment.activity, zikoP))
+            }
         }
+    }
+
+    fun syncSpotify(view: View) {
+        PlaylistManager.syncSpotify().subscribe({
+            loadPlaylists()
+        }, {
+            AppLog.INSTANCE.e("Spotify", it.localizedMessage)
+        })
     }
 
     companion object {

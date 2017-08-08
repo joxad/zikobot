@@ -46,7 +46,6 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
                 AppPrefs.saveAccessCode(response.code)
                 SpotifyAuthManager.INSTANCE.requestToken(activity).subscribe({
                     SpotifyApiManager.INSTANCE.me.subscribe({
-                        Toast.makeText(activity, "Welcome ${it.displayName}", Toast.LENGTH_SHORT).show()
                         AccountManager.INSTANCE.onSpotifyLogged(it)
                     }, {
                         Toast.makeText(activity, "Error ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
