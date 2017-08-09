@@ -13,7 +13,7 @@ import com.startogamu.zikobot.R
  * Created by Jocelyn on 31/07/2017.
  */
 
-class PlaylistVM(section: Boolean, context: Context, model: ZikoPlaylist) : BaseVM<ZikoPlaylist>(context, model) {
+open class PlaylistVM(section: Boolean, context: Context, model: ZikoPlaylist) : BaseVM<ZikoPlaylist>(context, model) {
 
     override fun onCreate() {
 
@@ -37,13 +37,13 @@ class PlaylistVM(section: Boolean, context: Context, model: ZikoPlaylist) : Base
     }
 
     @Bindable
-    fun getNbTracks() : Int? {
+    fun getNbTracks(): Int? {
         return model.nbTracks
     }
-    fun onClick(@SuppressWarnings("unused") v: View) {
+
+    open fun onClick(@SuppressWarnings("unused") v: View) {
         NavigationManager.goToPlaylist(context as Activity, model
                 , v.findViewById(R.id.shared_element))
-
     }
 
 }

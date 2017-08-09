@@ -2,8 +2,11 @@ package com.startogamu.zikobot.home.sync
 
 import android.databinding.ObservableArrayList
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBaseVM
+import com.joxad.zikobot.data.db.PlaylistManager
 import com.joxad.zikobot.data.db.model.ZikoPlaylist
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
 import com.startogamu.zikobot.BR
@@ -29,16 +32,21 @@ class SpotifySyncPlaylistsFragmentVM(fragment: SpotifySyncPlaylistsFragment, bin
         SpotifyApiManager.INSTANCE.userPlaylists.subscribe({
             for (spo in it.items) {
                 val zikoP = ZikoPlaylist.fromSpotifyPlaylist(spo)
-                items.add(PlaylistVM(false, fragment.activity, zikoP))
+                val playlistVM = object : PlaylistVM(false, fragment.activity, zikoP) {
+                    override fun onClick(v: View) {
+                        PlaylistManager.syncSpotifyPlaylist(model).subscribe({
+                            Toast.makeText(context, "Playlist ${model.name} added", Toast.LENGTH_SHORT).show()
+                        }, {
+                            Toast.makeText(context, "Error while adding playlist", Toast.LENGTH_SHORT).show()
+                        })
+                    }
+                }
+                items.add(playlistVM)
             }
         }, {
             AppLog.INSTANCE.e("Spotify", it.localizedMessage)
         })
-        //PlaylistManager.syncSpotify().subscribe({
-        //loadPlaylists()
-        //}, {
-        // AppLog.INSTANCE.e("Spotify", it.localizedMessage)
-        //})
+
     }
 
     override fun onCreate(savedInstance: Bundle?) {

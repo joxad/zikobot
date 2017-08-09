@@ -54,6 +54,7 @@ class ZikoPlaylist : BaseModel {
         return tracks
     }
 
+
     companion object {
 
         fun fromSpotifyPlaylist(item: Item): ZikoPlaylist {

@@ -1,7 +1,6 @@
 package com.startogamu.zikobot.home.playlists
 
 import android.databinding.ObservableArrayList
-import android.databinding.ObservableBoolean
 import android.os.Bundle
 import android.support.animation.DynamicAnimation
 import android.support.animation.SpringAnimation
@@ -9,7 +8,6 @@ import android.support.animation.SpringForce
 import android.view.View
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.fragment.v4.FragmentRecyclerBaseVM
-import com.joxad.zikobot.data.AppPrefs
 import com.joxad.zikobot.data.db.PlaylistManager
 import com.joxad.zikobot.data.module.accounts.AccountManager
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
@@ -26,7 +24,7 @@ import com.startogamu.zikobot.home.sync.SpotifySyncPlaylistsFragmentVM
 class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmentBinding, savedInstance: Bundle?)
     : FragmentRecyclerBaseVM<PlaylistVM, PlaylistsFragment, PlaylistsFragmentBinding>(fragment, binding, savedInstance) {
 
-    lateinit var showSpotify: ObservableBoolean
+
     override fun itemData(): Int {
         return BR.playlistVM
     }
@@ -39,9 +37,7 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
         collapseToolbar()
         items = ObservableArrayList()
         loadPlaylists()
-        showSpotify = ObservableBoolean(!AppPrefs.getSpotifyAccessToken().isNullOrEmpty())
         AccountManager.INSTANCE.spotifyUserBehaviorSubject.subscribe({
-            showSpotify.set(!AppPrefs.getSpotifyAccessToken().isNullOrEmpty())
             loadPlaylists()
         }, {
             AppLog.INSTANCE.e("Spotify", it.localizedMessage)
