@@ -16,6 +16,8 @@ import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.PlaylistsFragmentBinding
+import com.startogamu.zikobot.home.sync.SpotifySyncPlaylistsFragment
+import com.startogamu.zikobot.home.sync.SpotifySyncPlaylistsFragmentVM
 
 
 /**
@@ -56,11 +58,10 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
 
     fun collapseToolbar() {
         binding.playlistsFragmentAppBar?.appBarLayout?.setExpanded(false)
-        /*val params = binding.appBarLayout.getLayoutParams() as CoordinatorLayout.LayoutParams
-        val behavior = params.behavior as AppBarLayout.Behavior?
-        if (behavior != null) {
-            behavior.onNestedFling(binding.coordinator, binding.appBarLayout, null, 0f, 10000f, true)
-        }*/
+    }
+
+    fun expandToolbar(v: View) {
+        binding.playlistsFragmentAppBar?.appBarLayout?.setExpanded(true, true)
     }
 
     private fun loadPlaylists() {
@@ -72,11 +73,10 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
     }
 
     fun syncSpotify(view: View) {
-        PlaylistManager.syncSpotify().subscribe({
-            loadPlaylists()
-        }, {
-            AppLog.INSTANCE.e("Spotify", it.localizedMessage)
-        })
+        // show bottom sheet
+        SpotifySyncPlaylistsFragment.newInstance()
+                .show(fragment.fragmentManager, SpotifySyncPlaylistsFragmentVM.TAG)
+
     }
 
     fun initHeader() {

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="spotifySyncPlaylistsFragmentVM"
+            type="com.startogamu.zikobot.home.sync.SpotifySyncPlaylistsFragmentVM" />
+    </data>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:colorBackground"
+        android:minHeight="500dp"
+        android:orientation="vertical">
+
+
+        <include
+            layout="@layout/bottom_sheet_fragment_header"
+            app:title="@{@string/spotifySyncPlaylistsTitle}" />
+
+        <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layoutAnimation="@anim/grid_animation"
+            app:itemBinding="@{spotifySyncPlaylistsFragmentVM.itemBinding}"
+            app:items="@{spotifySyncPlaylistsFragmentVM.items}"
+            app:layoutManager="@{LayoutManagers.grid(2)}" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+</layout>

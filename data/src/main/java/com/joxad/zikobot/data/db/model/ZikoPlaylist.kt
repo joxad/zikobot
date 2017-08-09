@@ -59,7 +59,8 @@ class ZikoPlaylist : BaseModel {
         fun fromSpotifyPlaylist(item: Item): ZikoPlaylist {
 
             val tracks = ArrayList<ZikoTrack>()
-            val zikoPlaylist = ZikoPlaylist(item.name, item.tracks?.total , item.images[0].url, tracks)
+            val urlImage = if (item.images.isNotEmpty()) item.images[0].url else ""
+            val zikoPlaylist = ZikoPlaylist(item.name, item.tracks?.total, urlImage, tracks)
             zikoPlaylist.spotifyId = item.id
             return zikoPlaylist
         }

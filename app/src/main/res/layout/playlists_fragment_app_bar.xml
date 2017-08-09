@@ -41,7 +41,6 @@
                         android:layout_weight="1"
                         android:fitsSystemWindows="true"
                         android:gravity="center"
-                        android:onClick="@{playlistsFragmentVM::showCreateMenu}"
                         android:scaleType="centerCrop"
                         android:text="Créer une playlist" />
 
@@ -60,9 +59,9 @@
                         android:layout_weight="1"
                         android:fitsSystemWindows="true"
                         android:gravity="center"
-                        android:onClick="@{playlistsFragmentVM::syncSpotify}"
+                        android:onClick="@{playlistsFragmentVM::showCreateMenu}"
                         android:scaleType="centerCrop"
-                        android:text="Rechercher parmi mes playlists" />
+                        android:text="Importer" />
 
                 </LinearLayout>
 
@@ -70,24 +69,21 @@
                     android:id="@+id/playlistFragmentHeaderCreatePlaylistLinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:orientation="horizontal"
                     android:visibility="gone">
 
                     <android.support.v7.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="32dp"
+                        android:onClick="@{playlistsFragmentVM::syncSpotify}"
+                        android:text="Depuis Spotify"
                         app:srcCompat="@drawable/ic_spotify_green" />
 
                     <android.support.v7.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="32dp"
                         app:srcCompat="@drawable/logo_soundcloud" />
-
-                    <android.support.v7.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        app:srcCompat="@drawable/ic_zikobot_large" />
 
 
                 </LinearLayout>

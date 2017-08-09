@@ -128,4 +128,6 @@
     <string name="download_success">Your song has been downloaded</string>
     <string name="account_link_ftu_title">It\'s here I can manage your music accounts ! Don\'t worry I only keep the necessary to play music</string>
     <string name="account_spotify_subtitle">You are a Spotify user? No problem! ( You will need premium to play music )</string>
+    <string name="spotifySyncPlaylistsTitle">Select the Spotify playlists you want to synchronize</string>
+    <string name="empty_state_playlist">Oh you do not have any playlist yet ? :( You can import some from your accounts or create from scratch. It is right there !</string>
 </resources>
