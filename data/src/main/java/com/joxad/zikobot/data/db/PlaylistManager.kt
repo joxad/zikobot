@@ -4,7 +4,6 @@ import com.joxad.zikobot.data.db.model.ZikoPlaylist
 import com.joxad.zikobot.data.db.model.ZikoPlaylist_Table
 import com.joxad.zikobot.data.db.model.ZikoTrack
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
-import com.joxad.zikobot.data.module.spotify_api.model.SpotifyUser
 import com.raizlabs.android.dbflow.annotation.Collate
 import com.raizlabs.android.dbflow.kotlinextensions.select
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
@@ -17,9 +16,14 @@ import io.reactivex.subjects.BehaviorSubject
  * Created by Jocelyn on 03/08/2017.
  */
 
-object PlaylistManager {
+enum class PlaylistManager {
+    INSTANCE;
 
+    lateinit var refreshSubject: BehaviorSubject<Boolean>
 
+    fun init() {
+        refreshSubject = BehaviorSubject.create()
+    }
     fun findAll(): RXModelQueriableImpl<ZikoPlaylist> {
         return (select.from(ZikoPlaylist::class.java)
                 .orderBy(OrderBy.fromProperty(ZikoPlaylist_Table.name).collate(Collate.NOCASE).ascending())
@@ -60,6 +64,7 @@ object PlaylistManager {
                     }
                     zikoSpotifyPlaylist.tracks = tracks
                     zikoSpotifyPlaylist.save()
+                    refreshSubject.onNext(true)
                     return@flatMap Observable.just(zikoSpotifyPlaylist)
                 })
     }

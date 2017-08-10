@@ -6,10 +6,8 @@ import android.support.animation.DynamicAnimation
 import android.support.animation.SpringAnimation
 import android.support.animation.SpringForce
 import android.view.View
-import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.fragment.v4.FragmentRecyclerBaseVM
 import com.joxad.zikobot.data.db.PlaylistManager
-import com.joxad.zikobot.data.module.accounts.AccountManager
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.R
@@ -37,10 +35,9 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
         collapseToolbar()
         items = ObservableArrayList()
         loadPlaylists()
-        AccountManager.INSTANCE.spotifyUserBehaviorSubject.subscribe({
+        PlaylistManager.INSTANCE.refreshSubject.subscribe({
+            items.clear()
             loadPlaylists()
-        }, {
-            AppLog.INSTANCE.e("Spotify", it.localizedMessage)
         })
 
         binding.playlistsFragmentAppBar?.appBarLayout?.addOnOffsetChangedListener {
@@ -61,7 +58,7 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
     }
 
     private fun loadPlaylists() {
-        PlaylistManager.findAll().list {
+        PlaylistManager.INSTANCE.findAll().list {
             for (zikoP in it) {
                 items.add(PlaylistVM(false, fragment.activity, zikoP))
             }

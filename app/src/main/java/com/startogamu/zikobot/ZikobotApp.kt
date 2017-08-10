@@ -4,6 +4,7 @@ import android.app.Application
 import com.facebook.stetho.Stetho
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.zikobot.data.AppPrefs
+import com.joxad.zikobot.data.db.PlaylistManager
 import com.joxad.zikobot.data.db.ZikoDB
 import com.joxad.zikobot.data.module.accounts.AccountManager
 import com.joxad.zikobot.data.module.lastfm.LastFmManager
@@ -33,5 +34,6 @@ class ZikobotApp : Application() {
         SpotifyApiManager.INSTANCE.init(this)
         LastFmManager.INSTANCE.init(this)
         AccountManager.INSTANCE.init()
+        PlaylistManager.INSTANCE.init()
     }
 }

@@ -32,7 +32,7 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
      */
     fun loadData() {
         val pId = activity.intent.getLongExtra(Constants.Extra.PLAYLIST_ID, 0)
-        PlaylistManager.findOne(pId)
+        PlaylistManager.INSTANCE.findOne(pId)
                 .querySingle().subscribe({ zi ->
             playlistVM = PlaylistVM(false, activity, zi)
             SpotifyApiManager.INSTANCE.getPlaylistTracks(playlistVM.model.spotifyId, playlistVM.getNbTracks()!!, 0)
