@@ -158,7 +158,7 @@
     <orderEntry type="library" name="kotlin-stdlib-jre8-1.1.3-2" level="project" />
     <orderEntry type="library" name="google-api-client-android-1.22.0" level="project" />
     <orderEntry type="library" name="com.spotify.sdk:spotify-player-24-noconnect-2.20b:@aar" level="project" />
-    <orderEntry type="library" name="baseLibrary-3.0.0-beta1" level="project" />
+    <orderEntry type="library" name="baseLibrary-3.0.0-beta2" level="project" />
     <orderEntry type="library" name="stetho-1.5.0" level="project" />
     <orderEntry type="library" name="design-25.3.1" level="project" />
     <orderEntry type="library" name="js-evaluator-for-android-v1.0.7" level="project" />

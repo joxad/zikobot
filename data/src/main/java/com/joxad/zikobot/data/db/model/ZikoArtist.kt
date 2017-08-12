@@ -36,5 +36,13 @@ class ZikoArtist : BaseModel() {
             zikoArtist.name = name
             return zikoArtist
         }
+
+
+        fun spotify(spoId: String?, name: String): ZikoArtist {
+            val zikoArtist = ZikoArtist()
+            zikoArtist.spotifyId = spoId
+            zikoArtist.name = name
+            return zikoArtist
+        }
     }
 }

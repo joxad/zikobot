@@ -34,6 +34,7 @@ class SpotifySyncPlaylistsFragmentVM(fragment: SpotifySyncPlaylistsFragment, bin
                 val zikoP = ZikoPlaylist.fromSpotifyPlaylist(spo)
                 val playlistVM = object : PlaylistVM(false, fragment.activity, zikoP) {
                     override fun onClick(v: View) {
+                        model.save()
                         PlaylistManager.INSTANCE.syncSpotifyPlaylist(model).subscribe({
                             Toast.makeText(context, "Playlist ${model.name} added", Toast.LENGTH_SHORT).show()
                         }, {

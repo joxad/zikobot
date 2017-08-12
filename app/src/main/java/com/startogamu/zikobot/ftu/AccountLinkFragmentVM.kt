@@ -24,7 +24,7 @@ class AccountLinkFragmentVM(fragment: AccountLinkFragment, binding: AccountLinkF
 
 
     companion object {
-        // Request code will be used to verify if result comes from the login activity. Can be set to any integer.
+        // Request code will be used to verify if result comes spotify the login activity. Can be set to any integer.
         private val TAG = AccountLinkFragmentVM::class.java.simpleName
     }
 }

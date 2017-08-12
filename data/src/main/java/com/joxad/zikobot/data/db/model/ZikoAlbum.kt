@@ -1,6 +1,5 @@
 package com.joxad.zikobot.data.db.model
 
-import android.provider.MediaStore
 import com.joxad.zikobot.data.db.ZikoDB
 import com.raizlabs.android.dbflow.annotation.*
 import com.raizlabs.android.dbflow.structure.BaseModel
@@ -16,7 +15,7 @@ class ZikoAlbum : BaseModel() {
     @Column
     var localId: Long = 0
     @Column
-    var spotifyId: Int = 0
+    var spotifyId: String? = null
     @Column
     lateinit var name: String
     @Column
@@ -33,6 +32,15 @@ class ZikoAlbum : BaseModel() {
             zikoAlbum.name = name
             zikoAlbum.artist = artist
 
+            return zikoAlbum
+        }
+
+        fun spotify(spotifyId: String, name: String, artist: ZikoArtist, image:String): ZikoAlbum {
+            val zikoAlbum = ZikoAlbum()
+            zikoAlbum.spotifyId = spotifyId
+            zikoAlbum.name = name
+            zikoAlbum.artist = artist
+            zikoAlbum.image = image
             return zikoAlbum
         }
     }

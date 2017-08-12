@@ -2,11 +2,8 @@ package com.startogamu.zikobot.home.playlists
 
 import android.databinding.ObservableArrayList
 import android.os.Bundle
-import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.activity.ActivityBaseVM
 import com.joxad.zikobot.data.db.PlaylistManager
-import com.joxad.zikobot.data.db.model.ZikoTrack
-import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.Constants
 import com.startogamu.zikobot.R
@@ -28,20 +25,17 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
     }
 
     /***
-     * Load the data from WS or DB to show them in the recycler
+     * Load the data spotify WS or DB to show them in the recycler
      */
     fun loadData() {
         val pId = activity.intent.getLongExtra(Constants.Extra.PLAYLIST_ID, 0)
         PlaylistManager.INSTANCE.findOne(pId)
                 .querySingle().subscribe({ zi ->
             playlistVM = PlaylistVM(false, activity, zi)
-            SpotifyApiManager.INSTANCE.getPlaylistTracks(playlistVM.model.spotifyId, playlistVM.getNbTracks()!!, 0)
-                    .subscribe({
-                        for (track in it.items)
-                            items.add(TrackVM(activity, ZikoTrack.from(track.track)))
-                    }, {
-                        AppLog.INSTANCE.e("Spotify", it.localizedMessage)
-                    })
+            for (track in playlistVM.model.getForeignTracks()) {
+                items.add(TrackVM(activity, track))
+            }
+
         })
 
 

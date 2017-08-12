@@ -1,14 +1,15 @@
 package com.joxad.zikobot.data.db
 
-import com.joxad.zikobot.data.db.model.ZikoPlaylist
-import com.joxad.zikobot.data.db.model.ZikoPlaylist_Table
-import com.joxad.zikobot.data.db.model.ZikoTrack
+import com.joxad.zikobot.data.db.model.*
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyAlbum
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyArtist
 import com.raizlabs.android.dbflow.annotation.Collate
 import com.raizlabs.android.dbflow.kotlinextensions.select
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
 import com.raizlabs.android.dbflow.rx2.language.RXModelQueriableImpl
 import com.raizlabs.android.dbflow.sql.language.OrderBy
+import com.raizlabs.android.dbflow.sql.language.Select
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
@@ -24,6 +25,7 @@ enum class PlaylistManager {
     fun init() {
         refreshSubject = BehaviorSubject.create()
     }
+
     fun findAll(): RXModelQueriableImpl<ZikoPlaylist> {
         return (select.from(ZikoPlaylist::class.java)
                 .orderBy(OrderBy.fromProperty(ZikoPlaylist_Table.name).collate(Collate.NOCASE).ascending())
@@ -56,16 +58,40 @@ enum class PlaylistManager {
     fun syncSpotifyPlaylist(zikoSpotifyPlaylist: ZikoPlaylist): Observable<ZikoPlaylist> {
         return SpotifyApiManager.INSTANCE.getPlaylistTracks(zikoSpotifyPlaylist.spotifyId, 50, 0)
                 .flatMap({
-                    val tracks = arrayListOf<ZikoTrack>()
                     for (track in it.items) {
-                        val track = ZikoTrack.from(track.track)
+                        val zikoArtist = createArtistIfNeed(track.track?.artists?.get(0)!!)
+                        val zikoAlbum = createAlbumIfNeed(track.track?.album!!, zikoArtist!!)
+                        val track = ZikoTrack.spotify(track.track, zikoArtist, zikoAlbum, zikoSpotifyPlaylist)
                         track.save()
-                        tracks.add(track)
                     }
-                    zikoSpotifyPlaylist.tracks = tracks
                     zikoSpotifyPlaylist.save()
                     refreshSubject.onNext(true)
                     return@flatMap Observable.just(zikoSpotifyPlaylist)
                 })
     }
+
+
+    private fun createArtistIfNeed(artist: SpotifyArtist): ZikoArtist? {
+        var zikoArtist = Select().from(ZikoArtist::class.java).where(ZikoArtist_Table.spotifyId.eq(artist.id)).querySingle()
+        if (zikoArtist == null) {
+            zikoArtist = ZikoArtist.spotify(artist.id, artist.name!!)
+            zikoArtist.save()
+        }
+        return zikoArtist
+    }
+
+
+    private fun createAlbumIfNeed(album: SpotifyAlbum, zikoArtist: ZikoArtist): ZikoAlbum {
+        var zikoAlbum = Select().from(ZikoAlbum::class.java)
+                .where(ZikoAlbum_Table.spotifyId.eq(album.id))
+                .or(ZikoAlbum_Table.name.like(album.name!!))
+                .querySingle()
+        if (zikoAlbum == null) {
+            zikoAlbum = ZikoAlbum.spotify(album.id!!, album.name!!, zikoArtist, album.images.get(0).url!!)
+            zikoAlbum.save()
+        }
+        return zikoAlbum
+    }
+
+
 }

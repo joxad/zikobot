@@ -72,14 +72,14 @@ public class ZikoTrack extends BaseModel {
         return track;
     }
 
-    public static ZikoTrack from(SpotifyTrack spotifyTrack) {
+    public static ZikoTrack spotify(SpotifyTrack spotifyTrack, ZikoArtist zikoArtist, ZikoAlbum zikoAlbum, ZikoPlaylist zikoPlaylist) {
+
         ZikoTrack track = new ZikoTrack();
         track.setType(TYPE.SPOTIFY);
         track.setRef("spotify:track:" + spotifyTrack.getId());
-        if (spotifyTrack.getArtists() != null) {
-            //    track.setArtistName(spotifyTrack.getArtists().get(0).getName());
-            //  track.setArtistId(spotifyTrack.getArtists().get(0).getId());
-        }
+        track.associateArtist(zikoArtist);
+        track.associateAlbum(zikoAlbum);
+        track.associatePlaylist(zikoPlaylist);
         track.setName(spotifyTrack.getName());
         track.setDuration(spotifyTrack.getDuration());
         return track;
