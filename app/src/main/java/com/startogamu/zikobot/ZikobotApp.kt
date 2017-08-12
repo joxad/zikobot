@@ -1,6 +1,11 @@
 package com.startogamu.zikobot
 
 import android.app.Application
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
+import android.os.IBinder
 import com.facebook.stetho.Stetho
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.zikobot.data.AppPrefs
@@ -11,10 +16,12 @@ import com.joxad.zikobot.data.module.lastfm.LastFmManager
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager
+import com.joxad.zikobot.data.player.PlayerService
 import com.raizlabs.android.dbflow.config.DatabaseConfig
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.raizlabs.android.dbflow.runtime.DirectModelNotifier
+
 
 /**
  * Created by Jocelyn on 27/07/2017.
@@ -36,4 +43,5 @@ class ZikobotApp : Application() {
         AccountManager.INSTANCE.init()
         PlaylistManager.INSTANCE.init()
     }
+
 }

@@ -81,7 +81,7 @@ public enum LocalMusicManager {
             zikoAlbum = ZikoAlbum.Companion.local(albumId, albumName, zikoArtist);
             Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, albumId);
             if (isUriBitmapValid(albumArtUri))
-                zikoAlbum.image = albumArtUri.toString();
+                zikoAlbum.setImage(albumArtUri.toString());
             zikoAlbum.save();
         }
         return zikoAlbum;

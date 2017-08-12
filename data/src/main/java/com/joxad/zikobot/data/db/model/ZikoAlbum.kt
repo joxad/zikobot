@@ -17,9 +17,9 @@ class ZikoAlbum : BaseModel() {
     @Column
     var spotifyId: String? = null
     @Column
-    lateinit var name: String
+    var name: String = ""
     @Column
-    lateinit var image: String
+    public var image: String = ""
     @Column
     @ForeignKey(stubbedRelationship = false)
     var artist: ZikoArtist? = null

@@ -72,6 +72,17 @@ public class ZikoTrack extends BaseModel {
         return track;
     }
 
+
+    public static ZikoTrack empty() {
+        ZikoTrack track = new ZikoTrack();
+        track.setType(TYPE.EMPTY);
+        track.setId(0);
+        track.setRef(null);
+        track.setLocalId(0);
+
+        return track;
+    }
+
     public static ZikoTrack spotify(SpotifyTrack spotifyTrack, ZikoArtist zikoArtist, ZikoAlbum zikoAlbum, ZikoPlaylist zikoPlaylist) {
 
         ZikoTrack track = new ZikoTrack();
@@ -184,4 +195,5 @@ public class ZikoTrack extends BaseModel {
     public void setDuration(long duration) {
         this.duration = duration;
     }
+
 }

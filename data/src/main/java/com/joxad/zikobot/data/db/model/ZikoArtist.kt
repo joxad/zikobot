@@ -24,9 +24,9 @@ class ZikoArtist : BaseModel() {
     @Column
     var soundcloudId: Int = 0
     @Column
-    lateinit var name: String
+    var name: String =""
     @Column
-    lateinit var image: String
+    var image: String = ""
 
     companion object {
 
