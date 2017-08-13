@@ -7,13 +7,19 @@ import android.media.AudioManager;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.db.model.TYPE;
 import com.joxad.zikobot.data.db.model.ZikoTrack;
+import com.raizlabs.android.dbflow.runtime.DirectModelNotifier;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+
+import java.util.ArrayList;
 
 /**
  * Created by Jocelyn on 12/12/2016.
@@ -74,6 +80,22 @@ public class PlayerService extends Service implements IMusicPlayer {
         }
         androidPlayer.init();
         currentPlayer = vlcPlayer;
+
+        DirectModelNotifier.get().registerForModelChanges(ZikoTrack.class, new DirectModelNotifier.ModelChangedListener<ZikoTrack>() {
+            @Override
+            public void onTableChanged(@Nullable Class<?> tableChanged, @NonNull BaseModel.Action action) {
+                Log.d("Player", tableChanged.getName());
+            }
+
+            @Override
+            public void onModelChanged(ZikoTrack model, BaseModel.Action action) {
+                if (model.zikoPlaylist.getId() == 1 && action == BaseModel.Action.SAVE) {
+                    Log.d("Player", "Handle change in playing playlist");
+                    play(model);
+                }
+            }
+        });
+
     }
 
 

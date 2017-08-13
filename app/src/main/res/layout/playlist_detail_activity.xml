@@ -46,6 +46,21 @@
             app:layoutManager="@{LayoutManagers.grid(1)}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+        <android.support.v7.widget.CardView
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            app:behavior_peekHeight="@dimen/view_player_height"
+            app:cardElevation="16dp"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+
+            <include
+                android:id="@+id/view_player"
+                layout="@layout/player_view_bottom"
+                app:playerVM="@{playlistDetailActivityVM.playerVM}" />
+        </android.support.v7.widget.CardView>
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>

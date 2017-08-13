@@ -40,16 +40,16 @@
 
             android:layout_below="@id/view_player_current">
 
-            <!--  <com.joxad.zikobot.app.core.viewutils.AnimatedGridRecyclerView
-                  android:id="@+id/rv_tracks"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:visibility="@{playerVM.showList ? v.VISIBLE : v.GONE}"
-                  app:itemBinding="@{playerVM.itemView}"
-                  app:items="@{playerVM.trackVMs}"
-                  app:layoutManager="@{LayoutManagers.grid(1)}" />
+            <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView                android:id="@+id/rv_tracks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layoutAnimation="@anim/grid_animation"
+                android:visibility="@{playerVM.showList ? v.VISIBLE : v.GONE}"
+                app:itemBinding="@{playerVM.itemBinding}"
+                app:items="@{playerVM.items}"
+                app:layoutManager="@{LayoutManagers.grid(1)}" />
 
-  -->
+
             <FrameLayout
                 android:id="@+id/fl_vinyl"
                 android:layout_width="wrap_content"

@@ -24,16 +24,24 @@ enum class PlaylistManager {
 
     fun init() {
         refreshSubject = BehaviorSubject.create()
+        if (select.from(ZikoPlaylist::class.java).count() == 0L)
+            ZikoPlaylist("current", 0, "", ArrayList()).save()
     }
 
     fun findAll(): RXModelQueriableImpl<ZikoPlaylist> {
         return (select.from(ZikoPlaylist::class.java)
+                .where(ZikoPlaylist_Table.id.notEq(1))
                 .orderBy(OrderBy.fromProperty(ZikoPlaylist_Table.name).collate(Collate.NOCASE).ascending())
                 .rx())
     }
 
     fun save() {
 
+    }
+
+    fun findPlayingPlaylist(): ZikoPlaylist? {
+        return select.from(ZikoPlaylist::class.java)
+                .where(ZikoPlaylist_Table.id.eq(1)).querySingle()
     }
 
     fun findOne(playlistId: Long): RXModelQueriableImpl<ZikoPlaylist> {

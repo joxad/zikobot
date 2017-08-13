@@ -1,6 +1,7 @@
 package com.joxad.zikobot.data.db.model;
 
 
+import com.joxad.zikobot.data.db.PlaylistManager;
 import com.joxad.zikobot.data.db.ZikoDB;
 import com.joxad.zikobot.data.module.localmusic.model.LocalTrack;
 import com.joxad.zikobot.data.module.soundcloud.model.SoundCloudTrack;
@@ -58,6 +59,18 @@ public class ZikoTrack extends BaseModel {
         this.name = "Loading";
     }
 
+    public static ZikoTrack trackToPlay(ZikoTrack zikoTrack) {
+        ZikoTrack track = new ZikoTrack();
+        track.zikoArtist = zikoTrack.zikoArtist;
+        track.zikoAlbum = zikoTrack.zikoAlbum;
+        track.setType(zikoTrack.getType());
+        track.zikoPlaylist = PlaylistManager.INSTANCE.findPlayingPlaylist();
+        track.setLocalId(zikoTrack.localId);
+        track.ref = zikoTrack.ref;
+        track.setName(zikoTrack.name);
+        track.setDuration(zikoTrack.getDuration());
+        return track;
+    }
 
     public static ZikoTrack local(LocalTrack localTrack, ZikoArtist zikoArtist, ZikoAlbum zikoAlbum) {
         ZikoTrack track = new ZikoTrack();

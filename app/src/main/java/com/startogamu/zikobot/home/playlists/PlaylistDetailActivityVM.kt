@@ -9,6 +9,7 @@ import com.startogamu.zikobot.Constants
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.PlaylistDetailActivityBinding
 import com.startogamu.zikobot.home.track.TrackVM
+import com.startogamu.zikobot.player.PlayerVM
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 
 /**
@@ -19,10 +20,18 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
     lateinit var items: ObservableArrayList<TrackVM>
     var itemBinding = ItemBinding.of<TrackVM>(BR.trackVM, R.layout.track_item)
     lateinit var playlistVM: PlaylistVM
+    lateinit var playerVM: PlayerVM
+
     override fun onCreate(saved: Bundle?) {
         items = ObservableArrayList<TrackVM>()
+        playerVM = PlayerVM(activity,binding.viewPlayer)
 
         loadData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        playerVM.onResume()
     }
 
     /***

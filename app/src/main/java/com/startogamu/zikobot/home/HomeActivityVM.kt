@@ -104,6 +104,11 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        playerVM.onResume()
+    }
+
     private fun startSyncService() {
         if (AppPrefs.getSpotifyAccessToken().isNullOrEmpty())
             showAccount()

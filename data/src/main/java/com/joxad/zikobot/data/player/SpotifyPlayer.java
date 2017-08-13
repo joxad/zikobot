@@ -140,6 +140,8 @@ public class SpotifyPlayer implements IMusicPlayer {
                 nbFail = 0;
                 player.addNotificationCallback(notificationCallback);
                 player.addConnectionStateCallback(connexionStateCallback);
+                if (lastRef != null)
+                    player.playUri(mOperationCallback, lastRef, 0, 0);
             }
 
             @Override
@@ -161,9 +163,7 @@ public class SpotifyPlayer implements IMusicPlayer {
             AppPrefs.saveAccessToken(newToken);
             if (!oldToken.equals(newToken)) {
                 hasRefreshed = true;
-                refreshPlayer(//() -> {
-                        // player.playUri(mOperationCallback, ref, 0, 0);
-                );
+                refreshPlayer();
             }
         }, throwable -> {
             if (throwable instanceof UnknownHostException) {

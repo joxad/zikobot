@@ -26,8 +26,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <FrameLayout
                 android:id="@+id/fl_btn"
@@ -41,25 +40,23 @@
                     android:id="@+id/iv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:onClick="@{playerVM::playPause}"
-                    android:src="@{playerVM.isPlaying ? @drawable/ic_pause : @drawable/ic_play_arrow, default = @drawable/ic_play_arrow}"
-                    android:visibility="@{playerVM.isExpanded ? v.GONE:v.VISIBLE}" />
+                    android:visibility="@{playerVM.isExpanded ? v.GONE:v.VISIBLE}"
+                    android:src="@{playerVM.isPlaying ? @drawable/ic_pause : @drawable/ic_play_arrow, default = @drawable/ic_play_arrow}" />
 
                 <ImageView
                     android:id="@+id/iv_show_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{playerVM::showListTracks}"
-                    android:src="@{playerVM.showList ? @drawable/ic_queue_music_accent : @drawable/ic_queue_music_off}"
-                    android:visibility="@{playerVM.isExpanded ? v.VISIBLE:v.GONE}" />
+                    android:visibility="@{playerVM.isExpanded ? v.VISIBLE:v.GONE}"
+                    android:src="@{playerVM.showList ? @drawable/ic_queue_music_accent : @drawable/ic_queue_music_off}" />
             </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/fl_btn"
                 android:layout_toStartOf="@id/fl_btn"
                 android:orientation="horizontal">
 
@@ -68,7 +65,6 @@
                     android:layout_height="@dimen/playerHeight"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
                     app:imageUrl="@{trackVM.image}" />
 
                 <LinearLayout
@@ -77,7 +73,6 @@
                     android:layout_gravity="center_vertical"
                     android:layout_margin="@dimen/margin_medium"
                     android:orientation="vertical">
-
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -98,7 +93,6 @@
                         android:lines="1"
                         android:maxLines="1"
                         android:text="@{trackVM.artistName}"
-                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/textSizeTitleItem"
                         tools:text="Oasis" />
                 </LinearLayout>

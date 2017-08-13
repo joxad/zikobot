@@ -21,11 +21,18 @@ import android.widget.Toast;
 
 import com.joxad.easydatabinding.base.IVM;
 import com.joxad.zikobot.data.AppPrefs;
+import com.joxad.zikobot.data.db.PlaylistManager;
 import com.joxad.zikobot.data.db.model.ZikoTrack;
 import com.joxad.zikobot.data.player.PlayerService;
 import com.startogamu.zikobot.BR;
+import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.databinding.PlayerViewBottomBinding;
 import com.startogamu.zikobot.home.track.TrackVM;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by Jocelyn on 12/12/2016.
@@ -37,7 +44,7 @@ public class PlayerVM extends BaseObservable implements IVM {
     public final ObservableBoolean isExpanded = new ObservableBoolean(false);
     private final PlayerViewBottomBinding binding;
     public ObservableField<Integer> seekBarValue = new ObservableField<>(0);
-    //public ItemBinding itemView = ItemBinding.of(BR.trackVM, R.layout.item_track_player);
+    public ItemBinding itemBinding = ItemBinding.of(BR.trackVM, R.layout.track_item_player);
     public ObservableBoolean showList;
     private ServiceConnection musicConnection;
     private AppCompatActivity activity;
@@ -205,10 +212,21 @@ public class PlayerVM extends BaseObservable implements IVM {
 
     @Bindable
     public TrackVM getCurrentTrackVM() {
-        if (playerService !=null && playerService.getCurrentTrack()!=null)
-        return new TrackVM(activity, playerService.getCurrentTrack()); else {
+        if (playerService != null && playerService.getCurrentTrack() != null)
+            return new TrackVM(activity, playerService.getCurrentTrack());
+        else {
             return new TrackVM(activity, ZikoTrack.empty());
         }
     }
+
+    @Bindable
+    public List<TrackVM> getItems() {
+        ArrayList<TrackVM> trackVMS = new ArrayList<>();
+        for (ZikoTrack zikoTrack : PlaylistManager.INSTANCE.findPlayingPlaylist().getForeignTracks()) {
+            trackVMS.add(new TrackVM(activity, zikoTrack));
+        }
+        return trackVMS;
+    }
+
 
 }

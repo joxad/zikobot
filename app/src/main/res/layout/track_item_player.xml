@@ -6,6 +6,7 @@
 
     <data>
 
+        <import type="android.view.View"/>
         <variable
             name="trackVM"
             type="com.startogamu.zikobot.home.track.TrackVM" />
@@ -18,10 +19,23 @@
         android:onClick="@{trackVM::onClick}"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="@dimen/bt_height"
-            android:layout_height="@dimen/bt_height"
-            app:imageUrl="@{trackVM.image}" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="@dimen/bt_height"
+                android:layout_height="@dimen/bt_height"
+                app:imageUrl="@{trackVM.image}" />
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:layout_width="@dimen/item_play_size"
+                android:layout_height="@dimen/item_play_size"
+                android:layout_centerInParent="true"
+                android:visibility="@{trackVM.playing? View.VISIBLE: View.GONE}"
+                app:indicatorColor="@color/colorAccent"
+                app:indicatorName="LineScalePulseOutRapidIndicator" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
