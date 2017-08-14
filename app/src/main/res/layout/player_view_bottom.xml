@@ -15,7 +15,9 @@
             type="com.startogamu.zikobot.player.PlayerVM" />
     </data>
 
+
     <RelativeLayout
+        android:id="@+id/playerViewBottomRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
@@ -40,7 +42,8 @@
 
             android:layout_below="@id/view_player_current">
 
-            <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView                android:id="@+id/rv_tracks"
+            <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
+                android:id="@+id/rv_tracks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layoutAnimation="@anim/grid_animation"
@@ -70,4 +73,5 @@
 
 
     </RelativeLayout>
+
 </layout>

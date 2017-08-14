@@ -6,9 +6,8 @@ import android.databinding.BindingAdapter
 import android.databinding.ObservableBoolean
 import android.view.View
 import com.joxad.easydatabinding.base.BaseVM
-import com.joxad.zikobot.data.db.ZikoDB
+import com.joxad.zikobot.data.db.CurrentPlaylistManager
 import com.joxad.zikobot.data.db.model.ZikoTrack
-import com.raizlabs.android.dbflow.config.FlowManager
 import com.wang.avi.AVLoadingIndicatorView
 
 
@@ -55,11 +54,8 @@ class TrackVM
         }
 
     fun onClick(v: View) {
-        val database = FlowManager.getDatabase(ZikoDB::class.java)
-        val transaction = database.beginTransactionAsync({ ZikoTrack.trackToPlay(model).save() }).build()
-        transaction.execute()
+        CurrentPlaylistManager.INSTANCE.play(model)
     }
-
 
 
     companion object {

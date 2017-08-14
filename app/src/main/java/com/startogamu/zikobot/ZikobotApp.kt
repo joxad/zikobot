@@ -9,6 +9,7 @@ import android.os.IBinder
 import com.facebook.stetho.Stetho
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.zikobot.data.AppPrefs
+import com.joxad.zikobot.data.db.CurrentPlaylistManager
 import com.joxad.zikobot.data.db.PlaylistManager
 import com.joxad.zikobot.data.db.ZikoDB
 import com.joxad.zikobot.data.module.accounts.AccountManager
@@ -21,6 +22,7 @@ import com.raizlabs.android.dbflow.config.DatabaseConfig
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.raizlabs.android.dbflow.runtime.DirectModelNotifier
+import com.wonderkiln.blurkit.BlurKit
 
 
 /**
@@ -42,6 +44,9 @@ class ZikobotApp : Application() {
         LastFmManager.INSTANCE.init(this)
         AccountManager.INSTANCE.init()
         PlaylistManager.INSTANCE.init()
+        CurrentPlaylistManager.INSTANCE.init()
+        BlurKit.init(this)
+
     }
 
 }

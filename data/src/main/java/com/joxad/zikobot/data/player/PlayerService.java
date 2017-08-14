@@ -7,19 +7,14 @@ import android.media.AudioManager;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 
 import com.joxad.zikobot.data.AppPrefs;
+import com.joxad.zikobot.data.db.CurrentPlaylistManager;
 import com.joxad.zikobot.data.db.model.TYPE;
 import com.joxad.zikobot.data.db.model.ZikoTrack;
-import com.raizlabs.android.dbflow.runtime.DirectModelNotifier;
-import com.raizlabs.android.dbflow.structure.BaseModel;
-
-import java.util.ArrayList;
 
 /**
  * Created by Jocelyn on 12/12/2016.
@@ -34,12 +29,10 @@ public class PlayerService extends Service implements IMusicPlayer {
     VLCPlayer vlcPlayer;
     AndroidPlayer androidPlayer;
     SpotifyPlayer spotifyPlayer;
-    private int currentIndex = 0;
     private int currentProgress = 0;
     private MediaSessionCompat mediaSession;
     private Handler timeHandler;
     private IMusicPlayer currentPlayer;
-    private ZikoTrack currentTrack;
 
     @Override
     public void onCreate() {
@@ -81,20 +74,7 @@ public class PlayerService extends Service implements IMusicPlayer {
         androidPlayer.init();
         currentPlayer = vlcPlayer;
 
-        DirectModelNotifier.get().registerForModelChanges(ZikoTrack.class, new DirectModelNotifier.ModelChangedListener<ZikoTrack>() {
-            @Override
-            public void onTableChanged(@Nullable Class<?> tableChanged, @NonNull BaseModel.Action action) {
-                Log.d("Player", tableChanged.getName());
-            }
-
-            @Override
-            public void onModelChanged(ZikoTrack model, BaseModel.Action action) {
-                if (model.zikoPlaylist.getId() == 1 && action == BaseModel.Action.SAVE) {
-                    Log.d("Player", "Handle change in playing playlist");
-                    play(model);
-                }
-            }
-        });
+        CurrentPlaylistManager.INSTANCE.refreshSubject.subscribe(this::play);
 
     }
 
@@ -106,10 +86,10 @@ public class PlayerService extends Service implements IMusicPlayer {
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, currentTrackVM.getDuration())
                 .build());*/
         updatePlayer(zikoTrack);
+        play(zikoTrack.getRef());
     }
 
     private void updatePlayer(ZikoTrack track) {
-        currentTrack = track;
         currentPlayer.stop();
         switch (track.getType()) {
             case TYPE.LOCAL:
@@ -128,7 +108,6 @@ public class PlayerService extends Service implements IMusicPlayer {
                 currentPlayer = androidPlayer;
                 break;
         }
-        play(track.getRef());
     }
 
     @Override
@@ -185,8 +164,10 @@ public class PlayerService extends Service implements IMusicPlayer {
     }
 
     public int positionMax() {
-        if (currentTrack == null) return 0;
-        return (int) currentTrack.getDuration();
+        ZikoTrack zikoTrack = CurrentPlaylistManager.INSTANCE.getCurrentTrack();
+        if (zikoTrack != null)
+            return (int) zikoTrack.getDuration();
+        else return 0;
     }
 
     public void next() {
@@ -209,7 +190,4 @@ public class PlayerService extends Service implements IMusicPlayer {
         }
     }
 
-    public ZikoTrack getCurrentTrack() {
-        return currentTrack;
-    }
 }
