@@ -16,6 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutAnimation="@anim/grid_animation"
+        android:paddingBottom="@dimen/paddingBottom"
+        android:clipToPadding="false"
         app:itemBinding="@{artistsFragmentVM.itemBinding}"
         app:items="@{artistsFragmentVM.items}"
         app:layoutManager="@{LayoutManagers.grid(2)}" />

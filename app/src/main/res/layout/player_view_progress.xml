@@ -28,13 +28,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="5">
 
 
                 <ImageView
                     android:id="@+id/iv_previous"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/item_play_size"
                     android:layout_weight="1"
                     android:src="@drawable/ic_previous" />
 
@@ -49,9 +49,28 @@
                 <ImageView
                     android:id="@+id/iv_next"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/item_play_size"
                     android:layout_weight="1"
                     android:src="@drawable/ic_next" />
+
+                <ImageView
+                    android:id="@+id/iv_show_list"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/item_play_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:onClick="@{playerVM::showListTracks}"
+                    android:src="@{playerVM.showList ? @drawable/ic_queue_music_accent : @drawable/ic_queue_music_off}" />
+
+                <ImageView
+                    android:id="@+id/iv_dismiss"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/item_play_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:onClick="@{playerVM::dismiss}"
+                    android:src="@drawable/ic_hide" />
+
             </LinearLayout>
 
 

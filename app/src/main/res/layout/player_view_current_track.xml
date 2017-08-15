@@ -28,30 +28,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/fl_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_margin="@dimen/margin_medium">
+                android:layout_margin="@dimen/margin_medium"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/iv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{playerVM::playPause}"
-                    android:visibility="@{playerVM.isExpanded ? v.GONE:v.VISIBLE}"
+
+                    android:padding="@dimen/margin_medium"
                     android:src="@{playerVM.isPlaying ? @drawable/ic_pause : @drawable/ic_play_arrow, default = @drawable/ic_play_arrow}" />
 
                 <ImageView
-                    android:id="@+id/iv_show_list"
+                    android:id="@+id/iv_expand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{playerVM::showListTracks}"
-                    android:visibility="@{playerVM.isExpanded ? v.VISIBLE:v.GONE}"
-                    android:src="@{playerVM.showList ? @drawable/ic_queue_music_accent : @drawable/ic_queue_music_off}" />
-            </FrameLayout>
+                    android:onClick="@{playerVM::expand}"
+                    android:padding="@dimen/margin_medium"
+                    android:src="@drawable/ic_expand" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,9 +84,9 @@
                         android:ellipsize="end"
                         android:lines="1"
                         android:maxLines="1"
-                        android:textStyle="bold"
                         android:text="@{trackVM.title}"
                         android:textSize="18sp"
+                        android:textStyle="bold"
                         tools:text="Wonderwall" />
 
                     <TextView

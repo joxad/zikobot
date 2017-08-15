@@ -117,7 +117,7 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
             playerService!!.pause()
         else
             playerService!!.resume()
-        //notifyPropertyChanged(BR.playing);
+        notifyPropertyChanged(BR.playing)
     }
 
 
@@ -173,13 +173,20 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
         return true
     }
 
+    fun dismiss(view: View) {
+        behavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+    }
+
+    fun expand(view: View) {
+        behavior!!.state = BottomSheetBehavior.STATE_EXPANDED
+    }
 
     /**
 
      */
     private fun rotateCD() {
-        binding!!.layoutVinyl?.rlPlayer?.animate()?.rotationBy(if (isPlaying) 4f else 0f)
-                ?.setDuration(70)?.withEndAction { this.rotateCD() }
+        binding!!.layoutVinyl?.rlPlayer?.animate()?.rotationBy(if (isPlaying) 1f else 0f)
+                ?.setDuration(20)?.withEndAction { this.rotateCD() }
     }
 
     /**
