@@ -3,7 +3,6 @@ package com.joxad.zikobot.data.db
 import com.joxad.zikobot.data.db.model.ZikoTrack
 import com.joxad.zikobot.data.db.model.ZikoTrack_Table
 import com.raizlabs.android.dbflow.config.FlowManager
-import com.raizlabs.android.dbflow.kotlinextensions.delete
 import com.raizlabs.android.dbflow.sql.language.Select
 import io.reactivex.subjects.PublishSubject
 
@@ -53,20 +52,20 @@ enum class CurrentPlaylistManager {
         val result = Select().from(ZikoTrack::class.java).where(ZikoTrack_Table.ref.eq(track.ref))
                 .and(ZikoTrack_Table.zikoPlaylist_id.eq(1)).querySingle()
         if (result == null) {
-            val database = FlowManager.getDatabase(ZikoDB::class.java)
-            val transaction = database.beginTransactionAsync({
-                val zikoTrack = ZikoTrack.trackToPlay(track)
-                zikoTrack.save()
-            }).build()
-            transaction.execute()
+            val zikoTrack = ZikoTrack.trackToPlay(track)
+            zikoTrack.save()
         }
     }
 
     fun play(tracks: List<ZikoTrack>) {
 
+        val oldHisto = Select().from(ZikoTrack::class.java).where(ZikoTrack_Table.zikoPlaylist_id.eq(1)).queryList()
         val database = FlowManager.getDatabase(ZikoDB::class.java)
+
         val transaction = database.beginTransactionAsync({
-            Select().from(ZikoTrack::class.java).where(ZikoTrack_Table.zikoPlaylist_id.eq(1)).delete()
+            for (oldTrack in oldHisto) {
+                oldTrack.delete()
+            }
             for (zTrack in tracks) {
                 addTrack(zTrack)
             }

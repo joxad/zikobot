@@ -18,8 +18,10 @@
         android:layout_height="match_parent">
 
         <include
+            android:id="@+id/toolbar_detail_activity"
             layout="@layout/toolbar_detail_activity"
-            app:image="@{artistDetailActivityVM.artistVM.image}" />
+            app:image="@{artistDetailActivityVM.artistVM.image}"
+            app:title="@{artistDetailActivityVM.artistVM.name}" />
 
         <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
             android:layout_width="match_parent"
@@ -27,6 +29,7 @@
             android:clipToPadding="false"
             android:layoutAnimation="@anim/grid_animation"
             android:paddingBottom="@dimen/paddingBottom"
+            android:paddingTop="@dimen/paddingBottom"
             app:itemBinding="@{artistDetailActivityVM.itemView}"
             app:items="@{artistDetailActivityVM.items}"
             app:layoutManager="@{LayoutManagers.grid(1)}"
@@ -51,12 +54,14 @@
 
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_vertical_margin"
-            app:fabSize="normal"
             android:onClick="@{artistDetailActivityVM.playAll}"
-            app:layout_anchor="@id/app_bar_layout"
+            android:visibility="gone"
+            app:fabSize="normal"
+            app:layout_anchor="@id/toolbar_detail_activity"
             app:layout_anchorGravity="end|bottom"
             app:srcCompat="@drawable/ic_play_arrow" />
     </android.support.design.widget.CoordinatorLayout>
