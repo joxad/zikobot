@@ -109,6 +109,10 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
         playerVM.onResume()
     }
 
+    override fun onBackPressed(): Boolean {
+
+        return playerVM.onBackPressed()
+    }
     private fun startSyncService() {
         if (AppPrefs.getSpotifyAccessToken().isNullOrEmpty())
             showAccount()

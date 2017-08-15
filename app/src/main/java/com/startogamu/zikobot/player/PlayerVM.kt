@@ -178,8 +178,8 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
 
      */
     private fun rotateCD() {
-        binding!!.layoutVinyl?.rlPlayer?.animate()?.rotationBy(if (isPlaying) 2f else 0f)
-                ?.setDuration(40)?.withEndAction { this.rotateCD() }
+        binding!!.layoutVinyl?.rlPlayer?.animate()?.rotationBy(if (isPlaying) 4f else 0f)
+                ?.setDuration(70)?.withEndAction { this.rotateCD() }
     }
 
     /**

@@ -2,6 +2,8 @@ package com.joxad.zikobot.data.db
 
 import com.joxad.zikobot.data.db.model.ZikoArtist
 import com.joxad.zikobot.data.db.model.ZikoArtist_Table
+import com.joxad.zikobot.data.db.model.ZikoPlaylist
+import com.joxad.zikobot.data.db.model.ZikoPlaylist_Table
 import com.raizlabs.android.dbflow.annotation.Collate
 import com.raizlabs.android.dbflow.kotlinextensions.select
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
@@ -19,4 +21,12 @@ object ArtistManager {
                 .orderBy(OrderBy.fromProperty(ZikoArtist_Table.name).collate(Collate.NOCASE).ascending())
                 .rx())
     }
+
+
+    fun findOne(artistId: Int): RXModelQueriableImpl<ZikoArtist> {
+        return (select.from(ZikoArtist::class.java)
+                .where(ZikoArtist_Table.id.eq(artistId))
+                .rx())
+    }
+
 }

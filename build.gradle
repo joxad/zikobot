@@ -52,8 +52,8 @@ apply from: 'androidcoreutils/gradle/tasks/imports.gradle'
 
 
 ext {
-    androidCompileSdkVersion = 25
-    androidBuildToolsVersion = '25.0.2'
+    androidCompileSdkVersion = 26
+    androidBuildToolsVersion = '26.0.1'
     androidMinSdkVersion = 21
-    androidTargetSdkVersion = 25
+    androidTargetSdkVersion = 26
 }

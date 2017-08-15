@@ -1,10 +1,8 @@
 package com.joxad.zikobot.data.db.model
 
 import com.joxad.zikobot.data.db.ZikoDB
-import com.raizlabs.android.dbflow.annotation.Column
-import com.raizlabs.android.dbflow.annotation.ConflictAction
-import com.raizlabs.android.dbflow.annotation.PrimaryKey
-import com.raizlabs.android.dbflow.annotation.Table
+import com.raizlabs.android.dbflow.annotation.*
+import com.raizlabs.android.dbflow.sql.language.SQLite
 import com.raizlabs.android.dbflow.structure.BaseModel
 
 
@@ -28,6 +26,7 @@ class ZikoArtist : BaseModel() {
     @Column
     var image: String = ""
 
+    lateinit var tracks: MutableList<ZikoTrack>
     companion object {
 
         fun local(localId: Long, name: String): ZikoArtist {
@@ -44,5 +43,20 @@ class ZikoArtist : BaseModel() {
             zikoArtist.name = name
             return zikoArtist
         }
+    }
+
+
+
+    /****
+     * @return
+     */
+    @OneToMany(methods = arrayOf(OneToMany.Method.SAVE, OneToMany.Method.DELETE), variableName = "tracks")
+    fun getForeignTracks(): List<ZikoTrack> {
+        tracks = SQLite.select()
+                .from(ZikoTrack::class.java)
+                .where(ZikoTrack_Table.zikoArtist_id.eq(id))
+                .queryList()
+
+        return tracks
     }
 }

@@ -1,5 +1,6 @@
 package com.startogamu.zikobot.home.artists
 
+import android.app.Activity
 import android.content.Context
 import android.databinding.Bindable
 import android.view.View
@@ -9,6 +10,7 @@ import com.joxad.easydatabinding.base.BaseVM
 import com.joxad.zikobot.data.db.model.ZikoArtist
 import com.joxad.zikobot.data.module.lastfm.LastFmManager
 import com.startogamu.zikobot.BR
+import com.startogamu.zikobot.NavigationManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -47,6 +49,6 @@ class ArtistVM(context: Context, model: ZikoArtist) : BaseVM<ZikoArtist>(context
     }
 
     fun onClick(view: View) {
-
+        NavigationManager.goToArtist(context as Activity, model, view)
     }
 }
