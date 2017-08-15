@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -16,31 +17,33 @@
     </data>
 
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/playerViewBottomRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:onClick="@{playerVM::trickClick}">
+        android:minHeight="1000dp"
+        android:onClick="@{playerVM::trickClick}"
+        android:orientation="vertical">
 
 
         <include
             android:id="@+id/view_player_current"
             layout="@layout/player_view_current_track"
+            android:visibility="@{playerVM.expanded? v.GONE: v.VISIBLE}"
             app:playerVM="@{playerVM}"
             app:trackVM="@{playerVM.currentTrackVM}" />
 
+        <include
+            android:id="@+id/view_player_progress"
+            layout="@layout/player_view_progress"
+            android:visibility="@{playerVM.expanded? v.VISIBLE: v.GONE}"
+            app:playerVM="@{playerVM}" />
 
-        <!--<include
-            android:id="@+id/view_progress"
-            layout="@layout/view_progress"
-            app:playerVM="@{playerVM}" />-->
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:layout_below="@id/view_player_current">
+            android:layout_height="match_parent">
 
             <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
                 android:id="@+id/rv_tracks"
@@ -57,8 +60,8 @@
                 android:id="@+id/fl_vinyl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:onClick="@{playerVM::clickVinyl}"
                 android:visibility="@{playerVM.showList ? v.GONE : v.VISIBLE}">
 
@@ -68,10 +71,76 @@
                     app:trackVM="@{playerVM.currentTrackVM}" />
             </FrameLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fl_vinyl"
+                android:layout_margin="@dimen/margin_medium"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="@{playerVM.showList ? v.GONE : v.VISIBLE}">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@{playerVM.currentTrackVM.title}"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="Wonderwall" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="@{playerVM.currentTrackVM.artistName}"
+                    android:textSize="@dimen/textSizeTitleItem"
+                    tools:text="Oasis" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/tv_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{playerVM.readableTime(playerVM.seekBarValue)}"
+                        tools:text="1:00" />
+
+                    <TextView
+                        android:id="@+id/tv_duration_max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="@{playerVM.readableTime(playerVM.positionMax)}"
+                        tools:text="3:OO" />
+
+                    <SeekBar
+                        android:id="@+id/progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_duration"
+                        android:max="@{playerVM.positionMax}"
+                        android:onProgressChanged="@{playerVM.onValueChanged}"
+                        android:progress="@{playerVM.seekBarValue}" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
 
         </RelativeLayout>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </layout>

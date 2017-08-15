@@ -14,7 +14,6 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
 import android.view.View
-import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.Toast
 import com.joxad.easydatabinding.base.IVM
@@ -30,6 +29,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Jocelyn on 12/12/2016.
@@ -40,7 +40,8 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
     val isBound = ObservableBoolean(false)
     val isExpanded = ObservableBoolean(false)
     var seekBarValue = ObservableField(0)
-    var itemBinding: ItemBinding<*> = ItemBinding.of<Any>(BR.trackVM, R.layout.track_item_player)
+    var itemBinding: ItemBinding<TrackVM> = ItemBinding.of<TrackVM>(BR.trackVM, R.layout.track_item_player)
+    var itemBindingViewPager: ItemBinding<TrackVM> = ItemBinding.of<TrackVM>(BR.trackVM, R.layout.track_item_player_large)
     lateinit var showList: ObservableBoolean
     private var musicConnection: ServiceConnection? = null
     private var playerService: PlayerService? = null
@@ -178,7 +179,7 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
      */
     private fun rotateCD() {
         binding!!.layoutVinyl?.rlPlayer?.animate()?.rotationBy(if (isPlaying) 2f else 0f)
-                ?.setDuration(50)?.withEndAction { this.rotateCD() }
+                ?.setDuration(40)?.withEndAction { this.rotateCD() }
     }
 
     /**
@@ -226,5 +227,40 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
             return trackVMS
         }
 
+    /***
+     * Return am or pm value
+
+     * @param hour
+     * *
+     * @return
+     */
+    fun amPm(hour: Int): String {
+        val am = "AM"
+        val pm = "PM"
+        var after = am
+        if (hour >= 12) {
+            after = pm
+        }
+        return after
+    }
+
+    fun amPmHour(hour: Int): Int {
+        var hour = hour
+        if (hour > 12)
+            hour -= 12
+        else {
+            if (hour == 0)
+                hour = 12
+        }
+        return hour
+    }
+
+
+    fun readableTime(millis: Long): String {
+        return String.format("%2d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(millis), TimeUnit.MILLISECONDS.toSeconds(millis) -
+                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
+        )
+    }
 
 }

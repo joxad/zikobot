@@ -81,6 +81,7 @@
                         android:ellipsize="end"
                         android:lines="1"
                         android:maxLines="1"
+                        android:textStyle="bold"
                         android:text="@{trackVM.title}"
                         android:textSize="18sp"
                         tools:text="Wonderwall" />
