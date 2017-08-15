@@ -2,9 +2,12 @@ package com.startogamu.zikobot.home.artists
 
 import android.databinding.ObservableArrayList
 import android.os.Bundle
+import android.view.View
 
 import com.joxad.easydatabinding.activity.ActivityBaseVM
 import com.joxad.zikobot.data.db.ArtistManager
+import com.joxad.zikobot.data.db.CurrentPlaylistManager
+import com.joxad.zikobot.data.db.model.ZikoTrack
 import com.startogamu.zikobot.ABasePlayerActivityVM
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.Constants
@@ -16,6 +19,11 @@ import com.startogamu.zikobot.home.track.TrackVM
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 
 class ArtistDetailActivityVM(activity: ArtistDetailActivity, binding: ArtistDetailActivityBinding, savedInstance: Bundle?) : ABasePlayerActivityVM<ArtistDetailActivity, ArtistDetailActivityBinding>(activity, binding, savedInstance) {
+    override fun playAll(view: View?) {
+        val list : List<ZikoTrack> = items.map { it.model }
+        CurrentPlaylistManager.INSTANCE.play(list)
+    }
+
     override fun playerBinding(): PlayerViewBottomBinding {
         return binding.viewPlayer!!
     }

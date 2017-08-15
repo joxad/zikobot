@@ -10,12 +10,14 @@
     </data>
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentInsetStart="0dp">
 
             <android.support.v7.widget.AppCompatImageView
@@ -26,6 +28,7 @@
                 android:transitionName="@string/transition"
                 app:imageUrl="@{image}" />
         </android.support.v7.widget.Toolbar>
+
     </android.support.design.widget.AppBarLayout>
 
 </layout>

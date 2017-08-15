@@ -3,6 +3,7 @@ package com.startogamu.zikobot;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
@@ -45,6 +46,8 @@ public abstract class ABasePlayerActivityVM<A extends ActivityBase, B extends Vi
     protected boolean onBackPressed() {
         return playerVM.onBackPressed();
     }
+
+    public abstract void playAll(View view);
 
     @Override
     public void onPause() {
