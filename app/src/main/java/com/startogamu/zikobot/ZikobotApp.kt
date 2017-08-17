@@ -4,6 +4,7 @@ import android.app.Application
 import com.facebook.stetho.Stetho
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.zikobot.data.AppPrefs
+import com.joxad.zikobot.data.db.AlarmManager
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
 import com.joxad.zikobot.data.db.PlaylistManager
 import com.joxad.zikobot.data.db.ZikoDB
@@ -37,6 +38,7 @@ class ZikobotApp : Application() {
         LastFmManager.INSTANCE.init(this)
         AccountManager.INSTANCE.init()
         PlaylistManager.INSTANCE.init()
+        AlarmManager.INSTANCE.init(this)
         CurrentPlaylistManager.INSTANCE.init()
     }
 

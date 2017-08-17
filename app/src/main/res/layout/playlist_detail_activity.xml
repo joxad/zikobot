@@ -56,12 +56,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:onClick="@{playlistDetailActivityVM.playAll}"
-            android:visibility="gone"
+            android:onClick="@{playlistDetailActivityVM::playAll}"
+            android:visibility="visible"
             app:fabSize="normal"
             app:layout_anchor="@id/toolbar_detail_activity"
             app:layout_anchorGravity="end|bottom"
             app:srcCompat="@drawable/ic_play_arrow" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabAlarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/paddingBottom"
+            android:onClick="@{playlistDetailActivityVM::playAll}"
+            android:visibility="visible"
+            app:fabSize="mini"
+            app:layout_anchor="@id/toolbar_detail_activity"
+            app:layout_anchorGravity="end|bottom"
+            app:srcCompat="@drawable/ic_alarm" />
+        <!--            app:backgroundTint="@{playlistDetailActivityVM.playlistVM.alarm ? @color/colorAccent : @color/gray_light}"
+-->
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>

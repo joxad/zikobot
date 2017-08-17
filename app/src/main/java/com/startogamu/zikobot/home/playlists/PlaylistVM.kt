@@ -5,6 +5,7 @@ import android.content.Context
 import android.databinding.Bindable
 import android.view.View
 import com.joxad.easydatabinding.base.BaseVM
+import com.joxad.zikobot.data.db.AlarmManager
 import com.joxad.zikobot.data.db.model.ZikoPlaylist
 import com.startogamu.zikobot.NavigationManager
 import com.startogamu.zikobot.R
@@ -46,4 +47,12 @@ open class PlaylistVM(section: Boolean, context: Context, model: ZikoPlaylist) :
                 , v.findViewById(R.id.shared_element))
     }
 
+    @Bindable
+    fun getAlarm(): Boolean {
+        val alarm = AlarmManager.INSTANCE.getAlarmById(model.id)
+        return if (alarm != null) {
+            alarm.active
+        } else
+            false
+    }
 }

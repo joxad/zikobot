@@ -11,10 +11,10 @@ import com.joxad.zikobot.data.module.spotify_api.model.SpotifySearchResult;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTopTracks;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyUser;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import io.reactivex.Observable;
 
 
 /**
@@ -46,6 +46,9 @@ public interface SpotifyAPIEndpoint {
 
     @GET("artists/{id}")
     Observable<SpotifyArtist> getArtist(@Path("id") String idArtist);
+
+    @GET("artists/{id}/related-artists")
+    Observable<SpotifyArtist> getRelateArtist(@Path("id") String idArtist);
 
 
     @GET("artists/{id}/top-tracks")

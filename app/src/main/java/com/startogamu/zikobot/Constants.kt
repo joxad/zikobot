@@ -12,5 +12,6 @@ class Constants {
     object Extra {
         val PLAYLIST_ID = "PLAYLIST_ID"
         val ARTIST_ID = "ARTIST_ID"
+        val ALARM_ID = "ALARM_ID"
     }
 }

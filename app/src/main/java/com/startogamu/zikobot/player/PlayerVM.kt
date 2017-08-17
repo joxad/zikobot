@@ -41,7 +41,6 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
     val isExpanded = ObservableBoolean(false)
     var seekBarValue = ObservableField(0)
     var itemBinding: ItemBinding<TrackVM> = ItemBinding.of<TrackVM>(BR.trackVM, R.layout.track_item_player)
-    var itemBindingViewPager: ItemBinding<TrackVM> = ItemBinding.of<TrackVM>(BR.trackVM, R.layout.track_item_player_large)
     lateinit var showList: ObservableBoolean
     private var musicConnection: ServiceConnection? = null
     private var playerService: PlayerService? = null

@@ -63,15 +63,17 @@
 
         <activity android:name=".search.SearchActivity" />
 
+        <activity
+            android:name=".home.playlists.PlaylistDetailActivity"
+            android:screenOrientation="portrait" />
+
 
         <service android:name="com.joxad.zikobot.data.player.PlayerService">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </service>
-        <activity
-            android:name=".home.playlists.PlaylistDetailActivity"
-            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
