@@ -54,6 +54,7 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
                 items.add(TrackVM(activity, track))
             }
             AppUtils.initFab(binding.fabPlay)
+            AppUtils.initFab(binding.fabAlarm)
         })
 
     }
@@ -61,6 +62,7 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
     override fun onBackPressed(): Boolean {
         if (playerVM.onBackPressed()) {
             binding.fabPlay.visibility = View.GONE
+            binding.fabAlarm.visibility = View.GONE
             return true
         }
         return false
