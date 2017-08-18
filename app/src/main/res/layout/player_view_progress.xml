@@ -36,6 +36,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/item_play_size"
                     android:layout_weight="1"
+                    android:onClick="@{playerVM::previous}"
                     android:src="@drawable/ic_previous" />
 
                 <ImageView
@@ -51,6 +52,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/item_play_size"
                     android:layout_weight="1"
+                    android:onClick="@{playerVM::next}"
                     android:src="@drawable/ic_next" />
 
                 <ImageView
@@ -60,7 +62,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:onClick="@{playerVM::showListTracks}"
-                    android:src="@{playerVM.showList ? @drawable/ic_queue_music_accent : @drawable/ic_queue_music_off}" />
+                    android:src="@{playerVM.showList ?  @drawable/ic_album_accent: @drawable/ic_queue_music_accent }" />
 
                 <ImageView
                     android:id="@+id/iv_dismiss"

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.R;
+import com.joxad.zikobot.data.db.CurrentPlaylistManager;
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
 import com.spotify.sdk.android.player.Config;
 import com.spotify.sdk.android.player.ConnectionStateCallback;
@@ -22,7 +23,7 @@ public class SpotifyPlayer implements IMusicPlayer {
 
     private final Context context;
 
-    boolean hasRefreshed = false;
+    private boolean hasRefreshed = false;
     private String lastRef;
     protected Player player;
     private final Player.OperationCallback mOperationCallback = new Player.OperationCallback() {
@@ -52,9 +53,8 @@ public class SpotifyPlayer implements IMusicPlayer {
         @Override
         public void onPlaybackEvent(PlayerEvent playerEvent) {
             if (playerEvent == PlayerEvent.kSpPlaybackNotifyAudioDeliveryDone) {
-
+                CurrentPlaylistManager.INSTANCE.next();
             }
-            //  EventBus.getDefault().post(new EventNextTrack());
         }
 
         @Override

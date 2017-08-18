@@ -13,6 +13,7 @@ import io.reactivex.subjects.PublishSubject
 enum class CurrentPlaylistManager {
     INSTANCE;
 
+    var currentIndex: Int = 0
     var currentTrack: ZikoTrack? = null
     lateinit var refreshSubject: PublishSubject<ZikoTrack>
 
@@ -33,6 +34,7 @@ enum class CurrentPlaylistManager {
                 val zikoTrack = ZikoTrack.trackToPlay(track)
                 zikoTrack.save()
                 currentTrack = zikoTrack
+                currentIndex = getTracks().size
                 refreshSubject.onNext(currentTrack!!)
             }).build()
             transaction.execute()
@@ -43,6 +45,25 @@ enum class CurrentPlaylistManager {
         }
     }
 
+    fun previous() {
+        currentIndex--
+        if (currentIndex < 0)
+            currentIndex = 0
+        val zikoTrack = getTracks()[currentIndex]
+        play(zikoTrack)
+    }
+
+    fun next() {
+        currentIndex++
+        var zikoTrack: ZikoTrack
+        try {
+            zikoTrack = getTracks()[currentIndex]
+        } catch (exception: IndexOutOfBoundsException) {
+            currentIndex = 0
+            zikoTrack = getTracks()[currentIndex]
+        }
+        play(zikoTrack)
+    }
 
     fun getTracks(): List<ZikoTrack> {
         return PlaylistManager.INSTANCE.findPlayingPlaylist()!!.getForeignTracks()

@@ -170,13 +170,6 @@ public class PlayerService extends Service implements IMusicPlayer {
         else return 0;
     }
 
-    public void next() {
-
-    }
-
-    public void previous() {
-
-    }
 
     @Override
     public boolean onUnbind(Intent intent) {

@@ -197,6 +197,14 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
 
     }
 
+    fun next(view: View) {
+        CurrentPlaylistManager.INSTANCE.next()
+    }
+
+    fun previous(view: View) {
+        CurrentPlaylistManager.INSTANCE.previous()
+    }
+
     /***
      * @param view
      */

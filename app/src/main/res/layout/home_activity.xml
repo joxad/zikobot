@@ -32,11 +32,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
                     app:tabGravity="fill"
-                    app:tabIndicatorColor="@android:color/white"
+                    app:tabIndicatorColor="@color/colorAccent"
                     app:tabIndicatorHeight="2dp"
                     app:tabMode="scrollable"
-                    app:tabSelectedTextColor="@android:color/white"
-                    app:tabTextColor="@android:color/white" />
+                    app:tabSelectedTextColor="@color/colorAccent"
+                    app:tabTextColor="@color/colorAccent" />
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
