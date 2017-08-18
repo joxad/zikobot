@@ -40,6 +40,13 @@ enum class CurrentPlaylistManager {
             transaction.execute()
         } else {
             currentTrack = result
+            for ((index, track) in getTracks().withIndex()) {
+                if (track.id == currentTrack!!.id) {
+                    currentIndex = index
+                    break
+                }
+            }
+
             refreshSubject.onNext(currentTrack!!)
 
         }
