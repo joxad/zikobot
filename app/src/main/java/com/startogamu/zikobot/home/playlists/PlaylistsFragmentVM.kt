@@ -40,8 +40,7 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
             loadPlaylists()
         })
 
-        binding.playlistsFragmentAppBar?.appBarLayout?.addOnOffsetChangedListener {
-            appBarLayout, verticalOffset ->
+        binding.playlistsFragmentAppBar?.appBarLayout?.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             if (verticalOffset < 0) {
                 initHeader()
             }
@@ -72,6 +71,7 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
 
     }
 
+
     fun initHeader() {
         val vMenu = binding.playlistsFragmentAppBar?.playlistFragmentHeaderMenus
         vMenu?.alpha = 1f
@@ -89,6 +89,21 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
         vCreatePlaylist?.x = view.width.toFloat()
         val springX = SpringAnimation(vCreatePlaylist, DynamicAnimation.TRANSLATION_X, 0f)
         val springForceX = SpringForce(0f)
+        springForceX.stiffness = SpringForce.STIFFNESS_LOW
+        springForceX.dampingRatio = SpringForce.DAMPING_RATIO_LOW_BOUNCY
+        springX.spring = springForceX
+        springX.start()
+    }
+
+
+    fun hideCreateMenu(view: View) {
+        val vMenu = binding.playlistsFragmentAppBar?.playlistFragmentHeaderMenus
+        vMenu?.animate()?.alpha(1f)
+                ?.withStartAction({ vMenu.visibility = View.VISIBLE })?.start()
+        val vCreatePlaylist = binding.playlistsFragmentAppBar?.playlistFragmentHeaderCreatePlaylistLinearLayout
+        val v = vCreatePlaylist?.width?.toFloat()!!
+        val springX = SpringAnimation(vCreatePlaylist, DynamicAnimation.TRANSLATION_X, v)
+        val springForceX = SpringForce(v)
         springForceX.stiffness = SpringForce.STIFFNESS_LOW
         springForceX.dampingRatio = SpringForce.DAMPING_RATIO_LOW_BOUNCY
         springX.spring = springForceX

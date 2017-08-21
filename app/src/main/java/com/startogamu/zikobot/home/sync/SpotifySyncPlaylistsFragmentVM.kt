@@ -1,15 +1,19 @@
 package com.startogamu.zikobot.home.sync
 
 import android.databinding.ObservableArrayList
+import android.databinding.ObservableBoolean
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBaseVM
+import com.joxad.zikobot.data.AppPrefs
 import com.joxad.zikobot.data.db.PlaylistManager
 import com.joxad.zikobot.data.db.model.ZikoPlaylist
+import com.joxad.zikobot.data.module.accounts.AccountManager
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
 import com.startogamu.zikobot.BR
+import com.startogamu.zikobot.NavigationManager
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.SpotifySyncPlaylistsFragmentBinding
 import com.startogamu.zikobot.home.playlists.PlaylistVM
@@ -24,11 +28,25 @@ class SpotifySyncPlaylistsFragmentVM(fragment: SpotifySyncPlaylistsFragment, bin
     var itemBinding = ItemBinding.of<PlaylistVM>(BR.playlistVM, R.layout.playlist_item)
     lateinit var items: ObservableArrayList<PlaylistVM>
 
-
+    lateinit var showConnect: ObservableBoolean
     override fun onCreate() {
 
         items = ObservableArrayList()
 
+        if (AppPrefs.getSpotifyAccessToken().isNullOrEmpty()) {
+            showConnect = ObservableBoolean(true)
+
+        } else {
+            showConnect = ObservableBoolean(false)
+            loadData()
+        }
+        AccountManager.INSTANCE.spotifyUserBehaviorSubject.subscribe({
+            showConnect.set(false)
+            loadData()
+        })
+    }
+
+    private fun loadData() {
         SpotifyApiManager.INSTANCE.userPlaylists.subscribe({
             for (spo in it.items) {
                 val zikoP = ZikoPlaylist.fromSpotifyPlaylist(spo)
@@ -48,6 +66,10 @@ class SpotifySyncPlaylistsFragmentVM(fragment: SpotifySyncPlaylistsFragment, bin
             AppLog.INSTANCE.e("Spotify", it.localizedMessage)
         })
 
+    }
+
+    fun showAccount(view: View) {
+        NavigationManager.showAccount(fragment.activity)
     }
 
     override fun onCreate(savedInstance: Bundle?) {

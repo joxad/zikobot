@@ -19,6 +19,7 @@ import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager
 import com.joxad.zikobot.data.player.PlayerService
 import com.spotify.sdk.android.authentication.AuthenticationResponse
+import com.startogamu.zikobot.NavigationManager
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.HomeActivityBinding
 import com.startogamu.zikobot.ftu.AccountLinkFragment
@@ -126,8 +127,7 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
     }
 
     private fun showAccount() {
-        AccountLinkFragment.newInstance().show(activity.supportFragmentManager,
-                AccountLinkFragment::class.java.name)
+       NavigationManager.showAccount(activity)
     }
 
 

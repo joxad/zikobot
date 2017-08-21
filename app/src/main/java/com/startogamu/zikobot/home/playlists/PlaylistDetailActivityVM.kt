@@ -26,6 +26,10 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
         CurrentPlaylistManager.INSTANCE.play(list)
     }
 
+    fun prepareAlarm(view: View?) {
+
+    }
+
     override fun playerBinding(): PlayerViewBottomBinding {
         return binding.viewPlayer!!
     }

@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:colorBackground"
-        android:minHeight="500dp"
+        android:minHeight="1000dp"
         android:orientation="vertical">
 
 
@@ -26,14 +26,27 @@
             layout="@layout/bottom_sheet_fragment_header"
             app:title="@{@string/spotifySyncPlaylistsTitle}" />
 
-        <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layoutAnimation="@anim/grid_animation"
-            app:itemBinding="@{spotifySyncPlaylistsFragmentVM.itemBinding}"
-            app:items="@{spotifySyncPlaylistsFragmentVM.items}"
-            app:layoutManager="@{LayoutManagers.grid(2)}" />
+            android:layout_height="match_parent">
 
+            <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layoutAnimation="@anim/grid_animation"
+                app:itemBinding="@{spotifySyncPlaylistsFragmentVM.itemBinding}"
+                app:items="@{spotifySyncPlaylistsFragmentVM.items}"
+                app:layoutManager="@{LayoutManagers.grid(2)}" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:onClick="@{spotifySyncPlaylistsFragmentVM::showAccount}"
+                android:padding="@dimen/activity_vertical_margin"
+                android:text="@string/spotify_not_connected"
+                android:visibility="@{spotifySyncPlaylistsFragmentVM.showConnect? View.VISIBLE: View.GONE}" />
+        </RelativeLayout>
     </android.support.v7.widget.LinearLayoutCompat>
 
 </layout>

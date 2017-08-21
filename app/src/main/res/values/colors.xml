@@ -2,14 +2,15 @@
 <resources>
     <color name="colorPrimary">#11495f</color>
     <color name="colorPrimaryDark">#11495f</color>
-    <color name="colorPrimaryLight">#FFE0B2</color>
-    <color name="colorAccent">#FFE0B2</color>
+    <color name="colorPrimaryLight">#1F84AB</color>
+    <color name="colorAccent">#AB5A00</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
     <color name="secondaryText">#727272</color>
     <color name="icons">#212121</color>
     <color name="divider">#B6B6B6</color>
     <color name="disable">#565656</color>
+    <color name="colorAccentItems">#FFF</color>
 
     <color name="colorSpotify">#41DC79</color>
     <color name="colorDeezer">#23232C</color>

@@ -4,6 +4,7 @@ import com.joxad.zikobot.data.AppPrefs
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyUser
 import com.joxad.zikobot.data.module.spotify_auth.model.SpotifyToken
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 /**
  * Created by Jocelyn on 06/08/2017.
@@ -13,10 +14,10 @@ enum class AccountManager {
 
     INSTANCE;
 
-    lateinit var spotifyUserBehaviorSubject: BehaviorSubject<SpotifyUser>
+    lateinit var spotifyUserBehaviorSubject: PublishSubject<SpotifyUser>
 
     fun init() {
-        spotifyUserBehaviorSubject = BehaviorSubject.create()
+        spotifyUserBehaviorSubject = PublishSubject.create()
     }
 
     fun onSpotifyLogged(spotifyUser: SpotifyUser) {

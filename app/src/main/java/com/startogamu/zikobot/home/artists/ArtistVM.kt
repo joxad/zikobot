@@ -27,7 +27,7 @@ class ArtistVM(context: Context, model: ZikoArtist) : BaseVM<ZikoArtist>(context
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         artist ->
-                        model.image = artist.image[2].text
+                        model.image = artist.image[0].text
                         model.save()
                         notifyPropertyChanged(BR.image)
                     }, {
