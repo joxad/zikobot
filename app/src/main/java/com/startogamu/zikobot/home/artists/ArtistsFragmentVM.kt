@@ -1,6 +1,8 @@
 package com.startogamu.zikobot.home.artists
 
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
+import com.joxad.androidtemplate.core.view.utils.EndlessRecyclerOnScrollListener
 import com.joxad.easydatabinding.fragment.v4.FragmentRecyclerBaseVM
 import com.joxad.zikobot.data.db.ArtistManager
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager
@@ -16,6 +18,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class ArtistsFragmentVM(fragment: ArtistsFragment,
                         binding: ArtistsFragmentBinding, savedInstance: Bundle?) : FragmentRecyclerBaseVM<ArtistVM, ArtistsFragment, ArtistsFragmentBinding>(fragment, binding, savedInstance) {
+
 
     override fun itemLayoutResource(): Int {
         return R.layout.artist_item
@@ -33,19 +36,31 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateList)
+
+
+        binding.artistFragmentRV.addOnScrollListener(object : EndlessRecyclerOnScrollListener() {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                addArtists(page)
+            }
+        })
+
     }
 
     private fun updateList(done: Boolean) {
         if (!done)
             return
         items.clear()
-        ArtistManager.findAll()
+        addArtists(0)
+
+    }
+
+    private fun addArtists(offset: Int) {
+        ArtistManager.findAllPaginated(offset)
                 .list { list ->
                     for (artist in list) {
                         items.add(ArtistVM(fragment.context, artist))
                     }
                 }
-
     }
 
     companion object {

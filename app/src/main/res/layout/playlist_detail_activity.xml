@@ -24,6 +24,7 @@
             app:title="@{playlistDetailActivityVM.playlistVM.name}" />
 
         <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
+            android:id="@+id/playlistDetailTracksRV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"

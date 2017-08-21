@@ -13,6 +13,7 @@
     </data>
 
     <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
+        android:id="@+id/artistFragmentRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutAnimation="@anim/grid_animation"

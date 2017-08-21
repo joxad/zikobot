@@ -2,10 +2,14 @@ package com.startogamu.zikobot.home.artists
 
 import android.databinding.ObservableArrayList
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.joxad.androidtemplate.core.view.utils.EndlessRecyclerOnScrollListener
 import com.joxad.zikobot.data.db.ArtistManager
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
+import com.joxad.zikobot.data.db.model.ZikoArtist
 import com.joxad.zikobot.data.db.model.ZikoTrack
+import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.startogamu.zikobot.ABasePlayerActivityVM
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.Constants
@@ -17,6 +21,7 @@ import com.startogamu.zikobot.home.track.TrackVM
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 
 class ArtistDetailActivityVM(activity: ArtistDetailActivity, binding: ArtistDetailActivityBinding, savedInstance: Bundle?) : ABasePlayerActivityVM<ArtistDetailActivity, ArtistDetailActivityBinding>(activity, binding, savedInstance) {
+
     override fun playAll(view: View?) {
         val list: List<ZikoTrack> = items.map { it.model }
         CurrentPlaylistManager.INSTANCE.play(list)
@@ -34,6 +39,11 @@ class ArtistDetailActivityVM(activity: ArtistDetailActivity, binding: ArtistDeta
         items = ObservableArrayList()
         AppUtils.initToolbar(activity, binding.toolbarDetailActivity!!)
         loadData()
+        binding.artistDetailActivityRv.addOnScrollListener(object : EndlessRecyclerOnScrollListener() {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                addTracks(page)
+            }
+        })
     }
 
     /***
@@ -43,13 +53,22 @@ class ArtistDetailActivityVM(activity: ArtistDetailActivity, binding: ArtistDeta
         val aId = activity.intent.getIntExtra(Constants.Extra.ARTIST_ID, 0)
 
         ArtistManager.findOne(aId)
-                .querySingle().subscribe({ zi ->
-            artistVM = ArtistVM(activity, zi)
-            for (track in artistVM.model.getForeignTracks()) {
-                items.add(TrackVM(activity, track))
-            }
-            AppUtils.initFab(binding.fabPlay)
-        })
+                .querySingle()
+                .subscribe { it ->
+                    artistVM = ArtistVM(activity, it)
+                    AppUtils.initFab(binding.fabPlay)
+                }
+        addTracks(0)
+    }
+
+    private fun addTracks(indexStart: Int) {
+        ArtistManager.findTracks(artistVM.model.id, indexStart)
+                .list {
+                    for (zT in it) {
+                        items.add(TrackVM(activity, zT))
+                    }
+                }
+
     }
 
     companion object {

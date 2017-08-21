@@ -25,13 +25,11 @@ class ArtistVM(context: Context, model: ZikoArtist) : BaseVM<ZikoArtist>(context
             LastFmManager.INSTANCE.findArtist(getName())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        artist ->
-                        model.image = artist.image[0].text
+                    .subscribe({ artist ->
+                        model.image = artist.image[artist.image.lastIndex].text
                         model.save()
                         notifyPropertyChanged(BR.image)
-                    }, {
-                        t ->
+                    }, { t ->
                         AppLog.INSTANCE.e("Artist", t.localizedMessage)
                     })
         }

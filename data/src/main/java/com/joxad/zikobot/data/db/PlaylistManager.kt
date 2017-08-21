@@ -101,5 +101,18 @@ enum class PlaylistManager {
         return zikoAlbum
     }
 
+    fun delete(playlist: ZikoPlaylist) {
+        playlist.delete()
+    }
+
+    fun findTracks(playlistId: Long, offset: Int): RXModelQueriableImpl<ZikoTrack> {
+        return select
+                .from(ZikoTrack::class.java)
+                .where(ZikoTrack_Table.zikoPlaylist_id.eq(playlistId))
+                .offset(offset * ZikoDB.PAGINATED_OFFSET)
+                .limit(ZikoDB.PAGINATED_OFFSET)
+                .rx()
+    }
+
 
 }

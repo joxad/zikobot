@@ -21,7 +21,8 @@
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="@dimen/bt_height"
             android:layout_height="@dimen/bt_height"
-            app:imageUrl="@{trackVM.image}" />
+            app:imageUrl="@{trackVM.image}"
+            app:imageError="@{@drawable/ic_vinyl}"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

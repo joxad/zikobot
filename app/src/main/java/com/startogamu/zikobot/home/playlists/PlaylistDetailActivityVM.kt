@@ -2,10 +2,14 @@ package com.startogamu.zikobot.home.playlists
 
 import android.databinding.ObservableArrayList
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.joxad.androidtemplate.core.view.utils.EndlessRecyclerOnScrollListener
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
 import com.joxad.zikobot.data.db.PlaylistManager
+import com.joxad.zikobot.data.db.model.ZikoPlaylist
 import com.joxad.zikobot.data.db.model.ZikoTrack
+import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.startogamu.zikobot.ABasePlayerActivityVM
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.Constants
@@ -41,8 +45,15 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
     override fun onCreate(saved: Bundle?) {
         super.onCreate(saved)
         items = ObservableArrayList()
+        playlistVM = PlaylistVM(false, activity, ZikoPlaylist())
         AppUtils.initToolbar(activity, binding.toolbarDetailActivity!!)
         loadData()
+
+        binding.playlistDetailTracksRV.addOnScrollListener(object : EndlessRecyclerOnScrollListener() {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                addTracks(page)
+            }
+        })
     }
 
 
@@ -52,15 +63,34 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
     private fun loadData() {
         val pId = activity.intent.getLongExtra(Constants.Extra.PLAYLIST_ID, 0)
         PlaylistManager.INSTANCE.findOne(pId)
-                .querySingle().subscribe({ zi ->
-            playlistVM = PlaylistVM(false, activity, zi)
-            for (track in playlistVM.model.getForeignTracks()) {
+                .querySingle()
+                .subscribe({ zi ->
+                    playlistVM = PlaylistVM(false, activity, zi)
+                    binding.toolbarDetailActivity!!.toolbar.setOnMenuItemClickListener {
+                        when (it.itemId) {
+                            R.id.menu_delete -> {
+                                PlaylistManager.INSTANCE.delete(zi)
+                                activity.finish()
+                                PlaylistManager.INSTANCE.refreshSubject.onNext(true)
+                            }
+                        }
+                        true
+                    }
+
+                    AppUtils.initFab(binding.fabPlay)
+                    AppUtils.initFab(binding.fabAlarm)
+                })
+
+        addTracks(0)
+
+    }
+
+    private fun addTracks(i: Int) {
+        PlaylistManager.INSTANCE.findTracks(playlistVM.model.id, i).list {
+            for (track in it) {
                 items.add(TrackVM(activity, track))
             }
-            AppUtils.initFab(binding.fabPlay)
-            AppUtils.initFab(binding.fabAlarm)
-        })
-
+        }
     }
 
     override fun onBackPressed(): Boolean {

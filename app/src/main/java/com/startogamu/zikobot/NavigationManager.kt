@@ -18,12 +18,12 @@ import com.startogamu.zikobot.home.playlists.PlaylistDetailActivity
 object NavigationManager {
     fun goToPlaylist(context: Activity, model: ZikoPlaylist, v: View) {
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, v, context.getString(R.string.transition))
-        context.startActivity(PlaylistDetailActivity.newInstance(context, model.id), options.toBundle())
+        context.startActivity(PlaylistDetailActivity.newInstance(context, model.id))//, options.toBundle())
     }
 
     fun goToArtist(context: Activity, model: ZikoArtist, v: View) {
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, v, context.getString(R.string.transition))
-        context.startActivity(ArtistDetailActivity.newInstance(context, model.id), options.toBundle())
+        context.startActivity(ArtistDetailActivity.newInstance(context, model.id))//, options.toBundle())
     }
 
     fun showAccount(activity: FragmentActivity) {

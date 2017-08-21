@@ -43,20 +43,15 @@ class ZikoArtist : BaseModel() {
             zikoArtist.name = name
             return zikoArtist
         }
+
+        fun empty(): ZikoArtist {
+            val zikoArtist = ZikoArtist()
+            zikoArtist.name = "Loading"
+            return zikoArtist
+        }
     }
 
 
 
-    /****
-     * @return
-     */
-    @OneToMany(methods = arrayOf(OneToMany.Method.SAVE, OneToMany.Method.DELETE), variableName = "tracks")
-    fun getForeignTracks(): List<ZikoTrack> {
-        tracks = SQLite.select()
-                .from(ZikoTrack::class.java)
-                .where(ZikoTrack_Table.zikoArtist_id.eq(id))
-                .queryList()
 
-        return tracks
-    }
 }
