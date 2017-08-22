@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.joxad.androidtemplate.core.view.utils.EndlessRecyclerOnScrollListener
+import com.joxad.zikobot.data.db.AlarmManager
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
 import com.joxad.zikobot.data.db.PlaylistManager
 import com.joxad.zikobot.data.db.model.ZikoPlaylist
@@ -31,7 +32,7 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
     }
 
     fun prepareAlarm(view: View?) {
-
+       playlistVM.prepareAlarm(activity)
     }
 
     override fun playerBinding(): PlayerViewBottomBinding {

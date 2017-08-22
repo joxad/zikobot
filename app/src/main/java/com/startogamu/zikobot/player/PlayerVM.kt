@@ -241,33 +241,6 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
             return trackVMS
         }
 
-    /***
-     * Return am or pm value
-
-     * @param hour
-     * *
-     * @return
-     */
-    fun amPm(hour: Int): String {
-        val am = "AM"
-        val pm = "PM"
-        var after = am
-        if (hour >= 12) {
-            after = pm
-        }
-        return after
-    }
-
-    fun amPmHour(hour: Int): Int {
-        var hour = hour
-        if (hour > 12)
-            hour -= 12
-        else {
-            if (hour == 0)
-                hour = 12
-        }
-        return hour
-    }
 
 
     fun readableTime(millis: Long): String {

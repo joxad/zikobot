@@ -5,6 +5,7 @@ import com.joxad.zikobot.data.db.model.ZikoArtist_Table
 import com.joxad.zikobot.data.db.model.ZikoTrack
 import com.joxad.zikobot.data.db.model.ZikoTrack_Table
 import com.raizlabs.android.dbflow.annotation.Collate
+import com.raizlabs.android.dbflow.kotlinextensions.and
 import com.raizlabs.android.dbflow.kotlinextensions.select
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
 import com.raizlabs.android.dbflow.rx2.language.RXModelQueriableImpl
@@ -42,7 +43,7 @@ object ArtistManager {
     fun findTracks(artistId: Int, offset: Int): RXModelQueriableImpl<ZikoTrack> {
         return select
                 .from(ZikoTrack::class.java)
-                .where(ZikoTrack_Table.zikoArtist_id.eq(artistId))
+                .where(ZikoTrack_Table.zikoArtist_id.eq(artistId).and(ZikoTrack_Table.zikoPlaylist_id.notEq(1)))
                 .offset(offset * ZikoDB.PAGINATED_OFFSET)
                 .limit(ZikoDB.PAGINATED_OFFSET)
                 .rx()

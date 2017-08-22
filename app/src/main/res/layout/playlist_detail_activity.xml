@@ -72,12 +72,12 @@
             android:layout_marginEnd="@dimen/paddingBottom"
             android:onClick="@{playlistDetailActivityVM::prepareAlarm}"
             android:visibility="gone"
+            app:backgroundTint="@{playlistDetailActivityVM.playlistVM.alarm ? @color/colorAccent : @color/gray_light}"
             app:fabSize="mini"
             app:layout_anchor="@id/toolbar_detail_activity"
             app:layout_anchorGravity="end|bottom"
             app:srcCompat="@drawable/ic_alarm" />
-        <!--            app:backgroundTint="@{playlistDetailActivityVM.playlistVM.alarm ? @color/colorAccent : @color/gray_light}"
--->
+
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>

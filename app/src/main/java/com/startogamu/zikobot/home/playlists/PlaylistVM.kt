@@ -1,12 +1,18 @@
 package com.startogamu.zikobot.home.playlists
 
 import android.app.Activity
+import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.databinding.Bindable
+import android.os.Build
+import android.provider.Settings
+import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.joxad.easydatabinding.base.BaseVM
 import com.joxad.zikobot.data.db.AlarmManager
 import com.joxad.zikobot.data.db.model.ZikoPlaylist
+import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.NavigationManager
 import com.startogamu.zikobot.R
 
@@ -16,8 +22,8 @@ import com.startogamu.zikobot.R
 
 open class PlaylistVM(section: Boolean, context: Context, model: ZikoPlaylist) : BaseVM<ZikoPlaylist>(context, model) {
 
+    lateinit var notificationManager: NotificationManager
     override fun onCreate() {
-
     }
 
     @Bindable
@@ -49,10 +55,28 @@ open class PlaylistVM(section: Boolean, context: Context, model: ZikoPlaylist) :
 
     @Bindable
     fun getAlarm(): Boolean {
-        val alarm = AlarmManager.INSTANCE.getAlarmById(model.id)
+        val alarm = AlarmManager.INSTANCE.getAlarmByPlaylistId(model.id)
         return if (alarm != null) {
             alarm.active
         } else
             false
+    }
+
+    fun prepareAlarm(activity: FragmentActivity) {
+
+        val zikoPlaylist = model
+        if (zikoPlaylist != null) {
+            val created = AlarmManager.INSTANCE.createAlarmOfPlaylist(context, zikoPlaylist)
+            if (created) {
+                notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted) {
+                    val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+                    context.startActivity(intent)
+                }
+            }
+        }
+        NavigationManager.showAlarmManagement(activity, zikoPlaylist.id)
+
+        notifyPropertyChanged(BR.alarm)
     }
 }

@@ -2,12 +2,11 @@ package com.joxad.zikobot.data.db;
 
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 
 import com.joxad.zikobot.data.db.model.ZikoAlarm;
 import com.joxad.zikobot.data.db.model.ZikoAlarm_Table;
-import com.joxad.zikobot.data.db.model.ZikoAlbum_Table;
+import com.joxad.zikobot.data.db.model.ZikoPlaylist;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
@@ -38,8 +37,7 @@ public enum AlarmManager {
      * @param id playlistId
      * @return
      */
-    public ZikoAlarm getAlarmById(final long id) {
-
+    public ZikoAlarm getAlarmByPlaylistId(final long id) {
         ZikoAlarm alarm = new Select().from(ZikoAlarm.class).where(ZikoAlarm_Table.zikoPlaylist_id.eq(id)).querySingle();
         return alarm;
     }
@@ -112,10 +110,10 @@ public enum AlarmManager {
      * @param alarm
      */
     public void cancel(Context context, ZikoAlarm alarm) {
-      //  Intent intent = new Intent(context, AlarmReceiver.class);
-       // intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
-      //  alarmIntent = PendingIntent.getBroadcast(context, (int) alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
-       // alarmMgr.cancel(alarmIntent);
+        //  Intent intent = new Intent(context, AlarmReceiver.class);
+        // intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
+        //  alarmIntent = PendingIntent.getBroadcast(context, (int) alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        // alarmMgr.cancel(alarmIntent);
     }
 
     /***
@@ -193,5 +191,24 @@ public enum AlarmManager {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
+    }
+
+    public boolean createAlarmOfPlaylist(Context context, ZikoPlaylist zikoPlaylist) {
+        boolean created = false;
+        ZikoAlarm zikoAlarm = AlarmManager.INSTANCE.getAlarmByPlaylistId(zikoPlaylist.getId());
+        if (zikoAlarm != null) {
+            zikoAlarm.setActive(!zikoAlarm.getActive());
+            if (zikoAlarm.getActive()) {
+                prepareAlarm(context, zikoAlarm);
+            } else {
+                cancel(context, zikoAlarm);
+            }
+        } else {
+            zikoAlarm = new ZikoAlarm();
+            zikoAlarm.setZikoPlaylist(zikoPlaylist);
+            created = true;
+        }
+        zikoAlarm.save();
+        return created;
     }
 }

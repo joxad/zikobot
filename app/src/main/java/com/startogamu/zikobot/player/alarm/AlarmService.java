@@ -51,7 +51,7 @@ public class AlarmService extends NonStopIntentService {
         long alarmId = 0;
         if (intent != null) {
             alarmId = intent.getLongExtra("id", 0);
-            ZikoAlarm alarm = AlarmManager.INSTANCE.getAlarmById(alarmId);
+            ZikoAlarm alarm = AlarmManager.INSTANCE.getAlarmByPlaylistId(alarmId);
             if (alarm != null) {
                 AlarmManager.INSTANCE.prepareAlarm(this, alarm);
                 if (AlarmManager.INSTANCE.canStart(alarm)) {

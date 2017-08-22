@@ -43,7 +43,7 @@ class ZikoAlarm : BaseModel() {
     init {
         hour = 8
         minute = 0
-        active = false
+        active = true
         volume = -1
     }
 

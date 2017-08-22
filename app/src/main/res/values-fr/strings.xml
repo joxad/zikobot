@@ -62,7 +62,7 @@
 
     <!--> ActivityMusic<-->
 
-    <string name="wake_up">Gestion de mon alarme</string>
+    <string name="alarm_fragment_title">Pour modifier ton alarme, c\'est juste ici !</string>
     <string name="alarm_add">Valider</string>
     <string name="playlist_total_tracks">%d chansons</string>
     <string name="tracks">chanson(s)</string>
