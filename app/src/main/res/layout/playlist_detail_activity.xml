@@ -7,6 +7,8 @@
 
         <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
+        <import type="android.view.View" />
+
         <variable
             name="playlistDetailActivityVM"
             type="com.startogamu.zikobot.home.playlists.PlaylistDetailActivityVM" />
@@ -77,6 +79,19 @@
             app:layout_anchor="@id/toolbar_detail_activity"
             app:layout_anchorGravity="end|bottom"
             app:srcCompat="@drawable/ic_alarm" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_edit"
+            android:gravity="center_vertical"
+            android:onClick="@{playlistDetailActivityVM::editAlarm}"
+            android:paddingEnd="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/paddingBottom"
+            android:text="@{playlistDetailActivityVM.alarmEditTitle}"
+            android:visibility="@{playlistDetailActivityVM.playlistVM.alarm? View.VISIBLE: View.GONE}"
+            app:layout_anchor="@id/toolbar_detail_activity"
+            app:layout_anchorGravity="end|bottom" />
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -13,7 +13,7 @@ import io.reactivex.subjects.PublishSubject
 enum class CurrentPlaylistManager {
     INSTANCE;
 
-    var currentIndex: Int = 0
+    private var currentIndex: Int = 0
     var currentTrack: ZikoTrack? = null
     lateinit var refreshSubject: PublishSubject<ZikoTrack>
 
@@ -40,8 +40,8 @@ enum class CurrentPlaylistManager {
             transaction.execute()
         } else {
             currentTrack = result
-            for ((index, track) in getTracks().withIndex()) {
-                if (track.id == currentTrack!!.id) {
+            for ((index, t) in getTracks().withIndex()) {
+                if (t.id == currentTrack!!.id) {
                     currentIndex = index
                     break
                 }

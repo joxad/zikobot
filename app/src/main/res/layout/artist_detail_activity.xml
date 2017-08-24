@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:onClick="@{artistDetailActivityVM.playAll}"
+            android:onClick="@{artistDetailActivityVM::playAll}"
             android:visibility="gone"
             app:fabSize="normal"
             app:layout_anchor="@id/toolbar_detail_activity"

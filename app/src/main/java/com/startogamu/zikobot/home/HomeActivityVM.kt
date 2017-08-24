@@ -1,11 +1,7 @@
 package com.startogamu.zikobot.home
 
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.IBinder
 import android.widget.Toast
 import com.joxad.androidtemplate.core.adapter.GenericFragmentAdapter
 import com.joxad.androidtemplate.core.fragment.FragmentTab
@@ -17,12 +13,10 @@ import com.joxad.zikobot.data.module.accounts.AccountManager
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager
-import com.joxad.zikobot.data.player.PlayerService
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import com.startogamu.zikobot.NavigationManager
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.HomeActivityBinding
-import com.startogamu.zikobot.ftu.AccountLinkFragment
 import com.startogamu.zikobot.home.albums.AlbumsFragment
 import com.startogamu.zikobot.home.artists.ArtistsFragment
 import com.startogamu.zikobot.home.playlists.PlaylistsFragment
@@ -39,7 +33,7 @@ import io.reactivex.schedulers.Schedulers
 class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, savedInstance: Bundle?) :
         ActivityBaseVM<HomeActivity, HomeActivityBinding>(activity, binding, savedInstance), INewIntent {
 
-    lateinit var playerVM : PlayerVM
+    lateinit var playerVM: PlayerVM
     override fun onNewIntent(intent: Intent?) {
         val uri = intent?.data
         if (uri != null) {
@@ -87,8 +81,7 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
         val rxPermission = RxPermissions(activity)
         if (!rxPermission.isGranted(android.Manifest.permission.READ_EXTERNAL_STORAGE))
             rxPermission.request(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                    .subscribe({
-                        granted ->
+                    .subscribe({ granted ->
                         if (granted) {
                             startSyncService()
                         }
@@ -101,7 +94,7 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
             true
         }
 
-        playerVM = PlayerVM(activity,binding.viewPlayer)
+        playerVM = PlayerVM(activity, binding.viewPlayer)
     }
 
 
@@ -114,6 +107,7 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
 
         return playerVM.onBackPressed()
     }
+
     private fun startSyncService() {
         if (AppPrefs.getSpotifyAccessToken().isNullOrEmpty())
             showAccount()
@@ -121,13 +115,12 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    done ->
                     AppLog.INSTANCE.d("Synchro", "Done")
                 })
     }
 
     private fun showAccount() {
-       NavigationManager.showAccount(activity)
+        NavigationManager.showAccount(activity)
     }
 
 

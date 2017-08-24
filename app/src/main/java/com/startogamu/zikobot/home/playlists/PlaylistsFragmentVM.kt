@@ -10,10 +10,9 @@ import com.joxad.easydatabinding.fragment.v4.FragmentRecyclerBaseVM
 import com.joxad.zikobot.data.db.PlaylistManager
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.startogamu.zikobot.BR
+import com.startogamu.zikobot.NavigationManager
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.PlaylistsFragmentBinding
-import com.startogamu.zikobot.home.sync.SpotifySyncPlaylistsFragment
-import com.startogamu.zikobot.home.sync.SpotifySyncPlaylistsFragmentVM
 
 
 /**
@@ -52,7 +51,7 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
         binding.playlistsFragmentAppBar?.appBarLayout?.setExpanded(false)
     }
 
-    fun expandToolbar(v: View) {
+    fun expandToolbar(@SuppressWarnings("unused") v: View) {
         binding.playlistsFragmentAppBar?.appBarLayout?.setExpanded(true, true)
     }
 
@@ -64,14 +63,17 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
         }
     }
 
-    fun syncSpotify(view: View) {
-        // show bottom sheet
-        SpotifySyncPlaylistsFragment.newInstance()
-                .show(fragment.fragmentManager, SpotifySyncPlaylistsFragmentVM.TAG)
-
+    /***
+     *
+     * Show the fragment to sync playlist
+     */
+    fun syncSpotify(@SuppressWarnings("unused") view: View) {
+        NavigationManager.showSpotifySync(fragment.activity)
     }
 
-
+    /***
+     * Init the views of the header
+     */
     fun initHeader() {
         val vMenu = binding.playlistsFragmentAppBar?.playlistFragmentHeaderMenus
         vMenu?.alpha = 1f
@@ -80,6 +82,9 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
         vCreatePlaylist?.visibility = View.GONE
     }
 
+    /***
+     * Show the menu to create a playlist with animation
+     */
     fun showCreateMenu(view: View) {
         val vMenu = binding.playlistsFragmentAppBar?.playlistFragmentHeaderMenus
         vMenu?.animate()?.alpha(0f)
@@ -95,8 +100,10 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
         springX.start()
     }
 
-
-    fun hideCreateMenu(view: View) {
+    /***
+     * Hide the menu to create a playlist with animation
+     */
+    fun hideCreateMenu(@SuppressWarnings("unused") view: View) {
         val vMenu = binding.playlistsFragmentAppBar?.playlistFragmentHeaderMenus
         vMenu?.animate()?.alpha(1f)
                 ?.withStartAction({ vMenu.visibility = View.VISIBLE })?.start()

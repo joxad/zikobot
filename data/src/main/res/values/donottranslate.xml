@@ -37,5 +37,7 @@
     <string name="activity_music_youtube">Youtube</string>
     <string name="com_spotify_sdk_redirect_scheme">spotify-callback</string>
     <string name="com_spotify_sdk_redirect_host">settings-activity</string>
+    <string name="bold">bold</string>
+    <string name="normal">normal</string>
 
 </resources>

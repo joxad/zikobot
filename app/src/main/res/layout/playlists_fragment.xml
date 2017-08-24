@@ -37,7 +37,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="@{playlistsFragmentVM.expandToolbar}"
+            android:onClick="@{playlistsFragmentVM::expandToolbar}"
             android:visibility="@{playlistsFragmentVM.items.isEmpty() ? View.VISIBLE: View.GONE}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

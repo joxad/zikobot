@@ -155,6 +155,10 @@ class AlarmVM
         get() = model.isDayActive(Calendar.SUNDAY)
 
 
+    val randomTrack: Int
+        @Bindable
+        get() = model.randomTrack
+
     val volume: Int
         @Bindable
         get() = model.volume
@@ -178,6 +182,7 @@ class AlarmVM
         model.volume = progress
         notifyChange()
     }
+
 
 
 }

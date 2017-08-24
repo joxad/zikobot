@@ -15,6 +15,7 @@ import com.joxad.zikobot.data.db.model.ZikoPlaylist
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.NavigationManager
 import com.startogamu.zikobot.R
+import com.startogamu.zikobot.player.alarm.AlarmVM
 
 /**
  * Created by Jocelyn on 31/07/2017.
@@ -73,10 +74,23 @@ open class PlaylistVM(section: Boolean, context: Context, model: ZikoPlaylist) :
                     val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
                     context.startActivity(intent)
                 }
+                showEditAlarm(activity)
             }
         }
-        NavigationManager.showAlarmManagement(activity, zikoPlaylist.id)
 
         notifyPropertyChanged(BR.alarm)
+    }
+
+    fun showEditAlarm(activity: FragmentActivity) {
+        NavigationManager.showAlarmManagement(activity, model.id)
+    }
+
+    fun getAlarmTitle(): String? {
+        if (getAlarm()) {
+
+            val alarmVM = AlarmVM(context, AlarmManager.INSTANCE.getAlarmByPlaylistId(model.id))
+            return context.getString(R.string.alarm_edit) + alarmVM.getAlarmTime()
+        }
+        return null
     }
 }

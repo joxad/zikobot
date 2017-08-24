@@ -76,7 +76,7 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
         CurrentPlaylistManager.INSTANCE.refreshSubject
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { zikoTrack ->
+                .subscribe {
                     notifyPropertyChanged(BR.currentTrackVM)
                     notifyPropertyChanged(BR.items)
                 }
@@ -111,7 +111,7 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
     /**
      * @param view
      */
-    fun playPause(view: View) {
+    fun playPause(@SuppressWarnings("unused") view: View) {
         if (isPlaying)
             playerService!!.pause()
         else
@@ -153,7 +153,7 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
             return playerService!!.positionMax()
         }
 
-    fun onValueChanged(seekBar: SeekBar, progresValue: Int, fromUser: Boolean) {
+    fun onValueChanged(@SuppressWarnings("unused") seekBar: SeekBar, progresValue: Int, fromUser: Boolean) {
         seekBarValue.set(progresValue)
         if (fromUser)
             playerService!!.seekTo(progresValue)
@@ -172,11 +172,11 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
         return true
     }
 
-    fun dismiss(view: View) {
+    fun dismiss(@SuppressWarnings("unused") view: View) {
         behavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
-    fun expand(view: View) {
+    fun expand(@SuppressWarnings("unused") view: View) {
         behavior!!.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
@@ -193,26 +193,26 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
 
      * @param view
      */
-    fun trickClick(view: View) {
+    fun trickClick(@SuppressWarnings("unused") view: View) {
 
     }
 
-    fun next(view: View) {
+    fun next(@SuppressWarnings("unused") view: View) {
         CurrentPlaylistManager.INSTANCE.next()
     }
 
-    fun previous(view: View) {
+    fun previous(@SuppressWarnings("unused") view: View) {
         CurrentPlaylistManager.INSTANCE.previous()
     }
 
     /***
      * @param view
      */
-    fun showListTracks(view: View) {
+    fun showListTracks(@SuppressWarnings("unused") view: View) {
         showList.set(!showList.get())
     }
 
-    fun clickVinyl(view: View) {
+    fun clickVinyl(@SuppressWarnings("unused") view: View) {
         if (!AppPrefs.bonusModeActivated()) {
             AppPrefs.bonusMode(AppPrefs.bonusMode() + 1)
         } else {
@@ -240,7 +240,6 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
             }
             return trackVMS
         }
-
 
 
     fun readableTime(millis: Long): String {

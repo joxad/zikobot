@@ -69,8 +69,8 @@ enum class PlaylistManager {
                     for (track in it.items) {
                         val zikoArtist = createArtistIfNeed(track.track?.artists?.get(0)!!)
                         val zikoAlbum = createAlbumIfNeed(track.track?.album!!, zikoArtist!!)
-                        val track = ZikoTrack.spotify(track.track, zikoArtist, zikoAlbum, zikoSpotifyPlaylist)
-                        track.save()
+                        val zikoTrack = ZikoTrack.spotify(track.track, zikoArtist, zikoAlbum, zikoSpotifyPlaylist)
+                        zikoTrack.save()
                     }
                     zikoSpotifyPlaylist.save()
                     refreshSubject.onNext(true)

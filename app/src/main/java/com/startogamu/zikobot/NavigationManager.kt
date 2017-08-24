@@ -9,6 +9,8 @@ import com.joxad.zikobot.data.db.model.ZikoPlaylist
 import com.startogamu.zikobot.ftu.AccountLinkFragment
 import com.startogamu.zikobot.home.artists.ArtistDetailActivity
 import com.startogamu.zikobot.home.playlists.PlaylistDetailActivity
+import com.startogamu.zikobot.home.sync.SpotifySyncPlaylistsFragment
+import com.startogamu.zikobot.home.sync.SpotifySyncPlaylistsFragmentVM
 import com.startogamu.zikobot.player.alarm.AlarmBottomFragment
 
 
@@ -17,12 +19,12 @@ import com.startogamu.zikobot.player.alarm.AlarmBottomFragment
  */
 object NavigationManager {
     fun goToPlaylist(context: Activity, model: ZikoPlaylist, v: View) {
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, v, context.getString(R.string.transition))
+        //val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, v, context.getString(R.string.transition))
         context.startActivity(PlaylistDetailActivity.newInstance(context, model.id))//, options.toBundle())
     }
 
     fun goToArtist(context: Activity, model: ZikoArtist, v: View) {
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, v, context.getString(R.string.transition))
+       // val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, v, context.getString(R.string.transition))
         context.startActivity(ArtistDetailActivity.newInstance(context, model.id))//, options.toBundle())
     }
 
@@ -35,6 +37,12 @@ object NavigationManager {
     fun showAlarmManagement(activity: FragmentActivity, id:Long) {
         AlarmBottomFragment.newInstance(id).show(activity.supportFragmentManager,
                 AlarmBottomFragment::class.java.name)
+    }
+
+    fun showSpotifySync(activity: FragmentActivity) {
+        SpotifySyncPlaylistsFragment.newInstance()
+                .show(activity.supportFragmentManager, SpotifySyncPlaylistsFragmentVM.TAG)
+
     }
 
 
