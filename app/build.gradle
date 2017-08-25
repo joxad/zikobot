@@ -120,7 +120,7 @@ dependencies {
         exclude group: 'org.apache.httpcomponents' //by group
         exclude group: 'org.apache.httpcomponents', module: 'httpclient' //by both name and group
     }
-    compile 'com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT'
+   // compile 'com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT'
     compile project(path: ':data')
     kapt 'com.android.databinding:compiler:3.0.0-beta2'
 

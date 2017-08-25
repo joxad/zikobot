@@ -89,7 +89,7 @@ open class PlaylistVM(section: Boolean, context: Context, model: ZikoPlaylist) :
         if (getAlarm()) {
 
             val alarmVM = AlarmVM(context, AlarmManager.INSTANCE.getAlarmByPlaylistId(model.id))
-            return context.getString(R.string.alarm_edit) + alarmVM.getAlarmTime()
+            return context.getString(R.string.alarm_edit) +" "+ alarmVM.getAlarmTime() + " "
         }
         return null
     }

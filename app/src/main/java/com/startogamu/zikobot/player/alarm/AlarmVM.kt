@@ -77,11 +77,13 @@ class AlarmVM
 
 
     fun activeDay(day: Int, aBoolean: Boolean?) {
-        model.activeDay(day, aBoolean!!)
+        activeDay(day, aBoolean!!)
+    }
+
+    fun save() {
         model.save()
         notifyChange()
     }
-
 
     val minute: Int
         @Bindable

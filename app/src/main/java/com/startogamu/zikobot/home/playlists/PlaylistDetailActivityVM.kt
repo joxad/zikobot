@@ -62,6 +62,10 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        notifyPropertyChanged(BR.alarmEditTitle)
+    }
 
     /***
      * Load the data spotify WS or DB to show them in the recycler
