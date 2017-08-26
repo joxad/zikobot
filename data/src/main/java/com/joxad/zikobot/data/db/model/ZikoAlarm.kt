@@ -61,6 +61,9 @@ class ZikoAlarm : BaseModel() {
         replaceChar(if (aBoolean) '1' else '0', day)
     }
 
+    /**
+     * Trick to handle sport  
+     */
     fun replaceChar(c: Char, index: Int) {
         val daysBuilder = StringBuilder(days)
         daysBuilder.setCharAt(index, c)

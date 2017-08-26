@@ -17,7 +17,7 @@ object AppUtils {
         activity.supportActionBar!!.setDisplayShowTitleEnabled(true)
         toolbarDetailBinding.toolbar.setNavigationOnClickListener({ activity.onBackPressed() })
         toolbarDetailBinding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            val alpha: Float? = Math.abs(verticalOffset).toFloat() / toolbarDetailBinding.appBarLayout.totalScrollRange
+            val alpha: Float? = Math.abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange
             toolbarDetailBinding.alphaToolbar = alpha
         }
     }

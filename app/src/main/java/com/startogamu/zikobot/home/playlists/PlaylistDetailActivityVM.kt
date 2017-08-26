@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.joxad.androidtemplate.core.view.utils.EndlessRecyclerOnScrollListener
+import com.joxad.zikobot.data.db.AlarmManager
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
 import com.joxad.zikobot.data.db.PlaylistManager
 import com.joxad.zikobot.data.db.model.ZikoPlaylist
@@ -19,6 +20,8 @@ import com.startogamu.zikobot.core.AppUtils
 import com.startogamu.zikobot.databinding.PlayerViewBottomBinding
 import com.startogamu.zikobot.databinding.PlaylistDetailActivityBinding
 import com.startogamu.zikobot.home.track.TrackVM
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 
 
@@ -54,17 +57,22 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
         playlistVM = PlaylistVM(false, activity, ZikoPlaylist())
         AppUtils.initToolbar(activity, binding.toolbarDetailActivity!!)
         loadData()
-
+        AlarmManager.INSTANCE.refreshAlarm
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    notifyPropertyChanged(BR.alarmEditTitle)
+                })
         binding.playlistDetailTracksRV.addOnScrollListener(object : EndlessRecyclerOnScrollListener() {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                 addTracks(page)
             }
         })
-    }
+        binding.toolbarDetailActivity?.appBarLayout?.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+                val alpha: Float = Math.abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange
+                binding.playlistDetailAlarmTitle.alpha = 1 - alpha
+        }
 
-    override fun onResume() {
-        super.onResume()
-        notifyPropertyChanged(BR.alarmEditTitle)
     }
 
     /***
@@ -86,13 +94,12 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
                         }
                         true
                     }
-
                     AppUtils.initFab(binding.fabPlay)
                     AppUtils.initFab(binding.fabAlarm)
+
                 })
 
         addTracks(0)
-
     }
 
     /***

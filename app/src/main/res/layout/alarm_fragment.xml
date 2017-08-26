@@ -41,110 +41,92 @@
                 android:orientation="vertical"
                 android:padding="@dimen/activity_vertical_margin">
 
-                <TimePicker
-                    android:id="@+id/time_picker"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+
+                    android:layout_marginBottom="@dimen/margin_medium"
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/textSection"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/options" />
-
+                        android:textAllCaps="true"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:text="@string/volume_alarm" />
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:layout_marginBottom="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:background="@color/colorAccent" />
 
-                    <RelativeLayout
+
+                    <SeekBar
+                        android:id="@+id/seek_bar_volume"
+                        style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:maxHeight="8dp"
+                        android:progress="@{alarmFragmentVM.alarmVM.volume}"
+                        android:progressDrawable="@drawable/progress_bar"
+                        android:thumb="@drawable/thumb_volume" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/repeat"
-                            android:textAllCaps="true" />
 
-                    </RelativeLayout>
-
-                    <include
-                        android:id="@+id/view_days"
-                        layout="@layout/view_alarm_days"
-                        app:itemAlarmVM="@{alarmFragmentVM.alarmVM}" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:background="@color/colorAccent" />
                 </LinearLayout>
 
-                <LinearLayout
+         <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/repeat"
+                        android:textAllCaps="true" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/colorAccent" />
+
+
+                <include
+                    android:id="@+id/view_days"
+                    layout="@layout/view_alarm_days"
+                    app:itemAlarmVM="@{alarmFragmentVM.alarmVM}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/colorAccent" />
+
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="@dimen/margin_medium">
 
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
+                    <Switch
+                        android:id="@+id/sw_random"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium">
+                        android:layout_alignParentEnd="true" />
 
-                        <Switch
-                            android:id="@+id/sw_random"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_medium"
-                            android:text="@string/random_music" />
-
-                    </RelativeLayout>
-
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:orientation="vertical">
+                        android:textAllCaps="true"
+                        android:text="@string/random_music" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_medium"
-                            android:layout_marginTop="@dimen/margin_medium"
-                            android:text="@string/volume_alarm" />
-
-                        <SeekBar
-                            android:id="@+id/seek_bar_volume"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxHeight="8dp"
-                            android:progress="@{alarmFragmentVM.alarmVM.volume}"
-                            android:progressDrawable="@drawable/progress_bar"
-                            android:thumb="@drawable/thumb_volume" />
+                </RelativeLayout>
 
 
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
+                <TimePicker
+                    android:id="@+id/time_picker"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </android.support.v7.widget.LinearLayoutCompat>
         </android.support.v4.widget.NestedScrollView>
 

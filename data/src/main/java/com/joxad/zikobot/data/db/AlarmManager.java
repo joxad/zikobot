@@ -2,6 +2,7 @@ package com.joxad.zikobot.data.db;
 
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 
 import com.joxad.zikobot.data.db.model.ZikoAlarm;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by josh on 28/03/16.
@@ -23,6 +25,8 @@ public enum AlarmManager {
     private static android.app.AlarmManager alarmMgr;
     private static PendingIntent alarmIntent;
     private Context context;
+
+    public PublishSubject<ZikoAlarm> refreshAlarm = PublishSubject.create();
 
     public void init(Context context) {
         this.context = context;
@@ -40,18 +44,6 @@ public enum AlarmManager {
     public ZikoAlarm getAlarmByPlaylistId(final long id) {
         ZikoAlarm alarm = new Select().from(ZikoAlarm.class).where(ZikoAlarm_Table.zikoPlaylist_id.eq(id)).querySingle();
         return alarm;
-    }
-
-
-    /***
-     * @param alarm
-     */
-    public Observable<ZikoAlarm> saveAlarm(ZikoAlarm alarm) {
-        return Observable.create(subscriber -> {
-            alarm.save();
-            subscriber.onNext(alarm);
-        });
-
     }
 
 
@@ -98,7 +90,6 @@ public enum AlarmManager {
             model.setTimeInMillis(triggerMillis);
             model.save();
         } else {
-
             cancel(context, model);
         }
     }
@@ -110,10 +101,10 @@ public enum AlarmManager {
      * @param alarm
      */
     public void cancel(Context context, ZikoAlarm alarm) {
-        //  Intent intent = new Intent(context, AlarmReceiver.class);
-        // intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
-        //  alarmIntent = PendingIntent.getBroadcast(context, (int) alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        // alarmMgr.cancel(alarmIntent);
+         /* Intent intent = new Intent(context, AlarmReceiver.class);
+         intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
+          alarmIntent = PendingIntent.getBroadcast(context, (int) alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+         alarmMgr.cancel(alarmIntent);*/
     }
 
     /***
@@ -193,6 +184,12 @@ public enum AlarmManager {
         return formatter.format(calendar.getTime());
     }
 
+    /***
+     *
+     * @param context
+     * @param zikoPlaylist
+     * @return
+     */
     public boolean createAlarmOfPlaylist(Context context, ZikoPlaylist zikoPlaylist) {
         boolean created = false;
         ZikoAlarm zikoAlarm = AlarmManager.INSTANCE.getAlarmByPlaylistId(zikoPlaylist.getId());

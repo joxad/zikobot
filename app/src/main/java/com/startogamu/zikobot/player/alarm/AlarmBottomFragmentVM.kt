@@ -14,16 +14,15 @@ import com.startogamu.zikobot.databinding.AlarmFragmentBinding
  * Created by Jocelyn on 22/08/2017.
  */
 
-class AlarmBottomFragmentVM
-/***
- * @param fragment
- * @param binding
- */
-(fragment: AlarmBottomFragment, binding: AlarmFragmentBinding) : DialogBottomSheetBaseVM<AlarmBottomFragment, AlarmFragmentBinding>(fragment, binding) {
+class AlarmBottomFragmentVM(fragment: AlarmBottomFragment, binding: AlarmFragmentBinding)
+    : DialogBottomSheetBaseVM<AlarmBottomFragment, AlarmFragmentBinding>(fragment, binding) {
 
     lateinit var alarmVM: AlarmVM
     private var am: AudioManager? = null
 
+    /***
+     *
+     */
     override fun onCreate() {
         val alarm = AlarmManager.INSTANCE.getAlarmByPlaylistId(fragment.arguments.getLong(Constants.Extra.PLAYLIST_ID))
         alarmVM = AlarmVM(fragment.context, alarm)
@@ -32,11 +31,17 @@ class AlarmBottomFragmentVM
     }
 
 
-    fun save(v: View) {
+    /***
+     *
+     */
+    fun save(@SuppressWarnings("unused") v: View) {
         alarmVM.save()
         fragment.dismiss()
     }
 
+    /****
+     *
+     */
     private fun init() {
         val max = am!!.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         binding.seekBarVolume.max = am!!.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
@@ -45,7 +50,7 @@ class AlarmBottomFragmentVM
         binding.timePicker.setIs24HourView(true)
         initHour()
 
-        binding.swRandom.setOnCheckedChangeListener { compoundButton, b -> alarmVM.updateRandom(b) }
+        binding.swRandom.setOnCheckedChangeListener { _, b -> alarmVM.updateRandom(b) }
 
         binding.seekBarVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
@@ -71,8 +76,8 @@ class AlarmBottomFragmentVM
             binding.timePicker.currentHour = alarmVM.hour
             binding.timePicker.currentMinute = alarmVM.minute
         }
-        binding.timePicker.setOnTimeChangedListener { timePicker, i, i1 ->
-            alarmVM.updateTimeSelected(currentHour =i , currentMin = i1)
+        binding.timePicker.setOnTimeChangedListener { _, i, i1 ->
+            alarmVM.updateTimeSelected(currentHour = i, currentMin = i1)
         }
 
     }

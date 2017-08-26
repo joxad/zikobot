@@ -4,8 +4,11 @@ import android.content.Context
 import android.databinding.Bindable
 import android.view.View
 import com.joxad.easydatabinding.base.BaseVM
+import com.joxad.zikobot.data.db.AlarmManager
 import com.joxad.zikobot.data.db.model.ZikoAlarm
 import com.startogamu.zikobot.BR
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 /**
@@ -33,42 +36,9 @@ class AlarmVM
 
     @Bindable
     fun getAlarmTime(): String {
-        return String.format("%02d: %02d", amPmHour(model.hour), model.minute)
+        return String.format("%02d: %02d", model.hour, model.minute)
     }
 
-    @Bindable
-    fun getAlarmTimeAmPm(): String {
-        return amPm(model.hour)
-    }
-
-
-    /***
-     * Return am or pm value
-
-     * @param hour
-     * *
-     * @return
-     */
-    fun amPm(hour: Int): String {
-        val am = "AM"
-        val pm = "PM"
-        var after = am
-        if (hour >= 12) {
-            after = pm
-        }
-        return after
-    }
-
-    fun amPmHour(hour: Int): Int {
-        var hour = hour
-        if (hour > 12)
-            hour -= 12
-        else {
-            if (hour == 0)
-                hour = 12
-        }
-        return hour
-    }
 
 
     val isActivated: Boolean
@@ -77,11 +47,12 @@ class AlarmVM
 
 
     fun activeDay(day: Int, aBoolean: Boolean?) {
-        activeDay(day, aBoolean!!)
+        model.activeDay(day, aBoolean!!)
     }
 
     fun save() {
-        model.save()
+        AlarmManager.INSTANCE.prepareAlarm(context, model)
+        AlarmManager.INSTANCE.refreshAlarm.onNext(model)
         notifyChange()
     }
 
