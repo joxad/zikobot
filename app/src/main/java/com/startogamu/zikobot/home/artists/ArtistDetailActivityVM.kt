@@ -7,7 +7,6 @@ import android.view.View
 import com.joxad.androidtemplate.core.view.utils.EndlessRecyclerOnScrollListener
 import com.joxad.zikobot.data.db.ArtistManager
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
-import com.joxad.zikobot.data.db.model.ZikoArtist
 import com.joxad.zikobot.data.db.model.ZikoTrack
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.startogamu.zikobot.ABasePlayerActivityVM
@@ -56,7 +55,7 @@ class ArtistDetailActivityVM(activity: ArtistDetailActivity, binding: ArtistDeta
                 .querySingle()
                 .subscribe { it ->
                     artistVM = ArtistVM(activity, it)
-                    AppUtils.initFab(binding.fabPlay)
+                    AppUtils.animateAlpha(binding.fabPlay)
                 }
         addTracks(0)
     }

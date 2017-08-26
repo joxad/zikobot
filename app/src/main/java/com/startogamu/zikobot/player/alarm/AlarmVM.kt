@@ -4,11 +4,8 @@ import android.content.Context
 import android.databinding.Bindable
 import android.view.View
 import com.joxad.easydatabinding.base.BaseVM
-import com.joxad.zikobot.data.db.AlarmManager
 import com.joxad.zikobot.data.db.model.ZikoAlarm
 import com.startogamu.zikobot.BR
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 /**
@@ -31,6 +28,7 @@ class AlarmVM
     fun updateTimeSelected(currentHour: Int, currentMin: Int) {
         model.minute = currentMin
         model.hour = currentHour
+        notifyPropertyChanged(BR.alarmTime)
     }
 
 

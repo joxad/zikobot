@@ -41,6 +41,15 @@
                 android:orientation="vertical"
                 android:padding="@dimen/activity_vertical_margin">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:inputType="time"
+                    android:onClick="@{alarmFragmentVM.editTime}"
+                    android:text="@{alarmFragmentVM.alarmVM.alarmTime}"
+                    android:textSize="30sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -52,9 +61,10 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAllCaps="true"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:text="@string/volume_alarm" />
+                        android:text="@string/volume_alarm"
+                        android:textAllCaps="true" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -76,11 +86,11 @@
 
                 </LinearLayout>
 
-         <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/repeat"
-                        android:textAllCaps="true" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/repeat"
+                    android:textAllCaps="true" />
 
                 <View
                     android:layout_width="match_parent"
@@ -116,17 +126,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:textAllCaps="true"
-                        android:text="@string/random_music" />
+                        android:text="@string/random_music"
+                        android:textAllCaps="true" />
 
                 </RelativeLayout>
 
 
-                <TimePicker
+                <!--<TimePicker
                     android:id="@+id/time_picker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:timePickerMode="spinner" />-->
             </android.support.v7.widget.LinearLayoutCompat>
         </android.support.v4.widget.NestedScrollView>
 

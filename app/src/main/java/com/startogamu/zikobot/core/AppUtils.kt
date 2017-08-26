@@ -22,12 +22,12 @@ object AppUtils {
         }
     }
 
-    fun initFab(fabPlay: FloatingActionButton) {
-        fabPlay.animate().setStartDelay(500).alpha(1f).setDuration(300)
+    fun animateAlpha(view: View) {
+        view.animate().setStartDelay(500).alpha(1f).setDuration(300)
                 .withStartAction {
-                    fabPlay.alpha = 0f
-                    fabPlay.visibility = View.VISIBLE
+                    view.alpha = 0f
+                    view.visibility = View.VISIBLE
                 }
-                .withEndAction({ fabPlay.visibility = View.VISIBLE }).start()
+                .withEndAction({ view.visibility = View.VISIBLE }).start()
     }
 }

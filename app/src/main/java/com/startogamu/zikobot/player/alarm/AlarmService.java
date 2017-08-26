@@ -13,12 +13,15 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.joxad.androidtemplate.core.service.NonStopIntentService;
-import com.joxad.zikobot.data.db.AlarmManager;
+import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.db.CurrentPlaylistManager;
+import com.joxad.zikobot.data.db.PlaylistManager;
 import com.joxad.zikobot.data.db.model.ZikoAlarm;
 import com.joxad.zikobot.data.db.model.ZikoPlaylist;
 import com.joxad.zikobot.data.db.model.ZikoTrack;
+import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
 import com.joxad.zikobot.data.player.PlayerService;
+import com.startogamu.zikobot.Constants;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,13 +37,14 @@ public class AlarmService extends NonStopIntentService {
     private AudioManager am;
     private Ringtone ringtone;
     boolean safeAlarmOn;
+    int alarmId = 0;
 
     public AlarmService() {
         super(AlarmService.class.getName());
     }
 
-    public static Intent newInstance(Context context, long alarmId) {
-        return new Intent(context, AlarmService.class).putExtra("id", alarmId);
+    public static Intent newInstance(Context context, int alarmId) {
+        return new Intent(context, AlarmService.class).putExtra(Constants.Extra.INSTANCE.getALARM_ID(), alarmId);
     }
 
 
@@ -48,10 +52,19 @@ public class AlarmService extends NonStopIntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         safeAlarmOn = false;
-        long alarmId = 0;
+        if (AppPrefs.spotifyUser() != null) {
+            SpotifyAuthManager.INSTANCE.refreshToken().subscribe(spotifyToken -> {
+                startAlarm(intent);
+            }, throwable -> startSafeAlarm());
+        } else {
+            startAlarm(intent);
+        }
+    }
+
+    private void startAlarm(Intent intent) {
         if (intent != null) {
-            alarmId = intent.getLongExtra("id", 0);
-            ZikoAlarm alarm = AlarmManager.INSTANCE.getAlarmByPlaylistId(alarmId);
+            alarmId = intent.getIntExtra(Constants.Extra.INSTANCE.getALARM_ID(), 0);
+            ZikoAlarm alarm = AlarmManager.INSTANCE.queryAlarmById(alarmId);
             if (alarm != null) {
                 AlarmManager.INSTANCE.prepareAlarm(this, alarm);
                 if (AlarmManager.INSTANCE.canStart(alarm)) {
@@ -69,7 +82,6 @@ public class AlarmService extends NonStopIntentService {
 
         }
     }
-
 
     private void startSafeAlarm() {
         if (!safeAlarmOn) {
@@ -105,14 +117,15 @@ public class AlarmService extends NonStopIntentService {
     }
 
     private void start(ZikoAlarm alarm) {
-        ZikoPlaylist zikoPlaylist = alarm.getZikoPlaylist();
+        ZikoPlaylist zikoPlaylist = PlaylistManager.INSTANCE.findOne(alarm.getZikoPlaylist().
+                getId()).querySingle().blockingGet();
         if (zikoPlaylist != null) {
-            zikoPlaylist.load();
-            List<ZikoTrack> models = zikoPlaylist.getTracks();
+            List<ZikoTrack> models = PlaylistManager.INSTANCE.findTracks(zikoPlaylist.getId(), -1)
+                    .queryList().blockingGet();
             if (alarm.isRandom()) {
                 Collections.shuffle(models);
             }
-            CurrentPlaylistManager.INSTANCE.play(zikoPlaylist.getForeignTracks());
+            CurrentPlaylistManager.INSTANCE.play(models);
         }
     }
 

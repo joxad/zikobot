@@ -13,7 +13,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context = context;
-        long alarmId = intent.getLongExtra(Constants.Extra.INSTANCE.getALARM_ID(), -1);
+        int alarmId = intent.getIntExtra(Constants.Extra.INSTANCE.getALARM_ID(), -1);
         context.startService(AlarmService.newInstance(context, alarmId));
     }
 

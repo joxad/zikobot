@@ -1,4 +1,4 @@
-package com.joxad.zikobot.data.db;
+package com.startogamu.zikobot.player.alarm;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -10,11 +10,11 @@ import com.joxad.zikobot.data.db.model.ZikoAlarm_Table;
 import com.joxad.zikobot.data.db.model.ZikoPlaylist;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
+import com.startogamu.zikobot.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
 /**
@@ -46,6 +46,10 @@ public enum AlarmManager {
         return alarm;
     }
 
+    public ZikoAlarm queryAlarmById(int id) {
+        ZikoAlarm alarm = new Select().from(ZikoAlarm.class).where(ZikoAlarm_Table.id.eq(id)).querySingle();
+        return alarm;
+    }
 
     public void deleteAlarm(ZikoAlarm alarm) {
         SQLite.delete(ZikoAlarm.class).where(ZikoAlarm_Table.id.is(alarm.getId())).query();
@@ -101,10 +105,10 @@ public enum AlarmManager {
      * @param alarm
      */
     public void cancel(Context context, ZikoAlarm alarm) {
-         /* Intent intent = new Intent(context, AlarmReceiver.class);
-         intent.putExtra(EXTRA.ALARM_ID, alarm.getId());
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra(Constants.Extra.INSTANCE.getALARM_ID(), alarm.getId());
           alarmIntent = PendingIntent.getBroadcast(context, (int) alarm.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
-         alarmMgr.cancel(alarmIntent);*/
+         alarmMgr.cancel(alarmIntent);
     }
 
     /***
@@ -208,4 +212,5 @@ public enum AlarmManager {
         zikoAlarm.save();
         return created;
     }
+
 }

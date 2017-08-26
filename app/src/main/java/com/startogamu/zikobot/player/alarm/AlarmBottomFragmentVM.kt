@@ -6,7 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
 import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBaseVM
-import com.joxad.zikobot.data.db.AlarmManager
+import com.philliphsu.bottomsheetpickers.time.grid.GridTimePickerDialog
+import com.philliphsu.bottomsheetpickers.time.numberpad.NumberPadTimePickerDialog
 import com.startogamu.zikobot.Constants
 import com.startogamu.zikobot.databinding.AlarmFragmentBinding
 
@@ -47,8 +48,6 @@ class AlarmBottomFragmentVM(fragment: AlarmBottomFragment, binding: AlarmFragmen
         binding.seekBarVolume.max = am!!.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         binding.seekBarVolume.progress = if (alarmVM.volume == -1) (max * 0.5f).toInt() else alarmVM.volume
         binding.swRandom.isChecked = alarmVM.randomTrack == 1
-        binding.timePicker.setIs24HourView(true)
-        initHour()
 
         binding.swRandom.setOnCheckedChangeListener { _, b -> alarmVM.updateRandom(b) }
 
@@ -68,17 +67,23 @@ class AlarmBottomFragmentVM(fragment: AlarmBottomFragment, binding: AlarmFragmen
         })
     }
 
-    private fun initHour() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            binding.timePicker.minute = alarmVM.minute
-            binding.timePicker.hour = alarmVM.hour
-        } else {
-            binding.timePicker.currentHour = alarmVM.hour
-            binding.timePicker.currentMinute = alarmVM.minute
-        }
-        binding.timePicker.setOnTimeChangedListener { _, i, i1 ->
+    public fun editTime(v: View) {
+        /* if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+             binding.timePicker.minute = alarmVM.minute
+             binding.timePicker.hour = alarmVM.hour
+         } else {
+             binding.timePicker.currentHour = alarmVM.hour
+             binding.timePicker.currentMinute = alarmVM.minute
+         }
+         binding.timePicker.setOnTimeChangedListener { _, i, i1 ->
+             alarmVM.updateTimeSelected(currentHour = i, currentMin = i1)
+         }*/
+        // Configured according to the system preference for 24-hour time.
+        val pad = NumberPadTimePickerDialog.Builder({ _, i, i1 ->
             alarmVM.updateTimeSelected(currentHour = i, currentMin = i1)
-        }
+
+        },true).setThemeDark(true).build()
+        pad.show(fragment.activity.supportFragmentManager, pad.tag)
 
     }
 

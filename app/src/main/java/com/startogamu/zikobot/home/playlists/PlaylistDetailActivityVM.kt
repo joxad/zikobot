@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.joxad.androidtemplate.core.view.utils.EndlessRecyclerOnScrollListener
-import com.joxad.zikobot.data.db.AlarmManager
+import com.startogamu.zikobot.player.alarm.AlarmManager
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
 import com.joxad.zikobot.data.db.PlaylistManager
 import com.joxad.zikobot.data.db.model.ZikoPlaylist
@@ -69,8 +69,8 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
             }
         })
         binding.toolbarDetailActivity?.appBarLayout?.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-                val alpha: Float = Math.abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange
-                binding.playlistDetailAlarmTitle.alpha = 1 - alpha
+            val alpha: Float = Math.abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange
+            binding.playlistDetailAlarmTitle.alpha = 1 - alpha
         }
 
     }
@@ -94,11 +94,12 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
                         }
                         true
                     }
-                    AppUtils.initFab(binding.fabPlay)
-                    AppUtils.initFab(binding.fabAlarm)
+                    AppUtils.animateAlpha(binding.fabPlay)
+                    AppUtils.animateAlpha(binding.fabAlarm)
+                    if (playlistVM.getAlarm())
+                        AppUtils.animateAlpha(binding.playlistDetailAlarmTitle)
 
                 })
-
         addTracks(0)
     }
 

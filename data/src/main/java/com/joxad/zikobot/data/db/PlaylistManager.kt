@@ -106,6 +106,12 @@ enum class PlaylistManager {
     }
 
     fun findTracks(playlistId: Long, offset: Int): RXModelQueriableImpl<ZikoTrack> {
+        if(offset==-1) {
+            return select
+                    .from(ZikoTrack::class.java)
+                    .where(ZikoTrack_Table.zikoPlaylist_id.eq(playlistId))
+                    .rx()
+        }
         return select
                 .from(ZikoTrack::class.java)
                 .where(ZikoTrack_Table.zikoPlaylist_id.eq(playlistId))

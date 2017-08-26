@@ -10,7 +10,7 @@ import android.provider.Settings
 import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.joxad.easydatabinding.base.BaseVM
-import com.joxad.zikobot.data.db.AlarmManager
+import com.startogamu.zikobot.player.alarm.AlarmManager
 import com.joxad.zikobot.data.db.model.ZikoPlaylist
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.NavigationManager
