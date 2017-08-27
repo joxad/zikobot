@@ -50,14 +50,15 @@ object ArtistManager {
     fun findTracks(artistId: Int, offset: Int): Single<MutableList<ZikoTrack>> {
         return select
                 .from(ZikoTrack::class.java)
-                .where(ZikoTrack_Table.zikoArtist_id.eq(artistId).and(ZikoTrack_Table.zikoPlaylist_id.notEq(1)))
+                .where(ZikoTrack_Table.zikoArtist_id.eq(artistId))//.and(ZikoTrack_Table.zikoPlaylist_id.notEq(1)))
+                .offset(offset * ZikoDB.PAGINATED_OFFSET)
+                .limit(ZikoDB.PAGINATED_OFFSET)
                 .rx()
                 .queryList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
 
     }
-
     fun findAllTracks(): Single<MutableList<ZikoTrack>> {
         return select
                 .from(ZikoTrack::class.java)

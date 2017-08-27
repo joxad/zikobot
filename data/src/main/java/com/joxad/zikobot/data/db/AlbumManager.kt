@@ -39,7 +39,7 @@ object AlbumManager {
     fun findTracks(artistId: Int, offset: Int): Single<MutableList<ZikoTrack>> {
         return select
                 .from(ZikoTrack::class.java)
-                .where(ZikoTrack_Table.zikoAlbum_id.eq(artistId).and(ZikoTrack_Table.zikoPlaylist_id.notEq(1)))
+                .where(ZikoTrack_Table.zikoAlbum_id.eq(artistId))//.and(ZikoTrack_Table.zikoPlaylist_id.notEq(1)))
                 .offset(offset * ZikoDB.PAGINATED_OFFSET)
                 .limit(ZikoDB.PAGINATED_OFFSET)
                 .rx()

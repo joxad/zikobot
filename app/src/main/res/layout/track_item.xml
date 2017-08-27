@@ -22,6 +22,7 @@
             android:layout_width="@dimen/bt_height"
             android:layout_height="@dimen/bt_height"
             app:imageUrl="@{trackVM.image}"
+            app:srcCompat="@drawable/ic_vinyl"
             app:imageError="@{@drawable/ic_vinyl}"/>
 
         <RelativeLayout
