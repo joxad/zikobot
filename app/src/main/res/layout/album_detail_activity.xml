@@ -4,13 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
-        <variable
-            name="artistDetailActivityVM"
-            type="com.startogamu.zikobot.home.artists.ArtistDetailActivityVM" />
 
+        <variable
+            name="albumDetailActivityVM"
+            type="com.startogamu.zikobot.home.albums.AlbumDetailActivityVM" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -20,8 +19,8 @@
         <include
             android:id="@+id/toolbar_detail_activity"
             layout="@layout/toolbar_detail_activity"
-            app:image="@{artistDetailActivityVM.artistVM.image}"
-            app:title="@{artistDetailActivityVM.artistVM.name}" />
+            app:image="@{albumDetailActivityVM.albumVM.image}"
+            app:title="@{albumDetailActivityVM.albumVM.name}" />
 
         <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
             android:id="@+id/artistDetailActivityRv"
@@ -31,8 +30,8 @@
             android:layoutAnimation="@anim/grid_animation"
             android:paddingBottom="@dimen/paddingBottom"
             android:paddingTop="@dimen/paddingBottom"
-            app:itemBinding="@{artistDetailActivityVM.itemBinding}"
-            app:items="@{artistDetailActivityVM.items}"
+            app:itemBinding="@{albumDetailActivityVM.itemBinding}"
+            app:items="@{albumDetailActivityVM.items}"
             app:layoutManager="@{LayoutManagers.grid(1)}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
@@ -50,7 +49,7 @@
             <include
                 android:id="@+id/view_player"
                 layout="@layout/player_view_bottom"
-                app:playerVM="@{artistDetailActivityVM.playerVM}" />
+                app:playerVM="@{albumDetailActivityVM.playerVM}" />
         </android.support.v7.widget.CardView>
 
 
@@ -59,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:onClick="@{artistDetailActivityVM::playAll}"
+            android:onClick="@{albumDetailActivityVM::playAll}"
             android:visibility="gone"
             app:fabSize="normal"
             app:layout_anchor="@id/toolbar_detail_activity"
@@ -68,3 +67,5 @@
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>
+
+

@@ -1,11 +1,10 @@
 package com.startogamu.zikobot.home.albums
 
 import android.os.Bundle
+import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.fragment.v4.FragmentRecyclerBaseVM
 import com.joxad.zikobot.data.db.AlbumManager
-import com.joxad.zikobot.data.db.model.ZikoAlbum
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager
-import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.AlbumsFragmentBinding
@@ -17,6 +16,8 @@ import io.reactivex.schedulers.Schedulers
  */
 class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding, savedInstance: Bundle?) :
         FragmentRecyclerBaseVM<AlbumVM, AlbumsFragment, AlbumsFragmentBinding>(fragment, binding, savedInstance) {
+
+
     override fun itemLayoutResource(): Int {
         return R.layout.album_item
     }
@@ -40,12 +41,13 @@ class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding,
             return
         items.clear()
         AlbumManager.findAll()
-                .list { list ->
-                    for (album in list) {
-                        items.add(AlbumVM(false,fragment.context, album))
+                .subscribe({
+                    for (album in it) {
+                        items.add(AlbumVM(false, fragment.context, album))
                     }
-                }
-
+                }, {
+                    AppLog.INSTANCE.e("albums", it.localizedMessage);
+                })
     }
 
     companion object {

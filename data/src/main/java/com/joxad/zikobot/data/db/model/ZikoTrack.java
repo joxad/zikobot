@@ -75,7 +75,6 @@ public class ZikoTrack extends BaseModel {
     public static ZikoTrack local(LocalTrack localTrack, ZikoArtist zikoArtist, ZikoAlbum zikoAlbum) {
         ZikoTrack track = new ZikoTrack();
         track.setType(TYPE.LOCAL);
-        track.setId(localTrack.getId());
         track.setRef(localTrack.getData());
         track.setLocalId(localTrack.getId());
         track.associateArtist(zikoArtist);

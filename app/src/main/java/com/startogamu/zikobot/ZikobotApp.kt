@@ -3,6 +3,7 @@ package com.startogamu.zikobot
 import android.app.Application
 import com.facebook.stetho.Stetho
 import com.joxad.androidtemplate.core.log.AppLog
+import com.joxad.androidtemplate.core.network.NetworkStatusManager
 import com.joxad.zikobot.data.AppPrefs
 import com.startogamu.zikobot.player.alarm.AlarmManager
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
@@ -27,6 +28,7 @@ class ZikobotApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        NetworkStatusManager.INSTANCE.register(this)
         AppPrefs.init(this)
         val databaseConfig = DatabaseConfig.Builder(ZikoDB::class.java).modelNotifier(DirectModelNotifier.get()).build()
         FlowManager.init(FlowConfig.Builder(this).addDatabaseConfig(databaseConfig).build())
@@ -40,6 +42,11 @@ class ZikobotApp : Application() {
         PlaylistManager.INSTANCE.init()
         AlarmManager.INSTANCE.init(this)
         CurrentPlaylistManager.INSTANCE.init()
+    }
+
+    override fun onTerminate() {
+        NetworkStatusManager.INSTANCE.unregister()
+        super.onTerminate()
     }
 
 }

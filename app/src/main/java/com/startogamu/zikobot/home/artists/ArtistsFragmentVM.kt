@@ -1,12 +1,13 @@
 package com.startogamu.zikobot.home.artists
 
+import android.databinding.ObservableBoolean
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
+import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.androidtemplate.core.view.utils.EndlessRecyclerOnScrollListener
 import com.joxad.easydatabinding.fragment.v4.FragmentRecyclerBaseVM
 import com.joxad.zikobot.data.db.ArtistManager
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager
-import com.raizlabs.android.dbflow.rx2.kotlinextensions.list
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.ArtistsFragmentBinding
@@ -19,6 +20,7 @@ import io.reactivex.schedulers.Schedulers
 class ArtistsFragmentVM(fragment: ArtistsFragment,
                         binding: ArtistsFragmentBinding, savedInstance: Bundle?) : FragmentRecyclerBaseVM<ArtistVM, ArtistsFragment, ArtistsFragmentBinding>(fragment, binding, savedInstance) {
 
+    lateinit var loading: ObservableBoolean
 
     override fun itemLayoutResource(): Int {
         return R.layout.artist_item
@@ -31,6 +33,7 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
 
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
+        loading = ObservableBoolean(true)
         updateList(true)
         LocalMusicManager.INSTANCE.synchroDone
                 .subscribeOn(Schedulers.io())
@@ -56,11 +59,17 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
 
     private fun addArtists(offset: Int) {
         ArtistManager.findAllPaginated(offset)
-                .list { list ->
-                    for (artist in list) {
+                .subscribe({
+                    loading.set(false)
+                    for (artist in it) {
                         items.add(ArtistVM(fragment.context, artist))
                     }
-                }
+
+
+                }, {
+                    AppLog.INSTANCE.e("Artists", it.localizedMessage)
+                })
+
     }
 
     companion object {

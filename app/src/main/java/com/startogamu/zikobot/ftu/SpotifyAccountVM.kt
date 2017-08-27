@@ -37,7 +37,7 @@ class SpotifyAccountVM
         super.onCreate()
         init()
 
-        AccountManager.INSTANCE.spotifyUserBehaviorSubject
+        AccountManager.INSTANCE.spotifyUserSubject
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

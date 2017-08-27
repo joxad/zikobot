@@ -40,7 +40,7 @@ class SpotifySyncPlaylistsFragmentVM(fragment: SpotifySyncPlaylistsFragment, bin
             showConnect = ObservableBoolean(false)
             loadData()
         }
-        AccountManager.INSTANCE.spotifyUserBehaviorSubject.subscribe({
+        AccountManager.INSTANCE.spotifyUserSubject.subscribe({
             showConnect.set(false)
             loadData()
         })

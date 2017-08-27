@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <variable
@@ -12,16 +14,23 @@
             type="com.startogamu.zikobot.home.artists.ArtistsFragmentVM" />
     </data>
 
-    <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
-        android:id="@+id/artistFragmentRV"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layoutAnimation="@anim/grid_animation"
-        android:paddingBottom="@dimen/paddingBottom"
-        android:clipToPadding="false"
-        app:itemBinding="@{artistsFragmentVM.itemBinding}"
-        app:items="@{artistsFragmentVM.items}"
-        app:layoutManager="@{LayoutManagers.grid(2)}" />
+        android:layout_height="match_parent">
 
+        <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
+            android:id="@+id/artistFragmentRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/grid_animation"
+            android:paddingBottom="@dimen/paddingBottom"
+            app:itemBinding="@{artistsFragmentVM.itemBinding}"
+            app:items="@{artistsFragmentVM.items}"
+            app:layoutManager="@{LayoutManagers.grid(2)}" />
 
+        <include
+            layout="@layout/layout_loading_state"
+            android:visible="@{artistsFragmentVM.loading}" />
+    </RelativeLayout>
 </layout>

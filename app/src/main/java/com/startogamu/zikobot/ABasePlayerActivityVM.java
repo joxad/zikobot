@@ -1,5 +1,6 @@
 package com.startogamu.zikobot;
 
+import android.databinding.ObservableArrayList;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +9,10 @@ import android.view.View;
 import com.joxad.easydatabinding.activity.ActivityBase;
 import com.joxad.easydatabinding.activity.ActivityBaseVM;
 import com.startogamu.zikobot.databinding.PlayerViewBottomBinding;
+import com.startogamu.zikobot.home.track.TrackVM;
 import com.startogamu.zikobot.player.PlayerVM;
+
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by Jocelyn on 15/08/2017.
@@ -17,6 +21,8 @@ import com.startogamu.zikobot.player.PlayerVM;
 public abstract class ABasePlayerActivityVM<A extends ActivityBase, B extends ViewDataBinding> extends ActivityBaseVM<A, B> {
 
     public PlayerVM playerVM;
+    public ObservableArrayList<TrackVM> items;
+    public ItemBinding<TrackVM> itemBinding = ItemBinding.of(BR.trackVM, R.layout.track_item);
 
     /***
 
@@ -32,6 +38,7 @@ public abstract class ABasePlayerActivityVM<A extends ActivityBase, B extends Vi
     @Override
     public void onCreate(@Nullable Bundle savedInstance) {
         playerVM = new PlayerVM(activity, playerBinding());
+        items = new ObservableArrayList<>();
     }
 
     protected abstract PlayerViewBottomBinding playerBinding();

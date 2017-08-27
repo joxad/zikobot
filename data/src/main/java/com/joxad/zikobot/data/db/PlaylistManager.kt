@@ -11,7 +11,7 @@ import com.raizlabs.android.dbflow.rx2.language.RXModelQueriableImpl
 import com.raizlabs.android.dbflow.sql.language.OrderBy
 import com.raizlabs.android.dbflow.sql.language.Select
 import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 
 /**
  * Created by Jocelyn on 03/08/2017.
@@ -20,10 +20,10 @@ import io.reactivex.subjects.BehaviorSubject
 enum class PlaylistManager {
     INSTANCE;
 
-    lateinit var refreshSubject: BehaviorSubject<Boolean>
+    lateinit var refreshSubject: PublishSubject<Boolean>
 
     fun init() {
-        refreshSubject = BehaviorSubject.create()
+        refreshSubject = PublishSubject.create()
         if (select.from(ZikoPlaylist::class.java).count() == 0L)
             ZikoPlaylist("current", 0, "", ArrayList()).save()
     }

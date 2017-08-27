@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.joxad.zikobot.data.db.model.ZikoAlbum;
 import com.joxad.zikobot.data.db.model.ZikoAlbum_Table;
@@ -20,7 +21,7 @@ import com.raizlabs.android.dbflow.sql.language.Select;
 import java.io.File;
 
 import io.reactivex.Observable;
-import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
 
 
 /**
@@ -32,19 +33,23 @@ public enum LocalMusicManager {
 
     private Context context;
 
-    public BehaviorSubject<Boolean> synchroDone;
+    public PublishSubject<Boolean> synchroDone;
     private ContentResolver cr;
 
     public void init(Context context) {
         this.context = context;
-        synchroDone = BehaviorSubject.create();
+        synchroDone = PublishSubject.create();
         cr = context.getContentResolver();
 
     }
 
     public Observable<Boolean> observeSynchro() {
         return Observable.fromCallable(() -> {
-            syncLocalData();
+            try {
+                syncLocalData();
+            } catch (Exception e) {
+                Log.d(LocalMusicManager.class.getSimpleName(), e.getLocalizedMessage());
+            }
             synchroDone.onNext(true);
             return true;
         });
@@ -52,10 +57,14 @@ public enum LocalMusicManager {
 
 
     public void syncLocalData() {
-        for (LocalTrack localTrack : TrackLoader.getAllTracks(context)) {
-            ZikoArtist zikoArtist = createArtistIfNeed(localTrack.getArtistId(), localTrack.getArtistName());
-            ZikoAlbum zikoAlbum = createAlbumIfNeed(localTrack.getAlbumId(), localTrack.getAlbumName(), zikoArtist);
-            createTrack(localTrack, zikoArtist, zikoAlbum);
+        try {
+            for (LocalTrack localTrack : TrackLoader.getAllTracks(context)) {
+                ZikoArtist zikoArtist = createArtistIfNeed(localTrack.getArtistId(), localTrack.getArtistName());
+                ZikoAlbum zikoAlbum = createAlbumIfNeed(localTrack.getAlbumId(), localTrack.getAlbumName(), zikoArtist);
+                createTrack(localTrack, zikoArtist, zikoAlbum);
+            }
+        } catch (Exception e) {
+            Log.e(LocalMusicManager.class.getSimpleName(), e.getLocalizedMessage());
         }
     }
 
