@@ -16,8 +16,8 @@
     <color name="colorDeezer">#23232C</color>
     <color name="colorSoundCloud">#f50</color>
     <color name="colorYoutube">#E62117</color>
-
-
+    <color name="alphabet_background_color">@android:color/transparent</color>
+    <color name="alphabet_text_selected_color">#FFF</color>
     <!-- A light Holo shade of blue -->
     <color name="blue_light">#ff33b5e5</color>
     <!-- A light Holo shade of gray -->

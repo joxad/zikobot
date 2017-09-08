@@ -5,10 +5,14 @@ import android.os.Bundle
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.fragment.v4.FragmentRecyclerBaseVM
 import com.joxad.zikobot.data.db.AlbumManager
+import com.joxad.zikobot.data.db.ArtistManager
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.R
+import com.startogamu.zikobot.core.AlphabeticalAdapter
+import com.startogamu.zikobot.core.AppUtils
 import com.startogamu.zikobot.databinding.AlbumsFragmentBinding
+import com.startogamu.zikobot.home.artists.ArtistVM
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -21,6 +25,7 @@ class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding,
 
     lateinit var loading: ObservableBoolean
     private var disposable: Disposable? = null
+    val adapter = AlphabeticalAdapter<AlbumVM>()
 
     override fun itemLayoutResource(): Int {
         return R.layout.album_item
@@ -37,6 +42,7 @@ class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding,
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateList)
+        binding.fastScroller.setRecyclerView(binding.albumsFragmentRV)
 
     }
 
@@ -50,6 +56,8 @@ class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding,
         if (!done)
             return
         items.clear()
+        handleAlbumAlphabet()
+
         AlbumManager.findAll()
                 .subscribe({
                     loading.set(false)
@@ -61,7 +69,14 @@ class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding,
                     AppLog.INSTANCE.e("albums", it.localizedMessage);
                 })
     }
-
+    private fun handleAlbumAlphabet() {
+        AlbumManager.findAll()
+                .subscribe({
+                    AppUtils.setupAlphabet(binding.fastScroller,it.map { it.name }.toMutableList())
+                }, {
+                    AppLog.INSTANCE.e("Artists", it.localizedMessage)
+                })
+    }
     companion object {
         private val TAG = AlbumsFragmentVM::class.java.simpleName
     }

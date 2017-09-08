@@ -31,4 +31,6 @@
     <dimen name="textSizeSubtitleItem">14sp</dimen>
     <dimen name="trackItemPlayerLarge">250dp</dimen>
     <dimen name="toolbar_detail_image_height">250dp</dimen>
+    <dimen name="alphabet_width">24dp</dimen>
+    <dimen name="font_medium">12sp</dimen>
 </resources>

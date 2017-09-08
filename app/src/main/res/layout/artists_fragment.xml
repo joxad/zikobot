@@ -27,7 +27,15 @@
             android:paddingBottom="@dimen/paddingBottom"
             app:itemBinding="@{artistsFragmentVM.itemBinding}"
             app:items="@{artistsFragmentVM.items}"
+            app:adapter="@{artistsFragmentVM.adapter}"
             app:layoutManager="@{LayoutManagers.grid(2)}" />
+
+
+        <com.viethoa.RecyclerViewFastScroller
+            android:id="@+id/fast_scroller"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"/>
 
         <include
             layout="@layout/layout_loading_state"

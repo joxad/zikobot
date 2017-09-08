@@ -5,10 +5,8 @@ import com.joxad.zikobot.data.db.model.ZikoArtist_Table
 import com.joxad.zikobot.data.db.model.ZikoTrack
 import com.joxad.zikobot.data.db.model.ZikoTrack_Table
 import com.raizlabs.android.dbflow.annotation.Collate
-import com.raizlabs.android.dbflow.kotlinextensions.and
 import com.raizlabs.android.dbflow.kotlinextensions.select
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
-import com.raizlabs.android.dbflow.rx2.language.RXModelQueriableImpl
 import com.raizlabs.android.dbflow.sql.language.OrderBy
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -20,11 +18,14 @@ import io.reactivex.schedulers.Schedulers
 
 object ArtistManager {
 
-    fun findAll(): RXModelQueriableImpl<ZikoArtist> {
-        return (select.from(ZikoArtist::class.java)
+    fun findAll(): Single<MutableList<ZikoArtist>> {
+        return select.from(ZikoArtist::class.java)
                 .orderBy(OrderBy.fromProperty(ZikoArtist_Table.name).collate(Collate.NOCASE)
                         .ascending())
-                .rx())
+                .rx()
+                .queryList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun findAllPaginated(offset: Int): Single<MutableList<ZikoArtist>> {
@@ -59,6 +60,7 @@ object ArtistManager {
                 .observeOn(AndroidSchedulers.mainThread())
 
     }
+
     fun findAllTracks(): Single<MutableList<ZikoTrack>> {
         return select
                 .from(ZikoTrack::class.java)

@@ -1,9 +1,11 @@
 package com.startogamu.zikobot.core
 
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.joxad.zikobot.data.db.model.ZikoArtist
 import com.startogamu.zikobot.databinding.ToolbarDetailActivityBinding
+import com.viethoa.RecyclerViewFastScroller
+import com.viethoa.models.AlphabetItem
 
 /**
  * Created by Jocelyn on 15/08/2017.
@@ -29,5 +31,19 @@ object AppUtils {
                     view.visibility = View.VISIBLE
                 }
                 .withEndAction({ view.visibility = View.VISIBLE }).start()
+    }
+
+    fun setupAlphabet(fastScroller: RecyclerViewFastScroller, it: MutableList<String>) {
+        val mAlphabetItems = arrayListOf<AlphabetItem>()
+        val strAlphabets = arrayListOf<String>()
+        for (name in it) {
+            val word = name.substring(0, 1)
+            if (!strAlphabets.contains(word)) {
+                strAlphabets.add(word)
+                mAlphabetItems.add(AlphabetItem(strAlphabets.size, word, false))
+            }
+        }
+
+        fastScroller.setUpAlphabet(mAlphabetItems)
     }
 }
