@@ -22,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
+        android:background="@android:color/transparent"
         android:minHeight="1000dp"
         android:onClick="@{playerVM::trickClick}"
         android:orientation="vertical">

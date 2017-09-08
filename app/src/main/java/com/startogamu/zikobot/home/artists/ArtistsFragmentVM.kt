@@ -12,6 +12,7 @@ import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.ArtistsFragmentBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -21,7 +22,7 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
                         binding: ArtistsFragmentBinding, savedInstance: Bundle?) : FragmentRecyclerBaseVM<ArtistVM, ArtistsFragment, ArtistsFragmentBinding>(fragment, binding, savedInstance) {
 
     lateinit var loading: ObservableBoolean
-
+    var disposable: Disposable? = null
     override fun itemLayoutResource(): Int {
         return R.layout.artist_item
     }
@@ -34,8 +35,7 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
         loading = ObservableBoolean(true)
-        updateList(true)
-        LocalMusicManager.INSTANCE.synchroDone
+        disposable = LocalMusicManager.INSTANCE.synchroDone
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateList)
@@ -47,6 +47,12 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
             }
         })
 
+    }
+
+    override fun onDestroy() {
+        if (disposable != null)
+            disposable?.dispose()
+        super.onDestroy()
     }
 
     private fun updateList(done: Boolean) {
@@ -64,9 +70,8 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
                     for (artist in it) {
                         items.add(ArtistVM(fragment.context, artist))
                     }
-
-
                 }, {
+                    loading.set(false)
                     AppLog.INSTANCE.e("Artists", it.localizedMessage)
                 })
 

@@ -8,12 +8,14 @@ import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
+import android.graphics.Color
 import android.os.Bundle
 import android.os.IBinder
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
 import android.view.View
+import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.Toast
 import com.joxad.easydatabinding.base.IVM
@@ -60,8 +62,9 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
         behavior = BottomSheetBehavior.from<View>(binding.root.parent as CardView)
         behavior!!.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_EXPANDED)
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     isExpanded.set(true)
+                }
                 else {
                     if (isExpanded.get())
                         isExpanded.set(false)

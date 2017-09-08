@@ -11,13 +11,21 @@
             type="com.startogamu.zikobot.home.albums.AlbumsFragmentVM" />
     </data>
 
-    <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layoutAnimation="@anim/grid_animation"
-        app:itemBinding="@{albumsFragmentVM.itemBinding}"
-        app:items="@{albumsFragmentVM.items}"
-        app:layoutManager="@{LayoutManagers.grid(2)}" />
+        android:layout_height="match_parent">
 
+        <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layoutAnimation="@anim/grid_animation"
+            app:itemBinding="@{albumsFragmentVM.itemBinding}"
+            app:items="@{albumsFragmentVM.items}"
+            app:layoutManager="@{LayoutManagers.grid(2)}" />
+
+        <include
+            layout="@layout/layout_loading_state"
+            android:visible="@{albumsFragmentVM.loading}" />
+    </RelativeLayout>
 
 </layout>

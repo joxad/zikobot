@@ -1,5 +1,6 @@
 package com.startogamu.zikobot.home.albums
 
+import android.databinding.ObservableBoolean
 import android.os.Bundle
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.fragment.v4.FragmentRecyclerBaseVM
@@ -9,6 +10,7 @@ import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.AlbumsFragmentBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -17,6 +19,8 @@ import io.reactivex.schedulers.Schedulers
 class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding, savedInstance: Bundle?) :
         FragmentRecyclerBaseVM<AlbumVM, AlbumsFragment, AlbumsFragmentBinding>(fragment, binding, savedInstance) {
 
+    lateinit var loading: ObservableBoolean
+    private var disposable: Disposable? = null
 
     override fun itemLayoutResource(): Int {
         return R.layout.album_item
@@ -28,12 +32,18 @@ class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding,
 
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
-        updateList(true)
-        LocalMusicManager.INSTANCE.synchroDone
+        loading = ObservableBoolean(true)
+        disposable = LocalMusicManager.INSTANCE.synchroDone
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateList)
 
+    }
+
+    override fun onDestroy() {
+        if (disposable != null)
+            disposable?.dispose()
+        super.onDestroy()
     }
 
     private fun updateList(done: Boolean) {
@@ -42,10 +52,12 @@ class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding,
         items.clear()
         AlbumManager.findAll()
                 .subscribe({
+                    loading.set(false)
                     for (album in it) {
                         items.add(AlbumVM(false, fragment.context, album))
                     }
                 }, {
+                    loading.set(false)
                     AppLog.INSTANCE.e("albums", it.localizedMessage);
                 })
     }

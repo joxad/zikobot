@@ -23,8 +23,8 @@ import com.startogamu.zikobot.home.playlists.PlaylistsFragment
 import com.startogamu.zikobot.player.PlayerVM
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-
 
 /**
  * Created by Jocelyn on 27/07/2017.
@@ -34,6 +34,7 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
         ActivityBaseVM<HomeActivity, HomeActivityBinding>(activity, binding, savedInstance), INewIntent {
 
     lateinit var playerVM: PlayerVM
+    private var disposable: Disposable? = null
     override fun onNewIntent(intent: Intent?) {
         val uri = intent?.data
         if (uri != null) {
@@ -78,14 +79,7 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
         }
         binding.viewPager.adapter = genericFragmentAdapter
         binding.tabLayout.setupWithViewPager(binding.viewPager)
-        val rxPermission = RxPermissions(activity)
-        if (!rxPermission.isGranted(android.Manifest.permission.READ_EXTERNAL_STORAGE))
-            rxPermission.request(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                    .subscribe({ granted ->
-                        if (granted) {
-                            startSyncService()
-                        }
-                    })
+
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -93,14 +87,21 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
             }
             true
         }
-
         playerVM = PlayerVM(activity, binding.viewPlayer)
+        val rxPermission = RxPermissions(activity)
+        rxPermission.request(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe({ granted ->
+                    if (granted) {
+                        startSyncService()
+                    }
+                })
     }
 
 
     override fun onResume() {
         super.onResume()
         playerVM.onResume()
+
     }
 
     override fun onBackPressed(): Boolean {
@@ -109,14 +110,22 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
     }
 
     private fun startSyncService() {
-        if (AppPrefs.getSpotifyAccessToken().isNullOrEmpty())
-            showAccount()
-        LocalMusicManager.INSTANCE.observeSynchro()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    AppLog.INSTANCE.d("Synchro", "Done")
-                })
+        if (disposable == null || disposable?.isDisposed!!) {
+            if (AppPrefs.getSpotifyAccessToken().isNullOrEmpty())
+                showAccount()
+            disposable = LocalMusicManager.INSTANCE.observeSynchro()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        AppLog.INSTANCE.d("Synchro", "Done")
+                    })
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (disposable != null && !disposable?.isDisposed!!)
+            disposable?.dispose()
     }
 
     private fun showAccount() {
