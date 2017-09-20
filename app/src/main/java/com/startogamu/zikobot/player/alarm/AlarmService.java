@@ -22,6 +22,7 @@ import com.joxad.zikobot.data.db.model.ZikoTrack;
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
 import com.joxad.zikobot.data.player.PlayerService;
 import com.startogamu.zikobot.Constants;
+import com.startogamu.zikobot.core.ZikoNotification;
 
 import java.util.Collections;
 import java.util.List;
@@ -51,6 +52,7 @@ public class AlarmService extends NonStopIntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        new ZikoNotification(this).showNotificationAlarm();
         safeAlarmOn = false;
         if (AppPrefs.spotifyUser() != null) {
             SpotifyAuthManager.INSTANCE.refreshToken().subscribe(spotifyToken -> {
