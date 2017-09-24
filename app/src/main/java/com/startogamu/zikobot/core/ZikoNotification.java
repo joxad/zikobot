@@ -39,11 +39,19 @@ public class ZikoNotification {
     private final ArrayList<NotificationCompat.Action> actions;
     private int notificationId = 42;
     private RemoteViews playerViewSmall;
-
+    int notifyID = 1;
+    String CHANNEL_ID = "zikobot";// The id of the channel.
     public ZikoNotification(Context context) {
         this.context = context;
         // Get an instance of the NotificationManager service
         notificationManager = NotificationManagerCompat.from(context);
+        NotificationChannel mChannel = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_HIGH);
+            NotificationManager mNotificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
 
         Intent viewIntent = new Intent(context, HomeActivity.class);
         viewPendingIntent = PendingIntent.getActivity(context, 0, viewIntent, 0);
@@ -68,6 +76,7 @@ public class ZikoNotification {
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(alarm.getZikoPlaylist().getName())
                         .setContentText("Wake up !")
+                        .setChannelId("zikobot")
                         .setPriority(Notification.PRIORITY_MAX)
                         .setAutoCancel(false);
 
@@ -117,6 +126,7 @@ public class ZikoNotification {
                         .setDeleteIntent(createOnDismissedIntent(context, notificationId))
                         .setLargeIcon(bitmap)
                         .extend(extender)
+                        .setChannelId("zikobot")
                         .setContentIntent(intent);
 
         notificationManager.notify(notificationId, notificationBuilder.build());
