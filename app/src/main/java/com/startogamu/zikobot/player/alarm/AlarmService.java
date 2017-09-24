@@ -20,7 +20,7 @@ import com.joxad.zikobot.data.db.model.ZikoAlarm;
 import com.joxad.zikobot.data.db.model.ZikoPlaylist;
 import com.joxad.zikobot.data.db.model.ZikoTrack;
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
-import com.joxad.zikobot.data.player.PlayerService;
+import com.startogamu.zikobot.player.PlayerService;
 import com.startogamu.zikobot.Constants;
 import com.startogamu.zikobot.core.ZikoNotification;
 
@@ -52,21 +52,23 @@ public class AlarmService extends NonStopIntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        new ZikoNotification(this).showNotificationAlarm();
+        alarmId = intent.getIntExtra(Constants.Extra.INSTANCE.getALARM_ID(), 0);
+
+        ZikoAlarm alarm = AlarmManager.INSTANCE.queryAlarmById(alarmId);
+
+        new ZikoNotification(this).showNotificationAlarm(alarm);
         safeAlarmOn = false;
         if (AppPrefs.spotifyUser() != null) {
             SpotifyAuthManager.INSTANCE.refreshToken().subscribe(spotifyToken -> {
-                startAlarm(intent);
+                startAlarm(alarm, intent);
             }, throwable -> startSafeAlarm());
         } else {
-            startAlarm(intent);
+            startAlarm(alarm, intent);
         }
     }
 
-    private void startAlarm(Intent intent) {
+    private void startAlarm(ZikoAlarm alarm, Intent intent) {
         if (intent != null) {
-            alarmId = intent.getIntExtra(Constants.Extra.INSTANCE.getALARM_ID(), 0);
-            ZikoAlarm alarm = AlarmManager.INSTANCE.queryAlarmById(alarmId);
             if (alarm != null) {
                 AlarmManager.INSTANCE.prepareAlarm(this, alarm);
                 if (AlarmManager.INSTANCE.canStart(alarm)) {

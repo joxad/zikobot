@@ -1,4 +1,4 @@
-package com.joxad.zikobot.data.player;
+package com.startogamu.zikobot.player;
 
 import android.app.Service;
 import android.content.Context;
@@ -15,6 +15,11 @@ import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.db.CurrentPlaylistManager;
 import com.joxad.zikobot.data.db.model.TYPE;
 import com.joxad.zikobot.data.db.model.ZikoTrack;
+import com.joxad.zikobot.data.player.AndroidPlayer;
+import com.joxad.zikobot.data.player.IMusicPlayer;
+import com.joxad.zikobot.data.player.SpotifyPlayer;
+import com.joxad.zikobot.data.player.VLCPlayer;
+import com.startogamu.zikobot.core.ZikoNotification;
 
 /**
  * Created by Jocelyn on 12/12/2016.
@@ -33,7 +38,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     private MediaSessionCompat mediaSession;
     private Handler timeHandler;
     private IMusicPlayer currentPlayer;
-
+    private ZikoNotification zikoNotification;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -54,6 +59,7 @@ public class PlayerService extends Service implements IMusicPlayer {
             // Ignore
         }, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         mediaSession.setActive(true);
+        zikoNotification = new ZikoNotification(this);
         init();
         runHandler();
     }
@@ -85,6 +91,7 @@ public class PlayerService extends Service implements IMusicPlayer {
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, currentTrackVM.getName())
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, currentTrackVM.getDuration())
                 .build());*/
+       zikoNotification.prepareNotification(zikoTrack);
         updatePlayer(zikoTrack);
         play(zikoTrack.getRef());
     }

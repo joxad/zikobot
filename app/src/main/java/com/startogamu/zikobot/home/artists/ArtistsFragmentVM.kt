@@ -27,7 +27,6 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
                         binding: ArtistsFragmentBinding, savedInstance: Bundle?) : FragmentRecyclerBaseVM<ArtistVM, ArtistsFragment, ArtistsFragmentBinding>(fragment, binding, savedInstance) {
 
     lateinit var loading: ObservableBoolean
-    var disposable: Disposable? = null
     val adapter = AlphabeticalAdapter<ArtistVM>()
     override fun itemLayoutResource(): Int {
         return R.layout.artist_item
@@ -41,11 +40,8 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
         loading = ObservableBoolean(true)
-        disposable = LocalMusicManager.INSTANCE.synchroDone
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::updateList)
 
+        updateList()
 
         binding.artistFragmentRV.addOnScrollListener(object : EndlessRecyclerOnScrollListener() {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
@@ -54,22 +50,9 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
         })
 
         binding.fastScroller.setRecyclerView(binding.artistFragmentRV)
-
-
     }
 
-
-
-    override fun onDestroy() {
-        if (disposable != null)
-            disposable?.dispose()
-        super.onDestroy()
-    }
-
-    private fun updateList(done: Boolean) {
-        if (!done)
-            return
-        items.clear()
+    private fun updateList() {
         handleArtistAlphabet()
         addArtists(0)
     }
@@ -78,7 +61,7 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
 
         ArtistManager.findAll()
                 .subscribe({
-                    AppUtils.setupAlphabet(binding.fastScroller,it.map { it.name }.toMutableList())
+                    AppUtils.setupAlphabet(binding.fastScroller, it.map { it.name }.toMutableList())
                 }, {
                     AppLog.INSTANCE.e("Artists", it.localizedMessage)
                 })

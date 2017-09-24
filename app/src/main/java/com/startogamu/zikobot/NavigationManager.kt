@@ -8,6 +8,7 @@ import com.joxad.zikobot.data.db.model.ZikoAlbum
 import com.joxad.zikobot.data.db.model.ZikoArtist
 import com.joxad.zikobot.data.db.model.ZikoPlaylist
 import com.startogamu.zikobot.ftu.AccountLinkFragment
+import com.startogamu.zikobot.home.HomeActivity
 import com.startogamu.zikobot.home.albums.AlbumDetailActivity
 import com.startogamu.zikobot.home.artists.ArtistDetailActivity
 import com.startogamu.zikobot.home.playlists.PlaylistDetailActivity
@@ -20,6 +21,11 @@ import com.startogamu.zikobot.player.alarm.AlarmBottomFragment
  * Created by Jocelyn on 08/08/2017.
  */
 object NavigationManager {
+
+    fun goToHome(context: Activity) {
+        //val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, v, context.getString(R.string.transition))
+        context.startActivity(HomeActivity.newInstance(context))//, options.toBundle())
+    }
     fun goToPlaylist(context: Activity, model: ZikoPlaylist, v: View) {
         //val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context, v, context.getString(R.string.transition))
         context.startActivity(PlaylistDetailActivity.newInstance(context, model.id))//, options.toBundle())

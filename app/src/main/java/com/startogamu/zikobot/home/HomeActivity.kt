@@ -1,5 +1,7 @@
 package com.startogamu.zikobot.home
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 
@@ -13,6 +15,13 @@ import com.startogamu.zikobot.databinding.HomeActivityBinding
  */
 
 class HomeActivity : ActivityBase<HomeActivityBinding, HomeActivityVM>() {
+    companion object {
+
+        fun newInstance(context: Context): Intent {
+            return Intent(context, HomeActivity::class.java)
+        }
+    }
+
     override fun data(): Int {
         return BR.vm
     }

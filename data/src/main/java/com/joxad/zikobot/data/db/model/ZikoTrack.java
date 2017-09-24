@@ -208,4 +208,7 @@ public class ZikoTrack extends BaseModel {
         this.duration = duration;
     }
 
+    public ZikoArtist getZikoArtist() {
+        return zikoArtist;
+    }
 }

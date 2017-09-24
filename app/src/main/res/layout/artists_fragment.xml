@@ -37,8 +37,6 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"/>
 
-        <include
-            layout="@layout/layout_loading_state"
-            android:visible="@{artistsFragmentVM.loading}" />
+
     </RelativeLayout>
 </layout>

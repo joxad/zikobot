@@ -38,6 +38,7 @@
                 app:srcCompat="@drawable/ic_zikobot_large" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/loading_state_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"

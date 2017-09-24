@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="splashActivityVM"
+            type="com.startogamu.zikobot.splash.SplashActivityVM" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{splashActivityVM.load}">
+
+
+        <include
+            android:id="@+id/layout_loading_state"
+            layout="@layout/layout_loading_state"
+            android:visible="@{splashActivityVM.loading}" />
+    </RelativeLayout>
+</layout>

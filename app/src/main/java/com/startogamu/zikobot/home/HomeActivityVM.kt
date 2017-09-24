@@ -88,13 +88,7 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
             true
         }
         playerVM = PlayerVM(activity, binding.viewPlayer)
-        val rxPermission = RxPermissions(activity)
-        rxPermission.request(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                .subscribe({ granted ->
-                    if (granted) {
-                        startSyncService()
-                    }
-                })
+
     }
 
 
@@ -109,23 +103,12 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
         return playerVM.onBackPressed()
     }
 
-    private fun startSyncService() {
-        if (disposable == null || disposable?.isDisposed!!) {
-            if (AppPrefs.getSpotifyAccessToken().isNullOrEmpty())
-                showAccount()
-            disposable = LocalMusicManager.INSTANCE.observeSynchro()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        AppLog.INSTANCE.d("Synchro", "Done")
-                    })
-        }
-    }
+
 
     override fun onPause() {
         super.onPause()
-        if (disposable != null && !disposable?.isDisposed!!)
-            disposable?.dispose()
+        playerVM.onPause()
+
     }
 
     private fun showAccount() {

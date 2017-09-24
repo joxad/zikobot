@@ -7,6 +7,12 @@
         <variable
             name="title"
             type="String" />
+
+        <variable
+            name="visible"
+            type="Boolean" />
+
+        <import type="android.view.View" />
     </data>
 
 
@@ -15,7 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:padding="@dimen/activity_horizontal_margin"
+        android:visibility="@{visible ? View.VISIBLE: View.GONE}">
 
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="wrap_content"

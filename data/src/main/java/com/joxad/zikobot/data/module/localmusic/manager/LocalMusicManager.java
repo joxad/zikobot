@@ -21,6 +21,7 @@ import com.raizlabs.android.dbflow.sql.language.Select;
 import java.io.File;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.subjects.PublishSubject;
 
 
@@ -33,7 +34,7 @@ public enum LocalMusicManager {
 
     private Context context;
 
-    public PublishSubject<Boolean> synchroDone;
+    private PublishSubject<Boolean> synchroDone;
     private ContentResolver cr;
 
     public void init(Context context) {
@@ -127,5 +128,9 @@ public enum LocalMusicManager {
             zikoTrack.save();
         }
         return zikoTrack;
+    }
+
+    public Single<Boolean> synchroDoneObservable() {
+        return synchroDone.lastOrError();
     }
 }

@@ -24,7 +24,6 @@ class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding,
         FragmentRecyclerBaseVM<AlbumVM, AlbumsFragment, AlbumsFragmentBinding>(fragment, binding, savedInstance) {
 
     lateinit var loading: ObservableBoolean
-    private var disposable: Disposable? = null
     val adapter = AlphabeticalAdapter<AlbumVM>()
 
     override fun itemLayoutResource(): Int {
@@ -38,24 +37,14 @@ class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding,
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
         loading = ObservableBoolean(true)
-        disposable = LocalMusicManager.INSTANCE.synchroDone
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::updateList)
-        binding.fastScroller.setRecyclerView(binding.albumsFragmentRV)
-
+        updateList()
     }
 
     override fun onDestroy() {
-        if (disposable != null)
-            disposable?.dispose()
         super.onDestroy()
     }
 
-    private fun updateList(done: Boolean) {
-        if (!done)
-            return
-        items.clear()
+    private fun updateList() {
         handleAlbumAlphabet()
 
         AlbumManager.findAll()
