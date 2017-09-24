@@ -4,6 +4,9 @@ import com.joxad.zikobot.data.db.model.ZikoTrack
 import com.joxad.zikobot.data.db.model.ZikoTrack_Table
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.raizlabs.android.dbflow.sql.language.Select
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 
 /**
@@ -15,7 +18,7 @@ enum class CurrentPlaylistManager {
 
     private var currentIndex: Int = 0
     var currentTrack: ZikoTrack? = null
-    lateinit var refreshSubject: PublishSubject<ZikoTrack>
+    private lateinit var refreshSubject: PublishSubject<ZikoTrack>
 
     fun init() {
         refreshSubject = PublishSubject.create()
@@ -107,4 +110,7 @@ enum class CurrentPlaylistManager {
 
     }
 
+    fun subjectObservable(): Observable<ZikoTrack> {
+        return refreshSubject
+    }
 }

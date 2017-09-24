@@ -16,6 +16,7 @@ import android.support.v7.widget.CardView
 import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
+import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.base.IVM
 import com.joxad.zikobot.data.AppPrefs
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
@@ -61,8 +62,7 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     isExpanded.set(true)
-                }
-                else {
+                } else {
                     if (isExpanded.get())
                         isExpanded.set(false)
                 }
@@ -73,13 +73,12 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
             }
         })
 
-        CurrentPlaylistManager.INSTANCE.refreshSubject
+        CurrentPlaylistManager.INSTANCE.subjectObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    notifyPropertyChanged(BR.currentTrackVM)
-                    notifyPropertyChanged(BR.items)
-                }
+                .subscribe({
+                    notifyChange()
+                }, { AppLog.INSTANCE.e("PlayerVM", it.localizedMessage) })
     }
 
     override fun onResume() {

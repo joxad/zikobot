@@ -21,7 +21,7 @@ class SplashActivity : ActivityBase<SplashActivityBinding, SplashActivityVM>() {
         return R.layout.splash_activity
     }
 
-    override fun baseActivityVM(binding: SplashActivityBinding, savedInstanceState: Bundle?): SplashActivityVM {
+    override fun baseActivityVM(binding: SplashActivityBinding?, savedInstanceState: Bundle?): SplashActivityVM {
         return SplashActivityVM(this, binding, savedInstanceState)
     }
 

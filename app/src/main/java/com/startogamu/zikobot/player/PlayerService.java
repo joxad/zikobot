@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
+import com.joxad.androidtemplate.core.log.AppLog;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.db.CurrentPlaylistManager;
 import com.joxad.zikobot.data.db.model.TYPE;
@@ -20,6 +21,12 @@ import com.joxad.zikobot.data.player.IMusicPlayer;
 import com.joxad.zikobot.data.player.SpotifyPlayer;
 import com.joxad.zikobot.data.player.VLCPlayer;
 import com.startogamu.zikobot.core.ZikoNotification;
+
+import java.util.function.Consumer;
+
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Jocelyn on 12/12/2016.
@@ -39,6 +46,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     private Handler timeHandler;
     private IMusicPlayer currentPlayer;
     private ZikoNotification zikoNotification;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -80,7 +88,10 @@ public class PlayerService extends Service implements IMusicPlayer {
         androidPlayer.init();
         currentPlayer = vlcPlayer;
 
-        CurrentPlaylistManager.INSTANCE.refreshSubject.subscribe(this::play);
+        CurrentPlaylistManager.INSTANCE.subjectObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::play, throwable -> AppLog.INSTANCE.e(PlayerService.class.getSimpleName(), throwable.getMessage()));
 
     }
 
@@ -91,7 +102,7 @@ public class PlayerService extends Service implements IMusicPlayer {
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, currentTrackVM.getName())
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, currentTrackVM.getDuration())
                 .build());*/
-       zikoNotification.prepareNotification(zikoTrack);
+        zikoNotification.prepareNotification(zikoTrack);
         updatePlayer(zikoTrack);
         play(zikoTrack.getRef());
     }

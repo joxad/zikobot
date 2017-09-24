@@ -25,7 +25,7 @@ class SplashActivityVM
  * @param activity
  * @param binding
  */
-(activity: SplashActivity, binding: SplashActivityBinding, bundle: Bundle?) : ActivityBaseVM<SplashActivity, SplashActivityBinding>(activity, binding, bundle) {
+(activity: SplashActivity?, binding: SplashActivityBinding?, bundle: Bundle?) : ActivityBaseVM<SplashActivity, SplashActivityBinding>(activity, binding, bundle) {
 
     lateinit var loading: ObservableBoolean
     private var disposable: Disposable? = null

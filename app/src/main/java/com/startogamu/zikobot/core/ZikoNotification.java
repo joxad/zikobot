@@ -1,6 +1,8 @@
 package com.startogamu.zikobot.core;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +44,7 @@ public class ZikoNotification {
         this.context = context;
         // Get an instance of the NotificationManager service
         notificationManager = NotificationManagerCompat.from(context);
+
         Intent viewIntent = new Intent(context, HomeActivity.class);
         viewPendingIntent = PendingIntent.getActivity(context, 0, viewIntent, 0);
         Intent intentPause = new Intent(context, PausePlayerReceiver.class);
@@ -61,7 +64,7 @@ public class ZikoNotification {
         alarm.load();
         int id = alarm.getId();
         NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(context)
+                new NotificationCompat.Builder(context, "zikobot")
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(alarm.getZikoPlaylist().getName())
                         .setContentText("Wake up !")
@@ -73,7 +76,7 @@ public class ZikoNotification {
 
     public void prepareNotification(ZikoTrack track) {
 // Build intent for notification content
-
+        track.getZikoArtist().load();
         NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender()
                 .setDisplayIntent(viewPendingIntent).addActions(actions)
                 .setCustomSizePreset(Notification.WearableExtender.SIZE_FULL_SCREEN);
@@ -101,9 +104,8 @@ public class ZikoNotification {
         PendingIntent pIntentStop = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intentStop, PendingIntent.FLAG_UPDATE_CURRENT);
 
         initSmallNotification(pIntentStop, track, bitmap);
-
         NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(context)
+                new NotificationCompat.Builder(context, "zikobot")
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(track.getName())
                         .setContentText(track.getZikoArtist().getName())
@@ -130,7 +132,6 @@ public class ZikoNotification {
                         notificationId, intent, 0);
         return pendingIntent;
     }
-
 
 
     /***
