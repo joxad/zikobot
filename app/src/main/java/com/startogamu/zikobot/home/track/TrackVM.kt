@@ -4,10 +4,13 @@ import android.content.Context
 import android.databinding.Bindable
 import android.databinding.BindingAdapter
 import android.databinding.ObservableBoolean
+import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.joxad.easydatabinding.base.BaseVM
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
+import com.joxad.zikobot.data.db.PlaylistManager
 import com.joxad.zikobot.data.db.model.ZikoTrack
+import com.startogamu.zikobot.NavigationManager
 import com.wang.avi.AVLoadingIndicatorView
 
 
@@ -57,6 +60,14 @@ class TrackVM
         CurrentPlaylistManager.INSTANCE.play(model)
     }
 
+    fun onLongClick(v:View): Boolean {
+        if (PlaylistManager.INSTANCE.hasData())
+            NavigationManager.showAddToPlaylist(context as FragmentActivity)
+        else
+            NavigationManager.showCreatePlaylist(context as FragmentActivity)
+        return true
+
+    }
 
     companion object {
         private val TAG = TrackVM::class.java.simpleName

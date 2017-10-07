@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="fragmentVM"
+            type="com.startogamu.zikobot.home.create.CreatePlaylistFragmentVM" />
+    </data>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:colorBackground"
+        android:orientation="vertical">
+
+
+        <include
+            layout="@layout/bottom_sheet_fragment_header"
+            app:title="@{@string/playlistCreateTitle}" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/createPlaylistEt"
+                    android:layout_width="match_parent"
+                    android:maxLines="1"
+                    android:inputType="textAutoComplete"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/playlist_hint" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bt_height"
+                android:layout_marginBottom="@dimen/bt_height"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:background="@color/colorAccent"
+                android:gravity="center"
+                android:onClick="@{fragmentVM::savePlaylist}"
+                android:text="@android:string/ok"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                />
+
+
+        </LinearLayout>
+    </android.support.v7.widget.LinearLayoutCompat>
+
+</layout>

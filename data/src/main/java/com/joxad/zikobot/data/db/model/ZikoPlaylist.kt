@@ -23,7 +23,7 @@ class ZikoPlaylist : BaseModel {
     @Column
     var imageUrl: String? = ""
     @Column
-    var spotifyId: String? = ""
+    var spotifyId: String? = null
     @Column
     var soundcloudId: Int? = 0
     @ForeignKey(stubbedRelationship = true)
@@ -32,6 +32,12 @@ class ZikoPlaylist : BaseModel {
     lateinit var tracks: List<ZikoTrack>
 
     constructor() {}
+
+    constructor(name: String?) {
+        this.name = name
+        this.tracks = arrayListOf()
+    }
+
 
     constructor(name: String?, nbTracks: Int?, imageUrl: String?, tracks: ArrayList<ZikoTrack>) {
         this.name = name

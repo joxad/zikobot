@@ -28,6 +28,12 @@ enum class PlaylistManager {
             ZikoPlaylist("current", 0, "", ArrayList()).save()
     }
 
+    fun hasData(): Boolean {
+        return (select.from(ZikoPlaylist::class.java)
+                .where(ZikoPlaylist_Table.id.notEq(1))
+                .queryResults().count>=0)
+    }
+
     fun findAll(): RXModelQueriableImpl<ZikoPlaylist> {
         return (select.from(ZikoPlaylist::class.java)
                 .where(ZikoPlaylist_Table.id.notEq(1))
@@ -35,8 +41,9 @@ enum class PlaylistManager {
                 .rx())
     }
 
-    fun save() {
-
+    fun save(zikoPlaylist: ZikoPlaylist) {
+        zikoPlaylist.save()
+        refreshSubject.onNext(true)
     }
 
     fun findPlayingPlaylist(): ZikoPlaylist? {
@@ -72,8 +79,7 @@ enum class PlaylistManager {
                         val zikoTrack = ZikoTrack.spotify(track.track, zikoArtist, zikoAlbum, zikoSpotifyPlaylist)
                         zikoTrack.save()
                     }
-                    zikoSpotifyPlaylist.save()
-                    refreshSubject.onNext(true)
+                    save(zikoSpotifyPlaylist)
                     return@flatMap Observable.just(zikoSpotifyPlaylist)
                 })
     }

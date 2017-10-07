@@ -47,7 +47,7 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
 
     }
 
-    fun collapseToolbar() {
+    private fun collapseToolbar() {
         binding.playlistsFragmentAppBar?.appBarLayout?.setExpanded(false)
     }
 
@@ -86,6 +86,13 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
      * Show the menu to create a playlist with animation
      */
     fun showCreateMenu(view: View) {
+        NavigationManager.showCreatePlaylist(fragment.activity)
+    }
+
+    /***
+     * Show the menu to create a playlist with animation
+     */
+    fun showImportMenu(view: View) {
         val vMenu = binding.playlistsFragmentAppBar?.playlistFragmentHeaderMenus
         vMenu?.animate()?.alpha(0f)
                 ?.withEndAction({ vMenu.visibility = View.GONE })?.start()

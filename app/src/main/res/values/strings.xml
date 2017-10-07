@@ -132,4 +132,7 @@
     <string name="spotifySyncPlaylistsTitle">Select the Spotify playlists you want to synchronize</string>
     <string name="empty_state_playlist">Oh you do not have any playlist yet ? :( You can import some from your accounts or create from scratch. It is right there !</string>
     <string name="spotify_not_connected">Tu n\'es pas connecté à Spotify, clique ici pour régler ça !</string>
+    <string name="playlist_create">Créer une playlist</string>
+    <string name="playlist_import">Importer</string>
+    <string name="playlistCreateTitle">Rentre ici le nom de ta playlist! Tu pourras ajouter les morceaux par la suite en faisant un appui long sur un morceau.</string>
 </resources>

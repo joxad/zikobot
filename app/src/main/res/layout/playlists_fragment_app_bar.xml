@@ -41,8 +41,10 @@
                         android:layout_weight="1"
                         android:fitsSystemWindows="true"
                         android:gravity="center"
+                        android:onClick="@{playlistsFragmentVM::showCreateMenu}"
+
                         android:scaleType="centerCrop"
-                        android:text="Créer une playlist" />
+                        android:text="@string/playlist_create" />
 
                     <View
                         android:layout_width="1dp"
@@ -59,9 +61,9 @@
                         android:layout_weight="1"
                         android:fitsSystemWindows="true"
                         android:gravity="center"
-                        android:onClick="@{playlistsFragmentVM::showCreateMenu}"
+                        android:onClick="@{playlistsFragmentVM::showImportMenu}"
                         android:scaleType="centerCrop"
-                        android:text="Importer" />
+                        android:text="@string/playlist_import" />
 
                 </LinearLayout>
 
