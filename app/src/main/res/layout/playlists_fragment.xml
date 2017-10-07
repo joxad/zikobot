@@ -43,7 +43,8 @@
 
             <include
                 layout="@layout/zikobot_message"
-                app:title="@{@string/empty_state_playlist}" />
+                app:title="@{@string/empty_state_playlist}"
+                app:visible="@{playlistsFragmentVM.items.isEmpty()}" />
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
 

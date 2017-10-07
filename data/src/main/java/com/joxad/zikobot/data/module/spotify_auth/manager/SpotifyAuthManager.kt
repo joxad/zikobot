@@ -8,6 +8,7 @@ import com.joxad.zikobot.data.module.spotify_auth.model.SpotifyToken
 import com.joxad.zikobot.data.module.spotify_auth.resource.SpotifyAuthInterceptor
 import com.joxad.zikobot.data.module.spotify_auth.resource.SpotifyAuthService
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -40,7 +41,7 @@ enum class SpotifyAuthManager {
                 .unsubscribeOn(Schedulers.io())
     }
 
-    fun refreshToken(): Observable<SpotifyToken> {
+    fun refreshToken(): Single<SpotifyToken> {
         val refreshToken = AppPrefs.getRefreshToken()
         return spotifyAuthService.refreshToken(refreshToken,
                 "refresh_token")

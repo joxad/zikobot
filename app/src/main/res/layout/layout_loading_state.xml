@@ -26,6 +26,7 @@
             android:orientation="vertical">
 
             <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/loading_indicator"
                 android:layout_width="@dimen/progress_size"
                 android:layout_height="@dimen/progress_size"
                 app:indicatorColor="@android:color/white"
@@ -42,6 +43,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:gravity="center"
+                android:padding="@dimen/activity_vertical_margin"
                 android:text="@string/loading" />
         </LinearLayout>
 

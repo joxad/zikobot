@@ -26,7 +26,7 @@ public class SpotifyTokenAuthenticator implements Authenticator {
     @Override
     public Request authenticate(Route route, Response response) throws IOException {
         // Refresh your access_token using a synchronous api request
-        SpotifyToken spotifyToken = SpotifyAuthManager.INSTANCE.refreshToken().blockingFirst();
+        SpotifyToken spotifyToken = SpotifyAuthManager.INSTANCE.refreshToken().toObservable().blockingFirst();
         AccountManager.INSTANCE.onSpotifyReceiveToken(spotifyToken);
         // Add new header to rejected request and retry it
         return response.request().newBuilder()

@@ -4,6 +4,7 @@ package com.joxad.zikobot.data.module.spotify_auth.resource;
 import com.joxad.zikobot.data.module.spotify_auth.model.SpotifyToken;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -26,7 +27,7 @@ public interface SpotifyAuthService {
 
     @FormUrlEncoded
     @POST("/api/token")
-    Observable<SpotifyToken> refreshToken(
+    Single<SpotifyToken> refreshToken(
             @Field("refresh_token") final String code,
             @Field("grant_type") final String grant_type);
 }

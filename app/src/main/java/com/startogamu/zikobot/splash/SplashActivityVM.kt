@@ -36,6 +36,9 @@ class SplashActivityVM
         loading = ObservableBoolean(false)
         rxPermission = RxPermissions(activity)
         if (!rxPermission!!.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            binding.layoutLoadingState!!.loadingIndicator.visibility = View.INVISIBLE
+            binding.layoutLoadingState!!.root.setOnClickListener { askPermissionAndSync() }
+            loading.set(true)
             binding.layoutLoadingState!!.loadingStateTitle.setText(R.string.permission_local)
         } else {
             load(null)
@@ -51,6 +54,7 @@ class SplashActivityVM
                     .subscribe({
                         AppLog.INSTANCE.d("Synchro", "Done")
                         NavigationManager.goToHome(activity)
+                        activity.finish()
                     }) { }
 
         }
@@ -60,10 +64,19 @@ class SplashActivityVM
         if (loading.get())
             return
         loading.set(true)
+        askPermissionAndSync()
+    }
+
+    private fun askPermissionAndSync() {
         rxPermission!!.request(android.Manifest.permission.READ_EXTERNAL_STORAGE)
                 .subscribe({
-                    startSyncService()
+                    if (it) {
+                        binding.layoutLoadingState!!.loadingStateTitle.setText(R.string.loading)
+                        binding.layoutLoadingState!!.loadingIndicator.visibility = View.VISIBLE
+                        startSyncService()
+                    }
                 }, { })
+
     }
 
     override fun onPause() {

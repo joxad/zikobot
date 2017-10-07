@@ -15,6 +15,7 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 
 import java.net.UnknownHostException;
+import java.util.Date;
 
 /**
  * Created by josh on 28/08/16.
@@ -130,27 +131,32 @@ public class SpotifyPlayer implements IMusicPlayer {
     @Override
     public void play(String ref) {
         lastRef = ref;
+        long ts = new Date().getTime();
+        if (ts < AppPrefs.saveSpotifyTokenExpiresIn()) {
+            player.playUri(mOperationCallback, lastRef, 0, 0);
+        } else {
+            SpotifyAuthManager.INSTANCE.refreshToken().subscribe(spotifyToken -> {
+                String oldToken = AppPrefs.getSpotifyAccessToken();
+                String newToken = spotifyToken.getAccessToken();
+                int timeStampToken = spotifyToken.getExpiresIn();
+                AppPrefs.saveSpotifyTokenExpiresIn((int)ts+timeStampToken);
+                AppPrefs.saveAccessToken(newToken);
+                if (!oldToken.equals(newToken)) {
+                    hasRefreshed = true;
+                    refreshPlayer();
+                }
+            }, throwable -> {
+                if (throwable instanceof UnknownHostException) {
+                    // NO INTERNET => handle this case
+                    //  EventBus.getDefault().post(new EventSpotifyFail());
+                    // EventBus.getDefault().post(new EventNoInternet());
+                } else {
 
-        SpotifyAuthManager.INSTANCE.refreshToken().subscribe(spotifyToken -> {
-            String oldToken = AppPrefs.getSpotifyAccessToken();
-            String newToken = spotifyToken.getAccessToken();
-            AppPrefs.saveAccessToken(newToken);
-            if (!oldToken.equals(newToken)) {
-                hasRefreshed = true;
-                refreshPlayer();
-            }
-        }, throwable -> {
-            if (throwable instanceof UnknownHostException) {
-                // NO INTERNET => handle this case
-                //  EventBus.getDefault().post(new EventSpotifyFail());
-                // EventBus.getDefault().post(new EventNoInternet());
-            } else {
+                }
+                //  Logger.e(SpotifyPlayer.class.getName(), throwable.getLocalizedMessage());
+            });
 
-            }
-            //  Logger.e(SpotifyPlayer.class.getName(), throwable.getLocalizedMessage());
-        });
-
-
+        }
     }
 
     @Override

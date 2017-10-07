@@ -16,23 +16,24 @@
         android:layout_height="match_parent">
 
         <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
-
             android:id="@+id/albumsFragmentRV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
             android:layoutAnimation="@anim/grid_animation"
+            android:paddingBottom="@dimen/paddingBottom"
+            app:adapter="@{albumsFragmentVM.adapter}"
             app:itemBinding="@{albumsFragmentVM.itemBinding}"
             app:items="@{albumsFragmentVM.items}"
-            app:adapter="@{albumsFragmentVM.adapter}"
             app:layoutManager="@{LayoutManagers.grid(2)}" />
-
 
 
         <com.viethoa.RecyclerViewFastScroller
             android:id="@+id/fast_scroller"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true" />
 
         <include
             layout="@layout/layout_loading_state"

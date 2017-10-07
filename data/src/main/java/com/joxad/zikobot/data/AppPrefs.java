@@ -20,6 +20,7 @@ public class AppPrefs {
      */
     public static final String SPOTIFY_ACCESS_CODE = "SPOTIFY_ACCESS_CODE";
     public static final String SPOTIFY_ACCESS_TOKEN = "SPOTIFY_ACCESS_TOKEN";
+    public static final String SPOTIFY_ACCESS_TOKEN_EXPIRES = "SPOTIFY_ACCESS_TOKEN_EXPIRES";
     public static final String REFRESH_TOKEN = "REFRESH_TOKEN";
     /***
      *
@@ -118,5 +119,13 @@ public class AppPrefs {
 
     public static void bonusMode(int bonusValue) {
         Prefs.putInt("bonus", bonusValue);
+    }
+
+    public static void saveSpotifyTokenExpiresIn(int timeStampToken) {
+        Prefs.putInt(SPOTIFY_ACCESS_TOKEN_EXPIRES, timeStampToken);
+    }
+
+    public static int saveSpotifyTokenExpiresIn() {
+        return Prefs.getInt(SPOTIFY_ACCESS_TOKEN_EXPIRES, 0);
     }
 }

@@ -68,14 +68,14 @@ public class ZikoNotification {
 
     }
 
-    public void showNotificationAlarm(ZikoAlarm alarm) {
+    public void showNotificationAlarm(ZikoAlarm alarm, String title) {
         alarm.load();
         int id = alarm.getId();
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context, "zikobot")
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(alarm.getZikoPlaylist().getName())
-                        .setContentText("Wake up !")
+                        .setContentText(title)
                         .setChannelId("zikobot")
                         .setPriority(Notification.PRIORITY_MAX)
                         .setAutoCancel(false);

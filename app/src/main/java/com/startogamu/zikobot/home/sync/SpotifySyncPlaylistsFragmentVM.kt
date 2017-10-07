@@ -27,12 +27,12 @@ class SpotifySyncPlaylistsFragmentVM(fragment: SpotifySyncPlaylistsFragment, bin
 
     var itemBinding = ItemBinding.of<PlaylistVM>(BR.playlistVM, R.layout.playlist_item)
     lateinit var items: ObservableArrayList<PlaylistVM>
-
+    lateinit var loading: ObservableBoolean
     lateinit var showConnect: ObservableBoolean
     override fun onCreate() {
 
         items = ObservableArrayList()
-
+        loading = ObservableBoolean(false)
         if (AppPrefs.getSpotifyAccessToken().isNullOrEmpty()) {
             showConnect = ObservableBoolean(true)
 
@@ -47,6 +47,7 @@ class SpotifySyncPlaylistsFragmentVM(fragment: SpotifySyncPlaylistsFragment, bin
     }
 
     private fun loadData() {
+        loading.set(true)
         SpotifyApiManager.INSTANCE.userPlaylists.subscribe({
             for (spo in it.items) {
                 val zikoP = ZikoPlaylist.fromSpotifyPlaylist(spo)
@@ -62,8 +63,10 @@ class SpotifySyncPlaylistsFragmentVM(fragment: SpotifySyncPlaylistsFragment, bin
                 }
                 items.add(playlistVM)
             }
+            loading.set(false)
         }, {
             AppLog.INSTANCE.e("Spotify", it.localizedMessage)
+            loading.set(false)
         })
 
     }

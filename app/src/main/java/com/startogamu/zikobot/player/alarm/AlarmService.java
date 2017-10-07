@@ -20,9 +20,9 @@ import com.joxad.zikobot.data.db.model.ZikoAlarm;
 import com.joxad.zikobot.data.db.model.ZikoPlaylist;
 import com.joxad.zikobot.data.db.model.ZikoTrack;
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
-import com.startogamu.zikobot.player.PlayerService;
 import com.startogamu.zikobot.Constants;
 import com.startogamu.zikobot.core.ZikoNotification;
+import com.startogamu.zikobot.player.PlayerService;
 
 import java.util.Collections;
 import java.util.List;
@@ -56,12 +56,16 @@ public class AlarmService extends NonStopIntentService {
 
         ZikoAlarm alarm = AlarmManager.INSTANCE.queryAlarmById(alarmId);
 
-        new ZikoNotification(this).showNotificationAlarm(alarm);
+        new ZikoNotification(this).showNotificationAlarm(alarm, "Wake up");
         safeAlarmOn = false;
         if (AppPrefs.spotifyUser() != null) {
             SpotifyAuthManager.INSTANCE.refreshToken().subscribe(spotifyToken -> {
+                new ZikoNotification(this).showNotificationAlarm(alarm, "Refresh token");
                 startAlarm(alarm, intent);
-            }, throwable -> startSafeAlarm());
+            }, throwable -> {
+                new ZikoNotification(this).showNotificationAlarm(alarm, "Refresh token error");
+                startSafeAlarm();
+            });
         } else {
             startAlarm(alarm, intent);
         }

@@ -47,7 +47,7 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal"
                     android:inputType="time"
-                    android:onClick="@{alarmFragmentVM.editTime}"
+                    android:onClick="@{alarmFragmentVM::editTime}"
                     android:text="@{alarmFragmentVM.alarmVM.alarmTime}"
                     android:textSize="30sp" />
 

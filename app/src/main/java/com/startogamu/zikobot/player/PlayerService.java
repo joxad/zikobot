@@ -22,9 +22,8 @@ import com.joxad.zikobot.data.player.SpotifyPlayer;
 import com.joxad.zikobot.data.player.VLCPlayer;
 import com.startogamu.zikobot.core.ZikoNotification;
 
-import java.util.function.Consumer;
+import java.util.Date;
 
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -46,6 +45,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     private Handler timeHandler;
     private IMusicPlayer currentPlayer;
     private ZikoNotification zikoNotification;
+    private LastSession lastSession = null;
 
     @Override
     public void onCreate() {
@@ -97,14 +97,30 @@ public class PlayerService extends Service implements IMusicPlayer {
 
 
     private void play(ZikoTrack zikoTrack) {
+        boolean canPlay = false;
+        long ts = new Date().getTime();
+
+        if (lastSession != null && lastSession.getRef() != null) {
+            // si c'est la meme chanson, on ne refresh pas deux fois
+            if (zikoTrack.getRef().contains(lastSession.getRef()) && ts < lastSession.getTs() + 500) {
+                canPlay = false;
+            } else {
+                canPlay = true;
+            }
+        } else {
+            lastSession = new LastSession(ts, zikoTrack.getRef());
+            canPlay = true;
+        }
        /* mediaSession.setMetadata(new MediaMetadataCompat.Builder()
                 .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, currentTrackVM.getArtistName())
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, currentTrackVM.getName())
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, currentTrackVM.getDuration())
                 .build());*/
-        zikoNotification.prepareNotification(zikoTrack);
-        updatePlayer(zikoTrack);
-        play(zikoTrack.getRef());
+        if (canPlay) {
+            zikoNotification.prepareNotification(zikoTrack);
+            updatePlayer(zikoTrack);
+            play(zikoTrack.getRef());
+        }
     }
 
     private void updatePlayer(ZikoTrack track) {
