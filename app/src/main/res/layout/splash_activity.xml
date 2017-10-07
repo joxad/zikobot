@@ -19,5 +19,16 @@
             android:id="@+id/layout_loading_state"
             layout="@layout/layout_loading_state"
             android:visible="@{splashActivityVM.loading}" />
+
+        <Button
+            android:id="@+id/splash_perm_bt"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
+            android:text="@android:string/ok"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/colorAccent"/>
     </RelativeLayout>
 </layout>

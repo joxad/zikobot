@@ -134,7 +134,6 @@ dependencies {
     }
     compile 'com.android.support:gridlayout-v7:26.1.0'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.github.viethoa:fastscroller:1.2.0'
-
+    compile 'xyz.danoz:recyclerviewfastscroller:0.1.3'
 }
 

@@ -47,6 +47,23 @@
                 android:text="@string/spotify_not_connected"
                 android:visibility="@{spotifySyncPlaylistsFragmentVM.showConnect? View.VISIBLE: View.GONE}" />
 
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bt_height"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorAccent"
+                android:gravity="center"
+                android:onClick="@{spotifySyncPlaylistsFragmentVM::showAccount}"
+                android:text="@android:string/ok"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="@dimen/bt_height"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:visibility="@{spotifySyncPlaylistsFragmentVM.showConnect? View.VISIBLE: View.GONE}" />
+
+
             <include
                 layout="@layout/layout_loading_state"
                 app:visible="@{spotifySyncPlaylistsFragmentVM.loading}" />

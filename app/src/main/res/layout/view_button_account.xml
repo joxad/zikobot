@@ -56,7 +56,7 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="@dimen/bt_height"
                     android:background="@{accountVM.color}"
                     android:gravity="center"
                     android:onClick="@{accountVM::onClick}"

@@ -37,10 +37,13 @@ class SplashActivityVM
         rxPermission = RxPermissions(activity)
         if (!rxPermission!!.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {
             binding.layoutLoadingState!!.loadingIndicator.visibility = View.INVISIBLE
+            binding.splashPermBt.visibility = View.VISIBLE
             binding.layoutLoadingState!!.root.setOnClickListener { askPermissionAndSync() }
             loading.set(true)
             binding.layoutLoadingState!!.loadingStateTitle.setText(R.string.permission_local)
         } else {
+            binding.splashPermBt.visibility = View.GONE
+
             load(null)
         }
     }

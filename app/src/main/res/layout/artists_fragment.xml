@@ -26,17 +26,23 @@
             android:layoutAnimation="@anim/grid_animation"
             android:paddingBottom="@dimen/paddingBottom"
             app:itemBinding="@{artistsFragmentVM.itemBinding}"
-            app:items="@{artistsFragmentVM.items}"
-            app:adapter="@{artistsFragmentVM.adapter}"
-            app:layoutManager="@{LayoutManagers.grid(2)}" />
+            app:items="@{artistsFragmentVM.items}" />
 
 
-        <com.viethoa.RecyclerViewFastScroller
+
+        <xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller
             android:id="@+id/fast_scroller"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
+            android:paddingBottom="@dimen/paddingBottom"
+            />
 
+        <include
+            layout="@layout/layout_loading_state"
+            android:visible="@{artistsFragmentVM.loading}" />
 
     </RelativeLayout>
 </layout>

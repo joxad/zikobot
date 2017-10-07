@@ -2,22 +2,15 @@ package com.startogamu.zikobot.home.artists
 
 import android.databinding.ObservableBoolean
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.androidtemplate.core.view.utils.EndlessRecyclerOnScrollListener
 import com.joxad.easydatabinding.fragment.v4.FragmentRecyclerBaseVM
 import com.joxad.zikobot.data.db.ArtistManager
-import com.joxad.zikobot.data.db.model.ZikoArtist
-import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.R
-import com.startogamu.zikobot.core.AlphabeticalAdapter
-import com.startogamu.zikobot.core.AppUtils
 import com.startogamu.zikobot.databinding.ArtistsFragmentBinding
-import com.viethoa.models.AlphabetItem
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 
 
 /**
@@ -27,7 +20,6 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
                         binding: ArtistsFragmentBinding, savedInstance: Bundle?) : FragmentRecyclerBaseVM<ArtistVM, ArtistsFragment, ArtistsFragmentBinding>(fragment, binding, savedInstance) {
 
     lateinit var loading: ObservableBoolean
-    val adapter = AlphabeticalAdapter<ArtistVM>()
     override fun itemLayoutResource(): Int {
         return R.layout.artist_item
     }
@@ -48,24 +40,16 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
                 addArtists(page)
             }
         })
-
+        binding.artistFragmentRV.layoutManager = GridLayoutManager(fragment.context,2)
         binding.fastScroller.setRecyclerView(binding.artistFragmentRV)
+        binding.artistFragmentRV.addOnScrollListener(binding.fastScroller.onScrollListener)
+
     }
 
     private fun updateList() {
-        handleArtistAlphabet()
         addArtists(0)
     }
 
-    private fun handleArtistAlphabet() {
-
-        ArtistManager.findAll()
-                .subscribe({
-                    AppUtils.setupAlphabet(binding.fastScroller, it.map { it.name }.toMutableList())
-                }, {
-                    AppLog.INSTANCE.e("Artists", it.localizedMessage)
-                })
-    }
 
     private fun addArtists(offset: Int) {
         ArtistManager.findAllPaginated(offset)
