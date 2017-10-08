@@ -1,7 +1,10 @@
 package com.startogamu.zikobot
 
 import android.app.Application
+import android.content.ComponentName
 import android.content.Context
+import android.content.ServiceConnection
+import android.os.IBinder
 import android.support.multidex.MultiDex
 import com.facebook.stetho.Stetho
 import com.joxad.androidtemplate.core.log.AppLog
@@ -20,6 +23,7 @@ import com.raizlabs.android.dbflow.config.DatabaseConfig
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.raizlabs.android.dbflow.runtime.DirectModelNotifier
+import com.startogamu.zikobot.player.PlayerService
 
 
 /**
@@ -27,6 +31,10 @@ import com.raizlabs.android.dbflow.runtime.DirectModelNotifier
  */
 
 class ZikobotApp : Application() {
+
+    private lateinit var musicConnection: ServiceConnection
+
+    private var playerService: PlayerService? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -44,12 +52,21 @@ class ZikobotApp : Application() {
         PlaylistManager.INSTANCE.init()
         AlarmManager.INSTANCE.init(this)
         CurrentPlaylistManager.INSTANCE.init()
+
+
+        musicConnection = object : ServiceConnection {
+            override fun onServiceConnected(componentName: ComponentName, iBinder: IBinder) {
+                val binder = iBinder as PlayerService.PlayerBinder
+                playerService = binder.service
+            }
+
+            override fun onServiceDisconnected(componentName: ComponentName) {
+            }
+        }
+        bindService(NavigationManager.intentPlayerService(this), musicConnection, Context.BIND_AUTO_CREATE)
+
     }
 
-    override fun onTerminate() {
-        NetworkStatusManager.INSTANCE.unregister()
-        super.onTerminate()
-    }
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)

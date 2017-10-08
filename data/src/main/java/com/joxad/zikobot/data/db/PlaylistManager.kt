@@ -31,7 +31,7 @@ enum class PlaylistManager {
     fun hasData(): Boolean {
         return (select.from(ZikoPlaylist::class.java)
                 .where(ZikoPlaylist_Table.id.notEq(1))
-                .queryResults().count>=0)
+                .queryResults().count>0)
     }
 
     fun findAll(): RXModelQueriableImpl<ZikoPlaylist> {

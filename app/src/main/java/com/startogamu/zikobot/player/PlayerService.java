@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaBrowserServiceCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
@@ -23,6 +27,7 @@ import com.joxad.zikobot.data.player.VLCPlayer;
 import com.startogamu.zikobot.core.ZikoNotification;
 
 import java.util.Date;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -31,7 +36,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Jocelyn on 12/12/2016.
  */
 
-public class PlayerService extends Service implements IMusicPlayer {
+public class PlayerService extends MediaBrowserServiceCompat implements IMusicPlayer {
 
     public static final int DELAY = 200;
     private final IBinder musicBind = new PlayerService.PlayerBinder();
@@ -46,6 +51,7 @@ public class PlayerService extends Service implements IMusicPlayer {
     private IMusicPlayer currentPlayer;
     private ZikoNotification zikoNotification;
     private LastSession lastSession = null;
+
 
     @Override
     public void onCreate() {
@@ -76,6 +82,17 @@ public class PlayerService extends Service implements IMusicPlayer {
     @Override
     public IBinder onBind(Intent intent) {
         return musicBind;
+    }
+
+    @Nullable
+    @Override
+    public BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid, @Nullable Bundle rootHints) {
+        return null;
+    }
+
+    @Override
+    public void onLoadChildren(@NonNull String parentId, @NonNull Result<List<MediaBrowserCompat.MediaItem>> result) {
+
     }
 
     @Override
@@ -157,6 +174,7 @@ public class PlayerService extends Service implements IMusicPlayer {
             if (playing)
                 currentProgress += DELAY;
             runHandler();
+
         }, DELAY);
     }
 

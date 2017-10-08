@@ -1,6 +1,8 @@
 package com.startogamu.zikobot
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.joxad.zikobot.data.db.model.ZikoAlbum
@@ -17,6 +19,7 @@ import com.startogamu.zikobot.home.create.CreatePlaylistFragmentVM
 import com.startogamu.zikobot.home.playlists.PlaylistDetailActivity
 import com.startogamu.zikobot.home.sync.SpotifySyncPlaylistsFragment
 import com.startogamu.zikobot.home.sync.SpotifySyncPlaylistsFragmentVM
+import com.startogamu.zikobot.player.PlayerService
 import com.startogamu.zikobot.player.alarm.AlarmBottomFragment
 
 
@@ -69,6 +72,10 @@ object NavigationManager {
 
     fun showAddToPlaylist(activity: FragmentActivity) {
         AddTrackToPlaylistFragment.newInstance().show(activity.supportFragmentManager, AddTrackToPlaylistFragmentVM.TAG)
+    }
+
+    fun intentPlayerService(context:Context): Intent? {
+        return Intent(context, PlayerService::class.java)
     }
 
 }
