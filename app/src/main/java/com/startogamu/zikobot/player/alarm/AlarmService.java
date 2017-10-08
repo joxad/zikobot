@@ -1,9 +1,7 @@
 package com.startogamu.zikobot.player.alarm;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -22,7 +20,6 @@ import com.joxad.zikobot.data.db.model.ZikoTrack;
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
 import com.startogamu.zikobot.Constants;
 import com.startogamu.zikobot.core.ZikoNotification;
-import com.startogamu.zikobot.player.PlayerService;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,8 +30,6 @@ import java.util.List;
 
 public class AlarmService extends NonStopIntentService {
 
-    private PlayerService playerService;
-    private ServiceConnection musicConnection;
     private AudioManager am;
     private Ringtone ringtone;
     boolean safeAlarmOn;
@@ -109,19 +104,7 @@ public class AlarmService extends NonStopIntentService {
     }
 
     private void initService(ZikoAlarm alarm) {
-        musicConnection = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                PlayerService.PlayerBinder binder = (PlayerService.PlayerBinder) iBinder;
-                playerService = binder.getService();
-                start(alarm);
-            }
 
-            @Override
-            public void onServiceDisconnected(ComponentName componentName) {
-            }
-        };
-        bindService(new Intent(this, PlayerService.class), musicConnection, Context.BIND_AUTO_CREATE);
     }
 
     private void start(ZikoAlarm alarm) {

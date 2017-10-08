@@ -30,10 +30,14 @@ public class SpotifyPlayer implements IMusicPlayer {
     private final Player.OperationCallback mOperationCallback = new Player.OperationCallback() {
         @Override
         public void onSuccess() {
+            Log.d("ZIKOBOT", "mOperationCallback success");
+
         }
 
         @Override
         public void onError(Error error) {
+            Log.d("ZIKOBOT", "mOperationCallback error" + error);
+
             switch (error) {
                 case kSpErrorNotActiveDevice:
                     break;
@@ -53,6 +57,8 @@ public class SpotifyPlayer implements IMusicPlayer {
     Player.NotificationCallback notificationCallback = new Player.NotificationCallback() {
         @Override
         public void onPlaybackEvent(PlayerEvent playerEvent) {
+            Log.d("ZIKOBOT", "notificationCallback playerEvent" + playerEvent.name());
+
             if (playerEvent == PlayerEvent.kSpPlaybackNotifyAudioDeliveryDone) {
                 CurrentPlaylistManager.INSTANCE.next();
             }
@@ -60,6 +66,8 @@ public class SpotifyPlayer implements IMusicPlayer {
 
         @Override
         public void onPlaybackError(Error error) {
+            Log.d("ZIKOBOT", "notificationCallback playerError" + error.name());
+
             Log.e(SpotifyPlayer.class.getSimpleName(), error.name());
         }
     };
@@ -67,15 +75,21 @@ public class SpotifyPlayer implements IMusicPlayer {
     private ConnectionStateCallback connexionStateCallback = new ConnectionStateCallback() {
         @Override
         public void onLoggedIn() {
+            Log.d("ZIKOBOT", "connexionStateCallback spotify login");
+            if (lastRef != null)
+                player.playUri(mOperationCallback, lastRef, 0, 0);
+
         }
 
         @Override
         public void onLoggedOut() {
-            player.login(AppPrefs.getSpotifyAccessToken());
+            if (AppPrefs.getSpotifyAccessToken() != null)
+                player.login(AppPrefs.getSpotifyAccessToken());
         }
 
         @Override
         public void onLoginFailed(Error error) {
+            Log.d("ZIKOBOT", "connexionStateCallback spotify message error" + error.name());
 
             switch (error) {
                 case kSpErrorNeedsPremium:
@@ -89,12 +103,13 @@ public class SpotifyPlayer implements IMusicPlayer {
 
         @Override
         public void onTemporaryError() {
+            Log.d("ZIKOBOT", "connexionStateCallback spotify message temporary error");
 
         }
 
         @Override
         public void onConnectionMessage(String s) {
-            //       Logger.d("onConnectionMessage %s", s);
+            Log.d("ZIKOBOT", "connexionStateCallback  message " + s);
         }
     };
 
@@ -113,16 +128,18 @@ public class SpotifyPlayer implements IMusicPlayer {
         Spotify.getPlayer(playerConfig, this, new com.spotify.sdk.android.player.SpotifyPlayer.InitializationObserver() {
             @Override
             public void onInitialized(com.spotify.sdk.android.player.SpotifyPlayer pl) {
+                Log.d("ZIKOBOT", "InitializationObserver  message , logged ? " + pl.isLoggedIn() + " init ? " + pl.isInitialized());
+
                 player = pl;
                 player.addNotificationCallback(notificationCallback);
                 player.addConnectionStateCallback(connexionStateCallback);
-                if (lastRef != null)
+                if (lastRef != null && pl.isLoggedIn())
                     player.playUri(mOperationCallback, lastRef, 0, 0);
             }
 
             @Override
             public void onError(Throwable throwable) {
-                Log.e(SpotifyPlayer.class.getSimpleName(), "Could not initialize player: " + throwable.getMessage());
+                Log.d("ZIKOBOT", "InitializationObserver" + throwable.getLocalizedMessage());
 
             }
         });
@@ -139,7 +156,7 @@ public class SpotifyPlayer implements IMusicPlayer {
                 String oldToken = AppPrefs.getSpotifyAccessToken();
                 String newToken = spotifyToken.getAccessToken();
                 int timeStampToken = spotifyToken.getExpiresIn();
-                AppPrefs.saveSpotifyTokenExpiresIn((int)ts+timeStampToken);
+                AppPrefs.saveSpotifyTokenExpiresIn((int) ts + timeStampToken);
                 AppPrefs.saveAccessToken(newToken);
                 if (!oldToken.equals(newToken)) {
                     hasRefreshed = true;

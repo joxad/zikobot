@@ -1,13 +1,10 @@
 package com.startogamu.zikobot.player;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.media.MediaBrowserCompat;
@@ -29,6 +26,7 @@ import com.startogamu.zikobot.core.ZikoNotification;
 import java.util.Date;
 import java.util.List;
 
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -39,7 +37,6 @@ import io.reactivex.schedulers.Schedulers;
 public class PlayerService extends MediaBrowserServiceCompat implements IMusicPlayer {
 
     public static final int DELAY = 200;
-    private final IBinder musicBind = new PlayerService.PlayerBinder();
     public boolean playing;
 
     VLCPlayer vlcPlayer;
@@ -78,10 +75,9 @@ public class PlayerService extends MediaBrowserServiceCompat implements IMusicPl
         runHandler();
     }
 
-    @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
-        return musicBind;
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return START_STICKY;
     }
 
     @Nullable
@@ -105,7 +101,32 @@ public class PlayerService extends MediaBrowserServiceCompat implements IMusicPl
         androidPlayer.init();
         currentPlayer = vlcPlayer;
 
-        CurrentPlaylistManager.INSTANCE.subjectObservable()
+        CurrentPlaylistManager.INSTANCE.resumeObservable().
+                subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(ziko ->{
+                        resume();
+                }, err ->{
+
+                });
+
+        CurrentPlaylistManager.INSTANCE.pauseObservable().
+                subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(ziko ->{
+                    pause();
+                }, err ->{
+
+                });
+
+
+        CurrentPlaylistManager.INSTANCE.positionObservable().
+                subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::seekTo, err ->{
+
+                });
+        CurrentPlaylistManager.INSTANCE.refreshObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::play, throwable -> AppLog.INSTANCE.e(PlayerService.class.getSimpleName(), throwable.getMessage()));
@@ -173,6 +194,7 @@ public class PlayerService extends MediaBrowserServiceCompat implements IMusicPl
         timeHandler.postDelayed(() -> {
             if (playing)
                 currentProgress += DELAY;
+            CurrentPlaylistManager.INSTANCE.changeCurrentPosition(currentProgress);
             runHandler();
 
         }, DELAY);
@@ -206,33 +228,10 @@ public class PlayerService extends MediaBrowserServiceCompat implements IMusicPl
     @Override
     public void seekTo(int position) {
         currentProgress = position;
-        if (currentPlayer instanceof VLCPlayer) seekTo((float) position / (float) positionMax());
+        if (currentPlayer instanceof VLCPlayer) seekTo((float) position / (float) CurrentPlaylistManager.INSTANCE.positionMax());
         else currentPlayer.seekTo(position);
 
     }
 
-    public int position() {
-        return currentProgress;
-    }
-
-    public int positionMax() {
-        ZikoTrack zikoTrack = CurrentPlaylistManager.INSTANCE.getCurrentTrack();
-        if (zikoTrack != null)
-            return (int) zikoTrack.getDuration();
-        else return 0;
-    }
-
-
-    @Override
-    public boolean onUnbind(Intent intent) {
-        stopForeground(true);
-        return false;
-    }
-
-    public class PlayerBinder extends Binder {
-        public PlayerService getService() {
-            return PlayerService.this;
-        }
-    }
 
 }

@@ -5,8 +5,6 @@ import com.joxad.zikobot.data.db.model.ZikoTrack_Table
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.raizlabs.android.dbflow.sql.language.Select
 import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 
 /**
@@ -19,9 +17,17 @@ enum class CurrentPlaylistManager {
     private var currentIndex: Int = 0
     var currentTrack: ZikoTrack? = null
     private lateinit var refreshSubject: PublishSubject<ZikoTrack>
-
+    private lateinit var positionSubject: PublishSubject<Int>
+    private lateinit var currentPositionSubject: PublishSubject<Int>
+    private lateinit var resumeSubject: PublishSubject<ZikoTrack>
+    private lateinit var pauseSubject: PublishSubject<ZikoTrack>
+    var playing = false
     fun init() {
         refreshSubject = PublishSubject.create()
+        resumeSubject = PublishSubject.create()
+        pauseSubject = PublishSubject.create()
+        currentPositionSubject = PublishSubject.create()
+        positionSubject = PublishSubject.create()
         currentTrack = Select().from(ZikoTrack::class.java).where(ZikoTrack_Table.zikoPlaylist_id.eq(1))
                 .limit(1).orderBy(ZikoTrack_Table.id, false).querySingle()
         if (currentTrack == null)
@@ -29,6 +35,7 @@ enum class CurrentPlaylistManager {
     }
 
     fun play(track: ZikoTrack) {
+        playing = true
         val result = Select().from(ZikoTrack::class.java).where(ZikoTrack_Table.ref.eq(track.ref))
                 .and(ZikoTrack_Table.zikoPlaylist_id.eq(1)).querySingle()
         if (result == null) {
@@ -53,6 +60,21 @@ enum class CurrentPlaylistManager {
             refreshSubject.onNext(currentTrack!!)
 
         }
+    }
+
+    fun resume(track: ZikoTrack) {
+        playing = true
+        resumeSubject.onNext(track)
+    }
+
+    fun pause(track: ZikoTrack) {
+        playing = false
+        pauseSubject.onNext(track)
+    }
+
+    fun changeCurrentPosition(position: Int) {
+        playing = false
+        currentPositionSubject.onNext(position)
     }
 
     fun previous() {
@@ -110,7 +132,33 @@ enum class CurrentPlaylistManager {
 
     }
 
-    fun subjectObservable(): Observable<ZikoTrack> {
+
+    fun positionMax(): Int? {
+        return CurrentPlaylistManager.INSTANCE.currentTrack?.duration?.toInt()
+    }
+
+    fun seekTo(progresValue: Int) {
+        positionSubject.onNext(progresValue)
+    }
+
+    fun currentPositionObservable(): Observable<Int> {
+        return currentPositionSubject
+    }
+
+
+    fun refreshObservable(): Observable<ZikoTrack> {
         return refreshSubject
+    }
+
+    fun resumeObservable(): Observable<ZikoTrack> {
+        return resumeSubject
+    }
+
+    fun pauseObservable(): Observable<ZikoTrack> {
+        return pauseSubject
+    }
+
+    fun positionObservable(): Observable<Int> {
+        return positionSubject
     }
 }

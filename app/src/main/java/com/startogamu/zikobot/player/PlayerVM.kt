@@ -1,15 +1,10 @@
 package com.startogamu.zikobot.player
 
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.os.Bundle
-import android.os.IBinder
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
@@ -20,13 +15,10 @@ import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.base.IVM
 import com.joxad.zikobot.data.AppPrefs
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
-import com.joxad.zikobot.data.db.model.ZikoTrack
 import com.startogamu.zikobot.BR
-import com.startogamu.zikobot.NavigationManager
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.PlayerViewBottomBinding
 import com.startogamu.zikobot.home.track.TrackVM
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.tatarka.bindingcollectionadapter2.ItemBinding
@@ -39,13 +31,10 @@ import java.util.concurrent.TimeUnit
 
 class PlayerVM(private val activity: AppCompatActivity, private val binding: PlayerViewBottomBinding?) : BaseObservable(), IVM {
 
-    val isBound = ObservableBoolean(false)
     val isExpanded = ObservableBoolean(false)
     var seekBarValue = ObservableField(0)
     var itemBinding: ItemBinding<TrackVM> = ItemBinding.of<TrackVM>(BR.trackVM, R.layout.track_item_player)
     lateinit var showList: ObservableBoolean
-    private var musicConnection: ServiceConnection? = null
-    private var playerService: PlayerService? = null
     private var behavior: BottomSheetBehavior<View>? = null
 
     init {
@@ -75,7 +64,7 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
 
         watchProgress()
 
-        CurrentPlaylistManager.INSTANCE.subjectObservable()
+        CurrentPlaylistManager.INSTANCE.refreshObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -84,36 +73,27 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
     }
 
     private fun watchProgress() {
-        Observable.fromCallable {
-            if (isBound.get())
-                seekBarValue.set(playerService?.position())
-            else seekBarValue.set(0)
-        }.delay(200, TimeUnit.MILLISECONDS).subscribe({
-            watchProgress()
-        }, {})
+        CurrentPlaylistManager.INSTANCE.currentPositionObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    seekBarValue.set(it)
+                }, {
+
+                })
 
     }
 
     override fun onResume() {
-        if (isBound.get())
-            return
-        musicConnection = object : ServiceConnection {
-            override fun onServiceConnected(componentName: ComponentName, iBinder: IBinder) {
-                val binder = iBinder as PlayerService.PlayerBinder
-                playerService = binder.service
-                isBound.set(true)
-                refresh()
-            }
+        refresh()
 
-            override fun onServiceDisconnected(componentName: ComponentName) {
-                isBound.set(false)
-            }
-        }
-        activity.bindService(NavigationManager.intentPlayerService(activity), musicConnection, Context.BIND_AUTO_CREATE)
         if (binding != null)
             rotateCD()
     }
 
+    override fun onPause() {
+
+    }
 
     private fun refresh() {
         notifyChange()
@@ -125,20 +105,15 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
      */
     fun playPause(@SuppressWarnings("unused") view: View) {
         if (isPlaying)
-            playerService!!.pause()
+            CurrentPlaylistManager.INSTANCE.pause(currentTrackVM.model)
         else
             if (seekBarValue.get() == 0)
                 CurrentPlaylistManager.INSTANCE.play(currentTrackVM.model)
             else
-                playerService!!.resume()
+                CurrentPlaylistManager.INSTANCE.resume(currentTrackVM.model)
         notifyPropertyChanged(BR.playing)
     }
 
-
-    override fun onPause() {
-        isBound.set(false)
-        activity.unbindService(musicConnection)
-    }
 
     override fun onDestroy() {}
 
@@ -146,24 +121,20 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
     val isPlaying: Boolean
         @Bindable
         get() {
-            if (!isBound.get())
-                return false
-            return playerService!!.playing
+            return CurrentPlaylistManager.INSTANCE.playing
         }
 
 
     val positionMax: Int
         @Bindable
         get() {
-            if (!isBound.get())
-                return 0
-            return playerService!!.positionMax()
+            return CurrentPlaylistManager.INSTANCE.positionMax()!!
         }
 
     fun onValueChanged(@SuppressWarnings("unused") seekBar: SeekBar, progresValue: Int, fromUser: Boolean) {
         seekBarValue.set(progresValue)
         if (fromUser)
-            playerService!!.seekTo(progresValue)
+            CurrentPlaylistManager.INSTANCE.seekTo(progresValue)
     }
 
     /**
@@ -231,11 +202,8 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
     val currentTrackVM: TrackVM
         @Bindable
         get() {
-            if (playerService != null)
-                return TrackVM(activity, CurrentPlaylistManager.INSTANCE.currentTrack!!)
-            else {
-                return TrackVM(activity, ZikoTrack.empty())
-            }
+            return TrackVM(activity, CurrentPlaylistManager.INSTANCE.currentTrack!!)
+
         }
 
     val items: List<TrackVM>

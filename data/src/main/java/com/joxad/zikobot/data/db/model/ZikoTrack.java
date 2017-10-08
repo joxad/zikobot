@@ -91,6 +91,7 @@ public class ZikoTrack extends BaseModel {
         track.setId(0);
         track.setRef(null);
         track.setLocalId(0);
+        track.setDuration(0);
 
         return track;
     }
