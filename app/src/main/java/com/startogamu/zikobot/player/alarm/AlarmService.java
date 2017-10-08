@@ -1,16 +1,15 @@
 package com.startogamu.zikobot.player.alarm;
 
+import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.joxad.androidtemplate.core.service.NonStopIntentService;
 import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.db.CurrentPlaylistManager;
 import com.joxad.zikobot.data.db.PlaylistManager;
@@ -28,7 +27,7 @@ import java.util.List;
  * Created by Jocelyn on 28/04/2017.
  */
 
-public class AlarmService extends NonStopIntentService {
+public class AlarmService extends IntentService {
 
     private AudioManager am;
     private Ringtone ringtone;
@@ -39,14 +38,11 @@ public class AlarmService extends NonStopIntentService {
         super(AlarmService.class.getName());
     }
 
-    public static Intent newInstance(Context context, int alarmId) {
-        return new Intent(context, AlarmService.class).putExtra(Constants.Extra.INSTANCE.getALARM_ID(), alarmId);
-    }
-
-
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
+    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (intent==null)
+            return START_NOT_STICKY;
         alarmId = intent.getIntExtra(Constants.Extra.INSTANCE.getALARM_ID(), 0);
 
         ZikoAlarm alarm = AlarmManager.INSTANCE.queryAlarmById(alarmId);
@@ -64,6 +60,11 @@ public class AlarmService extends NonStopIntentService {
         } else {
             startAlarm(alarm, intent);
         }
+        return START_STICKY;
+    }
+
+    public static Intent newInstance(Context context, int alarmId) {
+        return new Intent(context, AlarmService.class).putExtra(Constants.Extra.INSTANCE.getALARM_ID(), alarmId);
     }
 
     private void startAlarm(ZikoAlarm alarm, Intent intent) {
@@ -78,8 +79,7 @@ public class AlarmService extends NonStopIntentService {
                         alarm.setActive(true);
                         alarm.save();
                     }
-                    initService(alarm);
-                    new Handler().postDelayed(() -> initService(alarm), 1000);
+                    start(alarm);
                 }
             }
 
@@ -103,7 +103,8 @@ public class AlarmService extends NonStopIntentService {
         return null;
     }
 
-    private void initService(ZikoAlarm alarm) {
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
 
     }
 
