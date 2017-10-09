@@ -58,7 +58,9 @@ class SplashActivityVM
                         AppLog.INSTANCE.d("Synchro", "Done")
                         NavigationManager.goToHome(activity)
                         activity.finish()
-                    }) { }
+                    }, {
+
+                    })
 
         }
     }

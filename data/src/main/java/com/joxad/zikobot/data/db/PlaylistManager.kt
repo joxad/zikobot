@@ -86,7 +86,9 @@ enum class PlaylistManager {
 
 
     private fun createArtistIfNeed(artist: SpotifyArtist): ZikoArtist? {
-        var zikoArtist = Select().from(ZikoArtist::class.java).where(ZikoArtist_Table.spotifyId.eq(artist.id)).querySingle()
+        var zikoArtist = Select().from(ZikoArtist::class.java)
+                .where(ZikoArtist_Table.spotifyId.eq(artist.id))
+                .or(ZikoArtist_Table.name.eq(artist.name)).querySingle()
         if (zikoArtist == null) {
             zikoArtist = ZikoArtist.spotify(artist.id, artist.name!!)
             zikoArtist.save()
