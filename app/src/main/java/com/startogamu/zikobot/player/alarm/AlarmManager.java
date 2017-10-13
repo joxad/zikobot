@@ -14,6 +14,7 @@ import com.startogamu.zikobot.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import io.reactivex.subjects.PublishSubject;
 
@@ -51,6 +52,10 @@ public enum AlarmManager {
         return alarm;
     }
 
+    public List<ZikoAlarm> findAll() {
+        List<ZikoAlarm> alarms = new Select().from(ZikoAlarm.class).queryList();
+        return alarms;
+    }
     public void deleteAlarm(ZikoAlarm alarm) {
         SQLite.delete(ZikoAlarm.class).where(ZikoAlarm_Table.id.is(alarm.getId())).query();
         cancel(context, alarm);
@@ -212,5 +217,7 @@ public enum AlarmManager {
         zikoAlarm.save();
         return created;
     }
+
+
 
 }
