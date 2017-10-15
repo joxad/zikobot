@@ -29,19 +29,17 @@ import io.reactivex.subjects.PublishSubject;
  * Created by Josh on 06/04/2016.
  */
 
-public enum LocalMusicManager {
-    INSTANCE;
+public class LocalMusicManager {
 
     private Context context;
 
     private PublishSubject<Boolean> synchroDone;
     private ContentResolver cr;
 
-    public void init(Context context) {
+    public LocalMusicManager(Context context) {
         this.context = context;
         synchroDone = PublishSubject.create();
         cr = context.getContentResolver();
-
     }
 
     public Observable<Boolean> observeSynchro() {
