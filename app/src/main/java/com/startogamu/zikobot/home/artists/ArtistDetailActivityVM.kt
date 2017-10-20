@@ -17,8 +17,6 @@ import com.startogamu.zikobot.core.AppUtils
 import com.startogamu.zikobot.databinding.ArtistDetailActivityBinding
 import com.startogamu.zikobot.databinding.PlayerViewBottomBinding
 import com.startogamu.zikobot.home.track.TrackVM
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 
 class ArtistDetailActivityVM(activity: ArtistDetailActivity, binding: ArtistDetailActivityBinding, savedInstance: Bundle?) : ABasePlayerActivityVM<ArtistDetailActivity, ArtistDetailActivityBinding>(activity, binding, savedInstance) {
@@ -63,12 +61,13 @@ class ArtistDetailActivityVM(activity: ArtistDetailActivity, binding: ArtistDeta
     private fun addTracks(indexStart: Int) {
         ArtistManager.findTracks(artistVM.model.id, indexStart)
                 .subscribe({
-            for (zT in it) {
-                items.add(TrackVM(activity, zT))
-            }
-        }, {
-            AppLog.INSTANCE.e("Add track", it.localizedMessage)
-        })
+                    for (zT in it) {
+                        if (zT.zikoPlaylist.id != CurrentPlaylistManager.INSTANCE.CURRENT)
+                            items.add(TrackVM(activity, zT))
+                    }
+                }, {
+                    AppLog.INSTANCE.e("Add track", it.localizedMessage)
+                })
     }
 
     companion object {

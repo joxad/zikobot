@@ -14,6 +14,8 @@ import io.reactivex.subjects.PublishSubject
 enum class CurrentPlaylistManager {
     INSTANCE;
 
+    val CURRENT = 1L
+
     private var currentIndex: Int = 0
     var currentTrack: ZikoTrack? = null
     private lateinit var refreshSubject: PublishSubject<ZikoTrack>
@@ -21,14 +23,14 @@ enum class CurrentPlaylistManager {
     private lateinit var currentPositionSubject: PublishSubject<Int>
     private lateinit var resumeSubject: PublishSubject<ZikoTrack>
     private lateinit var pauseSubject: PublishSubject<ZikoTrack>
-    var playing = false
+    public var playing = false
     fun init() {
         refreshSubject = PublishSubject.create()
         resumeSubject = PublishSubject.create()
         pauseSubject = PublishSubject.create()
         currentPositionSubject = PublishSubject.create()
         positionSubject = PublishSubject.create()
-        currentTrack = Select().from(ZikoTrack::class.java).where(ZikoTrack_Table.zikoPlaylist_id.eq(1))
+        currentTrack = Select().from(ZikoTrack::class.java).where(ZikoTrack_Table.zikoPlaylist_id.eq(CURRENT))
                 .limit(1).orderBy(ZikoTrack_Table.id, false).querySingle()
         if (currentTrack == null)
             currentTrack = ZikoTrack.empty()
@@ -73,7 +75,6 @@ enum class CurrentPlaylistManager {
     }
 
     fun changeCurrentPosition(position: Int) {
-        playing = false
         currentPositionSubject.onNext(position)
     }
 

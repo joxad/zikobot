@@ -162,7 +162,7 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
 
      */
     private fun rotateCD() {
-        binding!!.layoutVinyl?.rlPlayer?.animate()?.rotationBy(if (isPlaying) 1f else 0f)
+        binding!!.layoutVinyl?.rlPlayer?.animate()?.rotationBy(if (CurrentPlaylistManager.INSTANCE.playing) 1f else 0f)
                 ?.setDuration(20)?.withEndAction { this.rotateCD() }
     }
 

@@ -93,53 +93,53 @@ android {
 
 }
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile libs.circleIV
-    compile libs.cardView
+    implementation libs.circleIV
+    implementation libs.cardView
     provided libs.javaxAnnotation
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-    compile (libs.easyDataBinding)
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    implementation (libs.easyDataBinding)
 
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true
     }
-    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
 
-    compile 'com.github.claucookie.miniequalizer:library:1.0.0'
-    compile(name: 'vlc-android-sdk', ext: 'aar')
-    compile 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
-    compile 'com.spotify.android:auth:1.0.0-alpha'
+    implementation 'com.github.claucookie.miniequalizer:library:1.0.0'
+    implementation(name: 'vlc-android-sdk', ext: 'aar')
+    implementation 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
+    implementation 'com.spotify.android:auth:1.0.0-alpha'
 
-    compile('com.google.api-client:google-api-client-android:1.22.0') {
+    implementation('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    compile ('com.google.apis:google-api-services-youtube:v3-rev183-1.22.0') {
+    implementation ('com.google.apis:google-api-services-youtube:v3-rev183-1.22.0') {
         exclude module: 'httpclient' //by artifact name
         exclude group: 'org.apache.httpcomponents' //by group
         exclude group: 'org.apache.httpcomponents', module: 'httpclient' //by both name and group
     }
-   // compile 'com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT'
-    compile project(path: ':data')
-    kapt 'com.android.databinding:compiler:3.0.0-beta6'
+   // implementation 'com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT'
+    implementation project(path: ':data')
+    kapt 'com.android.databinding:compiler:3.0.0-rc2'
 
-    compile project(path: ':androidcoreutils:core')
-    compile 'com.facebook.stetho:stetho:1.5.0'
-    compile 'com.wang.avi:library:2.1.3'
-    compile "com.android.support:support-dynamic-animation:26.1.0"
-    compile 'com.github.devlight:infinitecycleviewpager:1.0.2'
-    compile('com.philliphsu:bottomsheetpickers:2.4.1') {
+    implementation project(path: ':androidcoreutils:core')
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.wang.avi:library:2.1.3'
+    implementation "com.android.support:support-dynamic-animation:26.1.0"
+    implementation 'com.github.devlight:infinitecycleviewpager:1.0.2'
+    implementation('com.philliphsu:bottomsheetpickers:2.4.1') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'gridlayout-v7'
     }
-    compile 'com.android.support:gridlayout-v7:26.1.0'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'xyz.danoz:recyclerviewfastscroller:0.1.3'
+    implementation 'com.android.support:gridlayout-v7:26.1.0'
+    implementation 'com.android.support:multidex:1.0.1'
+    implementation 'xyz.danoz:recyclerviewfastscroller:0.1.3'
 
     // Dependency Injection
-    kapt 'com.google.dagger:dagger-compiler:2.5'
-    compile "com.google.dagger:dagger:2.5"
+    kapt 'com.google.dagger:dagger-compiler:2.9'
+    implementation "com.google.dagger:dagger:2.9"
     provided 'javax.annotation:jsr250-api:1.0'
 
 }
