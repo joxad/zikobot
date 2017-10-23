@@ -14,5 +14,6 @@ class Constants {
         val ARTIST_ID = "ARTIST_ID"
         val ALARM_ID = "ALARM_ID"
         val ALBUM_ID = "ALBUM_ID"
+        val TRACK_ID = "TRACK_ID"
     }
 }

@@ -128,5 +128,11 @@ enum class PlaylistManager {
                 .rx()
     }
 
+    fun addTrack(playlist: ZikoPlaylist?, track: ZikoTrack?) {
+        track?.load()
+        val zikoTrack = ZikoTrack.copy(track,playlist)
+        zikoTrack.save()
+    }
+
 
 }

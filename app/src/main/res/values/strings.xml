@@ -135,4 +135,6 @@
     <string name="playlist_create">Créer une playlist</string>
     <string name="playlist_import">Importer</string>
     <string name="playlistCreateTitle">Rentre ici le nom de ta playlist! Tu pourras ajouter les morceaux par la suite en faisant un appui long sur un morceau.</string>
+    <string name="addTrackToPlaylistTitle">Dans quelle playlist veux-tu ajouter cette chanson?</string>
+
 </resources>

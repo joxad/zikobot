@@ -62,7 +62,7 @@ class TrackVM
 
     fun onLongClick(v:View): Boolean {
         if (PlaylistManager.INSTANCE.hasData())
-            NavigationManager.showAddToPlaylist(context as FragmentActivity)
+            NavigationManager.showAddToPlaylist(context as FragmentActivity, model)
         else
             NavigationManager.showCreatePlaylist(context as FragmentActivity)
         return true

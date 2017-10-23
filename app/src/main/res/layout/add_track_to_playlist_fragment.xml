@@ -24,7 +24,7 @@
 
         <include
             layout="@layout/bottom_sheet_fragment_header"
-            app:title="@{@string/spotifySyncPlaylistsTitle}" />
+            app:title="@{@string/addTrackToPlaylistTitle}" />
 
         <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
             android:layout_width="match_parent"

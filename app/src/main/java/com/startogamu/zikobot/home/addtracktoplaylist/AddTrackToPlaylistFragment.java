@@ -8,7 +8,9 @@ import android.support.design.widget.BottomSheetDialog;
 import android.widget.FrameLayout;
 
 import com.joxad.easydatabinding.bottomsheet.DialogBottomSheetBase;
+import com.joxad.zikobot.data.db.model.ZikoTrack;
 import com.startogamu.zikobot.BR;
+import com.startogamu.zikobot.Constants;
 import com.startogamu.zikobot.R;
 import com.startogamu.zikobot.databinding.AddTrackToPlaylistFragmentBinding;
 import com.startogamu.zikobot.databinding.SpotifySyncPlaylistsFragmentBinding;
@@ -20,9 +22,10 @@ import com.startogamu.zikobot.home.sync.SpotifySyncPlaylistsFragmentVM;
 public class AddTrackToPlaylistFragment extends DialogBottomSheetBase<AddTrackToPlaylistFragmentBinding, AddTrackToPlaylistFragmentVM> {
 
 
-    public static AddTrackToPlaylistFragment newInstance() {
+    public static AddTrackToPlaylistFragment newInstance(ZikoTrack track) {
         Bundle args = new Bundle();
         AddTrackToPlaylistFragment fragment = new AddTrackToPlaylistFragment();
+        args.putLong(Constants.Extra.INSTANCE.getTRACK_ID(), track.getId());
         fragment.setArguments(args);
         return fragment;
     }

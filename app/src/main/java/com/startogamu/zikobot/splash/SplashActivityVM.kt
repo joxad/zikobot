@@ -37,6 +37,11 @@ class SplashActivityVM
 
     override fun onCreate(savedInstance: Bundle?) {
         ZikobotApp.localMusicComponent.inject(this)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         loading = ObservableBoolean(false)
         rxPermission = RxPermissions(activity)
         if (!rxPermission!!.isGranted(Manifest.permission.READ_EXTERNAL_STORAGE)) {

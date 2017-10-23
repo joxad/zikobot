@@ -83,6 +83,18 @@ public class ZikoTrack extends BaseModel {
         track.setDuration((int) localTrack.getDuration());
         return track;
     }
+    public static ZikoTrack copy(ZikoTrack zikoTrack, ZikoPlaylist playlist) {
+        ZikoTrack track = new ZikoTrack();
+        track.setType(zikoTrack.type);
+        track.setRef(zikoTrack.ref);
+        track.setLocalId(zikoTrack.localId);
+        track.associateArtist(zikoTrack.zikoArtist);
+        track.associateAlbum(zikoTrack.zikoAlbum);
+        track.associatePlaylist(playlist);
+        track.setName(zikoTrack.name);
+        track.setDuration(zikoTrack.duration);
+        return track;
+    }
 
 
     public static ZikoTrack empty() {

@@ -1,12 +1,11 @@
 package com.startogamu.zikobot.home.playlists
 
 import android.databinding.Bindable
-import android.databinding.ObservableArrayList
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.androidtemplate.core.view.utils.EndlessRecyclerOnScrollListener
-import com.startogamu.zikobot.player.alarm.AlarmManager
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
 import com.joxad.zikobot.data.db.PlaylistManager
 import com.joxad.zikobot.data.db.model.ZikoPlaylist
@@ -20,9 +19,9 @@ import com.startogamu.zikobot.core.AppUtils
 import com.startogamu.zikobot.databinding.PlayerViewBottomBinding
 import com.startogamu.zikobot.databinding.PlaylistDetailActivityBinding
 import com.startogamu.zikobot.home.track.TrackVM
+import com.startogamu.zikobot.player.alarm.AlarmManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import me.tatarka.bindingcollectionadapter2.ItemBinding
 
 
 /**
@@ -48,7 +47,7 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
         return binding.viewPlayer!!
     }
 
-   lateinit var playlistVM: PlaylistVM
+    lateinit var playlistVM: PlaylistVM
 
     override fun onCreate(saved: Bundle?) {
         super.onCreate(saved)
@@ -97,6 +96,8 @@ class PlaylistDetailActivityVM(activity: PlaylistDetailActivity, binding: Playli
                     if (playlistVM.getAlarm())
                         AppUtils.animateAlpha(binding.playlistDetailAlarmTitle)
 
+                }, {
+                    AppLog.INSTANCE.d(PlaylistDetailActivity::javaClass.name, it.localizedMessage)
                 })
         addTracks(0)
     }

@@ -8,6 +8,7 @@ import android.view.View
 import com.joxad.zikobot.data.db.model.ZikoAlbum
 import com.joxad.zikobot.data.db.model.ZikoArtist
 import com.joxad.zikobot.data.db.model.ZikoPlaylist
+import com.joxad.zikobot.data.db.model.ZikoTrack
 import com.startogamu.zikobot.ftu.AccountLinkFragment
 import com.startogamu.zikobot.home.HomeActivity
 import com.startogamu.zikobot.home.addtracktoplaylist.AddTrackToPlaylistFragment
@@ -70,8 +71,9 @@ object NavigationManager {
     }
 
 
-    fun showAddToPlaylist(activity: FragmentActivity) {
-        AddTrackToPlaylistFragment.newInstance().show(activity.supportFragmentManager, AddTrackToPlaylistFragmentVM.TAG)
+    fun showAddToPlaylist(activity: FragmentActivity, track : ZikoTrack) {
+        AddTrackToPlaylistFragment.newInstance(track)
+                .show(activity.supportFragmentManager, AddTrackToPlaylistFragmentVM.TAG)
     }
 
     fun intentPlayerService(context:Context): Intent? {
