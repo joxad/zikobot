@@ -18,7 +18,7 @@ import com.joxad.zikobot.data.db.model.ZikoPlaylist;
 import com.joxad.zikobot.data.db.model.ZikoTrack;
 import com.joxad.zikobot.data.module.spotify_auth.manager.SpotifyAuthManager;
 import com.startogamu.zikobot.Constants;
-import com.startogamu.zikobot.core.ZikoNotification;
+import com.startogamu.zikobot.core.notification.ZikoNotification;
 
 import java.util.Collections;
 import java.util.List;

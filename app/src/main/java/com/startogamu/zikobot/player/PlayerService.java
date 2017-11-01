@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserServiceCompat;
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
@@ -21,12 +22,11 @@ import com.joxad.zikobot.data.player.AndroidPlayer;
 import com.joxad.zikobot.data.player.IMusicPlayer;
 import com.joxad.zikobot.data.player.SpotifyPlayer;
 import com.joxad.zikobot.data.player.VLCPlayer;
-import com.startogamu.zikobot.core.ZikoNotification;
+import com.startogamu.zikobot.core.notification.ZikoNotification;
 
 import java.util.Date;
 import java.util.List;
 
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -104,18 +104,18 @@ public class PlayerService extends MediaBrowserServiceCompat implements IMusicPl
         CurrentPlaylistManager.INSTANCE.resumeObservable().
                 subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(ziko ->{
-                        resume();
-                }, err ->{
+                .subscribe(ziko -> {
+                    resume();
+                }, err -> {
 
                 });
 
         CurrentPlaylistManager.INSTANCE.pauseObservable().
                 subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(ziko ->{
+                .subscribe(ziko -> {
                     pause();
-                }, err ->{
+                }, err -> {
 
                 });
 
@@ -123,7 +123,7 @@ public class PlayerService extends MediaBrowserServiceCompat implements IMusicPl
         CurrentPlaylistManager.INSTANCE.positionObservable().
                 subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::seekTo, err ->{
+                .subscribe(this::seekTo, err -> {
 
                 });
         CurrentPlaylistManager.INSTANCE.refreshObservable()
@@ -149,11 +149,11 @@ public class PlayerService extends MediaBrowserServiceCompat implements IMusicPl
             lastSession = new LastSession(ts, zikoTrack.getRef());
             canPlay = true;
         }
-       /* mediaSession.setMetadata(new MediaMetadataCompat.Builder()
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, currentTrackVM.getArtistName())
-                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, currentTrackVM.getName())
-                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, currentTrackVM.getDuration())
-                .build());*/
+        mediaSession.setMetadata(new MediaMetadataCompat.Builder()
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, zikoTrack.getZikoArtist().getName())
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, zikoTrack.getName())
+                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, zikoTrack.getDuration())
+                .build());
         if (canPlay) {
             zikoNotification.prepareNotification(zikoTrack);
             updatePlayer(zikoTrack);
@@ -187,6 +187,7 @@ public class PlayerService extends MediaBrowserServiceCompat implements IMusicPl
         currentPlayer.play(ref);
         currentProgress = 0;
         playing = true;
+        zikoNotification.updateNotification(playing);
     }
 
 
@@ -204,13 +205,14 @@ public class PlayerService extends MediaBrowserServiceCompat implements IMusicPl
     public void pause() {
         currentPlayer.pause();
         playing = false;
-
+        zikoNotification.updateNotification(playing);
     }
 
     @Override
     public void resume() {
         currentPlayer.resume();
         playing = true;
+        zikoNotification.updateNotification(playing);
     }
 
     @Override
@@ -218,6 +220,8 @@ public class PlayerService extends MediaBrowserServiceCompat implements IMusicPl
         currentPlayer.stop();
         playing = false;
         currentProgress = 0;
+        zikoNotification.updateNotification(playing);
+
     }
 
     @Override
@@ -228,7 +232,8 @@ public class PlayerService extends MediaBrowserServiceCompat implements IMusicPl
     @Override
     public void seekTo(int position) {
         currentProgress = position;
-        if (currentPlayer instanceof VLCPlayer) seekTo((float) position / (float) CurrentPlaylistManager.INSTANCE.positionMax());
+        if (currentPlayer instanceof VLCPlayer)
+            seekTo((float) position / (float) CurrentPlaylistManager.INSTANCE.positionMax());
         else currentPlayer.seekTo(position);
 
     }

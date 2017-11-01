@@ -72,6 +72,7 @@ enum class CurrentPlaylistManager {
     fun pause(track: ZikoTrack) {
         playing = false
         pauseSubject.onNext(track)
+
     }
 
     fun changeCurrentPosition(position: Int) {
@@ -162,4 +163,5 @@ enum class CurrentPlaylistManager {
     fun positionObservable(): Observable<Int> {
         return positionSubject
     }
+
 }

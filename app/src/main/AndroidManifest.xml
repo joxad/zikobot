@@ -80,10 +80,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.startogamu.zikobot.core.receiver.NotificationDismissedReceiver" />
-        <receiver android:name="com.startogamu.zikobot.core.receiver.PausePlayerReceiver" />
-        <receiver android:name="com.startogamu.zikobot.core.receiver.ResumePlayerReceiver" />
-        <receiver android:name="com.startogamu.zikobot.core.receiver.StopPlayerReceiver" />
+        <receiver android:name="com.startogamu.zikobot.core.notification.NotificationPlayPauseReceiver" />
 
         <service android:name=".player.alarm.AlarmService">
             <intent-filter>

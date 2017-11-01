@@ -64,6 +64,22 @@ class PlayerVM(private val activity: AppCompatActivity, private val binding: Pla
 
         watchProgress()
 
+        CurrentPlaylistManager.INSTANCE.resumeObservable().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ ziko ->
+                    notifyPropertyChanged(BR.playing)
+                }) { err ->
+
+                }
+
+        CurrentPlaylistManager.INSTANCE.pauseObservable().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ ziko ->
+                    notifyPropertyChanged(BR.playing)
+                }) { err ->
+
+                }
+
         CurrentPlaylistManager.INSTANCE.refreshObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
