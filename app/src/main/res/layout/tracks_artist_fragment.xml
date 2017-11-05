@@ -8,7 +8,7 @@
 
         <variable
             name="tracksArtistFragmentVM"
-            type="com.startogamu.zikobot.home.artists.TracksArtistFragmentVM" />
+            type="com.startogamu.zikobot.home.artists.TracksArtistFragmentVM" /git>
     </data>
 
     <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
