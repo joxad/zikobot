@@ -23,18 +23,13 @@
             app:image="@{artistDetailActivityVM.artistVM.image}"
             app:title="@{artistDetailActivityVM.artistVM.name}" />
 
-        <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
-            android:id="@+id/artistDetailActivityRv"
+
+        <android.support.v4.view.ViewPager
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:id="@+id/artist_detail_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:layoutAnimation="@anim/grid_animation"
-            android:paddingBottom="@dimen/paddingBottom"
-            android:paddingTop="@dimen/paddingBottom"
-            app:itemBinding="@{artistDetailActivityVM.itemBinding}"
-            app:items="@{artistDetailActivityVM.items}"
-            app:layoutManager="@{LayoutManagers.grid(1)}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="match_parent" />
+
 
 
         <android.support.v7.widget.CardView
@@ -60,10 +55,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:onClick="@{artistDetailActivityVM::playAll}"
-            android:visibility="gone"
+            android:visibility="visible"
             app:fabSize="normal"
-            app:layout_anchor="@id/toolbar_detail_activity"
-            app:layout_anchorGravity="end|bottom"
+            app:layout_anchor="@id/artist_detail_view_pager"
+            app:layout_anchorGravity="end|top"
+            android:layout_gravity="bottom"
             app:srcCompat="@drawable/ic_play_white" />
     </android.support.design.widget.CoordinatorLayout>
 

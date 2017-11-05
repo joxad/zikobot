@@ -20,6 +20,7 @@ import com.startogamu.zikobot.databinding.HomeActivityBinding
 import com.startogamu.zikobot.home.albums.AlbumsFragment
 import com.startogamu.zikobot.home.artists.ArtistsFragment
 import com.startogamu.zikobot.home.playlists.PlaylistsFragment
+import com.startogamu.zikobot.home.reco.RecoFragment
 import com.startogamu.zikobot.player.PlayerVM
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -71,6 +72,7 @@ class HomeActivityVM(activity: HomeActivity?, binding: HomeActivityBinding?, sav
         val genericFragmentAdapter = object : GenericFragmentAdapter(activity) {
             override fun tabTitles(): List<FragmentTab>? {
                 return arrayListOf(
+                        FragmentTab(activity?.getString(R.string.drawer_filter_recos), RecoFragment.newInstance()),
                         FragmentTab(activity?.getString(R.string.drawer_filter_playlist), PlaylistsFragment.newInstance()),
                         FragmentTab(activity?.getString(R.string.drawer_filter_artiste), ArtistsFragment.newInstance()),
                         FragmentTab(activity?.getString(R.string.drawer_filter_album), AlbumsFragment.newInstance())

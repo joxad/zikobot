@@ -48,7 +48,7 @@ public interface SpotifyAPIEndpoint {
     Observable<SpotifyArtist> getArtist(@Path("id") String idArtist);
 
     @GET("artists/{id}/related-artists")
-    Observable<SpotifyArtist> getRelateArtist(@Path("id") String idArtist);
+    Observable<SpotifyArtist> getSimilarArtist(@Path("id") String idArtist);
 
 
     @GET("artists/{id}/top-tracks")
