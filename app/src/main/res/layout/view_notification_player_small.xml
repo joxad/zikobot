@@ -61,14 +61,15 @@
                 android:id="@+id/view_notification_play_resume"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_notification_play_resume" />
+
+                android:src="@drawable/ic_notification_play_resume"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/view_notification_pause"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_notification_pause"
-                android:visibility="gone" />
+                android:src="@drawable/ic_notification_pause" />
         </RelativeLayout>
 
 
