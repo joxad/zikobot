@@ -16,8 +16,8 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.joxad.zikobot.data.db.CurrentPlaylistManager;
 import com.joxad.zikobot.data.db.model.ZikoAlarm;
 import com.joxad.zikobot.data.db.model.ZikoTrack;
@@ -34,11 +34,11 @@ import java.util.ArrayList;
 public class ZikoNotification {
     private final Context context;
     private final PendingIntent viewPendingIntent;
-    private NotificationManagerCompat notificationManager;
     private final ArrayList<NotificationCompat.Action> actions;
+    String CHANNEL_ID = "zikobot";// The id of the channel.
+    private NotificationManagerCompat notificationManager;
     private int notificationId = 42;
     private RemoteViews playerViewSmall;
-    String CHANNEL_ID = "zikobot";// The id of the channel.
     private NotificationCompat.Builder notificationBuilder;
 
     public ZikoNotification(Context context) {
@@ -84,18 +84,19 @@ public class ZikoNotification {
 // Build intent for notification content
         track.getZikoArtist().load();
         Glide.with(context)
-                .load(track.getZikoArtist().getImage())
                 .asBitmap()
+                .load(track.getZikoArtist().getImage())
                 .into(new SimpleTarget<Bitmap>(100, 100) {
                     @Override
-                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                        super.onLoadFailed(e, errorDrawable);
-                        showNotification(track, viewPendingIntent, BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_vinyl));
+                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                        showNotification(track, viewPendingIntent, resource);
+
                     }
 
                     @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                        showNotification(track, viewPendingIntent, resource);
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
+                        showNotification(track, viewPendingIntent, BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_vinyl));
                     }
                 });
 
