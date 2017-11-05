@@ -1,4 +1,7 @@
-[![Build Status](https://www.bitrise.io/app/ace43e7608e6cea0/status.svg?token=Y3XbouQU8l_wbwOfbtirAg&branch=master)](https://www.bitrise.io/app/ace43e7608e6cea0)
+[![Build Status](https://www.bitrise.io/app/ace43e7608e6cea0/status.svg?token=Y3XbouQU8l_wbwOfbtirAg&branch=v2)](https://www.bitrise.io/app/ace43e7608e6cea0)
+
+Download LINK 
+https://www.bitrise.io/artifact/3163405/p/3e1c768302cc305128a11f9bbf39dd64
 
 # Zikobot
 
@@ -9,11 +12,11 @@ Link on the GooglePlay : https://play.google.com/apps/testing/com.joxad.zikobot
 
 # Current Version
 
-VERSION_NAME = 1.4.8
+VERSION_NAME = 2.0.0-alpha
 
 # How to Install
 
-You will need Java 8 and at least version 1.5.1 of AndroidStudio
+You will need Java 8 and at least version 3.0 of Android Studio
 
 In the file local.properties, you will need to add the location of your java 8 installation, in order
 to make retrolambda working
