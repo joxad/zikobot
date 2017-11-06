@@ -3,6 +3,8 @@ package com.startogamu.zikobot
 import android.app.Application
 import android.content.Context
 import android.support.multidex.MultiDex
+import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.answers.Answers
 import com.facebook.stetho.Stetho
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.androidtemplate.core.network.NetworkStatusManager
@@ -25,6 +27,7 @@ import dagger.DaggerAppComponent
 import dagger.module.DaggerLocalMusicComponent
 import dagger.module.LocalMusicComponent
 import dagger.module.LocalMusicModule
+import io.fabric.sdk.android.Fabric
 
 
 /**
@@ -46,6 +49,7 @@ class ZikobotApp : Application() {
                         .appModule(AppModule(this))
                         .build()
 
+        Fabric.with(this, Crashlytics(), Answers())
 
         localMusicComponent= DaggerLocalMusicComponent
                 .builder()

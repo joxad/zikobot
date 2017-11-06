@@ -22,6 +22,7 @@ import com.startogamu.zikobot.home.sync.SpotifySyncPlaylistsFragment
 import com.startogamu.zikobot.home.sync.SpotifySyncPlaylistsFragmentVM
 import com.startogamu.zikobot.player.PlayerService
 import com.startogamu.zikobot.player.alarm.AlarmBottomFragment
+import com.startogamu.zikobot.settings.SettingsBottomFragment
 
 
 /**
@@ -73,6 +74,12 @@ object NavigationManager {
 
     fun showAddToPlaylist(activity: FragmentActivity, track : ZikoTrack) {
         AddTrackToPlaylistFragment.newInstance(track)
+                .show(activity.supportFragmentManager, AddTrackToPlaylistFragmentVM.TAG)
+    }
+
+
+    fun showSettings(activity: FragmentActivity, track : ZikoTrack) {
+        SettingsBottomFragment.newInstance(track)
                 .show(activity.supportFragmentManager, AddTrackToPlaylistFragmentVM.TAG)
     }
 

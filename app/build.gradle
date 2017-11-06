@@ -55,11 +55,25 @@ android {
         debug {
             debuggable true
             minifyEnabled false
+            android.applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        def fileName = outputFile.name.replace("app",
+                                "${defaultConfig.applicationId}_${defaultConfig.versionName}")
+                        outputFileName = fileName
 
+                    }
+
+                }
+            }
         }
         release {
             minifyEnabled false
             debuggable false
+            def gitSha = 'git rev-parse --short HEAD'.execute().text.trim();
+            versionNameSuffix "." + gitSha
+
             signingConfig signingConfigs.release
             proguardFile 'proguard/proguard-butterknife.pro'
             proguardFile 'proguard/proguard-crashlytics.pro'
@@ -142,6 +156,9 @@ dependencies {
     implementation "com.google.dagger:dagger:2.9"
     provided 'javax.annotation:jsr250-api:1.0'
 
+    implementation('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+        transitive = true
+    }
 }
 
 
