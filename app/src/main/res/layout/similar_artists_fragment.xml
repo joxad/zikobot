@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
         <variable
             name="similarArtistsFragmentVM"
             type="com.startogamu.zikobot.home.artists.SimilarArtistsFragmentVM" />
     </data>
 
-    <LinearLayout
+    <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:text="similarArtistsFragment"/>
-    </LinearLayout>
+        android:orientation="vertical"
+        app:itemBinding="@{similarArtistsFragmentVM.itemBinding}"
+        android:layoutAnimation="@anim/grid_animation"
+        app:items="@{similarArtistsFragmentVM.items}"
+        app:layoutManager="@{LayoutManagers.grid(2)}" />
 
 
 </layout>

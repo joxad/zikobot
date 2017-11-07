@@ -55,7 +55,7 @@ class ArtistDetailActivityVM(activity: ArtistDetailActivity, binding: ArtistDeta
                         FragmentTab("Général", ArtistHomeFragment.newInstance()),
                         FragmentTab("Albums", AlbumsArtistFragment.newInstance()),
                         FragmentTab("Mes Favoris", TracksArtistFragment.newInstance(it!!.id)),
-                        FragmentTab("Similaires", SimilarArtistsFragment.newInstance())
+                        FragmentTab("Similaires", SimilarArtistsFragment.newInstance(it!!.id))
                 )
             }
         }

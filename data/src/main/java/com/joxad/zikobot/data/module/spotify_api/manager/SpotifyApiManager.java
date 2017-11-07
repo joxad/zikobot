@@ -18,6 +18,7 @@ import com.joxad.zikobot.data.module.spotify_api.resource.SpotifyApiInterceptor;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Observable;
@@ -53,6 +54,16 @@ public enum SpotifyApiManager {
      */
     public Observable<SpotifyArtist> getArtist(final String artistId) {
         return spotifyAPIEndpoint.getArtist(artistId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io());
+    }
+
+    /***
+     * 1     *
+     */
+    public Observable<List<SpotifyArtist>> getSimilarArtists(final String artistId) {
+        return spotifyAPIEndpoint.getSimilarArtist(artistId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());

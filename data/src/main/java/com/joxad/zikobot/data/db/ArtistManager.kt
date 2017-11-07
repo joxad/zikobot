@@ -4,10 +4,12 @@ import com.joxad.zikobot.data.db.model.ZikoArtist
 import com.joxad.zikobot.data.db.model.ZikoArtist_Table
 import com.joxad.zikobot.data.db.model.ZikoTrack
 import com.joxad.zikobot.data.db.model.ZikoTrack_Table
+import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
 import com.raizlabs.android.dbflow.annotation.Collate
 import com.raizlabs.android.dbflow.kotlinextensions.select
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
 import com.raizlabs.android.dbflow.sql.language.OrderBy
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -69,6 +71,14 @@ object ArtistManager {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
 
+    }
+
+    fun findSimilarArtists(artistId: String): Observable<List<ZikoArtist>> {
+        return SpotifyApiManager.INSTANCE.getSimilarArtists(artistId).flatMap {
+            val list = arrayListOf<ZikoArtist>()
+            it.mapTo(list) { ZikoArtist.spotify(it.id, it.name!!) }
+            return@flatMap Observable.just(list)
+        }
     }
 
 }
