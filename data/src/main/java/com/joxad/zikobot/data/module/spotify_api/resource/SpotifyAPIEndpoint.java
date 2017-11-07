@@ -3,6 +3,7 @@ package com.joxad.zikobot.data.module.spotify_api.resource;
 
 import com.joxad.zikobot.data.module.spotify_api.model.Albums;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyArtist;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyArtists;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyFeaturedPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylistWithTrack;
@@ -50,7 +51,7 @@ public interface SpotifyAPIEndpoint {
     Observable<SpotifyArtist> getArtist(@Path("id") String idArtist);
 
     @GET("artists/{id}/related-artists")
-    Observable<List<SpotifyArtist>> getSimilarArtist(@Path("id") String idArtist);
+    Observable<SpotifyArtists> getSimilarArtist(@Path("id") String idArtist);
 
 
     @GET("artists/{id}/top-tracks")

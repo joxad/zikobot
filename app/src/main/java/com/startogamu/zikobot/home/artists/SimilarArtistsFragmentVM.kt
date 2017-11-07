@@ -2,6 +2,7 @@ package com.startogamu.zikobot.home.artists
 
 import android.databinding.ObservableArrayList
 import android.os.Bundle
+import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM
 import com.joxad.zikobot.data.db.ArtistManager
 import com.startogamu.zikobot.BR
@@ -37,7 +38,7 @@ class SimilarArtistsFragmentVM
         ArtistManager.findSimilarArtists(artistid!!).subscribe({
             it.forEach({ items.add(ArtistVM(fragment.context, it)) })
         }, {
-
+            AppLog.INSTANCE.e("Similar", it.localizedMessage)
         })
     }
 

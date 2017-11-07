@@ -57,9 +57,9 @@
             android:onClick="@{artistDetailActivityVM::playAll}"
             android:visibility="visible"
             app:fabSize="normal"
+            app:backgroundTint="@android:color/transparent"
             app:layout_anchor="@id/toolbar_detail_activity"
-            app:layout_anchorGravity="end|top"
-            android:layout_gravity="bottom"
+            app:layout_anchorGravity="center"
             app:srcCompat="@drawable/ic_play_white" />
     </android.support.design.widget.CoordinatorLayout>
 

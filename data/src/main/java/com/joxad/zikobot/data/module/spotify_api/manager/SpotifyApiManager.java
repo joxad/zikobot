@@ -6,6 +6,7 @@ import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.R;
 import com.joxad.zikobot.data.module.spotify_api.model.Albums;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyArtist;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyArtists;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyFeaturedPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylistWithTrack;
@@ -22,7 +23,9 @@ import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /***
@@ -64,6 +67,7 @@ public enum SpotifyApiManager {
      */
     public Observable<List<SpotifyArtist>> getSimilarArtists(final String artistId) {
         return spotifyAPIEndpoint.getSimilarArtist(artistId)
+                .flatMap(spotifyArtists -> Observable.just(spotifyArtists.artists))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());

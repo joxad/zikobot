@@ -47,8 +47,7 @@
                 android:background="#99000000"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingStart="@dimen/icon_medium"
-                app:layout_collapseMode="pin">
+                android:paddingStart="@dimen/icon_medium">
 
                 <TextView
                     android:layout_width="match_parent"
