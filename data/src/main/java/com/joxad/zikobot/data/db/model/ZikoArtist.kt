@@ -28,6 +28,7 @@ class ZikoArtist : BaseModel() {
     var name: String = ""
     @Column
     var image: String = ""
+    //TODO add favorite status
 
     lateinit var tracks: MutableList<ZikoTrack>
 

@@ -72,6 +72,7 @@ public class LocalMusicManager {
         ZikoArtist zikoArtist = new Select().from(ZikoArtist.class).where(ZikoArtist_Table.localId.eq(artistId)).querySingle();
         if (zikoArtist == null) {
             zikoArtist = ZikoArtist.Companion.local(artistId, artistName);
+            //TODO zikoArtist.favorite()
             zikoArtist.save();
         }
         return zikoArtist;

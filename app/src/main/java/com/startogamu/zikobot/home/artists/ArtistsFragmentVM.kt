@@ -52,7 +52,7 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
 
 
     private fun addArtists(offset: Int) {
-        ArtistManager.findAllPaginated(offset)
+        ArtistManager.findAllFavoritePaginated(offset)
                 .subscribe({
                     loading.set(false)
                     for (artist in it) {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.joxad.androidtemplate.core.adapter.GenericFragmentAdapter
 import com.joxad.androidtemplate.core.fragment.FragmentTab
+import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.zikobot.data.db.ArtistManager
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
 import com.joxad.zikobot.data.db.model.ZikoArtist
@@ -29,7 +30,7 @@ class ArtistDetailActivityVM(activity: ArtistDetailActivity, binding: ArtistDeta
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
         AppUtils.initToolbar(activity, binding.toolbarDetailActivity!!)
-        binding.toolbarDetailActivity!!.tabLayout.visibility= View.VISIBLE
+        binding.toolbarDetailActivity!!.tabLayout.visibility = View.VISIBLE
         loadData()
     }
 
@@ -40,11 +41,13 @@ class ArtistDetailActivityVM(activity: ArtistDetailActivity, binding: ArtistDeta
         val aId = activity.intent.getIntExtra(Constants.Extra.ARTIST_ID, 0)
 
         ArtistManager.findOne(aId)
-                .subscribe { it ->
+                .subscribe({ it ->
                     artistVM = ArtistVM(activity, it)
                     AppUtils.animateAlpha(binding.fabPlay)
                     initTabs(it)
-                }
+                }, {
+                    AppLog.INSTANCE.e(TAG, it.localizedMessage)
+                })
     }
 
     private fun initTabs(it: ZikoArtist?) {
