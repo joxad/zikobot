@@ -52,7 +52,7 @@ object AlbumManager {
 
 
     fun findAlbumsForArtist(artistId: String): Observable<List<ZikoAlbum>> {
-        return SpotifyApiManager.INSTANCE.getAlbums(artistId, 0, 100).flatMap {
+        return SpotifyApiManager.INSTANCE.getAlbums(artistId, 50, 0).flatMap {
             val list = arrayListOf<ZikoAlbum>()
             it.items.mapTo(list) {
                 ZikoAlbum.spotify(it)

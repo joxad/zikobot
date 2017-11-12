@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+
         <variable
             name="albumsArtistFragmentVM"
             type="com.startogamu.zikobot.home.artists.AlbumsArtistFragmentVM" />
@@ -15,6 +17,7 @@
         android:layout_height="match_parent"
         android:layoutAnimation="@anim/grid_animation"
         app:itemBinding="@{albumsArtistFragmentVM.itemBinding}"
-        app:items="@{albumsArtistFragmentVM.items}" />
+        app:items="@{albumsArtistFragmentVM.items}"
+        app:layoutManager="@{LayoutManagers.grid(1)}" />
 
 </layout>
