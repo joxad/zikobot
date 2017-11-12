@@ -135,7 +135,7 @@ dependencies {
     }
    // implementation 'com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT'
     implementation project(path: ':data')
-    kapt 'com.android.databinding:compiler:3.0.0-rc2'
+    kapt 'com.android.databinding:compiler:3.0.0'
 
     implementation project(path: ':androidcoreutils:core')
     implementation 'com.facebook.stetho:stetho:1.5.0'
@@ -159,6 +159,7 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true
     }
+
 }
 
 

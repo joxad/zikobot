@@ -33,4 +33,10 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <style name="textTitle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
 </resources>

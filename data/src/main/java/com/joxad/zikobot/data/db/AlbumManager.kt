@@ -4,12 +4,13 @@ import com.joxad.zikobot.data.db.model.ZikoAlbum
 import com.joxad.zikobot.data.db.model.ZikoAlbum_Table
 import com.joxad.zikobot.data.db.model.ZikoTrack
 import com.joxad.zikobot.data.db.model.ZikoTrack_Table
+import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
 import com.raizlabs.android.dbflow.annotation.Collate
-import com.raizlabs.android.dbflow.kotlinextensions.and
 import com.raizlabs.android.dbflow.kotlinextensions.select
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
 import com.raizlabs.android.dbflow.rx2.language.RXModelQueriableImpl
 import com.raizlabs.android.dbflow.sql.language.OrderBy
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -49,4 +50,14 @@ object AlbumManager {
 
     }
 
+
+    fun findAlbumsForArtist(artistId: String): Observable<List<ZikoAlbum>> {
+        return SpotifyApiManager.INSTANCE.getAlbums(artistId, 0, 100).flatMap {
+            val list = arrayListOf<ZikoAlbum>()
+            it.items.mapTo(list) {
+                ZikoAlbum.spotify(it)
+            }
+            return@flatMap Observable.just(list)
+        }
+    }
 }

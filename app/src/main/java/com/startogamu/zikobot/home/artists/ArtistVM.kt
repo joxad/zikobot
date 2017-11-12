@@ -27,7 +27,8 @@ class ArtistVM(context: Context, model: ZikoArtist) : BaseVM<ZikoArtist>(context
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ artist ->
                         model.image = artist.image[artist.image.lastIndex].text
-                        model.save()
+                        if (model.exists())
+                            model.save()
                         notifyPropertyChanged(BR.image)
                     }, { t ->
                         AppLog.INSTANCE.e("Artist", t.localizedMessage)

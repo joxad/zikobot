@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -9,16 +10,19 @@
             type="com.startogamu.zikobot.home.reco.RecoFragmentVM" />
     </data>
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:text="recoFragment"/>
-    </LinearLayout>
 
+        <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layoutAnimation="@anim/grid_animation"
+            app:itemBinding="@{recoFragmentVM.itemBinding}"
+            app:items="@{recoFragmentVM.items}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </android.support.design.widget.CoordinatorLayout>
 
 </layout>

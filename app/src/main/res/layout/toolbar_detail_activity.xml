@@ -46,8 +46,10 @@
                 android:alpha="@{alphaToolbar}"
                 android:background="#99000000"
                 android:gravity="center_vertical"
+
                 android:orientation="horizontal"
-                android:paddingStart="@dimen/icon_medium">
+                android:paddingStart="@dimen/icon_medium"
+                app:layout_collapseMode="parallax">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -64,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                app:contentInsetStart="0dp"/>
+                app:contentInsetStart="0dp" />
 
 
         </android.support.design.widget.CollapsingToolbarLayout>

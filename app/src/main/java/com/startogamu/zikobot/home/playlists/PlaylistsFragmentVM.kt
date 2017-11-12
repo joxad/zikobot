@@ -13,6 +13,7 @@ import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.NavigationManager
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.PlaylistsFragmentBinding
+import io.reactivex.disposables.Disposable
 
 
 /**
@@ -21,7 +22,7 @@ import com.startogamu.zikobot.databinding.PlaylistsFragmentBinding
 class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmentBinding, savedInstance: Bundle?)
     : FragmentRecyclerBaseVM<PlaylistVM, PlaylistsFragment, PlaylistsFragmentBinding>(fragment, binding, savedInstance) {
 
-
+    private lateinit var disposable: Disposable
     override fun itemData(): Int {
         return BR.playlistVM
     }
@@ -34,10 +35,7 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
         collapseToolbar()
         items = ObservableArrayList()
         loadPlaylists()
-        PlaylistManager.INSTANCE.refreshSubject.subscribe({
-            items.clear()
-            loadPlaylists()
-        })
+
 
         binding.playlistsFragmentAppBar?.appBarLayout?.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             if (verticalOffset < 0) {
@@ -45,6 +43,21 @@ class PlaylistsFragmentVM(fragment: PlaylistsFragment, binding: PlaylistsFragmen
             }
         }
 
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        disposable = PlaylistManager.INSTANCE.refreshSubject.subscribe({
+            items.clear()
+            loadPlaylists()
+        })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (!disposable.isDisposed)
+            disposable.dispose()
     }
 
     private fun collapseToolbar() {

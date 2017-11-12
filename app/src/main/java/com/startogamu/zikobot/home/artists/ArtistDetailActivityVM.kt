@@ -53,9 +53,9 @@ class ArtistDetailActivityVM(activity: ArtistDetailActivity, binding: ArtistDeta
             override fun tabTitles(): List<FragmentTab>? {
                 return arrayListOf(
                         FragmentTab("Général", ArtistHomeFragment.newInstance()),
-                        FragmentTab("Albums", AlbumsArtistFragment.newInstance()),
-                        FragmentTab("Mes Favoris", TracksArtistFragment.newInstance(it!!.id)),
-                        FragmentTab("Similaires", SimilarArtistsFragment.newInstance(it!!.id))
+                        FragmentTab("Albums", AlbumsArtistFragment.newInstance(it!!.id)),
+                        FragmentTab("Mes Favoris", TracksArtistFragment.newInstance(it.id)),
+                        FragmentTab("Similaires", SimilarArtistsFragment.newInstance(it.id))
                 )
             }
         }

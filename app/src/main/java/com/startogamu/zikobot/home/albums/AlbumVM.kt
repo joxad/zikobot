@@ -25,7 +25,7 @@ class AlbumVM
  * *
  * @param model
  */
-(section : Boolean, context: Context, model: ZikoAlbum) : BaseVM<ZikoAlbum>(context, model) {
+(section: Boolean, context: Context, model: ZikoAlbum) : BaseVM<ZikoAlbum>(context, model) {
 
 
     override fun onCreate() {
@@ -33,13 +33,12 @@ class AlbumVM
             LastFmManager.INSTANCE.findAlbum("${getName()} ${getArtist()}")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        album ->
+                    .subscribe({ album ->
                         model.image = album.image[2].text
-                        model.save()
+                        if (model.exists())
+                            model.save()
                         notifyPropertyChanged(BR.image)
-                    }, {
-                        t ->
+                    }, { t ->
                         AppLog.INSTANCE.e("Album", t.localizedMessage)
                     })
         }

@@ -1,8 +1,11 @@
 package com.joxad.zikobot.data.db.model
 
 import com.joxad.zikobot.data.db.ZikoDB
-import com.raizlabs.android.dbflow.annotation.*
-import com.raizlabs.android.dbflow.sql.language.SQLite
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyArtist
+import com.raizlabs.android.dbflow.annotation.Column
+import com.raizlabs.android.dbflow.annotation.ConflictAction
+import com.raizlabs.android.dbflow.annotation.PrimaryKey
+import com.raizlabs.android.dbflow.annotation.Table
 import com.raizlabs.android.dbflow.structure.BaseModel
 
 
@@ -22,11 +25,12 @@ class ZikoArtist : BaseModel() {
     @Column
     var soundcloudId: Int = 0
     @Column
-    var name: String =""
+    var name: String = ""
     @Column
     var image: String = ""
 
     lateinit var tracks: MutableList<ZikoTrack>
+
     companion object {
 
         fun local(localId: Long, name: String): ZikoArtist {
@@ -49,9 +53,14 @@ class ZikoArtist : BaseModel() {
             zikoArtist.name = "Loading"
             return zikoArtist
         }
+
+        fun spotify(spoArtist: SpotifyArtist): ZikoArtist {
+            val zikoArtist = ZikoArtist()
+            zikoArtist.spotifyId = spoArtist.id
+            zikoArtist.name = spoArtist.name!!
+            return zikoArtist
+        }
     }
-
-
 
 
 }

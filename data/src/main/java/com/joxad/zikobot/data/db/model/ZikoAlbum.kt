@@ -1,6 +1,8 @@
 package com.joxad.zikobot.data.db.model
 
 import com.joxad.zikobot.data.db.ZikoDB
+import com.joxad.zikobot.data.module.spotify_api.model.Albums
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyAlbum
 import com.raizlabs.android.dbflow.annotation.*
 import com.raizlabs.android.dbflow.structure.BaseModel
 
@@ -41,6 +43,16 @@ class ZikoAlbum : BaseModel() {
             zikoAlbum.name = name
             zikoAlbum.artist = artist
             zikoAlbum.image = image
+            return zikoAlbum
+        }
+
+
+        fun spotify(album: SpotifyAlbum): ZikoAlbum {
+            val zikoAlbum = ZikoAlbum()
+            zikoAlbum.spotifyId = album.id
+            zikoAlbum.name = album.name!!
+            zikoAlbum.artist = ZikoArtist.spotify(album.artists[0])
+            zikoAlbum.image = album.images[0].url!!
             return zikoAlbum
         }
     }
