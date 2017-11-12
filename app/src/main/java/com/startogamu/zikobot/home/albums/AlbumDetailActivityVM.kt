@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.zikobot.data.db.AlbumManager
-import com.joxad.zikobot.data.db.ArtistManager
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
 import com.joxad.zikobot.data.db.model.ZikoTrack
 import com.startogamu.zikobot.ABasePlayerActivityVM
@@ -12,7 +11,6 @@ import com.startogamu.zikobot.Constants
 import com.startogamu.zikobot.core.AppUtils
 import com.startogamu.zikobot.databinding.AlbumDetailActivityBinding
 import com.startogamu.zikobot.databinding.PlayerViewBottomBinding
-import com.startogamu.zikobot.home.artists.ArtistVM
 import com.startogamu.zikobot.home.track.TrackVM
 
 /**
@@ -41,10 +39,12 @@ class AlbumDetailActivityVM(activity: AlbumDetailActivity, binding: AlbumDetailA
 
         AlbumManager.findOne(aId)
                 .querySingle()
-                .subscribe { it ->
-                    albumVM = AlbumVM(false,activity, it)
+                .subscribe({ it ->
+                    albumVM = AlbumVM(false, activity, it)
                     AppUtils.animateAlpha(binding.fabPlay)
-                }
+                }, {
+                    AppLog.INSTANCE.e("Album", it.localizedMessage)
+                })
         addTracks(0)
     }
 

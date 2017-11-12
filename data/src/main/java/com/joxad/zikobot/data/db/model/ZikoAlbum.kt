@@ -1,7 +1,6 @@
 package com.joxad.zikobot.data.db.model
 
 import com.joxad.zikobot.data.db.ZikoDB
-import com.joxad.zikobot.data.module.spotify_api.model.Albums
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyAlbum
 import com.raizlabs.android.dbflow.annotation.*
 import com.raizlabs.android.dbflow.structure.BaseModel
@@ -25,6 +24,8 @@ class ZikoAlbum : BaseModel() {
     @Column
     @ForeignKey(stubbedRelationship = false)
     var artist: ZikoArtist? = null
+    @Column(getterName = "getFavorite")
+    var favorite: Boolean = false
 
     companion object {
 
@@ -37,7 +38,7 @@ class ZikoAlbum : BaseModel() {
             return zikoAlbum
         }
 
-        fun spotify(spotifyId: String, name: String, artist: ZikoArtist, image:String): ZikoAlbum {
+        fun spotify(spotifyId: String, name: String, artist: ZikoArtist, image: String): ZikoAlbum {
             val zikoAlbum = ZikoAlbum()
             zikoAlbum.spotifyId = spotifyId
             zikoAlbum.name = name

@@ -32,8 +32,8 @@ object ArtistManager {
 
     fun findAllFavoritePaginated(offset: Int): Single<MutableList<ZikoArtist>> {
         return select.from(ZikoArtist::class.java)
+                .where(ZikoArtist_Table.favorite.eq(true))
                 .offset(offset * ZikoDB.PAGINATED_OFFSET)
-                //where fav =1
                 .limit(ZikoDB.PAGINATED_OFFSET)
                 .orderBy(OrderBy.fromProperty(ZikoArtist_Table.name).collate(Collate.NOCASE)
                         .ascending())

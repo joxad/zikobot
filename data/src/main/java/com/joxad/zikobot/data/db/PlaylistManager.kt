@@ -91,6 +91,7 @@ enum class PlaylistManager {
                 .or(ZikoArtist_Table.name.eq(artist.name)).querySingle()
         if (zikoArtist == null) {
             zikoArtist = ZikoArtist.spotify(artist.id, artist.name!!)
+            zikoArtist.favorite = true
             zikoArtist.save()
         }
         return zikoArtist

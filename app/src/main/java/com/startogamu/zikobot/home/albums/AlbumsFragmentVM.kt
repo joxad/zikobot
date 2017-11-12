@@ -37,7 +37,7 @@ class AlbumsFragmentVM(fragment: AlbumsFragment, binding: AlbumsFragmentBinding,
 
 
     private fun updateList() {
-        AlbumManager.findAll()
+        AlbumManager.findAllFavorite()
                 .subscribe({
                     loading.set(false)
                     for (album in it) {

@@ -72,7 +72,7 @@ public class LocalMusicManager {
         ZikoArtist zikoArtist = new Select().from(ZikoArtist.class).where(ZikoArtist_Table.localId.eq(artistId)).querySingle();
         if (zikoArtist == null) {
             zikoArtist = ZikoArtist.Companion.local(artistId, artistName);
-            //TODO zikoArtist.favorite()
+            zikoArtist.setFavorite(true);
             zikoArtist.save();
         }
         return zikoArtist;
@@ -91,6 +91,7 @@ public class LocalMusicManager {
             Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, albumId);
             if (isUriBitmapValid(albumArtUri))
                 zikoAlbum.setImage(albumArtUri.toString());
+            zikoAlbum.setFavorite(true);
             zikoAlbum.save();
         }
         return zikoAlbum;

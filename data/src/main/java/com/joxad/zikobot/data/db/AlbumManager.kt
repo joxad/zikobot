@@ -21,8 +21,9 @@ import io.reactivex.schedulers.Schedulers
 
 object AlbumManager {
 
-    fun findAll(): Single<MutableList<ZikoAlbum>> {
+    fun findAllFavorite(): Single<MutableList<ZikoAlbum>> {
         return select.from(ZikoAlbum::class.java)
+                .where(ZikoAlbum_Table.favorite.eq(true))
                 .orderBy(OrderBy.fromProperty(ZikoAlbum_Table.name).collate(Collate.NOCASE).ascending())
                 .rx()
                 .queryList()
@@ -56,7 +57,7 @@ object AlbumManager {
             val list = arrayListOf<ZikoAlbum>()
             it.items.mapTo(list) {
                 ZikoAlbum.spotify(it)
-            }
+            }.forEach({ it.save() })
             return@flatMap Observable.just(list)
         }
     }

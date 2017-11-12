@@ -35,8 +35,7 @@ class AlbumVM
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ album ->
                         model.image = album.image[2].text
-                        if (model.exists())
-                            model.save()
+                        model.save()
                         notifyPropertyChanged(BR.image)
                     }, { t ->
                         AppLog.INSTANCE.e("Album", t.localizedMessage)
