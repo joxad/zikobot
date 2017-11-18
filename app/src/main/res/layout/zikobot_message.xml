@@ -29,8 +29,8 @@
         android:visibility="@{visible ? View.VISIBLE: View.GONE}">
 
         <android.support.v7.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             app:srcCompat="@{drawable}" />
 
 

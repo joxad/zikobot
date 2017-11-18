@@ -1,6 +1,7 @@
 package com.startogamu.zikobot.home.albums
 
 import android.os.Bundle
+import android.support.v7.widget.AppCompatImageView
 import android.view.View
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.zikobot.data.db.AlbumManager
