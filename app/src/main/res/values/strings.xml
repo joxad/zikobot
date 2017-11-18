@@ -20,7 +20,7 @@
 
     <!--> Menu <-->
     <string name="menu_about">About</string>
-    <string name="menu_put_add_as_playlist">Make an alarm</string>
+    <string name="menu_put_add_as_playlist">Add to a playlist</string>
     <string name="menu_add_to_current_play">Add after current playing track</string>
     <string name="menu_add_to_end_of_current_play">Add at the end of current playing track</string>
     <string name="menu_info_artist">See the artist page</string>

@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:onClick="@{trackVM::onClick}"
-        android:onLongClick="@{trackVM::onLongClick}"
+        android:onLongClick="@{trackVM::addToPlaylist}"
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatImageView

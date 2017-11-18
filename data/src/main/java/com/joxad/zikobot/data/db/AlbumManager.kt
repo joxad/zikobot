@@ -54,6 +54,7 @@ object AlbumManager {
             val list = arrayListOf<ZikoTrack>()
             for (track in it.tracks) {
                 val zikoArtist = ZikoArtist.spotify(track?.artists?.get(0)!!)
+                zikoArtist.save()
                 list.add(ZikoTrack.spotify(track, zikoArtist, album, null))
             }
             return@flatMap Observable.just(list).subscribeOn(Schedulers.io())

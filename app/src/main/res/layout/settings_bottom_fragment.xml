@@ -15,6 +15,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:textStyle="italic"
+            android:textSize="18sp"
+            android:text="@{settingsBottomFragmentVM.trackVM.title}"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,17 +31,26 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <include
+                android:id="@+id/layout_vinyl"
+                layout="@layout/layout_vinyl"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:trackVM="@{settingsBottomFragmentVM.trackVM}" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_vertical_margin"
+                android:onClick="@{settingsBottomFragmentVM::showArtistPage}"
+
                 android:text="@string/menu_info_artist" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_vertical_margin"
-
+                android:onClick="@{settingsBottomFragmentVM::addTrackToPlaylist}"
                 android:text="@string/menu_put_add_as_playlist" />
 
             <TextView

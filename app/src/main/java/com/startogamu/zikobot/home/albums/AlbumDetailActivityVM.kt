@@ -40,6 +40,7 @@ class AlbumDetailActivityVM(activity: AlbumDetailActivity, binding: AlbumDetailA
         AlbumManager.findOne(aId)
                 .querySingle()
                 .subscribe({ it ->
+                    it.save()
                     albumVM = AlbumVM(false, activity, it)
                     AppUtils.animateAlpha(binding.fabPlay)
                     addTracks(0)

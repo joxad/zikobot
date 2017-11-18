@@ -8,9 +8,11 @@ import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.androidtemplate.core.view.utils.EndlessRecyclerOnScrollListener
 import com.joxad.easydatabinding.fragment.v4.FragmentRecyclerBaseVM
 import com.joxad.zikobot.data.db.ArtistManager
+import com.joxad.zikobot.data.db.PlaylistManager
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.ArtistsFragmentBinding
+import io.reactivex.disposables.Disposable
 
 
 /**
@@ -18,6 +20,7 @@ import com.startogamu.zikobot.databinding.ArtistsFragmentBinding
  */
 class ArtistsFragmentVM(fragment: ArtistsFragment,
                         binding: ArtistsFragmentBinding, savedInstance: Bundle?) : FragmentRecyclerBaseVM<ArtistVM, ArtistsFragment, ArtistsFragmentBinding>(fragment, binding, savedInstance) {
+    private lateinit var disposable: Disposable
 
     lateinit var loading: ObservableBoolean
     override fun itemLayoutResource(): Int {
@@ -40,10 +43,18 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
                 addArtists(page)
             }
         })
-        binding.artistFragmentRV.layoutManager = GridLayoutManager(fragment.context,2)
+        binding.artistFragmentRV.layoutManager = GridLayoutManager(fragment.context, 2)
         binding.fastScroller.setRecyclerView(binding.artistFragmentRV)
         binding.artistFragmentRV.addOnScrollListener(binding.fastScroller.onScrollListener)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        disposable = PlaylistManager.INSTANCE.refreshSubject.subscribe({
+            items.clear()
+            updateList()
+        })
     }
 
     private fun updateList() {
@@ -63,6 +74,12 @@ class ArtistsFragmentVM(fragment: ArtistsFragment,
                     AppLog.INSTANCE.e("Artists", it.localizedMessage)
                 })
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (!disposable.isDisposed)
+            disposable.dispose()
     }
 
     companion object {

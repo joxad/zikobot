@@ -61,16 +61,22 @@ class TrackVM
     }
 
     fun onMenuClick(v: View) {
+        model.save()
         NavigationManager.showSettings(context as FragmentActivity, model)
     }
 
-    fun onLongClick(v: View): Boolean {
+    fun addToPlaylist(v: View): Boolean {
         if (PlaylistManager.INSTANCE.hasData())
             NavigationManager.showAddToPlaylist(context as FragmentActivity, model)
         else
             NavigationManager.showCreatePlaylist(context as FragmentActivity)
         return true
 
+    }
+
+
+    fun showArtistPage(v: View) {
+        NavigationManager.goToArtist(context as FragmentActivity, model.zikoArtist, v)
     }
 
     companion object {
