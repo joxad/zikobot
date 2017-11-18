@@ -18,6 +18,6 @@
         android:layoutAnimation="@anim/grid_animation"
         app:itemBinding="@{albumsArtistFragmentVM.itemBinding}"
         app:items="@{albumsArtistFragmentVM.items}"
-        app:layoutManager="@{LayoutManagers.grid(1)}" />
+        app:layoutManager="@{LayoutManagers.grid(2)}" />
 
 </layout>

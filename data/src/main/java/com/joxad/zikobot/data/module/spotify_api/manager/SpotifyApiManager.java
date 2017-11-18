@@ -36,11 +36,11 @@ import io.reactivex.schedulers.Schedulers;
 public enum SpotifyApiManager {
     INSTANCE;
     private SpotifyAPIEndpoint spotifyAPIEndpoint;
-
+    private String language;
     public void init(Context context) {
         SpotifyRetrofit spotifyRetrofit = new SpotifyRetrofit(context, context.getString(R.string.spotify_base_api_url),
                 new SpotifyApiInterceptor());
-
+language = Locale.getDefault().getLanguage();
         spotifyAPIEndpoint = spotifyRetrofit.retrofit().create(SpotifyAPIEndpoint.class);
     }
 
@@ -90,7 +90,7 @@ public enum SpotifyApiManager {
      * @return
      */
     public Observable<SpotifyResultAlbum> getAlbumTracks(String id, int limit, int offset) {
-        return spotifyAPIEndpoint.getTracksAlbum(id,Locale.getDefault().getCountry(), limit, offset).subscribeOn(Schedulers.io())
+        return spotifyAPIEndpoint.getTracksAlbum(id,language, limit, offset).subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -99,7 +99,7 @@ public enum SpotifyApiManager {
      * @return
      */
     public Observable<Albums> getAlbums(String idArtist, int limit, int offset) {
-        return spotifyAPIEndpoint.getAlbums(idArtist, Locale.getDefault().getCountry(), limit, offset).subscribeOn(Schedulers.io())
+        return spotifyAPIEndpoint.getAlbums(idArtist, language, limit, offset).subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -108,7 +108,7 @@ public enum SpotifyApiManager {
      * @return
      */
     public Observable<SpotifyTopTracks> getTopTracks(String idArtist) {
-        return spotifyAPIEndpoint.getTopTracks(idArtist, Locale.getDefault().getCountry()).subscribeOn(Schedulers.io())
+        return spotifyAPIEndpoint.getTopTracks(idArtist, language).subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -130,7 +130,7 @@ public enum SpotifyApiManager {
     }
 
     public Observable<SpotifySearchResult> search(final int limit, final int offset, final String search) {
-        return spotifyAPIEndpoint.search(limit, offset, search, "album,artist,track", Locale.getDefault().getCountry()).subscribeOn(Schedulers.io())
+        return spotifyAPIEndpoint.search(limit, offset, search, "album,artist,track", language).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
     }
