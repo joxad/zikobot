@@ -89,8 +89,8 @@ public enum SpotifyApiManager {
      * @param id
      * @return
      */
-    public Observable<SpotifyResultAlbum> getAlbumTracks(String id) {
-        return spotifyAPIEndpoint.getTracksAlbum(id).subscribeOn(Schedulers.io())
+    public Observable<SpotifyResultAlbum> getAlbumTracks(String id, int limit, int offset) {
+        return spotifyAPIEndpoint.getTracksAlbum(id,Locale.getDefault().getCountry(), limit, offset).subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 

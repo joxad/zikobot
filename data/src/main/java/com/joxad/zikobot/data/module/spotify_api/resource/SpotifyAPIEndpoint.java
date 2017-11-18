@@ -12,8 +12,6 @@ import com.joxad.zikobot.data.module.spotify_api.model.SpotifySearchResult;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTopTracks;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyUser;
 
-import java.util.List;
-
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -33,7 +31,7 @@ public interface SpotifyAPIEndpoint {
 
 
     @GET("albums/{id}/tracks")
-    Observable<SpotifyResultAlbum> getTracksAlbum(@Path("id") final String id);
+    Observable<SpotifyResultAlbum> getTracksAlbum(@Path("id") final String id, @Query("market") final String country, @Query("limit") int limit, @Query("offset") int offset);
 
     @GET("me/playlists")
     Observable<SpotifyPlaylist> getUserPlaylists();

@@ -42,14 +42,24 @@ class AlbumDetailActivityVM(activity: AlbumDetailActivity, binding: AlbumDetailA
                 .subscribe({ it ->
                     albumVM = AlbumVM(false, activity, it)
                     AppUtils.animateAlpha(binding.fabPlay)
+                    addTracks(0)
+
                 }, {
                     AppLog.INSTANCE.e("Album", it.localizedMessage)
                 })
-        addTracks(0)
     }
 
     private fun addTracks(indexStart: Int) {
         AlbumManager.findTracks(albumVM.model.id, indexStart)
+                .subscribe({
+                    for (zT in it) {
+                        // items.add(TrackVM(activity, zT))
+                    }
+                }, {
+                    AppLog.INSTANCE.e("Add track", it.localizedMessage)
+                })
+
+        AlbumManager.findTracksFromAPI(albumVM.model)
                 .subscribe({
                     for (zT in it) {
                         items.add(TrackVM(activity, zT))

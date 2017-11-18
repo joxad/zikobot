@@ -12,6 +12,6 @@ import lombok.Data;
 @Data
 public class SpotifyResultAlbum {
     @SerializedName("items")
-    private List<SpotifyTrack> tracks;
+    public List<SpotifyTrack> tracks;
 
 }
