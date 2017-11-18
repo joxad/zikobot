@@ -12,6 +12,10 @@
             name="visible"
             type="Boolean" />
 
+        <variable
+            name="drawable"
+            type="android.graphics.drawable.Drawable" />
+
         <import type="android.view.View" />
     </data>
 
@@ -27,7 +31,7 @@
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_zikobot_large" />
+            app:srcCompat="@{drawable}" />
 
 
         <TextView

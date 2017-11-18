@@ -43,6 +43,7 @@
 
             <include
                 layout="@layout/zikobot_message"
+                app:drawable="@{@drawable/ic_zikobot_sad}"
                 android:layout_centerInParent="true"
                 app:title="@{@string/empty_state_playlist}"
                 app:visible="@{playlistsFragmentVM.items.isEmpty()}"
