@@ -24,7 +24,9 @@
                 layout="@layout/reco_card_header"
                 app:title="@{recoCardVM.title}" />
 
-            <include layout="@layout/reco_card_content" />
+            <include
+                layout="@layout/reco_card_content"
+                app:vm="@{recoCardVM.recoCardContentVM}" />
 
 
         </LinearLayout>

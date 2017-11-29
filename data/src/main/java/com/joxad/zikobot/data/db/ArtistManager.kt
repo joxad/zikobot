@@ -7,6 +7,7 @@ import com.joxad.zikobot.data.db.model.ZikoTrack_Table
 import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
 import com.raizlabs.android.dbflow.annotation.Collate
 import com.raizlabs.android.dbflow.kotlinextensions.select
+import com.raizlabs.android.dbflow.kotlinextensions.where
 import com.raizlabs.android.dbflow.rx2.kotlinextensions.rx
 import com.raizlabs.android.dbflow.sql.language.OrderBy
 import io.reactivex.Observable
@@ -22,6 +23,17 @@ object ArtistManager {
 
     fun findAll(): Single<MutableList<ZikoArtist>> {
         return select.from(ZikoArtist::class.java)
+                .orderBy(OrderBy.fromProperty(ZikoArtist_Table.name).collate(Collate.NOCASE)
+                        .ascending())
+                .rx()
+                .queryList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun findAllSpotify(): Single<MutableList<ZikoArtist>> {
+        return select.from(ZikoArtist::class.java)
+                .where(ZikoArtist_Table.spotifyId.isNotNull)
                 .orderBy(OrderBy.fromProperty(ZikoArtist_Table.name).collate(Collate.NOCASE)
                         .ascending())
                 .rx()

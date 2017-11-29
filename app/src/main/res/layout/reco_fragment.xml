@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+
         <variable
             name="recoFragmentVM"
             type="com.startogamu.zikobot.home.reco.RecoFragmentVM" />
@@ -22,6 +24,7 @@
             android:layoutAnimation="@anim/grid_animation"
             app:itemBinding="@{recoFragmentVM.itemBinding}"
             app:items="@{recoFragmentVM.items}"
+            app:layoutManager="@{LayoutManagers.grid(1)}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.design.widget.CoordinatorLayout>
 

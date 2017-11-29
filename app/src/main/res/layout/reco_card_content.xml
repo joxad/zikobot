@@ -3,6 +3,9 @@
 
     <data>
 
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+
+
         <variable
             name="vm"
             type="com.startogamu.zikobot.home.reco.RecoCardContentVM" />
@@ -19,6 +22,7 @@
             android:layoutAnimation="@anim/horizontal_grid_animation"
             android:orientation="horizontal"
             app:itemBinding="@{vm.itemBinding}"
-            app:items="@{vm.items}" />
+            app:items="@{vm.items}"
+            app:layoutManager="@{LayoutManagers.grid(1)}" />
     </LinearLayout>
 </layout>
