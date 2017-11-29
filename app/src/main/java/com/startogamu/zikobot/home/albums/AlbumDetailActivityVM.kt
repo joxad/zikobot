@@ -6,6 +6,7 @@ import android.view.View
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.zikobot.data.db.AlbumManager
 import com.joxad.zikobot.data.db.CurrentPlaylistManager
+import com.joxad.zikobot.data.db.TrackManager
 import com.joxad.zikobot.data.db.model.ZikoTrack
 import com.startogamu.zikobot.ABasePlayerActivityVM
 import com.startogamu.zikobot.Constants
@@ -61,7 +62,7 @@ class AlbumDetailActivityVM(activity: AlbumDetailActivity, binding: AlbumDetailA
                     AppLog.INSTANCE.e("Add track", it.localizedMessage)
                 })
 
-        AlbumManager.findTracksFromAPI(albumVM.model)
+        TrackManager.findTracksFromAPI(albumVM.model)
                 .subscribe({
                     for (zT in it) {
                         items.add(TrackVM(activity, zT))

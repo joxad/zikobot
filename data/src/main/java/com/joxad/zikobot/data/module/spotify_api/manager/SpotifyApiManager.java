@@ -6,11 +6,11 @@ import com.joxad.zikobot.data.AppPrefs;
 import com.joxad.zikobot.data.R;
 import com.joxad.zikobot.data.module.spotify_api.model.Albums;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyArtist;
-import com.joxad.zikobot.data.module.spotify_api.model.SpotifyArtists;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyFeaturedPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylistWithTrack;
-import com.joxad.zikobot.data.module.spotify_api.model.SpotifyResultAlbum;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyResultMyTracks;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyResultTracks;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifySearchResult;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTopTracks;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyUser;
@@ -20,12 +20,9 @@ import com.joxad.zikobot.data.module.spotify_api.resource.SpotifyApiInterceptor;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.Locale;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /***
@@ -37,10 +34,11 @@ public enum SpotifyApiManager {
     INSTANCE;
     private SpotifyAPIEndpoint spotifyAPIEndpoint;
     private String language;
+
     public void init(Context context) {
         SpotifyRetrofit spotifyRetrofit = new SpotifyRetrofit(context, context.getString(R.string.spotify_base_api_url),
                 new SpotifyApiInterceptor());
-language = Locale.getDefault().getLanguage();
+        language = AppPrefs.spotifyUser().getCountry();
         spotifyAPIEndpoint = spotifyRetrofit.retrofit().create(SpotifyAPIEndpoint.class);
     }
 
@@ -89,8 +87,8 @@ language = Locale.getDefault().getLanguage();
      * @param id
      * @return
      */
-    public Observable<SpotifyResultAlbum> getAlbumTracks(String id, int limit, int offset) {
-        return spotifyAPIEndpoint.getTracksAlbum(id,language, limit, offset).subscribeOn(Schedulers.io())
+    public Observable<SpotifyResultTracks> getAlbumTracks(String id, int limit, int offset) {
+        return spotifyAPIEndpoint.getTracksAlbum(id, language, limit, offset).subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -110,6 +108,25 @@ language = Locale.getDefault().getLanguage();
     public Observable<SpotifyTopTracks> getTopTracks(String idArtist) {
         return spotifyAPIEndpoint.getTopTracks(idArtist, language).subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * @param
+     * @return
+     */
+    public Observable<SpotifyResultMyTracks> getSavedTracks(int offset, int limit) {
+        return spotifyAPIEndpoint.getSavedTracks(offset, limit).subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<SpotifyResultMyTracks> getSavedTracksPaginated(int offset) {
+        return getSavedTracks(offset, 10).concatMap(spotifyResultTracks -> {
+            if (spotifyResultTracks.getNext() == null) {
+                return Observable.just(spotifyResultTracks);
+            }
+            return Observable.just(spotifyResultTracks)
+                    .concatWith(getSavedTracksPaginated(spotifyResultTracks.getOffset() + 10));
+        });
     }
 
     /***

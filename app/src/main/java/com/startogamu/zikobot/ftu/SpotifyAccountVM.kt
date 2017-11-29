@@ -40,8 +40,7 @@ class SpotifyAccountVM
         AccountManager.INSTANCE.spotifyUserSubject
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    user: SpotifyUser? ->
+                .subscribe({ user: SpotifyUser? ->
                     model = ZikoAccount.fromSpotify(user)
                     loading.set(false)
                     init()
@@ -66,7 +65,7 @@ class SpotifyAccountVM
                 AuthenticationResponse.Type.CODE,
                 context.getString(R.string.zikobot_callback))
         builder.setShowDialog(true);
-        builder.setScopes(arrayOf("streaming", "user-read-private"))
+        builder.setScopes(arrayOf("streaming", "user-read-private", "user-library-read"))
         val request = builder.build()
 
         AuthenticationClient.openLoginInBrowser(context as Activity,

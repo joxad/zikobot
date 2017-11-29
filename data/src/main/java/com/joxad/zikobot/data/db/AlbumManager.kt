@@ -49,18 +49,7 @@ object AlbumManager {
 
     }
 
-    fun findTracksFromAPI(album : ZikoAlbum): Observable<List<ZikoTrack>> {
-        return SpotifyApiManager.INSTANCE.getAlbumTracks(album.spotifyId, 50, 0).flatMap {
-            val list = arrayListOf<ZikoTrack>()
-            for (track in it.tracks) {
-                val zikoArtist = ZikoArtist.spotify(track?.artists?.get(0)!!)
-                zikoArtist.save()
-                list.add(ZikoTrack.spotify(track, zikoArtist, album, null))
-            }
-            return@flatMap Observable.just(list).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-        }
-    }
+
 
     fun findAlbumsForArtist(artistId: String): Observable<List<ZikoAlbum>> {
         return SpotifyApiManager.INSTANCE.getAlbums(artistId, 50, 0).flatMap {

@@ -55,8 +55,8 @@ class ArtistDetailActivityVM(activity: ArtistDetailActivity, binding: ArtistDeta
         val genericFragmentAdapter = object : GenericFragmentAdapter(activity) {
             override fun tabTitles(): List<FragmentTab>? {
                 return arrayListOf(
-                        FragmentTab("Général", ArtistHomeFragment.newInstance()),
-                        FragmentTab("Albums", AlbumsArtistFragment.newInstance(it!!.id)),
+                        FragmentTab("Général", ArtistHomeFragment.newInstance(it!!.id)),
+                        FragmentTab("Albums", AlbumsArtistFragment.newInstance(it.id)),
                         FragmentTab("Mes Favoris", TracksArtistFragment.newInstance(it.id)),
                         FragmentTab("Similaires", SimilarArtistsFragment.newInstance(it.id))
                 )

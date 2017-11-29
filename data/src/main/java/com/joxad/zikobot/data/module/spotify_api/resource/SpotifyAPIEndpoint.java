@@ -7,7 +7,8 @@ import com.joxad.zikobot.data.module.spotify_api.model.SpotifyArtists;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyFeaturedPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylist;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyPlaylistWithTrack;
-import com.joxad.zikobot.data.module.spotify_api.model.SpotifyResultAlbum;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyResultMyTracks;
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyResultTracks;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifySearchResult;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTopTracks;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyUser;
@@ -31,7 +32,7 @@ public interface SpotifyAPIEndpoint {
 
 
     @GET("albums/{id}/tracks")
-    Observable<SpotifyResultAlbum> getTracksAlbum(@Path("id") final String id, @Query("market") final String country, @Query("limit") int limit, @Query("offset") int offset);
+    Observable<SpotifyResultTracks> getTracksAlbum(@Path("id") final String id, @Query("market") final String country, @Query("limit") int limit, @Query("offset") int offset);
 
     @GET("me/playlists")
     Observable<SpotifyPlaylist> getUserPlaylists();
@@ -54,6 +55,9 @@ public interface SpotifyAPIEndpoint {
 
     @GET("artists/{id}/top-tracks")
     Observable<SpotifyTopTracks> getTopTracks(@Path("id") String idArtist, @Query("country") final String country);
+
+    @GET("me/tracks")
+    Observable<SpotifyResultMyTracks> getSavedTracks(@Query("offset") int offset, @Query("limit") int limit);
 
     @GET("artists/{id}/albums")
     Observable<Albums> getAlbums(@Path("id") String idArtist, @Query("market") final String country, @Query("limit") int limit, @Query("offset") int offset);

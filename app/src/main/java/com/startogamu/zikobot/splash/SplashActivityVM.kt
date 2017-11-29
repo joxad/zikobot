@@ -4,9 +4,14 @@ import android.Manifest
 import android.databinding.ObservableBoolean
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.activity.ActivityBaseVM
+import com.joxad.zikobot.data.db.model.*
 import com.joxad.zikobot.data.module.localmusic.manager.LocalMusicManager
+import com.joxad.zikobot.data.module.spotify_api.manager.SpotifyApiManager
+import com.joxad.zikobot.data.module.spotify_api.model.SpotifyResultMyTracks
+import com.raizlabs.android.dbflow.sql.language.Select
 import com.startogamu.zikobot.NavigationManager
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.ZikobotApp
@@ -15,6 +20,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -63,17 +69,60 @@ class SplashActivityVM
             val delayMin = Observable.just(1).delay(1, TimeUnit.SECONDS)
             disposable = localMusicManager.observeSynchro()
                     .subscribeOn(Schedulers.io())
+                    .zipWith(syncSpotifyData(), BiFunction { _: Boolean, nbItems: Int -> nbItems })
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
+                        Toast.makeText(activity, "$it new tracks added from spotify", Toast.LENGTH_LONG).show()
                         AppLog.INSTANCE.d("Synchro", "Done")
                         NavigationManager.goToHome(activity)
                         activity.finish()
                     }, {
-
+                        AppLog.INSTANCE.e("Synchro", "error" + it.localizedMessage)
                     })
 
         }
     }
+
+    fun syncSpotifyData(): Observable<Int> {
+        return SpotifyApiManager.INSTANCE.getSavedTracksPaginated(0).onErrorReturn { return@onErrorReturn SpotifyResultMyTracks() }
+                .concatMap {
+                    return@concatMap Observable.just(it)
+                }
+                .toList()
+                .toObservable()
+                .flatMap {
+                    var tracksAdd = 0
+                    for (trackResult in it) {
+                        for (t in trackResult.tracks!!) {
+                            val track = t.track!!
+                            var zikoArtist = Select().from(ZikoArtist::class.java).where(ZikoArtist_Table.spotifyId.eq(track.artists!![0].id)).querySingle()
+                            if (zikoArtist == null) {
+                                zikoArtist = ZikoArtist.spotify(track?.artists?.get(0)!!)
+                                zikoArtist.favorite = true
+                                zikoArtist.save()
+                            }
+                            var zikoAlbum = Select().from(ZikoAlbum::class.java)
+                                    .where(ZikoAlbum_Table.spotifyId.eq(track.album?.id))
+                                    .or(ZikoAlbum_Table.name.like(track.album?.name!!))
+                                    .querySingle()
+                            if (zikoAlbum == null) {
+                                zikoAlbum = ZikoAlbum.spotify(track.album!!)
+                                zikoAlbum.favorite = true
+                                zikoAlbum.save()
+                            }
+                            var zikoTrack = Select().from(ZikoTrack::class.java).where(ZikoTrack_Table.ref.eq("spotify:track:" + track.id)).querySingle()
+                            if (zikoTrack == null) {
+                                zikoTrack = ZikoTrack.spotify(track, zikoArtist, zikoAlbum, null)
+                                zikoTrack!!.save()
+                                tracksAdd++
+                            }
+                        }
+                    }
+
+                    return@flatMap Observable.just(tracksAdd)
+                }
+    }
+
 
     fun load(view: View?) {
         if (loading.get())
