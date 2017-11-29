@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.startogamu.zikobot.home.reco.RecoCardContentVM" />
+            type="com.startogamu.zikobot.home.reco.ArtistSimilarRecoCardContentVM" />
 
     </data>
 
@@ -20,9 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/album_item_height"
             android:layoutAnimation="@anim/horizontal_grid_animation"
-            android:orientation="horizontal"
             app:itemBinding="@{vm.itemBinding}"
+            android:orientation="horizontal"
             app:items="@{vm.items}"
-            app:layoutManager="@{LayoutManagers.grid(1)}" />
+            app:layoutManager="@{LayoutManagers.grid(2)}" />
     </LinearLayout>
 </layout>

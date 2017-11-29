@@ -34,12 +34,13 @@ public class RecoFragmentVM extends FragmentBaseVM<RecoFragment, RecoFragmentBin
     @Override
     public void onCreate(@Nullable Bundle savedInstance) {
         items = new ObservableArrayList<>();
-        items.add(new RecoCardVM(fragment.getContext(), new Reco("Par rapport à tes favoris :")) {
+        items.add(new RecoCardVM(fragment.getContext(), new Reco("Par rapport à tes favoris :")));
+        /*{
             @Override
-            public RecoCardContentVM recoCardContentVM() {
+            public RecoCardContentVM getRecoCardContentVM() {
                 return new ArtistSimilarRecoCardContentVM(fragment.getContext());
             }
-        });
+        });*/
 
         for (RecoCardVM recoCardVM : items)
             recoCardVM.onCreate();

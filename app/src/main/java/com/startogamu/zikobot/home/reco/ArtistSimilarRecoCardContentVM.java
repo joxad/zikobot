@@ -1,6 +1,8 @@
 package com.startogamu.zikobot.home.reco;
 
 import android.content.Context;
+import android.databinding.BaseObservable;
+import android.databinding.ObservableArrayList;
 
 import com.joxad.androidtemplate.core.log.AppLog;
 import com.joxad.zikobot.data.db.ArtistManager;
@@ -11,28 +13,29 @@ import com.startogamu.zikobot.home.artists.ArtistVM;
 
 import java.util.Random;
 
-import io.reactivex.functions.Consumer;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
  * Created by blackbird-linux on 29/11/17.
  */
 
-public class ArtistSimilarRecoCardContentVM extends RecoCardContentVM<ArtistVM> {
+public class ArtistSimilarRecoCardContentVM extends BaseObservable{
 
-    public ItemBinding itemBinding = ItemBinding.of(BR.artistVM, R.layout.artist_item);
+    public ItemBinding<ArtistVM> itemBinding = ItemBinding.of(BR.artistVM, R.layout.artist_item);
+    public ObservableArrayList<ArtistVM> items;
+    private Context context;
+
     /***
 
      * @param context
      */
     public ArtistSimilarRecoCardContentVM(Context context) {
-        super(context);
+        this.context = context;
     }
 
-    @Override
     public void onCreate() {
-        super.onCreate();
-
+        //   super.onCreate();
+        items = new ObservableArrayList<>();
         ArtistManager.INSTANCE.findAllSpotify().flatMap(items -> {
             int random = new Random().nextInt(items.size());
             return ArtistManager.INSTANCE.findSimilarArtists(items.get(random).getSpotifyId()).singleOrError();
@@ -40,6 +43,7 @@ public class ArtistSimilarRecoCardContentVM extends RecoCardContentVM<ArtistVM> 
             for (ZikoArtist zikoArtist : zikoArtists) {
                 items.add(new ArtistVM(context, zikoArtist));
             }
+            notifyChange();
         }, throwable -> AppLog.INSTANCE.e("Reco", throwable.getLocalizedMessage()));
     }
 }

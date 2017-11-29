@@ -10,11 +10,12 @@ import com.joxad.zikobot.data.module.recommandations.Reco;
  * Created by Jocelyn on 11/11/2017.
  */
 
-public abstract class RecoCardVM extends BaseObservable {
+public class RecoCardVM extends BaseObservable {
 
     private Context context;
     private Reco model;
 
+    public ArtistSimilarRecoCardContentVM recoCardContentVM;
     /***
      * @param context
      * @param model
@@ -25,7 +26,9 @@ public abstract class RecoCardVM extends BaseObservable {
     }
 
     public void onCreate() {
-        recoCardContentVM().onCreate();
+        recoCardContentVM=new ArtistSimilarRecoCardContentVM(context);
+        recoCardContentVM.onCreate();
+        notifyChange();
     }
 
 
@@ -34,5 +37,5 @@ public abstract class RecoCardVM extends BaseObservable {
         return model.getTitle();
     }
 
-    public abstract RecoCardContentVM recoCardContentVM();
+
 }
