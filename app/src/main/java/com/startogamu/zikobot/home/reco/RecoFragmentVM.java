@@ -35,6 +35,9 @@ public class RecoFragmentVM extends FragmentBaseVM<RecoFragment, RecoFragmentBin
     public void onCreate(@Nullable Bundle savedInstance) {
         items = new ObservableArrayList<>();
         items.add(new RecoCardVM(fragment.getContext(), new Reco("Par rapport à tes favoris :")));
+        items.add(new RecoCardVM(fragment.getContext(), new Reco("Une autre proposition :")));
+        items.add(new RecoCardVM(fragment.getContext(), new Reco("Pourquoi pas ça aussi :")));
+        items.add(new RecoCardVM(fragment.getContext(), new Reco("Une dernière pour la route :")));
         /*{
             @Override
             public RecoCardContentVM getRecoCardContentVM() {

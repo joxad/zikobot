@@ -33,12 +33,10 @@ import io.reactivex.schedulers.Schedulers;
 public enum SpotifyApiManager {
     INSTANCE;
     private SpotifyAPIEndpoint spotifyAPIEndpoint;
-    private String language;
 
     public void init(Context context) {
         SpotifyRetrofit spotifyRetrofit = new SpotifyRetrofit(context, context.getString(R.string.spotify_base_api_url),
                 new SpotifyApiInterceptor());
-        language = AppPrefs.spotifyUser().getCountry();
         spotifyAPIEndpoint = spotifyRetrofit.retrofit().create(SpotifyAPIEndpoint.class);
     }
 
@@ -88,6 +86,7 @@ public enum SpotifyApiManager {
      * @return
      */
     public Observable<SpotifyResultTracks> getAlbumTracks(String id, int limit, int offset) {
+        String language = AppPrefs.spotifyUser().getCountry();
         return spotifyAPIEndpoint.getTracksAlbum(id, language, limit, offset).subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
@@ -97,6 +96,7 @@ public enum SpotifyApiManager {
      * @return
      */
     public Observable<Albums> getAlbums(String idArtist, int limit, int offset) {
+        String language = AppPrefs.spotifyUser().getCountry();
         return spotifyAPIEndpoint.getAlbums(idArtist, language, limit, offset).subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
@@ -106,6 +106,7 @@ public enum SpotifyApiManager {
      * @return
      */
     public Observable<SpotifyTopTracks> getTopTracks(String idArtist) {
+        String language = AppPrefs.spotifyUser().getCountry();
         return spotifyAPIEndpoint.getTopTracks(idArtist, language).subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
@@ -147,6 +148,7 @@ public enum SpotifyApiManager {
     }
 
     public Observable<SpotifySearchResult> search(final int limit, final int offset, final String search) {
+        String language = AppPrefs.spotifyUser().getCountry();
         return spotifyAPIEndpoint.search(limit, offset, search, "album,artist,track", language).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());

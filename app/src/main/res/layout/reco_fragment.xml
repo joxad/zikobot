@@ -15,17 +15,23 @@
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/view_player_height">
 
-
-        <com.joxad.androidtemplate.core.view.list.AnimatedGridRecyclerView
+        <com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager
+            android:id="@+id/reco_recycler_vp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layoutAnimation="@anim/grid_animation"
+            android:clipToPadding="false"
             app:itemBinding="@{recoFragmentVM.itemBinding}"
             app:items="@{recoFragmentVM.items}"
-            app:layoutManager="@{LayoutManagers.grid(1)}"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layoutManager="@{LayoutManagers.linear()}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:rvp_singlePageFling="true"
+            app:rvp_triggerOffset="0.1" />
+
+
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>
