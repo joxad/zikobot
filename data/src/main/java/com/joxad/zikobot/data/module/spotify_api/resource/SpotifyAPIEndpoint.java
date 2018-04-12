@@ -14,6 +14,7 @@ import com.joxad.zikobot.data.module.spotify_api.model.SpotifyTopTracks;
 import com.joxad.zikobot.data.module.spotify_api.model.SpotifyUser;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -50,7 +51,7 @@ public interface SpotifyAPIEndpoint {
     Observable<SpotifyArtist> getArtist(@Path("id") String idArtist);
 
     @GET("artists/{id}/related-artists")
-    Observable<SpotifyArtists> getSimilarArtist(@Path("id") String idArtist);
+    Single<SpotifyArtists> getSimilarArtist(@Path("id") String idArtist);
 
 
     @GET("artists/{id}/top-tracks")

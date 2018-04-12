@@ -38,7 +38,7 @@ public class ArtistSimilarRecoCardContentVM extends BaseObservable{
         items = new ObservableArrayList<>();
         ArtistManager.INSTANCE.findAllSpotify().flatMap(items -> {
             int random = new Random().nextInt(items.size());
-            return ArtistManager.INSTANCE.findSimilarArtists(items.get(random).getSpotifyId()).singleOrError();
+            return ArtistManager.INSTANCE.findSimilarArtists(items.get(random).getSpotifyId());
         }).subscribe(zikoArtists -> {
             for (ZikoArtist zikoArtist : zikoArtists) {
                 items.add(new ArtistVM(context, zikoArtist));

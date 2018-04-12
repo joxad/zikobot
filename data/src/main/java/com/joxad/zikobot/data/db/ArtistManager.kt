@@ -86,12 +86,12 @@ object ArtistManager {
 
     }
 
-    fun findSimilarArtists(artistId: String): Observable<List<ZikoArtist>> {
-        return SpotifyApiManager.INSTANCE.getSimilarArtists(artistId).flatMap {
+    fun findSimilarArtists(artistId: String): Single<List<ZikoArtist>> {
+        return SpotifyApiManager.INSTANCE.getSimilarArtists(artistId)
+                .map {
             val list = arrayListOf<ZikoArtist>()
-            it.mapTo(list) { ZikoArtist.spotify(it)
-            }
-            return@flatMap Observable.just(list)
+            it.mapTo(list) { ZikoArtist.spotify(it) }
+            return@map list
         }
     }
 

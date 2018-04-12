@@ -5,10 +5,13 @@ import android.os.Bundle
 import com.joxad.androidtemplate.core.log.AppLog
 import com.joxad.easydatabinding.fragment.v4.FragmentBaseVM
 import com.joxad.zikobot.data.db.ArtistManager
+import com.joxad.zikobot.data.db.model.ZikoArtist
 import com.startogamu.zikobot.BR
 import com.startogamu.zikobot.Constants
 import com.startogamu.zikobot.R
 import com.startogamu.zikobot.databinding.SimilarArtistsFragmentBinding
+import io.reactivex.Observable
+import io.reactivex.Single
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 
 /**
@@ -27,19 +30,21 @@ class SimilarArtistsFragmentVM
     override fun onCreate(savedInstance: Bundle?) {
         items = ObservableArrayList()
         val artistid = fragment.arguments.get(Constants.Extra.ARTIST_ID) as Int
-        ArtistManager.findOne(artistid).subscribe { it ->
-            loadSimilar(it.spotifyId)
-        }
+        ArtistManager.findOne(artistid)
+                .flatMap({
+                    loadSimilar(it.spotifyId)
+                })
+                .subscribe({
+                    it.forEach({ items.add(ArtistVM(fragment.context, it)) })
+                }, {
+                    AppLog.INSTANCE.e("Similar", it.localizedMessage)
+                })
 
 
     }
 
-    fun loadSimilar(artistid: String?) {
-        ArtistManager.findSimilarArtists(artistid!!).subscribe({
-            it.forEach({ items.add(ArtistVM(fragment.context, it)) })
-        }, {
-            AppLog.INSTANCE.e("Similar", it.localizedMessage)
-        })
+    fun loadSimilar(artistid: String?): Single<List<ZikoArtist>> {
+        return ArtistManager.findSimilarArtists(artistid!!)
     }
 
     companion object {

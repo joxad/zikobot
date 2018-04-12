@@ -22,6 +22,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -61,9 +62,9 @@ public enum SpotifyApiManager {
     /***
      * 1     *
      */
-    public Observable<List<SpotifyArtist>> getSimilarArtists(final String artistId) {
+    public Single<List<SpotifyArtist>> getSimilarArtists(final String artistId) {
         return spotifyAPIEndpoint.getSimilarArtist(artistId)
-                .flatMap(spotifyArtists -> Observable.just(spotifyArtists.artists))
+                .map(spotifyArtists -> spotifyArtists.artists)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io());
